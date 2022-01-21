@@ -139,7 +139,7 @@ export const PopupCheckPermission = React.forwardRef(
      */
     const renderItem = ({ item = "" }) => {
       const onPressItem = () => {
-        console.log(item);
+        // console.log(item);
         if (item === "⇦") {
           if (value?.length > 0) setValue((prev) => prev.slice(0, -1));
         } else if (value?.trim().length === 0 || value?.length < MAX_LENGTH) {

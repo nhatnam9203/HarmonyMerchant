@@ -67,7 +67,7 @@ export const AppStateProvider = ({ children }) => {
   }, []);
 
   React.useEffect(() => {
-    console.log(networkState);
+    // console.log(networkState);
     if (networkState) {
       setNetworkMsg(null);
     } else {

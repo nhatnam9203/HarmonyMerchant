@@ -115,7 +115,7 @@ export const HomeTopTabNavigator = ({
 
                 // Prevent default action
               } else {
-                console.log(CheckOutTabPage.name);
+                // console.log(CheckOutTabPage.name);
                 NavigationServices.navigate(CheckOutTabPage.name, {
                   reload: true,
                 });

@@ -40,7 +40,7 @@ const PromotionHome = ({
   const [, disableAutoSendMessage] = useAxiosMutation({
     ...setSchedulePromotion(focusPromotionId, false),
     onSuccess: (data, response) => {
-      console.log(data);
+      // console.log(data);
       if (response?.codeNumber === 200) {
       }
     },

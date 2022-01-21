@@ -19,7 +19,14 @@ import {
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useDispatch } from "react-redux";
-import { groupBy } from "lodash";
+import {
+  useCancelAppointment,
+  useCompleteAppointment,
+  useConfirmAppointment,
+  useEditNotes,
+  useGetAppointment,
+  useShippingAppointment,
+} from "@shared/services/api/retailer";
 
 const log = (obj, message = "") => {
   Logger.log(`[BasketContentView] ${message}`, obj);
@@ -43,6 +50,7 @@ export const BasketPaymentContent = React.forwardRef(
       switchTax,
       isTax,
       onDiscountItemAdd,
+      isDidNotPay
     },
     ref
   ) => {
@@ -58,6 +66,8 @@ export const BasketPaymentContent = React.forwardRef(
   | API
   |--------------------------------------------------
   */
+    const [, confirmAppointment] = useConfirmAppointment();
+
     const calcTotalPrice = () => {
       return (
         orderItem?.products?.reduce(
@@ -69,22 +79,50 @@ export const BasketPaymentContent = React.forwardRef(
     };
 
     const onHandlePay = () => {
-      if (changeButtonDone && isCancelHarmonyPay) {
-        if (paymentSelected === "HarmonyPay") {
-          cancelHarmonyPayment();
-        } else {
-          finishedHandle();
+
+      try {
+        if (isDidNotPay) {
+          console.log(groupAppointment);
+          // TODO: mới làm cho trường hợp 1 appointment
+          if (groupAppointment?.appointments?.length > 0) {
+            const appointment = groupAppointment.appointments[0];
+            const params = {
+              // shippingAmount: 0,
+              billingAddressId:
+                appointment.billingAddressId,
+              shippingAddressId:
+                appointment.shippingAddressId,
+              didNotPay: isDidNotPay,
+            };
+
+            confirmAppointment(params, appointment.appointmentId);
+
+            finishedHandle();
+          }
+
+          return;
         }
-      } else if (changeButtonDone && isDonePayment) {
-        finishedHandle();
-      } else if (
-        paymentSelected === "" ||
-        paymentSelected === "Gift Card" ||
-        !isAcceptPay
-      ) {
-      } else {
-        payBasket();
+
+        if (changeButtonDone && isCancelHarmonyPay) {
+          if (paymentSelected === "HarmonyPay") {
+            cancelHarmonyPayment();
+          } else {
+            finishedHandle();
+          }
+        } else if (changeButtonDone && isDonePayment) {
+          finishedHandle();
+        } else if (
+          paymentSelected === "" ||
+          paymentSelected === "Gift Card" ||
+          !isAcceptPay
+        ) {
+        } else {
+          payBasket();
+        }
+      } catch (e) {
+        console.log(e);
       }
+
     };
 
     React.useEffect(() => {
@@ -118,8 +156,8 @@ export const BasketPaymentContent = React.forwardRef(
           ? true
           : false
         : orderItem?.products?.length > 0
-        ? true
-        : false;
+          ? true
+          : false;
 
       isAccept = paymentSelected === "Cash" ? true : isAccept;
 
@@ -197,7 +235,7 @@ export const BasketPaymentContent = React.forwardRef(
         const value = _.get(itemDiscount, 'value')
         return `${type} ${formatMoneyWithUnit(value)}`
       })
-      
+
       return (
         <TouchableOpacity onPress={onHandleAddDiscount}>
           <View style={styles.productItem} key={item.key + ""}>
@@ -206,10 +244,10 @@ export const BasketPaymentContent = React.forwardRef(
               source={
                 item?.imageUrl
                   ? {
-                      uri: item?.imageUrl,
-                      priority: FastImage.priority.high,
-                      cache: FastImage.cacheControl.immutable,
-                    }
+                    uri: item?.imageUrl,
+                    priority: FastImage.priority.high,
+                    cache: FastImage.cacheControl.immutable,
+                  }
                   : IMAGE.product_holder
               }
               resizeMode="contain"
@@ -231,16 +269,16 @@ export const BasketPaymentContent = React.forwardRef(
                     {`Discount: ${formatMoneyWithUnit(item?.discount)}`}
                   </Text>
                   {item?.discounts?.length > 0 &&
-                  <Text
-                    style={styles.descriptionText}
-                  >
-                    {`(${discounts.toString()})`}
-                  </Text>
+                    <Text
+                      style={styles.descriptionText}
+                    >
+                      {`(${discounts.toString()})`}
+                    </Text>
                   }
                 </View>
-                
+
               )}
-               
+
             </View>
             <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
               "items"
@@ -335,7 +373,7 @@ export const BasketPaymentContent = React.forwardRef(
         </View>
         <View style={layouts.center}>
           <ButtonGradient
-            disable={disable}
+            disable={disable && !isDidNotPay}
             label={buttonTittle ?? t("PAY")}
             width={scaleWidth(400)}
             height={scaleHeight(60)}

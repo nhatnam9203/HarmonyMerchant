@@ -228,7 +228,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     setSalary,
     SALARY_TYPE,
     onChangeStaffPermissions: (val) => {
-      console.log(val);
+      // console.log(val);
 
       setStaffPermission(val);
       form.setFieldValue("roleName", val);

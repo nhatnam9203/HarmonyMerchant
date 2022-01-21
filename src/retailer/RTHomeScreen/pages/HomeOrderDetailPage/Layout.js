@@ -402,7 +402,7 @@ export const Layout = ({
     }
   };
 
-  console.log(item);
+  // console.log(item);
 
   return (
     <View style={layouts.fill}>
