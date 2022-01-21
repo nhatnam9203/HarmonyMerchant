@@ -113,7 +113,8 @@ export const Layout = ({
   invoiceRef,
   visiblePopupGiftCard,
   onDidNotPayCheck,
-  isDidNotPay
+  isDidNotPay,
+  getPurchasePoint
 }) => {
   const [t] = useTranslation();
 
@@ -197,14 +198,14 @@ export const Layout = ({
                 {t("Select payment method")}
               </Text>
 
-              <CustomCheckBox
+              {getPurchasePoint() === "CallOrder" && <CustomCheckBox
                 label={t("Did not pay")}
                 onValueChange={onDidNotPayCheck}
                 selectedColor={colors.OCEAN_BLUE}
                 onCheckColor="#fff"
                 textStyle={styles.textStyle}
                 style={styles.customCheckbox}
-              />
+              />}
             </View>
             <View style={layouts.marginVertical} />
             <View style={[layouts.fill, isDidNotPay && styles.disableStyle]} pointerEvents={isDidNotPay ? "none" : "auto"}>

@@ -1393,6 +1393,13 @@ export const useProps = ({
       if (bl) {
         setPaymentSelected("");
       }
+    },
+    getPurchasePoint: () => {
+      if (groupAppointment?.appointments?.length > 0) {
+        const temp = groupAppointment?.appointments[0];
+        return temp?.purchasePoint;
+      }
+      return "";
     }
   };
 };
