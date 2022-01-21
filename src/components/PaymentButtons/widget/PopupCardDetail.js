@@ -117,6 +117,16 @@ export const PopupCardDetail = React.forwardRef(
               <TextValue text={cardDetail?.name + " "} />
             </Row>
             <Row>
+              <Label
+                text={t("Star available")
+                }
+              />
+              <View style={styles.rightRow}>
+                <Image/>
+                <TextValue text={cardDetail?.star + " "} />
+              </View>
+            </Row>
+            <Row>
               <Label text={t("Amount")} />
               <TextValue text={`${formatMoneyWithUnit(cardDetail?.amount)}`} />
             </Row>
@@ -215,6 +225,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     height: scaleHeight(50),
+  },
+
+  rightRow: {
+    flexDirection: "row",
   },
 
   title: {
