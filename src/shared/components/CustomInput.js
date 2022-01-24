@@ -54,6 +54,9 @@ export const CustomInput = React.forwardRef(
       clear: () => {
         setValue("");
       },
+      focus: () => {
+        textInputRef.current?.focus();
+      }
     }));
 
     return (
