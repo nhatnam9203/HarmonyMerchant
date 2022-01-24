@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
 export const usePermission = (tabName) => {
-  const { t } = useTranslation();
 
   const profileStaffLogin = useSelector(
     (state) => state.dataLocal?.profileStaffLogin
@@ -14,12 +13,15 @@ export const usePermission = (tabName) => {
   const [isPermission, setIsPermission] = React.useState(true);
 
   const checkPermissionOnSettings = (tab) => {
-    const permission = l.get(profileStaffLogin, "permission", []);
-    return isPermissionToTab(permission, tab);
+    const per = l.get(profileStaffLogin, "permission", []);
+    return isPermissionToTab(per, tab);
   };
+
+
   React.useEffect(() => {
+
     const roleName = profileStaffLogin?.roleName || role.Admin;
-    // console.log(roleName);
+    console.log(roleName);
 
     switch (roleName) {
       case role.Admin:
@@ -32,7 +34,7 @@ export const usePermission = (tabName) => {
         setIsPermission(false);
         break;
     }
-  }, [profileStaffLogin]);
+  }, [profileStaffLogin?.roleName]);
 
   return {
     isPermission,

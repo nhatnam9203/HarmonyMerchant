@@ -1996,6 +1996,30 @@ export const getCenterStringArrayXml = (text) => {
   return result
 }
 
+export const getTaxRateFromInvoice = (invoiceDetail) => {
+  // taxRate
+  let taxRate = 0;
+  if (invoiceDetail) {
+    const { products = [], services = [] } = invoiceDetail.basket || {};
+    if (products?.length > 0) {
+      const productItem = products[0];
+      taxRate = formatNumberFromCurrency(productItem?.taxRate ?? 0);
+      if (taxRate > 0)
+        return taxRate;
+    }
+
+
+    if (services?.length > 0) {
+      const serviceItem = services[0];
+      taxRate = formatNumberFromCurrency(serviceItem?.taxRate ?? 0);
+      if (taxRate > 0)
+        return taxRate;
+    }
+  }
+
+  return taxRate;
+}
+
 export const getTaxRateFromAppointment = (appointment) => {
   // taxRate
   let taxRate = 0;

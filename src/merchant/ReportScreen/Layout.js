@@ -1,6 +1,6 @@
 import { StatusBarHeader } from "@components";
 import IMAGE from "@resources";
-import { ButtonGradient, PermissionChecker } from "@shared/components";
+import { ButtonGradient, PermissionChecker, PopupCheckPermission } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
@@ -21,6 +21,8 @@ export const Layout = ({
   tabPermission,
   togglePopupPermission,
   isSalonApp,
+  popupCheckPermissionRef,
+  onForceClosePopupPermission
 }) => {
   const { t } = useTranslation();
 
@@ -68,11 +70,17 @@ export const Layout = ({
         />
       )}
 
-      <PermissionChecker
+      {/* <PermissionChecker
         navigation={navigation}
         tabName={menuTabs.MENU_REPORT}
         tabPermission={tabPermission}
         togglePopupPermission={togglePopupPermission}
+      /> */}
+
+      <PopupCheckPermission
+        ref={popupCheckPermissionRef}
+        onForceClosePopup={onForceClosePopupPermission}
+        tabName={menuTabs.MENU_REPORT}
       />
     </View>
   );
