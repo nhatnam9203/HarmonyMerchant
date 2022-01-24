@@ -3198,7 +3198,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony;
 				PRODUCT_NAME = HPMerchant;
-				PROVISIONING_PROFILE_SPECIFIER = HpmerchantStore;
+				PROVISIONING_PROFILE_SPECIFIER = "HP Merchant Distribute";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
