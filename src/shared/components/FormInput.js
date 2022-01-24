@@ -21,6 +21,9 @@ export const FormInput = ({
   onEndEditing,
   onBlur,
   textAlign,
+  autoCorrect,
+  caretHidden,
+  contextMenuHidden
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
@@ -59,6 +62,9 @@ export const FormInput = ({
             autoFocus: autoFocus,
             showSoftInputOnFocus: showSoftInputOnFocus,
             onBlur: onBlur,
+            autoCorrect: autoCorrect,
+            caretHidden: caretHidden,
+            contextMenuHidden: contextMenuHidden,
           }}
           onEndEditing={onEndEditing}
         />
