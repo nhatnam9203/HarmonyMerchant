@@ -1006,14 +1006,14 @@ class Layout extends React.Component {
           ))}
         </View>
         {/* <View style={styles.box_payment_container}>
-          {/* {["Gift Card"].map((title, index) => (
+           {["Gift Card"].map((title, index) => (
             <ItemPaymentMethod
               key={index}
               title={title}
               selectedPayment={this.selectedPayment}
               paymentSelected={this.state.paymentSelected}
             />
-          ))} */}
+          ))}
         <QRCodePay
           key="QRCodePay"
           appointment={groupAppointment}
@@ -1023,24 +1023,24 @@ class Layout extends React.Component {
       </View> * /}
 
         {/* ------ Footer ----- */ }
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "flex-end",
-        paddingBottom: scaleSize(8),
-      }}
-    >
-      <ButtonCustom
-        width={scaleSize(300)}
-        title={localize("BACK", language)}
-        backgroundColor="#0764B0"
-        textColor="#fff"
-        onPress={this.backAddBasket}
-        style={styles.btn_back}
-        styleText={styles.txt_btn_basket}
-      />
-    </View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "flex-end",
+            paddingBottom: scaleSize(8),
+          }}
+        >
+          <ButtonCustom
+            width={scaleSize(300)}
+            title={localize("BACK", language)}
+            backgroundColor="#0764B0"
+            textColor="#fff"
+            onPress={this.backAddBasket}
+            style={styles.btn_back}
+            styleText={styles.txt_btn_basket}
+          />
+        </View>
       </View >
     );
   }

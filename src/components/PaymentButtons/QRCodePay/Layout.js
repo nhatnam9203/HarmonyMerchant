@@ -63,7 +63,7 @@ export const QRCodePayButton = ({ selected = false, onPress }) => {
           styles.background,
         ]}
       >
-        <Image source={iconImage} style={[styles.icon, { tintColor: selected ? "#fff" : textColor }]} />
+        <Image source={iconImage} style={[styles.icon, { tintColor: selected ? "#fff" : textColor, marginBottom: 10 }]} />
         <Text
           style={[styles.text, { color: selected ? "#fff" : textColor }]}
         >
