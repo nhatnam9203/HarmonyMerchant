@@ -981,7 +981,12 @@ class Layout extends React.Component {
         </View>
 
         <View style={styles.box_payment_container}>
-          {["HarmonyPay", "Cash"].map((title, index) => (
+          <QRCodePay
+            key="QRCodePay"
+            appointment={groupAppointment}
+            onPaidAppointment={this.onCodePayPaidAppointment}
+          />
+          {["Cash"].map((title, index) => (
             <ItemPaymentMethod
               key={index}
               title={title}
@@ -1000,7 +1005,7 @@ class Layout extends React.Component {
             />
           ))}
         </View>
-        <View style={styles.box_payment_container}>
+        {/* <View style={styles.box_payment_container}>
           {/* {["Gift Card"].map((title, index) => (
             <ItemPaymentMethod
               key={index}
@@ -1009,34 +1014,34 @@ class Layout extends React.Component {
               paymentSelected={this.state.paymentSelected}
             />
           ))} */}
-          <QRCodePay
-            key="QRCodePay"
-            appointment={groupAppointment}
-            onPaidAppointment={this.onCodePayPaidAppointment}
-          />
-          <View style={{ flex: 1 }} />
-        </View>
+        <QRCodePay
+          key="QRCodePay"
+          appointment={groupAppointment}
+          onPaidAppointment={this.onCodePayPaidAppointment}
+        />
+        <View style={{ flex: 1 }} />
+      </View> * /}
 
-        {/* ------ Footer ----- */}
-        <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "flex-end",
-            paddingBottom: scaleSize(8),
-          }}
-        >
-          <ButtonCustom
-            width={scaleSize(300)}
-            title={localize("BACK", language)}
-            backgroundColor="#0764B0"
-            textColor="#fff"
-            onPress={this.backAddBasket}
-            style={styles.btn_back}
-            styleText={styles.txt_btn_basket}
-          />
-        </View>
-      </View>
+        {/* ------ Footer ----- */ }
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "flex-end",
+        paddingBottom: scaleSize(8),
+      }}
+    >
+      <ButtonCustom
+        width={scaleSize(300)}
+        title={localize("BACK", language)}
+        backgroundColor="#0764B0"
+        textColor="#fff"
+        onPress={this.backAddBasket}
+        style={styles.btn_back}
+        styleText={styles.txt_btn_basket}
+      />
+    </View>
+      </View >
     );
   }
 
