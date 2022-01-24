@@ -31,6 +31,7 @@ export const PopupCardDetail = React.forwardRef(
     const [dueAmount, setDueAmount] = React.useState(0);
     const [starNumberUse, setStarNumberUse] = React.useState(0);
     const [isCheck, setIsCheck] = React.useState(false);
+    const [convertMoney, setConvertMoney] = React.useState(0);
 
     const hidePopup = () => {
       setPayAmount(0);
@@ -84,7 +85,28 @@ export const PopupCardDetail = React.forwardRef(
     };
 
     const onChangeStarNumberUse = (starUse) => {
+      //if(starUse > cardDetail?.star 
+      //   || starUse*100 > paymentDetailInfo?.dueAmount) return
+
+      const { grandTotal = 0, dueAmount = 0 } = paymentDetailInfo || {};
+
       setStarNumberUse(starUse);
+
+      const convertMoney = starUse/100
+      setConvertMoney(convertMoney);
+
+      let paidValue = formatNumberFromCurrency(paymentDetailInfo?.dueAmount);
+      const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
+
+      if (paidValue > cardAmount) {
+        paidValue = cardAmount;
+      } 
+      paidValue = paidValue - convertMoney
+      
+      setPayAmount(paidValue);
+
+      let dueValue = formatNumberFromCurrency(dueAmount) - paidValue - convertMoney;
+      setDueAmount(dueValue);
     }
 
     // React.useEffect(() => {
@@ -153,12 +175,16 @@ export const PopupCardDetail = React.forwardRef(
             <View style={styles.margin} />
 
             <Row>
-              <TouchableOpacity
-                onPress={() => setIsCheck(!isCheck)}
-              >
-                <Image source={isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty}/>
-              </TouchableOpacity>
-              <Label text={t("Use HP star")} />
+              <View style={styles.viewRow}>
+                <TouchableOpacity
+                  style={{marginRight: scaleWidth(5)}}
+                  onPress={() => setIsCheck(!isCheck)}
+                >
+                  <Image source={isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty}/>
+                </TouchableOpacity>
+                <Label text={t("Use HP star")} />
+              </View>
+              
               <View style={styles.payAmount}>
                 <FormInput
                   onChangeValue={onChangeStarNumberUse}
@@ -171,6 +197,18 @@ export const PopupCardDetail = React.forwardRef(
                 />
               </View>
             </Row>
+
+            {
+              isCheck && 
+              <>
+                <Row>
+                <Label text={t("Conversation value")} />
+                <TextValue
+                  text={`-${formatMoneyWithUnit(convertMoney)}`}
+                />
+              </Row>
+              </>
+            }
 
             <Row>
               <Label text={t("Charge amount")} />
