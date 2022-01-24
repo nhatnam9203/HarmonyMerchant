@@ -2,30 +2,40 @@ import {
   ButtonGradient,
   FormInputMask,
   ButtonGradientWhite,
+  FormInput,
 } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, 
+        Text, 
+        View, 
+        Image, 
+        TouchableOpacity,
+      } from "react-native";
 import { formatNumberFromCurrency, formatMoneyWithUnit } from "@utils";
 import { useSelector } from "react-redux";
+import IMAGE from '@resources';
 
 export const PopupCardDetail = React.forwardRef(
   ({ cardDetail, appointment, onCancel, onSubmit }, ref) => {
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
     const textInputRef = React.useRef(null);
+    const textInputStarRef = React.useRef(null);
 
     const paymentDetailInfo = useSelector(state => state.appointment.paymentDetailInfo);
 
-
     const [payAmount, setPayAmount] = React.useState(0);
     const [dueAmount, setDueAmount] = React.useState(0);
+    const [starNumberUse, setStarNumberUse] = React.useState(0);
+    const [isCheck, setIsCheck] = React.useState(false);
 
     const hidePopup = () => {
       setPayAmount(0);
       textInputRef.current?.clear();
+      textInputStarRef.current?.clear();
       dialogRef.current?.hide();
     };
 
@@ -73,6 +83,10 @@ export const PopupCardDetail = React.forwardRef(
       setDueAmount(dueValue);
     };
 
+    const onChangeStarNumberUse = (starUse) => {
+      setStarNumberUse(starUse);
+    }
+
     // React.useEffect(() => {
     //   if (appointment?.dueAmount) {
     //     // setDueAmount(formatNumberFromCurrency(appointment?.dueAmount));
@@ -92,6 +106,7 @@ export const PopupCardDetail = React.forwardRef(
       hide: () => {
         setPayAmount(0);
         textInputRef.current?.clear();
+        textInputStarRef.current?.clear();
         dialogRef.current?.hide();
       },
     }));
@@ -121,13 +136,13 @@ export const PopupCardDetail = React.forwardRef(
                 text={t("Star available")
                 }
               />
-              <View style={styles.rightRow}>
-                <Image/>
+              <View style={styles.viewRow}>
+                <Image source={IMAGE.star} style={styles.starIcon} />
                 <TextValue text={cardDetail?.star + " "} />
               </View>
             </Row>
             <Row>
-              <Label text={t("Amount")} />
+              <Label text={t("Card balance")} />
               <TextValue text={`${formatMoneyWithUnit(cardDetail?.amount)}`} />
             </Row>
 
@@ -138,11 +153,31 @@ export const PopupCardDetail = React.forwardRef(
             <View style={styles.margin} />
 
             <Row>
+              <TouchableOpacity
+                onPress={() => setIsCheck(!isCheck)}
+              >
+                <Image source={isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty}/>
+              </TouchableOpacity>
+              <Label text={t("Use HP star")} />
+              <View style={styles.payAmount}>
+                <FormInput
+                  onChangeValue={onChangeStarNumberUse}
+                  defaultValue={starNumberUse}
+                  textInputRef={textInputStarRef}
+                  autoFocus={true}
+                  showSoftInputOnFocus={false}
+                  keyboardType="numeric"
+                  textAlign="right"
+                />
+              </View>
+            </Row>
+
+            <Row>
               <Label text={t("Charge amount")} />
               <TextValue text={`${formatMoneyWithUnit(appointment?.total)}`} />
             </Row>
             <Row>
-              <Label text={t("Amount")} />
+              <Label text={t("Pay amount")} />
               <View style={styles.payAmount}>
                 <FormInputMask
                   // label={t("Input Barcode")}
@@ -160,7 +195,7 @@ export const PopupCardDetail = React.forwardRef(
               </View>
             </Row>
             <Row>
-              <Label text={t("Amount due")} textColor={"red"} />
+              <Label text={t("Due amount")} textColor={"red"} />
               <TextValue
                 text={`${formatMoneyWithUnit(dueAmount)}`}
                 textColor={"red"}
@@ -227,7 +262,7 @@ const styles = StyleSheet.create({
     height: scaleHeight(50),
   },
 
-  rightRow: {
+  viewRow: {
     flexDirection: "row",
   },
 
@@ -287,9 +322,31 @@ const styles = StyleSheet.create({
     width: "40%",
   },
 
+  textInputView: {
+    borderRadius: 1,
+    backgroundColor: colors.WHITE,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#dddddd",
+    width: scaleWidth(400),
+    height: scaleHeight(48),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: scaleWidth(8),
+  },
+
   line: {
     height: 1,
     width: "100%",
     backgroundColor: "#aaa",
+  },
+  starIcon:{
+    width:scaleWidth(25),
+    height:scaleHeight(25)
+  },
+  inputText: { 
+    width: scaleWidth(150),
+    height: scaleHeight(40),
   },
 });

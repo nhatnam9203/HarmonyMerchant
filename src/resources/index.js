@@ -156,6 +156,7 @@ export default {
   other_payment: require("./payment/other_payment.png"),
   giftcard_payment: require("./payment/giftcard_payment.png"),
   giftcard_payment_se: require("./payment/giftcard_payment_se.png"),
+  star: require("./img/star.png"),
 
   // --- drawer ---
   Customer: require("./drawer/customer.png"),
