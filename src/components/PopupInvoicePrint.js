@@ -28,6 +28,7 @@ import {
 } from "../utils";
 import connectRedux from "@redux/ConnectRedux";
 import PrintManager from "@lib/PrintManager";
+import { getTaxRateFromInvoice } from "@utils";
 
 const initalState = {
   basket: [],
@@ -300,6 +301,13 @@ class PopupInvoicePrint extends React.Component {
     return null;
   }
 
+
+  getTaxRate() {
+    const { invoiceDetail } = this.props;
+
+    return getTaxRateFromInvoice(invoiceDetail);
+  }
+
   render() {
     const {
       language,
@@ -350,7 +358,7 @@ class PopupInvoicePrint extends React.Component {
     return (
       <Modal
         visible={visiblePrintInvoice}
-        onRequestClose={() => {}}
+        onRequestClose={() => { }}
         transparent={true}
       >
         <View
@@ -491,11 +499,10 @@ class PopupInvoicePrint extends React.Component {
                     </View>
                     <View style={{ flex: 1 }}>
                       <Text style={[styleInvoice.txt_info, fontWeightClover]}>
-                        {`: ${
-                          invoiceNo
-                            ? invoiceNo
-                            : paymentDetailInfo?.invoiceNo || ""
-                        }`}
+                        {`: ${invoiceNo
+                          ? invoiceNo
+                          : paymentDetailInfo?.invoiceNo || ""
+                          }`}
                       </Text>
                     </View>
                   </View>
@@ -622,7 +629,7 @@ class PopupInvoicePrint extends React.Component {
                     printerSelect={printerSelect}
                   />
                   <ItemTotal
-                    title={"Tax"}
+                    title={`Tax ${this.getTaxRate() > 0 ? "(" + this.getTaxRate() + "%)" : ""}`}
                     value={temptTax}
                     paymentMachineType={paymentMachineType}
                     printerSelect={printerSelect}
@@ -746,7 +753,7 @@ class PopupInvoicePrint extends React.Component {
                           </View>
                           {(data.paymentMethod &&
                             data.paymentMethod === "credit_card") ||
-                          data.paymentMethod === "debit_card" ? (
+                            data.paymentMethod === "debit_card" ? (
                             <View style={{ marginTop: scaleSize(5) }}>
                               <Text
                                 style={[
@@ -756,11 +763,9 @@ class PopupInvoicePrint extends React.Component {
                                     : { fontSize: scaleSize(13) },
                                 ]}
                               >
-                                {`    ${
-                                  data?.paymentInformation?.type || ""
-                                }: ***********${
-                                  data?.paymentInformation?.number || ""
-                                }`}
+                                {`    ${data?.paymentInformation?.type || ""
+                                  }: ***********${data?.paymentInformation?.number || ""
+                                  }`}
                               </Text>
                               <Text
                                 style={[
@@ -780,11 +785,10 @@ class PopupInvoicePrint extends React.Component {
                                     : { fontSize: scaleSize(13) },
                                 ]}
                               >
-                                {`    ${
-                                  data?.paymentInformation?.sn
-                                    ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                    : ""
-                                }`}
+                                {`    ${data?.paymentInformation?.sn
+                                  ? `Terminal ID: ${data?.paymentInformation?.sn}`
+                                  : ""
+                                  }`}
                               </Text>
                               <Text
                                 style={[
@@ -794,11 +798,10 @@ class PopupInvoicePrint extends React.Component {
                                     : { fontSize: scaleSize(13) },
                                 ]}
                               >
-                                {`    ${
-                                  data?.paymentInformation?.refNum
-                                    ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                    : ""
-                                }`}
+                                {`    ${data?.paymentInformation?.refNum
+                                  ? `Transaction #: ${data?.paymentInformation?.refNum}`
+                                  : ""
+                                  }`}
                               </Text>
                             </View>
                           ) : null}
@@ -968,13 +971,12 @@ class PopupInvoicePrint extends React.Component {
                       },
                     ]}
                   >
-                    {`********** ${
-                      isPrintTempt
-                        ? "Customer's Receipt"
-                        : isSignature
+                    {`********** ${isPrintTempt
+                      ? "Customer's Receipt"
+                      : isSignature
                         ? "Merchant's Receipt"
                         : "Customer's Receipt"
-                    } **********`}
+                      } **********`}
                   </Text>
                 </View>
 
@@ -1043,13 +1045,13 @@ const ItemInvoice = ({ item, index, paymentMachineType, printerSelect }) => {
   let txt_info =
     paymentMachineType == "Clover" && !printerSelect
       ? [
-          styleInvoice.txt_info,
-          { fontSize: 18, marginLeft: 8, fontWeight: "700" },
-        ]
+        styleInvoice.txt_info,
+        { fontSize: 18, marginLeft: 8, fontWeight: "700" },
+      ]
       : [
-          styleInvoice.txt_info,
-          { fontSize: 18, marginLeft: 8, fontWeight: "600" },
-        ];
+        styleInvoice.txt_info,
+        { fontSize: 18, marginLeft: 8, fontWeight: "600" },
+      ];
 
   return (
     <View style={{ flexDirection: "row", marginTop: scaleSize(3) }}>
