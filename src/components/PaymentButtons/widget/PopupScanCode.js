@@ -85,7 +85,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
               showMarker={true}
               flashMode={RNCamera.Constants.FlashMode.off}
               // reactivateTimeout={500}
-              reactivateTimeout={1000}
+              reactivateTimeout={500}
               containerStyle={styles.qrStyle}
               cameraStyle={styles.qrStyle}
               cameraType="back"
