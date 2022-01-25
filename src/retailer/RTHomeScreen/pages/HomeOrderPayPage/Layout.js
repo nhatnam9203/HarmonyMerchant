@@ -114,7 +114,8 @@ export const Layout = ({
   visiblePopupGiftCard,
   onDidNotPayCheck,
   isDidNotPay,
-  getPurchasePoint
+  getPurchasePoint,
+  didNotPayComplete
 }) => {
   const [t] = useTranslation();
 
@@ -209,7 +210,7 @@ export const Layout = ({
             </View>
             <View style={layouts.marginVertical} />
             <View style={[layouts.fill, isDidNotPay && styles.disableStyle]} pointerEvents={isDidNotPay ? "none" : "auto"}>
-              <View style={styles.rowContent}>
+              {/* <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"HarmonyPay"}
                   title={"HarmonyPay"}
@@ -223,8 +224,16 @@ export const Layout = ({
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
-              </View>
+              </View> */}
               <View style={styles.rowContent}>
+
+                <ButtonPaymentMethod
+                  key={"Cash"}
+                  title={"Cash"}
+                  selectedPayment={selectedPayment}
+                  paymentSelected={paymentSelected}
+                />
+
                 <ButtonPaymentMethod
                   key={"Credit Card"}
                   title={"Credit Card"}
@@ -232,17 +241,19 @@ export const Layout = ({
                   paymentSelected={paymentSelected}
                 />
 
-                <ButtonPaymentMethod
-                  key={"Other"}
-                  title={"Other"}
-                  selectedPayment={selectedPayment}
-                  paymentSelected={paymentSelected}
-                />
+
               </View>
               <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"Gift Card"}
                   title={"Gift Card"}
+                  selectedPayment={selectedPayment}
+                  paymentSelected={paymentSelected}
+                />
+
+                <ButtonPaymentMethod
+                  key={"Other"}
+                  title={"Other"}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
@@ -282,6 +293,7 @@ export const Layout = ({
                 isTax={isTax}
                 onDiscountItemAdd={onDiscountItemAdd}
                 isDidNotPay={isDidNotPay}
+                didNotPayComplete={didNotPayComplete}
               />
             </View>
           </View>

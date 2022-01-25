@@ -1400,6 +1400,15 @@ export const useProps = ({
         return temp?.purchasePoint;
       }
       return "";
+    },
+    didNotPayComplete: () => {
+      // dispatch(actions.appointment.resetBasketEmpty());
+      // dispatch(actions.appointment.resetPayment());
+      // dispatch(actions.appointment.changeFlagSigninAppointment(false));
+      dispatch(actions.appointment.resetGroupAppointment());
+
+      onCompleteBack();
+
     }
   };
 };

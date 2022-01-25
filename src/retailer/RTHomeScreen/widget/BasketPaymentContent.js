@@ -50,7 +50,8 @@ export const BasketPaymentContent = React.forwardRef(
       switchTax,
       isTax,
       onDiscountItemAdd,
-      isDidNotPay
+      isDidNotPay,
+      didNotPayComplete
     },
     ref
   ) => {
@@ -82,7 +83,7 @@ export const BasketPaymentContent = React.forwardRef(
 
       try {
         if (isDidNotPay) {
-          console.log(groupAppointment);
+          // console.log(groupAppointment);
           // TODO: mới làm cho trường hợp 1 appointment
           if (groupAppointment?.appointments?.length > 0) {
             const appointment = groupAppointment.appointments[0];
@@ -97,7 +98,7 @@ export const BasketPaymentContent = React.forwardRef(
 
             confirmAppointment(params, appointment.appointmentId);
 
-            finishedHandle();
+            didNotPayComplete();
           }
 
           return;

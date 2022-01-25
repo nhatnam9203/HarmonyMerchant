@@ -21,7 +21,6 @@ export const usePermission = (tabName) => {
   React.useEffect(() => {
 
     const roleName = profileStaffLogin?.roleName || role.Admin;
-    console.log(roleName);
 
     switch (roleName) {
       case role.Admin:
