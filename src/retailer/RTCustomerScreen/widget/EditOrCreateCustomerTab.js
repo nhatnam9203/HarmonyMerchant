@@ -156,6 +156,12 @@ class EditOrCreateCustomerTab extends React.Component {
                 keyError = "birthdate";
                 break
             }
+            if (customerInfo.phone && 
+                ((customerInfo.phone.replace(/-/g, "").length < 10 && this.state.codeAreaPhone == "+1") ||
+                (customerInfo.phone.replace(/-/g, "").length < 9 && this.state.codeAreaPhone == "+84"))) {
+                  keyError = "phone"
+                  break;
+            }
         }
 
         if (keyError != '') {

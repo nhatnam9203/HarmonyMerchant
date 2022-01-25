@@ -142,6 +142,7 @@ class EditOrCreateCustomerTab extends React.Component {
         const { customerInfo } = this.state;
         const arrayKey = Object.keys(customerInfo);
         let keyError = "";
+       
         for (let i = 0; i <= arrayKey.length - 1; i++) {
             if (customerInfo[arrayKey[i]] == "" && (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'phone')) {
                 keyError = arrayKey[i];
@@ -161,6 +162,13 @@ class EditOrCreateCustomerTab extends React.Component {
             if (customerInfo.birthdate !== "" && !isValidDate(customerInfo.birthdate)) {
                 keyError = "birthdate";
                 break
+            }
+
+            if (customerInfo.phone && 
+                ((customerInfo.phone.replace(/-/g, "").length < 10 && this.state.codeAreaPhone == "+1") ||
+                (customerInfo.phone.replace(/-/g, "").length < 9 && this.state.codeAreaPhone == "+84"))) {
+                  keyError = "phone"
+                  break;
             }
         }
 

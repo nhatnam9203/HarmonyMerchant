@@ -74,6 +74,11 @@ class EnterCustomerPhonePopup extends React.Component {
 
     submitCustomerInfo = () => {
         const { codeAreaPhone, phone, firstName, lastName } = this.state;
+
+        if (phone && 
+            ((phone.replace(/-/g, "").length < 10 && codeAreaPhone == "+1") ||
+            (phone.replace(/-/g, "").length < 9 && codeAreaPhone == "+84"))) return
+
         const phoneNumber = `${codeAreaPhone}${phone}`;
 
         this.props.actions.appointment.getCustomerBuyAppointment(phoneNumber, {
