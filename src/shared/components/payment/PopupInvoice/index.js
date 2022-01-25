@@ -590,7 +590,7 @@ export const PopupInvoice = React.forwardRef(
 
           : ``}
       ${profile?.receiptFooter
-          ? `<t>${profile?.receiptFooter}</t>`
+          ? `<t>${getCenterStringArrayXml(profile?.receiptFooter)}</t>`
           : `<t><c>Thank you!</c></t>
           <t><c>Please come again</c></t>`}
       ${!!getPromotionNotes(groupAppointment?.appointments)
