@@ -132,6 +132,7 @@ export const PopupPinCode = React.forwardRef(
                 <DialogLayout
                     title={t("Lock Screen")}
                     ref={dialogRef}
+                    hideCloseButton={true}
                     bottomChildren={() => (
                         <View style={styles.bottomStyle}>
                             <ButtonGradient
