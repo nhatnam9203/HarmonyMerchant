@@ -1555,6 +1555,7 @@ class Layout extends React.Component {
           onRequestClose={() =>
             this.setState({ visiblePopupAddItemIntoBasket: false })
           }
+          selectedStaff={this.state.selectedStaff}
         />
 
         <PopupGiftCardDetail
