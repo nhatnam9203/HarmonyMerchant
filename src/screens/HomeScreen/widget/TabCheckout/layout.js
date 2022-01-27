@@ -447,7 +447,7 @@ class Layout extends React.Component {
             >
               {isCustomService &&
                 !isBookingFromCalendar &&
-                !isBookingFromAppointmentTab &&
+                // !isBookingFromAppointmentTab &&
                 categoryTypeSelected != "Product" &&
                 blockAppointments.length == 0 &&
                 customService && (
