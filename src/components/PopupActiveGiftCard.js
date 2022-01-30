@@ -102,129 +102,127 @@ class PopupActiveGiftCard extends React.Component {
     const visiblePopup = visiblePopupGiftCard ?? visiblePopupActiveGiftCard;
     const { customStyle, scancode } = this.state;
     return (
-      <>
-        <PopupParent
-          title={title}
-          visible={visiblePopup}
-          onRequestClose={() => onRequestClose()}
-          hideCloseButton={hideCloseButton}
-          style={customStyle}
+      <PopupParent
+        title={title}
+        visible={visiblePopup}
+        onRequestClose={() => onRequestClose()}
+        hideCloseButton={hideCloseButton}
+        style={customStyle}
+      >
+        <View
+          style={{
+            height: scaleSize(150),
+            backgroundColor: "#fff",
+            borderBottomLeftRadius: scaleSize(15),
+            borderBottomRightRadius: scaleSize(15),
+          }}
         >
           <View
             style={{
-              height: scaleSize(150),
-              backgroundColor: "#fff",
-              borderBottomLeftRadius: scaleSize(15),
-              borderBottomRightRadius: scaleSize(15),
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: scaleSize(10),
+              marginBottom: scaleSize(4),
             }}
+          >
+            <Text style={{ color: "#404040", fontSize: scaleSize(18) }}>
+              {"Enter gift card serial number"}
+            </Text>
+          </View>
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: scaleSize(10),
-                marginBottom: scaleSize(4),
+                width: "80%",
+                height: scaleSize(45),
+                flexDirection: "row",
               }}
-            >
-              <Text style={{ color: "#404040", fontSize: scaleSize(18) }}>
-                {"Enter gift card serial number"}
-              </Text>
-            </View>
-            <View
-              style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
             >
               <View
                 style={{
-                  width: "80%",
-                  height: scaleSize(45),
-                  flexDirection: "row",
+                  flex: 1,
+                  borderColor: "rgb(231,231,231)",
+                  borderWidth: 2,
+                  paddingHorizontal: scaleSize(10),
                 }}
               >
-                <View
+                <TextInput
                   style={{
                     flex: 1,
-                    borderColor: "rgb(231,231,231)",
-                    borderWidth: 2,
-                    paddingHorizontal: scaleSize(10),
+                    fontSize: scaleSize(15),
+                    fontWeight: "500",
+                    textAlign: "center",
+                    padding: 0,
+                    margin: 0,
                   }}
-                >
-                  <TextInput
-                    style={{
-                      flex: 1,
-                      fontSize: scaleSize(15),
-                      fontWeight: "500",
-                      textAlign: "center",
-                      padding: 0,
-                      margin: 0,
-                    }}
-                    placeholder="Your gift card"
-                    keyboardType="numeric"
-                    value={scancode}
-                    onChangeText={(scancode) => this.setState({ scancode })}
-                    onSubmitEditing={this.submitSerialCode}
-                  />
-                </View>
-                <Button
-                  onPress={this.scanCodeGiftCard}
-                  style={{
-                    width: scaleSize(50),
-                    backgroundColor: "#F1F1F1",
-                    borderColor: "rgb(231,231,231)",
-                    borderWidth: 2,
-                    borderLeftWidth: 0,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Image source={IMAGE.scancode} />
-                </Button>
+                  placeholder="Your gift card"
+                  keyboardType="numeric"
+                  value={scancode}
+                  onChangeText={(scancode) => this.setState({ scancode })}
+                  onSubmitEditing={this.submitSerialCode}
+                />
               </View>
-            </View>
-            <View
-              style={{
-                height: scaleSize(45),
-                alignItems: "center",
-              }}
-            >
-              {loading ? (
-                <View
-                  style={{
-                    width: "30%",
-                    height: scaleSize(35),
-                    backgroundColor: "#0764B0",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <ActivityIndicator size="large" color="#fff" />
-                </View>
-              ) : (
-                <TouchableOpacity
-                  onPress={this.submitSerialCode}
-                  style={{
-                    width: "30%",
-                    height: 45,
-                    borderRadius: scaleSize(4),
-                    backgroundColor: "#0764B0",
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'absolute'
-                  }}
-                >
-                  <Text style={{ color: "#fff", fontSize: scaleSize(15), }}>{"Add Card"}</Text>
-                </TouchableOpacity>
-              )}
+              <Button
+                onPress={this.scanCodeGiftCard}
+                style={{
+                  width: scaleSize(50),
+                  backgroundColor: "#F1F1F1",
+                  borderColor: "rgb(231,231,231)",
+                  borderWidth: 2,
+                  borderLeftWidth: 0,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image source={IMAGE.scancode} />
+              </Button>
             </View>
           </View>
-
-        </PopupParent>
-
+          <View
+            style={{
+              height: scaleSize(45),
+              alignItems: "center",
+            }}
+          >
+            {loading ? (
+              <View
+                style={{
+                  width: "30%",
+                  height: scaleSize(35),
+                  backgroundColor: "#0764B0",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ActivityIndicator size="large" color="#fff" />
+              </View>
+            ) : (
+              <TouchableOpacity
+                onPress={this.submitSerialCode}
+                style={{
+                  width: "30%",
+                  height: 45,
+                  borderRadius: scaleSize(4),
+                  backgroundColor: "#0764B0",
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute'
+                }}
+              >
+                <Text style={{ color: "#fff", fontSize: scaleSize(15), }}>{"Add Card"}</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
         <PopupScanCode
           visible={this.state.visibleScanCode}
           onRequestClose={this.onRequestCloseScanCode}
           resultScanCode={this.resultScanCode}
         />
-      </>
+      </PopupParent>
+
+
     );
   }
 
