@@ -1,20 +1,15 @@
+import connectRedux from "@redux/ConnectRedux";
 import React from "react";
 import {
-  View,
-  Image,
-  Text,
-  TextInput,
-  Keyboard,
-  ActivityIndicator,
+  ActivityIndicator, Image, Keyboard, Text,
+  TextInput, TouchableOpacity, View
 } from "react-native";
-
-import ButtonCustom from "./ButtonCustom";
-import PopupParent from "./PopupParent";
-import Button from "./Button";
-import PopupScanCode from "./PopupScanCode";
-import { scaleSize } from "../utils";
-import connectRedux from "@redux/ConnectRedux";
 import IMAGE from "../resources";
+import { scaleSize } from "../utils";
+import Button from "./Button";
+import PopupParent from "./PopupParent";
+import PopupScanCode from "./PopupScanCode";
+
 
 class PopupActiveGiftCard extends React.Component {
   constructor(props) {
@@ -60,7 +55,7 @@ class PopupActiveGiftCard extends React.Component {
   keyboardDidHide = async () => {
     await this.setState({
       customStyle: {},
-      scancode: "",
+      // scancode: "",
     });
   };
 
@@ -107,125 +102,129 @@ class PopupActiveGiftCard extends React.Component {
     const visiblePopup = visiblePopupGiftCard ?? visiblePopupActiveGiftCard;
     const { customStyle, scancode } = this.state;
     return (
-      <PopupParent
-        title={title}
-        visible={visiblePopup}
-        onRequestClose={() => onRequestClose()}
-        hideCloseButton={hideCloseButton}
-        style={customStyle}
-      >
-        <View
-          style={{
-            height: scaleSize(150),
-            backgroundColor: "#fff",
-            borderBottomLeftRadius: scaleSize(15),
-            borderBottomRightRadius: scaleSize(15),
-          }}
+      <>
+        <PopupParent
+          title={title}
+          visible={visiblePopup}
+          onRequestClose={() => onRequestClose()}
+          hideCloseButton={hideCloseButton}
+          style={customStyle}
         >
           <View
             style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: scaleSize(10),
-              marginBottom: scaleSize(4),
+              height: scaleSize(150),
+              backgroundColor: "#fff",
+              borderBottomLeftRadius: scaleSize(15),
+              borderBottomRightRadius: scaleSize(15),
             }}
-          >
-            <Text style={{ color: "#404040", fontSize: scaleSize(18) }}>
-              {"Enter gift card serial number"}
-            </Text>
-          </View>
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
             <View
               style={{
-                width: "80%",
-                height: scaleSize(45),
-                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: scaleSize(10),
+                marginBottom: scaleSize(4),
               }}
+            >
+              <Text style={{ color: "#404040", fontSize: scaleSize(18) }}>
+                {"Enter gift card serial number"}
+              </Text>
+            </View>
+            <View
+              style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
             >
               <View
                 style={{
-                  flex: 1,
-                  borderColor: "rgb(231,231,231)",
-                  borderWidth: 2,
-                  paddingHorizontal: scaleSize(10),
+                  width: "80%",
+                  height: scaleSize(45),
+                  flexDirection: "row",
                 }}
               >
-                <TextInput
+                <View
                   style={{
                     flex: 1,
-                    fontSize: scaleSize(15),
-                    fontWeight: "500",
-                    textAlign: "center",
-                    padding: 0,
-                    margin: 0,
+                    borderColor: "rgb(231,231,231)",
+                    borderWidth: 2,
+                    paddingHorizontal: scaleSize(10),
                   }}
-                  placeholder="Your gift card"
-                  keyboardType="numeric"
-                  value={scancode}
-                  onChangeText={(scancode) => this.setState({ scancode })}
-                  onSubmitEditing={this.submitSerialCode}
-                />
+                >
+                  <TextInput
+                    style={{
+                      flex: 1,
+                      fontSize: scaleSize(15),
+                      fontWeight: "500",
+                      textAlign: "center",
+                      padding: 0,
+                      margin: 0,
+                    }}
+                    placeholder="Your gift card"
+                    keyboardType="numeric"
+                    value={scancode}
+                    onChangeText={(scancode) => this.setState({ scancode })}
+                    onSubmitEditing={this.submitSerialCode}
+                  />
+                </View>
+                <Button
+                  onPress={this.scanCodeGiftCard}
+                  style={{
+                    width: scaleSize(50),
+                    backgroundColor: "#F1F1F1",
+                    borderColor: "rgb(231,231,231)",
+                    borderWidth: 2,
+                    borderLeftWidth: 0,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image source={IMAGE.scancode} />
+                </Button>
               </View>
-              <Button
-                onPress={this.scanCodeGiftCard}
-                style={{
-                  width: scaleSize(50),
-                  backgroundColor: "#F1F1F1",
-                  borderColor: "rgb(231,231,231)",
-                  borderWidth: 2,
-                  borderLeftWidth: 0,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Image source={IMAGE.scancode} />
-              </Button>
+            </View>
+            <View
+              style={{
+                height: scaleSize(45),
+                alignItems: "center",
+              }}
+            >
+              {loading ? (
+                <View
+                  style={{
+                    width: "30%",
+                    height: scaleSize(35),
+                    backgroundColor: "#0764B0",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ActivityIndicator size="large" color="#fff" />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={this.submitSerialCode}
+                  style={{
+                    width: "30%",
+                    height: 45,
+                    borderRadius: scaleSize(4),
+                    backgroundColor: "#0764B0",
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'absolute'
+                  }}
+                >
+                  <Text style={{ color: "#fff", fontSize: scaleSize(15), }}>{"Add Card"}</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
-          <View
-            style={{
-              height: scaleSize(45),
-              alignItems: "center",
-            }}
-          >
-            {loading ? (
-              <View
-                style={{
-                  width: "30%",
-                  height: scaleSize(35),
-                  backgroundColor: "#0764B0",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <ActivityIndicator size="large" color="#fff" />
-              </View>
-            ) : (
-              <ButtonCustom
-                width={"30%"}
-                height={35}
-                backgroundColor="#0764B0"
-                title="Add card"
-                textColor="#fff"
-                onPress={this.submitSerialCode}
-                styleText={{
-                  fontSize: scaleSize(14),
-                }}
-                style={{
-                  borderRadius: scaleSize(4),
-                }}
-              />
-            )}
-          </View>
-        </View>
+
+        </PopupParent>
+
         <PopupScanCode
           visible={this.state.visibleScanCode}
           onRequestClose={this.onRequestCloseScanCode}
           resultScanCode={this.resultScanCode}
         />
-      </PopupParent>
+      </>
     );
   }
 
