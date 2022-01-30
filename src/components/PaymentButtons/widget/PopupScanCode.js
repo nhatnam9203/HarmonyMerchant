@@ -15,6 +15,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
 
   const [value, setValue] = React.useState("");
   const [softInputOnFocus, showSoftInputOnFocus] = React.useState(false);
+  const [cameraType, setCameraType] = React.useState("back");
 
   const hidePopup = () => {
     setValue("");
@@ -59,6 +60,10 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
     hide: hidePopup,
   }));
 
+  const switchCamera = async () => {
+    await setCameraType(prev => prev === 'back' ? 'front' : 'back');
+  }
+
   return (
     <View>
       <DialogLayout
@@ -88,7 +93,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
               reactivateTimeout={500}
               containerStyle={styles.qrStyle}
               cameraStyle={styles.qrStyle}
-              cameraType="back"
+              cameraType={cameraType}
               customMarker={
                 <Image
                   style={styles.markerStyle}
@@ -96,6 +101,15 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
                 />
               }
             />
+            <TouchableOpacity style={{
+              width: scaleWidth(50),
+              height: scaleHeight(50),
+              backgroundColor: "transparent",
+              justifyContent: "center",
+              alignSelf: "center",
+            }}
+              onPress={switchCamera}><Image source={IMAGE.camera_switcher} style={{ width: scaleWidth(25), height: scaleHeight(25) }} />
+            </TouchableOpacity>
           </View>
           <View style={styles.marginVertical} />
           <Text style={styles.textCamera}>
