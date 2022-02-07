@@ -38,9 +38,7 @@
     "ios:dev": "react-native run-ios --scheme='Hpmerchant_Dev' --simulator='iPad Pro (12.9-inch) (4th generation)' ",
     "ios:staging": "react-native run-ios --scheme='Hpmerchant_Staging' --simulator='iPad Pro (12.9-inch) (4th generation)' ",
     "ios:production": "react-native run-ios --scheme='Hpmerchant_Production' --simulator='iPad Pro (12.9-inch) (4th generation)' ",
-    "open:iPad": "open -a Simulator --args -CurrentDeviceUDID  34E1A130-28A3-4871-972B-A445C037BC22",
-    "zeplin-connect": "zeplin connect",
-    "zeplin-connect-dev-mode": "zeplin connect --dev"
+    "open:iPad": "open -a Simulator --args -CurrentDeviceUDID  34E1A130-28A3-4871-972B-A445C037BC22"
   },
   "dependencies": {
     "@kichiyaki/react-native-barcode-generator": "^0.6.7",
