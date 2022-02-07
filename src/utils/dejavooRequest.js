@@ -32,7 +32,7 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: 0,
+    timeout: 300000,
     };
     const response = await handleRequest(configs)
     return response
@@ -46,14 +46,11 @@ export const requestTransactionDejavoo = async (params) => {
    
       if (parseInt(_.get(response, 'status')) == 200) {
         const xmlResponse = _.get(response, 'data')
-        console.log("xmlResponse", xmlResponse)
         return xmlResponse
       } else {
-        console.log("Error")
         return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
       }
     } catch (error) {
-      console.log("error", error)
       return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
     }
   }

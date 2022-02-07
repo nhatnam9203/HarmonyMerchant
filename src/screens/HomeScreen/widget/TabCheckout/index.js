@@ -1757,7 +1757,7 @@ class TabCheckout extends Layout {
           }
 
           const errorText = errorCode == "999" || errorCode == "2"
-                          ? `${resultTxt}. Please Cancel on terminal and retry again.`
+                          ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
                           : resultTxt
           setTimeout(() => {
             this.setState({
