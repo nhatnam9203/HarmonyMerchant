@@ -40,8 +40,6 @@ export const requestTransactionDejavoo = async (params) => {
 
   const handleRequest = async (configs) => {
     try {
-      const httpClient = axios.create();
-      httpClient.defaults.timeout = configs?.timeout;
       const response = await axios(configs);
    
       if (parseInt(_.get(response, 'status')) == 200) {
