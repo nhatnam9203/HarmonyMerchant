@@ -1736,7 +1736,8 @@ class TabCheckout extends Layout {
     });
     try {
       parseString(message, (err, result) => {
-        if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
+        const errorCode = l.get(result, "xmp.response.0.ResultCode.0");
+        if (err || errorCode != 0) {
           let detailMessage = l
             .get(result, "xmp.response.0.RespMSG.0", "")
             .replace(/%20/g, " ");
@@ -1754,10 +1755,14 @@ class TabCheckout extends Layout {
               resultTxt
             );
           }
+
+          const errorText = errorCode == "999" || errorCode == "2"
+                          ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
+                          : resultTxt
           setTimeout(() => {
             this.setState({
               visibleErrorMessageFromPax: true,
-              errorMessageFromPax: `${resultTxt}`,
+              errorMessageFromPax: `${errorText}`,
             });
           }, 300);
         } else {
