@@ -99,9 +99,9 @@ export const useProps = ({
   |--------------------------------------------------
   */
   React.useEffect(() => {
-    const unsubscribeFocus = navigation.addListener("focus", () => { });
+    const unsubscribeFocus = navigation.addListener("focus", () => {});
 
-    const unsubscribeBlur = navigation.addListener("blur", () => { });
+    const unsubscribeBlur = navigation.addListener("blur", () => {});
 
     return () => {
       unsubscribeFocus();
@@ -416,7 +416,17 @@ export const useProps = ({
       confirmAppointment(params, appointmentDetail?.appointmentId);
     },
     complete: () => {
-      completeAppointment(appointmentDetail?.appointmentId);
+      if (!appointmentDetail) return;
+      const { appointmentId, purchasePoint, status } = appointmentDetail || {};
+      if (purchasePoint === "CallOrder" && status === "Did Not Pay") {
+        NavigationServices.navigate("retailer.home.order.pay", {
+          orderItem: appointmentDetail,
+          screenId: screenId ?? "retailer.home.order.list",
+          backScreenId: backScreenId ?? "retailer.home.order.check_out",
+        });
+      } else {
+        completeAppointment(appointmentId);
+      }
     },
     refund: () => {
       NavigationServices.navigate("retailer.home.order.return", {
@@ -523,6 +533,6 @@ export const useProps = ({
     },
     getTaxRate: () => {
       return getTaxRateFromAppointment(appointmentDetail);
-    }
+    },
   };
 };
