@@ -419,6 +419,7 @@ export const useProps = ({
       if (!appointmentDetail) return;
       const { appointmentId, purchasePoint, status } = appointmentDetail || {};
       if (purchasePoint === "CallOrder" && status === "Did Not Pay") {
+        // XU => sai text trả về là sai
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: appointmentDetail,
           screenId: screenId ?? "retailer.home.order.list",
