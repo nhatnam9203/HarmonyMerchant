@@ -32,7 +32,7 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: 300000,
+    timeout: 420000,
     };
     const response = await handleRequest(configs)
     return response
