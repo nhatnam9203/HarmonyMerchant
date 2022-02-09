@@ -132,7 +132,7 @@ class TabAppointment extends Layout {
           this.onLoadStartWebview();
         } else {
           const { action, appointmentId } = data;
-          // console.log("onMessageFromWebview: ", JSON.stringify(data));
+          console.log("onMessageFromWebview: ", JSON.stringify(data));
 
           switch (action) {
             case "checkout":
@@ -185,7 +185,13 @@ class TabAppointment extends Layout {
               if (data?.staffId === 0) {
                 this.props.createABlockAppointment(appointmentId, new Date());
               } else {
-                this.props.bookAppointment(appointmentId, data?.staffId || 0);
+                // this.props.bookAppointment(appointmentId, data?.staffId || 0);
+                this.props.createABlockAppointment(
+                  appointmentId,
+                  new Date(),
+                  data?.staffId || 0
+                );
+
                 if (
                   !isOfflineMode &&
                   isEmpty(groupAppointment) &&

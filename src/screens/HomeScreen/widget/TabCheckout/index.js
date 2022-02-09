@@ -900,13 +900,11 @@ class TabCheckout extends Layout {
       connectionSignalR.stop();
     }
 
-    if (paymentMachineType === PaymentTerminalType.Pax
-      && !portName) {
+    if (paymentMachineType === PaymentTerminalType.Pax && !portName) {
       alert("Please connect to your printer!");
     } else {
       if (paymentSelected === "Cash" || paymentSelected === "Other") {
-        if (paymentMachineType === PaymentTerminalType.Clover
-          && !portName) {
+        if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
           this.openCashDrawerClover();
         } else {
           this.openCashDrawer(portName);
@@ -1756,9 +1754,10 @@ class TabCheckout extends Layout {
             );
           }
 
-          const errorText = errorCode == "999" || errorCode == "2"
-                          ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
-                          : resultTxt
+          const errorText =
+            errorCode == "999" || errorCode == "2"
+              ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
+              : resultTxt;
           setTimeout(() => {
             this.setState({
               visibleErrorMessageFromPax: true,
@@ -2860,10 +2859,11 @@ class TabCheckout extends Layout {
     this.scrollFlatListToStaffIndex(staffId, isFirstPressCheckout);
   };
 
-  setBlockStateFromCalendar = async () => {
+  setBlockStateFromCalendar = async (staffId) => {
+    console.log("setBlockStateFromCalendar " + staffId);
     await this.setState({
       isShowCategoriesColumn: true,
-      isBlockBookingFromCalendar: true,
+      isBlockBookingFromCalendar: staffId && staffId > 0 ? false : true,
       isBookingFromAppointmentTab: true, // book appointment from calendar
     });
   };

@@ -450,8 +450,9 @@ class HomeScreen extends Layout {
    * Can call from web with appointment id
    * @param {*} appointmentId
    * @param {*} fromTime
+   * @param {*} staffId
    */
-  createABlockAppointment = (appointmentId, fromTime) => {
+  createABlockAppointment = (appointmentId, fromTime, staffId = 0) => {
     // console.log("createABlockAppointment");
 
     this.props.actions.appointment.updateFromTimeBlockAppointment(
@@ -463,10 +464,31 @@ class HomeScreen extends Layout {
     this.scrollTabParentRef.current.goToPage(2);
 
     if (this.tabCheckoutRef?.current) {
-      this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+      this.tabCheckoutRef?.current?.setBlockStateFromCalendar(staffId);
+
+      if (staffId && staffId !== 0 && staffId !== -1) {
+        this.props.actions.appointment.getGroupAppointmentById(
+          appointmentId,
+          false,
+          true,
+          false
+        );
+
+        this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+      }
     } else {
       setTimeout(() => {
-        this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+        this.tabCheckoutRef?.current?.setBlockStateFromCalendar(staffId);
+        if (staffId && staffId !== 0 && staffId !== -1) {
+          this.props.actions.appointment.getGroupAppointmentById(
+            appointmentId,
+            false,
+            true,
+            false
+          );
+
+          this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+        }
       }, 200);
     }
   };
