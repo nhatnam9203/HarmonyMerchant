@@ -2408,6 +2408,8 @@ class TabCheckout extends Layout {
       blockAppointments,
     } = this.props;
 
+    const { selectedStaff } = this.state;
+
     let fromTime = fromTimeBlockAppointment;
     if (blockAppointments && blockAppointments.length > 0) {
       fromTime = l.get(blockAppointments, "0.fromTime")
@@ -2429,7 +2431,8 @@ class TabCheckout extends Layout {
         customerInfoBuyAppointment?.firstName || "",
         customerInfoBuyAppointment?.lastName || "",
         customerInfoBuyAppointment?.phone || "",
-        bookingGroupId
+        bookingGroupId,
+        selectedStaff?.staffId ?? 0
       );
     } else {
       this.props.actions.appointment.createBlockAppointment(
@@ -2440,7 +2443,8 @@ class TabCheckout extends Layout {
         customerInfoBuyAppointment?.firstName || "",
         customerInfoBuyAppointment?.lastName || "",
         customerInfoBuyAppointment?.phone || "",
-        bookingGroupId
+        bookingGroupId,
+        selectedStaff?.staffId ?? 0
       );
     }
   };
@@ -2452,6 +2456,7 @@ class TabCheckout extends Layout {
       productSeleted,
       arrSelectedExtra,
       customServiceSelected,
+      selectedStaff,
     } = this.state;
 
     let isAppointmentIdOpen = "";
@@ -2498,6 +2503,9 @@ class TabCheckout extends Layout {
             {
               serviceId:
                 productSeleted?.serviceId ?? customServiceSelected?.serviceId,
+              ...(selectedStaff?.staffId && {
+                staffId: selectedStaff?.staffId,
+              }),
               ...(customServiceSelected && {
                 categoryId: customServiceSelected?.categoryId,
                 price: customServiceSelected?.price,
@@ -2860,7 +2868,6 @@ class TabCheckout extends Layout {
   };
 
   setBlockStateFromCalendar = async (staffId) => {
-    console.log("setBlockStateFromCalendar " + staffId);
     await this.setState({
       isShowCategoriesColumn: true,
       isBlockBookingFromCalendar: staffId && staffId > 0 ? false : true,
