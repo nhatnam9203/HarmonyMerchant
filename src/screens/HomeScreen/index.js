@@ -453,7 +453,7 @@ class HomeScreen extends Layout {
    * @param {*} staffId
    */
   createABlockAppointment = (appointmentId, fromTime, staffId = 0) => {
-    // console.log("createABlockAppointment");
+    console.log("createABlockAppointment " + appointmentId);
 
     this.props.actions.appointment.updateFromTimeBlockAppointment(
       fromTime ? fromTime : new Date()
@@ -519,20 +519,20 @@ class HomeScreen extends Layout {
 
     this.getCurrentLocation();
     Promise.all([
-      this.props.actions.category.getCategoriesByMerchantId(),
-      this.props.actions.extra.getExtraByMerchant(),
-      this.props.actions.service.getServicesByMerchant(),
-      this.props.actions.product.getProductsByMerchant(),
-      this.props.actions.staff.getStaffByMerchantId(),
+      this.props.actions.category.getCategoriesByMerchantId(), // .
+      this.props.actions.extra.getExtraByMerchant(), // .
+      this.props.actions.service.getServicesByMerchant(), // .
+      this.props.actions.product.getProductsByMerchant(), // .
+      this.props.actions.staff.getStaffByMerchantId(), // .
       this.props.actions.appointment.getStaffListByCurrentDate(
         profile?.merchantId
-      ),
-      this.props.actions.app.getNotificationList(),
-      this.props.actions.app.getCountUnReadOfNotification(),
+      ), // .
+      this.props.actions.app.getNotificationList(), // .
+      this.props.actions.app.getCountUnReadOfNotification(), // .
 
       this.props.actions.service.getCustomServiceByMerchantId(
         profile?.merchantId
-      ),
+      ), // .
     ])
       .then((data) => {
         this.props.actions.staff.reloadButtonEnterPincode();

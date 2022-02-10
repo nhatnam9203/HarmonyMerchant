@@ -1117,7 +1117,7 @@ export const useProps = ({
     onDiscountAdd: () => {
       if (_.isEmpty(connectSignalR.current)) {
         if (appointmentDetail?.appointmentId !== -1) {
-          const appointment = groupAppointment.appointments.find(
+          const appointment = groupAppointment?.appointments.find(
             (appointment) =>
               appointment.appointmentId === appointmentDetail?.appointmentId
           );

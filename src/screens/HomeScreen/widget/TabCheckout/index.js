@@ -596,7 +596,10 @@ class TabCheckout extends Layout {
     this.props.actions.appointment.resetGroupAppointment();
 
     if (isCancelAppointment) {
-      const app = groupAppointment?.appointments[0];
+      const app =
+        groupAppointment?.appointments?.length > 0
+          ? groupAppointment.appointments[0]
+          : null;
       if (
         app &&
         groupAppointment?.appointments &&
@@ -606,7 +609,7 @@ class TabCheckout extends Layout {
           app.services.length + app.products.length + app.giftCards.length ===
           0
         ) {
-          const mainAppointmentId = groupAppointment.mainAppointmentId
+          const mainAppointmentId = groupAppointment?.mainAppointmentId
             ? groupAppointment.mainAppointmentId
             : 0;
           const customerId = customerInfoBuyAppointment.customerId
@@ -622,7 +625,10 @@ class TabCheckout extends Layout {
     }
 
     if (isBookingFromCalendar && appointmentIdBookingFromCalendar) {
-      const app = groupAppointment?.appointments[0];
+      const app =
+        groupAppointment?.appointments?.length > 0
+          ? groupAppointment.appointments[0]
+          : null;
       if (
         app &&
         groupAppointment?.appointments &&
@@ -645,7 +651,10 @@ class TabCheckout extends Layout {
     }
 
     if (!isBookingFromCalendar && appointmentIdBookingFromCalendar == 0) {
-      const app = groupAppointment?.appointments[0];
+      const app =
+        groupAppointment?.appointments?.length > 0
+          ? groupAppointment.appointments[0]
+          : null;
       if (
         app &&
         groupAppointment?.appointments &&
@@ -655,7 +664,7 @@ class TabCheckout extends Layout {
           app.services.length + app.products.length + app.giftCards.length ===
           0
         ) {
-          const mainAppointmentId = groupAppointment.mainAppointmentId
+          const mainAppointmentId = groupAppointment?.mainAppointmentId
             ? groupAppointment.mainAppointmentId
             : 0;
           const customerId = customerInfoBuyAppointment.customerId
@@ -677,6 +686,7 @@ class TabCheckout extends Layout {
     // }
 
     this.blockAppointmentRef = [];
+    console.log("CANCEL CHECKOUT TAB");
   };
 
   setStateFromParent = () => {
@@ -1130,7 +1140,7 @@ class TabCheckout extends Layout {
                 formatNumberFromCurrency(taxLocal) -
                 formatNumberFromCurrency(discountTotalLocal)
             ).toFixed(2)
-          : groupAppointment.total;
+          : groupAppointment?.total;
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
     } else {
@@ -1314,7 +1324,7 @@ class TabCheckout extends Layout {
             formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
           );
     const method = this.getPaymentString(paymentSelected);
-    const total = groupAppointment.total
+    const total = groupAppointment?.total
       ? parseFloat(formatNumberFromCurrency(groupAppointment.total))
       : 0;
     const dueAmount = paymentDetailInfo.dueAmount
@@ -1347,7 +1357,7 @@ class TabCheckout extends Layout {
           this.setupSignalR(
             profile,
             token,
-            groupAppointment.checkoutGroupId,
+            groupAppointment?.checkoutGroupId,
             deviceId,
             method,
             moneyUserGiveForStaff
@@ -1378,7 +1388,7 @@ class TabCheckout extends Layout {
           }, 500);
         } else {
           this.props.actions.appointment.paymentAppointment(
-            groupAppointment.checkoutGroupId,
+            groupAppointment?.checkoutGroupId,
             method,
             moneyUserGiveForStaff
           );
@@ -2107,7 +2117,7 @@ class TabCheckout extends Layout {
 
       if (appointmentId !== -1) {
         const { groupAppointment } = this.props;
-        const appointment = groupAppointment.appointments.find(
+        const appointment = groupAppointment?.appointments?.find(
           (appointment) => appointment.appointmentId === appointmentId
         );
         const { services, products, extras, giftCards } = appointment;
@@ -2472,6 +2482,9 @@ class TabCheckout extends Layout {
     const appointmentId = isAppointmentIdOpen
       ? isAppointmentIdOpen
       : isOpenBlockAppointmentId;
+
+    console.log("isAppointmentIdOpen " + isAppointmentIdOpen);
+    console.log("isOpenBlockAppointmentId " + isOpenBlockAppointmentId);
 
     if (categoryTypeSelected === "Product") {
       this.props.actions.appointment.addItemIntoAppointment(

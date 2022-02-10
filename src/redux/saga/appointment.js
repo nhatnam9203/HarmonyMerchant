@@ -345,7 +345,6 @@ function* checkoutAppointment(action) {
 }
 
 function* paymentAppointment(action) {
-
   try {
     yield put({ type: "LOADING_ROOT" });
     const responses = yield requestAPI(action);
@@ -887,24 +886,38 @@ function* addGiftCardIntoBlockAppointment(action) {
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
+      // yield put({
+      //   type: "ADD_ITEM_INTO_APPOINTMENT",
+      //   body: {
+      //     giftCards: [
+      //       {
+      //         bookingGiftCardId: 0,
+      //         giftCardId: responses?.data?.giftCardId || 0,
+      //       },
+      //     ],
+      //     services: [],
+      //     extras: [],
+      //     products: [],
+      //   },
+      //   method: "PUT",
+      //   token: true,
+      //   api: `appointment/additem/${action.appointmentId}`,
+      //   appointmentId: action.appointmentId,
+      //   isBlock: true,
+      // });
+      // --------- Close popup Active Gift Card -----------
       yield put({
-        type: "ADD_ITEM_INTO_APPOINTMENT",
-        body: {
-          giftCards: [
-            {
-              bookingGiftCardId: 0,
-              giftCardId: responses?.data?.giftCardId || 0,
-            },
-          ],
-          services: [],
-          extras: [],
-          products: [],
+        type: "VISIBLE_POPUP_ACTIVE_GIFT_CARD",
+        payload: false,
+      });
+      // ---------- Save Action Information ----------
+      yield put({
+        type: "SAVE_GIFT_CARD_ACTION_INFO",
+        addGiftCardInfoAction: {
+          ...action,
+          giftCardInfo: { ...responses?.data } || {},
+          isBlock: true,
         },
-        method: "PUT",
-        token: true,
-        api: `appointment/additem/${action.appointmentId}`,
-        appointmentId: action.appointmentId,
-        isBlock: true,
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
@@ -1065,28 +1078,55 @@ function* handleEnterGiftCardAmount(action) {
     const state = yield select();
     const addGiftCardInfoAction =
       state?.appointment?.addGiftCardInfoAction || {};
+
     if (!addGiftCardInfoAction.bodyAction) {
       const groupAppointment = state?.appointment?.groupAppointment || {};
       const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
-      yield put({
-        type: "ADD_ITEM_INTO_APPOINTMENT",
-        body: {
-          giftCards: [
-            {
-              giftCardId: addGiftCardInfoAction?.giftCardInfo?.giftCardId || 0,
-              price: action.payload,
-            },
-          ],
-          services: [],
-          extras: [],
-          products: [],
-        },
-        method: "PUT",
-        token: true,
-        api: `appointment/additem/${mainAppointmentId}`,
-        appointmentId: mainAppointmentId,
-        isGroup: true,
-      });
+
+      if (addGiftCardInfoAction?.isBlock) {
+        yield put({
+          type: "ADD_ITEM_INTO_APPOINTMENT",
+          body: {
+            giftCards: [
+              {
+                bookingGiftCardId: 0,
+                giftCardId:
+                  addGiftCardInfoAction?.giftCardInfo?.giftCardId || 0,
+                price: action.payload,
+              },
+            ],
+            services: [],
+            extras: [],
+            products: [],
+          },
+          method: "PUT",
+          token: true,
+          api: `appointment/additem/${mainAppointmentId}`,
+          appointmentId: mainAppointmentId,
+          isBlock: true,
+        });
+      } else {
+        yield put({
+          type: "ADD_ITEM_INTO_APPOINTMENT",
+          body: {
+            giftCards: [
+              {
+                giftCardId:
+                  addGiftCardInfoAction?.giftCardInfo?.giftCardId || 0,
+                price: action.payload,
+              },
+            ],
+            services: [],
+            extras: [],
+            products: [],
+          },
+          method: "PUT",
+          token: true,
+          api: `appointment/additem/${mainAppointmentId}`,
+          appointmentId: mainAppointmentId,
+          isGroup: true,
+        });
+      }
     } else {
       const customerInfoBuyAppointment =
         state?.appointment?.customerInfoBuyAppointment;
@@ -1292,6 +1332,5 @@ export default function* saga() {
 
     takeLatest("GET_STAFF_LIST_BY_CURRENT_DATE", getStaffListByCurrentDate),
     takeLatest("GET_APPOINTMENT_RETAILER_BY_ID", getAppointmentRetailerById),
-    
   ]);
 }

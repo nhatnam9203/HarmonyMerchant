@@ -576,7 +576,7 @@ class Layout extends React.Component {
     } = this.props;
     const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } =
       this.state;
-    const appointments = groupAppointment.appointments
+    const appointments = groupAppointment?.appointments
       ? groupAppointment.appointments
       : [];
     const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;

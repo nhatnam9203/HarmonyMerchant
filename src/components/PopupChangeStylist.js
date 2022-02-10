@@ -113,7 +113,7 @@ class PopupChangeStylist extends React.Component {
     let fromTime = new Date();
 
     if (!_.isEmpty(groupAppointment)) {
-      const appointments = groupAppointment.appointments
+      const appointments = groupAppointment?.appointments
         ? groupAppointment.appointments
         : [];
       const appointmentDetail = appointments.find(
