@@ -66,7 +66,7 @@ class PopupBlockDiscount extends React.Component {
                 totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
             };
         }
-        
+
         if (formatNumberFromCurrency(totalDiscount) > formatNumberFromCurrency(subTotal)) {
             Alert.alert(
                 `Warning`,
@@ -147,13 +147,17 @@ class PopupBlockDiscount extends React.Component {
 
             let total = 0;
             let manualDiscountTemp = 0;
-            
+
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
             const subTotal = appointmentDetail?.subTotal || 0;
-            const moneyDiscountCustom = (formatNumberFromCurrency(percentDiscountCustom) * formatNumberFromCurrency(subTotal) / 100);
 
-            manualDiscountTemp = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
-            manualDiscountTemp = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
+            const moneyDiscountCustom = (formatNumberFromCurrency(percentDiscountCustom) * formatNumberFromCurrency(subTotal) / 100);
+            if (moneyDiscountFixedAmout > 0) {
+                manualDiscountTemp = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
+            } else if (moneyDiscountCustom > 0) {
+                manualDiscountTemp = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
+            }
+
             if(manualDiscountTemp > 0) {
                 total = manualDiscountTemp;
             } else {
