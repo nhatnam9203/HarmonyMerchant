@@ -1081,9 +1081,13 @@ function* handleEnterGiftCardAmount(action) {
 
     if (!addGiftCardInfoAction.bodyAction) {
       const groupAppointment = state?.appointment?.groupAppointment || {};
-      const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
+      let mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
 
       if (addGiftCardInfoAction?.isBlock) {
+        if (!mainAppointmentId || mainAppointmentId === 0) {
+          mainAppointmentId = state?.appointment?.isOpenBlockAppointmentId;
+        }
+
         yield put({
           type: "ADD_ITEM_INTO_APPOINTMENT",
           body: {
