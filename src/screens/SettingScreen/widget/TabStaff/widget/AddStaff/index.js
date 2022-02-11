@@ -92,6 +92,12 @@ const initState = {
         label: "Setting",
         isChecked: true,
       },
+      {
+        id: 0,
+        key: menuTabs.CHECKOUT_SETTING_TAX,
+        label: "Change Tax",
+        isChecked: true,
+      },
     ],
     driverlicense: "",
     socialSecurityNumber: "",
@@ -252,6 +258,12 @@ class AddStaff extends Layout {
         id: 0,
         key: menuTabs.MENU_SETTING,
         label: "Setting",
+        isChecked: true,
+      },
+      {
+        id: 0,
+        key: menuTabs.CHECKOUT_SETTING_TAX,
+        label: "Change Tax",
         isChecked: true,
       },
     ];
