@@ -218,6 +218,20 @@ class InvoiceScreen extends Layout {
               this.backTab();
               break;
           }
+          setTimeout(() => {
+            const { listInvoicesByMerchant } = this.props;
+            if (listInvoicesByMerchant?.length > 0) {
+              const index = listInvoicesByMerchant?.findIndex(
+                (x) => x.checkoutId === appointmentFromWeb?.checkoutId
+              );
+              if (index >= 0) {
+                this.virtualizedListRef?.current?.scrollToIndex({
+                  index: index,
+                  animated: false,
+                });
+              }
+            }
+          }, 1000);
         }
       }
     );
