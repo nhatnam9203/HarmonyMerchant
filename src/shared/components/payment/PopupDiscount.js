@@ -129,9 +129,8 @@ class PopupDiscount extends React.Component {
 
       let totalDiscount = 0;
 
-      let manualDiscount =
-        formatNumberFromCurrency(manualDiscount) +
-        formatNumberFromCurrency(customFixedAmount);
+      let manualDiscount = formatNumberFromCurrency(manualDiscount) +
+                          formatNumberFromCurrency(customFixedAmount);
 
       //calculate discount percent after apply discount items (-productItemDiscount)
       const moneyDiscountCustom =
@@ -493,6 +492,8 @@ class PopupDiscount extends React.Component {
                     >{`${discountByStaff}%`}</Text>
                   </View> */}
 
+
+
                   {/* ----------- Note  ----------- */}
                   <View style={{ marginTop: 20 }}>
                     <Text style={[styles.textNormal, { marginBottom: 5 }]}>
@@ -596,7 +597,7 @@ class PopupDiscount extends React.Component {
       visible
     ) {
       this.props.actions.marketing.resetStateGetPromotionOfAppointment();
-
+ 
       const appointmentDetail =
         appointmentIdUpdatePromotion !== -1 &&
         !_.isEmpty(groupAppointment) &&
@@ -809,6 +810,8 @@ class CustomDiscount extends React.Component {
             </View>
             {/* -------  ----- */}
           </View>
+
+
 
           <View style={{ justifyContent: "center" }}>
             <Text style={{ color: "#4CD964", fontSize: scaleSize(18) }}>

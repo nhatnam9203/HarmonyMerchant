@@ -1,14 +1,13 @@
-import actions from "@redux/actions";
+import { checkPermissionStaff, useAxiosMutation } from "@apis";
+import NavigationServices from "@navigators/NavigatorServices";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+import { useAppType } from "@shared/hooks";
 import { DialogLayout } from "@shared/layouts";
 import { colors, fonts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import NavigationServices from "@navigators/NavigatorServices";
-import { useAppType } from "@shared/hooks";
-import { checkPermissionStaff, useAxiosMutation } from "@apis";
 
 const PIN_CODE_CHARS = [
   "1",
@@ -56,10 +55,8 @@ export const PopupCheckPermission = React.forwardRef(
      * Call API check permission
      */
     const onHandleSubmit = async () => {
-      if (tabName)
-        await requestCheckPermission();
+      if (tabName) await requestCheckPermission();
       else {
-
       }
     };
 

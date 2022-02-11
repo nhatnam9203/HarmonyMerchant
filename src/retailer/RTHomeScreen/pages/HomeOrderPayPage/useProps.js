@@ -146,6 +146,7 @@ export const useProps = ({
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
 
+
   const handleResponseCreditCardForCloverSuccess = async (message) => {
     setVisibleProcessingCredit(false)
     const { hardware, dataLocal, appointment } = store.getState();
@@ -1115,6 +1116,7 @@ export const useProps = ({
     },
     callbackDiscountToParent: () => { },
     onDiscountAdd: () => {
+
       if (_.isEmpty(connectSignalR.current)) {
         if (appointmentDetail?.appointmentId !== -1) {
           const appointment = groupAppointment?.appointments.find(
