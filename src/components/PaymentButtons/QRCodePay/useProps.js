@@ -64,6 +64,7 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
           amount: data.amount,
           name: data.userName,
           userCardId: data.userCardId,
+          star: 1000,
         });
 
         setCardType(CardType.CUSTOMER_CARD);
@@ -139,8 +140,7 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   const asyncReset = async () => {
     await setCheckGiftCardFail(false);
     await setCheckConsumerCodeFail(false);
-  }
-
+  };
 
   React.useEffect(() => {
     if (code) {
@@ -176,7 +176,7 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
       asyncReset();
       setTimeout(() => {
         alert(`Code is invalid!!!`);
-      }, 300)
+      }, 300);
     }
   }, [checkGiftCardFail, checkConsumerCodeFail]);
 
