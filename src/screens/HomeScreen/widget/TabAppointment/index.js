@@ -132,7 +132,7 @@ class TabAppointment extends Layout {
           this.onLoadStartWebview();
         } else {
           const { action, appointmentId } = data;
-          console.log(data);
+          // console.log(data);
           switch (action) {
             case "checkout":
               if (!isOfflineMode && isEmpty(groupAppointment)) {
