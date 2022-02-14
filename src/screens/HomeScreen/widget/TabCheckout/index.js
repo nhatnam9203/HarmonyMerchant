@@ -624,11 +624,15 @@ class TabCheckout extends Layout {
       }
     }
 
-    if (isBookingFromCalendar && appointmentIdBookingFromCalendar) {
+    if (isBookingFromCalendar) {
       const app =
         groupAppointment?.appointments?.length > 0
           ? groupAppointment.appointments[0]
           : null;
+
+      const mainAppointmentId = groupAppointment?.mainAppointmentId
+        ? groupAppointment.mainAppointmentId
+        : 0;
       if (
         app &&
         groupAppointment?.appointments &&
@@ -641,11 +645,20 @@ class TabCheckout extends Layout {
           const customerId = customerInfoBuyAppointment.customerId
             ? customerInfoBuyAppointment.customerId
             : 0;
-          this.props.actions.appointment.cancleAppointment(
-            appointmentIdBookingFromCalendar,
-            profile.merchantId,
-            customerId
-          );
+
+          if (appointmentIdBookingFromCalendar) {
+            this.props.actions.appointment.cancleAppointment(
+              appointmentIdBookingFromCalendar,
+              profile.merchantId,
+              customerId
+            );
+          } else if (mainAppointmentId) {
+            this.props.actions.appointment.cancleAppointment(
+              mainAppointmentId,
+              profile.merchantId,
+              customerId
+            );
+          }
         }
       }
     }
@@ -686,7 +699,6 @@ class TabCheckout extends Layout {
     // }
 
     this.blockAppointmentRef = [];
-    console.log("CANCEL CHECKOUT TAB");
   };
 
   setStateFromParent = () => {
@@ -2483,8 +2495,7 @@ class TabCheckout extends Layout {
       ? isAppointmentIdOpen
       : isOpenBlockAppointmentId;
 
-    console.log("isAppointmentIdOpen " + isAppointmentIdOpen);
-    console.log("isOpenBlockAppointmentId " + isOpenBlockAppointmentId);
+
 
     if (categoryTypeSelected === "Product") {
       this.props.actions.appointment.addItemIntoAppointment(
