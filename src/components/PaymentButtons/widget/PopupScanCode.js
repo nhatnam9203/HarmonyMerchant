@@ -50,8 +50,8 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
     await showSoftInputOnFocus(true);
     setTimeout(() => {
       textInputRef.current?.focus();
-    }, 150)
-  }
+    }, 150);
+  };
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
@@ -61,8 +61,8 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
   }));
 
   const switchCamera = async () => {
-    await setCameraType(prev => prev === 'back' ? 'front' : 'back');
-  }
+    await setCameraType((prev) => (prev === "back" ? "front" : "back"));
+  };
 
   return (
     <View>
@@ -88,7 +88,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
               //ref={this.scannerRef}
               onRead={onReadCode}
               showMarker={true}
-              flashMode={RNCamera.Constants.FlashMode.off}
+              // flashMode={RNCamera.Constants.FlashMode.off}
               // reactivateTimeout={500}
               reactivateTimeout={500}
               containerStyle={styles.qrStyle}
@@ -101,14 +101,20 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
                 />
               }
             />
-            <TouchableOpacity style={{
-              width: scaleWidth(50),
-              height: scaleHeight(50),
-              backgroundColor: "transparent",
-              justifyContent: "center",
-              alignSelf: "center",
-            }}
-              onPress={switchCamera}><Image source={IMAGE.camera_switcher} style={{ width: scaleWidth(25), height: scaleHeight(25) }} />
+            <TouchableOpacity
+              style={{
+                width: scaleWidth(50),
+                height: scaleHeight(50),
+                backgroundColor: "transparent",
+                justifyContent: "center",
+                alignSelf: "center",
+              }}
+              onPress={switchCamera}
+            >
+              <Image
+                source={IMAGE.camera_switcher}
+                style={{ width: scaleWidth(25), height: scaleHeight(25) }}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.marginVertical} />
@@ -137,10 +143,13 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
                 disable={value?.length <= 0}
                 onPress={onSubmitButtonPress}
               />
-
             </FormInput>
-            <TouchableOpacity style={styles.editButton} onPress={showKeyboardInput}><Image style={styles.icon} source={IMAGE["edit_customer_icon"]} /></TouchableOpacity>
-
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={showKeyboardInput}
+            >
+              <Image style={styles.icon} source={IMAGE["edit_customer_icon"]} />
+            </TouchableOpacity>
           </View>
         </View>
       </DialogLayout>
@@ -174,8 +183,8 @@ const styles = StyleSheet.create({
   camera: {
     width: scaleWidth(400),
     height: scaleHeight(400),
-    backgroundColor: '#000',
-    alignSelf: 'center'
+    backgroundColor: "#000",
+    alignSelf: "center",
   },
 
   qrStyle: {
@@ -205,7 +214,6 @@ const styles = StyleSheet.create({
 
   inputContent: {
     width: "100%",
-
   },
 
   editButton: {
@@ -214,13 +222,14 @@ const styles = StyleSheet.create({
     right: scaleWidth(120),
     // height: scaleHeight(40),
     width: scaleWidth(50),
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
   },
 
   icon: {
-    width: scaleWidth(20), height: scaleHeight(20),
-    tintColor: 'grey'
-  }
+    width: scaleWidth(20),
+    height: scaleHeight(20),
+    tintColor: "grey",
+  },
 });

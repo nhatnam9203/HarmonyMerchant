@@ -306,6 +306,11 @@ class TabAppointment extends Layout {
   componentWillUnmount() {
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
+
+  reloadWebview = () => {
+    this.reloadWebviewFromParent();
+    this.props.actions.app.resetStateReloadWebView();
+  };
 }
 
 const mapStateToProps = (state) => ({

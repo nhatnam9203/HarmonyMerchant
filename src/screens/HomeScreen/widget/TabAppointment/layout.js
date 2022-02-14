@@ -8,7 +8,6 @@ import styles from "./style";
 
 class Layout extends React.Component {
   render() {
-
     const injectedJavascript = `(function() {
             window.postMessage = function(data) {
               window.ReactNativeWebView.postMessage(data);
@@ -29,23 +28,26 @@ class Layout extends React.Component {
           useWebKit={true}
           onError={(syntheticEvent) => {
             const { nativeEvent } = syntheticEvent;
-            console.warn('WebView error: ', nativeEvent);
+            console.log("WebView error: ", nativeEvent);
           }}
           onHttpError={(syntheticEvent) => {
             const { nativeEvent } = syntheticEvent;
-            console.warn(
-              'WebView received error status code: ',
-              nativeEvent.statusCode,
+            console.log(
+              "WebView received error status code: ",
+              nativeEvent.statusCode
             );
           }}
           onLoad={(syntheticEvent) => {
             const { nativeEvent } = syntheticEvent;
             console.log(nativeEvent.url);
           }}
+          onContentProcessDidTerminate={this.reloadWebview}
         />
 
-        <PopupInvoice ref={this.invoiceRef}
-          doPrintClover={(imageUri) => this.doPrintClover(imageUri)} />
+        <PopupInvoice
+          ref={this.invoiceRef}
+          doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
+        />
       </View>
     );
   }
