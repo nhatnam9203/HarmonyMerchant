@@ -572,6 +572,7 @@ class TabCheckout extends Layout {
       customerInfoBuyAppointment,
       appointmentIdBookingFromCalendar,
       isBookingFromCalendar,
+      isOpenBlockAppointmentId,
     } = this.props;
 
     const { isDrawer } = this.state;
@@ -692,6 +693,26 @@ class TabCheckout extends Layout {
       }
     }
 
+    if (isOpenBlockAppointmentId) {
+      const app = blockAppointments?.length > 0 ? blockAppointments[0] : null;
+
+      if (app && blockAppointments && blockAppointments?.length === 1) {
+        if (
+          app.services.length + app.products.length + app.giftCards.length ===
+          0
+        ) {
+          const customerId = customerInfoBuyAppointment.customerId
+            ? customerInfoBuyAppointment.customerId
+            : 0;
+          this.props.actions.appointment.cancleAppointment(
+            isOpenBlockAppointmentId,
+            profile.merchantId,
+            customerId
+          );
+        }
+      }
+    }
+
     // if (temptBlockAppointments && temptBlockAppointments.length > 0) {
     //     for (let i = 0; i < temptBlockAppointments.length; i++) {
     //         this.props.actions.appointment.cancleAppointment(temptBlockAppointments[i].appointmentId, profile.merchantId, 0, true, true);
@@ -699,6 +720,14 @@ class TabCheckout extends Layout {
     // }
 
     this.blockAppointmentRef = [];
+
+    console.log("isOpenBlockAppointmentId " + isOpenBlockAppointmentId);
+    console.log("isBookingFromCalendar " + isBookingFromCalendar);
+    console.log("isCancelAppointment " + isCancelAppointment);
+
+    console.log(
+      "appointmentIdBookingFromCalendar " + appointmentIdBookingFromCalendar
+    );
   };
 
   setStateFromParent = () => {
@@ -2494,8 +2523,6 @@ class TabCheckout extends Layout {
     const appointmentId = isAppointmentIdOpen
       ? isAppointmentIdOpen
       : isOpenBlockAppointmentId;
-
-
 
     if (categoryTypeSelected === "Product") {
       this.props.actions.appointment.addItemIntoAppointment(
