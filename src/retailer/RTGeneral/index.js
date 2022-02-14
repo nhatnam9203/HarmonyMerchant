@@ -240,7 +240,7 @@ class TabGaneral extends Layout {
 
   async componentDidUpdate(prevProps, prevState) {
     const { profile, refreshingGeneral, loading, currentTab } = this.props;
-    console.log(currentTab + " " + SettingGeneralPage.name);
+    // console.log(currentTab + " " + SettingGeneralPage.name);
     if (
       currentTab === SettingGeneralPage.name &&
       prevProps.refreshingGeneral !== refreshingGeneral &&

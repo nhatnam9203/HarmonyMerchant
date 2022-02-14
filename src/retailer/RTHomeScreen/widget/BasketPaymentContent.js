@@ -1,8 +1,10 @@
 import IMAGE from "@resources";
 import { ButtonGradient } from "@shared/components";
+import { WithPopupPermission } from "@shared/HOC/withPopupPermission";
+import { useConfirmAppointment } from "@shared/services/api/retailer";
 import { colors, fonts, layouts } from "@shared/themes";
 import { calcTotalPriceOfProduct } from "@shared/utils";
-import { formatMoneyWithUnit } from "@utils";
+import { formatMoneyWithUnit, menuTabs } from "@utils";
 import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -11,19 +13,21 @@ import {
   FlatList,
   Image,
   StyleSheet,
+  Switch,
   Text,
   TouchableOpacity,
   View,
-  Switch,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useDispatch } from "react-redux";
-import { groupBy } from "lodash";
 
 const log = (obj, message = "") => {
   Logger.log(`[BasketContentView] ${message}`, obj);
 };
+
+const ButtonPermissionDiscount = WithPopupPermission(TouchableOpacity);
+const SwitchPermissionTax = WithPopupPermission(Switch);
 
 export const BasketPaymentContent = React.forwardRef(
   (
@@ -43,6 +47,8 @@ export const BasketPaymentContent = React.forwardRef(
       switchTax,
       isTax,
       onDiscountItemAdd,
+      isDidNotPay,
+      didNotPayComplete,
     },
     ref
   ) => {
@@ -58,6 +64,8 @@ export const BasketPaymentContent = React.forwardRef(
   | API
   |--------------------------------------------------
   */
+    const [, confirmAppointment] = useConfirmAppointment();
+
     const calcTotalPrice = () => {
       return (
         orderItem?.products?.reduce(
@@ -69,21 +77,45 @@ export const BasketPaymentContent = React.forwardRef(
     };
 
     const onHandlePay = () => {
-      if (changeButtonDone && isCancelHarmonyPay) {
-        if (paymentSelected === "HarmonyPay") {
-          cancelHarmonyPayment();
-        } else {
-          finishedHandle();
+      try {
+        if (isDidNotPay) {
+          // console.log(groupAppointment);
+          // TODO: mới làm cho trường hợp 1 appointment
+          if (groupAppointment?.appointments?.length > 0) {
+            const appointment = groupAppointment.appointments[0];
+            const params = {
+              // shippingAmount: 0,
+              billingAddressId: appointment.billingAddressId,
+              shippingAddressId: appointment.shippingAddressId,
+              didNotPay: isDidNotPay,
+            };
+
+            confirmAppointment(params, appointment.appointmentId);
+
+            didNotPayComplete();
+          }
+
+          return;
         }
-      } else if (changeButtonDone && isDonePayment) {
-        finishedHandle();
-      } else if (
-        paymentSelected === "" ||
-        paymentSelected === "Gift Card" ||
-        !isAcceptPay
-      ) {
-      } else {
-        payBasket();
+
+        if (changeButtonDone && isCancelHarmonyPay) {
+          if (paymentSelected === "HarmonyPay") {
+            cancelHarmonyPayment();
+          } else {
+            finishedHandle();
+          }
+        } else if (changeButtonDone && isDonePayment) {
+          finishedHandle();
+        } else if (
+          paymentSelected === "" ||
+          paymentSelected === "Gift Card" ||
+          !isAcceptPay
+        ) {
+        } else {
+          payBasket();
+        }
+      } catch (e) {
+        console.log(e);
       }
     };
 
@@ -192,12 +224,13 @@ export const BasketPaymentContent = React.forwardRef(
         }
       };
 
-      const discounts = _.map(_.get(item, 'discounts'), itemDiscount => {
-        const type = itemDiscount?.type == "Item" ? "Discount Item:" : "Promotion:"
-        const value = _.get(itemDiscount, 'value')
-        return `${type} ${formatMoneyWithUnit(value)}`
-      })
-      
+      const discounts = _.map(_.get(item, "discounts"), (itemDiscount) => {
+        const type =
+          itemDiscount?.type == "Item" ? "Discount Item:" : "Promotion:";
+        const value = _.get(itemDiscount, "value");
+        return `${type} ${formatMoneyWithUnit(value)}`;
+      });
+
       return (
         <TouchableOpacity onPress={onHandleAddDiscount}>
           <View style={styles.productItem} key={item.key + ""}>
@@ -225,22 +258,16 @@ export const BasketPaymentContent = React.forwardRef(
 
               {item?.discount && (
                 <View>
-                  <Text
-                    style={styles.totalInfoText}
-                  >
+                  <Text style={styles.totalInfoText}>
                     {`Discount: ${formatMoneyWithUnit(item?.discount)}`}
                   </Text>
-                  {item?.discounts?.length > 0 &&
-                  <Text
-                    style={styles.descriptionText}
-                  >
-                    {`(${discounts.toString()})`}
-                  </Text>
-                  }
+                  {item?.discounts?.length > 0 && (
+                    <Text style={styles.descriptionText}>
+                      {`(${discounts.toString()})`}
+                    </Text>
+                  )}
                 </View>
-                
               )}
-               
             </View>
             <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
               "items"
@@ -276,12 +303,14 @@ export const BasketPaymentContent = React.forwardRef(
           <View style={styles.totalInfoContent}>
             <View style={styles.taxRow}>
               <Text style={styles.totalInfoText}>{t("Tax")}</Text>
-              <Switch
+              <SwitchPermissionTax
                 style={{ marginLeft: scaleWidth(15) }}
                 trackColor={{ false: "#767577", true: "#0764B0" }}
                 ios_backgroundColor="#E5E5E5"
-                onValueChange={switchTax}
+                // onValueChange={switchTax}
                 value={isTax ? true : false}
+                tabName={menuTabs.CHECKOUT_DISCOUNT}
+                onPermission={switchTax}
               />
             </View>
             <Text style={styles.priceInfoText}>
@@ -294,13 +323,16 @@ export const BasketPaymentContent = React.forwardRef(
             value={formatMoneyWithUnit(groupAppointment?.discount)}
           >
             <View style={layouts.marginHorizontal} />
-            <TouchableOpacity onPress={onDiscountAdd}>
+            <ButtonPermissionDiscount
+              onPermission={onDiscountAdd}
+              tabName={menuTabs.CHECKOUT_DISCOUNT}
+            >
               <Image
                 source={IMAGE.add_discount_checkout}
                 style={styles.iconStyle}
                 resizeMode="contain"
               />
-            </TouchableOpacity>
+            </ButtonPermissionDiscount>
           </TotalInfo>
           <View style={layouts.marginVertical} />
           <TotalInfo
@@ -335,7 +367,7 @@ export const BasketPaymentContent = React.forwardRef(
         </View>
         <View style={layouts.center}>
           <ButtonGradient
-            disable={disable}
+            disable={disable && !isDidNotPay}
             label={buttonTittle ?? t("PAY")}
             width={scaleWidth(400)}
             height={scaleHeight(60)}

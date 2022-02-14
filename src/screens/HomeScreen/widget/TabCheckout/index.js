@@ -900,12 +900,12 @@ class TabCheckout extends Layout {
       connectionSignalR.stop();
     }
 
-    if (paymentMachineType === PaymentTerminalType.Pax 
+    if (paymentMachineType === PaymentTerminalType.Pax
       && !portName) {
       alert("Please connect to your printer!");
     } else {
       if (paymentSelected === "Cash" || paymentSelected === "Other") {
-        if (paymentMachineType === PaymentTerminalType.Clover 
+        if (paymentMachineType === PaymentTerminalType.Clover
           && !portName) {
           this.openCashDrawerClover();
         } else {
@@ -1640,7 +1640,7 @@ class TabCheckout extends Layout {
   }
 
   sendTransToPaxMachine = async () => {
-    console.log("=======> sendTransToPaxMachine");
+    // console.log("=======> sendTransToPaxMachine");
     const { paxMachineInfo, isCancelPayment } = this.props;
 
     this.isGetResponsePaymentPax = false;
@@ -1695,7 +1695,7 @@ class TabCheckout extends Layout {
       ? "<TipRequest>1</TipRequest><Force>T</Force>"
       : "<Force>T</Force>";
 
-    console.log("=======> sendTransaction");
+    // console.log("=======> sendTransaction");
 
     const parameter = {
       tenderType: tenderType,
@@ -1713,7 +1713,7 @@ class TabCheckout extends Layout {
     // Send Trans to pax
     PosLink.sendTransaction(parameter, (message) => {
       this.isGetResponsePaymentPax = true;
-      console.log("=======> sendTransaction " + message);
+      // console.log("=======> sendTransaction " + message);
 
       this.handleResponseCreditCard(
         message,
@@ -1736,7 +1736,8 @@ class TabCheckout extends Layout {
     });
     try {
       parseString(message, (err, result) => {
-        if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
+        const errorCode = l.get(result, "xmp.response.0.ResultCode.0");
+        if (err || errorCode != 0) {
           let detailMessage = l
             .get(result, "xmp.response.0.RespMSG.0", "")
             .replace(/%20/g, " ");
@@ -1754,10 +1755,14 @@ class TabCheckout extends Layout {
               resultTxt
             );
           }
+
+          const errorText = errorCode == "999" || errorCode == "2"
+                          ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
+                          : resultTxt
           setTimeout(() => {
             this.setState({
               visibleErrorMessageFromPax: true,
-              errorMessageFromPax: `${resultTxt}`,
+              errorMessageFromPax: `${errorText}`,
             });
           }, 300);
         } else {
@@ -2917,7 +2922,7 @@ class TabCheckout extends Layout {
   }
 
   componentWillUnmount() {
-    console.log("tab check out componentWillUnmount");
+    // console.log("tab check out componentWillUnmount");
     this.unregisterEvents();
   }
 
@@ -3012,7 +3017,7 @@ class TabCheckout extends Layout {
     clover.changeListenerStatus(true);
     this.subscriptions = [
       this.eventEmitter.addListener("paymentSuccess", (data) => {
-        console.log("paymentSuccess");
+        // console.log("paymentSuccess");
         this.isProcessPaymentClover = false;
         this.handleResponseCreditCardForCloverSuccess(data);
       }),

@@ -110,6 +110,7 @@ export const CodePushProvider = ({ children }) => {
       }
     } catch (err) {
       console.log("==========> CodePush error:" + err);
+      setCodePushStatus(codePush.SyncStatus.UPDATE_IGNORED);
     }
   };
 

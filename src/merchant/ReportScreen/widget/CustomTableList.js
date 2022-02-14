@@ -490,7 +490,7 @@ function TableList({
         styles={{ flex: 1 }}
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => getCellKey(item, primaryId)}
+        keyExtractor={(item, index) => index.toString()}
         // ListHeaderComponent={renderHeader}
         ListFooterComponent={onRenderFooterSpace}
         ItemSeparatorComponent={renderSeparator}

@@ -384,6 +384,12 @@ export const STAFF_PERMISSIONS_ROLES = [
     label: "Staff Log Time",
     isChecked: true,
   },
+  {
+    id: 0,
+    key: menuTabs.CHECKOUT_SETTING_TAX,
+    label: "Change Tax",
+    isChecked: true,
+  },
 ];
 
 export const MERCHANT_TYPES = [

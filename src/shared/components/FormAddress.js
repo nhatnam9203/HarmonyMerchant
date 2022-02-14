@@ -75,7 +75,7 @@ export const FormAddress = React.forwardRef(
 
     React.useImperativeHandle(ref, () => ({
       updateAddress: (address) => {
-        console.log(address);
+        // console.log(address);
 
         if (address) {
           setCity(address?.city);
@@ -85,7 +85,7 @@ export const FormAddress = React.forwardRef(
             return item?.stateId === address.stateId;
           });
           setIndex(defaultIndex);
-          console.log(defaultIndex);
+          // console.log(defaultIndex);
         }
       },
     }));

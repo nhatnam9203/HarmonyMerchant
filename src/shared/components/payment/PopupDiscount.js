@@ -128,7 +128,7 @@ class PopupDiscount extends React.Component {
       }
 
       let totalDiscount = 0;
-     
+
       let manualDiscount = formatNumberFromCurrency(manualDiscount) +
                           formatNumberFromCurrency(customFixedAmount);
 
@@ -151,8 +151,6 @@ class PopupDiscount extends React.Component {
             formatNumberFromCurrency(discount[i].discount);
         }
       }
-
-      
 
       if (
         formatNumberFromCurrency(totalDiscount) +
@@ -253,7 +251,7 @@ class PopupDiscount extends React.Component {
 
       let total = 0;
       let discountItemsTotal = 0;
-     
+
       if (discountItems) {
         for (let i = 0; i < discountItems.length; i++) {
           const itemTemp = discountItems[i];
@@ -488,7 +486,7 @@ class PopupDiscount extends React.Component {
                     >{`${discountByStaff}%`}</Text>
                   </View> */}
 
-                
+
 
                   {/* ----------- Note  ----------- */}
                   <View style={{ marginTop: 20 }}>
@@ -593,7 +591,7 @@ class PopupDiscount extends React.Component {
       visible
     ) {
       this.props.actions.marketing.resetStateGetPromotionOfAppointment();
-
+ 
       const appointmentDetail =
         appointmentIdUpdatePromotion !== -1 &&
         !_.isEmpty(groupAppointment) &&
@@ -756,7 +754,7 @@ class CustomDiscount extends React.Component {
             {localize("ManualDiscountNote", language)}
           </Text>
         </View>
-        
+
         <View style={styles.viewRowContainer}>
           <View style={styles.viewGroupRow}>
             <TouchableHighlight
@@ -806,7 +804,7 @@ class CustomDiscount extends React.Component {
             {/* -------  ----- */}
           </View>
 
-        
+
 
           <View style={{ justifyContent: "center" }}>
             <Text style={{ color: "#4CD964", fontSize: scaleSize(18) }}>

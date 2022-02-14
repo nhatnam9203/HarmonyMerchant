@@ -261,7 +261,7 @@ class PopupInvoice extends React.Component {
       await this.props.onRequestClose(true);
 
       if (Platform.OS === "ios") {
-        console.log(imageUri);
+        // console.log(imageUri);
         setTimeout(() => {
           RNFetchBlob.ios.previewDocument(imageUri);
         }, 500);

@@ -1,34 +1,29 @@
-import React from "react";
-import { StarPRNT } from "react-native-star-prnt";
-
-import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import NavigationServices from "@navigators/NavigatorServices";
-import PrintManager from "@lib/PrintManager";
+import React from "react";
+import Layout from "./layout";
 
 class TabMarketing extends Layout {
   constructor(props) {
     super(props);
     this.state = {
       currentTab: 0,
-      isChangeBackground:false
-    }
+      isChangeBackground: false,
+    };
 
     this.scrollTabRef = React.createRef();
     this.promotionTabRef = React.createRef();
     this.reviewRef = React.createRef();
     this.marketPlace = React.createRef();
     this.photoGalleryRef = React.createRef();
-
   }
 
   handleChangeBackgrounColor = (currentchildPage) => {
     this.setState({
-      isChangeBackground: currentchildPage === 0 ? false : true
-    })
+      isChangeBackground: currentchildPage === 0 ? false : true,
+    });
   };
 
-  addPromotion = async () => { };
+  addPromotion = async () => {};
 
   onChangeTab = (index) => {
     const currentIndex = index.i;
@@ -53,12 +48,11 @@ class TabMarketing extends Layout {
         this.marketPlace.current?.setStateFromParent();
         break;
       default:
-
         break;
     }
     this.setState({
-      currentTab: currentIndex
-    })
+      currentTab: currentIndex,
+    });
   };
 }
 

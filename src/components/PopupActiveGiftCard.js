@@ -1,20 +1,15 @@
+import connectRedux from "@redux/ConnectRedux";
 import React from "react";
 import {
-  View,
-  Image,
-  Text,
-  TextInput,
-  Keyboard,
-  ActivityIndicator,
+  ActivityIndicator, Image, Keyboard, Text,
+  TextInput, TouchableOpacity, View
 } from "react-native";
-
-import ButtonCustom from "./ButtonCustom";
-import PopupParent from "./PopupParent";
-import Button from "./Button";
-import PopupScanCode from "./PopupScanCode";
-import { scaleSize } from "../utils";
-import connectRedux from "@redux/ConnectRedux";
 import IMAGE from "../resources";
+import { scaleSize } from "../utils";
+import Button from "./Button";
+import PopupParent from "./PopupParent";
+import PopupScanCode from "./PopupScanCode";
+
 
 class PopupActiveGiftCard extends React.Component {
   constructor(props) {
@@ -60,7 +55,7 @@ class PopupActiveGiftCard extends React.Component {
   keyboardDidHide = async () => {
     await this.setState({
       customStyle: {},
-      scancode: "",
+      // scancode: "",
     });
   };
 
@@ -203,20 +198,20 @@ class PopupActiveGiftCard extends React.Component {
                 <ActivityIndicator size="large" color="#fff" />
               </View>
             ) : (
-              <ButtonCustom
-                width={"30%"}
-                height={35}
-                backgroundColor="#0764B0"
-                title="Add card"
-                textColor="#fff"
+              <TouchableOpacity
                 onPress={this.submitSerialCode}
-                styleText={{
-                  fontSize: scaleSize(14),
-                }}
                 style={{
+                  width: "30%",
+                  height: 45,
                   borderRadius: scaleSize(4),
+                  backgroundColor: "#0764B0",
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute'
                 }}
-              />
+              >
+                <Text style={{ color: "#fff", fontSize: scaleSize(15), }}>{"Add Card"}</Text>
+              </TouchableOpacity>
             )}
           </View>
         </View>
@@ -226,6 +221,8 @@ class PopupActiveGiftCard extends React.Component {
           resultScanCode={this.resultScanCode}
         />
       </PopupParent>
+
+
     );
   }
 

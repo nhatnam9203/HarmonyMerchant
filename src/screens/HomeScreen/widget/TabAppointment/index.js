@@ -15,6 +15,7 @@ import React from "react";
 import { AppState, NativeModules } from "react-native";
 import Layout from "./layout";
 import _ from "lodash";
+import NavigationServices from "@navigators/NavigatorServices";
 
 const { clover } = NativeModules;
 
@@ -133,107 +134,138 @@ class TabAppointment extends Layout {
           const { action, appointmentId } = data;
           // console.log("onMessageFromWebview: ", JSON.stringify(data));
 
-          if (action === "checkout") {
-            if (!isOfflineMode && isEmpty(groupAppointment)) {
-              this.props.getCategoryStaff(
-                data?.appointment?.staffId || data?.staffId
-              );
-            }
-
-            const arrayProducts = getArrayProductsFromAppointment(
-              data?.appointment?.products || []
-            );
-            const arryaServices = getArrayServicesFromAppointment(
-              data?.appointment?.services || []
-            );
-            const arrayExtras = getArrayExtrasFromAppointment(
-              data?.appointment?.extras || []
-            );
-            const arrayGiftCards = getArrayGiftCardsFromAppointment(
-              data?.appointment?.giftCards || []
-            );
-            const temptBasket = arrayProducts.concat(
-              arryaServices,
-              arrayExtras,
-              arrayGiftCards
-            );
-            // if (temptBasket.length > 0) {
-            //     this.props.checkoutAppointment(appointmentId, data?.appointment || {});
-            //     this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
-            //     this.setState({
-            //         appointmentIdOffline: appointmentId
-            //     })
-            // } else {
-            //     this.props.bookAppointment(appointmentId, data?.staffId ? data?.staffId : (data?.appointment?.staffId || 0));
-            // }
-
-            this.props.checkoutAppointment(
-              appointmentId,
-              data?.appointment || {}
-            );
-            this.props.actions.appointment.checkoutAppointmentOffline(
-              appointmentId
-            );
-            this.setState({
-              appointmentIdOffline: appointmentId,
-            });
-          } else if (action == "signinAppointment") {
-            if (data?.staffId === 0) {
-              this.props.createABlockAppointment(appointmentId, new Date());
-            } else {
-              this.props.bookAppointment(appointmentId, data?.staffId || 0);
-              if (
-                !isOfflineMode &&
-                isEmpty(groupAppointment) &&
-                data?.staffId !== 0
-              ) {
+          switch (action) {
+            case "checkout":
+              if (!isOfflineMode && isEmpty(groupAppointment)) {
                 this.props.getCategoryStaff(
                   data?.appointment?.staffId || data?.staffId
                 );
               }
-            }
-          } else if (action === "addGroupAnyStaff") {
-            this.props.createABlockAppointment(
-              appointmentId,
-              data.dataAnyStaff && data.dataAnyStaff.fromTime
-                ? data.dataAnyStaff.fromTime
-                : new Date()
-            );
-          } else if (
-            action === "push_notification" ||
-            action === "update_notification"
-          ) {
-            // ---------- Handle Push Notification from weview --------------
-            if (this.props?.profileStaffLogin?.token) {
-              this.props.actions.app.getCountUnReadOfNotification();
-            }
-          } else if (action == "addMore") {
-            this.props.addMoreAppointmentFromCalendar(
-              data?.appointmentId,
-              data?.staffId || 0
-            );
-            if (!isOfflineMode && isEmpty(groupAppointment)) {
-              this.props.getCategoryStaff(
-                data?.appointment?.staffId || data?.staffId
-              );
-            }
-          } else if (action == "addMoreAnyStaff") {
-            this.props.addMoreAppointmentFromCalendar(
-              data?.appointmentId,
-              data?.staffId || 0
-            );
-          } else if (action == "printFromCalendar") {
-            const appointment = data?.appointment;
-            const isTemp = appointment?.status !== "paid";
 
-            this.invoiceRef.current?.showAppointmentReceipt({
-              appointmentId: appointment?.id,
-              checkoutId: appointment?.checkoutId,
-              isPrintTempt: isTemp,
-              isSalon: true,
-              machineType: this.props.paymentMachineType,
-              isAppointmentTab: true,
-            });
+              const arrayProducts = getArrayProductsFromAppointment(
+                data?.appointment?.products || []
+              );
+              const arryaServices = getArrayServicesFromAppointment(
+                data?.appointment?.services || []
+              );
+              const arrayExtras = getArrayExtrasFromAppointment(
+                data?.appointment?.extras || []
+              );
+              const arrayGiftCards = getArrayGiftCardsFromAppointment(
+                data?.appointment?.giftCards || []
+              );
+              const temptBasket = arrayProducts.concat(
+                arryaServices,
+                arrayExtras,
+                arrayGiftCards
+              );
+              // if (temptBasket.length > 0) {
+              //     this.props.checkoutAppointment(appointmentId, data?.appointment || {});
+              //     this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
+              //     this.setState({
+              //         appointmentIdOffline: appointmentId
+              //     })
+              // } else {
+              //     this.props.bookAppointment(appointmentId, data?.staffId ? data?.staffId : (data?.appointment?.staffId || 0));
+              // }
+
+              this.props.checkoutAppointment(
+                appointmentId,
+                data?.appointment || {}
+              );
+              this.props.actions.appointment.checkoutAppointmentOffline(
+                appointmentId
+              );
+              this.setState({
+                appointmentIdOffline: appointmentId,
+              });
+              break;
+
+            case "signinAppointment":
+              if (data?.staffId === 0) {
+                this.props.createABlockAppointment(appointmentId, new Date());
+              } else {
+                this.props.bookAppointment(appointmentId, data?.staffId || 0);
+                if (
+                  !isOfflineMode &&
+                  isEmpty(groupAppointment) &&
+                  data?.staffId !== 0
+                ) {
+                  this.props.getCategoryStaff(
+                    data?.appointment?.staffId || data?.staffId
+                  );
+                }
+              }
+              break;
+
+            case "addGroupAnyStaff":
+              this.props.createABlockAppointment(
+                appointmentId,
+                data.dataAnyStaff && data.dataAnyStaff.fromTime
+                  ? data.dataAnyStaff.fromTime
+                  : new Date()
+              );
+              break;
+
+            case "push_notification":
+            case "update_notification":
+              // ---------- Handle Push Notification from weview --------------
+              if (this.props?.profileStaffLogin?.token) {
+                this.props.actions.app.getCountUnReadOfNotification();
+              }
+              break;
+
+            case "addMore":
+              this.props.addMoreAppointmentFromCalendar(
+                data?.appointmentId,
+                data?.staffId || 0
+              );
+              if (!isOfflineMode && isEmpty(groupAppointment)) {
+                this.props.getCategoryStaff(
+                  data?.appointment?.staffId || data?.staffId
+                );
+              }
+              break;
+            case "addMoreAnyStaff":
+              this.props.addMoreAppointmentFromCalendar(
+                data?.appointmentId,
+                data?.staffId || 0
+              );
+              break;
+            case "printFromCalendar":
+              const appointment = data?.appointment;
+              const isTemp = appointment?.status !== "paid";
+
+              this.invoiceRef.current?.showAppointmentReceipt({
+                appointmentId: appointment?.id,
+                checkoutId: appointment?.checkoutId,
+                isPrintTempt: isTemp,
+                isSalon: true,
+                machineType: this.props.paymentMachineType,
+                isAppointmentTab: true,
+              });
+              break;
+
+            case "jumpToCustomerHistory":
+              if (data?.appointment?.checkoutId > 0) {
+                NavigationServices.navigate("Invoice", {
+                  appointmentFromWeb: data?.appointment,
+                  request: "history",
+                });
+              }
+
+              break;
+            case "goToInvoice":
+              if (data?.appointment?.checkoutId > 0) {
+                NavigationServices.navigate("Invoice", {
+                  appointmentFromWeb: data?.appointment,
+                  request: "detail",
+                });
+              }
+              break;
+            default:
+              console.log("Not implement action " + action);
+              break;
           }
         }
       }

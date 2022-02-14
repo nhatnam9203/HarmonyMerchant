@@ -667,7 +667,7 @@ const PromotiomDetail = forwardRef(
 
     const getDefaultMessageContent = React.useCallback(() => {
       if (!useDefaultContent) return;
-      console.log("loop 1");
+      // console.log("loop 1");
       const actionMsg =
         actionTags?.length > 0
           ? ` off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
@@ -738,7 +738,7 @@ const PromotiomDetail = forwardRef(
     ]);
 
     const onHandleFilterCustomer = (ids) => {
-      console.log(ids);
+      // console.log(ids);
       // setCustomerSendSMSQuantity(ids?.length ?? 0);
 
       setCustomerList(

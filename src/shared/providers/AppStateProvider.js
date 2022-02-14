@@ -43,9 +43,10 @@ export const AppStateProvider = ({ children }) => {
 
     await dispatch(actions.dataLocal.updateDeviceId(deviceId));
     await dispatch(actions.dataLocal.updateDeviceName(deviceName));
-    await dispatch(
-      actions.dataLocal.updateVersionApp(latestVersion ?? Configs.VERSION)
-    );
+    await dispatch(actions.dataLocal.updateVersionApp(Configs.VERSION));
+    // await dispatch(
+    //   actions.dataLocal.updateVersionApp(latestVersion ?? Configs.VERSION)
+    // );
 
     await dispatch(appMerchant.setDeviceInfo({ deviceId, deviceName }));
   };
@@ -67,7 +68,7 @@ export const AppStateProvider = ({ children }) => {
   }, []);
 
   React.useEffect(() => {
-    console.log(networkState);
+    // console.log(networkState);
     if (networkState) {
       setNetworkMsg(null);
     } else {

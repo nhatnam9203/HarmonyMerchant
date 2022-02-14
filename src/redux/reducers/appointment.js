@@ -66,8 +66,8 @@ function appointmentReducer(state = initialState, action) {
     case "IS_PROCESS_PAYMENT_CLOVER":
       return {
         ...state,
-        isProcessPaymentClover: action.payload
-      }
+        isProcessPaymentClover: action.payload,
+      };
     case "RESET_GROUP_APPOINTMENT":
       return {
         ...initialState,
@@ -195,7 +195,7 @@ function appointmentReducer(state = initialState, action) {
       return {
         ...state,
         visibleChangeMoney: true,
-        moneyChanged: action.payload,
+        moneyChanged: Math.abs(action.payload ?? 0),
       };
 
     case "UPDATE_PAYMENT_DETAIL_INFO_BY_HARMONY_PAYMENT":

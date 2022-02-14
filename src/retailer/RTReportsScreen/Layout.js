@@ -1,6 +1,6 @@
 import { StatusBarHeader } from "@components";
 import IMAGE from "@resources";
-import { ButtonGradient, PermissionChecker } from "@shared/components";
+import { ButtonGradient, PopupCheckPermission } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
@@ -17,9 +17,8 @@ export const Layout = ({
   onShowBackButton,
   onHandleBack,
   isShowBackButton,
-  navigation,
-  tabPermission,
-  togglePopupPermission,
+  popupCheckPermissionRef,
+  onForceClosePopupPermission
 }) => {
   const { t } = useTranslation();
 
@@ -53,11 +52,16 @@ export const Layout = ({
         <HeaderToolBarTitle label={t("Reports")} />
       </HeaderToolBar>
       <ReportScreen ref={screenReportRef} showBackButton={onShowBackButton} />
-      <PermissionChecker
+      {/* <PermissionChecker
         navigation={navigation}
         tabName={menuTabs.MENU_REPORT}
         tabPermission={tabPermission}
         togglePopupPermission={togglePopupPermission}
+      /> */}
+      <PopupCheckPermission
+        ref={popupCheckPermissionRef}
+        onForceClosePopup={onForceClosePopupPermission}
+        tabName={menuTabs.MENU_REPORT}
       />
     </View>
   );

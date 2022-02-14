@@ -447,7 +447,7 @@ class Layout extends React.Component {
             >
               {isCustomService &&
                 !isBookingFromCalendar &&
-                !isBookingFromAppointmentTab &&
+                // !isBookingFromAppointmentTab &&
                 categoryTypeSelected != "Product" &&
                 blockAppointments.length == 0 &&
                 customService && (
@@ -981,7 +981,12 @@ class Layout extends React.Component {
         </View>
 
         <View style={styles.box_payment_container}>
-          {["HarmonyPay", "Cash"].map((title, index) => (
+          <QRCodePay
+            key="QRCodePay"
+            appointment={groupAppointment}
+            onPaidAppointment={this.onCodePayPaidAppointment}
+          />
+          {["Cash"].map((title, index) => (
             <ItemPaymentMethod
               key={index}
               title={title}
@@ -1000,24 +1005,24 @@ class Layout extends React.Component {
             />
           ))}
         </View>
-        <View style={styles.box_payment_container}>
-          {/* {["Gift Card"].map((title, index) => (
+        {/* <View style={styles.box_payment_container}>
+           {["Gift Card"].map((title, index) => (
             <ItemPaymentMethod
               key={index}
               title={title}
               selectedPayment={this.selectedPayment}
               paymentSelected={this.state.paymentSelected}
             />
-          ))} */}
-          <QRCodePay
-            key="QRCodePay"
-            appointment={groupAppointment}
-            onPaidAppointment={this.onCodePayPaidAppointment}
-          />
-          <View style={{ flex: 1 }} />
-        </View>
+          ))}
+        <QRCodePay
+          key="QRCodePay"
+          appointment={groupAppointment}
+          onPaidAppointment={this.onCodePayPaidAppointment}
+        />
+        <View style={{ flex: 1 }} />
+      </View> * /}
 
-        {/* ------ Footer ----- */}
+        {/* ------ Footer ----- */ }
         <View
           style={{
             flex: 1,
@@ -1036,7 +1041,7 @@ class Layout extends React.Component {
             styleText={styles.txt_btn_basket}
           />
         </View>
-      </View>
+      </View >
     );
   }
 
@@ -1550,6 +1555,7 @@ class Layout extends React.Component {
           onRequestClose={() =>
             this.setState({ visiblePopupAddItemIntoBasket: false })
           }
+          selectedStaff={this.state.selectedStaff}
         />
 
         <PopupGiftCardDetail

@@ -7,7 +7,7 @@ import {
   PopupSendLinkInstall
 } from "@components";
 import IMAGE from "@resources";
-import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+import { ButtonGradient, ButtonGradientWhite, CustomCheckBox } from "@shared/components";
 import {
   ErrorMessagePaxModal,
   PopupBill,
@@ -112,6 +112,10 @@ export const Layout = ({
   shareTemptInvoice,
   invoiceRef,
   visiblePopupGiftCard,
+  onDidNotPayCheck,
+  isDidNotPay,
+  getPurchasePoint,
+  didNotPayComplete
 }) => {
   const [t] = useTranslation();
 
@@ -190,14 +194,23 @@ export const Layout = ({
         <View style={styles.container}>
           <View style={styles.listContent}>
             <View style={styles.basketHeader}>
+
               <Text style={styles.basketTitle}>
                 {t("Select payment method")}
               </Text>
-              <View style={layouts.fill} />
+
+              {getPurchasePoint() === "CallOrder" && <CustomCheckBox
+                label={t("Did not pay")}
+                onValueChange={onDidNotPayCheck}
+                selectedColor={colors.OCEAN_BLUE}
+                onCheckColor="#fff"
+                textStyle={styles.textStyle}
+                style={styles.customCheckbox}
+              />}
             </View>
             <View style={layouts.marginVertical} />
-            <View style={layouts.fill}>
-              <View style={styles.rowContent}>
+            <View style={[layouts.fill, isDidNotPay && styles.disableStyle]} pointerEvents={isDidNotPay ? "none" : "auto"}>
+              {/* <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"HarmonyPay"}
                   title={"HarmonyPay"}
@@ -211,8 +224,16 @@ export const Layout = ({
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
-              </View>
+              </View> */}
               <View style={styles.rowContent}>
+
+                <ButtonPaymentMethod
+                  key={"Cash"}
+                  title={"Cash"}
+                  selectedPayment={selectedPayment}
+                  paymentSelected={paymentSelected}
+                />
+
                 <ButtonPaymentMethod
                   key={"Credit Card"}
                   title={"Credit Card"}
@@ -220,17 +241,19 @@ export const Layout = ({
                   paymentSelected={paymentSelected}
                 />
 
-                <ButtonPaymentMethod
-                  key={"Other"}
-                  title={"Other"}
-                  selectedPayment={selectedPayment}
-                  paymentSelected={paymentSelected}
-                />
+
               </View>
               <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"Gift Card"}
                   title={"Gift Card"}
+                  selectedPayment={selectedPayment}
+                  paymentSelected={paymentSelected}
+                />
+
+                <ButtonPaymentMethod
+                  key={"Other"}
+                  title={"Other"}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
@@ -269,6 +292,8 @@ export const Layout = ({
                 switchTax={switchTax}
                 isTax={isTax}
                 onDiscountItemAdd={onDiscountItemAdd}
+                isDidNotPay={isDidNotPay}
+                didNotPayComplete={didNotPayComplete}
               />
             </View>
           </View>
@@ -487,7 +512,7 @@ const styles = StyleSheet.create({
     height: scaleHeight(48),
     backgroundColor: colors.VERY_LIGHT_PINK_1,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: scaleWidth(16),
 
@@ -537,4 +562,20 @@ const styles = StyleSheet.create({
     height: scaleHeight(20),
     marginRight: scaleWidth(5),
   },
+
+  textStyle: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(20),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.OCEAN_BLUE,
+    // textDecorationLine: "underline",
+  },
+  customCheckbox: { height: scaleHeight(40), },
+
+  disableStyle: {
+    opacity: 0.7
+  }
 });

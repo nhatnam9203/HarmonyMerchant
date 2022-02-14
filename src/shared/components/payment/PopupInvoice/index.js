@@ -42,6 +42,7 @@ import { TotalView } from "./TotalView";
 import { layouts } from "@shared/themes";
 import _ from "lodash";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
+import { getTaxRateFromGroupAppointment } from "@utils"
 
 export const PopupInvoice = React.forwardRef(
   ({ cancelInvoicePrint, doPrintClover }, ref) => {
@@ -205,31 +206,7 @@ export const PopupInvoice = React.forwardRef(
     };
 
     const getTaxRate = () => {
-      // taxRate
-      let taxRate = 0;
-      if (groupAppointment) {
-        const { appointments = [] } = groupAppointment;
-        appointments?.forEach(x => {
-
-          const { products, services } = x;
-          if (products?.length > 0) {
-            const productItem = products[0];
-            taxRate = formatNumberFromCurrency(productItem?.taxRate);
-            if (taxRate > 0)
-              return taxRate;
-          }
-
-
-          if (services?.length > 0) {
-            const serviceItem = services[0];
-            taxRate = formatNumberFromCurrency(serviceItem?.taxRate);
-            if (taxRate > 0)
-              return taxRate;
-          }
-        })
-      }
-
-      return taxRate;
+      return getTaxRateFromGroupAppointment(groupAppointment);
     }
 
 
@@ -613,7 +590,7 @@ export const PopupInvoice = React.forwardRef(
 
           : ``}
       ${profile?.receiptFooter
-          ? `<t>${profile?.receiptFooter}</t>`
+          ? `<t>${getCenterStringArrayXml(profile?.receiptFooter)}</t>`
           : `<t><c>Thank you!</c></t>
           <t><c>Please come again</c></t>`}
       ${!!getPromotionNotes(groupAppointment?.appointments)
@@ -946,7 +923,7 @@ export const PopupInvoice = React.forwardRef(
                     styleTextValue={layouts.fontPrintStyle}
                   />
                   <TotalView
-                    title={`Tax ${getTaxRate() > 0 && "(" + getTaxRate() + "%)"}`}
+                    title={`Tax ${getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : ""}`}
                     value={getTax()}
                     styleTextTitle={layouts.fontPrintSubTitleStyle}
                     styleTextValue={layouts.fontPrintStyle}

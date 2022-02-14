@@ -76,6 +76,7 @@ export const HomeTopTabNavigator = ({
           component={TabMarketing}
           listeners={{
             tabPress: (e) => {
+              // console.log("isPayment " + isPayment);
               if (isPayment) {
                 showPopupConfirm(() => {
                   navigation.navigate("Marketing");
@@ -92,6 +93,8 @@ export const HomeTopTabNavigator = ({
           {...OrderTabPage}
           listeners={{
             tabPress: (e) => {
+              // console.log("isPayment " + isPayment);
+
               if (isPayment) {
                 showPopupConfirm(() => {
                   navigation.navigate(OrderTabPage.name, { reload: true });
@@ -107,6 +110,8 @@ export const HomeTopTabNavigator = ({
           {...CheckOutTabPage}
           listeners={{
             tabPress: (e) => {
+              // console.log("isPayment " + isPayment);
+
               e.preventDefault();
               if (isPayment) {
                 showPopupConfirm(() => {
@@ -115,7 +120,7 @@ export const HomeTopTabNavigator = ({
 
                 // Prevent default action
               } else {
-                console.log(CheckOutTabPage.name);
+                // console.log(CheckOutTabPage.name);
                 NavigationServices.navigate(CheckOutTabPage.name, {
                   reload: true,
                 });

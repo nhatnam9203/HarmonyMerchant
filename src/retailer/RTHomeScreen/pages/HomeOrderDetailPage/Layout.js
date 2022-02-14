@@ -54,8 +54,11 @@ export const Layout = ({
   printReturnInvoice,
   returnReceiptRef,
   doPrintClover,
+  getTaxRate
 }) => {
   const [t] = useTranslation();
+
+
 
   const renderButton = () => {
     switch (item?.status) {
@@ -402,7 +405,7 @@ export const Layout = ({
     }
   };
 
-  console.log(item);
+  // console.log(item);
 
   return (
     <View style={layouts.fill}>
@@ -755,7 +758,7 @@ export const Layout = ({
                   infoValue={formatMoneyWithUnit(item?.shippingFee)}
                 />
                 <InfoLine
-                  label={t("Tax")}
+                  label={`Tax ${getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : ""}`}
                   infoValue={formatMoneyWithUnit(item?.tax)}
                 />
                 <InfoLine

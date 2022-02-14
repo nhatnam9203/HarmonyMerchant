@@ -25,6 +25,7 @@ import {
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
+import { getTaxRateFromAppointment } from "@utils";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
@@ -415,7 +416,18 @@ export const useProps = ({
       confirmAppointment(params, appointmentDetail?.appointmentId);
     },
     complete: () => {
-      completeAppointment(appointmentDetail?.appointmentId);
+      if (!appointmentDetail) return;
+      const { appointmentId, purchasePoint, status } = appointmentDetail || {};
+      if (purchasePoint === "CallOrder" && status === "Did Not Pay") {
+        // XU => sai text trả về là sai
+        NavigationServices.navigate("retailer.home.order.pay", {
+          orderItem: appointmentDetail,
+          screenId: screenId ?? "retailer.home.order.list",
+          backScreenId: backScreenId ?? "retailer.home.order.check_out",
+        });
+      } else {
+        completeAppointment(appointmentId);
+      }
     },
     refund: () => {
       NavigationServices.navigate("retailer.home.order.return", {
@@ -519,6 +531,9 @@ export const useProps = ({
           : "",
       };
       clover.doPrintWithConnect(printInfo);
+    },
+    getTaxRate: () => {
+      return getTaxRateFromAppointment(appointmentDetail);
     },
   };
 };

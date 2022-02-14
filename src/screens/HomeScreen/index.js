@@ -385,7 +385,7 @@ class HomeScreen extends Layout {
 
   bookAppointment = async (appointmentId, staffId = 0) => {
     // this.props.actions.appointment.getAppointmentById(appointmentId);
-    console.log("====> bookAppointmentFromCalendar");
+    // console.log("====> bookAppointmentFromCalendar");
 
     this.props.actions.appointment.getGroupAppointmentById(
       appointmentId,
@@ -410,7 +410,7 @@ class HomeScreen extends Layout {
   };
 
   addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
-    console.log("===> addMoreAppointmentFromCalendar");
+    // console.log("===> addMoreAppointmentFromCalendar");
 
     if (staffId && staffId !== 0 && staffId !== -1) {
       this.props.actions.appointment.getGroupAppointmentById(
@@ -452,7 +452,7 @@ class HomeScreen extends Layout {
    * @param {*} fromTime
    */
   createABlockAppointment = (appointmentId, fromTime) => {
-    console.log("createABlockAppointment");
+    // console.log("createABlockAppointment");
 
     this.props.actions.appointment.updateFromTimeBlockAppointment(
       fromTime ? fromTime : new Date()

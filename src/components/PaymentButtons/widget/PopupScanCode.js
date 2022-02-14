@@ -3,7 +3,7 @@ import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { RNCamera } from "react-native-camera";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import IMAGE from "@resources";
@@ -14,9 +14,13 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
   const textInputRef = React.useRef(null);
 
   const [value, setValue] = React.useState("");
+  const [softInputOnFocus, showSoftInputOnFocus] = React.useState(false);
+  const [cameraType, setCameraType] = React.useState("back");
 
   const hidePopup = () => {
     setValue("");
+    showSoftInputOnFocus(false);
+
     textInputRef.current?.clear();
     dialogRef.current?.hide();
   };
@@ -42,12 +46,23 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
     hidePopup();
   };
 
+  const showKeyboardInput = async () => {
+    await showSoftInputOnFocus(true);
+    setTimeout(() => {
+      textInputRef.current?.focus();
+    }, 150)
+  }
+
   React.useImperativeHandle(ref, () => ({
     show: () => {
       dialogRef.current?.show();
     },
     hide: hidePopup,
   }));
+
+  const switchCamera = async () => {
+    await setCameraType(prev => prev === 'back' ? 'front' : 'back');
+  }
 
   return (
     <View>
@@ -75,10 +90,10 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
               showMarker={true}
               flashMode={RNCamera.Constants.FlashMode.off}
               // reactivateTimeout={500}
-              reactivateTimeout={1000}
+              reactivateTimeout={500}
               containerStyle={styles.qrStyle}
               cameraStyle={styles.qrStyle}
-              cameraType="back"
+              cameraType={cameraType}
               customMarker={
                 <Image
                   style={styles.markerStyle}
@@ -86,6 +101,15 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
                 />
               }
             />
+            <TouchableOpacity style={{
+              width: scaleWidth(50),
+              height: scaleHeight(50),
+              backgroundColor: "transparent",
+              justifyContent: "center",
+              alignSelf: "center",
+            }}
+              onPress={switchCamera}><Image source={IMAGE.camera_switcher} style={{ width: scaleWidth(25), height: scaleHeight(25) }} />
+            </TouchableOpacity>
           </View>
           <View style={styles.marginVertical} />
           <Text style={styles.textCamera}>
@@ -101,9 +125,10 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
               // editable={false}
               textInputRef={textInputRef}
               autoFocus={true}
-              showSoftInputOnFocus={false}
+              showSoftInputOnFocus={softInputOnFocus}
+              autoCorrect={false}
             >
-              {/* <View style={layouts.marginHorizontal} /> */}
+              <View style={{ width: 3 }} />
               <ButtonGradient
                 label={t("Submit")}
                 width={scaleWidth(120)}
@@ -112,7 +137,10 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
                 disable={value?.length <= 0}
                 onPress={onSubmitButtonPress}
               />
+
             </FormInput>
+            <TouchableOpacity style={styles.editButton} onPress={showKeyboardInput}><Image style={styles.icon} source={IMAGE["edit_customer_icon"]} /></TouchableOpacity>
+
           </View>
         </View>
       </DialogLayout>
@@ -177,5 +205,22 @@ const styles = StyleSheet.create({
 
   inputContent: {
     width: "100%",
+
   },
+
+  editButton: {
+    top: 0,
+    bottom: 0,
+    right: scaleWidth(120),
+    // height: scaleHeight(40),
+    width: scaleWidth(50),
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+  },
+
+  icon: {
+    width: scaleWidth(20), height: scaleHeight(20),
+    tintColor: 'grey'
+  }
 });

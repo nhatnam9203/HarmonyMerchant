@@ -47,7 +47,7 @@ export const RetailerNavigator = ({ navigation }) => {
   }
 
   const handleLockScreen = () => {
-    console.log("isFocused " + isFocused);
+    // console.log("isFocused " + isFocused);
     if (isFocused) {
       NavigationServices.navigate("home.order.top_tab");
       popupPinCodeRef.current?.show();

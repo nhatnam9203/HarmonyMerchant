@@ -116,8 +116,8 @@ class PopupEnterAmountGiftCard extends React.Component {
       // this.props.actions.appointment.handleEnterGiftCardAmount(formatNumberFromCurrency(money));
       const { onAddGiftCardToAppointment, addGiftCardInfoAction } = this.props;
 
-      console.log("addGiftCardAmount1 " + onAddGiftCardToAppointment);
-      console.log("addGiftCardAmount2 " + addGiftCardInfoAction);
+      // console.log("addGiftCardAmount1 " + onAddGiftCardToAppointment);
+      // console.log("addGiftCardAmount2 " + addGiftCardInfoAction);
 
       if (
         onAddGiftCardToAppointment &&
