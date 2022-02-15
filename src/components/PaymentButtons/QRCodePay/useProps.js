@@ -64,7 +64,8 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
           amount: data.amount,
           name: data.userName,
           userCardId: data.userCardId,
-          star: 1000,
+          star: data?.star ? parseInt(data?.star) : 0,
+          rewardStarRate: data?.rewardStarRate ?? 100,
         });
 
         setCardType(CardType.CUSTOMER_CARD);
@@ -82,7 +83,12 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   const getSubmitFunction = () => {
     // TODO: scanCode null thì phải làm sao ?
     if (cardType === CardType.CUSTOMER_CARD)
-      return submitConsumerPayment(checkOutSubmitId, scanCode);
+      return submitConsumerPayment(checkOutSubmitId, scanCode, {
+        amount: paymentInfo?.amount,
+        rewardStar: paymentInfo?.rewardStar,
+        userCardId: 0,
+        merchantId: 0,
+      });
     return checkoutSubmit(checkOutSubmitId);
   };
 
@@ -113,7 +119,11 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   });
 
   const [, selectPayment] = useAxiosMutation({
-    ...selectPaymentMethod(paymentInfo?.checkoutGroupId, paymentInfo),
+    ...selectPaymentMethod(paymentInfo?.checkoutGroupId, {
+      ...paymentInfo,
+      amount: paymentInfo?.totalAmount,
+      rewardStar: paymentInfo?.rewardStar,
+    }),
     onSuccess: (data, response) => {
       if (response?.codeNumber === 400) {
         alert(response?.message);

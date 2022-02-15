@@ -20,20 +20,20 @@ export const QRCodePay = ({ appointment, onPaidAppointment }) => {
   const onResultScanCode = (data) => {
     setCode(data);
     // show loading
-
   };
 
   const onPopupCardDetailCancel = () => {
     setCode(null);
   };
 
-  const onPayAppointment = (amount) => {
+  const onPayAppointment = (payModel) => {
     if (appointment?.checkoutGroupId) {
       setPaymentInfo({
         checkoutGroupId: appointment?.checkoutGroupId,
-        amount: amount,
+        // amount: amount,
         method: getPaymentString(cardDetail?.cardType),
         giftCardId: cardDetail?.giftCardId ?? 0,
+        ...payModel,
       });
     }
   };
@@ -46,9 +46,9 @@ export const QRCodePay = ({ appointment, onPaidAppointment }) => {
     }
   }, [cardDetail]);
 
-  React.useEffect(() => {
-    // console.log(appointment);
-  }, [appointment]);
+  // React.useEffect(() => {
+  //   // console.log(appointment);
+  // }, [appointment]);
 
   return (
     <>

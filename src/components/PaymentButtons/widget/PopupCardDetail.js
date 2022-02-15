@@ -3,6 +3,7 @@ import {
   FormInputMask,
   ButtonGradientWhite,
   FormInput,
+  CustomTextInput,
 } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
@@ -29,17 +30,20 @@ export const PopupCardDetail = React.forwardRef(
     const [dueAmount, setDueAmount] = React.useState(0);
     const [starNumberUse, setStarNumberUse] = React.useState(0);
     const [isCheck, setIsCheck] = React.useState(false);
-    const [convertMoney, setConvertMoney] = React.useState(0);
+    const [payStarAmount, setPayStarAmount] = React.useState(0);
 
     const hidePopup = () => {
       setPayAmount(0);
+      setPayStarAmount(0);
+      setStarNumberUse(0);
+      setIsCheck(false);
       textInputRef.current?.clear();
       textInputStarRef.current?.clear();
       dialogRef.current?.hide();
     };
 
     const onSubmitButtonPress = () => {
-      if (payAmount <= 0) {
+      if (payAmount < 0) {
         alert(t("Amount must greater than 0!"));
         return;
       }
@@ -51,7 +55,13 @@ export const PopupCardDetail = React.forwardRef(
       }
 
       if (onSubmit && typeof onSubmit === "function") {
-        onSubmit(formatNumberFromCurrency(payAmount));
+        onSubmit({
+          amount: formatNumberFromCurrency(payAmount),
+          rewardStar: starNumberUse,
+          totalAmount:
+            formatNumberFromCurrency(payAmount) +
+            formatNumberFromCurrency(payStarAmount),
+        });
       }
       hidePopup();
     };
@@ -77,42 +87,62 @@ export const PopupCardDetail = React.forwardRef(
       }
       let dueValue = formatNumberFromCurrency(dueAmount) - paidValue;
 
+      if (dueValue > 0 && payStarAmount > 0) {
+        dueValue = dueValue - payStarAmount;
+      }
+
       setPayAmount(paidValue);
       setDueAmount(dueValue);
     };
 
-    const onChangeStarNumberUse = (starUse) => {
+    const onChangeStarNumberUse = async (starUse = 0) => {
       //if(starUse > cardDetail?.star
       //   || starUse*100 > paymentDetailInfo?.dueAmount) return
 
       const { grandTotal = 0, dueAmount = 0 } = paymentDetailInfo || {};
 
-      if (starUse) {
-        let tempStar = starUse;
-        if (tempStar > cardDetail?.star) {
-          tempStar = cardDetail?.star;
-        } else if (tempStar < 0) {
-          tempStar = 0;
-        }
-
-        setStarNumberUse(tempStar);
-        const convertMoney = tempStar / 100;
-        setConvertMoney(convertMoney);
+      let tempStar = parseInt(starUse);
+      if (isNaN(tempStar)) {
+        tempStar = 0;
       }
 
-      let paidValue = formatNumberFromCurrency(paymentDetailInfo?.dueAmount);
-      const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
-
-      if (paidValue > cardAmount) {
-        paidValue = cardAmount;
+      let maxStart = cardDetail?.star ? parseInt(cardDetail?.star) : 0;
+      if (isNaN(maxStart)) {
+        maxStart = 0;
       }
-      paidValue = paidValue - convertMoney;
 
-      setPayAmount(paidValue);
+      if (tempStar > maxStart) {
+        tempStar = maxStart;
+      } else if (tempStar <= 0) {
+        tempStar = 0;
+      }
 
-      let dueValue =
-        formatNumberFromCurrency(dueAmount) - paidValue - convertMoney;
-      setDueAmount(dueValue);
+      await setStarNumberUse(tempStar);
+      const tempAmount = parseFloat(
+        tempStar / cardDetail.rewardStarRate
+      ).toFixed(2);
+      await setPayStarAmount(tempAmount);
+
+      // nếu chưa trả full tiền sẽ trừ star
+      if (dueAmount > 0) {
+        let dueValue =
+          formatNumberFromCurrency(dueAmount) - payAmount - tempAmount;
+        setDueAmount(Math.max(dueValue, 0));
+      }
+
+      // let paidValue = formatNumberFromCurrency(paymentDetailInfo?.dueAmount);
+      // const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
+
+      // if (paidValue > cardAmount) {
+      //   paidValue = cardAmount;
+      // }
+      // paidValue = paidValue - payStarAmount;
+
+      // await setPayAmount(paidValue);
+
+      // let dueValue =
+      //   formatNumberFromCurrency(dueAmount) - paidValue - payStarAmount;
+      // await setDueAmount(dueValue);
     };
 
     // React.useEffect(() => {
@@ -123,6 +153,19 @@ export const PopupCardDetail = React.forwardRef(
     //     setDueAmount(0);
     //   }
     // }, [appointment]);
+
+    React.useEffect(() => {
+      if (!isCheck) {
+        if (payStarAmount > 0) {
+          const { dueAmount = 0 } = paymentDetailInfo || {};
+
+          let dueValue = formatNumberFromCurrency(dueAmount) - payAmount;
+          setDueAmount(dueValue);
+        }
+        setPayStarAmount(0);
+        setStarNumberUse(0);
+      }
+    }, [isCheck]);
 
     React.useImperativeHandle(ref, () => ({
       show: () => {
@@ -179,47 +222,11 @@ export const PopupCardDetail = React.forwardRef(
             <Title text={t("Payment details")} />
             <View style={styles.margin} />
 
-            {cardDetail?.cardType === CardType.CUSTOMER_CARD &&
-              cardDetail?.star > 0 && (
-                <Row>
-                  <View style={styles.viewRow}>
-                    <TouchableOpacity
-                      style={{ marginRight: scaleWidth(10) }}
-                      onPress={() => setIsCheck(!isCheck)}
-                    >
-                      <Image
-                        source={isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty}
-                        style={styles.starIcon}
-                      />
-                    </TouchableOpacity>
-                    <Label text={t("Use HP star")} />
-                  </View>
-
-                  <View style={styles.payAmount}>
-                    <FormInput
-                      onChangeValue={onChangeStarNumberUse}
-                      defaultValue={starNumberUse}
-                      textInputRef={textInputStarRef}
-                      autoFocus={true}
-                      showSoftInputOnFocus={false}
-                      keyboardType="numeric"
-                      textAlign="right"
-                    />
-                  </View>
-                </Row>
-              )}
-
-            {isCheck && (
-              <Row>
-                <Label text={t("Conversation value")} />
-                <TextValue text={`-${formatMoneyWithUnit(convertMoney)}`} />
-              </Row>
-            )}
-
             <Row>
               <Label text={t("Charge amount")} />
               <TextValue text={`${formatMoneyWithUnit(appointment?.total)}`} />
             </Row>
+
             <Row>
               <Label text={t("Pay amount")} />
               <View style={styles.payAmount}>
@@ -238,6 +245,57 @@ export const PopupCardDetail = React.forwardRef(
                 />
               </View>
             </Row>
+
+            {cardDetail?.cardType === CardType.CUSTOMER_CARD &&
+              cardDetail?.star > 0 && (
+                <Row>
+                  <View style={styles.viewRow}>
+                    <TouchableOpacity
+                      style={{ marginRight: scaleWidth(10) }}
+                      onPress={() => setIsCheck(!isCheck)}
+                    >
+                      <Image
+                        source={isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty}
+                        style={styles.starIcon}
+                      />
+                    </TouchableOpacity>
+                    <Label text={t("Use HP star")} />
+                  </View>
+
+                  <View style={styles.payAmount}>
+                    {/* <FormInput
+                      onChangeValue={onChangeStarNumberUse}
+                      defaultValue={starNumberUse}
+                      textInputRef={textInputStarRef}
+                      autoFocus={true}
+                      showSoftInputOnFocus={false}
+                      keyboardType="numeric"
+                      textAlign="right"
+                      editable={isCheck}
+                    /> */}
+                    <CustomTextInput
+                      width={scaleWidth(180)}
+                      height={scaleHeight(42)}
+                      autoFocus={true}
+                      showSoftInputOnFocus={false}
+                      selectTextOnFocus={true}
+                      keyboardType="numeric"
+                      textAlign="right"
+                      editable={isCheck}
+                      onChangeText={onChangeStarNumberUse}
+                      value={`${starNumberUse}`}
+                    />
+                  </View>
+                </Row>
+              )}
+
+            {isCheck && (
+              <Row>
+                <Label text={t("Conversation value")} />
+                <TextValue text={`-${formatMoneyWithUnit(payStarAmount)}`} />
+              </Row>
+            )}
+
             <Row>
               <Label text={t("Due amount")} textColor={"red"} />
               <TextValue

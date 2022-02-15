@@ -299,5 +299,6 @@ export default {
 
   custom_service_thumb: require("../assets/images/custom_service.png"),
   remove_pin_code: require("../assets/images/ic_remove_pin_code.png"),
-
+  Advance: require("../assets/images/AdvanceActive.png"),
+  Advance_in: require("../assets/images/AdvanceInactive.png"),
 };
