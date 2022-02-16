@@ -137,13 +137,13 @@ class PopupDiscount extends React.Component {
         (formatNumberFromCurrency(customDiscountPercent) *
           (formatNumberFromCurrency(subTotal) - productItemDiscount)) /
         100;
-        manualDiscount =
+      manualDiscount =
         formatNumberFromCurrency(manualDiscount) +
         formatNumberFromCurrency(moneyDiscountCustom);
 
       //just apply discount for manual or promotion, not both
-      if(manualDiscount > 0) {
-        totalDiscount = manualDiscount
+      if (manualDiscount > 0) {
+        totalDiscount = manualDiscount;
       } else {
         for (let i = 0; i < discount.length; i++) {
           totalDiscount =
@@ -172,7 +172,7 @@ class PopupDiscount extends React.Component {
           appointmentIdUpdatePromotion,
           true,
           false,
-          true,
+          true
         );
         this.props.actions.marketing.addPromotionNote(
           appointmentDetail.appointmentId,
@@ -279,7 +279,11 @@ class PopupDiscount extends React.Component {
         }
       }
 
-      if (visible && this.customDiscountRef.current && this.customDiscountRef.current?.state.discount > 0) {
+      if (
+        visible &&
+        this.customDiscountRef.current &&
+        this.customDiscountRef.current?.state.discount > 0
+      ) {
         total =
           formatNumberFromCurrency(total) +
           formatNumberFromCurrency(
@@ -409,9 +413,11 @@ class PopupDiscount extends React.Component {
                     ref={this.customDiscountRef}
                     customDiscountPercent={temptCustomDiscountPercent}
                     customDiscountFixed={temptCustomDiscountFixed}
-                    total={formatNumberFromCurrency(
+                    total={
+                      formatNumberFromCurrency(
                         appointmentDetail?.subTotal - discountItemsTotal
-                    ) || 0}
+                      ) || 0
+                    }
                     onChangeText={(
                       moneyDiscountByPercent,
                       moneyDiscountFixed
@@ -722,8 +728,8 @@ class CustomDiscount extends React.Component {
     await this.setState({
       manualTypeSelect: manualType.percentType,
     });
-    this.onChangeText(value.toFixed(2))
-  }
+    this.onChangeText(value.toFixed(2));
+  };
 
   render() {
     const { language } = this.props;
@@ -744,9 +750,10 @@ class CustomDiscount extends React.Component {
       this.state.manualTypeSelect == manualType.fixAmountType
         ? styles.backgroundButtonSelected
         : styles.backgroundButtonUnSelected;
+
     return (
       <View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text style={styles.textNormal}>
             {localize("Manual Discount", language)}
           </Text>
@@ -813,48 +820,47 @@ class CustomDiscount extends React.Component {
           </View>
         </View>
         <View
-            style={{
-              flexDirection: "row",
-              marginTop: scaleSize(20),
-              width: "100%",
-              justifyContent: "space-evenly",
-            }}
-          >
-            {DiscountOptions?.map((discountItem) => {
-              const onChangeDiscountValue = () => {
-                this.handlePercentDiscount(discountItem.value);
-              };
+          style={{
+            flexDirection: "row",
+            marginTop: scaleSize(20),
+            width: "100%",
+            justifyContent: "space-evenly",
+          }}
+        >
+          {DiscountOptions?.map((discountItem) => {
+            const onChangeDiscountValue = () => {
+              this.handlePercentDiscount(discountItem.value);
+            };
 
-              const selected =
-                discountItem.value === this.state.discountByOwner;
-              return (
-                <TouchableOpacity
-                  key={discountItem.id + ""}
+            const selected = discountItem.value === this.state.discountByOwner;
+            return (
+              <TouchableOpacity
+                key={discountItem.id + ""}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: scaleWidth(60),
+                  height: scaleHeight(40),
+                  borderWidth: 1,
+                  borderColor: selected ? "#fff" : "#0764B0",
+                  backgroundColor: selected ? "#0764B0" : "#fff",
+                  borderRadius: scaleSize(3),
+                }}
+                onPress={onChangeDiscountValue}
+              >
+                <Text
                   style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: scaleWidth(60),
-                    height: scaleHeight(40),
-                    borderWidth: 1,
-                    borderColor: selected ? "#fff" : "#0764B0",
-                    backgroundColor: selected ? "#0764B0" : "#fff",
-                    borderRadius: scaleSize(3),
+                    color: selected ? "#fff" : "#0764B0",
+                    fontSize: scaleSize(15),
+                    fontWeight: "400",
                   }}
-                  onPress={onChangeDiscountValue}
                 >
-                  <Text
-                    style={{
-                      color: selected ? "#fff" : "#0764B0",
-                      fontSize: scaleSize(15),
-                      fontWeight: "400",
-                    }}
-                  >
-                    {discountItem.label}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+                  {discountItem.label}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       </View>
     );
   }
@@ -871,8 +877,8 @@ const styles = StyleSheet.create({
     color: colors.BROWNISH_GREY,
     fontSize: scaleSize(16),
   },
-  discountNote:{
-    color: 'red',
+  discountNote: {
+    color: "red",
     fontSize: scaleSize(13),
     marginLeft: scaleSize(5),
   },

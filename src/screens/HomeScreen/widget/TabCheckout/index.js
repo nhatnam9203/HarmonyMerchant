@@ -572,6 +572,7 @@ class TabCheckout extends Layout {
       customerInfoBuyAppointment,
       appointmentIdBookingFromCalendar,
       isBookingFromCalendar,
+      isOpenBlockAppointmentId,
     } = this.props;
 
     const { isDrawer } = this.state;
@@ -596,7 +597,10 @@ class TabCheckout extends Layout {
     this.props.actions.appointment.resetGroupAppointment();
 
     if (isCancelAppointment) {
-      const app = groupAppointment?.appointments[0];
+      const app =
+        groupAppointment?.appointments?.length > 0
+          ? groupAppointment.appointments[0]
+          : null;
       if (
         app &&
         groupAppointment?.appointments &&
@@ -606,7 +610,7 @@ class TabCheckout extends Layout {
           app.services.length + app.products.length + app.giftCards.length ===
           0
         ) {
-          const mainAppointmentId = groupAppointment.mainAppointmentId
+          const mainAppointmentId = groupAppointment?.mainAppointmentId
             ? groupAppointment.mainAppointmentId
             : 0;
           const customerId = customerInfoBuyAppointment.customerId
@@ -621,8 +625,15 @@ class TabCheckout extends Layout {
       }
     }
 
-    if (isBookingFromCalendar && appointmentIdBookingFromCalendar) {
-      const app = groupAppointment?.appointments[0];
+    if (isBookingFromCalendar) {
+      const app =
+        groupAppointment?.appointments?.length > 0
+          ? groupAppointment.appointments[0]
+          : null;
+
+      const mainAppointmentId = groupAppointment?.mainAppointmentId
+        ? groupAppointment.mainAppointmentId
+        : 0;
       if (
         app &&
         groupAppointment?.appointments &&
@@ -635,17 +646,29 @@ class TabCheckout extends Layout {
           const customerId = customerInfoBuyAppointment.customerId
             ? customerInfoBuyAppointment.customerId
             : 0;
-          this.props.actions.appointment.cancleAppointment(
-            appointmentIdBookingFromCalendar,
-            profile.merchantId,
-            customerId
-          );
+
+          if (appointmentIdBookingFromCalendar) {
+            this.props.actions.appointment.cancleAppointment(
+              appointmentIdBookingFromCalendar,
+              profile.merchantId,
+              customerId
+            );
+          } else if (mainAppointmentId) {
+            this.props.actions.appointment.cancleAppointment(
+              mainAppointmentId,
+              profile.merchantId,
+              customerId
+            );
+          }
         }
       }
     }
 
     if (!isBookingFromCalendar && appointmentIdBookingFromCalendar == 0) {
-      const app = groupAppointment?.appointments[0];
+      const app =
+        groupAppointment?.appointments?.length > 0
+          ? groupAppointment.appointments[0]
+          : null;
       if (
         app &&
         groupAppointment?.appointments &&
@@ -655,7 +678,7 @@ class TabCheckout extends Layout {
           app.services.length + app.products.length + app.giftCards.length ===
           0
         ) {
-          const mainAppointmentId = groupAppointment.mainAppointmentId
+          const mainAppointmentId = groupAppointment?.mainAppointmentId
             ? groupAppointment.mainAppointmentId
             : 0;
           const customerId = customerInfoBuyAppointment.customerId
@@ -663,6 +686,26 @@ class TabCheckout extends Layout {
             : 0;
           this.props.actions.appointment.cancleAppointment(
             mainAppointmentId,
+            profile.merchantId,
+            customerId
+          );
+        }
+      }
+    }
+
+    if (isOpenBlockAppointmentId) {
+      const app = blockAppointments?.length > 0 ? blockAppointments[0] : null;
+
+      if (app && blockAppointments && blockAppointments?.length === 1) {
+        if (
+          app.services.length + app.products.length + app.giftCards.length ===
+          0
+        ) {
+          const customerId = customerInfoBuyAppointment.customerId
+            ? customerInfoBuyAppointment.customerId
+            : 0;
+          this.props.actions.appointment.cancleAppointment(
+            isOpenBlockAppointmentId,
             profile.merchantId,
             customerId
           );
@@ -677,6 +720,14 @@ class TabCheckout extends Layout {
     // }
 
     this.blockAppointmentRef = [];
+
+    console.log("isOpenBlockAppointmentId " + isOpenBlockAppointmentId);
+    console.log("isBookingFromCalendar " + isBookingFromCalendar);
+    console.log("isCancelAppointment " + isCancelAppointment);
+
+    console.log(
+      "appointmentIdBookingFromCalendar " + appointmentIdBookingFromCalendar
+    );
   };
 
   setStateFromParent = () => {
@@ -900,13 +951,11 @@ class TabCheckout extends Layout {
       connectionSignalR.stop();
     }
 
-    if (paymentMachineType === PaymentTerminalType.Pax
-      && !portName) {
+    if (paymentMachineType === PaymentTerminalType.Pax && !portName) {
       alert("Please connect to your printer!");
     } else {
       if (paymentSelected === "Cash" || paymentSelected === "Other") {
-        if (paymentMachineType === PaymentTerminalType.Clover
-          && !portName) {
+        if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
           this.openCashDrawerClover();
         } else {
           this.openCashDrawer(portName);
@@ -1132,7 +1181,7 @@ class TabCheckout extends Layout {
                 formatNumberFromCurrency(taxLocal) -
                 formatNumberFromCurrency(discountTotalLocal)
             ).toFixed(2)
-          : groupAppointment.total;
+          : groupAppointment?.total;
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
     } else {
@@ -1316,7 +1365,7 @@ class TabCheckout extends Layout {
             formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
           );
     const method = this.getPaymentString(paymentSelected);
-    const total = groupAppointment.total
+    const total = groupAppointment?.total
       ? parseFloat(formatNumberFromCurrency(groupAppointment.total))
       : 0;
     const dueAmount = paymentDetailInfo.dueAmount
@@ -1349,7 +1398,7 @@ class TabCheckout extends Layout {
           this.setupSignalR(
             profile,
             token,
-            groupAppointment.checkoutGroupId,
+            groupAppointment?.checkoutGroupId,
             deviceId,
             method,
             moneyUserGiveForStaff
@@ -1380,7 +1429,7 @@ class TabCheckout extends Layout {
           }, 500);
         } else {
           this.props.actions.appointment.paymentAppointment(
-            groupAppointment.checkoutGroupId,
+            groupAppointment?.checkoutGroupId,
             method,
             moneyUserGiveForStaff
           );
@@ -1756,9 +1805,10 @@ class TabCheckout extends Layout {
             );
           }
 
-          const errorText = errorCode == "999" || errorCode == "2"
-                          ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
-                          : resultTxt
+          const errorText =
+            errorCode == "999" || errorCode == "2"
+              ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
+              : resultTxt;
           setTimeout(() => {
             this.setState({
               visibleErrorMessageFromPax: true,
@@ -2108,7 +2158,7 @@ class TabCheckout extends Layout {
 
       if (appointmentId !== -1) {
         const { groupAppointment } = this.props;
-        const appointment = groupAppointment.appointments.find(
+        const appointment = groupAppointment?.appointments?.find(
           (appointment) => appointment.appointmentId === appointmentId
         );
         const { services, products, extras, giftCards } = appointment;
@@ -2409,6 +2459,8 @@ class TabCheckout extends Layout {
       blockAppointments,
     } = this.props;
 
+    const { selectedStaff } = this.state;
+
     let fromTime = fromTimeBlockAppointment;
     if (blockAppointments && blockAppointments.length > 0) {
       fromTime = l.get(blockAppointments, "0.fromTime")
@@ -2430,7 +2482,8 @@ class TabCheckout extends Layout {
         customerInfoBuyAppointment?.firstName || "",
         customerInfoBuyAppointment?.lastName || "",
         customerInfoBuyAppointment?.phone || "",
-        bookingGroupId
+        bookingGroupId,
+        selectedStaff?.staffId ?? 0
       );
     } else {
       this.props.actions.appointment.createBlockAppointment(
@@ -2441,7 +2494,8 @@ class TabCheckout extends Layout {
         customerInfoBuyAppointment?.firstName || "",
         customerInfoBuyAppointment?.lastName || "",
         customerInfoBuyAppointment?.phone || "",
-        bookingGroupId
+        bookingGroupId,
+        selectedStaff?.staffId ?? 0
       );
     }
   };
@@ -2453,6 +2507,7 @@ class TabCheckout extends Layout {
       productSeleted,
       arrSelectedExtra,
       customServiceSelected,
+      selectedStaff,
     } = this.state;
 
     let isAppointmentIdOpen = "";
@@ -2499,6 +2554,9 @@ class TabCheckout extends Layout {
             {
               serviceId:
                 productSeleted?.serviceId ?? customServiceSelected?.serviceId,
+              ...(selectedStaff?.staffId && {
+                staffId: selectedStaff?.staffId,
+              }),
               ...(customServiceSelected && {
                 categoryId: customServiceSelected?.categoryId,
                 price: customServiceSelected?.price,
@@ -2860,10 +2918,10 @@ class TabCheckout extends Layout {
     this.scrollFlatListToStaffIndex(staffId, isFirstPressCheckout);
   };
 
-  setBlockStateFromCalendar = async () => {
+  setBlockStateFromCalendar = async (staffId) => {
     await this.setState({
       isShowCategoriesColumn: true,
-      isBlockBookingFromCalendar: true,
+      isBlockBookingFromCalendar: staffId && staffId > 0 ? false : true,
       isBookingFromAppointmentTab: true, // book appointment from calendar
     });
   };

@@ -198,7 +198,8 @@ export function createBlockAppointment(
   firstName = "",
   lastName = "",
   phoneNumber = "",
-  bookingGroupId
+  bookingGroupId,
+  staffId = 0
 ) {
   return {
     type: "CREATE_BLOCK_APPOINTMENT",
@@ -211,7 +212,7 @@ export function createBlockAppointment(
       extras: [],
       products: [],
       fromTime: moment.parseZone(fromTime).local().format("MM/DD/YYYY hh:mm A"),
-      staffId: 0,
+      staffId: staffId,
       customDiscountFixed: 0,
       customDiscountPercent: 0,
       firstName,
@@ -319,47 +320,55 @@ export function resetConnectSignalR() {
 }
 
 export function changeFlagSigninAppointment(flag = false) {
-    return {
-        type: 'CHANGE_FLAG_APPOINTMENT',
-        payload: flag
-    }
+  return {
+    type: "CHANGE_FLAG_APPOINTMENT",
+    payload: flag,
+  };
 }
 
-
-export function submitPaymentWithCreditCard(merchantId, 
-    responseData, checkoutPaymentId, moneyUserGiveForStaff,
-    paymentTerminal, paymentData) {
-    return {
-        type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
-        body: {
-            merchantId,
-            userId: 0,
-            title: 'pax',
-            responseData,
-            checkoutPaymentId: checkoutPaymentId,
-            paymentTerminal,
-            paymentData
-        },
-        method: 'POST',
-        token: true,
-        api: `paymentTransaction`,
-        paymentMethod: "credit_card",
-        amount: moneyUserGiveForStaff,
-        checkoutPaymentId: checkoutPaymentId,
-    }
+export function submitPaymentWithCreditCard(
+  merchantId,
+  responseData,
+  checkoutPaymentId,
+  moneyUserGiveForStaff,
+  paymentTerminal,
+  paymentData
+) {
+  return {
+    type: "SUBMIT_PAYMENT_WITH_CREDIT_CARD",
+    body: {
+      merchantId,
+      userId: 0,
+      title: "pax",
+      responseData,
+      checkoutPaymentId: checkoutPaymentId,
+      paymentTerminal,
+      paymentData,
+    },
+    method: "POST",
+    token: true,
+    api: `paymentTransaction`,
+    paymentMethod: "credit_card",
+    amount: moneyUserGiveForStaff,
+    checkoutPaymentId: checkoutPaymentId,
+  };
 }
 
-export function cancelHarmonyPayment(appointmentId, status = null, note = null) {
-    return {
-        type: 'CANCEL_HARMONY_PAYMENT',
-        body: {
-            status,
-            note
-        },
-        method: 'PUT',
-        token: true,
-        api: `appointment/cancelmethod/${appointmentId}`,
-    }
+export function cancelHarmonyPayment(
+  appointmentId,
+  status = null,
+  note = null
+) {
+  return {
+    type: "CANCEL_HARMONY_PAYMENT",
+    body: {
+      status,
+      note,
+    },
+    method: "PUT",
+    token: true,
+    api: `appointment/cancelmethod/${appointmentId}`,
+  };
 }
 
 export function addAppointmentOfflineMode(body) {
@@ -704,5 +713,5 @@ export function isProcessPaymentClover(isProcess = false) {
   return {
     type: "IS_PROCESS_PAYMENT_CLOVER",
     payload: isProcess,
-  }
+  };
 }

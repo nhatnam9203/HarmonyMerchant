@@ -82,7 +82,7 @@ export const BasketPaymentContent = React.forwardRef(
           // console.log(groupAppointment);
           // TODO: mới làm cho trường hợp 1 appointment
           if (groupAppointment?.appointments?.length > 0) {
-            const appointment = groupAppointment.appointments[0];
+            const appointment = groupAppointment?.appointments[0];
             const params = {
               // shippingAmount: 0,
               billingAddressId: appointment.billingAddressId,

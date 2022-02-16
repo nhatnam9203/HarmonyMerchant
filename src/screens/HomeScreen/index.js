@@ -450,9 +450,10 @@ class HomeScreen extends Layout {
    * Can call from web with appointment id
    * @param {*} appointmentId
    * @param {*} fromTime
+   * @param {*} staffId
    */
-  createABlockAppointment = (appointmentId, fromTime) => {
-    // console.log("createABlockAppointment");
+  createABlockAppointment = (appointmentId, fromTime, staffId = 0) => {
+    console.log("createABlockAppointment " + appointmentId);
 
     this.props.actions.appointment.updateFromTimeBlockAppointment(
       fromTime ? fromTime : new Date()
@@ -463,10 +464,31 @@ class HomeScreen extends Layout {
     this.scrollTabParentRef.current.goToPage(2);
 
     if (this.tabCheckoutRef?.current) {
-      this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+      this.tabCheckoutRef?.current?.setBlockStateFromCalendar(staffId);
+
+      if (staffId && staffId !== 0 && staffId !== -1) {
+        this.props.actions.appointment.getGroupAppointmentById(
+          appointmentId,
+          false,
+          true,
+          false
+        );
+
+        this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+      }
     } else {
       setTimeout(() => {
-        this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+        this.tabCheckoutRef?.current?.setBlockStateFromCalendar(staffId);
+        if (staffId && staffId !== 0 && staffId !== -1) {
+          this.props.actions.appointment.getGroupAppointmentById(
+            appointmentId,
+            false,
+            true,
+            false
+          );
+
+          this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+        }
       }, 200);
     }
   };
@@ -497,20 +519,20 @@ class HomeScreen extends Layout {
 
     this.getCurrentLocation();
     Promise.all([
-      this.props.actions.category.getCategoriesByMerchantId(),
-      this.props.actions.extra.getExtraByMerchant(),
-      this.props.actions.service.getServicesByMerchant(),
-      this.props.actions.product.getProductsByMerchant(),
-      this.props.actions.staff.getStaffByMerchantId(),
+      this.props.actions.category.getCategoriesByMerchantId(), // .
+      this.props.actions.extra.getExtraByMerchant(), // .
+      this.props.actions.service.getServicesByMerchant(), // .
+      this.props.actions.product.getProductsByMerchant(), // .
+      this.props.actions.staff.getStaffByMerchantId(), // .
       this.props.actions.appointment.getStaffListByCurrentDate(
         profile?.merchantId
-      ),
-      this.props.actions.app.getNotificationList(),
-      this.props.actions.app.getCountUnReadOfNotification(),
+      ), // .
+      this.props.actions.app.getNotificationList(), // .
+      this.props.actions.app.getCountUnReadOfNotification(), // .
 
       this.props.actions.service.getCustomServiceByMerchantId(
         profile?.merchantId
-      ),
+      ), // .
     ])
       .then((data) => {
         this.props.actions.staff.reloadButtonEnterPincode();

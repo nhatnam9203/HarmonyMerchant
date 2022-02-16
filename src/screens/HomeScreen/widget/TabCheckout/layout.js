@@ -240,7 +240,7 @@ class Layout extends React.Component {
             extraData={selectedStaff}
             keyExtractor={(item, index) => `${item?.staffId}_${index}`}
             showsVerticalScrollIndicator={false}
-            onScrollToIndexFailed={() => { }}
+            onScrollToIndexFailed={() => {}}
           />
         </View>
         {isBlockBookingFromCalendar && (
@@ -576,16 +576,16 @@ class Layout extends React.Component {
     } = this.props;
     const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } =
       this.state;
-    const appointments = groupAppointment.appointments
+    const appointments = groupAppointment?.appointments
       ? groupAppointment.appointments
       : [];
     const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
 
     const totalLocal = roundFloatNumber(
       formatNumberFromCurrency(subTotalLocal) +
-      formatNumberFromCurrency(tipLocal) +
-      formatNumberFromCurrency(taxLocal) -
-      formatNumberFromCurrency(discountTotalLocal)
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
     );
     const paidAmounts = paymentDetailInfo.paidAmounts
       ? paymentDetailInfo.paidAmounts.slice(0).reverse()
@@ -890,7 +890,7 @@ class Layout extends React.Component {
       blockAppointments,
       isBookingFromCalendar,
     } = this.props;
-    const { isShowColAmount } = this.state;
+    const { isShowColAmount, isBlockBookingFromCalendar } = this.state;
     const checkoutPayments =
       !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments
         ? paymentDetailInfo.checkoutPayments
@@ -900,7 +900,7 @@ class Layout extends React.Component {
       : 0;
     const isShowAddBlock =
       length_blockAppointments > 0 &&
-        blockAppointments[length_blockAppointments - 1].total != "0.00"
+      blockAppointments[length_blockAppointments - 1].total != "0.00"
         ? true
         : false;
     const tempStyle = !isShowColAmount
@@ -908,9 +908,13 @@ class Layout extends React.Component {
       : {};
 
     const isShowAddButton =
-      !isBookingFromCalendar &&
+      (!isBlockBookingFromCalendar || !isBookingFromCalendar) &&
       ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
         (blockAppointments.length && isShowAddBlock) > 0);
+    // const isShowAddButton =
+    //   (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
+    //   (blockAppointments.length && isShowAddBlock) > 0;
+
     return (
       <View style={[styles.basket_box, tempStyle]}>
         {/* -------- Header Basket -------- */}
@@ -1022,7 +1026,7 @@ class Layout extends React.Component {
         <View style={{ flex: 1 }} />
       </View> * /}
 
-        {/* ------ Footer ----- */ }
+        {/* ------ Footer ----- */}
         <View
           style={{
             flex: 1,
@@ -1041,7 +1045,7 @@ class Layout extends React.Component {
             styleText={styles.txt_btn_basket}
           />
         </View>
-      </View >
+      </View>
     );
   }
 
@@ -1066,8 +1070,8 @@ class Layout extends React.Component {
         ? true
         : false
       : basket.length > 0
-        ? true
-        : false;
+      ? true
+      : false;
     isAcceptPay = paymentSelected === "Cash" ? true : isAcceptPay;
 
     if (tabCurrent === 1) {
@@ -1091,7 +1095,7 @@ class Layout extends React.Component {
             backgroundColor="#F1F1F1"
             title={localize("DONE", language)}
             textColor="#6A6A6A"
-            onPress={() => { }}
+            onPress={() => {}}
             style={styles.btn_basket}
             styleText={styles.txt_btn_basket}
             activeOpacity={1}
@@ -1104,7 +1108,7 @@ class Layout extends React.Component {
             backgroundColor="#0764B0"
             title={localize("DONE", language)}
             textColor="#fff"
-            onPress={() => { }}
+            onPress={() => {}}
             style={styles.btn_basket}
             styleText={styles.txt_btn_basket}
           />
@@ -1120,7 +1124,7 @@ class Layout extends React.Component {
             backgroundColor="#F1F1F1"
             title={localize("PAY", language)}
             textColor="#6A6A6A"
-            onPress={() => { }}
+            onPress={() => {}}
             style={styles.btn_basket}
             activeOpacity={1}
             styleText={styles.txt_btn_basket}
@@ -1172,7 +1176,7 @@ class Layout extends React.Component {
             backgroundColor="#F1F1F1"
             title={localize("BOOK", language)}
             textColor="#6A6A6A"
-            onPress={() => { }}
+            onPress={() => {}}
             style={styles.btn_basket}
             activeOpacity={1}
             styleText={styles.txt_btn_basket}
@@ -1201,7 +1205,7 @@ class Layout extends React.Component {
               backgroundColor="#F1F1F1"
               title={localize("BOOK", language)}
               textColor="#6A6A6A"
-              onPress={() => { }}
+              onPress={() => {}}
               style={styles.btn_basket}
               activeOpacity={1}
               styleText={styles.txt_btn_basket}
@@ -1227,7 +1231,7 @@ class Layout extends React.Component {
           backgroundColor="#F1F1F1"
           title={localize("SELECT PAYMENT", language)}
           textColor="#6A6A6A"
-          onPress={() => { }}
+          onPress={() => {}}
           style={styles.btn_basket}
           activeOpacity={1}
           styleText={styles.txt_btn_basket}
@@ -1368,16 +1372,16 @@ class Layout extends React.Component {
       (isCancelAppointment &&
         app0 &&
         app0.services.length + app0.products.length + app0.giftCards.length ===
-        0) ||
-        (isBookingFromCalendar &&
-          appointmentIdBookingFromCalendar &&
-          app0 &&
-          app0.services.length + app0.products.length + app0.giftCards.length ===
           0) ||
-        (!isBookingFromCalendar &&
-          appointmentIdBookingFromCalendar == 0 &&
-          app0 &&
-          app0.services.length + app0.products.length + app0.giftCards.length ===
+      (isBookingFromCalendar &&
+        appointmentIdBookingFromCalendar &&
+        app0 &&
+        app0.services.length + app0.products.length + app0.giftCards.length ===
+          0) ||
+      (!isBookingFromCalendar &&
+        appointmentIdBookingFromCalendar == 0 &&
+        app0 &&
+        app0.services.length + app0.products.length + app0.giftCards.length ===
           0)
         ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? "
         : "Are you sure you want to exit Check-Out?";
@@ -1482,7 +1486,7 @@ class Layout extends React.Component {
         />
 
         <PopupPayCompleted
-          onRequestClose={() => { }}
+          onRequestClose={() => {}}
           printBill={this.printBill}
           donotPrintBill={this.donotPrintBill}
         />

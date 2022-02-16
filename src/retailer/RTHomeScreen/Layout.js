@@ -24,7 +24,6 @@ export const Layout = ({
   return (
     <HomeStateContext.Provider style={styles.container} value={{}}>
       <StatusBarHeader />
-
       <Navigator
         initialRouteName="home.order.top_tab"
         headerMode="none"
@@ -45,7 +44,6 @@ export const Layout = ({
             />
           )}
         </Screen>
-
         {/* <Screen {...InventoryListPage} /> */}
       </Navigator>
     </HomeStateContext.Provider>
