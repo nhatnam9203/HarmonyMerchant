@@ -27,7 +27,7 @@ export const PopupCardDetail = React.forwardRef(
     );
 
     const [payAmount, setPayAmount] = React.useState(0);
-    const [dueAmount, setDueAmount] = React.useState(0);
+    // const [dueAmount, setDueAmount] = React.useState(0);
     const [starNumberUse, setStarNumberUse] = React.useState(0);
     const [isCheck, setIsCheck] = React.useState(false);
     const [payStarAmount, setPayStarAmount] = React.useState(0);
@@ -76,6 +76,17 @@ export const PopupCardDetail = React.forwardRef(
       }
     };
 
+    const getDueAmount = React.useCallback(() => {
+      const { grandTotal = 0, dueAmount = 0 } = paymentDetailInfo || {};
+
+      let dueValue =
+        formatNumberFromCurrency(dueAmount) -
+        formatNumberFromCurrency(payAmount) -
+        formatNumberFromCurrency(payStarAmount);
+
+      return dueValue;
+    }, [payAmount, payStarAmount]);
+
     const onChangePaidAmount = (amount) => {
       const { grandTotal = 0, dueAmount = 0 } = paymentDetailInfo || {};
 
@@ -84,15 +95,11 @@ export const PopupCardDetail = React.forwardRef(
 
       if (paidValue > cardAmount) {
         paidValue = cardAmount;
-      }
-      let dueValue = formatNumberFromCurrency(dueAmount) - paidValue;
-
-      if (dueValue > 0 && payStarAmount > 0) {
-        dueValue = dueValue - payStarAmount;
+      } else if (paidValue < 0) {
+        paidValue = 0;
       }
 
       setPayAmount(paidValue);
-      setDueAmount(dueValue);
     };
 
     const onChangeStarNumberUse = async (starUse = 0) => {
@@ -100,6 +107,7 @@ export const PopupCardDetail = React.forwardRef(
       //   || starUse*100 > paymentDetailInfo?.dueAmount) return
 
       const { grandTotal = 0, dueAmount = 0 } = paymentDetailInfo || {};
+      const dueAmountNumber = formatNumberFromCurrency(dueAmount);
 
       let tempStar = parseInt(starUse);
       if (isNaN(tempStar)) {
@@ -123,47 +131,41 @@ export const PopupCardDetail = React.forwardRef(
       ).toFixed(2);
       await setPayStarAmount(tempAmount);
 
-      // nếu chưa trả full tiền sẽ trừ star
-      if (dueAmount > 0) {
-        let dueValue =
-          formatNumberFromCurrency(dueAmount) - payAmount - tempAmount;
-        setDueAmount(Math.max(dueValue, 0));
+      const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
+      let paidValue = dueAmountNumber - formatNumberFromCurrency(tempAmount);
+
+      if (cardAmount < paidValue) {
+        paidValue = cardAmount;
       }
 
-      // let paidValue = formatNumberFromCurrency(paymentDetailInfo?.dueAmount);
-      // const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
-
-      // if (paidValue > cardAmount) {
-      //   paidValue = cardAmount;
-      // }
-      // paidValue = paidValue - payStarAmount;
-
-      // await setPayAmount(paidValue);
-
-      // let dueValue =
-      //   formatNumberFromCurrency(dueAmount) - paidValue - payStarAmount;
-      // await setDueAmount(dueValue);
+      setPayAmount(paidValue);
     };
-
-    // React.useEffect(() => {
-    //   if (appointment?.dueAmount) {
-    //     // setDueAmount(formatNumberFromCurrency(appointment?.dueAmount));
-    //     onChangePaidAmount(appointment?.dueAmount);
-    //   } else {
-    //     setDueAmount(0);
-    //   }
-    // }, [appointment]);
 
     React.useEffect(() => {
       if (!isCheck) {
         if (payStarAmount > 0) {
           const { dueAmount = 0 } = paymentDetailInfo || {};
 
-          let dueValue = formatNumberFromCurrency(dueAmount) - payAmount;
-          setDueAmount(dueValue);
+          if (
+            formatNumberFromCurrency(paymentDetailInfo?.dueAmount ?? 0) >= 0
+          ) {
+            onChangePaidAmount(paymentDetailInfo?.dueAmount);
+          }
         }
         setPayStarAmount(0);
         setStarNumberUse(0);
+      } else {
+        const maxStart = cardDetail?.star ? parseInt(cardDetail?.star) : 0;
+        const { dueAmount = 0 } = paymentDetailInfo || {};
+        const dueValue = formatNumberFromCurrency(dueAmount);
+
+        if (maxStart > 0) {
+          const payStar = Math.min(
+            maxStart,
+            dueValue * cardDetail.rewardStarRate
+          );
+          onChangeStarNumberUse(payStar);
+        }
       }
     }, [isCheck]);
 
@@ -299,7 +301,7 @@ export const PopupCardDetail = React.forwardRef(
             <Row>
               <Label text={t("Due amount")} textColor={"red"} />
               <TextValue
-                text={`${formatMoneyWithUnit(dueAmount)}`}
+                text={`${formatMoneyWithUnit(getDueAmount())}`}
                 textColor={"red"}
               />
             </Row>
