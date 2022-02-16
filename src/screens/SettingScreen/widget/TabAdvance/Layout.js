@@ -17,6 +17,8 @@ export const Layout = ({
   setOtherStarRate,
   onSaveButtonPress,
 }) => {
+  const [t] = useTranslation();
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>

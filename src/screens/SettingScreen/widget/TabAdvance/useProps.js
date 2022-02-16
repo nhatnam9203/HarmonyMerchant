@@ -10,12 +10,13 @@ import { useDispatch } from "react-redux";
 
 export const useProps = (props) => {
   const [loyaltyProgram, setLoyaltyProgram] = React.useState(null);
+  const [isMount, setIsMount] = React.useState(false);
+  const [isUpdate, setIsUpdate] = React.useState(false);
 
   const [, getAdvance] = useAxiosQuery({
     ...getAdvanceSetting(),
     enabled: false,
     onSuccess: (data, response) => {
-      console.log(data);
       if (data) {
         setLoyaltyProgram(data);
       }
@@ -28,7 +29,7 @@ export const useProps = (props) => {
   const [, editAdvance] = useAxiosMutation({
     ...editAdvanceSetting(loyaltyProgram),
     onSuccess: (data, response) => {
-      console.log(data);
+      setIsUpdate(false);
     },
     onError: (err) => {
       console.log(err);
@@ -37,36 +38,57 @@ export const useProps = (props) => {
 
   React.useEffect(() => {
     getAdvance();
+    setIsMount(true);
+
+    return () => {
+      // componentWillUnmount events
+      setIsMount(false);
+    };
   }, []);
+
+  React.useEffect(() => {
+    if (loyaltyProgram && isMount && isUpdate) {
+      editAdvance();
+    }
+  }, [loyaltyProgram]);
 
   return {
     loyaltyProgram,
     setIsLoyaltyProgram: (value = false) => {
+      setIsUpdate(true); // !! đang lỗi bị gọi nhiều lần lúc load, do component CustomSwitch sai !
+
       setLoyaltyProgram({
         ...loyaltyProgram,
         IsLoyaltyProgram: value,
       });
     },
     setCashStarRate: (value = 0) => {
-      console.log(value);
+      setIsUpdate(true);
+
       setLoyaltyProgram({
         ...loyaltyProgram,
         CashStarRate: value,
       });
     },
     setCreditCardStarRate: (value = 0) => {
+      setIsUpdate(true);
+
       setLoyaltyProgram({
         ...loyaltyProgram,
         CreditCardStarRate: value,
       });
     },
     setHarmonyPayStarRate: (value = 0) => {
+      setIsUpdate(true);
+
       setLoyaltyProgram({
         ...loyaltyProgram,
         HarmonyPayStarRate: value,
       });
     },
     setOtherStarRate: (value = 0) => {
+      setIsUpdate(true);
+
       setLoyaltyProgram({
         ...loyaltyProgram,
         OtherStarRate: value,
