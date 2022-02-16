@@ -1113,12 +1113,6 @@ export default class Layout extends React.Component {
           confimYes={this.printInvoice}
           language={language}
         />
-        <PopupInvoicePrint
-          ref={this.invoicePrintRef}
-          visiblePrintInvoice={visiblePrintInvoice}
-          onRequestClose={this.cancelInvoicePrint}
-          doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
-        />
 
         <PopupInvoice ref={this.invoiceRef} />
       </ParentContainer>

@@ -969,40 +969,12 @@ class InvoiceScreen extends Layout {
       ) {
         this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
-        const {
-          arryaServicesBuy,
-          arrayProductBuy,
-          arrayExtrasBuy,
-          arrayGiftCards,
-        } = this.getBasket(invoiceDetail.basket);
-        // const basket = arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
-        const basket = arryaServicesBuy.concat(
-          arrayExtrasBuy,
-          arrayProductBuy,
-          arrayGiftCards
-        );
-        const { subTotal, total, discount, tipAmount, tax, paymentMethod } =
-          invoiceDetail;
-        const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
-
-        this.invoicePrintRef.current?.setStateFromParent(
-          basket,
-          subTotal,
-          tax,
-          discount,
-          tipAmount,
-          total,
-          paymentMethod,
-          false,
-          printMachine,
-          promotionNotes,
-          titleInvoice,
-          invoiceDetail?.checkoutId || "",
-          invoiceDetail?.checkoutPayments || []
-        );
-
-        await this.setState({
-          visiblePrintInvoice: true,
+        this.invoiceRef.current?.showAppointmentReceipt({
+          appointmentId: invoiceDetail?.appointmentId || "",
+          checkoutId: invoiceDetail?.checkoutId || "",
+          isSalon: true,
+          isPrintTempt: false,
+          machineType: paymentMachineType,
         });
       } else {
         alert("Please connect to your printer!");

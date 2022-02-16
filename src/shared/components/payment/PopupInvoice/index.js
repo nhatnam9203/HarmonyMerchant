@@ -343,7 +343,14 @@ export const PopupInvoice = React.forwardRef(
     };
 
     const doPrintAgain = async () => {
-      setIsSignature(false);
+      if(paymentMachineType === "Dejavoo") {
+        setTimeout(() => {
+          setIsSignature(false);
+        }, 2000)
+      }else {
+        setIsSignature(false);
+      }
+
       // setTimeout(() => {
       //   onPrintProcess();
       // }, 1000);
@@ -357,7 +364,7 @@ export const PopupInvoice = React.forwardRef(
         profile?.isPrintReceipt &&
         !fromAppointmentTab
       ) {
-        onPrintProcess();
+          onPrintProcess();
       }
     }, [isSignature, isShare, printTempt, profile?.isPrintReceipt]);
 
@@ -397,43 +404,44 @@ export const PopupInvoice = React.forwardRef(
             );
 
             releaseCapture(imageUri);
-            if (!printTempt && isSignature) {
-              if (profile?.isPrintReceipt) {
-                doPrintAgain();
-              } else {
-                Alert.alert(
-                  "Would you like to print  customer's receipt?",
-                  "",
-                  [
-                    {
-                      text: "Cancel",
-                      onPress: onCancel,
-                      style: "cancel",
-                    },
-                    {
-                      text: "OK",
-                      onPress: doPrintAgain,
-                    },
-                  ],
-                  { cancelable: false }
-                );
-              }
-            } else {
-              onCancel();
-            }
+           
           } else {
             if (paymentMachineType == "Clover") {
               if (doPrintClover && typeof doPrintClover === "function") {
                 doPrintClover(imageUri);
               }
             } else if (paymentMachineType == "Dejavoo") {
-
               const content = getContentXmlReceipt()
               const params = {
                 content,
               };
               requestPrintDejavoo(params);
             }
+          }
+
+          if (!printTempt && isSignature) {
+            if (profile?.isPrintReceipt) {
+              doPrintAgain();
+            } else {
+              Alert.alert(
+                "Would you like to print  customer's receipt?",
+                "",
+                [
+                  {
+                    text: "Cancel",
+                    onPress: onCancel,
+                    style: "cancel",
+                  },
+                  {
+                    text: "OK",
+                    onPress: doPrintAgain,
+                  },
+                ],
+                { cancelable: false }
+              );
+            }
+          } else {
+            onCancel();
           }
         }
 
