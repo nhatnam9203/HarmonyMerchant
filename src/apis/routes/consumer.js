@@ -7,10 +7,11 @@ export const checkConsumerPayToken = (token) => ({
   },
 });
 
-export const submitConsumerPayment = (checkoutPaymentId, token) => ({
+export const submitConsumerPayment = (checkoutPaymentId, token, data) => ({
   queryId: "submitConsumerPayment",
   params: {
     url: `/Consumer/submit/${checkoutPaymentId}?token=${token}`,
     method: "PUT",
+    data: data,
   },
 });

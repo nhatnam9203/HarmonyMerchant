@@ -21,12 +21,14 @@ import {
   TabGaneral,
   TabHardware,
   TabTAX,
+  TabAdvance,
 } from "./widget";
 import configs from "@configs";
 import { WithLogout } from "@shared/HOC/withLogout";
 
 const MENU = [
   "General",
+  "Advance",
   "Staff",
   "Categories",
   "Services",
@@ -100,6 +102,7 @@ export default class Layout extends React.Component {
                   isFocus={this.state.isFocus}
                   currentTab={this.state.indexTab}
                 />
+                <TabAdvance.component />
                 <TabStaff ref={this.tabStaffRef} />
                 <TabCategories ref={this.tabCategoriesRef} />
                 <TabService ref={this.tabServiceRef} />

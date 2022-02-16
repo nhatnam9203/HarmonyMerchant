@@ -4,7 +4,7 @@ import { Keyboard } from "react-native";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import { checkStatusPrint, role, menuTabs, isPermissionToTab } from "@utils";
-import * as l from 'lodash';
+import * as l from "lodash";
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -46,13 +46,13 @@ class SettingScreen extends Layout {
 
         const { profileStaffLogin, profile } = this.props;
         const roleName = profileStaffLogin?.roleName || role.Admin;
-        const permission = l.get(profileStaffLogin, 'permission', [])
+        const permission = l.get(profileStaffLogin, "permission", []);
         if (roleName === role.Admin) {
           this.props.actions.app.getMerchantByID(profile?.merchantId);
         } else if (roleName === role.Manager) {
           if (isPermissionToTab(permission, menuTabs.MENU_SETTING)) {
             this.props.actions.app.getMerchantByID(profile?.merchantId);
-          }else {
+          } else {
             this.props.actions.app.toggleSettingTabPermission();
           }
         } else {
@@ -75,14 +75,14 @@ class SettingScreen extends Layout {
   };
 
   selectMenu = async (index) => {
-    if (index === 7) {
+    if (index === 8) {
       this.setState({
         visibleLogout: true,
       });
     } else {
       this.leftMenuSettingRef.current?.setStateFromParent(index);
       this.scrollTabRef.current?.goToPage(index);
-      if (index === 6) {
+      if (index === 7) {
         setTimeout(() => {
           this.fetchAPIsInSettingTab(index);
         }, 100);
@@ -103,7 +103,7 @@ class SettingScreen extends Layout {
       case 0:
         const { profile } = this.props;
         return this.props.actions.app.getMerchantByID(profile.merchantId, true);
-      case 1:
+      case 2:
         this.resetStateStaffSetting();
         this.props.actions.category.getCategoriesByMerchantId(
           "",
@@ -126,7 +126,7 @@ class SettingScreen extends Layout {
           false,
           false
         );
-      case 2:
+      case 3:
         this.resetStateCategoriesSetting();
         return this.props.actions.category.getCategoriesByMerchantId(
           "",
@@ -135,7 +135,7 @@ class SettingScreen extends Layout {
           false,
           false
         );
-      case 3:
+      case 4:
         this.resetStateServiceSetting();
         return this.props.actions.service.getServicesByMerchant(
           "",
@@ -144,7 +144,7 @@ class SettingScreen extends Layout {
           false,
           false
         );
-      case 4:
+      case 5:
         this.resetStateExtraSetting();
         return this.props.actions.extra.getExtraByMerchant(
           "",
@@ -152,9 +152,9 @@ class SettingScreen extends Layout {
           false,
           false
         );
-      case 5:
-        return this.updateTaxFromParent();
       case 6:
+        return this.updateTaxFromParent();
+      case 7:
         this.getPrinters();
       default:
     }

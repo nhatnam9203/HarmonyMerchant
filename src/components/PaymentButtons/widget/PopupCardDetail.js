@@ -2,35 +2,48 @@ import {
   ButtonGradient,
   FormInputMask,
   ButtonGradientWhite,
+  FormInput,
+  CustomTextInput,
 } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { formatNumberFromCurrency, formatMoneyWithUnit } from "@utils";
 import { useSelector } from "react-redux";
+import IMAGE from "@resources";
+import { CardType } from "../QRCodePay/useProps";
 
 export const PopupCardDetail = React.forwardRef(
   ({ cardDetail, appointment, onCancel, onSubmit }, ref) => {
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
     const textInputRef = React.useRef(null);
+    const textInputStarRef = React.useRef(null);
 
-    const paymentDetailInfo = useSelector(state => state.appointment.paymentDetailInfo);
-
+    const paymentDetailInfo = useSelector(
+      (state) => state.appointment.paymentDetailInfo
+    );
 
     const [payAmount, setPayAmount] = React.useState(0);
     const [dueAmount, setDueAmount] = React.useState(0);
+    const [starNumberUse, setStarNumberUse] = React.useState(0);
+    const [isCheck, setIsCheck] = React.useState(false);
+    const [payStarAmount, setPayStarAmount] = React.useState(0);
 
     const hidePopup = () => {
       setPayAmount(0);
+      setPayStarAmount(0);
+      setStarNumberUse(0);
+      setIsCheck(false);
       textInputRef.current?.clear();
+      textInputStarRef.current?.clear();
       dialogRef.current?.hide();
     };
 
     const onSubmitButtonPress = () => {
-      if (payAmount <= 0) {
+      if (payAmount < 0) {
         alert(t("Amount must greater than 0!"));
         return;
       }
@@ -42,7 +55,13 @@ export const PopupCardDetail = React.forwardRef(
       }
 
       if (onSubmit && typeof onSubmit === "function") {
-        onSubmit(formatNumberFromCurrency(payAmount));
+        onSubmit({
+          amount: formatNumberFromCurrency(payAmount),
+          rewardStar: starNumberUse,
+          totalAmount:
+            formatNumberFromCurrency(payAmount) +
+            formatNumberFromCurrency(payStarAmount),
+        });
       }
       hidePopup();
     };
@@ -68,9 +87,62 @@ export const PopupCardDetail = React.forwardRef(
       }
       let dueValue = formatNumberFromCurrency(dueAmount) - paidValue;
 
+      if (dueValue > 0 && payStarAmount > 0) {
+        dueValue = dueValue - payStarAmount;
+      }
 
       setPayAmount(paidValue);
       setDueAmount(dueValue);
+    };
+
+    const onChangeStarNumberUse = async (starUse = 0) => {
+      //if(starUse > cardDetail?.star
+      //   || starUse*100 > paymentDetailInfo?.dueAmount) return
+
+      const { grandTotal = 0, dueAmount = 0 } = paymentDetailInfo || {};
+
+      let tempStar = parseInt(starUse);
+      if (isNaN(tempStar)) {
+        tempStar = 0;
+      }
+
+      let maxStart = cardDetail?.star ? parseInt(cardDetail?.star) : 0;
+      if (isNaN(maxStart)) {
+        maxStart = 0;
+      }
+
+      if (tempStar > maxStart) {
+        tempStar = maxStart;
+      } else if (tempStar <= 0) {
+        tempStar = 0;
+      }
+
+      await setStarNumberUse(tempStar);
+      const tempAmount = parseFloat(
+        tempStar / cardDetail.rewardStarRate
+      ).toFixed(2);
+      await setPayStarAmount(tempAmount);
+
+      // nếu chưa trả full tiền sẽ trừ star
+      if (dueAmount > 0) {
+        let dueValue =
+          formatNumberFromCurrency(dueAmount) - payAmount - tempAmount;
+        setDueAmount(Math.max(dueValue, 0));
+      }
+
+      // let paidValue = formatNumberFromCurrency(paymentDetailInfo?.dueAmount);
+      // const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
+
+      // if (paidValue > cardAmount) {
+      //   paidValue = cardAmount;
+      // }
+      // paidValue = paidValue - payStarAmount;
+
+      // await setPayAmount(paidValue);
+
+      // let dueValue =
+      //   formatNumberFromCurrency(dueAmount) - paidValue - payStarAmount;
+      // await setDueAmount(dueValue);
     };
 
     // React.useEffect(() => {
@@ -82,6 +154,19 @@ export const PopupCardDetail = React.forwardRef(
     //   }
     // }, [appointment]);
 
+    React.useEffect(() => {
+      if (!isCheck) {
+        if (payStarAmount > 0) {
+          const { dueAmount = 0 } = paymentDetailInfo || {};
+
+          let dueValue = formatNumberFromCurrency(dueAmount) - payAmount;
+          setDueAmount(dueValue);
+        }
+        setPayStarAmount(0);
+        setStarNumberUse(0);
+      }
+    }, [isCheck]);
+
     React.useImperativeHandle(ref, () => ({
       show: () => {
         dialogRef.current?.show();
@@ -92,6 +177,7 @@ export const PopupCardDetail = React.forwardRef(
       hide: () => {
         setPayAmount(0);
         textInputRef.current?.clear();
+        textInputStarRef.current?.clear();
         dialogRef.current?.hide();
       },
     }));
@@ -116,8 +202,17 @@ export const PopupCardDetail = React.forwardRef(
               />
               <TextValue text={cardDetail?.name + " "} />
             </Row>
+            {cardDetail?.cardType === CardType.CUSTOMER_CARD && (
+              <Row>
+                <Label text={t("Star available")} />
+                <View style={styles.viewRow}>
+                  <Image source={IMAGE.star} style={styles.starIcon} />
+                  <TextValue text={" " + cardDetail?.star ?? 0 + " "} />
+                </View>
+              </Row>
+            )}
             <Row>
-              <Label text={t("Amount")} />
+              <Label text={t("Card balance")} />
               <TextValue text={`${formatMoneyWithUnit(cardDetail?.amount)}`} />
             </Row>
 
@@ -131,8 +226,9 @@ export const PopupCardDetail = React.forwardRef(
               <Label text={t("Charge amount")} />
               <TextValue text={`${formatMoneyWithUnit(appointment?.total)}`} />
             </Row>
+
             <Row>
-              <Label text={t("Amount")} />
+              <Label text={t("Pay amount")} />
               <View style={styles.payAmount}>
                 <FormInputMask
                   // label={t("Input Barcode")}
@@ -149,8 +245,59 @@ export const PopupCardDetail = React.forwardRef(
                 />
               </View>
             </Row>
+
+            {cardDetail?.cardType === CardType.CUSTOMER_CARD &&
+              cardDetail?.star > 0 && (
+                <Row>
+                  <View style={styles.viewRow}>
+                    <TouchableOpacity
+                      style={{ marginRight: scaleWidth(10) }}
+                      onPress={() => setIsCheck(!isCheck)}
+                    >
+                      <Image
+                        source={isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty}
+                        style={styles.starIcon}
+                      />
+                    </TouchableOpacity>
+                    <Label text={t("Use HP star")} />
+                  </View>
+
+                  <View style={styles.payAmount}>
+                    {/* <FormInput
+                      onChangeValue={onChangeStarNumberUse}
+                      defaultValue={starNumberUse}
+                      textInputRef={textInputStarRef}
+                      autoFocus={true}
+                      showSoftInputOnFocus={false}
+                      keyboardType="numeric"
+                      textAlign="right"
+                      editable={isCheck}
+                    /> */}
+                    <CustomTextInput
+                      width={scaleWidth(180)}
+                      height={scaleHeight(42)}
+                      autoFocus={true}
+                      showSoftInputOnFocus={false}
+                      selectTextOnFocus={true}
+                      keyboardType="numeric"
+                      textAlign="right"
+                      editable={isCheck}
+                      onChangeText={onChangeStarNumberUse}
+                      value={`${starNumberUse}`}
+                    />
+                  </View>
+                </Row>
+              )}
+
+            {isCheck && (
+              <Row>
+                <Label text={t("Conversation value")} />
+                <TextValue text={`-${formatMoneyWithUnit(payStarAmount)}`} />
+              </Row>
+            )}
+
             <Row>
-              <Label text={t("Amount due")} textColor={"red"} />
+              <Label text={t("Due amount")} textColor={"red"} />
               <TextValue
                 text={`${formatMoneyWithUnit(dueAmount)}`}
                 textColor={"red"}
@@ -217,6 +364,10 @@ const styles = StyleSheet.create({
     height: scaleHeight(50),
   },
 
+  viewRow: {
+    flexDirection: "row",
+  },
+
   title: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(18),
@@ -273,9 +424,31 @@ const styles = StyleSheet.create({
     width: "40%",
   },
 
+  textInputView: {
+    borderRadius: 1,
+    backgroundColor: colors.WHITE,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#dddddd",
+    width: scaleWidth(400),
+    height: scaleHeight(48),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: scaleWidth(8),
+  },
+
   line: {
     height: 1,
     width: "100%",
     backgroundColor: "#aaa",
+  },
+  starIcon: {
+    width: scaleWidth(20),
+    height: scaleHeight(20),
+  },
+  inputText: {
+    width: scaleWidth(150),
+    height: scaleHeight(40),
   },
 });
