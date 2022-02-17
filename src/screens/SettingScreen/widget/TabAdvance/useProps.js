@@ -10,8 +10,7 @@ import { useDispatch } from "react-redux";
 
 export const useProps = (props) => {
   const [loyaltyProgram, setLoyaltyProgram] = React.useState(null);
-  const [isMount, setIsMount] = React.useState(false);
-  const [isUpdate, setIsUpdate] = React.useState(false);
+  const [loyaltyProgramLocal, setLoyaltyProgramLocal] = React.useState(null);
 
   const [, getAdvance] = useAxiosQuery({
     ...getAdvanceSetting(),
@@ -19,6 +18,7 @@ export const useProps = (props) => {
     onSuccess: (data, response) => {
       if (data) {
         setLoyaltyProgram(data);
+        setLoyaltyProgramLocal(data);
       }
     },
     onError: (e) => {
@@ -27,75 +27,100 @@ export const useProps = (props) => {
   });
 
   const [, editAdvance] = useAxiosMutation({
-    ...editAdvanceSetting(loyaltyProgram),
+    ...editAdvanceSetting(loyaltyProgramLocal),
     onSuccess: (data, response) => {
-      setIsUpdate(false);
+      setLoyaltyProgram(loyaltyProgramLocal);
+      alert("Update success!");
     },
     onError: (err) => {
       console.log(err);
     },
   });
 
+  const isHadUpdate = () => {
+    return (
+      loyaltyProgram?.IsLoyaltyProgram !==
+        loyaltyProgramLocal?.IsLoyaltyProgram ||
+      loyaltyProgram?.CashStarRate !== loyaltyProgramLocal?.CashStarRate ||
+      loyaltyProgram?.CreditCardStarRate !==
+        loyaltyProgramLocal?.CreditCardStarRate ||
+      loyaltyProgram?.HarmonyPayStarRate !==
+        loyaltyProgramLocal?.HarmonyPayStarRate ||
+      loyaltyProgram?.OtherStarRate !== loyaltyProgramLocal?.OtherStarRate
+    );
+  };
+
   React.useEffect(() => {
     getAdvance();
-    setIsMount(true);
 
     return () => {
       // componentWillUnmount events
-      setIsMount(false);
     };
   }, []);
 
-  React.useEffect(() => {
-    if (loyaltyProgram && isMount && isUpdate) {
-      editAdvance();
-    }
-  }, [loyaltyProgram]);
+  // React.useEffect(() => {
+  //   if (loyaltyProgram && isMount && isUpdate) {
+  //     editAdvance();
+  //   }
+  // }, [loyaltyProgram]);
 
   return {
-    loyaltyProgram,
+    loyaltyProgramLocal,
+    isHadUpdate: () => isHadUpdate(),
     setIsLoyaltyProgram: (value = false) => {
-      setIsUpdate(true); // !! đang lỗi bị gọi nhiều lần lúc load, do component CustomSwitch sai !
-
-      setLoyaltyProgram({
-        ...loyaltyProgram,
+      setLoyaltyProgramLocal({
+        ...loyaltyProgramLocal,
         IsLoyaltyProgram: value,
       });
     },
     setCashStarRate: (value = 0) => {
-      setIsUpdate(true);
-
-      setLoyaltyProgram({
-        ...loyaltyProgram,
-        CashStarRate: value,
+      let temp = value;
+      if (!temp || isNaN(parseFloat(value))) {
+        temp = 0;
+      }
+      setLoyaltyProgramLocal({
+        ...loyaltyProgramLocal,
+        CashStarRate: temp,
       });
     },
     setCreditCardStarRate: (value = 0) => {
-      setIsUpdate(true);
+      let temp = value;
+      if (!temp || isNaN(parseFloat(value))) {
+        temp = 0;
+      }
 
-      setLoyaltyProgram({
-        ...loyaltyProgram,
-        CreditCardStarRate: value,
+      setLoyaltyProgramLocal({
+        ...loyaltyProgramLocal,
+        CreditCardStarRate: temp,
       });
     },
     setHarmonyPayStarRate: (value = 0) => {
-      setIsUpdate(true);
+      let temp = value;
+      if (!temp || isNaN(parseFloat(value))) {
+        temp = 0;
+      }
 
-      setLoyaltyProgram({
-        ...loyaltyProgram,
-        HarmonyPayStarRate: value,
+      setLoyaltyProgramLocal({
+        ...loyaltyProgramLocal,
+        HarmonyPayStarRate: temp,
       });
     },
     setOtherStarRate: (value = 0) => {
-      setIsUpdate(true);
+      let temp = value;
+      if (!temp || isNaN(parseFloat(value))) {
+        temp = 0;
+      }
 
-      setLoyaltyProgram({
-        ...loyaltyProgram,
-        OtherStarRate: value,
+      setLoyaltyProgramLocal({
+        ...loyaltyProgramLocal,
+        OtherStarRate: temp,
       });
     },
     onSaveButtonPress: () => {
       editAdvance();
+    },
+    onCancelButtonPress: () => {
+      setLoyaltyProgramLocal(loyaltyProgram);
     },
   };
 };

@@ -6,78 +6,98 @@ import {
   FormLabelSwitch,
   CustomTextInput,
   ButtonGradient,
+  ButtonGradientWhite,
 } from "@shared/components";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const Layout = ({
-  loyaltyProgram,
+  loyaltyProgramLocal,
+  isHadUpdate,
   setIsLoyaltyProgram,
   setCashStarRate,
   setCreditCardStarRate,
   setHarmonyPayStarRate,
   setOtherStarRate,
   onSaveButtonPress,
+  onCancelButtonPress
 }) => {
   const [t] = useTranslation();
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <Title text={"Advance"} />
-        <View style={styles.halfContent}>
-          <FormLabelSwitch
-            defaultValue={loyaltyProgram?.IsLoyaltyProgram}
-            onValueChange={setIsLoyaltyProgram}
-            label={"Loyalty program"}
-            textStyle={styles.label}
-          />
-        </View>
-        {loyaltyProgram?.IsLoyaltyProgram && (
-          <>
-            <Text style={styles.label}>
-              {"Star earn per "}
-              <Text style={[styles.label, { color: "#0764B0" }]}>{"$1.0"}</Text>
-              {" spent by payment method"}
-            </Text>
-            <View style={styles.margin} />
-            <View style={styles.margin} />
+      <KeyboardAwareScrollView bounces={false}>
+        <View style={styles.content}>
+          <Title text={"Advance"} />
+          <View style={styles.halfContent}>
+            <FormLabelSwitch
+              defaultValue={loyaltyProgramLocal?.IsLoyaltyProgram}
+              onValueChange={setIsLoyaltyProgram}
+              label={"Loyalty program"}
+              textStyle={styles.label}
+            />
+          </View>
+          {loyaltyProgramLocal?.IsLoyaltyProgram && (
+            <>
+              <Text style={styles.label}>
+                {"Star earn per "}
+                <Text style={[styles.label, { color: "#0764B0" }]}>
+                  {"$1.0"}
+                </Text>
+                {" spent by payment method"}
+              </Text>
+              <View style={styles.margin} />
+              <View style={styles.margin} />
 
-            <RowContent>
-              <Text style={[styles.label, { color: "#0764B0", flex: 1 }]}>
-                {"Payment method"}
-              </Text>
-              <Text style={[styles.label, { color: "#0764B0", flex: 2 }]}>
-                {"Star earned"}
-              </Text>
-            </RowContent>
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Cash"}
-              value={`${loyaltyProgram?.CashStarRate}`}
-              setValue={setCashStarRate}
-            />
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"HarmonyPay"}
-              value={`${loyaltyProgram?.HarmonyPayStarRate}`}
-              setValue={setHarmonyPayStarRate}
-            />
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Credit card"}
-              value={`${loyaltyProgram?.CreditCardStarRate}`}
-              setValue={setCreditCardStarRate}
-            />
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Other"}
-              value={`${loyaltyProgram?.OtherStarRate}`}
-              setValue={setOtherStarRate}
-            />
-          </>
-        )}
-      </View>
+              <RowContent>
+                <Text style={[styles.label, { color: "#0764B0", flex: 1 }]}>
+                  {"Payment method"}
+                </Text>
+                <Text style={[styles.label, { color: "#0764B0", flex: 2 }]}>
+                  {"Star earned"}
+                </Text>
+              </RowContent>
+              <View style={styles.margin} />
+              <PaymentMethodRate
+                method={"Cash"}
+                value={`${loyaltyProgramLocal?.CashStarRate}`}
+                setValue={setCashStarRate}
+              />
+              <View style={styles.margin} />
+              <PaymentMethodRate
+                method={"HarmonyPay"}
+                value={`${loyaltyProgramLocal?.HarmonyPayStarRate}`}
+                setValue={setHarmonyPayStarRate}
+              />
+              <View style={styles.margin} />
+              <PaymentMethodRate
+                method={"Credit card"}
+                value={`${loyaltyProgramLocal?.CreditCardStarRate}`}
+                setValue={setCreditCardStarRate}
+              />
+              <View style={styles.margin} />
+              <PaymentMethodRate
+                method={"Other"}
+                value={`${loyaltyProgramLocal?.OtherStarRate}`}
+                setValue={setOtherStarRate}
+              />
+            </>
+          )}
+        </View>
+      </KeyboardAwareScrollView>
+
       <View style={styles.buttonContent}>
+        <ButtonGradientWhite
+          disable={!isHadUpdate()}
+          label={"CANCEL"}
+          width={scaleWidth(180)}
+          height={scaleHeight(50)}
+          borderRadius={scaleWidth(3)}
+          onPress={onCancelButtonPress}
+        />
+        <View style={styles.margin} />
+
         <ButtonGradient
+          disable={!isHadUpdate()}
           label={"SAVE"}
           width={scaleWidth(180)}
           height={scaleHeight(50)}
@@ -169,5 +189,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
   },
 });
