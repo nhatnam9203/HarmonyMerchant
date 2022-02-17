@@ -32,6 +32,7 @@ import {
   getPaymentString,
   formatNumberFromCurrency,
   getCenterStringArrayXml,
+  getCenterBoldStringArrayXml,
   formatWithMoment,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
@@ -1116,11 +1117,11 @@ class InvoiceScreen extends Layout {
                       }`;
     });
 
-    let xmlContent = `${getCenterStringArrayXml(profile?.businessName || " ")}
+    let xmlContent = `${getCenterBoldStringArrayXml(profile?.businessName || " ")}
     ${getCenterStringArrayXml(profile?.addressFull || " ")}
     <t><c>${`Tel : ${profile?.phone || " "}`}</c></t>
     <t><c>${profile?.webLink}</c></t>
-    <t><c>${`${
+    <t><b><c>${`${
       status &&
       status !== "paid" &&
       status !== "pending" &&
@@ -1128,7 +1129,7 @@ class InvoiceScreen extends Layout {
       status !== "complete"
         ? `${status}`.toUpperCase()
         : "SALE"
-    }`}</c></t>
+    }`}</c></b></t>
     <t><c>${`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}</c></t>
     <t><c>${"-".repeat(24)}</c></t>
     <t>Customer: ${invoiceName}</t>
@@ -1184,6 +1185,7 @@ class InvoiceScreen extends Layout {
     }
     ${promotionNotes ? `<t>Discount note: ${promotionNotes}</t>` : ``}
     <t>${l.pad("Merchant's Receipt", 24, "*")}</t>
+    <br/><br/><br/><br/><br/><br/><br/><br/>
     `;
     return xmlContent;
   }

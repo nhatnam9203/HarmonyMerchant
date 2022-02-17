@@ -2002,6 +2002,16 @@ export const getCenterStringArrayXml = (text) => {
   return result;
 };
 
+export const getCenterBoldStringArrayXml = (text) => {
+  const arrayString = getArrayBeakLineString(text, 24);
+  if (!arrayString) return "";
+  let result = "";
+  for (let i = 0; i < arrayString.length; i++) {
+    result = result + `<t><b><c>${arrayString[i]}</c></b></t>`;
+  }
+  return result;
+};
+
 export const getTaxRateFromInvoice = (invoiceDetail) => {
   // taxRate
   let taxRate = 0;
