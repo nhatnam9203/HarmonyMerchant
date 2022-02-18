@@ -1,18 +1,17 @@
+import IMAGE from "@resources";
 import {
   ButtonGradient,
-  FormInputMask,
   ButtonGradientWhite,
-  FormInput,
   CustomTextInput,
+  FormInputMask,
 } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
+import { formatMoneyWithUnit, formatNumberFromCurrency } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { formatNumberFromCurrency, formatMoneyWithUnit } from "@utils";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
-import IMAGE from "@resources";
 import { CardType } from "../QRCodePay/useProps";
 
 export const PopupCardDetail = React.forwardRef(
@@ -280,7 +279,7 @@ export const PopupCardDetail = React.forwardRef(
                       height={scaleHeight(42)}
                       autoFocus={true}
                       // showSoftInputOnFocus={false}
-                      selectTextOnFocus={true}
+                      // selectTextOnFocus={true}
                       keyboardType="numeric"
                       textAlign="right"
                       editable={isCheck}
