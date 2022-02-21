@@ -18,7 +18,12 @@ import {
   STAFF_LOG_TIME_TYPE,
 } from "@shared/utils";
 import { statusSuccess } from "@shared/utils/app";
-import { formatHourMinute, formatWithMoment, role } from "@utils";
+import {
+  formatHourMinute,
+  formatWithMoment,
+  role,
+  formatNumberFromCurrency,
+} from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -80,7 +85,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
         startDate: time,
         startTime: time,
         note: note,
-        amount: parseFloat(amount),
+        amount: formatNumberFromCurrency(amount),
         type: type,
         staffName: staffName,
       };
@@ -92,7 +97,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
         startDate: time,
         startTime: time,
         note: note,
-        amount: parseFloat(amount),
+        amount: formatNumberFromCurrency(amount),
         type: type,
         staffName: profile ? `${profile.firstName} ${profile.lastName}` : "",
       };
