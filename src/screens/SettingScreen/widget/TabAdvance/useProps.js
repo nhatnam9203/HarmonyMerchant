@@ -1,16 +1,20 @@
-import React from "react";
 import {
-  getAdvanceSetting,
   editAdvanceSetting,
-  useAxiosQuery,
+  getAdvanceSetting,
   useAxiosMutation,
+  useAxiosQuery,
 } from "@apis";
-import actions from "@actions";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { formatNumberFromCurrency } from "@utils";
 
 export const useProps = (props) => {
   const [loyaltyProgram, setLoyaltyProgram] = React.useState(null);
   const [loyaltyProgramLocal, setLoyaltyProgramLocal] = React.useState(null);
+
+  const [cashStarRate, setCashStarRate] = React.useState(0);
+  const [creditCardStarRate, setCreditCardStarRate] = React.useState(0);
+  const [harmonyPayStarRate, setHarmonyPayStarRate] = React.useState(0);
+  const [otherStarRate, setOtherStarRate] = React.useState(0);
 
   const [, getAdvance] = useAxiosQuery({
     ...getAdvanceSetting(),
@@ -19,6 +23,10 @@ export const useProps = (props) => {
       if (data) {
         setLoyaltyProgram(data);
         setLoyaltyProgramLocal(data);
+        setCashStarRate(data?.CashStarRate);
+        setCreditCardStarRate(data?.CreditCardStarRate);
+        setHarmonyPayStarRate(data?.HarmonyPayStarRate);
+        setOtherStarRate(data?.OtherStarRate);
       }
     },
     onError: (e) => {
@@ -30,6 +38,10 @@ export const useProps = (props) => {
     ...editAdvanceSetting(loyaltyProgramLocal),
     onSuccess: (data, response) => {
       setLoyaltyProgram(loyaltyProgramLocal);
+      setCashStarRate(loyaltyProgramLocal?.CashStarRate);
+      setCreditCardStarRate(loyaltyProgramLocal?.CreditCardStarRate);
+      setHarmonyPayStarRate(loyaltyProgramLocal?.HarmonyPayStarRate);
+      setOtherStarRate(loyaltyProgramLocal?.OtherStarRate);
       alert("Update success!");
     },
     onError: (err) => {
@@ -58,14 +70,12 @@ export const useProps = (props) => {
     };
   }, []);
 
-  // React.useEffect(() => {
-  //   if (loyaltyProgram && isMount && isUpdate) {
-  //     editAdvance();
-  //   }
-  // }, [loyaltyProgram]);
-
   return {
     loyaltyProgramLocal,
+    cashStarRate,
+    creditCardStarRate,
+    harmonyPayStarRate,
+    otherStarRate,
     isHadUpdate: () => isHadUpdate(),
     setIsLoyaltyProgram: (value = false) => {
       setLoyaltyProgramLocal({
@@ -73,47 +83,49 @@ export const useProps = (props) => {
         IsLoyaltyProgram: value,
       });
     },
-    setCashStarRate: (value = 0) => {
+    setCashStarRate: (value) => {
       let temp = value;
+      setCashStarRate(temp);
       if (!temp || isNaN(parseFloat(value))) {
         temp = 0;
       }
       setLoyaltyProgramLocal({
         ...loyaltyProgramLocal,
-        CashStarRate: temp,
+        CashStarRate: parseFloat(temp).toFixed(2),
       });
     },
-    setCreditCardStarRate: (value = 0) => {
+    setCreditCardStarRate: (value) => {
       let temp = value;
+      setCreditCardStarRate(temp);
       if (!temp || isNaN(parseFloat(value))) {
         temp = 0;
       }
 
       setLoyaltyProgramLocal({
         ...loyaltyProgramLocal,
-        CreditCardStarRate: temp,
+        CreditCardStarRate: parseFloat(temp).toFixed(2),
       });
     },
-    setHarmonyPayStarRate: (value = 0) => {
+    setHarmonyPayStarRate: (value) => {
       let temp = value;
+      setHarmonyPayStarRate(temp);
       if (!temp || isNaN(parseFloat(value))) {
         temp = 0;
       }
-
       setLoyaltyProgramLocal({
         ...loyaltyProgramLocal,
-        HarmonyPayStarRate: temp,
+        HarmonyPayStarRate: parseFloat(temp).toFixed(2),
       });
     },
-    setOtherStarRate: (value = 0) => {
+    setOtherStarRate: (value) => {
       let temp = value;
+      setOtherStarRate(temp);
       if (!temp || isNaN(parseFloat(value))) {
         temp = 0;
       }
-
       setLoyaltyProgramLocal({
         ...loyaltyProgramLocal,
-        OtherStarRate: temp,
+        OtherStarRate: parseFloat(temp).toFixed(2),
       });
     },
     onSaveButtonPress: () => {
@@ -121,6 +133,10 @@ export const useProps = (props) => {
     },
     onCancelButtonPress: () => {
       setLoyaltyProgramLocal(loyaltyProgram);
+      setCashStarRate(loyaltyProgram?.CashStarRate);
+      setCreditCardStarRate(loyaltyProgram?.CreditCardStarRate);
+      setHarmonyPayStarRate(loyaltyProgram?.HarmonyPayStarRate);
+      setOtherStarRate(loyaltyProgram?.OtherStarRate);
     },
   };
 };

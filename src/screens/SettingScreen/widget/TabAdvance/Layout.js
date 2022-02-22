@@ -1,13 +1,13 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { useTranslation } from "react-i18next";
-import { colors, fonts, layouts } from "@shared/themes";
 import {
-  FormLabelSwitch,
-  CustomTextInput,
   ButtonGradient,
   ButtonGradientWhite,
+  CustomTextInput,
+  FormLabelSwitch,
 } from "@shared/components";
+import { fonts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const Layout = ({
@@ -19,7 +19,11 @@ export const Layout = ({
   setHarmonyPayStarRate,
   setOtherStarRate,
   onSaveButtonPress,
-  onCancelButtonPress
+  onCancelButtonPress,
+  cashStarRate,
+  creditCardStarRate,
+  harmonyPayStarRate,
+  otherStarRate,
 }) => {
   const [t] = useTranslation();
 
@@ -59,25 +63,25 @@ export const Layout = ({
               <View style={styles.margin} />
               <PaymentMethodRate
                 method={"Cash"}
-                value={`${loyaltyProgramLocal?.CashStarRate}`}
+                value={`${cashStarRate}`}
                 setValue={setCashStarRate}
               />
               <View style={styles.margin} />
               <PaymentMethodRate
                 method={"HarmonyPay"}
-                value={`${loyaltyProgramLocal?.HarmonyPayStarRate}`}
+                value={`${harmonyPayStarRate}`}
                 setValue={setHarmonyPayStarRate}
               />
               <View style={styles.margin} />
               <PaymentMethodRate
                 method={"Credit card"}
-                value={`${loyaltyProgramLocal?.CreditCardStarRate}`}
+                value={`${creditCardStarRate}`}
                 setValue={setCreditCardStarRate}
               />
               <View style={styles.margin} />
               <PaymentMethodRate
                 method={"Other"}
-                value={`${loyaltyProgramLocal?.OtherStarRate}`}
+                value={`${otherStarRate}`}
                 setValue={setOtherStarRate}
               />
             </>
@@ -129,6 +133,7 @@ const PaymentMethodRate = ({ method = "Cash", value, setValue }) => (
         textAlign="left"
         selectTextOnFocus={true}
         value={value}
+        defaultValue={"0"}
         onChangeText={setValue}
       />
     </View>
