@@ -11,7 +11,11 @@ import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const Layout = ({
-  loyaltyProgramLocal,
+  isCashDiscount,
+  cashDiscountPercent,
+  setIsCashDiscount,
+  setCashDiscountPercent,
+  dataLocal,
   isHadUpdate,
   setIsLoyaltyProgram,
   setCashStarRate,
@@ -34,13 +38,13 @@ export const Layout = ({
           <Title text={"Advance"} />
           <View style={styles.halfContent}>
             <FormLabelSwitch
-              defaultValue={loyaltyProgramLocal?.IsLoyaltyProgram}
+              defaultValue={dataLocal?.IsLoyaltyProgram}
               onValueChange={setIsLoyaltyProgram}
               label={"Loyalty program"}
               textStyle={styles.label}
             />
           </View>
-          {loyaltyProgramLocal?.IsLoyaltyProgram && (
+          {dataLocal?.IsLoyaltyProgram && (
             <>
               <Text style={styles.label}>
                 {"Star earn per "}
@@ -86,6 +90,23 @@ export const Layout = ({
               />
             </>
           )}
+
+           {/* ------- Cash Discount ------ */}
+          <View style={styles.halfContent}>
+            <FormLabelSwitch
+              defaultValue={dataLocal?.IsCashDiscount}
+              onValueChange={setIsCashDiscount}
+              label={"Apply Cash Discount program"}
+              textStyle={styles.label}
+            />
+          </View>
+          { isCashDiscount && 
+             <PaymentMethodRate
+               method={"Cash discount percent"}
+               value={`${cashDiscountPercent}`}
+               setValue={setCashDiscountPercent}
+             />
+          }
         </View>
       </KeyboardAwareScrollView>
 
