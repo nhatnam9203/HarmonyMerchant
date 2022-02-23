@@ -5,6 +5,7 @@ import {
   ButtonGradientWhite,
   DropdownMenu,
   ExportModal,
+  Pagination,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
@@ -183,21 +184,22 @@ export const Layout = ({
       </View>
       <View style={styles.rowContent}>
         <HeaderToolBarTitle label={t("Sessions")} style={styles.textTitle} />
+        <View style={layouts.horizontal}>
+          <Pagination
+            onChangePage={setPage}
+            onChangeItemsPerPage={() => {}}
+            visibleItemsPerPage={false}
+            defaultPage={1}
+            {...pagination}
+            length={items?.length}
+          />
 
-        {/* <Pagination
-          onChangePage={setPage}
-          onChangeItemsPerPage={() => {}}
-          visibleItemsPerPage={false}
-          defaultPage={1}
-          {...pagination}
-          length={items?.length}
-        /> */}
-
-        <ExportModal
-          ref={exportRef}
-          onExportFile={callExportOrderList}
-          exportFuncs={[{ value: "excel", label: "EXCEL" }]}
-        />
+          <ExportModal
+            ref={exportRef}
+            onExportFile={callExportOrderList}
+            exportFuncs={[{ value: "excel", label: "EXCEL" }]}
+          />
+        </View>
       </View>
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>

@@ -453,8 +453,6 @@ class HomeScreen extends Layout {
    * @param {*} staffId
    */
   createABlockAppointment = (appointmentId, fromTime, staffId = 0) => {
-    console.log("createABlockAppointment " + appointmentId);
-
     this.props.actions.appointment.updateFromTimeBlockAppointment(
       fromTime ? fromTime : new Date()
     );
