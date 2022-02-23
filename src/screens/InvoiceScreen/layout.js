@@ -671,13 +671,7 @@ export default class Layout extends React.Component {
                               }: ***********${data?.paymentInformation?.number || ""
                               }`}
                           </Text>
-                          <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.name?.replace(
-                              /%20/g,
-                              " "
-                            ) || ""
-                              }`}
-                          </Text>
+                         
                           <Text style={[layouts.fontPrintStyle]}>
                             {` ${data?.paymentInformation?.sn
                               ? `Terminal ID: ${data?.paymentInformation?.sn}`
@@ -706,6 +700,16 @@ export default class Layout extends React.Component {
                                 />
                               </View>
                             )}
+                            <Text style={[layouts.fontPrintStyle]}>
+                            {` ${data?.paymentInformation?.name?.replace(
+                              /%20/g,
+                              " "
+                            ).replace(
+                              /%2f/g,
+                              " "
+                            ) || ""
+                              }`}
+                          </Text>
                         </View>
                       ) : null}
                     </View>

@@ -1087,14 +1087,6 @@ class InvoiceScreen extends Layout {
                               data?.paymentInformation?.number || ""
                             }</t>
                           ${
-                            data?.paymentInformation?.name
-                              ? `<t>${data?.paymentInformation?.name?.replace(
-                                  /%20/g,
-                                  " "
-                                )}</t>`
-                              : ""
-                          }
-                          ${
                             data?.paymentInformation?.sn
                               ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
                               : ""
@@ -1110,6 +1102,17 @@ class InvoiceScreen extends Layout {
                             )
                               ? `<t>Signature: </t>
                                 <img>${data?.paymentInformation?.signData}</img>`
+                              : ""
+                          }
+                          ${
+                            data?.paymentInformation?.name
+                              ? `<t>${data?.paymentInformation?.name?.replace(
+                                  /%20/g,
+                                  " "
+                                ).replace(
+                                  /%2f/g,
+                                  " "
+                                )}</t>`
                               : ""
                           }
                           `
@@ -1139,7 +1142,7 @@ class InvoiceScreen extends Layout {
     )}</t>
     <t>${invoiceNo}</t>
     <t><c>${"-".repeat(24)}</c></t>
-    <t>DESCRIPTION.......TOTAL</t>
+    <t><b><c>DESCRIPTION.......TOTAL</c></b></t>
     <t><c>${"-".repeat(24)}</c></t>
     ${this.getInvoiceItemsXml()}
     <t><c>${"-".repeat(24)}</c></t>

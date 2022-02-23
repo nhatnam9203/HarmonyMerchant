@@ -544,10 +544,13 @@ export const PopupInvoice = React.forwardRef(
                               `
               : ``}
               ${data?.paymentInformation?.name ?
-                `<t><c>${data?.paymentInformation?.name?.replace(
+                `<t>${data?.paymentInformation?.name?.replace(
                   /%20/g,
                   " "
-                )}</c></t>` : ""
+                ).replace(
+                  /%2f/g,
+                  " "
+                )}</t>` : ""
               }`
         })
 
@@ -1099,6 +1102,9 @@ export const PopupInvoice = React.forwardRef(
                               <Text style={[layouts.fontPrintStyle]}>
                               {`    ${data?.paymentInformation?.name?.replace(
                                 /%20/g,
+                                " "
+                              ).replace(
+                                /%2f/g,
                                 " "
                               ) || ""
                                 }`}
