@@ -1,83 +1,107 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { useTranslation } from "react-i18next";
-import { colors, fonts, layouts } from "@shared/themes";
 import {
-  FormLabelSwitch,
-  CustomTextInput,
   ButtonGradient,
+  ButtonGradientWhite,
+  CustomTextInput,
+  FormLabelSwitch,
 } from "@shared/components";
+import { fonts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const Layout = ({
-  loyaltyProgram,
+  loyaltyProgramLocal,
+  isHadUpdate,
   setIsLoyaltyProgram,
   setCashStarRate,
   setCreditCardStarRate,
   setHarmonyPayStarRate,
   setOtherStarRate,
   onSaveButtonPress,
+  onCancelButtonPress,
+  cashStarRate,
+  creditCardStarRate,
+  harmonyPayStarRate,
+  otherStarRate,
 }) => {
   const [t] = useTranslation();
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <Title text={"Advance"} />
-        <View style={styles.halfContent}>
-          <FormLabelSwitch
-            defaultValue={loyaltyProgram?.IsLoyaltyProgram}
-            onValueChange={setIsLoyaltyProgram}
-            label={"Loyalty program"}
-            textStyle={styles.label}
-          />
-        </View>
-        {loyaltyProgram?.IsLoyaltyProgram && (
-          <>
-            <Text style={styles.label}>
-              {"Star earn per "}
-              <Text style={[styles.label, { color: "#0764B0" }]}>{"$1.0"}</Text>
-              {" spent by payment method"}
-            </Text>
-            <View style={styles.margin} />
-            <View style={styles.margin} />
+      <KeyboardAwareScrollView bounces={false}>
+        <View style={styles.content}>
+          <Title text={"Advance"} />
+          <View style={styles.halfContent}>
+            <FormLabelSwitch
+              defaultValue={loyaltyProgramLocal?.IsLoyaltyProgram}
+              onValueChange={setIsLoyaltyProgram}
+              label={"Loyalty program"}
+              textStyle={styles.label}
+            />
+          </View>
+          {loyaltyProgramLocal?.IsLoyaltyProgram && (
+            <>
+              <Text style={styles.label}>
+                {"Star earn per "}
+                <Text style={[styles.label, { color: "#0764B0" }]}>
+                  {"$1.0"}
+                </Text>
+                {" spent by payment method"}
+              </Text>
+              <View style={styles.margin} />
+              <View style={styles.margin} />
 
-            <RowContent>
-              <Text style={[styles.label, { color: "#0764B0", flex: 1 }]}>
-                {"Payment method"}
-              </Text>
-              <Text style={[styles.label, { color: "#0764B0", flex: 2 }]}>
-                {"Star earned"}
-              </Text>
-            </RowContent>
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Cash"}
-              value={`${loyaltyProgram?.CashStarRate}`}
-              setValue={setCashStarRate}
-            />
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"HarmonyPay"}
-              value={`${loyaltyProgram?.HarmonyPayStarRate}`}
-              setValue={setHarmonyPayStarRate}
-            />
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Credit card"}
-              value={`${loyaltyProgram?.CreditCardStarRate}`}
-              setValue={setCreditCardStarRate}
-            />
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Other"}
-              value={`${loyaltyProgram?.OtherStarRate}`}
-              setValue={setOtherStarRate}
-            />
-          </>
-        )}
-      </View>
+              <RowContent>
+                <Text style={[styles.label, { color: "#0764B0", flex: 1 }]}>
+                  {"Payment method"}
+                </Text>
+                <Text style={[styles.label, { color: "#0764B0", flex: 2 }]}>
+                  {"Star earned"}
+                </Text>
+              </RowContent>
+              <View style={styles.margin} />
+              <PaymentMethodRate
+                method={"Cash"}
+                value={`${cashStarRate}`}
+                setValue={setCashStarRate}
+              />
+              <View style={styles.margin} />
+              <PaymentMethodRate
+                method={"HarmonyPay"}
+                value={`${harmonyPayStarRate}`}
+                setValue={setHarmonyPayStarRate}
+              />
+              <View style={styles.margin} />
+              <PaymentMethodRate
+                method={"Credit card"}
+                value={`${creditCardStarRate}`}
+                setValue={setCreditCardStarRate}
+              />
+              <View style={styles.margin} />
+              <PaymentMethodRate
+                method={"Other"}
+                value={`${otherStarRate}`}
+                setValue={setOtherStarRate}
+              />
+            </>
+          )}
+        </View>
+      </KeyboardAwareScrollView>
+
       <View style={styles.buttonContent}>
+        <ButtonGradientWhite
+          disable={!isHadUpdate()}
+          label={"CANCEL"}
+          width={scaleWidth(180)}
+          height={scaleHeight(50)}
+          borderRadius={scaleWidth(3)}
+          onPress={onCancelButtonPress}
+        />
+        <View style={styles.margin} />
+
         <ButtonGradient
+          disable={!isHadUpdate()}
           label={"SAVE"}
           width={scaleWidth(180)}
           height={scaleHeight(50)}
@@ -109,6 +133,7 @@ const PaymentMethodRate = ({ method = "Cash", value, setValue }) => (
         textAlign="left"
         selectTextOnFocus={true}
         value={value}
+        defaultValue={"0"}
         onChangeText={setValue}
       />
     </View>
@@ -169,5 +194,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
   },
 });

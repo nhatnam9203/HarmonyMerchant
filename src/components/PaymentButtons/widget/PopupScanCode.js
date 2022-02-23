@@ -17,9 +17,9 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
   const [softInputOnFocus, showSoftInputOnFocus] = React.useState(false);
   const [cameraType, setCameraType] = React.useState("back");
 
-  const hidePopup = () => {
-    setValue("");
-    showSoftInputOnFocus(false);
+  const hidePopup = async () => {
+    await setValue("");
+    await showSoftInputOnFocus(false);
 
     textInputRef.current?.clear();
     dialogRef.current?.hide();
@@ -50,7 +50,14 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
     await showSoftInputOnFocus(true);
     setTimeout(() => {
       textInputRef.current?.focus();
-    }, 150);
+    }, 500);
+  };
+
+  const onModalWillHide = async () => {
+    await setValue("");
+    await showSoftInputOnFocus(false);
+
+    textInputRef.current?.clear();
   };
 
   React.useImperativeHandle(ref, () => ({
@@ -70,6 +77,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
         title={title ?? t("HarmonyPay - Gift Card")}
         ref={dialogRef}
         style={styles.dialog}
+        onModalWillHide={onModalWillHide}
       >
         <View style={styles.container}>
           <View style={styles.camera}>
@@ -148,7 +156,13 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
               style={styles.editButton}
               onPress={showKeyboardInput}
             >
-              <Image style={styles.icon} source={IMAGE["edit_customer_icon"]} />
+              <Image
+                style={[
+                  styles.icon,
+                  { tintColor: softInputOnFocus ? "#0764B0" : "#666" },
+                ]}
+                source={IMAGE["edit_customer_icon"]}
+              />
             </TouchableOpacity>
           </View>
         </View>

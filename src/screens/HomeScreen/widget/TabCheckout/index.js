@@ -626,36 +626,53 @@ class TabCheckout extends Layout {
     }
 
     if (isBookingFromCalendar) {
-      const app =
-        groupAppointment?.appointments?.length > 0
-          ? groupAppointment.appointments[0]
-          : null;
+      if (blockAppointments?.length > 0) {
+        const app = blockAppointments?.length > 0 ? blockAppointments[0] : null;
 
-      const mainAppointmentId = groupAppointment?.mainAppointmentId
-        ? groupAppointment.mainAppointmentId
-        : 0;
-      if (
-        app &&
-        groupAppointment?.appointments &&
-        groupAppointment?.appointments.length === 1
-      ) {
-        if (
-          app.services.length + app.products.length + app.giftCards.length ===
-          0
-        ) {
-          const customerId = customerInfoBuyAppointment.customerId
-            ? customerInfoBuyAppointment.customerId
-            : 0;
-
-          if (appointmentIdBookingFromCalendar) {
+        if (app && blockAppointments && blockAppointments?.length === 1) {
+          if (
+            app.services.length + app.products.length + app.giftCards.length ===
+            0
+          ) {
+            const customerId = customerInfoBuyAppointment.customerId
+              ? customerInfoBuyAppointment.customerId
+              : 0;
             this.props.actions.appointment.cancleAppointment(
-              appointmentIdBookingFromCalendar,
+              isOpenBlockAppointmentId,
               profile.merchantId,
               customerId
             );
-          } else if (mainAppointmentId) {
+          }
+        }
+      }
+
+      if (
+        groupAppointment?.appointments?.length > 0 &&
+        appointmentIdBookingFromCalendar
+      ) {
+        const app =
+          groupAppointment?.appointments?.length > 0
+            ? groupAppointment.appointments[0]
+            : null;
+
+        const mainAppointmentId = groupAppointment?.mainAppointmentId
+          ? groupAppointment.mainAppointmentId
+          : 0;
+        if (
+          app &&
+          groupAppointment?.appointments &&
+          groupAppointment?.appointments.length === 1
+        ) {
+          if (
+            app.services.length + app.products.length + app.giftCards.length ===
+            0
+          ) {
+            const customerId = customerInfoBuyAppointment.customerId
+              ? customerInfoBuyAppointment.customerId
+              : 0;
+
             this.props.actions.appointment.cancleAppointment(
-              mainAppointmentId,
+              appointmentIdBookingFromCalendar,
               profile.merchantId,
               customerId
             );

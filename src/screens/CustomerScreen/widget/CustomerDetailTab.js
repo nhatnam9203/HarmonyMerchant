@@ -49,6 +49,7 @@ class CustomerDetailTab extends React.Component {
         },
       },
       visible: false,
+      totalRewardStart: 0,
     };
     this.onEndReachedCalledDuringMomentum = true;
     this.popupAppointmentDetailRef = React.createRef();
@@ -357,6 +358,26 @@ class CustomerDetailTab extends React.Component {
                 </View>
               </View>
             )}
+            <View
+              style={{
+                height: scaleSize(30),
+                alignItems: "center",
+                marginBottom: scaleSize(10),
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <Image source={ICON.star} />
+              <Text
+                style={{
+                  marginLeft: 5,
+                  color: "#404040",
+                  fontSize: scaleSize(18),
+                }}
+              >
+                {customer?.totalRewardStart ?? 0}
+              </Text>
+            </View>
 
             <View style={{ flex: 1, paddingHorizontal: scaleSize(12) }}>
               {/* ------------- Customer Note  ---------- */}

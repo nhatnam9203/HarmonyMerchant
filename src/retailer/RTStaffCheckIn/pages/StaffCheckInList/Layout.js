@@ -184,14 +184,14 @@ export const Layout = ({
       <View style={styles.rowContent}>
         <HeaderToolBarTitle label={t("Sessions")} style={styles.textTitle} />
 
-        {/* <Pagination
+        <Pagination
           onChangePage={setPage}
           onChangeItemsPerPage={() => {}}
           visibleItemsPerPage={false}
           defaultPage={1}
           {...pagination}
           length={items?.length}
-        /> */}
+        />
 
         <ExportModal
           ref={exportRef}
