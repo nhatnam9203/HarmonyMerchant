@@ -890,7 +890,7 @@ class TabCheckout extends Layout {
 
   donotPrintBill = async () => {
     this.props.pushAppointmentIdOfflineIntoWebview();
-    const { connectionSignalR, paymentMachineType, isOpenCashier } = this.props;
+    const { connectionSignalR, paymentMachineType, profile } = this.props;
     const { paymentSelected } = this.state;
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
@@ -904,7 +904,7 @@ class TabCheckout extends Layout {
 
       if (portName) {
         if (
-          (paymentSelected === "Other" && isOpenCashier) ||
+          (paymentSelected === "Other" && profile?.isOpenCashier) ||
           paymentSelected === "Cash"
         ) {
           this.openCashDrawer(portName);
@@ -917,7 +917,7 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetPayment();
       } else {
         if (
-          (paymentSelected === "Other" && isOpenCashier) ||
+          (paymentSelected === "Other" && profile?.isOpenCashier) ||
           paymentSelected === "Cash"
         ) {
           if (paymentMachineType == PaymentTerminalType.Clover) {
@@ -967,7 +967,7 @@ class TabCheckout extends Layout {
       paymentMachineType,
       paymentDetailInfo,
       groupAppointment,
-      isOpenCashier,
+      profile,
     } = this.props;
 
     const { portName } = getInfoFromModelNameOfPrinter(
@@ -985,7 +985,7 @@ class TabCheckout extends Layout {
     } else {
       if (
         paymentSelected === "Cash" ||
-        (paymentSelected === "Other" && isOpenCashier)
+        (paymentSelected === "Other" && profile?.isOpenCashier)
       ) {
         if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
           this.openCashDrawerClover();
