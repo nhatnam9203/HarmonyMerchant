@@ -910,7 +910,10 @@ export const useProps = ({
     if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
       alert("Please connect to your printer!");
     } else {
-      if (paymentSelected === "Cash" || paymentSelected === "Other") {
+      if (
+        paymentSelected === "Cash" ||
+        (paymentSelected === "Other" && profile?.isOpenCashier)
+      ) {
         if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
           openCashDrawerClover();
         } else {
@@ -950,7 +953,13 @@ export const useProps = ({
       );
 
       if (portName) {
-        openCashDrawer(portName);
+        if (
+          paymentSelected === "Cash" ||
+          (paymentSelected === "Other" && profile?.isOpenCashier)
+        ) {
+          openCashDrawer(portName);
+        }
+
         dispatch(actions.appointment.closeModalPaymentCompleted());
         dispatch(actions.appointment.resetBasketEmpty());
         dispatch(actions.appointment.resetPayment());

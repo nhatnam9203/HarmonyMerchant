@@ -76,6 +76,7 @@ class TabGaneral extends Layout {
       city: profile?.city,
       stateId: profile?.stateId,
       zip: profile?.zip,
+      isOpenCashier: profile?.isOpenCashier,
     };
     this.tempId = 4;
     this.inputRefsTime = [];
@@ -184,6 +185,7 @@ class TabGaneral extends Layout {
       city,
       stateId,
       zip,
+      isOpenCashier,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -228,6 +230,7 @@ class TabGaneral extends Layout {
         city,
         stateId,
         zip,
+        isOpenCashier,
       },
       true,
       true
@@ -268,6 +271,7 @@ class TabGaneral extends Layout {
         city: profile?.city,
         stateId: profile?.stateId,
         zip: profile?.zip,
+        isOpenCashier: profile?.isOpenCashier,
       });
       this.updateWorkTime();
     }
@@ -301,6 +305,7 @@ class TabGaneral extends Layout {
         city: profile?.city,
         stateId: profile?.stateId,
         zip: profile?.zip,
+        isOpenCashier: profile?.isOpenCashier,
       });
       this.updateWorkTime();
     }
@@ -370,6 +375,12 @@ class TabGaneral extends Layout {
   switchPrintReceipt(visible) {
     this.setState({
       isPrintReceipt: visible,
+    });
+  }
+
+  switchOpenCashier(visible) {
+    this.setState({
+      isOpenCashier: visible,
     });
   }
 }

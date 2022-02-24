@@ -1,25 +1,17 @@
 import ButtonCustom from "@components/ButtonCustom";
 import PrintManager from "@lib/PrintManager";
-import {
-  useGetGroupAppointment,
-  useGetInvoiceDetail,
-} from "@shared/services/api/app";
-import { getFullName, statusSuccess } from "@shared/utils";
+import { layouts } from "@shared/themes";
 import {
   checkIsTablet,
-  formatNumberFromCurrency,
+  doPrintClover,
   formatWithMoment,
   getInfoFromModelNameOfPrinter,
-  getPaymentString,
-  getStaffNameForInvoice,
-  scaleSize,
-  doPrintClover,
   PaymentTerminalType,
+  scaleSize,
 } from "@utils";
 import React from "react";
 import {
   ActivityIndicator,
-  Alert,
   Modal,
   Platform,
   ScrollView,
@@ -37,7 +29,6 @@ import {
   ItemReceipt,
 } from "../payment/PopupInvoice/ItemReceipt";
 import { TotalView } from "../payment/PopupInvoice/TotalView";
-import { layouts } from "@shared/themes";
 
 export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   const viewShotRef = React.useRef(null);
@@ -194,8 +185,8 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
 
           releaseCapture(imageUri);
         } else if (paymentMachineType == PaymentTerminalType.Clover) {
-              doPrintClover(imageUri);
-              releaseCapture(imageUri);
+          doPrintClover(imageUri);
+          releaseCapture(imageUri);
         }
       }
     } catch (error) {
@@ -239,7 +230,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
       item,
       appointment,
       isPrintTempt = true,
-      machineType
+      machineType,
     }) => {
       reset();
 
@@ -294,7 +285,13 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
               <View
                 ref={viewShotRef}
                 style={[
-                  { backgroundColor: isShare || paymentMachineType == PaymentTerminalType.Clover ? "#fff" : "#0000" },
+                  {
+                    backgroundColor:
+                      isShare ||
+                      paymentMachineType == PaymentTerminalType.Clover
+                        ? "#fff"
+                        : "#0000",
+                  },
                   styles.receiptContent,
                 ]}
               >

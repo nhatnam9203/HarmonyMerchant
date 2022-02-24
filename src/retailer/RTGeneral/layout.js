@@ -66,7 +66,8 @@ class Layout extends React.Component {
       receiptFooter,
       shippingMethod,
       isCheckQty,
-      isPrintReceipt
+      isPrintReceipt,
+      isOpenCashier,
     } = this.state;
 
     return (
@@ -251,6 +252,40 @@ class Layout extends React.Component {
                 ios_backgroundColor="#E5E5E5"
                 onValueChange={this.switchPrintReceipt}
                 value={isPrintReceipt}
+              />
+            </View>
+          </View>
+
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+            <View
+              style={{
+                width: scaleWidth(260),
+                justifyContent: "center",
+                alignItems: "flex-start",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleSize(16),
+                  fontWeight: "600",
+                }}
+              >
+                {`Auto open cashier`}
+              </Text>
+            </View>
+            <View
+              style={{
+                height: scaleSize(40),
+                width: scaleSize(140),
+                justifyContent: "center",
+              }}
+            >
+              <Switch
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={this.switchOpenCashier}
+                value={isOpenCashier}
               />
             </View>
           </View>

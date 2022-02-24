@@ -890,7 +890,7 @@ class TabCheckout extends Layout {
 
   donotPrintBill = async () => {
     this.props.pushAppointmentIdOfflineIntoWebview();
-    const { connectionSignalR, paymentMachineType } = this.props;
+    const { connectionSignalR, paymentMachineType, isOpenCashier } = this.props;
     const { paymentSelected } = this.state;
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
@@ -903,7 +903,12 @@ class TabCheckout extends Layout {
       );
 
       if (portName) {
-        this.openCashDrawer(portName);
+        if (
+          (paymentSelected === "Other" && isOpenCashier) ||
+          paymentSelected === "Cash"
+        ) {
+          this.openCashDrawer(portName);
+        }
         this.scrollTabRef.current?.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
@@ -911,13 +916,19 @@ class TabCheckout extends Layout {
         this.setState(initState);
         this.props.actions.appointment.resetPayment();
       } else {
-        if (paymentMachineType == PaymentTerminalType.Clover) {
-          this.openCashDrawerClover();
-        } else {
-          setTimeout(() => {
-            alert("Please connect to your cash drawer.");
-          }, 700);
+        if (
+          (paymentSelected === "Other" && isOpenCashier) ||
+          paymentSelected === "Cash"
+        ) {
+          if (paymentMachineType == PaymentTerminalType.Clover) {
+            this.openCashDrawerClover();
+          } else {
+            setTimeout(() => {
+              alert("Please connect to your cash drawer.");
+            }, 700);
+          }
         }
+
         this.scrollTabRef.current?.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
@@ -956,6 +967,7 @@ class TabCheckout extends Layout {
       paymentMachineType,
       paymentDetailInfo,
       groupAppointment,
+      isOpenCashier,
     } = this.props;
 
     const { portName } = getInfoFromModelNameOfPrinter(
@@ -971,7 +983,10 @@ class TabCheckout extends Layout {
     if (paymentMachineType === PaymentTerminalType.Pax && !portName) {
       alert("Please connect to your printer!");
     } else {
-      if (paymentSelected === "Cash" || paymentSelected === "Other") {
+      if (
+        paymentSelected === "Cash" ||
+        (paymentSelected === "Other" && isOpenCashier)
+      ) {
         if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
           this.openCashDrawerClover();
         } else {
@@ -3249,7 +3264,6 @@ const mapStateToProps = (state) => ({
     state.appointment.amountCredtitForSubmitToServer,
   bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo,
   staffListCurrentDate: state.appointment.staffListCurrentDate,
-
   visibleAddEditCustomerPopup: state.appointment.visibleAddEditCustomerPopup,
   appointmentIdBookingFromCalendar:
     state.appointment.appointmentIdBookingFromCalendar,
