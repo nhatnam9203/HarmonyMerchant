@@ -516,15 +516,26 @@ export const PopupInvoice = React.forwardRef(
       if (!printTempt) {
         getCheckoutPaymentMethods()?.map((data, index) => {
           entryMethodXml = entryMethodXml +
-            `- Entry method: ${getPaymentString(
+            `<br/><t>- Entry method:</t>
+            <t>${_.padEnd(`${getPaymentString(
               data?.paymentMethod || ""
-            )} $${Number(
-              formatNumberFromCurrency(data?.amount || "0")
-            ).toFixed(2)}
+            )}`, 15, ".")}${_.padStart(
+              `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(2)}`,
+              9,
+              "."
+            )}</t>
               ${(data.paymentMethod &&
               data.paymentMethod === "credit_card") ||
               data.paymentMethod === "debit_card" ?
-              `<t>${data?.paymentInformation?.type || ""
+              `${
+                data?.fee &&
+                `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
+                  `$${data?.fee}`,
+                  9,
+                  "."
+                )}</t>`
+              }
+              <t>${data?.paymentInformation?.type || ""
               }: ***********${data?.paymentInformation?.number || ""
               }</t>
                               
@@ -541,8 +552,6 @@ export const PopupInvoice = React.forwardRef(
               ) ? `<t>Signature: </t>
                   <img>${data?.paymentInformation?.signData}</img>` : ""
               }
-                              `
-              : ``}
               ${data?.paymentInformation?.name ?
                 `<t>${data?.paymentInformation?.name?.replace(
                   /%20/g,
@@ -551,7 +560,27 @@ export const PopupInvoice = React.forwardRef(
                   /%2f/g,
                   " "
                 )}</t>` : ""
-              }`
+              }
+              `
+              : 
+                `${
+                  data?.fee &&
+                  `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
+                    `$${data?.fee}`,
+                    9,
+                    "."
+                  )}</t>`
+                }
+                ${
+                  data?.cashDiscount &&
+                  `<t>${_.padEnd("Cash Discount: ", 15, ".")}${_.padStart(
+                    `$${data?.cashDiscount}`,
+                    9,
+                    "."
+                  )}</t>`
+
+                }`
+            }`
         })
 
       }
@@ -953,7 +982,7 @@ export const PopupInvoice = React.forwardRef(
                   {getChange() > 0 && (
                     <TotalView
                       title={"Change"}
-                      value={formatMoneyWithUnit(getChange())}
+                      value={getChange()}
                       styleTextTitle={layouts.fontPrintSubTitleStyle}
                       styleTextValue={layouts.fontPrintStyle}
                     />
@@ -1065,6 +1094,15 @@ export const PopupInvoice = React.forwardRef(
                             data.paymentMethod === "credit_card") ||
                             data.paymentMethod === "debit_card" ? (
                             <View style={{ marginTop: scaleSize(5) }}>
+                              {
+                                data?.fee &&
+                                <TotalView
+                                  title={"    Non-Cash Adjustment"}
+                                  value={data?.fee}
+                                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                                  styleTextValue={layouts.fontPrintStyle}
+                                />
+                              }
                               <Text style={[layouts.fontPrintStyle]}>
                                 {`    ${data?.paymentInformation?.type || ""
                                   }: ***********${data?.paymentInformation?.number || ""
@@ -1109,8 +1147,30 @@ export const PopupInvoice = React.forwardRef(
                               ) || ""
                                 }`}
                               </Text>
+                              
                             </View>
-                          ) : null}
+                          ) : 
+                            <>
+                              {
+                                  data?.fee &&
+                                  <TotalView
+                                    title={"    Non-Cash Adjustment"}
+                                    value={data?.fee}
+                                    styleTextTitle={layouts.fontPrintSubTitleStyle}
+                                    styleTextValue={layouts.fontPrintStyle}
+                                  />
+                                }
+                                {
+                                  data?.cashDiscount &&
+                                  <TotalView
+                                    title={"    Cash Discount"}
+                                    value={data?.cashDiscount}
+                                    styleTextTitle={layouts.fontPrintSubTitleStyle}
+                                    styleTextValue={layouts.fontPrintStyle}
+                                  />
+                                }
+                            </>
+                          }
                         </View>
                       ))}
                     </View>

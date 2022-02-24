@@ -1074,9 +1074,14 @@ class InvoiceScreen extends Layout {
     checkoutPayments.map((data, index) => {
       entryMethodXml =
         entryMethodXml +
-        `- Entry method: ${getPaymentString(
+        `<br/><t>- Entry method:</t>
+        <t>${l.padEnd(`${getPaymentString(
           data?.paymentMethod || ""
-        )} $${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(2)}
+        )}`, 15, ".")}${l.padStart(
+          `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(2)}`,
+          9,
+          "."
+        )}</t>
                       ${
                         (data.paymentMethod &&
                           data.paymentMethod === "credit_card") ||
@@ -1115,8 +1120,33 @@ class InvoiceScreen extends Layout {
                                 )}</t>`
                               : ""
                           }
+                          ${
+                            data?.fee &&
+                            `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
+                              `$${data?.fee}`,
+                              9,
+                              "."
+                            )}</t>`
+                          }
                           `
-                          : ``
+                          : 
+                            `${
+                              data?.fee &&
+                              `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
+                                `$${data?.fee}`,
+                                9,
+                                "."
+                              )}</t>`
+                            }
+                            ${
+                              data?.cashDiscount &&
+                              `<t>${l.padEnd("Cash Discount: ", 15, ".")}${l.padStart(
+                                `$${data?.cashDiscount}`,
+                                9,
+                                "."
+                              )}</t>`
+
+                            }`
                       }`;
     });
 
@@ -1176,7 +1206,11 @@ class InvoiceScreen extends Layout {
 
     ${
       parseFloat(refundAmount) > 0
-        ? `<t>Change : $${invoiceDetail?.refundAmount || "0.00"}</t>`
+        ? `<t>${l.padEnd("Change: ", 15, ".")}${l.padStart(
+          `$${invoiceDetail?.refundAmount || "0.00"}`,
+          9,
+          "."
+        )}</t>`
         : ``
     }
 
