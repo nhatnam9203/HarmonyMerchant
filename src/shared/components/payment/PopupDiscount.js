@@ -615,8 +615,13 @@ class CustomDiscount extends React.Component {
 
   changeTypeManualDiscount = async (type) => {
     if (type == manualType.percentType) {
+      let valueText = this.state.valueText
+      if(formatNumberFromCurrency(this.state.valueText) > 100) {
+        valueText = "0.00"
+      }
       await this.setState({
         manualTypeSelect: manualType.percentType,
+        valueText,
       });
     } else {
       await this.setState({
@@ -631,11 +636,9 @@ class CustomDiscount extends React.Component {
 
     let discount = textNumber;
     if (this.state.manualTypeSelect == manualType.percentType) {
-      discount = roundNumber(
-        (formatNumberFromCurrency(textNumber) *
+      discount = (formatNumberFromCurrency(textNumber) *
           formatNumberFromCurrency(total)) /
-          100
-      );
+          100;
 
       await this.setState({
         discount,
@@ -656,8 +659,12 @@ class CustomDiscount extends React.Component {
   };
 
   onChangeText = async (textNumber) => {
-    await this.setState({ valueText: textNumber });
-    this.calculateDiscount(textNumber);
+    let newTextNumber = textNumber
+    if (this.state.manualTypeSelect == manualType.percentType && formatNumberFromCurrency(textNumber) > 100) {
+        newTextNumber = this.state.valueText
+    }
+    await this.setState({ valueText: newTextNumber });
+    this.calculateDiscount(newTextNumber);
   };
 
   handlePercentDiscount = async (value) => {
@@ -750,7 +757,7 @@ class CustomDiscount extends React.Component {
 
           <View style={{ justifyContent: "center" }}>
             <Text style={{ color: "#4CD964", fontSize: scaleSize(18) }}>
-              {`$ ${formatMoney(roundNumber(this.state.discount))}`}
+              {`$ ${formatMoney(this.state.discount)}`}
             </Text>
           </View>
         </View>
