@@ -1086,7 +1086,16 @@ class InvoiceScreen extends Layout {
                         (data.paymentMethod &&
                           data.paymentMethod === "credit_card") ||
                         data.paymentMethod === "debit_card"
-                          ? `<t>${
+                          ? `
+                            ${
+                              data?.fee > 0 &&
+                              `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
+                                `$${data?.fee}`,
+                                9,
+                                "."
+                              )}</t>`
+                            }
+                            <t>${
                               data?.paymentInformation?.type || ""
                             }: ***********${
                               data?.paymentInformation?.number || ""
@@ -1120,18 +1129,11 @@ class InvoiceScreen extends Layout {
                                 )}</t>`
                               : ""
                           }
-                          ${
-                            data?.fee &&
-                            `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
-                              `$${data?.fee}`,
-                              9,
-                              "."
-                            )}</t>`
-                          }
+                          
                           `
                           : 
                             `${
-                              data?.fee &&
+                              data?.fee > 0 &&
                               `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
                                 `$${data?.fee}`,
                                 9,
@@ -1139,7 +1141,7 @@ class InvoiceScreen extends Layout {
                               )}</t>`
                             }
                             ${
-                              data?.cashDiscount &&
+                              data?.cashDiscount < 0 &&
                               `<t>${l.padEnd("Cash Discount: ", 15, ".")}${l.padStart(
                                 `$${data?.cashDiscount}`,
                                 9,

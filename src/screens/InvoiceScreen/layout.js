@@ -674,7 +674,7 @@ export default class Layout extends React.Component {
                         data.paymentMethod === "debit_card" ? (
                         <View style={{ marginTop: scaleSize(5) }}>
                           {
-                            data?.fee &&
+                            data?.fee > 0 &&
                             <ItemTotal
                             title={" Non-Cash Adjustment"}
                             value={data?.fee}
@@ -729,14 +729,14 @@ export default class Layout extends React.Component {
                       ) : 
                       <>
                        {
-                            data?.fee &&
+                            data?.fee > 0 &&
                             <ItemTotal
                             title={" Non-Cash Adjustment"}
                             value={data?.fee}
                             />
                           }
                           {
-                            data?.cashDiscount &&
+                            data?.cashDiscount < 0 &&
                             <ItemTotal
                             title={" Cash Discount"}
                             value={data?.cashDiscount}

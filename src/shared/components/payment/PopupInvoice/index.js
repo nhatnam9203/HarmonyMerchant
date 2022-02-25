@@ -564,7 +564,7 @@ export const PopupInvoice = React.forwardRef(
               `
               : 
                 `${
-                  data?.fee &&
+                  data?.fee > 0 &&
                   `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
                     `$${data?.fee}`,
                     9,
@@ -572,7 +572,7 @@ export const PopupInvoice = React.forwardRef(
                   )}</t>`
                 }
                 ${
-                  data?.cashDiscount &&
+                  data?.cashDiscount < 0 &&
                   `<t>${_.padEnd("Cash Discount: ", 15, ".")}${_.padStart(
                     `$${data?.cashDiscount}`,
                     9,
@@ -1095,7 +1095,7 @@ export const PopupInvoice = React.forwardRef(
                             data.paymentMethod === "debit_card" ? (
                             <View style={{ marginTop: scaleSize(5) }}>
                               {
-                                data?.fee &&
+                                data?.fee > 0 &&
                                 <TotalView
                                   title={"    Non-Cash Adjustment"}
                                   value={data?.fee}
@@ -1152,7 +1152,7 @@ export const PopupInvoice = React.forwardRef(
                           ) : 
                             <>
                               {
-                                  data?.fee &&
+                                  data?.fee > 0 &&
                                   <TotalView
                                     title={"    Non-Cash Adjustment"}
                                     value={data?.fee}
@@ -1161,7 +1161,7 @@ export const PopupInvoice = React.forwardRef(
                                   />
                                 }
                                 {
-                                  data?.cashDiscount &&
+                                  data?.cashDiscount < 0 &&
                                   <TotalView
                                     title={"    Cash Discount"}
                                     value={data?.cashDiscount}

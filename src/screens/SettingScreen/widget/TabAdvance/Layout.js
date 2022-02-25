@@ -102,7 +102,7 @@ export const Layout = ({
           </View>
           { isCashDiscount && 
              <PaymentMethodRate
-               method={"Cash discount percent"}
+               method={"Cash discount percent (%)"}
                value={`${cashDiscountPercent}`}
                setValue={setCashDiscountPercent}
              />
