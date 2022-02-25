@@ -430,70 +430,6 @@ class PopupDiscount extends React.Component {
                     language={language}
                   />
 
-                  {/* -----------  Discount by Owner, Discount by staff  ----------- */}
-                  {/* <View style={[styles.viewRowContainer, { marginTop: 25 }]}>
-                    <Text style={styles.textNormal}>
-                      {localize("Discount by Owner", language)}
-                    </Text>
-                    <Text style={styles.textNormal}>
-                      {localize("Discount by Staff", language)}
-                    </Text>
-                  </View> */}
-
-                  {/* ----------Money discount of staff, owner------------ */}
-                  {/* <View style={styles.viewRowContainer}>
-                    <Text
-                      style={styles.textNormal}
-                    >{`$ ${discountMoneyByOwner}`}</Text>
-                    <Text
-                      style={styles.textNormal}
-                    >{`$ ${discountMoneyByStaff}`}</Text>
-                  </View> */}
-                  {/* ----------Slider------------ */}
-                  {/* <Slider
-                    style={styles.slider}
-                    value={this.state.discountByOwner}
-                    minimumValue={0}
-                    maximumValue={100}
-                    onValueChange={(value) => this.handelSliderValue(value)}
-                    trackStyle={{
-                      height: scaleSize(10),
-                      backgroundColor: "#F1F1F1",
-                      borderRadius: scaleSize(6),
-                    }}
-                    thumbStyle={{
-                      height: scaleSize(24),
-                      width: scaleSize(24),
-                      borderRadius: scaleSize(12),
-                      backgroundColor: "#fff",
-                      ...Platform.select({
-                        ios: {
-                          shadowColor: "rgba(0, 0, 0,0.3)",
-                          shadowOffset: { width: 1, height: 0 },
-                          shadowOpacity: 1,
-                        },
-
-                        android: {
-                          elevation: 2,
-                        },
-                      }),
-                    }}
-                    minimumTrackTintColor={colors.OCEAN_BLUE}
-                    maximumTrackTintColor={colors.PALE_GREY}
-                    step={25}
-                  /> */}
-
-                  {/* <View style={styles.viewRowContainer}>
-                    <Text
-                      style={styles.textNormal}
-                    >{`${this.state.discountByOwner}%`}</Text>
-                    <Text
-                      style={styles.textNormal}
-                    >{`${discountByStaff}%`}</Text>
-                  </View> */}
-
-
-
                   {/* ----------- Note  ----------- */}
                   <View style={{ marginTop: 20 }}>
                     <Text style={[styles.textNormal, { marginBottom: 5 }]}>
@@ -804,7 +740,6 @@ class CustomDiscount extends React.Component {
                   onChangeText={this.onChangeText}
                   keyboardType="numeric"
                   placeholderTextColor="#A9A9A9"
-                  maxLength={6}
                 />
               </View>
             </View>

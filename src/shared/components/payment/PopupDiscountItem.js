@@ -362,7 +362,6 @@ class CustomDiscount extends React.Component {
                   onChangeText={this.onChangeText}
                   keyboardType="numeric"
                   placeholderTextColor="#A9A9A9"
-                  maxLength={6}
                 />
               </View>
             </View>
