@@ -86,6 +86,7 @@ class TabGaneral extends Layout {
     this.switchCheckProductQuantity =
       this.switchCheckProductQuantity.bind(this);
     this.switchPrintReceipt = this.switchPrintReceipt.bind(this);
+    this.switchOpenCashier = this.switchOpenCashier.bind(this);
   }
 
   setRefTimeWorking = (ref) => {

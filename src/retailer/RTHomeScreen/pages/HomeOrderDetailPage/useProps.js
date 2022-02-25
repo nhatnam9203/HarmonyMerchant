@@ -2,7 +2,6 @@ import NavigationServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
 import { basketRetailer } from "@redux/slices";
 import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
-import { NativeModules } from "react-native";
 import {
   useCancelAppointment,
   useCompleteAppointment,
@@ -13,19 +12,19 @@ import {
 } from "@shared/services/api/retailer";
 import {
   PURCHASE_POINTS_STORE,
-  statusSuccess,
   SHIPPING_METHOD_GROUP,
+  statusSuccess,
 } from "@shared/utils";
 import {
-  getInfoFromModelNameOfPrinter,
-  REMOTE_APP_ID,
   APP_NAME,
+  getTaxRateFromAppointment,
   POS_SERIAL,
+  REMOTE_APP_ID,
 } from "@utils";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import { getTaxRateFromAppointment } from "@utils";
+import React from "react";
+import { NativeModules } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);

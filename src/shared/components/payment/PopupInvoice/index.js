@@ -4,7 +4,7 @@ import {
   useGetGroupAppointment,
   useGetInvoiceDetail,
 } from "@shared/services/api/app";
-import { getFullName, statusSuccess, } from "@shared/utils";
+import { getFullName, statusSuccess } from "@shared/utils";
 import {
   checkIsTablet,
   formatNumberFromCurrency,
@@ -19,7 +19,7 @@ import {
   getCenterStringArrayXml,
   getCenterBoldStringArrayXml,
   formatMoney,
-  formatMoneyWithUnit
+  formatMoneyWithUnit,
 } from "@utils";
 import React from "react";
 import {
@@ -43,7 +43,7 @@ import { TotalView } from "./TotalView";
 import { layouts } from "@shared/themes";
 import _ from "lodash";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
-import { getTaxRateFromGroupAppointment } from "@utils"
+import { getTaxRateFromGroupAppointment } from "@utils";
 
 export const PopupInvoice = React.forwardRef(
   ({ cancelInvoicePrint, doPrintClover }, ref) => {
@@ -197,19 +197,20 @@ export const PopupInvoice = React.forwardRef(
     };
 
     const getDue = () => {
-      if (groupAppointment && groupAppointment?.dueAmount > 0) return groupAppointment?.dueAmount;
+      if (groupAppointment && groupAppointment?.dueAmount > 0)
+        return groupAppointment?.dueAmount;
       return 0;
     };
 
     const getChange = () => {
-      if (groupAppointment && groupAppointment?.dueAmount < 0) return Math.abs(groupAppointment?.dueAmount);
+      if (groupAppointment && groupAppointment?.dueAmount < 0)
+        return Math.abs(groupAppointment?.dueAmount);
       return 0;
     };
 
     const getTaxRate = () => {
       return getTaxRateFromGroupAppointment(groupAppointment);
-    }
-
+    };
 
     // const getPaymentMethods = () => {
     //   return paymentDetailInfo.paidAmounts &&
@@ -344,11 +345,11 @@ export const PopupInvoice = React.forwardRef(
     };
 
     const doPrintAgain = async () => {
-      if(paymentMachineType === "Dejavoo") {
+      if (paymentMachineType === "Dejavoo") {
         setTimeout(() => {
           setIsSignature(false);
-        }, 2000)
-      }else {
+        }, 2000);
+      } else {
         setIsSignature(false);
       }
 
@@ -365,7 +366,7 @@ export const PopupInvoice = React.forwardRef(
         profile?.isPrintReceipt &&
         !fromAppointmentTab
       ) {
-          onPrintProcess();
+        onPrintProcess();
       }
     }, [isSignature, isShare, printTempt, profile?.isPrintReceipt]);
 
@@ -380,13 +381,15 @@ export const PopupInvoice = React.forwardRef(
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
+          format: "jpg",
+          quality: 0.0,
         });
         await setIsProcessingPrint(false);
 
         if (imageUri) {
           if (portName) {
             let commands = [];
-            commands.push({ appendLineFeed: 0 });
+            // commands.push({ appendLineFeed: 0 });
             commands.push({
               appendBitmap: imageUri,
               width: parseFloat(widthPaper),
@@ -398,21 +401,25 @@ export const PopupInvoice = React.forwardRef(
               appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
             });
 
-            await PrintManager.getInstance().print(
-              emulation,
-              commands,
-              portName
-            );
+            try {
+              await PrintManager.getInstance().print(
+                emulation,
+                commands,
+                portName
+              );
+            } catch (e) {
+              // console.log("ERRROR:", e);
+              alert(e);
+            }
 
             releaseCapture(imageUri);
-           
           } else {
             if (paymentMachineType == "Clover") {
               if (doPrintClover && typeof doPrintClover === "function") {
                 doPrintClover(imageUri);
               }
             } else if (paymentMachineType == "Dejavoo") {
-              const content = getContentXmlReceipt()
+              const content = getContentXmlReceipt();
               const params = {
                 content,
               };
@@ -445,8 +452,6 @@ export const PopupInvoice = React.forwardRef(
             onCancel();
           }
         }
-
-
       } catch (error) {
         console.log(`Printer error with ${error}`);
         alert(`Printer error with ${error}`);
@@ -457,7 +462,10 @@ export const PopupInvoice = React.forwardRef(
     const onShareProcess = async () => {
       try {
         await setIsProcessingPrint(true);
-        const imageUri = await captureRef(viewShotRef, {});
+        const imageUri = await captureRef(viewShotRef, {
+          format: "jpg",
+          quality: 0.0,
+        });
         await setIsProcessingPrint(false);
         await setVisible(false);
 
@@ -479,105 +487,112 @@ export const PopupInvoice = React.forwardRef(
     //---- Functions for Print text Receipt by Dejavoo  ----//
 
     const getInvoiceItemsXml = () => {
+      if (!groupAppointment) return "";
 
-      if (!groupAppointment) return ""
+      let stringItems = "";
 
-      let stringItems = ""
+      let invoiceItems = getBasketOnline(groupAppointment?.appointments)?.map(
+        (item, index) => {
+          const price = item.data && item.data.price ? item.data.price : 0;
+          const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
+          const total = formatMoney(price * quanlitySet);
+          const note = item.note ? item.note : "";
+          const staffName = item.staff?.displayName ?? "";
 
-      let invoiceItems =
-        getBasketOnline(groupAppointment?.appointments)?.map(
-          (item, index) => {
-            const price = item.data && item.data.price ? item.data.price : 0;
-            const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
-            const total = formatMoney(price * quanlitySet);
-            const note = item.note ? item.note : "";
-            const staffName = item.staff?.displayName ?? "";
+          const noteXml = note ? `<t>(Note: ${note})</t>` : ``;
+          const staffXml = staffName ? `<t>(${staffName})</t>` : ``;
 
-            const noteXml = note ? `<t>(Note: ${note})</t>` : ``
-            const staffXml = staffName ? `<t>(${staffName})</t>` : ``
-
-            stringItems = stringItems + `<t>${_.padEnd(_.truncate(`${index + 1}.${_.get(item, 'data.name')}`, {
-              'length': 15
-            }), 15, '.')}${_.padStart(`$${total}`, 9, ".")}</t>
+          stringItems =
+            stringItems +
+            `<t>${_.padEnd(
+              _.truncate(`${index + 1}.${_.get(item, "data.name")}`, {
+                length: 15,
+              }),
+              15,
+              "."
+            )}${_.padStart(`$${total}`, 9, ".")}</t>
           ${noteXml}
-          ${staffXml}`
-
-          }
-        )
-      return stringItems
-    }
+          ${staffXml}`;
+        }
+      );
+      return stringItems;
+    };
 
     const getContentXmlReceipt = () => {
-
-      const invoiceNo = checkoutId ?
-        `Invoice No: ${checkoutId ?? " "}`
-        : ``
-      let entryMethodXml = ""
+      const invoiceNo = checkoutId ? `Invoice No: ${checkoutId ?? " "}` : ``;
+      let entryMethodXml = "";
       if (!printTempt) {
         getCheckoutPaymentMethods()?.map((data, index) => {
-          entryMethodXml = entryMethodXml +
+          entryMethodXml =
+            entryMethodXml +
             `- Entry method: ${getPaymentString(
               data?.paymentMethod || ""
-            )} $${Number(
-              formatNumberFromCurrency(data?.amount || "0")
-            ).toFixed(2)}
-              ${(data.paymentMethod &&
-              data.paymentMethod === "credit_card") ||
-              data.paymentMethod === "debit_card" ?
-              `<t>${data?.paymentInformation?.type || ""
-              }: ***********${data?.paymentInformation?.number || ""
-              }</t>
-                              
-              ${data?.paymentInformation?.sn
-                ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
-                : ""
+            )} $${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(
+              2
+            )}
+              ${
+                (data.paymentMethod && data.paymentMethod === "credit_card") ||
+                data.paymentMethod === "debit_card"
+                  ? `<t>${data?.paymentInformation?.type || ""}: ***********${
+                      data?.paymentInformation?.number || ""
+                    }</t>
+
+              ${
+                data?.paymentInformation?.sn
+                  ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
+                  : ""
               }
-              ${data?.paymentInformation?.refNum
-                ? `<t>Transaction #: ${data?.paymentInformation?.refNum}</t>`
-                : ""
+              ${
+                data?.paymentInformation?.refNum
+                  ? `<t>Transaction #: ${data?.paymentInformation?.refNum}</t>`
+                  : ""
               }
-              ${!stringIsEmptyOrWhiteSpaces(
-                _.get(data, "paymentInformation.signData")
-              ) ? `<t>Signature: </t>
-                  <img>${data?.paymentInformation?.signData}</img>` : ""
+              ${
+                !stringIsEmptyOrWhiteSpaces(
+                  _.get(data, "paymentInformation.signData")
+                )
+                  ? `<t>Signature: </t>
+                  <img>${data?.paymentInformation?.signData}</img>`
+                  : ""
               }
                               `
-              : ``}
-              ${data?.paymentInformation?.name ?
-                `<t>${data?.paymentInformation?.name?.replace(
-                  /%20/g,
-                  " "
-                ).replace(
-                  /%2f/g,
-                  " "
-                )}</t>` : ""
-              }`
-        })
-
+                  : ``
+              }
+              ${
+                data?.paymentInformation?.name
+                  ? `<t>${data?.paymentInformation?.name
+                      ?.replace(/%20/g, " ")
+                      .replace(/%2f/g, " ")}</t>`
+                  : ""
+              }`;
+        });
       }
 
-      let xmlContent = `${getCenterBoldStringArrayXml(profile?.businessName || " ")}
+      let xmlContent = `${getCenterBoldStringArrayXml(
+        profile?.businessName || " "
+      )}
       ${getCenterStringArrayXml(profile?.addressFull || " ")}
       <t><c>${`Tel : ${profile?.phone || " "}`}</c></t>
       <t><c>${profile?.webLink}</c></t>
-      <t><b><c>${`${invoiceDetail?.status &&
-          invoiceDetail?.status !== "paid" &&
-          invoiceDetail?.status !== "pending" &&
-          invoiceDetail?.status !== "incomplete" &&
-          invoiceDetail?.status !== "complete"
+      <t><b><c>${`${
+        invoiceDetail?.status &&
+        invoiceDetail?.status !== "paid" &&
+        invoiceDetail?.status !== "pending" &&
+        invoiceDetail?.status !== "incomplete" &&
+        invoiceDetail?.status !== "complete"
           ? `${invoiceDetail?.status}`.toUpperCase()
           : "SALE"
-        }`}</c></b></t>
+      }`}</c></b></t>
       <t><c>${`( ${formatWithMoment(
-          new Date(),
-          "MM/DD/YYYY hh:mm A"
-        )} )`}</c></t>
+        new Date(),
+        "MM/DD/YYYY hh:mm A"
+      )} )`}</c></t>
       <t><c>${"-".repeat(24)}</c></t>
       <t>Customer: ${getCustomerName()}</t>
       <t>Invoice Date: ${formatWithMoment(
-          invoiceDetail?.createdDate,
-          "MM/DD/YYYY hh:mm A"
-        )}</t>
+        invoiceDetail?.createdDate,
+        "MM/DD/YYYY hh:mm A"
+      )}</t>
       <t>${invoiceNo}</t>
       <t><c>${"-".repeat(24)}</c></t>
       <t><b><c>DESCRIPTION.......TOTAL</c></b></t>
@@ -585,38 +600,62 @@ export const PopupInvoice = React.forwardRef(
       ${getInvoiceItemsXml()}
       <t><c>${"-".repeat(24)}</c></t>
       <t/>
-      <t>${_.padEnd("Subtotal: ", 15, ".")}${_.padStart(`$${getSubTotal()}`, 9, ".")}</t>
-      <t>${_.padEnd("Discount: ", 15, ".")}${_.padStart(`$${getDiscount()}`, 9, ".")}</t>
-      <t>${_.padEnd("Tip: ", 15, ".")}${_.padStart(`$${getTipAmount()}`, 9, ".")}</t>
+      <t>${_.padEnd("Subtotal: ", 15, ".")}${_.padStart(
+        `$${getSubTotal()}`,
+        9,
+        "."
+      )}</t>
+      <t>${_.padEnd("Discount: ", 15, ".")}${_.padStart(
+        `$${getDiscount()}`,
+        9,
+        "."
+      )}</t>
+      <t>${_.padEnd("Tip: ", 15, ".")}${_.padStart(
+        `$${getTipAmount()}`,
+        9,
+        "."
+      )}</t>
       <t>${_.padEnd("Tax: ", 15, ".")}${_.padStart(`$${getTax()}`, 9, ".")}</t>
-      ${!printTempt ?
-          `<t>${_.padEnd("Total: ", 15, ".")}${_.padStart(`$${getTotal()}`, 9, ".")}</t>
+      ${
+        !printTempt
+          ? `<t>${_.padEnd("Total: ", 15, ".")}${_.padStart(
+              `$${getTotal()}`,
+              9,
+              "."
+            )}</t>
      ${entryMethodXml}
      ${isSignature ? `<br/><br/><t>Signature: _____________</t><br/>` : ``}
-      `: ``}
-      ${printTempt ? `<t>${_.padEnd("Tip: ", 24, ".")}</t>
+      `
+          : ``
+      }
+      ${
+        printTempt
+          ? `<t>${_.padEnd("Tip: ", 24, ".")}</t>
                       <t>${_.padEnd("Total:", 24, ".")}</t>
                       <br/>
                       <br/>
                       <t>Signature: _____________</t>
                       <br/>`
-
-          : ``}
-      ${profile?.receiptFooter
+          : ``
+      }
+      ${
+        profile?.receiptFooter
           ? `<t>${getCenterStringArrayXml(profile?.receiptFooter)}</t>`
           : `<t><c>Thank you!</c></t>
-          <t><c>Please come again</c></t>`}
-      ${!!getPromotionNotes(groupAppointment?.appointments)
+          <t><c>Please come again</c></t>`
+      }
+      ${
+        !!getPromotionNotes(groupAppointment?.appointments)
           ? `<t>Discount note: ${getPromotionNotes(
-            groupAppointment?.appointments
-          )}</t>`
+              groupAppointment?.appointments
+            )}</t>`
           : ``
-        }
-      <t>${_.pad(getFooterReceipt(), 24, '*')}</t>
+      }
+      <t>${_.pad(getFooterReceipt(), 24, "*")}</t>
       <br/><br/><br/><br/><br/><br/><br/><br/>
-      `
-      return xmlContent
-    }
+      `;
+      return xmlContent;
+    };
 
     /**
   |--------------------------------------------------
@@ -664,11 +703,10 @@ export const PopupInvoice = React.forwardRef(
         // call api get info
         await getGroupAppointment(appointmentId);
 
-
         if (checkoutId) {
-          setCheckoutId(checkoutId)
+          setCheckoutId(checkoutId);
           //if group checkout, there are array checkoutid
-          let checkoutIdTemp = checkoutId
+          let checkoutIdTemp = checkoutId;
           const arrayCheckoutId = `${checkoutId}`?.split("-");
           if (arrayCheckoutId && arrayCheckoutId.length > 0) {
             checkoutIdTemp = arrayCheckoutId[0];
@@ -699,7 +737,7 @@ export const PopupInvoice = React.forwardRef(
     }, [invoiceDetailData]);
 
     return (
-      <Modal visible={visible} onRequestClose={() => { }} transparent={true}>
+      <Modal visible={visible} onRequestClose={() => {}} transparent={true}>
         <View style={styles.container}>
           <View style={styles.content}>
             <View style={{ height: tempHeight }}>
@@ -714,7 +752,7 @@ export const PopupInvoice = React.forwardRef(
                     {
                       backgroundColor:
                         isShare ||
-                          paymentMachineType == PaymentTerminalType.Clover
+                        paymentMachineType == PaymentTerminalType.Clover
                           ? "#fff"
                           : "#0000",
                     },
@@ -750,14 +788,15 @@ export const PopupInvoice = React.forwardRef(
                   <Text style={layouts.fontPrintTitleStyle}>
                     {fromAppointmentTab
                       ? "TICKET"
-                      : `${invoiceDetail?.status &&
-                        invoiceDetail?.status !== "paid" &&
-                        invoiceDetail?.status !== "pending" &&
-                        invoiceDetail?.status !== "incomplete" &&
-                        invoiceDetail?.status !== "complete"
-                        ? `${invoiceDetail?.status}`.toUpperCase()
-                        : "SALE"
-                      }`}
+                      : `${
+                          invoiceDetail?.status &&
+                          invoiceDetail?.status !== "paid" &&
+                          invoiceDetail?.status !== "pending" &&
+                          invoiceDetail?.status !== "incomplete" &&
+                          invoiceDetail?.status !== "complete"
+                            ? `${invoiceDetail?.status}`.toUpperCase()
+                            : "SALE"
+                        }`}
                   </Text>
                   <Text
                     style={[
@@ -937,7 +976,9 @@ export const PopupInvoice = React.forwardRef(
                     styleTextValue={layouts.fontPrintStyle}
                   />
                   <TotalView
-                    title={`Tax ${getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : ""}`}
+                    title={`Tax ${
+                      getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : ""
+                    }`}
                     value={getTax()}
                     styleTextTitle={layouts.fontPrintSubTitleStyle}
                     styleTextValue={layouts.fontPrintStyle}
@@ -1063,50 +1104,51 @@ export const PopupInvoice = React.forwardRef(
                           </View>
                           {(data.paymentMethod &&
                             data.paymentMethod === "credit_card") ||
-                            data.paymentMethod === "debit_card" ? (
+                          data.paymentMethod === "debit_card" ? (
                             <View style={{ marginTop: scaleSize(5) }}>
                               <Text style={[layouts.fontPrintStyle]}>
-                                {`    ${data?.paymentInformation?.type || ""
-                                  }: ***********${data?.paymentInformation?.number || ""
-                                  }`}
+                                {`    ${
+                                  data?.paymentInformation?.type || ""
+                                }: ***********${
+                                  data?.paymentInformation?.number || ""
+                                }`}
                               </Text>
-                              
+
                               <Text style={[layouts.fontPrintStyle]}>
-                                {`    ${data?.paymentInformation?.sn
-                                  ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                  : ""
-                                  }`}
+                                {`    ${
+                                  data?.paymentInformation?.sn
+                                    ? `Terminal ID: ${data?.paymentInformation?.sn}`
+                                    : ""
+                                }`}
                               </Text>
                               <Text style={[layouts.fontPrintStyle]}>
-                                {`    ${data?.paymentInformation?.refNum
-                                  ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                  : ""
-                                  }`}
+                                {`    ${
+                                  data?.paymentInformation?.refNum
+                                    ? `Transaction #: ${data?.paymentInformation?.refNum}`
+                                    : ""
+                                }`}
                               </Text>
 
                               {!stringIsEmptyOrWhiteSpaces(
                                 _.get(data, "paymentInformation.signData")
                               ) && (
-                                  <View style={styles.rowSignature}>
-                                    <Text style={[layouts.fontPrintStyle]}>
-                                      {"    Signature: "}
-                                    </Text>
-                                    <Image
-                                      style={styles.signImage}
-                                      source={{
-                                        uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
-                                      }}
-                                    />
-                                  </View>
-                                )}
+                                <View style={styles.rowSignature}>
+                                  <Text style={[layouts.fontPrintStyle]}>
+                                    {"    Signature: "}
+                                  </Text>
+                                  <Image
+                                    style={styles.signImage}
+                                    source={{
+                                      uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
+                                    }}
+                                  />
+                                </View>
+                              )}
                               <Text style={[layouts.fontPrintStyle]}>
-                              {`    ${data?.paymentInformation?.name?.replace(
-                                /%20/g,
-                                " "
-                              ).replace(
-                                /%2f/g,
-                                " "
-                              ) || ""
+                                {`    ${
+                                  data?.paymentInformation?.name
+                                    ?.replace(/%20/g, " ")
+                                    .replace(/%2f/g, " ") || ""
                                 }`}
                               </Text>
                             </View>
