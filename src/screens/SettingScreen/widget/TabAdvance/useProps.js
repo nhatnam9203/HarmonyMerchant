@@ -8,8 +8,11 @@ import React from "react";
 import { formatNumberFromCurrency } from "@utils";
 
 export const useProps = (props) => {
-  const [loyaltyProgram, setLoyaltyProgram] = React.useState(null);
-  const [loyaltyProgramLocal, setLoyaltyProgramLocal] = React.useState(null);
+  const [data, setData] = React.useState(null);
+  const [dataLocal, setDataLocal] = React.useState(null);
+
+  const [isCashDiscount, setIsCashDiscount] = React.useState(null);
+  const [cashDiscountPercent, setCashDiscountPercent] = React.useState(null);
 
   const [cashStarRate, setCashStarRate] = React.useState(0);
   const [creditCardStarRate, setCreditCardStarRate] = React.useState(0);
@@ -21,12 +24,15 @@ export const useProps = (props) => {
     enabled: false,
     onSuccess: (data, response) => {
       if (data) {
-        setLoyaltyProgram(data);
-        setLoyaltyProgramLocal(data);
+        setData(data);
+        setDataLocal(data);
         setCashStarRate(data?.CashStarRate);
         setCreditCardStarRate(data?.CreditCardStarRate);
         setHarmonyPayStarRate(data?.HarmonyPayStarRate);
         setOtherStarRate(data?.OtherStarRate);
+
+        setIsCashDiscount(data?.IsCashDiscount);
+        setCashDiscountPercent(data?.CashDiscountPercent);
       }
     },
     onError: (e) => {
@@ -35,13 +41,15 @@ export const useProps = (props) => {
   });
 
   const [, editAdvance] = useAxiosMutation({
-    ...editAdvanceSetting(loyaltyProgramLocal),
+    ...editAdvanceSetting(dataLocal),
     onSuccess: (data, response) => {
-      setLoyaltyProgram(loyaltyProgramLocal);
-      setCashStarRate(loyaltyProgramLocal?.CashStarRate);
-      setCreditCardStarRate(loyaltyProgramLocal?.CreditCardStarRate);
-      setHarmonyPayStarRate(loyaltyProgramLocal?.HarmonyPayStarRate);
-      setOtherStarRate(loyaltyProgramLocal?.OtherStarRate);
+      setData(dataLocal);
+      setCashStarRate(dataLocal?.CashStarRate);
+      setCreditCardStarRate(dataLocal?.CreditCardStarRate);
+      setHarmonyPayStarRate(dataLocal?.HarmonyPayStarRate);
+      setOtherStarRate(dataLocal?.OtherStarRate);
+      setIsCashDiscount(dataLocal?.IsCashDiscount);
+      setCashDiscountPercent(dataLocal?.CashDiscountPercent);
       alert("Update success!");
     },
     onError: (err) => {
@@ -51,14 +59,16 @@ export const useProps = (props) => {
 
   const isHadUpdate = () => {
     return (
-      loyaltyProgram?.IsLoyaltyProgram !==
-        loyaltyProgramLocal?.IsLoyaltyProgram ||
-      loyaltyProgram?.CashStarRate !== loyaltyProgramLocal?.CashStarRate ||
-      loyaltyProgram?.CreditCardStarRate !==
-        loyaltyProgramLocal?.CreditCardStarRate ||
-      loyaltyProgram?.HarmonyPayStarRate !==
-        loyaltyProgramLocal?.HarmonyPayStarRate ||
-      loyaltyProgram?.OtherStarRate !== loyaltyProgramLocal?.OtherStarRate
+      data?.IsLoyaltyProgram !==
+        dataLocal?.IsLoyaltyProgram ||
+      data?.CashStarRate !== dataLocal?.CashStarRate ||
+      data?.CreditCardStarRate !==
+        dataLocal?.CreditCardStarRate ||
+      data?.HarmonyPayStarRate !==
+        dataLocal?.HarmonyPayStarRate ||
+      data?.OtherStarRate !== dataLocal?.OtherStarRate ||
+      data?.isCashDiscount !== dataLocal?.IsCashDiscount ||
+      data?.cashDiscountPercent !== dataLocal?.CashDiscountPercent
     );
   };
 
@@ -71,15 +81,37 @@ export const useProps = (props) => {
   }, []);
 
   return {
-    loyaltyProgramLocal,
+    isCashDiscount,
+    cashDiscountPercent,
+    setIsCashDiscount: (isCashDiscount) => {
+      setIsCashDiscount(isCashDiscount);
+      setDataLocal({
+        ...dataLocal,
+        IsCashDiscount: isCashDiscount
+      })
+    },
+    setCashDiscountPercent: (value) => { 
+      let temp = value;
+      setCashDiscountPercent(temp);
+      if (!temp || isNaN(parseFloat(value))) {
+        temp = 0;
+      }
+
+      setDataLocal({
+        ...dataLocal,
+        CashDiscountPercent: parseFloat(temp).toFixed(2),
+      }) 
+    },
+   
+    dataLocal,
     cashStarRate,
     creditCardStarRate,
     harmonyPayStarRate,
     otherStarRate,
     isHadUpdate: () => isHadUpdate(),
     setIsLoyaltyProgram: (value = false) => {
-      setLoyaltyProgramLocal({
-        ...loyaltyProgramLocal,
+      setDataLocal({
+        ...dataLocal,
         IsLoyaltyProgram: value,
       });
     },
@@ -89,8 +121,8 @@ export const useProps = (props) => {
       if (!temp || isNaN(parseFloat(value))) {
         temp = 0;
       }
-      setLoyaltyProgramLocal({
-        ...loyaltyProgramLocal,
+      setDataLocal({
+        ...dataLocal,
         CashStarRate: parseFloat(temp).toFixed(2),
       });
     },
@@ -101,8 +133,8 @@ export const useProps = (props) => {
         temp = 0;
       }
 
-      setLoyaltyProgramLocal({
-        ...loyaltyProgramLocal,
+      setDataLocal({
+        ...dataLocal,
         CreditCardStarRate: parseFloat(temp).toFixed(2),
       });
     },
@@ -112,8 +144,8 @@ export const useProps = (props) => {
       if (!temp || isNaN(parseFloat(value))) {
         temp = 0;
       }
-      setLoyaltyProgramLocal({
-        ...loyaltyProgramLocal,
+      setDataLocal({
+        ...dataLocal,
         HarmonyPayStarRate: parseFloat(temp).toFixed(2),
       });
     },
@@ -123,8 +155,8 @@ export const useProps = (props) => {
       if (!temp || isNaN(parseFloat(value))) {
         temp = 0;
       }
-      setLoyaltyProgramLocal({
-        ...loyaltyProgramLocal,
+      setDataLocal({
+        ...dataLocal,
         OtherStarRate: parseFloat(temp).toFixed(2),
       });
     },
@@ -132,11 +164,11 @@ export const useProps = (props) => {
       editAdvance();
     },
     onCancelButtonPress: () => {
-      setLoyaltyProgramLocal(loyaltyProgram);
-      setCashStarRate(loyaltyProgram?.CashStarRate);
-      setCreditCardStarRate(loyaltyProgram?.CreditCardStarRate);
-      setHarmonyPayStarRate(loyaltyProgram?.HarmonyPayStarRate);
-      setOtherStarRate(loyaltyProgram?.OtherStarRate);
+      setDataLocal(data);
+      setCashStarRate(data?.CashStarRate);
+      setCreditCardStarRate(data?.CreditCardStarRate);
+      setHarmonyPayStarRate(data?.HarmonyPayStarRate);
+      setOtherStarRate(data?.OtherStarRate);
     },
   };
 };

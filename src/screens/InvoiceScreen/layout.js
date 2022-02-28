@@ -634,6 +634,13 @@ export default class Layout extends React.Component {
                 value={invoiceDetail?.total || "0.00"}
               />
 
+              
+              {parseFloat(refundAmount) > 0 ? (
+                <ItemTotal
+                title={"Change"}
+                value={invoiceDetail?.refundAmount || "0.00"}
+                />
+              ) : null}
 
               {
                 <View>
@@ -666,6 +673,13 @@ export default class Layout extends React.Component {
                       {data.paymentMethod === "credit_card" ||
                         data.paymentMethod === "debit_card" ? (
                         <View style={{ marginTop: scaleSize(5) }}>
+                          {
+                            data?.fee > 0 &&
+                            <ItemTotal
+                            title={" Non-Cash Adjustment"}
+                            value={data?.fee}
+                            />
+                          }
                           <Text style={[layouts.fontPrintStyle]}>
                             {` ${data?.paymentInformation?.type || ""
                               }: ***********${data?.paymentInformation?.number || ""
@@ -710,19 +724,32 @@ export default class Layout extends React.Component {
                             ) || ""
                               }`}
                           </Text>
+                         
                         </View>
-                      ) : null}
+                      ) : 
+                      <>
+                       {
+                            data?.fee > 0 &&
+                            <ItemTotal
+                            title={" Non-Cash Adjustment"}
+                            value={data?.fee}
+                            />
+                          }
+                          {
+                            data?.cashDiscount < 0 &&
+                            <ItemTotal
+                            title={" Cash Discount"}
+                            value={data?.cashDiscount}
+                            />
+                          }
+                      </>
+                      }
                     </View>
                   ))}
                 </View>
               }
 
               <View style={{ height: scaleSize(16) }} />
-              {parseFloat(refundAmount) > 0 ? (
-                <Text style={layouts.fontPrintStyle}>
-                  {`Change : $ ${invoiceDetail?.refundAmount || 0.0}`}
-                </Text>
-              ) : null}
 
               {promotionNotes ? (
                 <Text style={layouts.fontPrintStyle}>

@@ -523,24 +523,33 @@ export const PopupInvoice = React.forwardRef(
       let entryMethodXml = "";
       if (!printTempt) {
         getCheckoutPaymentMethods()?.map((data, index) => {
-          entryMethodXml =
-            entryMethodXml +
-            `- Entry method: ${getPaymentString(
+          entryMethodXml = entryMethodXml +
+            `<br/><t>- Entry method:</t>
+            <t>${_.padEnd(`${getPaymentString(
               data?.paymentMethod || ""
-            )} $${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(
-              2
-            )}
-              ${
-                (data.paymentMethod && data.paymentMethod === "credit_card") ||
-                data.paymentMethod === "debit_card"
-                  ? `<t>${data?.paymentInformation?.type || ""}: ***********${
-                      data?.paymentInformation?.number || ""
-                    }</t>
-
-              ${
-                data?.paymentInformation?.sn
-                  ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
-                  : ""
+            )}`, 15, ".")}${_.padStart(
+              `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(2)}`,
+              9,
+              "."
+            )}</t>
+              ${(data.paymentMethod &&
+              data.paymentMethod === "credit_card") ||
+              data.paymentMethod === "debit_card" ?
+              `${
+                data?.fee &&
+                `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
+                  `$${data?.fee}`,
+                  9,
+                  "."
+                )}</t>`
+              }
+              <t>${data?.paymentInformation?.type || ""
+              }: ***********${data?.paymentInformation?.number || ""
+              }</t>
+                              
+              ${data?.paymentInformation?.sn
+                ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
+                : ""
               }
               ${
                 data?.paymentInformation?.refNum
@@ -555,17 +564,37 @@ export const PopupInvoice = React.forwardRef(
                   <img>${data?.paymentInformation?.signData}</img>`
                   : ""
               }
-                              `
-                  : ``
+
+              ${data?.paymentInformation?.name ?
+                `<t>${data?.paymentInformation?.name?.replace(
+                  /%20/g,
+                  " "
+                ).replace(
+                  /%2f/g,
+                  " "
+                )}</t>` : ""
               }
-              ${
-                data?.paymentInformation?.name
-                  ? `<t>${data?.paymentInformation?.name
-                      ?.replace(/%20/g, " ")
-                      .replace(/%2f/g, " ")}</t>`
-                  : ""
-              }`;
-        });
+              `
+              : 
+                `${
+                  data?.fee > 0 &&
+                  `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
+                    `$${data?.fee}`,
+                    9,
+                    "."
+                  )}</t>`
+                }
+                ${
+                  data?.cashDiscount < 0 &&
+                  `<t>${_.padEnd("Cash Discount: ", 15, ".")}${_.padStart(
+                    `$${data?.cashDiscount}`,
+                    9,
+                    "."
+                  )}</t>`
+
+                }`
+            }`
+        })
       }
 
       let xmlContent = `${getCenterBoldStringArrayXml(
@@ -994,7 +1023,7 @@ export const PopupInvoice = React.forwardRef(
                   {getChange() > 0 && (
                     <TotalView
                       title={"Change"}
-                      value={formatMoneyWithUnit(getChange())}
+                      value={getChange()}
                       styleTextTitle={layouts.fontPrintSubTitleStyle}
                       styleTextValue={layouts.fontPrintStyle}
                     />
@@ -1106,6 +1135,15 @@ export const PopupInvoice = React.forwardRef(
                             data.paymentMethod === "credit_card") ||
                           data.paymentMethod === "debit_card" ? (
                             <View style={{ marginTop: scaleSize(5) }}>
+                              {
+                                data?.fee > 0 &&
+                                <TotalView
+                                  title={"    Non-Cash Adjustment"}
+                                  value={data?.fee}
+                                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                                  styleTextValue={layouts.fontPrintStyle}
+                                />
+                              }
                               <Text style={[layouts.fontPrintStyle]}>
                                 {`    ${
                                   data?.paymentInformation?.type || ""
@@ -1151,8 +1189,30 @@ export const PopupInvoice = React.forwardRef(
                                     .replace(/%2f/g, " ") || ""
                                 }`}
                               </Text>
+                              
                             </View>
-                          ) : null}
+                          ) : 
+                            <>
+                              {
+                                  data?.fee > 0 &&
+                                  <TotalView
+                                    title={"    Non-Cash Adjustment"}
+                                    value={data?.fee}
+                                    styleTextTitle={layouts.fontPrintSubTitleStyle}
+                                    styleTextValue={layouts.fontPrintStyle}
+                                  />
+                                }
+                                {
+                                  data?.cashDiscount < 0 &&
+                                  <TotalView
+                                    title={"    Cash Discount"}
+                                    value={data?.cashDiscount}
+                                    styleTextTitle={layouts.fontPrintSubTitleStyle}
+                                    styleTextValue={layouts.fontPrintStyle}
+                                  />
+                                }
+                            </>
+                          }
                         </View>
                       ))}
                     </View>

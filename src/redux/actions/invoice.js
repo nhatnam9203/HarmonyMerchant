@@ -202,7 +202,7 @@ export function getSettlementWarning() {
         type: 'GET_SETTLEMENT_WARNING',
         method: 'GET',
         api: `settlement/warning`,
-        token: true
+        token: true,
     }
 }
 
