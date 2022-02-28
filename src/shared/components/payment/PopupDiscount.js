@@ -414,8 +414,8 @@ class PopupDiscount extends React.Component {
                     customDiscountPercent={temptCustomDiscountPercent}
                     customDiscountFixed={temptCustomDiscountFixed}
                     total={
-                      formatNumberFromCurrency(
-                        appointmentDetail?.subTotal - discountItemsTotal
+                      (formatNumberFromCurrency(
+                        appointmentDetail?.subTotal) - discountItemsTotal
                       ) || 0
                     }
                     onChangeText={(
