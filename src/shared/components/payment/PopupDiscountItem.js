@@ -142,6 +142,7 @@ class PopupDiscountItem extends React.Component {
         l.get(appointmentItem, "bookingProductId")
       );
     });
+    console.log('discountItem', discountItem)
 
     const temptCustomDiscountPercent = l.get(
       discountItem,
@@ -174,7 +175,7 @@ class PopupDiscountItem extends React.Component {
                 customDiscountPercent={temptCustomDiscountPercent}
                 customDiscountFixed={temptCustomDiscountFixed}
                 total={formatNumberFromCurrency(
-                  l.get(appointmentItem, "price") * l.get(appointmentItem, "quantity")
+                  l.get(appointmentItem, "price")) * l.get(appointmentItem, "quantity"
                 )}
                 // total={formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)}
                 onChangeText={(moneyDiscountByPercent, moneyDiscountFixed) =>
@@ -231,7 +232,7 @@ class CustomDiscount extends React.Component {
     const percent = customDiscountPercent ? customDiscountPercent : 0;
     const fixedAmount = customDiscountFixed ? customDiscountFixed : 0;
     const type =
-      customDiscountFixed && customDiscountFixed > 0
+      customDiscountFixed && formatNumberFromCurrency(customDiscountFixed) > 0
         ? manualType.fixAmountType
         : manualType.percentType;
     const discountTemp =

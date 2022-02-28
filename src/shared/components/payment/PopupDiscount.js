@@ -282,7 +282,7 @@ class PopupDiscount extends React.Component {
       if (
         visible &&
         this.customDiscountRef.current &&
-        this.customDiscountRef.current?.state.discount > 0
+        formatNumberFromCurrency(this.customDiscountRef.current?.state.discount) > 0
       ) {
         total =
           formatNumberFromCurrency(total) +
@@ -310,7 +310,7 @@ class PopupDiscount extends React.Component {
       const discountByStaff = 100 - this.state.discountByOwner;
 
       const manualDiscount =
-        this.state.moneyDiscountCustom > 0
+      formatNumberFromCurrency(this.state.moneyDiscountCustom) > 0
           ? this.state.moneyDiscountCustom
           : this.state.moneyDiscountFixedAmout;
       const discountMoneyByStaff = roundNumber(
@@ -383,22 +383,18 @@ class PopupDiscount extends React.Component {
                       }
                     );
                     const discountAmount =
-                      l.get(itemTemp, "discount") > 0
-                        ? roundNumber(
+                    formatNumberFromCurrency(l.get(itemTemp, "discount")) > 0
+                        ? 
+                          l.get(itemTemp, "discount")
+                        : 
+                          formatMoney((formatNumberFromCurrency(
+                            l.get(itemTemp, "discountPercent")
+                          ) *
                             formatNumberFromCurrency(
-                              l.get(itemTemp, "discount")
-                            )
-                          )
-                        : roundNumber(
-                            (formatNumberFromCurrency(
-                              l.get(itemTemp, "discountPercent")
-                            ) *
-                              formatNumberFromCurrency(
-                                l.get(findItem, "price") *
-                                  l.get(findItem, "quantity")
-                              )) /
-                              100
-                          );
+                              l.get(findItem, "price")) *
+                                l.get(findItem, "quantity"
+                            )) / 100)
+                        
                     return (
                       <ItemCampaign
                         key={index}
@@ -593,7 +589,7 @@ class CustomDiscount extends React.Component {
     const percent = customDiscountPercent ? customDiscountPercent : 0;
     const fixedAmount = customDiscountFixed ? customDiscountFixed : 0;
     const type =
-      customDiscountFixed && customDiscountFixed > 0
+      customDiscountFixed && formatNumberFromCurrency(customDiscountFixed) > 0
         ? manualType.fixAmountType
         : manualType.percentType;
     const discountTemp =
