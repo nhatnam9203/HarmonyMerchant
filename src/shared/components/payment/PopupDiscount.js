@@ -430,70 +430,6 @@ class PopupDiscount extends React.Component {
                     language={language}
                   />
 
-                  {/* -----------  Discount by Owner, Discount by staff  ----------- */}
-                  {/* <View style={[styles.viewRowContainer, { marginTop: 25 }]}>
-                    <Text style={styles.textNormal}>
-                      {localize("Discount by Owner", language)}
-                    </Text>
-                    <Text style={styles.textNormal}>
-                      {localize("Discount by Staff", language)}
-                    </Text>
-                  </View> */}
-
-                  {/* ----------Money discount of staff, owner------------ */}
-                  {/* <View style={styles.viewRowContainer}>
-                    <Text
-                      style={styles.textNormal}
-                    >{`$ ${discountMoneyByOwner}`}</Text>
-                    <Text
-                      style={styles.textNormal}
-                    >{`$ ${discountMoneyByStaff}`}</Text>
-                  </View> */}
-                  {/* ----------Slider------------ */}
-                  {/* <Slider
-                    style={styles.slider}
-                    value={this.state.discountByOwner}
-                    minimumValue={0}
-                    maximumValue={100}
-                    onValueChange={(value) => this.handelSliderValue(value)}
-                    trackStyle={{
-                      height: scaleSize(10),
-                      backgroundColor: "#F1F1F1",
-                      borderRadius: scaleSize(6),
-                    }}
-                    thumbStyle={{
-                      height: scaleSize(24),
-                      width: scaleSize(24),
-                      borderRadius: scaleSize(12),
-                      backgroundColor: "#fff",
-                      ...Platform.select({
-                        ios: {
-                          shadowColor: "rgba(0, 0, 0,0.3)",
-                          shadowOffset: { width: 1, height: 0 },
-                          shadowOpacity: 1,
-                        },
-
-                        android: {
-                          elevation: 2,
-                        },
-                      }),
-                    }}
-                    minimumTrackTintColor={colors.OCEAN_BLUE}
-                    maximumTrackTintColor={colors.PALE_GREY}
-                    step={25}
-                  /> */}
-
-                  {/* <View style={styles.viewRowContainer}>
-                    <Text
-                      style={styles.textNormal}
-                    >{`${this.state.discountByOwner}%`}</Text>
-                    <Text
-                      style={styles.textNormal}
-                    >{`${discountByStaff}%`}</Text>
-                  </View> */}
-
-
-
                   {/* ----------- Note  ----------- */}
                   <View style={{ marginTop: 20 }}>
                     <Text style={[styles.textNormal, { marginBottom: 5 }]}>
@@ -679,8 +615,13 @@ class CustomDiscount extends React.Component {
 
   changeTypeManualDiscount = async (type) => {
     if (type == manualType.percentType) {
+      let valueText = this.state.valueText
+      if(formatNumberFromCurrency(this.state.valueText) > 100) {
+        valueText = "0.00"
+      }
       await this.setState({
         manualTypeSelect: manualType.percentType,
+        valueText,
       });
     } else {
       await this.setState({
@@ -695,11 +636,9 @@ class CustomDiscount extends React.Component {
 
     let discount = textNumber;
     if (this.state.manualTypeSelect == manualType.percentType) {
-      discount = roundNumber(
-        (formatNumberFromCurrency(textNumber) *
+      discount = (formatNumberFromCurrency(textNumber) *
           formatNumberFromCurrency(total)) /
-          100
-      );
+          100;
 
       await this.setState({
         discount,
@@ -720,8 +659,12 @@ class CustomDiscount extends React.Component {
   };
 
   onChangeText = async (textNumber) => {
-    await this.setState({ valueText: textNumber });
-    this.calculateDiscount(textNumber);
+    let newTextNumber = textNumber
+    if (this.state.manualTypeSelect == manualType.percentType && formatNumberFromCurrency(textNumber) > 100) {
+        newTextNumber = this.state.valueText
+    }
+    await this.setState({ valueText: newTextNumber });
+    this.calculateDiscount(newTextNumber);
   };
 
   handlePercentDiscount = async (value) => {
@@ -804,7 +747,6 @@ class CustomDiscount extends React.Component {
                   onChangeText={this.onChangeText}
                   keyboardType="numeric"
                   placeholderTextColor="#A9A9A9"
-                  maxLength={6}
                 />
               </View>
             </View>
@@ -815,7 +757,7 @@ class CustomDiscount extends React.Component {
 
           <View style={{ justifyContent: "center" }}>
             <Text style={{ color: "#4CD964", fontSize: scaleSize(18) }}>
-              {`$ ${formatMoney(roundNumber(this.state.discount))}`}
+              {`$ ${formatMoney(this.state.discount)}`}
             </Text>
           </View>
         </View>
