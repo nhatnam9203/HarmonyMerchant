@@ -422,6 +422,10 @@ export const PopupInvoice = React.forwardRef(
               emphasis: getEmphasisMode(),
               isSalon: isSalonApp,
               name: isSalonApp ? getCustomerName() : getInvoiceName(),
+              invoiceDate: formatWithMoment(
+                invoiceDetail?.createdDate,
+                "MM/DD/YYYY hh:mm A"
+              ),
             });
 
             releaseCapture(imageUri);
