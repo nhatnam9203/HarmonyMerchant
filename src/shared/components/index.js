@@ -44,3 +44,4 @@ export * from "./PopupReceipt";
 export * from "./PopupCheckPermission";
 export * from "./PopupPinCode";
 export * from "./CustomTextInput";
+export * from "./PrintReceipt";
