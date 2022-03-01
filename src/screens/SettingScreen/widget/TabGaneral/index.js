@@ -51,6 +51,7 @@ class TabGaneral extends Layout {
       stateId: profile?.stateId,
       zip: profile?.zip,
       isOpenCashier: profile?.isOpenCashier,
+      isStaffAppointmentCount: profile?.isStaffAppointmentCount,
     };
     this.inputRefsTime = [];
   }
@@ -155,6 +156,7 @@ class TabGaneral extends Layout {
       stateId,
       zip,
       isOpenCashier,
+      isStaffAppointmentCount,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -201,6 +203,7 @@ class TabGaneral extends Layout {
         stateId,
         zip,
         isOpenCashier,
+        isStaffAppointmentCount,
       },
       true,
       true
@@ -232,6 +235,12 @@ class TabGaneral extends Layout {
       isPrintReceipt: visible,
     });
   };
+
+  switchStaffAppointmentCount = (visible) => {
+    this.setState({
+      isStaffAppointmentCount: visible,
+    });
+  }
 
   async componentDidUpdate(prevProps, prevState) {
     const { profile, refreshingGeneral, loading, isFocus, currentTab } =
@@ -265,6 +274,7 @@ class TabGaneral extends Layout {
         stateId: profile?.stateId,
         zip: profile?.zip,
         isOpenCashier: profile?.isOpenCashier,
+        isStaffAppointmentCount: profile?.isStaffAppointmentCount,
       });
       this.updateWorkTime();
     }
@@ -300,6 +310,7 @@ class TabGaneral extends Layout {
         stateId: profile?.stateId,
         zip: profile?.zip,
         isOpenCashier: profile?.isOpenCashier,
+        isStaffAppointmentCount: profile?.isStaffAppointmentCount,
       });
       this.updateWorkTime();
     }

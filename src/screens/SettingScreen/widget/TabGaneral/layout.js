@@ -66,6 +66,7 @@ class Layout extends React.Component {
       isCustomService,
       isPrintReceipt,
       isOpenCashier,
+      isStaffAppointmentCount,
     } = this.state;
 
     return (
@@ -297,6 +298,35 @@ class Layout extends React.Component {
                 ios_backgroundColor="#E5E5E5"
                 onValueChange={this.switchOpenCashier}
                 value={isOpenCashier}
+              />
+            </View>
+          </View>
+
+          {/* ------- Staff appointment count ------ */}
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+          <View style={{ width: scaleSize(180), justifyContent: "center" }}>
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleSize(16),
+                  fontWeight: "600",
+                }}
+              >
+                {localize("Staff appointment count", language)}
+              </Text>
+            </View>
+            <View
+              style={{
+                height: scaleSize(40),
+                width: scaleSize(140),
+                justifyContent: "center",
+              }}
+            >
+              <Switch
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={this.switchStaffAppointmentCount}
+                value={isStaffAppointmentCount}
               />
             </View>
           </View>
