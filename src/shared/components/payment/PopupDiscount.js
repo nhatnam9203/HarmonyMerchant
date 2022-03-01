@@ -120,7 +120,7 @@ class PopupDiscount extends React.Component {
             const discountTemp =
               discountPercent > 0
                 ? (discountPercent * quantity * price) / 100
-                : discount;
+                : parseFloat(discount);
             return sum + discountTemp;
           },
           0
@@ -265,15 +265,12 @@ class PopupDiscount extends React.Component {
             }
           );
           const discountAmount =
-            l.get(itemTemp, "discount") > 0
+          formatNumberFromCurrency(l.get(itemTemp, "discount")) > 0
               ? formatNumberFromCurrency(l.get(itemTemp, "discount"))
-              : formatNumberFromCurrency(
-                  (l.get(itemTemp, "discountPercent") *
-                    formatNumberFromCurrency(
-                      l.get(findItem, "price") * l.get(findItem, "quantity")
-                    )) /
-                    100
-                );
+              : formatNumberFromCurrency(l.get(itemTemp, "discountPercent"))
+                  * formatNumberFromCurrency(l.get(findItem, "price")) 
+                  * l.get(findItem, "quantity")
+                    / 100
           discountItemsTotal = discountItemsTotal + discountAmount;
           total = discountItemsTotal;
         }
@@ -307,20 +304,6 @@ class PopupDiscount extends React.Component {
         : customDiscountFixed;
 
       const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
-      const discountByStaff = 100 - this.state.discountByOwner;
-
-      const manualDiscount =
-      formatNumberFromCurrency(this.state.moneyDiscountCustom) > 0
-          ? this.state.moneyDiscountCustom
-          : this.state.moneyDiscountFixedAmout;
-      const discountMoneyByStaff = roundNumber(
-        (formatNumberFromCurrency(discountByStaff) *
-          formatNumberFromCurrency(manualDiscount)) /
-          100
-      );
-      const discountMoneyByOwner = roundNumber(
-        manualDiscount - discountMoneyByStaff
-      );
 
       return (
         <PopupParent
