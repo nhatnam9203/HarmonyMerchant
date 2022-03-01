@@ -120,7 +120,7 @@ class PopupDiscount extends React.Component {
             const discountTemp =
               discountPercent > 0
                 ? (discountPercent * quantity * price) / 100
-                : discount;
+                : parseFloat(discount);
             return sum + discountTemp;
           },
           0
