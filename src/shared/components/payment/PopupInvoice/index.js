@@ -428,6 +428,12 @@ export const PopupInvoice = React.forwardRef(
               ),
               invoiceNo: `${checkoutId}` ?? " ",
               items: getBasketOnline(groupAppointment?.appointments) || [],
+              subTotal: getSubTotal(),
+              discount: getDiscount(),
+              tipAmount: getTipAmount(),
+              tax: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+              total: getTotal(),
+              change: formatMoneyWithUnit(getChange()),
             });
 
             releaseCapture(imageUri);
