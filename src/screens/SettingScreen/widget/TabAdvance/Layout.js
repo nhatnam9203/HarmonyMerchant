@@ -4,11 +4,12 @@ import {
   CustomTextInput,
   FormLabelSwitch,
 } from "@shared/components";
-import { fonts } from "@shared/themes";
+import { fonts, colors } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { TextInputMask } from "react-native-masked-text";
 
 export const Layout = ({
   isCashDiscount,
@@ -101,8 +102,8 @@ export const Layout = ({
             />
           </View>
           { isCashDiscount && 
-             <PaymentMethodRate
-               method={"Cash discount (%)"}
+             <TextInputSettingRow
+               title={"Cash discount (%)"}
                value={`${cashDiscountPercent}`}
                setValue={setCashDiscountPercent}
              />
@@ -161,6 +162,43 @@ const PaymentMethodRate = ({ method = "Cash", value, setValue }) => (
   </RowContent>
 );
 
+const TextInputSettingRow = ({title, value, setValue}) => (
+  <RowContent>
+      <Text
+        style={[styles.text, { flex: 1 }]}
+      >
+        {title}
+      </Text>
+      <View
+        style={{
+          flex: 2,
+          alignItems: "flex-start",
+        }}
+      >
+      <View style={[styles.containerInputView, styles.border]}>
+        <TextInputMask
+          type={"money"}
+          options={{
+            precision: 2,
+            separator: ".",
+            delimiter: ",",
+            unit: "",
+            suffixUnit: "",
+          }}
+          placeholder="0.00"
+          style={{
+            padding: 5,
+            fontSize: scaleFont(18),
+            flex: 1
+          }}
+          value={value}
+          onChangeText={setValue}
+        />
+      </View>
+    </View>
+  </RowContent>
+)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -168,6 +206,19 @@ const styles = StyleSheet.create({
   },
 
   content: { flex: 1 },
+
+  containerInputView: {
+    backgroundColor: colors.WHITE,
+    flexDirection: "row",
+    width: scaleWidth(200),
+    height: scaleHeight(42),
+  },
+  border: {
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#dddddd",
+    borderRadius: scaleWidth(3),
+  },
 
   header: {
     fontFamily: fonts.BOLD,
