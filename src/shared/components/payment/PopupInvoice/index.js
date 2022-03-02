@@ -398,7 +398,7 @@ export const PopupInvoice = React.forwardRef(
         await setIsProcessingPrint(false);
 
         if (imageUri) {
-          if (portName) {
+          if (true) {
             // let commands = [];
             // commands.push({ appendLineFeed: 0 });
             // commands.push({
@@ -426,6 +426,8 @@ export const PopupInvoice = React.forwardRef(
                 invoiceDetail?.createdDate,
                 "MM/DD/YYYY hh:mm A"
               ),
+              invoiceNo: `${checkoutId}` ?? " ",
+              items: getBasketOnline(groupAppointment?.appointments) || [],
             });
 
             releaseCapture(imageUri);
@@ -696,18 +698,19 @@ export const PopupInvoice = React.forwardRef(
           return;
         }
 
-        if (!isShareMode) {
-          const { portName } = getInfoFromModelNameOfPrinter(
-            printerList,
-            printerSelect
-          );
+        // !! TODO : Block to tesst
+        // if (!isShareMode) {
+        //   const { portName } = getInfoFromModelNameOfPrinter(
+        //     printerList,
+        //     printerSelect
+        //   );
 
-          if (!portName && machineType == PaymentTerminalType.Pax) {
-            onCancel(isPrintTempt);
-            alert("Please connect to your printer! ");
-            return;
-          }
-        }
+        //   if (!portName && machineType == PaymentTerminalType.Pax) {
+        //     onCancel(isPrintTempt);
+        //     alert("Please connect to your printer! ");
+        //     return;
+        //   }
+        // }
 
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);

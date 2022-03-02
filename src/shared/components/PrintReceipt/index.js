@@ -17,6 +17,7 @@ import {
   formatMoneyWithUnit,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
+import _ from "lodash";
 
 export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
   const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
@@ -24,14 +25,48 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     printerSelect
   );
 
-  const printAppointment = async ({ emphasis, isSalon, name, invoiceDate }) => {
+  const createTextReceipt = (items) => {
+    console.log(items);
+
+    const itemText = items.reduce((prev, item, index) => {
+      const price = item.data && item.data.price ? item.data.price : 0;
+      const discount = item?.data?.discount;
+      const discountPercent = item?.data?.discountPercent;
+
+      const quanlitySet = item.quanlitySet ?? 1;
+      const total = formatMoney(price * quanlitySet);
+      const note = item.note ? item.note : "";
+      const label = item?.data?.value;
+      const name = item.data?.name ?? "";
+
+      return prev + `${`${index}. ${name}`}  ${quanlitySet}\n`;
+    }, "");
+
+    return (
+      "\n--------------------------------------\n" +
+      "DESCRIPTION        PRICE    QTY  TOTAL  \n" +
+      "--------------------------------------\n" +
+      `${itemText}` +
+      ""
+    );
+  };
+
+  const printAppointment = async ({
+    emphasis,
+    isSalon,
+    name,
+    invoiceDate,
+    invoiceNo,
+    items,
+  }) => {
     let commands = [];
-    // commands.push({ appendLineFeed: 2 });
+    commands.push({ appendLineFeed: 0 });
     // Store Name
     commands.push({
       alignment: "Center",
-      appendBitmapText: profile?.businessName ?? "",
+      appendBitmapText: `${profile?.businessName ?? ""}`,
       fontSize: 12,
+      bothScale: true,
     });
     // Store Address
     commands.push({
@@ -51,19 +86,22 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
       appendBitmapText: `${profile?.webLink ?? ""}`,
       fontSize: 12,
     });
+    commands.push({
+      append: "\n",
+    });
     // SALE/VOID/REFUND
     commands.push({
       alignment: "Center",
-      appendBitmapText: `${emphasis}\n`,
+      appendBitmapText: `${emphasis}`,
       fontSize: 14,
     });
     // DATE
     commands.push({
       alignment: "Center",
-      appendBitmapText: `( ${formatWithMoment(
+      appendBitmapText: `(${formatWithMoment(
         new Date(),
         "MM/DD/YYYY hh:mm A"
-      )} )`,
+      )})`,
       fontSize: 12,
     });
     // LINE
@@ -84,7 +122,21 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
         fontSize: 12,
       });
     }
-    commands.push({ appendLineFeed: 2, appendUnitFeed: 32 });
+    commands.push({
+      alignment: "Left",
+      appendBitmapText: `Invoice NO:   ${invoiceNo}`,
+      fontSize: 12,
+    });
+
+    const text = createTextReceipt(items);
+    console.log(text);
+
+    commands.push({
+      alignment: "Center",
+      appendBitmapText: text,
+      fontSize: 12,
+    });
+
     commands.push({
       appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
     });
