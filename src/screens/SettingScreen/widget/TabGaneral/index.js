@@ -52,6 +52,7 @@ class TabGaneral extends Layout {
       zip: profile?.zip,
       isOpenCashier: profile?.isOpenCashier,
       isStaffAppointmentCount: profile?.isStaffAppointmentCount,
+      isUsingTurn: profile?.isUsingTurn,
     };
     this.inputRefsTime = [];
   }
@@ -71,7 +72,8 @@ class TabGaneral extends Layout {
     staffColumn,
     signinAppStyle,
     sendReviewLinkOption,
-    giftForNewEnabled
+    giftForNewEnabled,
+    isUsingTurn,
   ) => {
     const { isFocus, currentTab } = this.props;
     if (isFocus && currentTab === 0) {
@@ -88,6 +90,7 @@ class TabGaneral extends Layout {
           sendReviewLinkOption || ""
         ),
         giftForNewEnabled,
+        isUsingTurn,
       });
 
       this.onRefreshGeneral();
@@ -157,6 +160,7 @@ class TabGaneral extends Layout {
       zip,
       isOpenCashier,
       isStaffAppointmentCount,
+      isUsingTurn,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -204,6 +208,7 @@ class TabGaneral extends Layout {
         zip,
         isOpenCashier,
         isStaffAppointmentCount,
+        isUsingTurn,
       },
       true,
       true
@@ -275,6 +280,7 @@ class TabGaneral extends Layout {
         zip: profile?.zip,
         isOpenCashier: profile?.isOpenCashier,
         isStaffAppointmentCount: profile?.isStaffAppointmentCount,
+        isUsingTurn: profile?.isUsingTurn,
       });
       this.updateWorkTime();
     }
@@ -311,6 +317,7 @@ class TabGaneral extends Layout {
         zip: profile?.zip,
         isOpenCashier: profile?.isOpenCashier,
         isStaffAppointmentCount: profile?.isStaffAppointmentCount,
+        isUsingTurn: profile?.isUsingTurn,
       });
       this.updateWorkTime();
     }
