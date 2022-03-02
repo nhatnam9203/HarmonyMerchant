@@ -58,7 +58,7 @@ export const useProps = (props) => {
   });
 
   const isHadUpdate = () => {
-    return (
+    return ( 
       data?.IsLoyaltyProgram !==
         dataLocal?.IsLoyaltyProgram ||
       data?.CashStarRate !== dataLocal?.CashStarRate ||
@@ -67,8 +67,8 @@ export const useProps = (props) => {
       data?.HarmonyPayStarRate !==
         dataLocal?.HarmonyPayStarRate ||
       data?.OtherStarRate !== dataLocal?.OtherStarRate ||
-      data?.isCashDiscount !== dataLocal?.IsCashDiscount ||
-      data?.cashDiscountPercent !== dataLocal?.CashDiscountPercent
+      data?.IsCashDiscount !== dataLocal?.IsCashDiscount ||
+      data?.CashDiscountPercent !== dataLocal?.CashDiscountPercent
     );
   };
 
@@ -91,6 +91,9 @@ export const useProps = (props) => {
       })
     },
     setCashDiscountPercent: (value) => { 
+      if(formatNumberFromCurrency(value) > 100) {
+        return
+      } 
       let temp = value;
       setCashDiscountPercent(temp);
       if (!temp || isNaN(parseFloat(value))) {
@@ -169,6 +172,8 @@ export const useProps = (props) => {
       setCreditCardStarRate(data?.CreditCardStarRate);
       setHarmonyPayStarRate(data?.HarmonyPayStarRate);
       setOtherStarRate(data?.OtherStarRate);
+      setCashDiscountPercent(data?.CashDiscountPercent);
+      setIsCashDiscount(data?.IsCashDiscount);
     },
   };
 };

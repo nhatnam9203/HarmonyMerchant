@@ -169,25 +169,32 @@ const TextInputSettingRow = ({title, value, setValue}) => (
       >
         {title}
       </Text>
-    <View style={[styles.containerInputView, styles.border]}>
-      <TextInputMask
-        type={"money"}
-        options={{
-          precision: 2,
-          separator: ".",
-          delimiter: ",",
-          unit: "",
-          suffixUnit: "",
-        }}
-        placeholder="0.00"
+      <View
         style={{
-          width: scaleWidth(200),
-          height: scaleHeight(40),
-          fontSize: scaleFont(18),
+          flex: 2,
+          alignItems: "flex-start",
         }}
-        value={value}
-        onChangeText={setValue}
-      />
+      >
+      <View style={[styles.containerInputView, styles.border]}>
+        <TextInputMask
+          type={"money"}
+          options={{
+            precision: 2,
+            separator: ".",
+            delimiter: ",",
+            unit: "",
+            suffixUnit: "",
+          }}
+          placeholder="0.00"
+          style={{
+            padding: 5,
+            fontSize: scaleFont(18),
+            flex: 1
+          }}
+          value={value}
+          onChangeText={setValue}
+        />
+      </View>
     </View>
   </RowContent>
 )
@@ -203,10 +210,8 @@ const styles = StyleSheet.create({
   containerInputView: {
     backgroundColor: colors.WHITE,
     flexDirection: "row",
-    width: scaleWidth(180),
+    width: scaleWidth(200),
     height: scaleHeight(42),
-    flex: 2,
-    alignItems: "flex-start",
   },
   border: {
     borderStyle: "solid",
