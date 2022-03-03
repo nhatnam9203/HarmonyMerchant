@@ -112,14 +112,15 @@ export const requestTransactionDejavoo = async (params) => {
     timeout: 90000,
     };
     const response = await axios(configs);
+    console.log('response', response)
    
     if (parseInt(_.get(response, 'status')) == 200) {
       if(_.get(response, 'data') == "Transaction in progress"){
-        return false
-      } else {
         return true
+      } else {
+        return false
       }
     }else{
-      return false
+      return true
     }
   }

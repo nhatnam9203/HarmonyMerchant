@@ -288,6 +288,32 @@ function* changeStatustransaction(action) {
   }
 }
 
+function* voidRefundMultiPayment(action) {
+  try {
+    yield put({ type: 'LOADING_ROOT' });
+   
+    const responses = yield requestAPI(action);
+    yield put({ type: 'STOP_LOADING_ROOT' });
+    const { codeNumber } = responses;
+    if (parseInt(codeNumber) == 200) {
+      
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: 'UNAUTHORIZED',
+      });
+    } else {
+      yield put({
+        type: 'SHOW_ERROR_MESSAGE',
+        message: responses?.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: 'STOP_LOADING_ROOT' });
+  }
+}
+
 function* settleBatch(action) {
   try {
     yield put({ type: 'LOADING_ROOT' });
@@ -554,5 +580,6 @@ export default function* saga() {
     ),
     takeLatest('GET_INVOICE_DETAIL', getInvoiceDetail),
     takeLatest('GET_CREDIT_BATCH_DETAIL_BY_ID', getCreditBatchDetailById),
+    takeLatest('VOID_REFUND_MULTI_PAYMENT_TRANSACTION', voidRefundMultiPayment),
   ]);
 }

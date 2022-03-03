@@ -696,11 +696,21 @@ class InvoiceScreen extends Layout {
         }
       }
     } else if(invoiceDetail?.paymentMethod === "multiple") {
-      let result = false;
+      await this.setState({
+        visibleConfirmInvoiceStatus: false,
+        visibleProcessingCredit: true,
+      });
       for(let i=0; i<invoiceDetail?.paymentInformation.length; i++) {
         const paymentInformation = invoiceDetail?.paymentInformation[i];
-        result = this.handleVoidRefundMultipay(paymentInformation)
-        if(!result) {
+        let status = true
+       
+        status = await this.handleVoidRefundMultipay(paymentInformation, i)
+        console.log("status", status)
+        if(!status) {
+          await this.setState({
+            visibleProcessingCredit: false,
+          });
+          console.log("Error")
           setTimeout(() => {
             alert("Error");
           }, 300);
@@ -708,13 +718,16 @@ class InvoiceScreen extends Layout {
         }
       }
     
+      console.log('continue')
       this.props.actions.invoice.changeStatustransaction(
         invoiceDetail.checkoutId,
         this.getParamsSearch(),
-        responses,
+        "",
         "dejavoo"
       );
-      this.setState({
+      
+      await this.setState({
+        visibleProcessingCredit: false,
         titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
       });
       
@@ -731,240 +744,302 @@ class InvoiceScreen extends Layout {
     }
   };
 
+  handleVoidRefundMultipay = async(paymentData, index) => {
+    
+      const {
+        paxMachineInfo,
+        invoiceDetail,
+        cloverMachineInfo,
+        paymentMachineType,
+        language,
+      } = this.props;
+      const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+        paxMachineInfo;
+      const method = l.get(
+          paymentData,
+          "paymentData.method")
+      const paymentInformation = paymentData?.responseData
 
+      if (invoiceDetail?.status === "paid") {
+        this.popupProcessingCreditRef.current?.setStateFromParent(false);
 
-  handleVoidRefundMultipay = async(paymentInformation) => {
-    const {
-      paxMachineInfo,
-      invoiceDetail,
-      cloverMachineInfo,
-      paymentMachineType,
-      language,
-    } = this.props;
-    const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
-      paxMachineInfo;
-    if (invoiceDetail?.status === "paid") {
-      this.popupProcessingCreditRef.current?.setStateFromParent(false);
+        if (paymentMachineType == PaymentTerminalType.Clover) {
+          if (method != "Clover") {
+            await this.setState({
+              visibleConfirmInvoiceStatus: true,
+              visibleProcessingCredit: false,
+            });
+            alert(localize("Your transaction is invalid", language));
+            return;
+          }
+          const portClover = l.get(cloverMachineInfo, "port")
+            ? l.get(cloverMachineInfo, "port")
+            : 80;
+          const ipClover = l.get(cloverMachineInfo, "ip");
+          const url = `wss://${ipClover}:${portClover}/remote_pay`;
+          this.isProcessVoidPaymentClover = true;
+          const paymentInfo = {
+            url,
+            remoteAppId: REMOTE_APP_ID,
+            appName: APP_NAME,
+            posSerial: POS_SERIAL,
+            token: l.get(cloverMachineInfo, "token")
+              ? l.get(cloverMachineInfo, "token", "")
+              : "",
+            orderId: paymentInformation?.orderId || "",
+            paymentId: paymentInformation?.id || "",
+          };
+          clover.refundPayment(paymentInfo);
+        } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+          if (method != "Dejavoo") {
+            await this.setState({
+              visibleConfirmInvoiceStatus: true,
+              visibleProcessingCredit: false,
+            });
+            alert(localize("Your transaction is invalid", language));
+            return;
+          }
+          const amount = l.get(
+            invoiceDetail,
+            "paymentInformation.0.amount"
+          );
 
-      if (paymentMachineType == PaymentTerminalType.Clover) {
-        if (method != "Clover") {
-          await this.setState({
-            visibleConfirmInvoiceStatus: true,
-            visibleProcessingCredit: false,
-          });
-          alert(localize("Your transaction is invalid", language));
-          return;
-        }
-        const portClover = l.get(cloverMachineInfo, "port")
-          ? l.get(cloverMachineInfo, "port")
-          : 80;
-        const ipClover = l.get(cloverMachineInfo, "ip");
-        const url = `wss://${ipClover}:${portClover}/remote_pay`;
-        this.isProcessVoidPaymentClover = true;
-        const paymentInfo = {
-          url,
-          remoteAppId: REMOTE_APP_ID,
-          appName: APP_NAME,
-          posSerial: POS_SERIAL,
-          token: l.get(cloverMachineInfo, "token")
-            ? l.get(cloverMachineInfo, "token", "")
-            : "",
-          orderId: paymentInformation?.orderId || "",
-          paymentId: paymentInformation?.id || "",
-        };
-        clover.refundPayment(paymentInfo);
-      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-        if (method != "Dejavoo") {
-          await this.setState({
-            visibleConfirmInvoiceStatus: true,
-            visibleProcessingCredit: false,
-          });
-          alert(localize("Your transaction is invalid", language));
-          return;
-        }
-        const amount = l.get(
-          invoiceDetail,
-          "paymentInformation.0.amount"
-        );
+        
 
-        parseString(paymentInformation, (err, result) => {
-          if (err) {
-            setTimeout(() => {
-              alert("Error");
-            }, 300);
-          } else {
-            const transactionId = l.get(result, "xmp.response.0.RefId.0");
-            const invNum = l.get(result, "xmp.response.0.InvNum.0");
-            const params = {
-              tenderType: "Credit",
-              transType: "Return",
-              amount: parseFloat(amount).toFixed(2),
-              RefId: transactionId,
-              invNum: `${invNum}`,
-            };
-            // const getStatus = requestGetProcessingStatus()
-            requestTransactionDejavoo(params).then((responses) => {
-              parseString(responses, (err, result) => {
-                if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
-                  return false
-                } else {
-                  return true
-                }
+          if(index > 0) {
+            await this.performTimeConsumingTask(10000);
+          }
+          return new Promise((resolve, _) => { parseString(paymentInformation, (err, result) => {
+            if (err) {
+              resolve(false)
+            } else {
+              const transactionId = l.get(result, "xmp.response.0.RefId.0");
+              const invNum = l.get(result, "xmp.response.0.InvNum.0");
+              const params = {
+                tenderType: "Credit",
+                transType: "Return",
+                amount: parseFloat(amount).toFixed(2),
+                RefId: transactionId,
+                invNum: `${invNum}`,
+              };
+            
+              let status = true
+              
+              requestTransactionDejavoo(params).then((responses) => {
+                parseString(responses, (err, result) => {
+                  if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
+                    status = false
+                  } else {
+                    status = true
+                  }
+                })
+                this.props.actions.invoice.voidRefundMultiPaymentTransaction(
+                  paymentData?.paymentTransactionId,
+                  status,
+                  responses
+                );
+                resolve(status);
+
               });
-            });
-          }
-        });
-      } else {
-        //Pax
-        const amount = paymentInformation?.ApprovedAmount || 0;
-        const transactionId = paymentInformation?.RefNum || 0;
-        const extData = paymentInformation?.ExtData || "";
-        const invNum = paymentInformation?.InvNum || "";
-        const tempIpPax = commType == "TCP" ? ip : "";
-        const tempPortPax = commType == "TCP" ? port : "";
-        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-
-        if (method != "Pax") {
-          await this.setState({
-            visibleConfirmInvoiceStatus: true,
-            visibleProcessingCredit: false,
-          });
-          alert(localize("Your transaction is invalid", language));
-          return;
-        }
-        PosLink.sendTransaction(
-          {
-            tenderType: "CREDIT",
-            transType: "RETURN",
-            amount: `${parseFloat(amount)}`,
-            transactionId: transactionId,
-            extData: extData,
-            commType: commType,
-            destIp: tempIpPax,
-            portDevice: tempPortPax,
-            timeoutConnect: "90000",
-            bluetoothAddr: idBluetooth,
-            invNum: `${invNum}`,
-          },
-          (data) => {
-            if (data.ResultCode === "000000") {
-              return true
-            } else {
-              return false
             }
-          }
-        );
-      }
-    } else if (invoiceDetail?.status === "complete") {
-      if (paymentMachineType == PaymentTerminalType.Clover) {
-        if (method != "Clover") {
-          await this.setState({
-            visibleConfirmInvoiceStatus: true,
-            visibleProcessingCredit: false,
+          })
+          
           });
-          alert(localize("Your transaction is invalid", language));
-          return;
-        }
-        this.isProcessVoidPaymentClover = true;
-        const portClover = l.get(cloverMachineInfo, "port")
-          ? l.get(cloverMachineInfo, "port")
-          : 80;
-        const ipClover = l.get(cloverMachineInfo, "ip");
+        } else {
+          //Pax
+          const amount = paymentInformation?.ApprovedAmount || 0;
+          const transactionId = paymentInformation?.RefNum || 0;
+          const extData = paymentInformation?.ExtData || "";
+          const invNum = paymentInformation?.InvNum || "";
+          const tempIpPax = commType == "TCP" ? ip : "";
+          const tempPortPax = commType == "TCP" ? port : "";
+          const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
 
-        const url = `wss://${ipClover}:${portClover}/remote_pay`;
-        this.isProcessVoidPaymentClover = true;
-        const paymentInfo = {
-          url,
-          remoteAppId: REMOTE_APP_ID,
-          appName: APP_NAME,
-          posSerial: POS_SERIAL,
-          token: l.get(cloverMachineInfo, "token")
-            ? l.get(cloverMachineInfo, "token", "")
-            : "",
-          orderId: paymentInformation?.orderId || "",
-          paymentId: paymentInformation?.id || "",
-        };
-        clover.voidPayment(paymentInfo);
-      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-        if (method != "Dejavoo") {
-          await this.setState({
-            visibleConfirmInvoiceStatus: true,
-            visibleProcessingCredit: false,
-          });
-          alert(localize("Your transaction is invalid", language));
-          return;
-        }
-        const amount = l.get(
-          invoiceDetail,
-          "paymentInformation.0.amount"
-        );
-        parseString(paymentInformation, (err, result) => {
-          if (err) {
-            setTimeout(() => {
-              alert("Error");
-            }, 300);
-          } else {
-            const transactionId = l.get(result, "xmp.response.0.RefId.0");
-            const invNum = l.get(result, "xmp.response.0.InvNum.0");
-            const params = {
-              tenderType: "Credit",
-              transType: "Void",
-              amount: parseFloat(amount).toFixed(2),
-              RefId: transactionId,
+          if (method != "Pax") {
+            await this.setState({
+              visibleConfirmInvoiceStatus: true,
+              visibleProcessingCredit: false,
+            });
+            alert(localize("Your transaction is invalid", language));
+            return;
+          }
+          PosLink.sendTransaction(
+            {
+              tenderType: "CREDIT",
+              transType: "RETURN",
+              amount: `${parseFloat(amount)}`,
+              transactionId: transactionId,
+              extData: extData,
+              commType: commType,
+              destIp: tempIpPax,
+              portDevice: tempPortPax,
+              timeoutConnect: "90000",
+              bluetoothAddr: idBluetooth,
               invNum: `${invNum}`,
-            };
-            requestTransactionDejavoo(params).then((responses) => {
-              if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
-                return false
-              } else {
+            },
+            (data) => {
+              if (data.ResultCode === "000000") {
                 return true
+              } else {
+                return false
               }
-            });
-          }
-        });
-      } else {
-        //Pax
-        const transactionId = paymentInformation?.RefNum || 0;
-        const extData = paymentInformation?.ExtData || "";
-        const invNum = paymentInformation?.InvNum || "";
-        const tempIpPax = commType == "TCP" ? ip : "";
-        const tempPortPax = commType == "TCP" ? port : "";
-        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-        this.popupProcessingCreditRef.current?.setStateFromParent(
-          transactionId
-        );
-        if (method != "Pax") {
-          await this.setState({
-            visibleConfirmInvoiceStatus: true,
-            visibleProcessingCredit: false,
-          });
-          alert(localize("Your transaction is invalid", language));
-          return;
-        }
-        PosLink.sendTransaction(
-          {
-            tenderType: "CREDIT",
-            transType: "VOID",
-            amount: "",
-            transactionId: transactionId,
-            extData: extData,
-            commType: commType,
-            destIp: tempIpPax,
-            portDevice: tempPortPax,
-            timeoutConnect: "90000",
-            bluetoothAddr: idBluetooth,
-            invNum: `${invNum}`,
-          },
-          (data) => {
-            if (data.ResultCode === "000000") {
-              return true
-            } else {
-              return false
             }
+          );
+        }
+      } else if (invoiceDetail?.status === "complete") {
+        if (paymentMachineType == PaymentTerminalType.Clover) {
+          if (method != "Clover") {
+            await this.setState({
+              visibleConfirmInvoiceStatus: true,
+              visibleProcessingCredit: false,
+            });
+            alert(localize("Your transaction is invalid", language));
+            return;
           }
-        );
+          this.isProcessVoidPaymentClover = true;
+          const portClover = l.get(cloverMachineInfo, "port")
+            ? l.get(cloverMachineInfo, "port")
+            : 80;
+          const ipClover = l.get(cloverMachineInfo, "ip");
+
+          const url = `wss://${ipClover}:${portClover}/remote_pay`;
+          this.isProcessVoidPaymentClover = true;
+          const paymentInfo = {
+            url,
+            remoteAppId: REMOTE_APP_ID,
+            appName: APP_NAME,
+            posSerial: POS_SERIAL,
+            token: l.get(cloverMachineInfo, "token")
+              ? l.get(cloverMachineInfo, "token", "")
+              : "",
+            orderId: paymentInformation?.orderId || "",
+            paymentId: paymentInformation?.id || "",
+          };
+          clover.voidPayment(paymentInfo);
+        } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+          if (method != "Dejavoo") {
+            await this.setState({
+              visibleConfirmInvoiceStatus: true,
+              visibleProcessingCredit: false,
+            });
+            // alert(localize("Your transaction is invalid", language));
+            return false;
+          }
+         
+          const amount = l.get(
+            invoiceDetail,
+            "paymentInformation.0.amount"
+          );
+
+          
+          if(index > 0) {
+            await this.performTimeConsumingTask(10000);
+          }
+          return new Promise((resolve, _) => { parseString(paymentInformation, (err, result) => {
+            if (err) {
+              resolve(false)
+            } else {
+              const transactionId = l.get(result, "xmp.response.0.RefId.0");
+              const invNum = l.get(result, "xmp.response.0.InvNum.0");
+              const params = {
+                tenderType: "Credit",
+                transType: "Void",
+                amount: parseFloat(amount).toFixed(2),
+                RefId: transactionId,
+                invNum: `${invNum}`,
+              };
+            
+              let status = true
+              
+              requestTransactionDejavoo(params).then((responses) => {
+                parseString(responses, (err, result) => {
+                  if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
+                    status = false
+                  } else {
+                    status = true
+                  }
+                })
+                this.props.actions.invoice.voidRefundMultiPaymentTransaction(
+                  paymentData?.paymentTransactionId,
+                  status,
+                  responses
+                );
+                resolve(status);
+
+              });
+            }
+          })
+          
+          });
+        } else {
+          //Pax
+          const transactionId = paymentInformation?.RefNum || 0;
+          const extData = paymentInformation?.ExtData || "";
+          const invNum = paymentInformation?.InvNum || "";
+          const tempIpPax = commType == "TCP" ? ip : "";
+          const tempPortPax = commType == "TCP" ? port : "";
+          const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+          this.popupProcessingCreditRef.current?.setStateFromParent(
+            transactionId
+          );
+          if (method != "Pax") {
+            await this.setState({
+              visibleConfirmInvoiceStatus: true,
+              visibleProcessingCredit: false,
+            });
+            alert(localize("Your transaction is invalid", language));
+            return;
+          }
+          PosLink.sendTransaction(
+            {
+              tenderType: "CREDIT",
+              transType: "VOID",
+              amount: "",
+              transactionId: transactionId,
+              extData: extData,
+              commType: commType,
+              destIp: tempIpPax,
+              portDevice: tempPortPax,
+              timeoutConnect: "90000",
+              bluetoothAddr: idBluetooth,
+              invNum: `${invNum}`,
+            },
+            (data) => {
+              if (data.ResultCode === "000000") {
+                return true
+              } else {
+                return false
+              }
+            }
+          );
+        }
       }
-    }
+    
+  }
+
+  performTimeConsumingTask = async(timeOut) => {
+    return new Promise((resolve) =>
+      setTimeout(
+        () => { resolve('result') },
+        timeOut
+      )
+    );
+  }
+
+  requestDejavoo = async(params) => {
+    return new Promise((resolve, _) => {
+      requestTransactionDejavoo(params).then((responses) => {
+        parseString(responses, (err, result) => {
+          if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
+            resolve("sucess")
+          } else if (l.get(result, "xmp.response.0.ResultCode.0") == 2) {
+            resolve("busy")
+          }else {
+            resolve("false")
+          }
+        })
+      })
+    })
   }
 
   getParamsSearch = () => {

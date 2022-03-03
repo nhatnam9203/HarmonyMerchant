@@ -118,6 +118,19 @@ export function changeStatustransaction(checkoutId, params, responseData = {}, p
     }
 }
 
+export function voidRefundMultiPaymentTransaction(paymentTransactionId, status, responseData = "") {
+    return {
+        type: 'VOID_REFUND_MULTI_PAYMENT_TRANSACTION',
+        method: 'PUT',
+        body: {
+            responseData,
+            isSuccess: status
+        },
+        api: `checkout/voidrefundpayment/${paymentTransactionId}`,
+        token: true,
+    }
+}
+
 
 export function settleBatch(body, timeoutIncrease = true) {
     return {
