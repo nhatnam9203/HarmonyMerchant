@@ -702,20 +702,23 @@ class InvoiceScreen extends Layout {
       });
       for(let i=0; i<invoiceDetail?.paymentInformation.length; i++) {
         const paymentInformation = invoiceDetail?.paymentInformation[i];
-        let status = true
+        if (paymentInformation?.checkoutPaymentStatus == "paid") {
+          let status = true
        
-        status = await this.handleVoidRefundMultipay(paymentInformation, i)
-        console.log("status", status)
-        if(!status) {
-          await this.setState({
-            visibleProcessingCredit: false,
-          });
-          console.log("Error")
-          setTimeout(() => {
-            alert("Error");
-          }, 300);
-          return
+          status = await this.handleVoidRefundMultipay(paymentInformation, i)
+          console.log("status", status)
+          if(!status) {
+            await this.setState({
+              visibleProcessingCredit: false,
+            });
+            console.log("Error")
+            setTimeout(() => {
+              alert("Error");
+            }, 300);
+            return
+          }
         }
+        
       }
     
       console.log('continue')
@@ -764,32 +767,8 @@ class InvoiceScreen extends Layout {
         this.popupProcessingCreditRef.current?.setStateFromParent(false);
 
         if (paymentMachineType == PaymentTerminalType.Clover) {
-          if (method != "Clover") {
-            await this.setState({
-              visibleConfirmInvoiceStatus: true,
-              visibleProcessingCredit: false,
-            });
-            alert(localize("Your transaction is invalid", language));
-            return;
-          }
-          const portClover = l.get(cloverMachineInfo, "port")
-            ? l.get(cloverMachineInfo, "port")
-            : 80;
-          const ipClover = l.get(cloverMachineInfo, "ip");
-          const url = `wss://${ipClover}:${portClover}/remote_pay`;
-          this.isProcessVoidPaymentClover = true;
-          const paymentInfo = {
-            url,
-            remoteAppId: REMOTE_APP_ID,
-            appName: APP_NAME,
-            posSerial: POS_SERIAL,
-            token: l.get(cloverMachineInfo, "token")
-              ? l.get(cloverMachineInfo, "token", "")
-              : "",
-            orderId: paymentInformation?.orderId || "",
-            paymentId: paymentInformation?.id || "",
-          };
-          clover.refundPayment(paymentInfo);
+          //TODO: will change later
+          return false
         } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
           if (method != "Dejavoo") {
             await this.setState({
@@ -799,10 +778,7 @@ class InvoiceScreen extends Layout {
             alert(localize("Your transaction is invalid", language));
             return;
           }
-          const amount = l.get(
-            invoiceDetail,
-            "paymentInformation.0.amount"
-          );
+          const amount = l.get(paymentData, "amount");
 
           if(index > 0) {
             await this.performTimeConsumingTask(10000);
@@ -861,6 +837,9 @@ class InvoiceScreen extends Layout {
             // alert(localize("Your transaction is invalid", language));
             return false;
           }
+          if(index > 0) {
+            await this.performTimeConsumingTask(5000);
+          }
           return new Promise((resolve, _) => { 
             let status = true;
             PosLink.sendTransaction(
@@ -878,6 +857,7 @@ class InvoiceScreen extends Layout {
                 invNum: `${invNum}`,
               },
               (data) => {
+                console.log('data', data)
                 const dataJSon = JSON.parse(data);
                 if (dataJSon?.ResultCode === "000000") {
                   status = true;
@@ -896,34 +876,8 @@ class InvoiceScreen extends Layout {
         }
       } else if (invoiceDetail?.status === "complete") {
         if (paymentMachineType == PaymentTerminalType.Clover) {
-          if (method != "Clover") {
-            await this.setState({
-              visibleConfirmInvoiceStatus: true,
-              visibleProcessingCredit: false,
-            });
-            alert(localize("Your transaction is invalid", language));
-            return;
-          }
-          this.isProcessVoidPaymentClover = true;
-          const portClover = l.get(cloverMachineInfo, "port")
-            ? l.get(cloverMachineInfo, "port")
-            : 80;
-          const ipClover = l.get(cloverMachineInfo, "ip");
-
-          const url = `wss://${ipClover}:${portClover}/remote_pay`;
-          this.isProcessVoidPaymentClover = true;
-          const paymentInfo = {
-            url,
-            remoteAppId: REMOTE_APP_ID,
-            appName: APP_NAME,
-            posSerial: POS_SERIAL,
-            token: l.get(cloverMachineInfo, "token")
-              ? l.get(cloverMachineInfo, "token", "")
-              : "",
-            orderId: paymentInformation?.orderId || "",
-            paymentId: paymentInformation?.id || "",
-          };
-          clover.voidPayment(paymentInfo);
+          //TODO: will change later
+         return false
         } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
           if (method != "Dejavoo") {
             await this.setState({
@@ -934,12 +888,8 @@ class InvoiceScreen extends Layout {
             return false;
           }
          
-          const amount = l.get(
-            invoiceDetail,
-            "paymentInformation.0.amount"
-          );
+          const amount = l.get(paymentData, "amount");
 
-          
           if(index > 0) {
             await this.performTimeConsumingTask(10000);
           }
@@ -990,6 +940,7 @@ class InvoiceScreen extends Layout {
           this.popupProcessingCreditRef.current?.setStateFromParent(
             transactionId
           );
+          console.log('method', method)
           if (method != "Pax") {
             await this.setState({
               visibleConfirmInvoiceStatus: true,
@@ -1016,6 +967,7 @@ class InvoiceScreen extends Layout {
                 invNum: `${invNum}`,
               },
               (data) => {
+                console.log('data', data)
                 const dataJSon = JSON.parse(data);
                 if (dataJSon?.ResultCode === "000000") {
                   status = true;
