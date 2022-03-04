@@ -804,8 +804,6 @@ class InvoiceScreen extends Layout {
             "paymentInformation.0.amount"
           );
 
-        
-
           if(index > 0) {
             await this.performTimeConsumingTask(10000);
           }
@@ -860,31 +858,33 @@ class InvoiceScreen extends Layout {
               visibleConfirmInvoiceStatus: true,
               visibleProcessingCredit: false,
             });
-            alert(localize("Your transaction is invalid", language));
-            return;
+            // alert(localize("Your transaction is invalid", language));
+            return false;
           }
-          PosLink.sendTransaction(
-            {
-              tenderType: "CREDIT",
-              transType: "RETURN",
-              amount: `${parseFloat(amount)}`,
-              transactionId: transactionId,
-              extData: extData,
-              commType: commType,
-              destIp: tempIpPax,
-              portDevice: tempPortPax,
-              timeoutConnect: "90000",
-              bluetoothAddr: idBluetooth,
-              invNum: `${invNum}`,
-            },
-            (data) => {
-              if (data.ResultCode === "000000") {
-                return true
-              } else {
-                return false
+          return new Promise((resolve, _) => { 
+            PosLink.sendTransaction(
+              {
+                tenderType: "CREDIT",
+                transType: "RETURN",
+                amount: `${parseFloat(amount)}`,
+                transactionId: transactionId,
+                extData: extData,
+                commType: commType,
+                destIp: tempIpPax,
+                portDevice: tempPortPax,
+                timeoutConnect: "90000",
+                bluetoothAddr: idBluetooth,
+                invNum: `${invNum}`,
+              },
+              (data) => {
+                if (data.ResultCode === "000000") {
+                  resolve(true)
+                } else {
+                  resolve(false)
+                }
               }
-            }
-          );
+            );
+          });
         }
       } else if (invoiceDetail?.status === "complete") {
         if (paymentMachineType == PaymentTerminalType.Clover) {
@@ -987,31 +987,33 @@ class InvoiceScreen extends Layout {
               visibleConfirmInvoiceStatus: true,
               visibleProcessingCredit: false,
             });
-            alert(localize("Your transaction is invalid", language));
-            return;
+            // alert(localize("Your transaction is invalid", language));
+            return false;
           }
-          PosLink.sendTransaction(
-            {
-              tenderType: "CREDIT",
-              transType: "VOID",
-              amount: "",
-              transactionId: transactionId,
-              extData: extData,
-              commType: commType,
-              destIp: tempIpPax,
-              portDevice: tempPortPax,
-              timeoutConnect: "90000",
-              bluetoothAddr: idBluetooth,
-              invNum: `${invNum}`,
-            },
-            (data) => {
-              if (data.ResultCode === "000000") {
-                return true
-              } else {
-                return false
+          return new Promise((resolve, _) => { 
+            PosLink.sendTransaction(
+              {
+                tenderType: "CREDIT",
+                transType: "VOID",
+                amount: "",
+                transactionId: transactionId,
+                extData: extData,
+                commType: commType,
+                destIp: tempIpPax,
+                portDevice: tempPortPax,
+                timeoutConnect: "90000",
+                bluetoothAddr: idBluetooth,
+                invNum: `${invNum}`,
+              },
+              (data) => {
+                if (data.ResultCode === "000000") {
+                  resolve(true);
+                } else {
+                  resolve(false);
+                }
               }
-            }
-          );
+            );
+          })
         }
       }
     
