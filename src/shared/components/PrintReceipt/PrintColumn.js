@@ -1,24 +1,33 @@
 import _ from "lodash";
 
+export const PrintAlignmentText = {
+  LEFT: 0,
+  CENTER: 1,
+  RIGHT: 2,
+};
+
 /**
  * Using to add space for each row
  * @param text
  * @param restLength
- * @param align
+ * @param align : PrintAlignmentText
  */
-const processAlignText = (text, restLength, align) => {
-  if (align === 0) {
-    return text + " ".repeat(restLength);
-  } else if (align === 1) {
-    return (
-      " ".repeat(Math.floor(restLength / 2)) +
-      text +
-      " ".repeat(Math.ceil(restLength / 2))
-    );
-  } else if (align === 2) {
-    return " ".repeat(restLength) + text;
+export const processAlignText = (text, restLength, align) => {
+  switch (align) {
+    case PrintAlignmentText.LEFT:
+      return text + " ".repeat(restLength);
+
+    case PrintAlignmentText.CENTER:
+      return (
+        " ".repeat(Math.floor(restLength / 2)) +
+        text +
+        " ".repeat(Math.ceil(restLength / 2))
+      );
+    case PrintAlignmentText.RIGHT:
+      return " ".repeat(restLength) + text;
+    default:
+      return "";
   }
-  return "";
 };
 
 /**
@@ -94,4 +103,8 @@ export const processColumnText = (
       processColumnText(rest_texts, columnWidth, columnAliment, columnStyle);
   }
   return result;
+};
+
+export const processTotalLine = (label, value) => {
+  return `${_.padEnd(`${label}: `, 15, " ")}${_.padStart(`$${value}`, 9, " ")}`;
 };

@@ -18,7 +18,12 @@ import {
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import _ from "lodash";
-import { processColumnText } from "./PrintColumn";
+import {
+  processColumnText,
+  processAlignText,
+  PrintAlignmentText,
+  processTotalLine,
+} from "./PrintColumn";
 
 export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
   const {
@@ -27,13 +32,19 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     widthPaper = 46,
   } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
 
-  const createTextReceipt = (items) => {
-    console.log(items);
+  const width = parseFloat(widthPaper) || 32;
+  const wQTY = 6;
+  const wTOTAL = 10;
 
+  const createTextReceipt = (items) => {
     let textFormat = "\n";
     textFormat += "--------------------------------------\n";
-    let columnAliment = [0, 1, 2];
-    let columnWidth = [30 - 14, 4, 10];
+    let columnAliment = [
+      PrintAlignmentText.LEFT,
+      PrintAlignmentText.CENTER,
+      PrintAlignmentText.RIGHT,
+    ];
+    let columnWidth = [width - wQTY - wTOTAL, wQTY, wTOTAL];
     const headers = ["DESCRIPTION", "QTY", "TOTAL"];
 
     const result = processColumnText(headers, columnWidth, columnAliment, [
@@ -46,8 +57,8 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
 
     const itemText = items.reduce((prev, item, index) => {
       const price = item.data && item.data.price ? item.data.price : 0;
-      // const discount = item?.data?.discount;
-      // const discountPercent = item?.data?.discountPercent;
+      const discount = item?.data?.discount;
+      const discountPercent = item?.data?.discountPercent;
 
       const quanlitySet = item.quanlitySet ?? 1;
       const total = formatMoney(price * quanlitySet);
@@ -69,10 +80,54 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
         itemText += "\n" + note;
       }
 
+      if (discount > 0) {
+        itemText += "\n";
+        let itemsDiscount = [
+          `Discount: $ ${discount}`,
+          `- $${formatMoney(discount / quanlitySet)}`,
+          `- $${formatMoney(discount)}`,
+        ];
+        itemText += processColumnText(
+          itemsDiscount,
+          columnWidth,
+          columnAliment,
+          ["", "", ""]
+        );
+      }
+
+      if (discountPercent > 0) {
+        itemText += "\n";
+        let itemsDiscountPercents = [
+          `Discount: ${discountPercent}%`,
+          `- $${formatMoney((discountPercent * price) / 100)}`,
+          `- $${formatMoney(((discountPercent * price) / 100) * quanlitySet)}`,
+        ];
+        itemText += processColumnText(
+          itemsDiscountPercents,
+          columnWidth,
+          columnAliment,
+          ["", "", ""]
+        );
+      }
+
       return prev + itemText + "\n";
     }, "");
 
-    textFormat += itemText + "\n";
+    textFormat += itemText;
+    textFormat += "--------------------------------------\n";
+
+    const totalQty = items.reduce((prev, item, index) => {
+      const quanlitySet = item.quanlitySet ?? 1;
+      return prev + quanlitySet;
+    }, 0);
+
+    let totalQtyArr = ["Total QTY", `${totalQty}`, ""];
+    textFormat += processColumnText(totalQtyArr, columnWidth, columnAliment, [
+      "",
+      "",
+      "",
+    ]);
+    textFormat += "\n";
 
     console.log(textFormat);
 
@@ -89,145 +144,125 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     subTotal,
     discount,
     tipAmount,
+    taxRate,
     tax,
     total,
     change,
+    barCode,
   }) => {
     let commands = [];
     commands.push({ appendLineFeed: 0 });
-    // Store Name
-    commands.push({ appendFontStyle: "B" });
     commands.push({
-      alignment: "Center",
-      appendBitmapText: `${profile?.businessName ?? ""}`,
-      fontSize: 10,
+      appendAlignment: StarPRNT.AlignmentPosition.Center,
     });
-    commands.push({ appendFontStyle: "A" });
+    // Store Name
+    commands.push({
+      append: `${profile?.businessName ?? ""}\n`,
+    });
     // Store Address
     commands.push({
-      alignment: "Center",
-      appendBitmapText: `${profile?.addressFull ?? ""}`,
-      fontSize: 10,
+      append: `${profile?.addressFull ?? ""}\n`,
     });
     // Store Phone
     commands.push({
-      alignment: "Center",
-      appendBitmapText: `Tel : ${profile?.phone || " "}`,
-      fontSize: 10,
+      append: `Tel : ${profile?.phone || " "}\n`,
     });
     // Store WebLink
     commands.push({
-      alignment: "Center",
-      appendBitmapText: `${profile?.webLink ?? ""}`,
-      fontSize: 10,
-    });
-    commands.push({
-      append: "\n",
+      append: `${profile?.webLink ?? ""}\n`,
     });
     // SALE/VOID/REFUND
     commands.push({
-      alignment: "Center",
-      appendBitmapText: `${emphasis}`,
-      fontSize: 10,
+      append: `${emphasis}\n`,
     });
     // DATE
     commands.push({
-      alignment: "Center",
-      appendBitmapText: `(${formatWithMoment(
-        new Date(),
-        "MM/DD/YYYY hh:mm A"
-      )})`,
-      fontSize: 10,
+      append: `(${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")})\n`,
     });
     // LINE
     commands.push({
       appendLineSpace: 2,
     });
+    commands.push({
+      appendAlignment: StarPRNT.AlignmentPosition.Left,
+    });
     // STAFF/CUSTOMER
     commands.push({
-      alignment: "Left",
-      appendBitmapText: `${isSalon ? "Customer:" : "Staff Name:"}   ${name}`,
-      fontSize: 10,
+      append: `${isSalon ? "Customer:     " : "Staff Name:    "}${name}\n`,
     });
     // INVOICE DATE
     if (invoiceDate) {
       commands.push({
-        alignment: "Left",
-        appendBitmapText: `Invoice Date:   ${invoiceDate}`,
-        fontSize: 10,
+        append: `Invoice Date:   ${invoiceDate}\n`,
       });
     }
     commands.push({
-      alignment: "Left",
-      appendBitmapText: `Invoice NO:   ${invoiceNo}`,
-      fontSize: 10,
+      append: `Invoice NO:    ${invoiceNo}\n`,
     });
 
     const text = createTextReceipt(items);
-
     commands.push({
-      alignment: "Center",
+      appendAlignment: StarPRNT.AlignmentPosition.Left,
+    });
+    commands.push({
       appendBitmapText: text,
-      fontSize: 8,
+      fontSize: 10,
     });
 
     commands.push({
-      appendLineSpace: 20,
+      appendBitmapText: "--------------------------------------\n",
+      fontSize: 8,
     });
 
     if (subTotal) {
       commands.push({
-        alignment: "Left",
-        appendBitmapText: `Subtotal: ${subTotal}`,
-        fontSize: 10,
+        append: `${processTotalLine("Subtotal", subTotal)}\n`,
       });
     }
 
     if (discount) {
       commands.push({
-        alignment: "Left",
-        appendBitmapText: `Discount: ${discount}`,
-        fontSize: 10,
+        append: `${processTotalLine("Discount", discount)}\n`,
       });
     }
 
     if (tipAmount) {
       commands.push({
-        alignment: "Left",
-        appendBitmapText: `Tip: ${tipAmount}`,
-        fontSize: 10,
+        append: `${processTotalLine("Tip", tipAmount)}\n`,
       });
     }
 
     if (tax) {
       commands.push({
-        alignment: "Left",
-        appendBitmapText: `Tax: ${tax}`,
-        fontSize: 10,
+        append: `${processTotalLine(`Tax:${taxRate}`, tax)}\n`,
       });
     }
 
     if (total) {
       commands.push({
-        alignment: "Left",
-        appendBitmapText: `Total: ${total}`,
-        fontSize: 10,
+        append: `${processTotalLine("Total", total)}\n`,
       });
     }
 
     if (change) {
       commands.push({
-        alignment: "Left",
-        appendBitmapText: `Change: ${change}`,
-        fontSize: 10,
+        append: `${processTotalLine("Change", change)}\n`,
       });
     }
+
+    commands.push({
+      appendBarcode: barCode ?? "09238292839",
+      // BarcodeSymbology: BarcodeSymbology.Code128,
+      // BarcodeWidth: BarcodeWidth.Mode2,
+      height: 40,
+      // hri: true,
+    });
 
     commands.push({
       appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
     });
 
-    await PrintManager.getInstance().print(emulation, commands, portName);
+    // await PrintManager.getInstance().print(emulation, commands, portName);
   };
 
   return { printAppointment };

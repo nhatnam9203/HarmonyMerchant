@@ -431,9 +431,11 @@ export const PopupInvoice = React.forwardRef(
               subTotal: getSubTotal(),
               discount: getDiscount(),
               tipAmount: getTipAmount(),
-              tax: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+              taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+              tax: getTax(),
               total: getTotal(),
               change: formatMoneyWithUnit(getChange()),
+              barCode: invoiceDetail?.code,
             });
 
             releaseCapture(imageUri);
