@@ -862,6 +862,7 @@ class InvoiceScreen extends Layout {
             return false;
           }
           return new Promise((resolve, _) => { 
+            let status = true;
             PosLink.sendTransaction(
               {
                 tenderType: "CREDIT",
@@ -877,11 +878,18 @@ class InvoiceScreen extends Layout {
                 invNum: `${invNum}`,
               },
               (data) => {
-                if (data.ResultCode === "000000") {
-                  resolve(true)
+                const dataJSon = JSON.parse(data);
+                if (dataJSon?.ResultCode === "000000") {
+                  status = true;
                 } else {
-                  resolve(false)
+                  status = false;
                 }
+                this.props.actions.invoice.voidRefundMultiPaymentTransaction(
+                  paymentData?.paymentTransactionId,
+                  status,
+                  data
+                );
+                resolve(status);
               }
             );
           });
@@ -990,7 +998,9 @@ class InvoiceScreen extends Layout {
             // alert(localize("Your transaction is invalid", language));
             return false;
           }
+          
           return new Promise((resolve, _) => { 
+            let status = true
             PosLink.sendTransaction(
               {
                 tenderType: "CREDIT",
@@ -1006,11 +1016,19 @@ class InvoiceScreen extends Layout {
                 invNum: `${invNum}`,
               },
               (data) => {
-                if (data.ResultCode === "000000") {
-                  resolve(true);
+                const dataJSon = JSON.parse(data);
+                if (dataJSon?.ResultCode === "000000") {
+                  status = true;
                 } else {
-                  resolve(false);
+                  status = false;
                 }
+                this.props.actions.invoice.voidRefundMultiPaymentTransaction(
+                  paymentData?.paymentTransactionId,
+                  status,
+                  data
+                );
+                console.log('result status', status)
+                resolve(status);
               }
             );
           })
