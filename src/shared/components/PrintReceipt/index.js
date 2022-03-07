@@ -21,7 +21,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     printerSelect
   );
 
-  const width = parseFloat(widthPaper) || 32;
+  const width = Math.max(Math.round(parseFloat(widthPaper) / 14), 30);
   const wQTY = 5;
   const wTOTAL = 10;
 
@@ -146,9 +146,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     promotionNotes,
   }) => {
     let commands = [];
-    commands.push({
-      append: `${width} - ${widthPaper}\n`,
-    });
+
     commands.push({ appendLineFeed: 0 });
     commands.push({
       appendAlignment: StarPRNT.AlignmentPosition.Center,
@@ -186,16 +184,16 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     });
     // STAFF/CUSTOMER
     commands.push({
-      append: `${isSalon ? "Customer:     " : "Staff Name:    "}${name}\n`,
+      append: `${isSalon ? "Customer:    " : "Staff Name:  "}${name}\n`,
     });
     // INVOICE DATE
     if (invoiceDate) {
       commands.push({
-        append: `Invoice Date:   ${invoiceDate}\n`,
+        append: `Invoice Date:${invoiceDate}\n`,
       });
     }
     commands.push({
-      append: `Invoice NO:    ${invoiceNo}\n`,
+      append: `Invoice NO:  ${invoiceNo}\n`,
     });
 
     const text = createTextReceipt(items);
@@ -242,14 +240,17 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
         append: `${processTotalLine("Change", change)}\n`,
       });
     }
+    commands.push({
+      append: "\n",
+    });
 
     if (printTempt && !fromAppointmentTab) {
       commands.push({
-        append: "Tip: \n",
+        append: "Tip: \n\n",
       });
 
       commands.push({
-        append: "Total: \n",
+        append: "Total: \n\n",
       });
     }
 
@@ -317,13 +318,13 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
 
     if (isSignature && !printTempt) {
       commands.push({
-        append: `Signature: \n`,
+        append: `Signature: \n\n\n`,
       });
     }
 
     if (printTempt && !fromAppointmentTab) {
       commands.push({
-        append: `Signature: \n`,
+        append: `Signature: \n\n\n`,
       });
     }
 
@@ -348,13 +349,20 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     }
 
     commands.push({
-      append: `********* ${footerReceipt} *********\n`,
+      append: `***** ${footerReceipt} *****\n`,
     });
-    commands.push({
-      appendBarcode: "{BStar",
-      BarcodeWidth: "Mode2",
-      alignment: AlignmentPosition.Center,
-    });
+
+    if (barCode) {
+      commands.push({
+        appendBarcode: `${barCode}`,
+        BarcodeSymbology: StarPRNT.BarcodeSymbology.Code128,
+        alignment: "Center",
+      });
+
+      commands.push({
+        append: `${barCode}\n`,
+      });
+    }
 
     commands.push({
       appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,

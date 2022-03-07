@@ -399,24 +399,28 @@ export const PopupInvoice = React.forwardRef(
 
         if (imageUri) {
           if (true) {
-            // let commands = [];
-            // commands.push({ appendLineFeed: 0 });
-            // commands.push({
-            //   appendBitmap: imageUri,
-            //   width: parseFloat(widthPaper),
-            //   bothScale: true,
-            //   diffusion: true,
-            //   alignment: "Center",
-            // });
-            // commands.push({
-            //   appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
-            // });
+            // if (isSalonApp) {
+            //   let commands = [];
+            //   commands.push({ appendLineFeed: 0 });
+            //   commands.push({
+            //     appendBitmap: imageUri,
+            //     width: parseFloat(widthPaper),
+            //     bothScale: true,
+            //     diffusion: true,
+            //     alignment: "Center",
+            //   });
+            //   commands.push({
+            //     appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
+            //   });
 
-            // await PrintManager.getInstance().print(
-            //   emulation,
-            //   commands,
-            //   portName
-            // );
+            //   await PrintManager.getInstance().print(
+            //     emulation,
+            //     commands,
+            //     portName
+            //   );
+            // } else {
+
+            // }
 
             await printAppointment({
               emphasis: getEmphasisMode(),
@@ -434,14 +438,16 @@ export const PopupInvoice = React.forwardRef(
               taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
               tax: getTax(),
               total: getTotal(),
-              change: formatMoneyWithUnit(getChange()),
-              barCode: invoiceDetail?.code,
+              change: getChange(),
+              barCode: invoiceDetail?.code + "",
               printTempt: printTempt,
               isSignature: isSignature,
               fromAppointmentTab: fromAppointmentTab,
               getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
               footerReceipt: getFooterReceipt(),
-              promotionNotes: getPromotionNotes(groupAppointment?.appointments),
+              promotionNotes: getPromotionNotes(
+                groupAppointment?.appointments
+              ),
             });
 
             releaseCapture(imageUri);
