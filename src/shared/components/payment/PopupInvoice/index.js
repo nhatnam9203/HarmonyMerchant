@@ -44,11 +44,14 @@ import { layouts } from "@shared/themes";
 import _ from "lodash";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import { getTaxRateFromGroupAppointment } from "@utils";
+import { useHarmonyPrinter } from "../../PrintReceipt";
+import { useAppType } from "@shared/hooks";
 
 export const PopupInvoice = React.forwardRef(
   ({ cancelInvoicePrint, doPrintClover }, ref) => {
     const viewShotRef = React.useRef(null);
     const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
+    const { isRetailApp, isSalonApp } = useAppType();
 
     /**
   |--------------------------------------------------
@@ -76,9 +79,9 @@ export const PopupInvoice = React.forwardRef(
     const [isProcessingPrint, setIsProcessingPrint] = React.useState(false);
     const [isShare, setIsShare] = React.useState(false);
     const [paymentMachineType, setPaymentMachineType] = React.useState(null);
-    const [isSalonApp, setIsSalonApp] = React.useState(false);
     const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
     const [checkoutId, setCheckoutId] = React.useState(null);
+    const [autoPrint, setAutoPrint] = React.useState(false);
 
     /**
   |--------------------------------------------------
@@ -95,7 +98,14 @@ export const PopupInvoice = React.forwardRef(
   |--------------------------------------------------
   */
 
+    const { printAppointment } = useHarmonyPrinter({
+      profile,
+      printerList,
+      printerSelect,
+    });
+
     const reset = async () => {
+      setAutoPrint(false);
       setGroupAppointment(null);
       setInvoiceDetail(null);
       // setTitleInvoice("TICKET");
@@ -210,6 +220,20 @@ export const PopupInvoice = React.forwardRef(
 
     const getTaxRate = () => {
       return getTaxRateFromGroupAppointment(groupAppointment);
+    };
+
+    const getEmphasisMode = () => {
+      return fromAppointmentTab
+        ? "TICKET"
+        : `${
+            invoiceDetail?.status &&
+            invoiceDetail?.status !== "paid" &&
+            invoiceDetail?.status !== "pending" &&
+            invoiceDetail?.status !== "incomplete" &&
+            invoiceDetail?.status !== "complete"
+              ? `${invoiceDetail?.status}`.toUpperCase()
+              : "SALE"
+          }`;
     };
 
     // const getPaymentMethods = () => {
@@ -388,28 +412,53 @@ export const PopupInvoice = React.forwardRef(
 
         if (imageUri) {
           if (portName) {
-            let commands = [];
-            // commands.push({ appendLineFeed: 0 });
-            commands.push({
-              appendBitmap: imageUri,
-              width: parseFloat(widthPaper),
-              bothScale: true,
-              diffusion: true,
-              alignment: "Center",
-            });
-            commands.push({
-              appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
-            });
+            if (isSalonApp()) {
+              let commands = [];
+              commands.push({ appendLineFeed: 0 });
+              commands.push({
+                appendBitmap: imageUri,
+                width: parseFloat(widthPaper),
+                bothScale: true,
+                diffusion: true,
+                alignment: "Center",
+              });
+              commands.push({
+                appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
+              });
 
-            try {
               await PrintManager.getInstance().print(
                 emulation,
                 commands,
                 portName
               );
-            } catch (e) {
-              // console.log("ERRROR:", e);
-              alert(e);
+            } else {
+              await printAppointment({
+                emphasis: getEmphasisMode(),
+                isSalon: isSalonApp(),
+                name: isSalonApp() ? getCustomerName() : getInvoiceName(),
+                invoiceDate: formatWithMoment(
+                  invoiceDetail?.createdDate,
+                  "MM/DD/YYYY hh:mm A"
+                ),
+                invoiceNo: `${checkoutId}` ?? " ",
+                items: getBasketOnline(groupAppointment?.appointments) || [],
+                subTotal: getSubTotal(),
+                discount: getDiscount(),
+                tipAmount: getTipAmount(),
+                taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+                tax: getTax(),
+                total: getTotal(),
+                change: getChange(),
+                barCode: invoiceDetail?.code + "",
+                printTempt: printTempt,
+                isSignature: isSignature,
+                fromAppointmentTab: fromAppointmentTab,
+                getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+                footerReceipt: getFooterReceipt(),
+                promotionNotes: getPromotionNotes(
+                  groupAppointment?.appointments
+                ),
+              });
             }
 
             releaseCapture(imageUri);
@@ -726,7 +775,7 @@ export const PopupInvoice = React.forwardRef(
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
         // setTitleInvoice(isAppointmentTab ? "TICKET" : "");
-        setIsSalonApp(isSalon);
+        // setIsSalonApp(isSalon);
         setFromAppointmentTab(isAppointmentTab);
 
         // call api get info
@@ -747,6 +796,42 @@ export const PopupInvoice = React.forwardRef(
         // show modal
         await setVisible(true);
       },
+      printRetailerAppointment: async ({
+        isPrintTempt = false,
+        machineType,
+        isAppointmentTab = false,
+        invoice,
+      }) => {
+        if (isSalonApp()) return false;
+
+        reset();
+
+        const { portName } = getInfoFromModelNameOfPrinter(
+          printerList,
+          printerSelect
+        );
+
+        if (!portName && machineType == PaymentTerminalType.Pax) {
+          onCancel(isPrintTempt);
+          alert("Please connect to your printer! ");
+          return;
+        }
+        await setAutoPrint(true);
+        setPrintTempt(isPrintTempt);
+        setPaymentMachineType(machineType);
+        // setIsSalonApp(isSalon);
+        setFromAppointmentTab(isAppointmentTab);
+        await setIsProcessingPrint(true);
+
+        if (invoice) {
+          // call api get info
+          await getGroupAppointment(invoice.appointmentId);
+          await setCheckoutId(invoice.checkoutId);
+          await setInvoiceDetail(invoice);
+        }
+
+        return true;
+      },
     }));
 
     React.useEffect(() => {
@@ -764,6 +849,39 @@ export const PopupInvoice = React.forwardRef(
         setIsProcessingPrint(false);
       }
     }, [invoiceDetailData]);
+
+    React.useEffect(() => {
+      if (autoPrint && groupAppointment) {
+        setTimeout(() => {
+          printAppointment({
+            emphasis: getEmphasisMode(),
+            isSalon: isSalonApp(),
+            name: getInvoiceName(),
+            invoiceDate: formatWithMoment(
+              invoiceDetail?.createdDate,
+              "MM/DD/YYYY hh:mm A"
+            ),
+            invoiceNo: `${invoiceDetail.checkoutId}` ?? " ",
+            items: getBasketOnline(groupAppointment?.appointments) || [],
+            subTotal: getSubTotal(),
+            discount: getDiscount(),
+            tipAmount: getTipAmount(),
+            taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+            tax: getTax(),
+            total: getTotal(),
+            change: getChange(),
+            barCode: invoiceDetail?.code + "",
+            printTempt: false,
+            isSignature: false,
+            fromAppointmentTab: false,
+            getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+            footerReceipt: getFooterReceipt(),
+            promotionNotes: getPromotionNotes(groupAppointment?.appointments),
+          });
+          setAutoPrint(false);
+        }, 500);
+      }
+    }, [groupAppointment]);
 
     return (
       <Modal visible={visible} onRequestClose={() => {}} transparent={true}>
@@ -840,19 +958,20 @@ export const PopupInvoice = React.forwardRef(
                   </Text>
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      width: "100%",
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
                   <View style={styles.marginVertical} />
 
                   {/* ------------- Staff ----------- */}
-                  {isSalonApp ? (
+                  {isSalonApp() ? (
                     <View style={styles.rowContent}>
                       <View
                         style={{
@@ -936,14 +1055,14 @@ export const PopupInvoice = React.forwardRef(
 
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
 
                   {/* ------------- Header  ----------- */}
@@ -954,14 +1073,15 @@ export const PopupInvoice = React.forwardRef(
 
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      width: "100%",
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
 
                   {/* ------------- Item Invoice   ----------- */}
