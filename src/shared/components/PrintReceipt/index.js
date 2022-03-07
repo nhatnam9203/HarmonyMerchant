@@ -335,6 +335,10 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     }
 
     commands.push({
+      append: `\n`,
+    });
+
+    commands.push({
       appendAlignment: StarPRNT.AlignmentPosition.Center,
     });
 
@@ -354,19 +358,19 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
 
     if (barCode) {
       commands.push({
-        appendBarcode: "{B" + `TranHoagnNha`,
-        BarcodeSymbology: StarPRNT.BarcodeSymbology.Code128,
-        BarcodeWidth: StarPRNT.BarcodeWidth.Mode2,
+        append: `\n`,
       });
 
       commands.push({
         appendBarcode: "{B" + `${barCode}`,
         BarcodeSymbology: StarPRNT.BarcodeSymbology.Code128,
-        BarcodeWidth: StarPRNT.BarcodeWidth.Mode2,
+        BarcodeWidth: StarPRNT.BarcodeWidth.Mode1,
+        height: 50,
+        hri: true,
       });
 
       commands.push({
-        append: `\n${barCode}\n`,
+        append: `\n`,
       });
     }
 

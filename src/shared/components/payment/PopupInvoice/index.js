@@ -80,6 +80,7 @@ export const PopupInvoice = React.forwardRef(
     const [paymentMachineType, setPaymentMachineType] = React.useState(null);
     const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
     const [checkoutId, setCheckoutId] = React.useState(null);
+    const [autoPrint, setAutoPrint] = React.useState(false);
 
     /**
   |--------------------------------------------------
@@ -103,6 +104,7 @@ export const PopupInvoice = React.forwardRef(
     });
 
     const reset = async () => {
+      setAutoPrint(false);
       setGroupAppointment(null);
       setInvoiceDetail(null);
       // setTitleInvoice("TICKET");
@@ -775,11 +777,12 @@ export const PopupInvoice = React.forwardRef(
           alert("Please connect to your printer! ");
           return;
         }
-
+        await setAutoPrint(true);
         setPrintTempt(isPrintTempt);
         setPaymentMachineType(machineType);
         // setIsSalonApp(isSalon);
         setFromAppointmentTab(isAppointmentTab);
+        await setIsProcessingPrint(true);
 
         if (invoice) {
           // call api get info
@@ -788,35 +791,7 @@ export const PopupInvoice = React.forwardRef(
           await setInvoiceDetail(invoice);
         }
 
-        await setIsProcessingPrint(true);
-
-        setTimeout(() => {
-          printAppointment({
-            emphasis: getEmphasisMode(),
-            isSalon: isSalonApp(),
-            name: isSalonApp() ? getCustomerName() : getInvoiceName(),
-            invoiceDate: formatWithMoment(
-              invoiceDetail?.createdDate,
-              "MM/DD/YYYY hh:mm A"
-            ),
-            invoiceNo: `${checkoutId}` ?? " ",
-            items: getBasketOnline(groupAppointment?.appointments) || [],
-            subTotal: getSubTotal(),
-            discount: getDiscount(),
-            tipAmount: getTipAmount(),
-            taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
-            tax: getTax(),
-            total: getTotal(),
-            change: getChange(),
-            barCode: invoiceDetail?.code + "",
-            printTempt: printTempt,
-            isSignature: isSignature,
-            fromAppointmentTab: fromAppointmentTab,
-            getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
-            footerReceipt: getFooterReceipt(),
-            promotionNotes: getPromotionNotes(groupAppointment?.appointments),
-          });
-        }, 2000);
+        return true;
       },
     }));
 
@@ -835,6 +810,39 @@ export const PopupInvoice = React.forwardRef(
         setIsProcessingPrint(false);
       }
     }, [invoiceDetailData]);
+
+    React.useEffect(() => {
+      if (autoPrint && groupAppointment) {
+        setTimeout(() => {
+          printAppointment({
+            emphasis: getEmphasisMode(),
+            isSalon: isSalonApp(),
+            name: getInvoiceName(),
+            invoiceDate: formatWithMoment(
+              invoiceDetail?.createdDate,
+              "MM/DD/YYYY hh:mm A"
+            ),
+            invoiceNo: `${invoiceDetail.checkoutId}` ?? " ",
+            items: getBasketOnline(groupAppointment?.appointments) || [],
+            subTotal: getSubTotal(),
+            discount: getDiscount(),
+            tipAmount: getTipAmount(),
+            taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+            tax: getTax(),
+            total: getTotal(),
+            change: getChange(),
+            barCode: invoiceDetail?.code + "",
+            printTempt: false,
+            isSignature: false,
+            fromAppointmentTab: false,
+            getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+            footerReceipt: getFooterReceipt(),
+            promotionNotes: getPromotionNotes(groupAppointment?.appointments),
+          });
+          setAutoPrint(false);
+        }, 500);
+      }
+    }, [groupAppointment]);
 
     return (
       <Modal visible={visible} onRequestClose={() => {}} transparent={true}>
