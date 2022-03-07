@@ -1,27 +1,16 @@
-import React from "react";
-import { StarPRNT } from "react-native-star-prnt";
-import { useSelector } from "react-redux";
 import {
-  checkIsTablet,
+  formatMoney,
   formatNumberFromCurrency,
   formatWithMoment,
   getInfoFromModelNameOfPrinter,
   getPaymentString,
-  getStaffNameForInvoice,
-  scaleSize,
-  PaymentTerminalType,
   stringIsEmptyOrWhiteSpaces,
-  requestPrintDejavoo,
-  getCenterStringArrayXml,
-  formatMoney,
-  formatMoneyWithUnit,
 } from "@utils";
-import PrintManager from "@lib/PrintManager";
 import _ from "lodash";
+import { StarPRNT } from "react-native-star-prnt";
 import {
-  processColumnText,
-  processAlignText,
   PrintAlignmentText,
+  processColumnText,
   processTotalLine,
 } from "./PrintColumn";
 
@@ -149,6 +138,12 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     total,
     change,
     barCode,
+    printTempt,
+    fromAppointmentTab,
+    getCheckoutPaymentMethods,
+    isSignature,
+    footerReceipt,
+    promotionNotes,
   }) => {
     let commands = [];
     commands.push({ appendLineFeed: 0 });
@@ -238,7 +233,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
       });
     }
 
-    if (total) {
+    if (total && !printTempt) {
       commands.push({
         append: `${processTotalLine("Total", total)}\n`,
       });
@@ -250,6 +245,113 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
       });
     }
 
+    if (printTempt && !fromAppointmentTab) {
+      commands.push({
+        append: "Tip: \n",
+      });
+
+      commands.push({
+        append: "Total: \n",
+      });
+    }
+
+    if (!printTempt && getCheckoutPaymentMethods?.length > 0) {
+      getCheckoutPaymentMethods.forEach((data) => {
+        commands.push({
+          append: `- Entry method: ${getPaymentString(
+            data?.paymentMethod || ""
+          )} $${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(
+            2
+          )}`,
+        });
+        if (
+          data?.paymentMethod === "credit_card" ||
+          data?.paymentMethod === "debit_card"
+        ) {
+          commands.push({
+            append: `    ${data?.paymentInformation?.type || ""}: ***********${
+              data?.paymentInformation?.number || ""
+            }\n`,
+          });
+          commands.push({
+            append: `    ${
+              data?.paymentInformation?.name?.replace(/%20/g, " ") || ""
+            }\n`,
+          });
+          commands.push({
+            append: `    ${
+              data?.paymentInformation?.sn
+                ? `Terminal ID: ${data?.paymentInformation?.sn}`
+                : ""
+            }\n`,
+          });
+          commands.push({
+            append: `    ${
+              data?.paymentInformation?.refNum
+                ? `Transaction #: ${data?.paymentInformation?.refNum}`
+                : ""
+            }\n`,
+          });
+        }
+        if (
+          !stringIsEmptyOrWhiteSpaces(
+            _.get(data, "paymentInformation.signData")
+          )
+        ) {
+          commands.push({
+            append: `    Signature: `,
+          });
+
+          commands.push({
+            appendBitmap: `data:image/png;base64,${data?.paymentInformation?.signData}`,
+            width: 20,
+            bothScale: true,
+            diffusion: true,
+            alignment: "Center",
+          });
+
+          commands.push({
+            append: `\n`,
+          });
+        }
+      });
+    }
+
+    if (isSignature && !printTempt) {
+      commands.push({
+        append: `Signature: \n`,
+      });
+    }
+
+    if (printTempt && !fromAppointmentTab) {
+      commands.push({
+        append: `Signature: \n`,
+      });
+    }
+
+    if (promotionNotes) {
+      commands.push({
+        append: `Discount note: ${promotionNotes} \n`,
+      });
+    }
+
+    commands.push({
+      appendAlignment: StarPRNT.AlignmentPosition.Center,
+    });
+
+    if (profile?.receiptFooter) {
+      commands.push({
+        append: ` ${profile?.receiptFooter}\n`,
+      });
+    } else {
+      commands.push({
+        append: `Thank you!\nPlease come again\n`,
+      });
+    }
+
+    commands.push({
+      append: `********* ${footerReceipt} *********\n`,
+    });
     commands.push({
       appendBarcode: barCode ?? "09238292839",
       // BarcodeSymbology: BarcodeSymbology.Code128,

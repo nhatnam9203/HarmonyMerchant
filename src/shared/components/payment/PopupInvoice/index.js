@@ -436,6 +436,12 @@ export const PopupInvoice = React.forwardRef(
               total: getTotal(),
               change: formatMoneyWithUnit(getChange()),
               barCode: invoiceDetail?.code,
+              printTempt: printTempt,
+              isSignature: isSignature,
+              fromAppointmentTab: fromAppointmentTab,
+              getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+              footerReceipt: getFooterReceipt(),
+              promotionNotes: getPromotionNotes(groupAppointment?.appointments),
             });
 
             releaseCapture(imageUri);
@@ -828,14 +834,15 @@ export const PopupInvoice = React.forwardRef(
                   </Text>
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      width: "100%",
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
                   <View style={styles.marginVertical} />
 
@@ -924,14 +931,14 @@ export const PopupInvoice = React.forwardRef(
 
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
 
                   {/* ------------- Header  ----------- */}
@@ -942,14 +949,15 @@ export const PopupInvoice = React.forwardRef(
 
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      width: "100%",
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
 
                   {/* ------------- Item Invoice   ----------- */}
