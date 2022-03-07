@@ -44,11 +44,13 @@ import _ from "lodash";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import { getTaxRateFromGroupAppointment } from "@utils";
 import { useHarmonyPrinter } from "../../PrintReceipt";
+import { useAppType } from "@shared/hooks";
 
 export const PopupInvoice = React.forwardRef(
   ({ cancelInvoicePrint, doPrintClover }, ref) => {
     const viewShotRef = React.useRef(null);
     const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
+    const { isRetailApp, isSalonApp } = useAppType();
 
     /**
   |--------------------------------------------------
@@ -76,7 +78,7 @@ export const PopupInvoice = React.forwardRef(
     const [isProcessingPrint, setIsProcessingPrint] = React.useState(false);
     const [isShare, setIsShare] = React.useState(false);
     const [paymentMachineType, setPaymentMachineType] = React.useState(null);
-    const [isSalonApp, setIsSalonApp] = React.useState(false);
+    // const [isSalonApp, setIsSalonApp] = React.useState(false);
     const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
     const [checkoutId, setCheckoutId] = React.useState(null);
 
@@ -398,57 +400,55 @@ export const PopupInvoice = React.forwardRef(
         await setIsProcessingPrint(false);
 
         if (imageUri) {
-          if (true) {
-            // if (isSalonApp) {
-            //   let commands = [];
-            //   commands.push({ appendLineFeed: 0 });
-            //   commands.push({
-            //     appendBitmap: imageUri,
-            //     width: parseFloat(widthPaper),
-            //     bothScale: true,
-            //     diffusion: true,
-            //     alignment: "Center",
-            //   });
-            //   commands.push({
-            //     appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
-            //   });
+          if (portName) {
+            if (isSalonApp) {
+              let commands = [];
+              commands.push({ appendLineFeed: 0 });
+              commands.push({
+                appendBitmap: imageUri,
+                width: parseFloat(widthPaper),
+                bothScale: true,
+                diffusion: true,
+                alignment: "Center",
+              });
+              commands.push({
+                appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
+              });
 
-            //   await PrintManager.getInstance().print(
-            //     emulation,
-            //     commands,
-            //     portName
-            //   );
-            // } else {
-
-            // }
-
-            await printAppointment({
-              emphasis: getEmphasisMode(),
-              isSalon: isSalonApp,
-              name: isSalonApp ? getCustomerName() : getInvoiceName(),
-              invoiceDate: formatWithMoment(
-                invoiceDetail?.createdDate,
-                "MM/DD/YYYY hh:mm A"
-              ),
-              invoiceNo: `${checkoutId}` ?? " ",
-              items: getBasketOnline(groupAppointment?.appointments) || [],
-              subTotal: getSubTotal(),
-              discount: getDiscount(),
-              tipAmount: getTipAmount(),
-              taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
-              tax: getTax(),
-              total: getTotal(),
-              change: getChange(),
-              barCode: invoiceDetail?.code + "",
-              printTempt: printTempt,
-              isSignature: isSignature,
-              fromAppointmentTab: fromAppointmentTab,
-              getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
-              footerReceipt: getFooterReceipt(),
-              promotionNotes: getPromotionNotes(
-                groupAppointment?.appointments
-              ),
-            });
+              await PrintManager.getInstance().print(
+                emulation,
+                commands,
+                portName
+              );
+            } else {
+              await printAppointment({
+                emphasis: getEmphasisMode(),
+                isSalon: isSalonApp,
+                name: isSalonApp ? getCustomerName() : getInvoiceName(),
+                invoiceDate: formatWithMoment(
+                  invoiceDetail?.createdDate,
+                  "MM/DD/YYYY hh:mm A"
+                ),
+                invoiceNo: `${checkoutId}` ?? " ",
+                items: getBasketOnline(groupAppointment?.appointments) || [],
+                subTotal: getSubTotal(),
+                discount: getDiscount(),
+                tipAmount: getTipAmount(),
+                taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+                tax: getTax(),
+                total: getTotal(),
+                change: getChange(),
+                barCode: invoiceDetail?.code + "",
+                printTempt: printTempt,
+                isSignature: isSignature,
+                fromAppointmentTab: fromAppointmentTab,
+                getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+                footerReceipt: getFooterReceipt(),
+                promotionNotes: getPromotionNotes(
+                  groupAppointment?.appointments
+                ),
+              });
+            }
 
             releaseCapture(imageUri);
             if (!printTempt && isSignature) {
@@ -718,25 +718,24 @@ export const PopupInvoice = React.forwardRef(
           return;
         }
 
-        // !! TODO : Block to tesst
-        // if (!isShareMode) {
-        //   const { portName } = getInfoFromModelNameOfPrinter(
-        //     printerList,
-        //     printerSelect
-        //   );
+        if (!isShareMode) {
+          const { portName } = getInfoFromModelNameOfPrinter(
+            printerList,
+            printerSelect
+          );
 
-        //   if (!portName && machineType == PaymentTerminalType.Pax) {
-        //     onCancel(isPrintTempt);
-        //     alert("Please connect to your printer! ");
-        //     return;
-        //   }
-        // }
+          if (!portName && machineType == PaymentTerminalType.Pax) {
+            onCancel(isPrintTempt);
+            alert("Please connect to your printer! ");
+            return;
+          }
+        }
 
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
         // setTitleInvoice(isAppointmentTab ? "TICKET" : "");
-        setIsSalonApp(isSalon);
+        // setIsSalonApp(isSalon);
         setFromAppointmentTab(isAppointmentTab);
 
         // call api get info
@@ -756,6 +755,69 @@ export const PopupInvoice = React.forwardRef(
 
         // show modal
         await setVisible(true);
+      },
+      printRetailerAppointment: async ({
+        isPrintTempt = false,
+        machineType,
+        isAppointmentTab = false,
+        invoice,
+      }) => {
+        if (isSalonApp) return false;
+
+        reset();
+
+        const { portName } = getInfoFromModelNameOfPrinter(
+          printerList,
+          printerSelect
+        );
+
+        if (!portName && machineType == PaymentTerminalType.Pax) {
+          onCancel(isPrintTempt);
+          alert("Please connect to your printer! ");
+          return;
+        }
+
+        setPrintTempt(isPrintTempt);
+        setPaymentMachineType(machineType);
+        // setIsSalonApp(isSalon);
+        setFromAppointmentTab(isAppointmentTab);
+
+        if (invoice) {
+          // call api get info
+          await getGroupAppointment(invoice.appointmentId);
+          await setCheckoutId(invoice.checkoutId);
+          await setInvoiceDetail(invoice);
+        }
+
+        await setIsProcessingPrint(true);
+
+        setTimeout(() => {
+          printAppointment({
+            emphasis: getEmphasisMode(),
+            isSalon: isSalonApp,
+            name: isSalonApp ? getCustomerName() : getInvoiceName(),
+            invoiceDate: formatWithMoment(
+              invoiceDetail?.createdDate,
+              "MM/DD/YYYY hh:mm A"
+            ),
+            invoiceNo: `${checkoutId}` ?? " ",
+            items: getBasketOnline(groupAppointment?.appointments) || [],
+            subTotal: getSubTotal(),
+            discount: getDiscount(),
+            tipAmount: getTipAmount(),
+            taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+            tax: getTax(),
+            total: getTotal(),
+            change: getChange(),
+            barCode: invoiceDetail?.code + "",
+            printTempt: printTempt,
+            isSignature: isSignature,
+            fromAppointmentTab: fromAppointmentTab,
+            getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+            footerReceipt: getFooterReceipt(),
+            promotionNotes: getPromotionNotes(groupAppointment?.appointments),
+          });
+        }, 2000);
       },
     }));
 

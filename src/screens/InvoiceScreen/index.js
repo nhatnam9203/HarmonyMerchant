@@ -1218,7 +1218,9 @@ class InvoiceScreen extends Layout {
 
   printCustomerInvoice = async () => {
     try {
-      const { printerSelect, printerList, paymentMachineType } = this.props;
+      const { printerSelect, printerList, paymentMachineType, invoiceDetail } =
+        this.props;
+
       const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
         printerList,
         printerSelect
@@ -1227,29 +1229,41 @@ class InvoiceScreen extends Layout {
         paymentMachineType == PaymentTerminalType.Clover && !portName
           ? { receiptContentBg: "#ffff" }
           : { receiptContentBg: "#00000000" };
+
       await this.setState(receiptContentBg, async () => {
         if (portName) {
           this.props.actions.app.loadingApp();
           const imageUri = await captureRef(this.viewShotRef, {});
           if (imageUri) {
-            let commands = [];
-            commands.push({ appendLineFeed: 0 });
-            commands.push({
-              appendBitmap: imageUri,
-              width: parseFloat(widthPaper),
-              bothScale: true,
-              diffusion: true,
-              alignment: "Center",
-            });
-            commands.push({
-              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-            });
+            // if ko printRetailerAppointment thì tiếp tục flow cũ
+            if (
+              !this.invoiceRef?.current?.printRetailerAppointment({
+                isPrintTempt: false,
+                machineType: paymentMachineType,
+                isAppointmentTab: false,
+                invoiceDetail,
+              })
+            ) {
+              let commands = [];
+              commands.push({ appendLineFeed: 0 });
+              commands.push({
+                appendBitmap: imageUri,
+                width: parseFloat(widthPaper),
+                bothScale: true,
+                diffusion: true,
+                alignment: "Center",
+              });
+              commands.push({
+                appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+              });
 
-            await PrintManager.getInstance().print(
-              emulation,
-              commands,
-              portName
-            );
+              await PrintManager.getInstance().print(
+                emulation,
+                commands,
+                portName
+              );
+            }
+
             releaseCapture(imageUri);
           }
           this.props.actions.app.stopLoadingApp();
