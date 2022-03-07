@@ -1241,7 +1241,7 @@ class InvoiceScreen extends Layout {
                 isPrintTempt: false,
                 machineType: paymentMachineType,
                 isAppointmentTab: false,
-                invoiceDetail,
+                invoice: invoiceDetail,
               })
             ) {
               let commands = [];
