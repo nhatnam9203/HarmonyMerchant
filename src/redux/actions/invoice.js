@@ -118,13 +118,14 @@ export function changeStatustransaction(checkoutId, params, responseData = {}, p
     }
 }
 
-export function voidRefundMultiPaymentTransaction(paymentTransactionId, status, responseData = "") {
+export function voidRefundPaymentTransaction(paymentTransactionId, status, responseData = "", paymentTerminal) {
     return {
         type: 'VOID_REFUND_MULTI_PAYMENT_TRANSACTION',
         method: 'PUT',
         body: {
             responseData,
-            isSuccess: status
+            isSuccess: status,
+            paymentTerminal,
         },
         api: `checkout/voidrefundpayment/${paymentTransactionId}`,
         token: true,

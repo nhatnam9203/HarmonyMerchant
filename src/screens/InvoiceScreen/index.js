@@ -457,7 +457,7 @@ class InvoiceScreen extends Layout {
                   }, 300);
                 },
                 (data) => {
-                  this.handleResultRefundTransaction(data);
+                  this.handleResultVoidRefundTransaction(data);
                 }
               );
             }, 100);
@@ -488,7 +488,7 @@ class InvoiceScreen extends Layout {
                   }, 300);
                 },
                 (data) => {
-                  this.handleResultVoidTransaction(data);
+                  this.handleResultVoidRefundTransaction(data);
                 }
               );
             }, 100);
@@ -590,7 +590,7 @@ class InvoiceScreen extends Layout {
                   bluetoothAddr: idBluetooth,
                   invNum: `${invNum}`,
                 },
-                (data) => this.handleResultRefundTransaction(data)
+                (data) => this.handleResultVoidRefundTransaction(data)
               );
             }
           } else if (invoiceDetail?.status === "complete") {
@@ -689,7 +689,7 @@ class InvoiceScreen extends Layout {
                   bluetoothAddr: idBluetooth,
                   invNum: `${invNum}`,
                 },
-                (data) => this.handleResultVoidTransaction(data)
+                (data) => this.handleResultVoidRefundTransaction(data)
               );
             }
           }
@@ -807,10 +807,11 @@ class InvoiceScreen extends Layout {
                     status = true
                   }
                 })
-                this.props.actions.invoice.voidRefundMultiPaymentTransaction(
+                this.props.actions.invoice.voidRefundPaymentTransaction(
                   paymentData?.paymentTransactionId,
                   status,
-                  responses
+                  responses,
+                  "dejavoo"
                 );
                 resolve(status);
 
@@ -864,10 +865,11 @@ class InvoiceScreen extends Layout {
                 } else {
                   status = false;
                 }
-                this.props.actions.invoice.voidRefundMultiPaymentTransaction(
+                this.props.actions.invoice.voidRefundPaymentTransaction(
                   paymentData?.paymentTransactionId,
                   status,
-                  data
+                  data,
+                  "pax"
                 );
                 resolve(status);
               }
@@ -917,10 +919,11 @@ class InvoiceScreen extends Layout {
                     status = true
                   }
                 })
-                this.props.actions.invoice.voidRefundMultiPaymentTransaction(
+                this.props.actions.invoice.voidRefundPaymentTransaction(
                   paymentData?.paymentTransactionId,
                   status,
-                  responses
+                  responses,
+                  "dejavoo"
                 );
                 resolve(status);
 
@@ -974,10 +977,11 @@ class InvoiceScreen extends Layout {
                 } else {
                   status = false;
                 }
-                this.props.actions.invoice.voidRefundMultiPaymentTransaction(
+                this.props.actions.invoice.voidRefundPaymentTransaction(
                   paymentData?.paymentTransactionId,
                   status,
-                  data
+                  data,
+                  "pax"
                 );
                 console.log('result status', status)
                 resolve(status);
@@ -1059,7 +1063,7 @@ class InvoiceScreen extends Layout {
     }, 300);
   };
 
-  handleResultVoidTransaction = async (result) => {
+  handleResultVoidRefundTransaction = async (result) => {
     const { invoiceDetail } = this.props;
     const data = JSON.parse(result);
 
@@ -1084,6 +1088,12 @@ class InvoiceScreen extends Layout {
       }
     } else {
       if (data.ResultCode === "000000") {
+        this.props.actions.invoice.voidRefundPaymentTransaction(
+          paymentData?.paymentTransactionId,
+          true,
+          result,
+          "pax"
+        );
         this.props.actions.invoice.changeStatustransaction(
           invoiceDetail?.checkoutId,
           this.getParamsSearch(),
@@ -1094,6 +1104,12 @@ class InvoiceScreen extends Layout {
           titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
         });
       } else {
+        this.props.actions.invoice.voidRefundPaymentTransaction(
+          paymentData?.paymentTransactionId,
+          false,
+          result,
+          "pax"
+        );
         PosLink.cancelTransaction();
         setTimeout(() => {
           alert(data.message);
