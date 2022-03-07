@@ -78,7 +78,6 @@ export const PopupInvoice = React.forwardRef(
     const [isProcessingPrint, setIsProcessingPrint] = React.useState(false);
     const [isShare, setIsShare] = React.useState(false);
     const [paymentMachineType, setPaymentMachineType] = React.useState(null);
-    // const [isSalonApp, setIsSalonApp] = React.useState(false);
     const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
     const [checkoutId, setCheckoutId] = React.useState(null);
 
@@ -401,7 +400,7 @@ export const PopupInvoice = React.forwardRef(
 
         if (imageUri) {
           if (portName) {
-            if (isSalonApp) {
+            if (isSalonApp()) {
               let commands = [];
               commands.push({ appendLineFeed: 0 });
               commands.push({
@@ -423,8 +422,8 @@ export const PopupInvoice = React.forwardRef(
             } else {
               await printAppointment({
                 emphasis: getEmphasisMode(),
-                isSalon: isSalonApp,
-                name: isSalonApp ? getCustomerName() : getInvoiceName(),
+                isSalon: isSalonApp(),
+                name: isSalonApp() ? getCustomerName() : getInvoiceName(),
                 invoiceDate: formatWithMoment(
                   invoiceDetail?.createdDate,
                   "MM/DD/YYYY hh:mm A"
@@ -762,7 +761,7 @@ export const PopupInvoice = React.forwardRef(
         isAppointmentTab = false,
         invoice,
       }) => {
-        if (isSalonApp) return false;
+        if (isSalonApp()) return false;
 
         reset();
 
@@ -794,8 +793,8 @@ export const PopupInvoice = React.forwardRef(
         setTimeout(() => {
           printAppointment({
             emphasis: getEmphasisMode(),
-            isSalon: isSalonApp,
-            name: isSalonApp ? getCustomerName() : getInvoiceName(),
+            isSalon: isSalonApp(),
+            name: isSalonApp() ? getCustomerName() : getInvoiceName(),
             invoiceDate: formatWithMoment(
               invoiceDetail?.createdDate,
               "MM/DD/YYYY hh:mm A"
@@ -915,7 +914,7 @@ export const PopupInvoice = React.forwardRef(
                   <View style={styles.marginVertical} />
 
                   {/* ------------- Staff ----------- */}
-                  {isSalonApp ? (
+                  {isSalonApp() ? (
                     <View style={styles.rowContent}>
                       <View
                         style={{
