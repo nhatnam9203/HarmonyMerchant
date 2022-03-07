@@ -13,16 +13,16 @@ import {
   processColumnText,
   processTotalLine,
 } from "./PrintColumn";
+import PrintManager from "@lib/PrintManager";
 
 export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
-  const {
-    portName,
-    emulation,
-    widthPaper = 46,
-  } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+  const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
+    printerList,
+    printerSelect
+  );
 
   const width = parseFloat(widthPaper) || 32;
-  const wQTY = 6;
+  const wQTY = 5;
   const wTOTAL = 10;
 
   const createTextReceipt = (items) => {
@@ -146,6 +146,9 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     promotionNotes,
   }) => {
     let commands = [];
+    commands.push({
+      append: `${width} - ${widthPaper}\n`,
+    });
     commands.push({ appendLineFeed: 0 });
     commands.push({
       appendAlignment: StarPRNT.AlignmentPosition.Center,
@@ -204,11 +207,6 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
       fontSize: 10,
     });
 
-    commands.push({
-      appendBitmapText: "--------------------------------------\n",
-      fontSize: 8,
-    });
-
     if (subTotal) {
       commands.push({
         append: `${processTotalLine("Subtotal", subTotal)}\n`,
@@ -262,7 +260,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
             data?.paymentMethod || ""
           )} $${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(
             2
-          )}`,
+          )}\n`,
         });
         if (
           data?.paymentMethod === "credit_card" ||
@@ -353,18 +351,16 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
       append: `********* ${footerReceipt} *********\n`,
     });
     commands.push({
-      appendBarcode: barCode ?? "09238292839",
-      // BarcodeSymbology: BarcodeSymbology.Code128,
-      // BarcodeWidth: BarcodeWidth.Mode2,
-      height: 40,
-      // hri: true,
+      appendBarcode: "{BStar",
+      BarcodeWidth: "Mode2",
+      alignment: AlignmentPosition.Center,
     });
 
     commands.push({
       appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
     });
 
-    // await PrintManager.getInstance().print(emulation, commands, portName);
+    await PrintManager.getInstance().print(emulation, commands, portName);
   };
 
   return { printAppointment };
