@@ -18,25 +18,29 @@ export const useProps = (props) => {
   const [harmonyPayStarRate, setHarmonyPayStarRate] = React.useState(0);
   const [otherStarRate, setOtherStarRate] = React.useState(0);
 
-  const [, getAdvance] = useAxiosQuery({
-    ...getAdvanceSetting(),
-    enabled: false,
-    onSuccess: (data, response) => {
-      if (data) {
-        setData(data);
-        setDataLocal(data);
-        setCashStarRate(data?.CashStarRate);
-        setCreditCardStarRate(data?.CreditCardStarRate);
-        setHarmonyPayStarRate(data?.HarmonyPayStarRate);
-        setOtherStarRate(data?.OtherStarRate);
+  // const dataLocal = useSelector(
+  //   (state) => state.appointment.groupAppointment
+  // );
 
-        setIsCashDiscount(data?.IsCashDiscount);
-      }
-    },
-    onError: (e) => {
-      console.log(e);
-    },
-  });
+  // const [, getAdvance] = useAxiosQuery({
+  //   ...getAdvanceSetting(),
+  //   enabled: false,
+  //   onSuccess: (data, response) => {
+  //     if (data) {
+  //       setData(data);
+  //       setDataLocal(data);
+  //       setCashStarRate(data?.CashStarRate);
+  //       setCreditCardStarRate(data?.CreditCardStarRate);
+  //       setHarmonyPayStarRate(data?.HarmonyPayStarRate);
+  //       setOtherStarRate(data?.OtherStarRate);
+
+  //       setIsCashDiscount(data?.IsCashDiscount);
+  //     }
+  //   },
+  //   onError: (e) => {
+  //     console.log(e);
+  //   },
+  // });
 
   const [, editAdvance] = useAxiosMutation({
     ...editAdvanceSetting(dataLocal),
@@ -69,7 +73,6 @@ export const useProps = (props) => {
   };
 
   React.useEffect(() => {
-    getAdvance();
 
     return () => {
       // componentWillUnmount events
