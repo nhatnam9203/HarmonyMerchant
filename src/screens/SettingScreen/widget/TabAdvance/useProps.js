@@ -12,7 +12,6 @@ export const useProps = (props) => {
   const [dataLocal, setDataLocal] = React.useState(null);
 
   const [isCashDiscount, setIsCashDiscount] = React.useState(null);
-  const [cashDiscountPercent, setCashDiscountPercent] = React.useState(null);
 
   const [cashStarRate, setCashStarRate] = React.useState(0);
   const [creditCardStarRate, setCreditCardStarRate] = React.useState(0);
@@ -32,7 +31,6 @@ export const useProps = (props) => {
         setOtherStarRate(data?.OtherStarRate);
 
         setIsCashDiscount(data?.IsCashDiscount);
-        setCashDiscountPercent(data?.CashDiscountPercent);
       }
     },
     onError: (e) => {
@@ -49,7 +47,6 @@ export const useProps = (props) => {
       setHarmonyPayStarRate(dataLocal?.HarmonyPayStarRate);
       setOtherStarRate(dataLocal?.OtherStarRate);
       setIsCashDiscount(dataLocal?.IsCashDiscount);
-      setCashDiscountPercent(dataLocal?.CashDiscountPercent);
       alert("Update success!");
     },
     onError: (err) => {
@@ -68,7 +65,6 @@ export const useProps = (props) => {
         dataLocal?.HarmonyPayStarRate ||
       data?.OtherStarRate !== dataLocal?.OtherStarRate ||
       data?.IsCashDiscount !== dataLocal?.IsCashDiscount ||
-      data?.CashDiscountPercent !== dataLocal?.CashDiscountPercent
     );
   };
 
@@ -82,28 +78,12 @@ export const useProps = (props) => {
 
   return {
     isCashDiscount,
-    cashDiscountPercent,
     setIsCashDiscount: (isCashDiscount) => {
       setIsCashDiscount(isCashDiscount);
       setDataLocal({
         ...dataLocal,
         IsCashDiscount: isCashDiscount
       })
-    },
-    setCashDiscountPercent: (value) => { 
-      if(formatNumberFromCurrency(value) > 100) {
-        return
-      } 
-      let temp = value;
-      setCashDiscountPercent(temp);
-      if (!temp || isNaN(parseFloat(value))) {
-        temp = 0;
-      }
-
-      setDataLocal({
-        ...dataLocal,
-        CashDiscountPercent: parseFloat(temp).toFixed(2),
-      }) 
     },
    
     dataLocal,
@@ -172,7 +152,6 @@ export const useProps = (props) => {
       setCreditCardStarRate(data?.CreditCardStarRate);
       setHarmonyPayStarRate(data?.HarmonyPayStarRate);
       setOtherStarRate(data?.OtherStarRate);
-      setCashDiscountPercent(data?.CashDiscountPercent);
       setIsCashDiscount(data?.IsCashDiscount);
     },
   };
