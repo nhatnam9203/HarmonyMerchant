@@ -64,7 +64,7 @@ export const useProps = (props) => {
       data?.HarmonyPayStarRate !==
         dataLocal?.HarmonyPayStarRate ||
       data?.OtherStarRate !== dataLocal?.OtherStarRate ||
-      data?.IsCashDiscount !== dataLocal?.IsCashDiscount ||
+      data?.IsCashDiscount !== dataLocal?.IsCashDiscount
     );
   };
 
