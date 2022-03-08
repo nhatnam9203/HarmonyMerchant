@@ -149,7 +149,7 @@ class Layout extends React.Component {
     renderPaymentMethodsReport() {
         const { settleWaiting } = this.props;
         const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
-            isEditOtherAmount, isEditCashAmount, creditCount, paymentByGiftcard
+            isEditOtherAmount, isEditCashAmount, creditCount, paymentByGiftcard, returnAmount,
         } = this.state;
 
         const temtpTotal = roundFloatNumber(
@@ -158,7 +158,8 @@ class Layout extends React.Component {
             formatNumberFromCurrency(editPaymentByCash) +
             formatNumberFromCurrency(editOtherPayment) +
             formatNumberFromCurrency(discountSettlement) +
-            formatNumberFromCurrency(paymentByGiftcard)
+            formatNumberFromCurrency(paymentByGiftcard) -
+            formatNumberFromCurrency(returnAmount)
         );
 
         return (
@@ -224,6 +225,16 @@ class Layout extends React.Component {
                             }}
                             value={discountSettlement}
                         />
+                        {formatNumberFromCurrency(returnAmount) > 0 &&
+                            <ItemPaymentsReport
+                                title="Return Amount"
+                                backgroundColor="#F1F1F1"
+                                txtStyle={{
+                                    color: "#404040"
+                                }}
+                                value={`- ${returnAmount}`}
+                            />
+                        }
                     </View>
                     {this.renderNote()}
                     <View style={{ height: scaleSize(180) }} />
