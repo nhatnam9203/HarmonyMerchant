@@ -213,7 +213,7 @@ export const PopupInvoice = React.forwardRef(
         return invoiceDetail?.checkoutPaymentFeeSum;
       }
       return 0;
-    }
+    };
 
     const getCashDiscount = () => {
       if (groupAppointment) {
@@ -222,7 +222,7 @@ export const PopupInvoice = React.forwardRef(
         return invoiceDetail?.checkoutPaymentCashDiscountSum;
       }
       return 0;
-    }
+    };
 
     const getDue = () => {
       if (groupAppointment && groupAppointment?.dueAmount > 0)
@@ -392,7 +392,9 @@ export const PopupInvoice = React.forwardRef(
           setIsSignature(false);
         }, 2000);
       } else {
-        setIsSignature(false);
+        setTimeout(() => {
+          setIsSignature(false);
+        }, 1000);
       }
 
       // setTimeout(() => {
@@ -429,7 +431,6 @@ export const PopupInvoice = React.forwardRef(
         await setIsProcessingPrint(false);
 
         if (imageUri) {
-
           if (portName) {
             if (isSalonApp()) {
               let commands = [];
@@ -591,25 +592,31 @@ export const PopupInvoice = React.forwardRef(
       let entryMethodXml = "";
       if (!printTempt) {
         getCheckoutPaymentMethods()?.map((data, index) => {
-          entryMethodXml = entryMethodXml +
+          entryMethodXml =
+            entryMethodXml +
             `<br/><t>- Entry method:</t>
-            <t>${_.padEnd(`${getPaymentString(
-              data?.paymentMethod || ""
-            )}`, 15, ".")}${_.padStart(
-              `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(2)}`,
+            <t>${_.padEnd(
+              `${getPaymentString(data?.paymentMethod || "")}`,
+              15,
+              "."
+            )}${_.padStart(
+              `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(
+                2
+              )}`,
               9,
               "."
             )}</t>
-              ${(data.paymentMethod &&
-              data.paymentMethod === "credit_card") ||
-              data.paymentMethod === "debit_card" ?
-              `<t>${data?.paymentInformation?.type || ""
-              }: ***********${data?.paymentInformation?.number || ""
-              }</t>
+              ${
+                (data.paymentMethod && data.paymentMethod === "credit_card") ||
+                data.paymentMethod === "debit_card"
+                  ? `<t>${data?.paymentInformation?.type || ""}: ***********${
+                      data?.paymentInformation?.number || ""
+                    }</t>
 
-              ${data?.paymentInformation?.sn
-                ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
-                : ""
+              ${
+                data?.paymentInformation?.sn
+                  ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
+                  : ""
               }
               ${
                 data?.paymentInformation?.refNum
@@ -625,19 +632,17 @@ export const PopupInvoice = React.forwardRef(
                   : ""
               }
 
-              ${data?.paymentInformation?.name ?
-                `<t>${data?.paymentInformation?.name?.replace(
-                  /%20/g,
-                  " "
-                ).replace(
-                  /%2f/g,
-                  " "
-                )}</t>` : ""
+              ${
+                data?.paymentInformation?.name
+                  ? `<t>${data?.paymentInformation?.name
+                      ?.replace(/%20/g, " ")
+                      .replace(/%2f/g, " ")}</t>`
+                  : ""
               }
               `
-              : ``
-            }`
-        })
+                  : ``
+              }`;
+        });
       }
 
       let xmlContent = `${getCenterBoldStringArrayXml(
@@ -703,7 +708,6 @@ export const PopupInvoice = React.forwardRef(
           9,
           "."
         )}</t>`
-
       }
       ${
         !printTempt
@@ -781,7 +785,7 @@ export const PopupInvoice = React.forwardRef(
             return;
           }
         }
-         setAutoPrint(false);
+        setAutoPrint(false);
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
@@ -1145,27 +1149,33 @@ export const PopupInvoice = React.forwardRef(
                   />
                   {!printTempt && (
                     <>
-                    {getNonCashFee() != 0 &&
-                      <TotalView
-                        title={"Non-Cash Adjustment"}
-                        value={getNonCashFee()}
-                        styleTextTitle={layouts.fontPrintSubTitleStyle}
-                        styleTextValue={layouts.fontPrintStyle}
-                      />
-                    }
-                    {getCashDiscount() != 0 &&
-                      <TotalView
-                        title={"Cash Discount"}
-                        value={getCashDiscount()}
-                        styleTextTitle={layouts.fontPrintSubTitleStyle}
-                        styleTextValue={layouts.fontPrintStyle}
-                      />
-                    }
+                      {getNonCashFee() != 0 && (
+                        <TotalView
+                          title={"Non-Cash Adjustment"}
+                          value={getNonCashFee()}
+                          styleTextTitle={layouts.fontPrintSubTitleStyle}
+                          styleTextValue={layouts.fontPrintStyle}
+                        />
+                      )}
+                      {getCashDiscount() != 0 && (
+                        <TotalView
+                          title={"Cash Discount"}
+                          value={getCashDiscount()}
+                          styleTextTitle={layouts.fontPrintSubTitleStyle}
+                          styleTextValue={layouts.fontPrintStyle}
+                        />
+                      )}
                       <TotalView
                         title={"Total"}
                         value={getTotal()}
-                        styleTextTitle={[layouts.fontPrintSubTitleStyle, {fontSize: scaleFont(22)}]}
-                        styleTextValue={[layouts.fontPrintStyle, {fontSize: scaleFont(24)}]}
+                        styleTextTitle={[
+                          layouts.fontPrintSubTitleStyle,
+                          { fontSize: scaleFont(22) },
+                        ]}
+                        styleTextValue={[
+                          layouts.fontPrintStyle,
+                          { fontSize: scaleFont(24) },
+                        ]}
                       />
                     </>
                   )}
@@ -1280,11 +1290,12 @@ export const PopupInvoice = React.forwardRef(
                               </Text>
                             </View>
                           </View>
-                          {(data.paymentMethod &&
-                            data.paymentMethod === "credit_card") ||
-                          data.paymentMethod === "debit_card" ? (
-                            <View style={{ marginTop: scaleSize(5) }}>
-                              {/* {
+                          {
+                            (data.paymentMethod &&
+                              data.paymentMethod === "credit_card") ||
+                            data.paymentMethod === "debit_card" ? (
+                              <View style={{ marginTop: scaleSize(5) }}>
+                                {/* {
                                 data?.fee > 0 &&
                                 <TotalView
                                   title={"    Non-Cash Adjustment"}
@@ -1293,54 +1304,53 @@ export const PopupInvoice = React.forwardRef(
                                   styleTextValue={layouts.fontPrintStyle}
                                 />
                               } */}
-                              <Text style={[layouts.fontPrintStyle]}>
-                                {`    ${
-                                  data?.paymentInformation?.type || ""
-                                }: ***********${
-                                  data?.paymentInformation?.number || ""
-                                }`}
-                              </Text>
+                                <Text style={[layouts.fontPrintStyle]}>
+                                  {`    ${
+                                    data?.paymentInformation?.type || ""
+                                  }: ***********${
+                                    data?.paymentInformation?.number || ""
+                                  }`}
+                                </Text>
 
-                              <Text style={[layouts.fontPrintStyle]}>
-                                {`    ${
-                                  data?.paymentInformation?.sn
-                                    ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                    : ""
-                                }`}
-                              </Text>
-                              <Text style={[layouts.fontPrintStyle]}>
-                                {`    ${
-                                  data?.paymentInformation?.refNum
-                                    ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                    : ""
-                                }`}
-                              </Text>
+                                <Text style={[layouts.fontPrintStyle]}>
+                                  {`    ${
+                                    data?.paymentInformation?.sn
+                                      ? `Terminal ID: ${data?.paymentInformation?.sn}`
+                                      : ""
+                                  }`}
+                                </Text>
+                                <Text style={[layouts.fontPrintStyle]}>
+                                  {`    ${
+                                    data?.paymentInformation?.refNum
+                                      ? `Transaction #: ${data?.paymentInformation?.refNum}`
+                                      : ""
+                                  }`}
+                                </Text>
 
-                              {!stringIsEmptyOrWhiteSpaces(
-                                _.get(data, "paymentInformation.signData")
-                              ) && (
-                                <View style={styles.rowSignature}>
-                                  <Text style={[layouts.fontPrintStyle]}>
-                                    {"    Signature: "}
-                                  </Text>
-                                  <Image
-                                    style={styles.signImage}
-                                    source={{
-                                      uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
-                                    }}
-                                  />
-                                </View>
-                              )}
-                              <Text style={[layouts.fontPrintStyle]}>
-                                {`    ${
-                                  data?.paymentInformation?.name
-                                    ?.replace(/%20/g, " ")
-                                    .replace(/%2f/g, " ") || ""
-                                }`}
-                              </Text>
-
-                            </View>
-                          ) : null
+                                {!stringIsEmptyOrWhiteSpaces(
+                                  _.get(data, "paymentInformation.signData")
+                                ) && (
+                                  <View style={styles.rowSignature}>
+                                    <Text style={[layouts.fontPrintStyle]}>
+                                      {"    Signature: "}
+                                    </Text>
+                                    <Image
+                                      style={styles.signImage}
+                                      source={{
+                                        uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
+                                      }}
+                                    />
+                                  </View>
+                                )}
+                                <Text style={[layouts.fontPrintStyle]}>
+                                  {`    ${
+                                    data?.paymentInformation?.name
+                                      ?.replace(/%20/g, " ")
+                                      .replace(/%2f/g, " ") || ""
+                                  }`}
+                                </Text>
+                              </View>
+                            ) : null
                             // <>
                             //   {
                             //       data?.fee > 0 &&
