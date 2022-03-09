@@ -628,14 +628,19 @@ export default class Layout extends React.Component {
               <ItemTotal title={`Tax ${this.getTaxRate() > 0 ? "(" + this.getTaxRate() + "%)" : ""}`}
                 value={invoiceDetail?.tax || "0.00"} />
 
-              <ItemTotal
-                title={"Non-Cash Adjustment"}
-                value={invoiceDetail?.checkoutPaymentFeeSum || "0.00"}
-              />
-              <ItemTotal
-                title={"Cash Discount"}
-                value={invoiceDetail?.checkoutPaymentCashDiscountSum || "0.00"}
-              />
+              {invoiceDetail?.checkoutPaymentFeeSum != 0 &&
+                <ItemTotal
+                  title={"Non-Cash Adjustment"}
+                  value={invoiceDetail?.checkoutPaymentFeeSum || "0.00"}
+                />
+              }
+              {
+                invoiceDetail?.checkoutPaymentCashDiscountSum != 0 &&
+                <ItemTotal
+                  title={"Cash Discount"}
+                  value={invoiceDetail?.checkoutPaymentCashDiscountSum || "0.00"}
+                />
+              }
 
               <ItemTotal
                 title={"Total"}
