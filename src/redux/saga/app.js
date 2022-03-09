@@ -8,6 +8,37 @@ import {
 import actions from '../actions';
 import _ from 'lodash';
 
+function* getAdvanceSetting(action) {
+  try {
+    if (!action.isRefresh) {
+      yield put({ type: 'LOADING_ROOT' });
+    }
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    if (parseInt(codeNumber) == 200) {
+      yield put({
+        type: 'GET_ADVANCE_SETTING_SUCCESS',
+        payload: responses?.data,
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: 'UNAUTHORIZED',
+      });
+    } else {
+      yield put({
+        type: 'SHOW_ERROR_MESSAGE',
+        message: responses?.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: error });
+  } finally {
+    yield put({ type: 'STOP_LOADING_ROOT' });
+  }
+}
+
+
 function* getMerchantByID(action) {
   try {
     if (!action.isRefresh) {
@@ -501,5 +532,6 @@ export default function* saga() {
     takeLatest('SHOW_ERROR_MESSAGE', showErrorMessage),
     takeLatest('MERCHANT_SETTING', merchantSetting),
     takeLatest('SOMETHING_WENT_WRONG', handleSomethingWentWrong),
+    takeLatest('GET_ADVANCE_SETTING', getAdvanceSetting),
   ]);
 }

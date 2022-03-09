@@ -5,10 +5,13 @@ import {
   useAxiosQuery,
 } from "@apis";
 import React from "react";
-import { formatNumberFromCurrency } from "@utils";
+import { useSelector } from "react-redux";
 
 export const useProps = (props) => {
-  const [data, setData] = React.useState(null);
+  // const [data, setData] = React.useState(null);
+  const data = useSelector(
+    (state) => state.app.advanceSetting
+  );
   const [dataLocal, setDataLocal] = React.useState(null);
 
   const [isCashDiscount, setIsCashDiscount] = React.useState(null);
@@ -18,25 +21,25 @@ export const useProps = (props) => {
   const [harmonyPayStarRate, setHarmonyPayStarRate] = React.useState(0);
   const [otherStarRate, setOtherStarRate] = React.useState(0);
 
-  const [, getAdvance] = useAxiosQuery({
-    ...getAdvanceSetting(),
-    enabled: false,
-    onSuccess: (data, response) => {
-      if (data) {
-        setData(data);
-        setDataLocal(data);
-        setCashStarRate(data?.CashStarRate);
-        setCreditCardStarRate(data?.CreditCardStarRate);
-        setHarmonyPayStarRate(data?.HarmonyPayStarRate);
-        setOtherStarRate(data?.OtherStarRate);
+  // const [, getAdvance] = useAxiosQuery({
+  //   ...getAdvanceSetting(),
+  //   enabled: false,
+  //   onSuccess: (data, response) => {
+  //     if (data) {
+  //       setData(data);
+  //       setDataLocal(data);
+  //       setCashStarRate(data?.CashStarRate);
+  //       setCreditCardStarRate(data?.CreditCardStarRate);
+  //       setHarmonyPayStarRate(data?.HarmonyPayStarRate);
+  //       setOtherStarRate(data?.OtherStarRate);
 
-        setIsCashDiscount(data?.IsCashDiscount);
-      }
-    },
-    onError: (e) => {
-      console.log(e);
-    },
-  });
+  //       setIsCashDiscount(data?.IsCashDiscount);
+  //     }
+  //   },
+  //   onError: (e) => {
+  //     console.log(e);
+  //   },
+  // });
 
   const [, editAdvance] = useAxiosMutation({
     ...editAdvanceSetting(dataLocal),
@@ -69,12 +72,11 @@ export const useProps = (props) => {
   };
 
   React.useEffect(() => {
-    getAdvance();
-
+    setDataLocal(data)
     return () => {
       // componentWillUnmount events
     };
-  }, []);
+  }, [data]);
 
   return {
     isCashDiscount,

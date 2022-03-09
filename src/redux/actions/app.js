@@ -22,6 +22,16 @@ export function getMerchantByID(merchantId, isRefresh = false) {
   };
 }
 
+export function getAdvanceSetting(isRefresh = false) {
+  return {
+    type: "GET_ADVANCE_SETTING",
+    method: "GET",
+    token: true,
+    api: `merchant/setting/advance`,
+    isRefresh,
+  };
+}
+
 export function registerUser(body) {
   return {
     type: "REGISTER_USER",
