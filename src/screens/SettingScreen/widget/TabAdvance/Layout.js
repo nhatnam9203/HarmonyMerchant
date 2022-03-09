@@ -48,7 +48,7 @@ export const Layout = ({
               <Text style={styles.label}>
                 {"Star earn per "}
                 <Text style={[styles.label, { color: "#0764B0" }]}>
-                  {"$1.0"}
+                  {"$1"}
                 </Text>
                 {" spent by payment method"}
               </Text>
