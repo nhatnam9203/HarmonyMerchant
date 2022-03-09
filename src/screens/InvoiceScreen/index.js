@@ -1086,16 +1086,7 @@ class InvoiceScreen extends Layout {
                         (data.paymentMethod &&
                           data.paymentMethod === "credit_card") ||
                         data.paymentMethod === "debit_card"
-                          ? `
-                            ${
-                              data?.fee > 0 &&
-                              `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
-                                `$${data?.fee}`,
-                                9,
-                                "."
-                              )}</t>`
-                            }
-                            <t>${
+                          ? `<t>${
                               data?.paymentInformation?.type || ""
                             }: ***********${
                               data?.paymentInformation?.number || ""
@@ -1131,24 +1122,7 @@ class InvoiceScreen extends Layout {
                           }
                           
                           `
-                          : 
-                            `${
-                              data?.fee > 0 &&
-                              `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
-                                `$${data?.fee}`,
-                                9,
-                                "."
-                              )}</t>`
-                            }
-                            ${
-                              data?.cashDiscount < 0 &&
-                              `<t>${l.padEnd("Cash Discount: ", 15, ".")}${l.padStart(
-                                `$${data?.cashDiscount}`,
-                                9,
-                                "."
-                              )}</t>`
-
-                            }`
+                          : ``
                       }`;
     });
 
@@ -1199,6 +1173,23 @@ class InvoiceScreen extends Layout {
       9,
       "."
     )}</t>
+    ${
+      invoiceDetail?.checkoutPaymentFeeSum > 0 &&
+      `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
+        `$${invoiceDetail?.checkoutPaymentFeeSum}`,
+        9,
+        "."
+      )}</t>`
+    }
+    ${
+      invoiceDetail?.checkoutPaymentCashDiscountSum < 0 &&
+      `<t>${l.padEnd("Cash Discount: ", 15, ".")}${l.padStart(
+        `$${invoiceDetail?.checkoutPaymentCashDiscountSum}`,
+        9,
+        "."
+      )}</t>`
+
+    }
     <t>${l.padEnd("Total: ", 15, ".")}${l.padStart(
       `$${invoiceDetail?.total || "0.00"}`,
       9,

@@ -628,13 +628,21 @@ export default class Layout extends React.Component {
               <ItemTotal title={`Tax ${this.getTaxRate() > 0 ? "(" + this.getTaxRate() + "%)" : ""}`}
                 value={invoiceDetail?.tax || "0.00"} />
 
+              <ItemTotal
+                title={"Non-Cash Adjustment"}
+                value={invoiceDetail?.checkoutPaymentFeeSum || "0.00"}
+              />
+              <ItemTotal
+                title={"Cash Discount"}
+                value={invoiceDetail?.checkoutPaymentCashDiscountSum || "0.00"}
+              />
 
               <ItemTotal
                 title={"Total"}
                 value={invoiceDetail?.total || "0.00"}
+                style={{fontSize: scaleFont(20)}}
               />
 
-              
               {parseFloat(refundAmount) > 0 ? (
                 <ItemTotal
                 title={"Change"}
@@ -673,13 +681,13 @@ export default class Layout extends React.Component {
                       {data.paymentMethod === "credit_card" ||
                         data.paymentMethod === "debit_card" ? (
                         <View style={{ marginTop: scaleSize(5) }}>
-                          {
+                          {/* {
                             data?.fee > 0 &&
                             <ItemTotal
                             title={" Non-Cash Adjustment"}
                             value={data?.fee}
                             />
-                          }
+                          } */}
                           <Text style={[layouts.fontPrintStyle]}>
                             {` ${data?.paymentInformation?.type || ""
                               }: ***********${data?.paymentInformation?.number || ""
@@ -726,23 +734,23 @@ export default class Layout extends React.Component {
                           </Text>
                          
                         </View>
-                      ) : 
-                      <>
-                       {
-                            data?.fee > 0 &&
-                            <ItemTotal
-                            title={" Non-Cash Adjustment"}
-                            value={data?.fee}
-                            />
-                          }
-                          {
-                            data?.cashDiscount < 0 &&
-                            <ItemTotal
-                            title={" Cash Discount"}
-                            value={data?.cashDiscount}
-                            />
-                          }
-                      </>
+                      ) : null
+                      // <>
+                      //  {
+                      //       data?.fee > 0 &&
+                      //       <ItemTotal
+                      //       title={" Non-Cash Adjustment"}
+                      //       value={data?.fee}
+                      //       />
+                      //     }
+                      //     {
+                      //       data?.cashDiscount < 0 &&
+                      //       <ItemTotal
+                      //       title={" Cash Discount"}
+                      //       value={data?.cashDiscount}
+                      //       />
+                      //     }
+                      // </>
                       }
                     </View>
                   ))}
