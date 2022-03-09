@@ -54,7 +54,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
       const note = item.note;
       const label = item?.data?.value;
       const name = item.data?.name ?? "";
-      let arr = [`${`${index}. ${name}`}`, `${quanlitySet}`, `$${total}`];
+      let arr = [`${`${index + 1}. ${name}`}`, `${quanlitySet}`, `$${total}`];
 
       let itemText = processColumnText(arr, columnWidth, columnAliment, [
         "",

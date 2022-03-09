@@ -429,6 +429,7 @@ export const PopupInvoice = React.forwardRef(
         await setIsProcessingPrint(false);
 
         if (imageUri) {
+
           if (portName) {
             if (isSalonApp()) {
               let commands = [];
@@ -605,7 +606,7 @@ export const PopupInvoice = React.forwardRef(
               `<t>${data?.paymentInformation?.type || ""
               }: ***********${data?.paymentInformation?.number || ""
               }</t>
-                              
+
               ${data?.paymentInformation?.sn
                 ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
                 : ""
@@ -780,7 +781,7 @@ export const PopupInvoice = React.forwardRef(
             return;
           }
         }
-
+         setAutoPrint(false);
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
@@ -1337,7 +1338,7 @@ export const PopupInvoice = React.forwardRef(
                                     .replace(/%2f/g, " ") || ""
                                 }`}
                               </Text>
-                              
+
                             </View>
                           ) : null
                             // <>
