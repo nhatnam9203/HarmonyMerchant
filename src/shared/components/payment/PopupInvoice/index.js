@@ -712,7 +712,7 @@ export const PopupInvoice = React.forwardRef(
               "."
             )}</c></b></t>
      ${entryMethodXml}
-     ${isSignature ? `<br/><br/><t>Signature: _____________</t><br/>` : ``}
+     ${isSignature ? `<br/><br/><t>Signature: _____________</t><br/><br/>` : ``}
       `
           : ``
       }
@@ -723,7 +723,7 @@ export const PopupInvoice = React.forwardRef(
                       <br/>
                       <br/>
                       <t>Signature: _____________</t>
-                      <br/>`
+                      <br/><br/>`
           : ``
       }
       ${
