@@ -26,7 +26,6 @@ class TabSettle extends Layout {
   didFocus = () => {};
 
   gotoTabSecondSettle = (settlement, creditCount) => {
-    console.log('settlement', settlement)
     this.scrollTabRef.current?.goToPage(3);
     if (this.tabsecondSettleRef.current) {
       this.tabsecondSettleRef.current?.setStateFromParent(

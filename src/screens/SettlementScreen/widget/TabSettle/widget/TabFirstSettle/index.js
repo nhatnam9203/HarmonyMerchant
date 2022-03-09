@@ -34,7 +34,6 @@ class TabFirstSettle extends Layout {
       editOtherPayment: 0.0,
       discountSettlement: 0.0,
       paymentByGiftcard: 0.0,
-      returnAmount: 0.0,
       total: 0.0,
       note: "",
       isShowKeyboard: false,
@@ -348,7 +347,6 @@ class TabFirstSettle extends Layout {
       discountSettlement,
       paymentByGiftcard,
       terminalID,
-      returnAmount,
     } = this.state;
     this.props.gotoTabSecondSettle(
       {
@@ -364,15 +362,13 @@ class TabFirstSettle extends Layout {
           ? settleWaiting.otherPayment
           : 0.0,
         paymentByGiftcard: paymentByGiftcard,
-        returnAmount,
         total: roundFloatNumber(
           formatNumberFromCurrency(editPaymentByHarmony) +
             formatNumberFromCurrency(editPaymentByCreditCard) +
             formatNumberFromCurrency(editPaymentByCash) +
             formatNumberFromCurrency(editOtherPayment) +
             formatNumberFromCurrency(discountSettlement) +
-            formatNumberFromCurrency(paymentByGiftcard) -
-            formatNumberFromCurrency(returnAmount)
+            formatNumberFromCurrency(paymentByGiftcard) 
         ),
         note,
         terminalID,
@@ -579,7 +575,7 @@ class TabFirstSettle extends Layout {
         discountSettlement: settleWaiting?.discount || 0.0,
         editPaymentByCreditCard: settleWaiting?.paymentByCreditCard || 0.0,
         paymentByGiftcard: settleWaiting?.paymentByGiftcard || 0.0,
-        returnAmount: settleWaiting?.returnAmount || 0.0,
+        // returnAmount: settleWaiting?.returnAmount || 0.0,
       });
     }
   }
