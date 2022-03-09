@@ -225,14 +225,14 @@ class Layout extends React.Component {
                             }}
                             value={discountSettlement}
                         />
-                        {formatNumberFromCurrency(returnAmount) > 0 &&
+                        {formatNumberFromCurrency(returnAmount) != 0 &&
                             <ItemPaymentsReport
                                 title="Return Amount"
                                 backgroundColor="#F1F1F1"
                                 txtStyle={{
                                     color: "#404040"
                                 }}
-                                value={`- ${returnAmount}`}
+                                value={` ${-returnAmount}`}
                             />
                         }
                     </View>
