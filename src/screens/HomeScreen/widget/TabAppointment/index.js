@@ -246,12 +246,12 @@ class TabAppointment extends Layout {
               break;
             case "printFromCalendar":
               const appointment = data?.appointment;
-              const isTemp = appointment?.status !== "paid";
-
+              // const isTemp = appointment?.status !== "paid";
+              //
               this.invoiceRef.current?.showAppointmentReceipt({
                 appointmentId: appointment?.id,
                 checkoutId: appointment?.checkoutId,
-                isPrintTempt: isTemp,
+                isPrintTempt: true,
                 isSalon: true,
                 machineType: this.props.paymentMachineType,
                 isAppointmentTab: true,

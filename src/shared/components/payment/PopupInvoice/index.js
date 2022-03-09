@@ -790,6 +790,9 @@ export const PopupInvoice = React.forwardRef(
         // setTitleInvoice(isAppointmentTab ? "TICKET" : "");
         // setIsSalonApp(isSalon);
         setFromAppointmentTab(isAppointmentTab);
+        if (isAppointmentTab) {
+          setIsSignature(false);
+        }
 
         // call api get info
         await getGroupAppointment(appointmentId);
