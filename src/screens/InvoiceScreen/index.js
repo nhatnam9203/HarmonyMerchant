@@ -1242,7 +1242,7 @@ class InvoiceScreen extends Layout {
           if (imageUri) {
             // if ko printRetailerAppointment thì tiếp tục flow cũ
             // if (
-            //   !this.invoiceRef?.current?.printRetailerAppointment({
+            //   this.invoiceRef?.current?.printRetailerAppointment({
             //     isPrintTempt: false,
             //     machineType: paymentMachineType,
             //     isAppointmentTab: false,

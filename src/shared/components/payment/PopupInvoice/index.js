@@ -394,7 +394,7 @@ export const PopupInvoice = React.forwardRef(
       } else {
         setTimeout(() => {
           setIsSignature(false);
-        }, 1000);
+        }, 250);
       }
 
       // setTimeout(() => {
@@ -425,8 +425,8 @@ export const PopupInvoice = React.forwardRef(
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
-          format: "jpg",
-          quality: 0.0,
+          // format: "jpg",
+          // quality: 0.0,
         });
         await setIsProcessingPrint(false);
 
@@ -465,23 +465,23 @@ export const PopupInvoice = React.forwardRef(
             // }
 
             let commands = [];
-              commands.push({ appendLineFeed: 0 });
-              commands.push({
-                appendBitmap: imageUri,
-                width: parseFloat(widthPaper),
-                bothScale: true,
-                diffusion: true,
-                alignment: "Center",
-              });
-              commands.push({
-                appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
-              });
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
 
-              await PrintManager.getInstance().print(
-                emulation,
-                commands,
-                portName
-              );
+            await PrintManager.getInstance().print(
+              emulation,
+              commands,
+              portName
+            );
 
             releaseCapture(imageUri);
           } else {
@@ -534,8 +534,8 @@ export const PopupInvoice = React.forwardRef(
       try {
         await setIsProcessingPrint(true);
         const imageUri = await captureRef(viewShotRef, {
-          format: "jpg",
-          quality: 0.0,
+          // format: "jpg",
+          // quality: 0.0,
         });
         await setIsProcessingPrint(false);
         await setVisible(false);
