@@ -334,7 +334,7 @@ class Layout extends React.Component {
 
           {/* ------- Staff appointment count ------ */}
           {/* <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
-          <View style={{ width: scaleSize(180), justifyContent: "center" }}>
+            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
                 style={{
                   color: "#404040",

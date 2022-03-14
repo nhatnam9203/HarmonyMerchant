@@ -206,6 +206,24 @@ export const PopupInvoice = React.forwardRef(
       return 0;
     };
 
+    const getNonCashFee = () => {
+      if (groupAppointment) {
+        return groupAppointment?.checkoutPaymentFeeSum;
+      } else if (invoiceDetail) {
+        return invoiceDetail?.checkoutPaymentFeeSum;
+      }
+      return 0;
+    };
+
+    const getCashDiscount = () => {
+      if (groupAppointment) {
+        return groupAppointment?.checkoutPaymentCashDiscountSum;
+      } else if (invoiceDetail) {
+        return invoiceDetail?.checkoutPaymentCashDiscountSum;
+      }
+      return 0;
+    };
+
     const getDue = () => {
       if (groupAppointment && groupAppointment?.dueAmount > 0)
         return groupAppointment?.dueAmount;
@@ -385,7 +403,9 @@ export const PopupInvoice = React.forwardRef(
           setIsSignature(false);
         }, 2000);
       } else {
-        setIsSignature(false);
+        setTimeout(() => {
+          setIsSignature(false);
+        }, 250);
       }
 
       // setTimeout(() => {
@@ -416,61 +436,63 @@ export const PopupInvoice = React.forwardRef(
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
-          format: "jpg",
-          quality: 0.0,
+          // format: "jpg",
+          // quality: 0.0,
         });
         await setIsProcessingPrint(false);
 
         if (imageUri) {
           if (portName) {
-            if (isSalonApp()) {
-              let commands = [];
-              commands.push({ appendLineFeed: 0 });
-              commands.push({
-                appendBitmap: imageUri,
-                width: parseFloat(widthPaper),
-                bothScale: true,
-                diffusion: true,
-                alignment: "Center",
-              });
-              commands.push({
-                appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
-              });
+            // if (isSalonApp()) {
 
-              await PrintManager.getInstance().print(
-                emulation,
-                commands,
-                portName
-              );
-            } else {
-              await printAppointment({
-                emphasis: getEmphasisMode(),
-                isSalon: isSalonApp(),
-                name: isSalonApp() ? getCustomerName() : getInvoiceName(),
-                invoiceDate: formatWithMoment(
-                  invoiceDetail?.createdDate,
-                  "MM/DD/YYYY hh:mm A"
-                ),
-                invoiceNo: `${checkoutId}` ?? " ",
-                items: getBasketOnline(groupAppointment?.appointments) || [],
-                subTotal: getSubTotal(),
-                discount: getDiscount(),
-                tipAmount: getTipAmount(),
-                taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
-                tax: getTax(),
-                total: getTotal(),
-                change: getChange(),
-                barCode: invoiceDetail?.code + "",
-                printTempt: printTempt,
-                isSignature: isSignature,
-                fromAppointmentTab: fromAppointmentTab,
-                getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
-                footerReceipt: getFooterReceipt(),
-                promotionNotes: getPromotionNotes(
-                  groupAppointment?.appointments
-                ),
-              });
-            }
+            // } else {
+            //   await printAppointment({
+            //     emphasis: getEmphasisMode(),
+            //     isSalon: isSalonApp(),
+            //     name: isSalonApp() ? getCustomerName() : getInvoiceName(),
+            //     invoiceDate: formatWithMoment(
+            //       invoiceDetail?.createdDate,
+            //       "MM/DD/YYYY hh:mm A"
+            //     ),
+            //     invoiceNo: `${checkoutId}` ?? " ",
+            //     items: getBasketOnline(groupAppointment?.appointments) || [],
+            //     subTotal: getSubTotal(),
+            //     discount: getDiscount(),
+            //     tipAmount: getTipAmount(),
+            //     taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+            //     tax: getTax(),
+            //     total: getTotal(),
+            //     change: getChange(),
+            //     barCode: invoiceDetail?.code + "",
+            //     printTempt: printTempt,
+            //     isSignature: isSignature,
+            //     fromAppointmentTab: fromAppointmentTab,
+            //     getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+            //     footerReceipt: getFooterReceipt(),
+            //     promotionNotes: getPromotionNotes(
+            //       groupAppointment?.appointments
+            //     ),
+            //   });
+            // }
+
+            let commands = [];
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
+
+            await PrintManager.getInstance().print(
+              emulation,
+              commands,
+              portName
+            );
 
             releaseCapture(imageUri);
           } else {
@@ -523,8 +545,8 @@ export const PopupInvoice = React.forwardRef(
       try {
         await setIsProcessingPrint(true);
         const imageUri = await captureRef(viewShotRef, {
-          format: "jpg",
-          quality: 0.0,
+          // format: "jpg",
+          // quality: 0.0,
         });
         await setIsProcessingPrint(false);
         await setVisible(false);
@@ -708,14 +730,30 @@ export const PopupInvoice = React.forwardRef(
       )}</t>
       <t>${_.padEnd("Tax: ", 15, ".")}${_.padStart(`$${getTax()}`, 9, ".")}</t>
       ${
+        getNonCashFee() != 0 &&
+        `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
+          `$${getNonCashFee()}`,
+          9,
+          "."
+        )}</t>`
+      }
+      ${
+        getCashDiscount() != 0 &&
+        `<t>${_.padEnd("Cash Discount: ", 15, ".")}${_.padStart(
+          `$${getCashDiscount()}`,
+          9,
+          "."
+        )}</t>`
+      }
+      ${
         !printTempt
-          ? `<t>${_.padEnd("Total: ", 15, ".")}${_.padStart(
+          ? `<t><b><c>${_.padEnd("Total: ", 15, ".")}${_.padStart(
               `$${getTotal()}`,
               9,
               "."
-            )}</t>
+            )}</c></b></t>
      ${entryMethodXml}
-     ${isSignature ? `<br/><br/><t>Signature: _____________</t><br/>` : ``}
+     ${isSignature ? `<br/><br/><t>Signature: _____________</t><br/><br/>` : ``}
       `
           : ``
       }
@@ -726,7 +764,7 @@ export const PopupInvoice = React.forwardRef(
                       <br/>
                       <br/>
                       <t>Signature: _____________</t>
-                      <br/>`
+                      <br/><br/>`
           : ``
       }
       ${
@@ -783,7 +821,7 @@ export const PopupInvoice = React.forwardRef(
             return;
           }
         }
-
+        setAutoPrint(false);
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
@@ -1195,12 +1233,36 @@ export const PopupInvoice = React.forwardRef(
                     styleTextValue={layouts.fontPrintStyle}
                   />
                   {!printTempt && (
-                    <TotalView
-                      title={"Total"}
-                      value={getTotal()}
-                      styleTextTitle={layouts.fontPrintSubTitleStyle}
-                      styleTextValue={layouts.fontPrintStyle}
-                    />
+                    <>
+                      {getNonCashFee() != 0 && (
+                        <TotalView
+                          title={"Non-Cash Adjustment"}
+                          value={getNonCashFee()}
+                          styleTextTitle={layouts.fontPrintSubTitleStyle}
+                          styleTextValue={layouts.fontPrintStyle}
+                        />
+                      )}
+                      {getCashDiscount() != 0 && (
+                        <TotalView
+                          title={"Cash Discount"}
+                          value={getCashDiscount()}
+                          styleTextTitle={layouts.fontPrintSubTitleStyle}
+                          styleTextValue={layouts.fontPrintStyle}
+                        />
+                      )}
+                      <TotalView
+                        title={"Total"}
+                        value={getTotal()}
+                        styleTextTitle={[
+                          layouts.fontPrintSubTitleStyle,
+                          { fontSize: scaleFont(22) },
+                        ]}
+                        styleTextValue={[
+                          layouts.fontPrintStyle,
+                          { fontSize: scaleFont(24) },
+                        ]}
+                      />
+                    </>
                   )}
                   {getChange() > 0 && (
                     <TotalView
@@ -1379,6 +1441,7 @@ export const PopupInvoice = React.forwardRef(
                                 <TotalView
                                   title={"    Non-Cash Adjustment"}
                                   value={data?.fee}
+                                  styleTextTitle={layouts.fontPrintSubTitleStyle}
                                   styleTextTitle={
                                     layouts.fontPrintSubTitleStyle
                                   }

@@ -684,16 +684,27 @@ export default class Layout extends React.Component {
                 title={"Tip"}
                 value={invoiceDetail?.tipAmount || "0.00"}
               />
-              <ItemTotal
-                title={`Tax ${
-                  this.getTaxRate() > 0 ? "(" + this.getTaxRate() + "%)" : ""
-                }`}
-                value={invoiceDetail?.tax || "0.00"}
-              />
+              <ItemTotal title={`Tax ${this.getTaxRate() > 0 ? "(" + this.getTaxRate() + "%)" : ""}`}
+                value={invoiceDetail?.tax || "0.00"} />
+
+              {invoiceDetail?.checkoutPaymentFeeSum != 0 &&
+                <ItemTotal
+                  title={"Non-Cash Adjustment"}
+                  value={invoiceDetail?.checkoutPaymentFeeSum || "0.00"}
+                />
+              }
+              {
+                invoiceDetail?.checkoutPaymentCashDiscountSum != 0 &&
+                <ItemTotal
+                  title={"Cash Discount"}
+                  value={invoiceDetail?.checkoutPaymentCashDiscountSum || "0.00"}
+                />
+              }
 
               <ItemTotal
                 title={"Total"}
                 value={invoiceDetail?.total || "0.00"}
+                style={{fontSize: scaleFont(20)}}
               />
 
               {parseFloat(refundAmount) > 0 ? (

@@ -368,7 +368,7 @@ class TabFirstSettle extends Layout {
             formatNumberFromCurrency(editPaymentByCash) +
             formatNumberFromCurrency(editOtherPayment) +
             formatNumberFromCurrency(discountSettlement) +
-            formatNumberFromCurrency(paymentByGiftcard)
+            formatNumberFromCurrency(paymentByGiftcard) 
         ),
         note,
         terminalID,
@@ -575,6 +575,7 @@ class TabFirstSettle extends Layout {
         discountSettlement: settleWaiting?.discount || 0.0,
         editPaymentByCreditCard: settleWaiting?.paymentByCreditCard || 0.0,
         paymentByGiftcard: settleWaiting?.paymentByGiftcard || 0.0,
+        // returnAmount: settleWaiting?.returnAmount || 0.0,
       });
     }
   }

@@ -1075,10 +1075,14 @@ class InvoiceScreen extends Layout {
       entryMethodXml =
         entryMethodXml +
         `<br/><t>- Entry method:</t>
-        <t>${l.padEnd(`${getPaymentString(
-          data?.paymentMethod || ""
-        )}`, 15, ".")}${l.padStart(
-          `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(2)}`,
+        <t>${l.padEnd(
+          `${getPaymentString(data?.paymentMethod || "")}`,
+          15,
+          "."
+        )}${l.padStart(
+          `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(
+            2
+          )}`,
           9,
           "."
         )}</t>
@@ -1086,16 +1090,7 @@ class InvoiceScreen extends Layout {
                         (data.paymentMethod &&
                           data.paymentMethod === "credit_card") ||
                         data.paymentMethod === "debit_card"
-                          ? `
-                            ${
-                              data?.fee > 0 &&
-                              `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
-                                `$${data?.fee}`,
-                                9,
-                                "."
-                              )}</t>`
-                            }
-                            <t>${
+                          ? `<t>${
                               data?.paymentInformation?.type || ""
                             }: ***********${
                               data?.paymentInformation?.number || ""
@@ -1120,39 +1115,20 @@ class InvoiceScreen extends Layout {
                           }
                           ${
                             data?.paymentInformation?.name
-                              ? `<t>${data?.paymentInformation?.name?.replace(
-                                  /%20/g,
-                                  " "
-                                ).replace(
-                                  /%2f/g,
-                                  " "
-                                )}</t>`
+                              ? `<t>${data?.paymentInformation?.name
+                                  ?.replace(/%20/g, " ")
+                                  .replace(/%2f/g, " ")}</t>`
                               : ""
                           }
-                          
-                          `
-                          : 
-                            `${
-                              data?.fee > 0 &&
-                              `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
-                                `$${data?.fee}`,
-                                9,
-                                "."
-                              )}</t>`
-                            }
-                            ${
-                              data?.cashDiscount < 0 &&
-                              `<t>${l.padEnd("Cash Discount: ", 15, ".")}${l.padStart(
-                                `$${data?.cashDiscount}`,
-                                9,
-                                "."
-                              )}</t>`
 
-                            }`
+                          `
+                          : ``
                       }`;
     });
 
-    let xmlContent = `${getCenterBoldStringArrayXml(profile?.businessName || " ")}
+    let xmlContent = `${getCenterBoldStringArrayXml(
+      profile?.businessName || " "
+    )}
     ${getCenterStringArrayXml(profile?.addressFull || " ")}
     <t><c>${`Tel : ${profile?.phone || " "}`}</c></t>
     <t><c>${profile?.webLink}</c></t>
@@ -1199,6 +1175,22 @@ class InvoiceScreen extends Layout {
       9,
       "."
     )}</t>
+    ${
+      invoiceDetail?.checkoutPaymentFeeSum > 0 &&
+      `<t>${l.padEnd("Non-Cash Fee:", 15, ".")}${l.padStart(
+        `$${invoiceDetail?.checkoutPaymentFeeSum}`,
+        9,
+        "."
+      )}</t>`
+    }
+    ${
+      invoiceDetail?.checkoutPaymentCashDiscountSum < 0 &&
+      `<t>${l.padEnd("Cash Discount: ", 15, ".")}${l.padStart(
+        `$${invoiceDetail?.checkoutPaymentCashDiscountSum}`,
+        9,
+        "."
+      )}</t>`
+    }
     <t>${l.padEnd("Total: ", 15, ".")}${l.padStart(
       `$${invoiceDetail?.total || "0.00"}`,
       9,
@@ -1209,10 +1201,10 @@ class InvoiceScreen extends Layout {
     ${
       parseFloat(refundAmount) > 0
         ? `<t>${l.padEnd("Change: ", 15, ".")}${l.padStart(
-          `$${invoiceDetail?.refundAmount || "0.00"}`,
-          9,
-          "."
-        )}</t>`
+            `$${invoiceDetail?.refundAmount || "0.00"}`,
+            9,
+            "."
+          )}</t>`
         : ``
     }
 
@@ -1249,33 +1241,52 @@ class InvoiceScreen extends Layout {
           const imageUri = await captureRef(this.viewShotRef, {});
           if (imageUri) {
             // if ko printRetailerAppointment thì tiếp tục flow cũ
-            if (
-              !this.invoiceRef?.current?.printRetailerAppointment({
-                isPrintTempt: false,
-                machineType: paymentMachineType,
-                isAppointmentTab: false,
-                invoice: invoiceDetail,
-              })
-            ) {
-              let commands = [];
-              commands.push({ appendLineFeed: 0 });
-              commands.push({
-                appendBitmap: imageUri,
-                width: parseFloat(widthPaper),
-                bothScale: true,
-                diffusion: true,
-                alignment: "Center",
-              });
-              commands.push({
-                appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-              });
+            // if (
+            //   this.invoiceRef?.current?.printRetailerAppointment({
+            //     isPrintTempt: false,
+            //     machineType: paymentMachineType,
+            //     isAppointmentTab: false,
+            //     invoice: invoiceDetail,
+            //   })
+            // ) {
+            //   let commands = [];
+            //   commands.push({ appendLineFeed: 0 });
+            //   commands.push({
+            //     appendBitmap: imageUri,
+            //     width: parseFloat(widthPaper),
+            //     bothScale: true,
+            //     diffusion: true,
+            //     alignment: "Center",
+            //   });
+            //   commands.push({
+            //     appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            //   });
 
-              await PrintManager.getInstance().print(
-                emulation,
-                commands,
-                portName
-              );
-            }
+            //   await PrintManager.getInstance().print(
+            //     emulation,
+            //     commands,
+            //     portName
+            //   );
+            // }
+
+            let commands = [];
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
+
+            await PrintManager.getInstance().print(
+              emulation,
+              commands,
+              portName
+            );
 
             releaseCapture(imageUri);
           }
