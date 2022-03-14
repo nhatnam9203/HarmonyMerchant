@@ -361,6 +361,7 @@ export const getArrayServicesFromAppointment = (services = []) => {
       note: service?.note || "",
       extras: [],
       imageUrl: service?.imageUrl || "",
+      bookingServiceId: service.bookingServiceId,
     };
   });
   return temptArrayServices;

@@ -116,7 +116,7 @@ export const PopupInvoice = React.forwardRef(
 
     const getBasketOnline = (appointments) => {
       const arrayProductBuy = [];
-      const arryaServicesBuy = [];
+      let arryaServicesBuy = [];
       const arrayExtrasBuy = [];
       const arrayGiftCards = [];
       const promotionNotes = [];
@@ -132,6 +132,7 @@ export const PopupInvoice = React.forwardRef(
             },
             staff: service?.staff || false,
             note: service?.note || "",
+            bookingServiceId: service.bookingServiceId,
           });
         });
 
@@ -151,15 +152,31 @@ export const PopupInvoice = React.forwardRef(
         });
 
         // ------ Push Product -------
-        appointment?.extras?.forEach((extra) => {
-          arrayExtrasBuy.push({
-            type: "Extra",
-            data: {
-              name: extra?.extraName || "",
-              price: extra?.price || "",
-            },
+        // appointment?.extras?.forEach((extra) => {
+        //   arrayExtrasBuy.push({
+        //     type: "Extra",
+        //     data: {
+        //       name: extra?.extraName || "",
+        //       price: extra?.price || "",
+        //     },
+        //   });
+        // });
+        const extraServiceItems = appointment?.extras || [];
+        if (extraServiceItems?.length > 0) {
+          const temps = arryaServicesBuy.map((item) => {
+            const findItems = extraServiceItems.filter(
+              (x) => x.bookingServiceId === item.bookingServiceId
+            );
+
+            if (findItems?.length) {
+              return Object.assign({}, item, {
+                extras: [...(item?.extras ?? []), ...findItems],
+              });
+            }
+            return item;
           });
-        });
+          arryaServicesBuy = temps;
+        }
 
         // ------ Push Gift Card -------
         appointment?.giftCards?.forEach((gift) => {
@@ -175,7 +192,7 @@ export const PopupInvoice = React.forwardRef(
       });
 
       return arryaServicesBuy.concat(
-        arrayExtrasBuy,
+        // arrayExtrasBuy,
         arrayProductBuy,
         arrayGiftCards
       );
@@ -285,9 +302,10 @@ export const PopupInvoice = React.forwardRef(
 
     const getFooterReceipt = () => {
       if (
-        (invoiceDetail?.status === "paid" ||
+        ((invoiceDetail?.status === "paid" ||
           groupAppointment?.status === "paid") &&
-        !isSignature
+          !isSignature) ||
+        fromAppointmentTab
       ) {
         return "Customer's Receipt";
       }
@@ -405,7 +423,7 @@ export const PopupInvoice = React.forwardRef(
       } else {
         setTimeout(() => {
           setIsSignature(false);
-        }, 250);
+        }, 1000);
       }
 
       // setTimeout(() => {
@@ -436,8 +454,8 @@ export const PopupInvoice = React.forwardRef(
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
-          // format: "jpg",
-          // quality: 0.0,
+          format: "jpg",
+          quality: 0.1,
         });
         await setIsProcessingPrint(false);
 
@@ -545,8 +563,8 @@ export const PopupInvoice = React.forwardRef(
       try {
         await setIsProcessingPrint(true);
         const imageUri = await captureRef(viewShotRef, {
-          // format: "jpg",
-          // quality: 0.0,
+          format: "jpg",
+          quality: 0.1,
         });
         await setIsProcessingPrint(false);
         await setVisible(false);
@@ -583,6 +601,7 @@ export const PopupInvoice = React.forwardRef(
 
           const noteXml = note ? `<t>(Note: ${note})</t>` : ``;
           const staffXml = staffName ? `<t>(${staffName})</t>` : ``;
+          const extraItems = item.extras || []; // item : {extraName, price}
 
           stringItems =
             stringItems +
@@ -1147,7 +1166,6 @@ export const PopupInvoice = React.forwardRef(
                           item={receiptItem}
                           index={index}
                           type={profile.type}
-                          textStyle={[layouts.fontPrintStyle]}
                         />
                       )
                     )}
@@ -1441,7 +1459,6 @@ export const PopupInvoice = React.forwardRef(
                                 <TotalView
                                   title={"    Non-Cash Adjustment"}
                                   value={data?.fee}
-                                  styleTextTitle={layouts.fontPrintSubTitleStyle}
                                   styleTextTitle={
                                     layouts.fontPrintSubTitleStyle
                                   }

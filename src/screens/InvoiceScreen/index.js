@@ -320,11 +320,29 @@ class InvoiceScreen extends Layout {
 
   convertBasket(basket) {
     const arrayProducts = getArrayProductsFromAppointment(basket.products);
-    const arryaServices = getArrayServicesFromAppointment(basket.services);
-    const arrayExtras = getArrayExtrasFromAppointment(basket.extras);
+    let arryaServices = getArrayServicesFromAppointment(basket.services);
+    // const arrayExtras = getArrayExtrasFromAppointment(basket.extras);
     const arrayGiftCards = getArrayGiftCardsFromAppointment(basket.giftCards);
+
+    const extraServiceItems = basket?.extras || [];
+    if (extraServiceItems?.length > 0) {
+      const temps = arryaServices.map((item) => {
+        const findItems = extraServiceItems.filter(
+          (x) => x.bookingServiceId === item.bookingServiceId
+        );
+
+        if (findItems?.length) {
+          return Object.assign({}, item, {
+            extras: [...(item?.extras ?? []), ...findItems],
+          });
+        }
+        return item;
+      });
+      arryaServices = temps;
+    }
+
     const temptBasket = arryaServices.concat(
-      arrayExtras,
+      // arrayExtras,
       arrayProducts,
       arrayGiftCards
     );
@@ -891,7 +909,7 @@ class InvoiceScreen extends Layout {
 
   getBasket = (appointment) => {
     const arrayProductBuy = [];
-    const arryaServicesBuy = [];
+    let arryaServicesBuy = [];
     const arrayExtrasBuy = [];
     const arrayGiftCards = [];
 
@@ -920,15 +938,32 @@ class InvoiceScreen extends Layout {
     });
 
     // ------ Push Product -------
-    appointment?.extras.forEach((extra) => {
-      arrayExtrasBuy.push({
-        type: "Extra",
-        data: {
-          name: extra.extraName ? extra.extraName : "",
-          price: extra.price ? extra.price : "",
-        },
+    // appointment?.extras.forEach((extra) => {
+    //   arrayExtrasBuy.push({
+    //     type: "Extra",
+    //     data: {
+    //       name: extra.extraName ? extra.extraName : "",
+    //       price: extra.price ? extra.price : "",
+    //     },
+    //   });
+    // });
+
+    const extraServiceItems = appointment?.extras || [];
+    if (extraServiceItems?.length > 0) {
+      const temps = arryaServicesBuy.map((item) => {
+        const findItems = extraServiceItems.filter(
+          (x) => x.bookingServiceId === item.bookingServiceId
+        );
+
+        if (findItems?.length) {
+          return Object.assign({}, item, {
+            extras: [...(item?.extras ?? []), ...findItems],
+          });
+        }
+        return item;
       });
-    });
+      arryaServicesBuy = temps;
+    }
 
     // ------ Push Gift Card -------
     appointment?.giftCards.forEach((gift) => {
@@ -945,7 +980,7 @@ class InvoiceScreen extends Layout {
     return {
       arryaServicesBuy,
       arrayProductBuy,
-      arrayExtrasBuy,
+      // arrayExtrasBuy,
       arrayGiftCards,
     };
   };
@@ -1031,6 +1066,9 @@ class InvoiceScreen extends Layout {
 
       const noteXml = note ? `<t>(Note: ${note})</t>` : ``;
       const staffXml = staffName ? `<t>(${staffName})</t>` : ``;
+
+      const extraItems = item.extras || []; // item : {extraName, price}
+
 
       stringItems =
         stringItems +
@@ -1238,7 +1276,10 @@ class InvoiceScreen extends Layout {
       await this.setState(receiptContentBg, async () => {
         if (portName) {
           this.props.actions.app.loadingApp();
-          const imageUri = await captureRef(this.viewShotRef, {});
+          const imageUri = await captureRef(this.viewShotRef, {
+            format: "jpg",
+            quality: 0.1,
+          });
           if (imageUri) {
             // if ko printRetailerAppointment thì tiếp tục flow cũ
             // if (
@@ -1299,6 +1340,8 @@ class InvoiceScreen extends Layout {
             this.props.actions.app.loadingApp();
             const imageUri = await captureRef(this.viewShotRef, {
               result: "base64",
+              format: "jpg",
+              quality: 0.1,
             });
             if (imageUri) {
               this.doPrintClover(imageUri);
@@ -1330,7 +1373,10 @@ class InvoiceScreen extends Layout {
   shareCustomerInvoice = async () => {
     try {
       await this.setState({ receiptContentBg: "#fff" }, async () => {
-        const imageUri = await captureRef(this.viewShotRef, {});
+        const imageUri = await captureRef(this.viewShotRef, {
+          format: "jpg",
+          quality: 0.1,
+        });
         if (Platform.OS === "ios") {
           RNFetchBlob.ios.previewDocument(imageUri);
         } else {

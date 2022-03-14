@@ -2,6 +2,7 @@ import { formatMoney } from "@utils";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Dash from "react-native-dash";
+import { layouts } from "@shared/themes";
 
 export const ItemReceipt = ({ item, index, type, textStyle }) => {
   const renderItemInvoice = () => {
@@ -24,7 +25,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
               alignItems: "flex-start",
             }}
           >
-            <Text style={[styles.textStyle, textStyle]}>
+            <Text style={[layouts.fontPrintStyle, styles.textStyle, textStyle]}>
               {`${index + 1}. ${
                 item.data && item.data.name ? item.data.name : ""
               }`}
@@ -53,7 +54,9 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
               alignItems: "flex-start",
             }}
           >
-            <Text style={[styles.textStyle, textStyle]}>{`$ ${price}`}</Text>
+            <Text
+              style={[layouts.fontPrintStyle, styles.textStyle, textStyle]}
+            >{`$ ${price}`}</Text>
           </View>
 
           <View
@@ -66,7 +69,9 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
               },
             ]}
           >
-            <Text style={[styles.textStyle, textStyle]}>{quanlitySet}</Text>
+            <Text style={[layouts.fontPrintStyle, styles.textStyle, textStyle]}>
+              {quanlitySet}
+            </Text>
           </View>
 
           <View
@@ -79,9 +84,9 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
               },
             ]}
           >
-            <Text style={[styles.textStyle, textStyle]}>{`$ ${
-              total ? total : ""
-            }`}</Text>
+            <Text
+              style={[layouts.fontPrintStyle, styles.textStyle, textStyle]}
+            >{`$ ${total ? total : ""}`}</Text>
             {/*
           {discount > 0 ? (
             <Text style={styles.textStyle}>{` $ ${
@@ -178,6 +183,8 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
     const total = formatMoney(price * quanlitySet);
     const note = item.note ? item.note : "";
     const staffName = item.staff?.displayName ?? "";
+    const extraItems = item.extras || [];
+
     return (
       <>
         {index > 0 && (
@@ -194,21 +201,44 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
           />
         )}
         <View style={styles.content}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style={[styles.textStyle, textStyle]}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+            }}
+          >
+            <Text style={[layouts.fontPrintStyle, textStyle]}>
               {`${index + 1}. ${
                 item.data && item.data.name ? item.data.name : ""
               }`}
             </Text>
+
+            {extraItems?.length > 0 &&
+              extraItems.map((x) => (
+                <Text
+                  key={`${x.extraId}`}
+                  style={[layouts.fontPrintStyle, styles.textExtraStyle]}
+                >{`   - ${x.extraName}`}</Text>
+              ))}
+
             {note ? (
               <Text
-                style={[styles.textStyle, textStyle]}
+                style={[layouts.fontPrintStyle, textStyle]}
               >{`(Note: ${note})`}</Text>
             ) : null}
           </View>
 
-          <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
-            <Text style={[styles.textStyle, textStyle]}>{` ${staffName}`}</Text>
+          <View
+            style={{
+              justifyContent: "flex-start",
+              width: scaleWidth(100),
+              alignItems: "flex-start",
+            }}
+          >
+            <Text
+              style={[layouts.fontPrintStyle, textStyle]}
+            >{` ${staffName}`}</Text>
           </View>
 
           <View
@@ -216,12 +246,22 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
               styles.headerContent,
               {
                 width: scaleWidth(80),
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
               },
             ]}
           >
-            <Text style={[styles.textStyle, textStyle]}>{`$ ${
+            <Text style={[layouts.fontPrintStyle, textStyle]}>{`$ ${
               total ? total : ""
             }`}</Text>
+
+            {extraItems?.length > 0 &&
+              extraItems.map((x) => (
+                <Text
+                  key={`${x.extraId}`}
+                  style={[layouts.fontPrintStyle, styles.textExtraStyle]}
+                >{`$ ${formatMoney(x?.price ?? 0)}`}</Text>
+              ))}
           </View>
         </View>
       </>
@@ -454,7 +494,8 @@ const styles = StyleSheet.create({
     paddingVertical: scaleHeight(3),
   },
 
-  textStyle: { fontSize: scaleFont(15), fontWeight: "400", textAlign: "left" },
+  textStyle: { fontSize: scaleFont(15), textAlign: "left" },
+  textExtraStyle: { fontSize: scaleFont(15), textAlign: "left" },
 
   headerStyle: {
     fontSize: scaleFont(15),
