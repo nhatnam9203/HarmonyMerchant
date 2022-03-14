@@ -146,7 +146,7 @@ export const layouts = StyleSheet.create({
   },
   fontPrintStyle: {
     color: "#000",
-    fontSize: scaleFont(18),
+    fontSize: scaleFont(17),
     fontWeight: "600",
     textAlign: "left",
   },

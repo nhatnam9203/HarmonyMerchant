@@ -13,9 +13,7 @@ import { TextInputMask } from "react-native-masked-text";
 
 export const Layout = ({
   isCashDiscount,
-  cashDiscountPercent,
   setIsCashDiscount,
-  setCashDiscountPercent,
   dataLocal,
   isHadUpdate,
   setIsLoyaltyProgram,
@@ -50,7 +48,7 @@ export const Layout = ({
               <Text style={styles.label}>
                 {"Star earn per "}
                 <Text style={[styles.label, { color: "#0764B0" }]}>
-                  {"$1.0"}
+                  {"$1"}
                 </Text>
                 {" spent by payment method"}
               </Text>
@@ -101,13 +99,6 @@ export const Layout = ({
               textStyle={styles.label}
             />
           </View>
-          { isCashDiscount && 
-             <TextInputSettingRow
-               title={"Cash discount (%)"}
-               value={`${cashDiscountPercent}`}
-               setValue={setCashDiscountPercent}
-             />
-          }
         </View>
       </KeyboardAwareScrollView>
 

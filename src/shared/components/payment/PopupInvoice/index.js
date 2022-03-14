@@ -44,11 +44,14 @@ import { layouts } from "@shared/themes";
 import _ from "lodash";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import { getTaxRateFromGroupAppointment } from "@utils";
+import { useHarmonyPrinter } from "../../PrintReceipt";
+import { useAppType } from "@shared/hooks";
 
 export const PopupInvoice = React.forwardRef(
   ({ cancelInvoicePrint, doPrintClover }, ref) => {
     const viewShotRef = React.useRef(null);
     const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
+    const { isRetailApp, isSalonApp } = useAppType();
 
     /**
   |--------------------------------------------------
@@ -76,9 +79,9 @@ export const PopupInvoice = React.forwardRef(
     const [isProcessingPrint, setIsProcessingPrint] = React.useState(false);
     const [isShare, setIsShare] = React.useState(false);
     const [paymentMachineType, setPaymentMachineType] = React.useState(null);
-    const [isSalonApp, setIsSalonApp] = React.useState(false);
     const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
     const [checkoutId, setCheckoutId] = React.useState(null);
+    const [autoPrint, setAutoPrint] = React.useState(false);
 
     /**
   |--------------------------------------------------
@@ -95,7 +98,14 @@ export const PopupInvoice = React.forwardRef(
   |--------------------------------------------------
   */
 
+    const { printAppointment } = useHarmonyPrinter({
+      profile,
+      printerList,
+      printerSelect,
+    });
+
     const reset = async () => {
+      setAutoPrint(false);
       setGroupAppointment(null);
       setInvoiceDetail(null);
       // setTitleInvoice("TICKET");
@@ -196,6 +206,24 @@ export const PopupInvoice = React.forwardRef(
       return 0;
     };
 
+    const getNonCashFee = () => {
+      if (groupAppointment) {
+        return groupAppointment?.checkoutPaymentFeeSum;
+      } else if (invoiceDetail) {
+        return invoiceDetail?.checkoutPaymentFeeSum;
+      }
+      return 0;
+    };
+
+    const getCashDiscount = () => {
+      if (groupAppointment) {
+        return groupAppointment?.checkoutPaymentCashDiscountSum;
+      } else if (invoiceDetail) {
+        return invoiceDetail?.checkoutPaymentCashDiscountSum;
+      }
+      return 0;
+    };
+
     const getDue = () => {
       if (groupAppointment && groupAppointment?.dueAmount > 0)
         return groupAppointment?.dueAmount;
@@ -210,6 +238,20 @@ export const PopupInvoice = React.forwardRef(
 
     const getTaxRate = () => {
       return getTaxRateFromGroupAppointment(groupAppointment);
+    };
+
+    const getEmphasisMode = () => {
+      return fromAppointmentTab
+        ? "TICKET"
+        : `${
+            invoiceDetail?.status &&
+            invoiceDetail?.status !== "paid" &&
+            invoiceDetail?.status !== "pending" &&
+            invoiceDetail?.status !== "incomplete" &&
+            invoiceDetail?.status !== "complete"
+              ? `${invoiceDetail?.status}`.toUpperCase()
+              : "SALE"
+          }`;
     };
 
     // const getPaymentMethods = () => {
@@ -250,6 +292,17 @@ export const PopupInvoice = React.forwardRef(
         return "Customer's Receipt";
       }
       return "Merchant's Receipt";
+    };
+
+    const getTotalQty = () => {
+      const items = getBasketOnline(groupAppointment?.appointments) || [];
+
+      const totalQty = items.reduce((prev, item, index) => {
+        const quanlitySet = item.quanlitySet ?? 1;
+        return prev + quanlitySet;
+      }, 0);
+
+      return totalQty;
     };
 
     const renderBarcodeReceipt = React.useCallback(() => {
@@ -350,7 +403,9 @@ export const PopupInvoice = React.forwardRef(
           setIsSignature(false);
         }, 2000);
       } else {
-        setIsSignature(false);
+        setTimeout(() => {
+          setIsSignature(false);
+        }, 250);
       }
 
       // setTimeout(() => {
@@ -381,15 +436,47 @@ export const PopupInvoice = React.forwardRef(
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
-          format: "jpg",
-          quality: 0.0,
+          // format: "jpg",
+          // quality: 0.0,
         });
         await setIsProcessingPrint(false);
 
         if (imageUri) {
           if (portName) {
+            // if (isSalonApp()) {
+
+            // } else {
+            //   await printAppointment({
+            //     emphasis: getEmphasisMode(),
+            //     isSalon: isSalonApp(),
+            //     name: isSalonApp() ? getCustomerName() : getInvoiceName(),
+            //     invoiceDate: formatWithMoment(
+            //       invoiceDetail?.createdDate,
+            //       "MM/DD/YYYY hh:mm A"
+            //     ),
+            //     invoiceNo: `${checkoutId}` ?? " ",
+            //     items: getBasketOnline(groupAppointment?.appointments) || [],
+            //     subTotal: getSubTotal(),
+            //     discount: getDiscount(),
+            //     tipAmount: getTipAmount(),
+            //     taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+            //     tax: getTax(),
+            //     total: getTotal(),
+            //     change: getChange(),
+            //     barCode: invoiceDetail?.code + "",
+            //     printTempt: printTempt,
+            //     isSignature: isSignature,
+            //     fromAppointmentTab: fromAppointmentTab,
+            //     getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+            //     footerReceipt: getFooterReceipt(),
+            //     promotionNotes: getPromotionNotes(
+            //       groupAppointment?.appointments
+            //     ),
+            //   });
+            // }
+
             let commands = [];
-            // commands.push({ appendLineFeed: 0 });
+            commands.push({ appendLineFeed: 0 });
             commands.push({
               appendBitmap: imageUri,
               width: parseFloat(widthPaper),
@@ -398,19 +485,14 @@ export const PopupInvoice = React.forwardRef(
               alignment: "Center",
             });
             commands.push({
-              appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
             });
 
-            try {
-              await PrintManager.getInstance().print(
-                emulation,
-                commands,
-                portName
-              );
-            } catch (e) {
-              // console.log("ERRROR:", e);
-              alert(e);
-            }
+            await PrintManager.getInstance().print(
+              emulation,
+              commands,
+              portName
+            );
 
             releaseCapture(imageUri);
           } else {
@@ -463,8 +545,8 @@ export const PopupInvoice = React.forwardRef(
       try {
         await setIsProcessingPrint(true);
         const imageUri = await captureRef(viewShotRef, {
-          format: "jpg",
-          quality: 0.0,
+          // format: "jpg",
+          // quality: 0.0,
         });
         await setIsProcessingPrint(false);
         await setVisible(false);
@@ -523,33 +605,39 @@ export const PopupInvoice = React.forwardRef(
       let entryMethodXml = "";
       if (!printTempt) {
         getCheckoutPaymentMethods()?.map((data, index) => {
-          entryMethodXml = entryMethodXml +
+          entryMethodXml =
+            entryMethodXml +
             `<br/><t>- Entry method:</t>
-            <t>${_.padEnd(`${getPaymentString(
-              data?.paymentMethod || ""
-            )}`, 15, ".")}${_.padStart(
-              `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(2)}`,
+            <t>${_.padEnd(
+              `${getPaymentString(data?.paymentMethod || "")}`,
+              15,
+              "."
+            )}${_.padStart(
+              `$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(
+                2
+              )}`,
               9,
               "."
             )}</t>
-              ${(data.paymentMethod &&
-              data.paymentMethod === "credit_card") ||
-              data.paymentMethod === "debit_card" ?
-              `${
-                data?.fee &&
-                `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
-                  `$${data?.fee}`,
-                  9,
-                  "."
-                )}</t>`
-              }
-              <t>${data?.paymentInformation?.type || ""
-              }: ***********${data?.paymentInformation?.number || ""
-              }</t>
-                              
-              ${data?.paymentInformation?.sn
-                ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
-                : ""
+              ${
+                (data.paymentMethod && data.paymentMethod === "credit_card") ||
+                data.paymentMethod === "debit_card"
+                  ? `${
+                      data?.fee &&
+                      `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
+                        `$${data?.fee}`,
+                        9,
+                        "."
+                      )}</t>`
+                    }
+              <t>${data?.paymentInformation?.type || ""}: ***********${
+                      data?.paymentInformation?.number || ""
+                    }</t>
+
+              ${
+                data?.paymentInformation?.sn
+                  ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
+                  : ""
               }
               ${
                 data?.paymentInformation?.refNum
@@ -565,25 +653,22 @@ export const PopupInvoice = React.forwardRef(
                   : ""
               }
 
-              ${data?.paymentInformation?.name ?
-                `<t>${data?.paymentInformation?.name?.replace(
-                  /%20/g,
-                  " "
-                ).replace(
-                  /%2f/g,
-                  " "
-                )}</t>` : ""
+              ${
+                data?.paymentInformation?.name
+                  ? `<t>${data?.paymentInformation?.name
+                      ?.replace(/%20/g, " ")
+                      .replace(/%2f/g, " ")}</t>`
+                  : ""
               }
               `
-              : 
-                `${
-                  data?.fee > 0 &&
-                  `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
-                    `$${data?.fee}`,
-                    9,
-                    "."
-                  )}</t>`
-                }
+                  : `${
+                      data?.fee > 0 &&
+                      `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
+                        `$${data?.fee}`,
+                        9,
+                        "."
+                      )}</t>`
+                    }
                 ${
                   data?.cashDiscount < 0 &&
                   `<t>${_.padEnd("Cash Discount: ", 15, ".")}${_.padStart(
@@ -591,10 +676,9 @@ export const PopupInvoice = React.forwardRef(
                     9,
                     "."
                   )}</t>`
-
                 }`
-            }`
-        })
+              }`;
+        });
       }
 
       let xmlContent = `${getCenterBoldStringArrayXml(
@@ -646,14 +730,30 @@ export const PopupInvoice = React.forwardRef(
       )}</t>
       <t>${_.padEnd("Tax: ", 15, ".")}${_.padStart(`$${getTax()}`, 9, ".")}</t>
       ${
+        getNonCashFee() != 0 &&
+        `<t>${_.padEnd("Non-Cash Fee:", 15, ".")}${_.padStart(
+          `$${getNonCashFee()}`,
+          9,
+          "."
+        )}</t>`
+      }
+      ${
+        getCashDiscount() != 0 &&
+        `<t>${_.padEnd("Cash Discount: ", 15, ".")}${_.padStart(
+          `$${getCashDiscount()}`,
+          9,
+          "."
+        )}</t>`
+      }
+      ${
         !printTempt
-          ? `<t>${_.padEnd("Total: ", 15, ".")}${_.padStart(
+          ? `<t><b><c>${_.padEnd("Total: ", 15, ".")}${_.padStart(
               `$${getTotal()}`,
               9,
               "."
-            )}</t>
+            )}</c></b></t>
      ${entryMethodXml}
-     ${isSignature ? `<br/><br/><t>Signature: _____________</t><br/>` : ``}
+     ${isSignature ? `<br/><br/><t>Signature: _____________</t><br/><br/>` : ``}
       `
           : ``
       }
@@ -664,7 +764,7 @@ export const PopupInvoice = React.forwardRef(
                       <br/>
                       <br/>
                       <t>Signature: _____________</t>
-                      <br/>`
+                      <br/><br/>`
           : ``
       }
       ${
@@ -721,13 +821,16 @@ export const PopupInvoice = React.forwardRef(
             return;
           }
         }
-
+        setAutoPrint(false);
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
         // setTitleInvoice(isAppointmentTab ? "TICKET" : "");
-        setIsSalonApp(isSalon);
+        // setIsSalonApp(isSalon);
         setFromAppointmentTab(isAppointmentTab);
+        if (isAppointmentTab) {
+          setIsSignature(false);
+        }
 
         // call api get info
         await getGroupAppointment(appointmentId);
@@ -747,6 +850,42 @@ export const PopupInvoice = React.forwardRef(
         // show modal
         await setVisible(true);
       },
+      printRetailerAppointment: async ({
+        isPrintTempt = false,
+        machineType,
+        isAppointmentTab = false,
+        invoice,
+      }) => {
+        if (isSalonApp()) return false;
+
+        reset();
+
+        const { portName } = getInfoFromModelNameOfPrinter(
+          printerList,
+          printerSelect
+        );
+
+        if (!portName && machineType == PaymentTerminalType.Pax) {
+          onCancel(isPrintTempt);
+          alert("Please connect to your printer! ");
+          return;
+        }
+        await setAutoPrint(true);
+        setPrintTempt(isPrintTempt);
+        setPaymentMachineType(machineType);
+        // setIsSalonApp(isSalon);
+        setFromAppointmentTab(isAppointmentTab);
+        await setIsProcessingPrint(true);
+
+        if (invoice) {
+          // call api get info
+          await getGroupAppointment(invoice.appointmentId);
+          await setCheckoutId(invoice.checkoutId);
+          await setInvoiceDetail(invoice);
+        }
+
+        return true;
+      },
     }));
 
     React.useEffect(() => {
@@ -764,6 +903,39 @@ export const PopupInvoice = React.forwardRef(
         setIsProcessingPrint(false);
       }
     }, [invoiceDetailData]);
+
+    React.useEffect(() => {
+      if (autoPrint && groupAppointment) {
+        setTimeout(() => {
+          printAppointment({
+            emphasis: getEmphasisMode(),
+            isSalon: isSalonApp(),
+            name: getInvoiceName(),
+            invoiceDate: formatWithMoment(
+              invoiceDetail?.createdDate,
+              "MM/DD/YYYY hh:mm A"
+            ),
+            invoiceNo: `${invoiceDetail.checkoutId}` ?? " ",
+            items: getBasketOnline(groupAppointment?.appointments) || [],
+            subTotal: getSubTotal(),
+            discount: getDiscount(),
+            tipAmount: getTipAmount(),
+            taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+            tax: getTax(),
+            total: getTotal(),
+            change: getChange(),
+            barCode: invoiceDetail?.code + "",
+            printTempt: false,
+            isSignature: false,
+            fromAppointmentTab: false,
+            getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+            footerReceipt: getFooterReceipt(),
+            promotionNotes: getPromotionNotes(groupAppointment?.appointments),
+          });
+          setAutoPrint(false);
+        }, 500);
+      }
+    }, [groupAppointment]);
 
     return (
       <Modal visible={visible} onRequestClose={() => {}} transparent={true}>
@@ -840,19 +1012,20 @@ export const PopupInvoice = React.forwardRef(
                   </Text>
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      width: "100%",
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
                   <View style={styles.marginVertical} />
 
                   {/* ------------- Staff ----------- */}
-                  {isSalonApp ? (
+                  {isSalonApp() ? (
                     <View style={styles.rowContent}>
                       <View
                         style={{
@@ -936,14 +1109,14 @@ export const PopupInvoice = React.forwardRef(
 
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
 
                   {/* ------------- Header  ----------- */}
@@ -954,14 +1127,15 @@ export const PopupInvoice = React.forwardRef(
 
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
                     style={{
+                      width: "100%",
+                      height: 1,
                       marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
                   />
 
                   {/* ------------- Item Invoice   ----------- */}
@@ -977,6 +1151,52 @@ export const PopupInvoice = React.forwardRef(
                         />
                       )
                     )}
+
+                  {isRetailApp() && (
+                    <View>
+                      <Dash
+                        style={{
+                          width: "100%",
+                          height: 1,
+                          marginVertical: scaleHeight(4),
+                          marginHorizontal: scaleWidth(4),
+                        }}
+                        dashGap={2}
+                        dashLength={10}
+                        dashThickness={1}
+                      />
+                      <View style={{ flexDirection: "row" }}>
+                        <Text style={[layouts.fontPrintStyle, { flex: 1 }]}>
+                          {"Total QTY"}
+                        </Text>
+                        <View
+                          style={{
+                            width: scaleWidth(90),
+                            justifyContent: "flex-start",
+                            alignItems: "flex-start",
+                          }}
+                        />
+                        <Text
+                          style={[
+                            layouts.fontPrintStyle,
+                            {
+                              width: scaleWidth(40),
+                            },
+                          ]}
+                        >
+                          {getTotalQty()}
+                        </Text>
+                        <View
+                          style={{
+                            width: scaleWidth(90),
+                            justifyContent: "flex-start",
+                            alignItems: "flex-start",
+                          }}
+                        />
+                      </View>
+                    </View>
+                  )}
+
                   {/* ------------- Line end item invoice   ----------- */}
                   <View
                     style={{
@@ -1013,12 +1233,36 @@ export const PopupInvoice = React.forwardRef(
                     styleTextValue={layouts.fontPrintStyle}
                   />
                   {!printTempt && (
-                    <TotalView
-                      title={"Total"}
-                      value={getTotal()}
-                      styleTextTitle={layouts.fontPrintSubTitleStyle}
-                      styleTextValue={layouts.fontPrintStyle}
-                    />
+                    <>
+                      {getNonCashFee() != 0 && (
+                        <TotalView
+                          title={"Non-Cash Adjustment"}
+                          value={getNonCashFee()}
+                          styleTextTitle={layouts.fontPrintSubTitleStyle}
+                          styleTextValue={layouts.fontPrintStyle}
+                        />
+                      )}
+                      {getCashDiscount() != 0 && (
+                        <TotalView
+                          title={"Cash Discount"}
+                          value={getCashDiscount()}
+                          styleTextTitle={layouts.fontPrintSubTitleStyle}
+                          styleTextValue={layouts.fontPrintStyle}
+                        />
+                      )}
+                      <TotalView
+                        title={"Total"}
+                        value={getTotal()}
+                        styleTextTitle={[
+                          layouts.fontPrintSubTitleStyle,
+                          { fontSize: scaleFont(22) },
+                        ]}
+                        styleTextValue={[
+                          layouts.fontPrintStyle,
+                          { fontSize: scaleFont(24) },
+                        ]}
+                      />
+                    </>
                   )}
                   {getChange() > 0 && (
                     <TotalView
@@ -1135,15 +1379,16 @@ export const PopupInvoice = React.forwardRef(
                             data.paymentMethod === "credit_card") ||
                           data.paymentMethod === "debit_card" ? (
                             <View style={{ marginTop: scaleSize(5) }}>
-                              {
-                                data?.fee > 0 &&
+                              {data?.fee > 0 && (
                                 <TotalView
                                   title={"    Non-Cash Adjustment"}
                                   value={data?.fee}
-                                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                                  styleTextTitle={
+                                    layouts.fontPrintSubTitleStyle
+                                  }
                                   styleTextValue={layouts.fontPrintStyle}
                                 />
-                              }
+                              )}
                               <Text style={[layouts.fontPrintStyle]}>
                                 {`    ${
                                   data?.paymentInformation?.type || ""
@@ -1189,30 +1434,32 @@ export const PopupInvoice = React.forwardRef(
                                     .replace(/%2f/g, " ") || ""
                                 }`}
                               </Text>
-                              
                             </View>
-                          ) : 
+                          ) : (
                             <>
-                              {
-                                  data?.fee > 0 &&
-                                  <TotalView
-                                    title={"    Non-Cash Adjustment"}
-                                    value={data?.fee}
-                                    styleTextTitle={layouts.fontPrintSubTitleStyle}
-                                    styleTextValue={layouts.fontPrintStyle}
-                                  />
-                                }
-                                {
-                                  data?.cashDiscount < 0 &&
-                                  <TotalView
-                                    title={"    Cash Discount"}
-                                    value={data?.cashDiscount}
-                                    styleTextTitle={layouts.fontPrintSubTitleStyle}
-                                    styleTextValue={layouts.fontPrintStyle}
-                                  />
-                                }
+                              {data?.fee > 0 && (
+                                <TotalView
+                                  title={"    Non-Cash Adjustment"}
+                                  value={data?.fee}
+                                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                                  styleTextTitle={
+                                    layouts.fontPrintSubTitleStyle
+                                  }
+                                  styleTextValue={layouts.fontPrintStyle}
+                                />
+                              )}
+                              {data?.cashDiscount < 0 && (
+                                <TotalView
+                                  title={"    Cash Discount"}
+                                  value={data?.cashDiscount}
+                                  styleTextTitle={
+                                    layouts.fontPrintSubTitleStyle
+                                  }
+                                  styleTextValue={layouts.fontPrintStyle}
+                                />
+                              )}
                             </>
-                          }
+                          )}
                         </View>
                       ))}
                     </View>

@@ -5,40 +5,41 @@ import {
   useAxiosQuery,
 } from "@apis";
 import React from "react";
-import { formatNumberFromCurrency } from "@utils";
+import { useSelector } from "react-redux";
 
 export const useProps = (props) => {
-  const [data, setData] = React.useState(null);
+  // const [data, setData] = React.useState(null);
+  const data = useSelector(
+    (state) => state.app.advanceSetting
+  );
   const [dataLocal, setDataLocal] = React.useState(null);
 
   const [isCashDiscount, setIsCashDiscount] = React.useState(null);
-  const [cashDiscountPercent, setCashDiscountPercent] = React.useState(null);
 
   const [cashStarRate, setCashStarRate] = React.useState(0);
   const [creditCardStarRate, setCreditCardStarRate] = React.useState(0);
   const [harmonyPayStarRate, setHarmonyPayStarRate] = React.useState(0);
   const [otherStarRate, setOtherStarRate] = React.useState(0);
 
-  const [, getAdvance] = useAxiosQuery({
-    ...getAdvanceSetting(),
-    enabled: false,
-    onSuccess: (data, response) => {
-      if (data) {
-        setData(data);
-        setDataLocal(data);
-        setCashStarRate(data?.CashStarRate);
-        setCreditCardStarRate(data?.CreditCardStarRate);
-        setHarmonyPayStarRate(data?.HarmonyPayStarRate);
-        setOtherStarRate(data?.OtherStarRate);
+  // const [, getAdvance] = useAxiosQuery({
+  //   ...getAdvanceSetting(),
+  //   enabled: false,
+  //   onSuccess: (data, response) => {
+  //     if (data) {
+  //       setData(data);
+  //       setDataLocal(data);
+  //       setCashStarRate(data?.CashStarRate);
+  //       setCreditCardStarRate(data?.CreditCardStarRate);
+  //       setHarmonyPayStarRate(data?.HarmonyPayStarRate);
+  //       setOtherStarRate(data?.OtherStarRate);
 
-        setIsCashDiscount(data?.IsCashDiscount);
-        setCashDiscountPercent(data?.CashDiscountPercent);
-      }
-    },
-    onError: (e) => {
-      console.log(e);
-    },
-  });
+  //       setIsCashDiscount(data?.IsCashDiscount);
+  //     }
+  //   },
+  //   onError: (e) => {
+  //     console.log(e);
+  //   },
+  // });
 
   const [, editAdvance] = useAxiosMutation({
     ...editAdvanceSetting(dataLocal),
@@ -49,7 +50,6 @@ export const useProps = (props) => {
       setHarmonyPayStarRate(dataLocal?.HarmonyPayStarRate);
       setOtherStarRate(dataLocal?.OtherStarRate);
       setIsCashDiscount(dataLocal?.IsCashDiscount);
-      setCashDiscountPercent(dataLocal?.CashDiscountPercent);
       alert("Update success!");
     },
     onError: (err) => {
@@ -67,43 +67,25 @@ export const useProps = (props) => {
       data?.HarmonyPayStarRate !==
         dataLocal?.HarmonyPayStarRate ||
       data?.OtherStarRate !== dataLocal?.OtherStarRate ||
-      data?.IsCashDiscount !== dataLocal?.IsCashDiscount ||
-      data?.CashDiscountPercent !== dataLocal?.CashDiscountPercent
+      data?.IsCashDiscount !== dataLocal?.IsCashDiscount
     );
   };
 
   React.useEffect(() => {
-    getAdvance();
-
+    setDataLocal(data)
     return () => {
       // componentWillUnmount events
     };
-  }, []);
+  }, [data]);
 
   return {
     isCashDiscount,
-    cashDiscountPercent,
     setIsCashDiscount: (isCashDiscount) => {
       setIsCashDiscount(isCashDiscount);
       setDataLocal({
         ...dataLocal,
         IsCashDiscount: isCashDiscount
       })
-    },
-    setCashDiscountPercent: (value) => { 
-      if(formatNumberFromCurrency(value) > 100) {
-        return
-      } 
-      let temp = value;
-      setCashDiscountPercent(temp);
-      if (!temp || isNaN(parseFloat(value))) {
-        temp = 0;
-      }
-
-      setDataLocal({
-        ...dataLocal,
-        CashDiscountPercent: parseFloat(temp).toFixed(2),
-      }) 
     },
    
     dataLocal,
@@ -172,7 +154,6 @@ export const useProps = (props) => {
       setCreditCardStarRate(data?.CreditCardStarRate);
       setHarmonyPayStarRate(data?.HarmonyPayStarRate);
       setOtherStarRate(data?.OtherStarRate);
-      setCashDiscountPercent(data?.CashDiscountPercent);
       setIsCashDiscount(data?.IsCashDiscount);
     },
   };

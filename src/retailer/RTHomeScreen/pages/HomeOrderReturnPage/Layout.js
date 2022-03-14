@@ -56,10 +56,10 @@ export const Layout = ({
             source={
               item.imageUrl
                 ? {
-                  uri: item.imageUrl,
-                  priority: FastImage.priority.high,
-                  cache: FastImage.cacheControl.immutable,
-                }
+                    uri: item.imageUrl,
+                    priority: FastImage.priority.high,
+                    cache: FastImage.cacheControl.immutable,
+                  }
                 : IMAGE.product_holder
             }
             resizeMode="contain"
@@ -239,13 +239,13 @@ export const Layout = ({
             ]}
             primaryKey="key"
             widthForKeys={{
-              productName: scaleWidth(300),
+              productName: scaleWidth(280),
               price: scaleWidth(150),
               quantity: scaleWidth(100),
               subTotal: scaleWidth(120),
               tax: scaleWidth(120),
               discount: scaleWidth(120),
-              total: scaleWidth(150),
+              total: scaleWidth(170),
             }}
             emptyDescription={t("No Products")}
             styleTextKeys={{ total: styles.highLabelTextStyle }}
@@ -298,17 +298,21 @@ export const Layout = ({
                 infoTextStyle={styles.highInfoTextStyle}
               />
 
-              {formatNumberFromCurrency(item?.dueAmount) < 0 ? <InfoLine
-                label={t("Change Amount")}
-                infoValue={formatMoneyWithUnit(Math.abs(item?.dueAmount))}
-                labelTextStyle={styles.highLabelTextStyle}
-                infoTextStyle={styles.highInfoTextStyle}
-              /> : <InfoLine
-                label={t("Total Due")}
-                infoValue={formatMoneyWithUnit(item?.dueAmount)}
-                labelTextStyle={styles.highLabelTextStyle}
-                infoTextStyle={styles.highInfoTextStyle}
-              />}
+              {formatNumberFromCurrency(item?.dueAmount) < 0 ? (
+                <InfoLine
+                  label={t("Change Amount")}
+                  infoValue={formatMoneyWithUnit(Math.abs(item?.dueAmount))}
+                  labelTextStyle={styles.highLabelTextStyle}
+                  infoTextStyle={styles.highInfoTextStyle}
+                />
+              ) : (
+                <InfoLine
+                  label={t("Total Due")}
+                  infoValue={formatMoneyWithUnit(item?.dueAmount)}
+                  labelTextStyle={styles.highLabelTextStyle}
+                  infoTextStyle={styles.highInfoTextStyle}
+                />
+              )}
             </InfoContent>
             <View style={layouts.marginHorizontal} />
 

@@ -300,8 +300,8 @@ export default class Layout extends React.Component {
             : null;
         isDebitPayment =
           paymentInformation &&
-            paymentInformation[0]?.paymentData &&
-            `${paymentInformation[0]?.paymentData.transaction_type}`.toUpper() ==
+          paymentInformation[0]?.paymentData &&
+          `${paymentInformation[0]?.paymentData.transaction_type}`.toUpper() ==
             "CREDIT"
             ? false
             : true;
@@ -352,22 +352,34 @@ export default class Layout extends React.Component {
       Platform.OS === "android"
         ? { paddingHorizontal: scaleSize(5), backgroundColor: "#FFFFFF" }
         : {
-          paddingHorizontal: scaleSize(5),
-          backgroundColor: receiptContentBg,
-        };
+            paddingHorizontal: scaleSize(5),
+            backgroundColor: receiptContentBg,
+          };
     const status = invoiceDetail?.status || "";
     const checkoutId = invoiceDetail?.checkoutId || "";
 
     let invoiceName = "";
+    let isSalonApp = true;
     if (profile && profile?.type === "SalonPos") {
       const { firstName = " ", lastName = " " } = invoiceDetail?.user || {};
       invoiceName = firstName + " " + lastName;
+      isSalonApp = true;
     } else {
       invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
       if (!invoiceName && invoiceDetail?.user?.userId) {
         invoiceName = getFullName(invoiceDetail?.user);
       }
+      isSalonApp = false;
     }
+
+    const getTotalQty = () => {
+      const totalQty = basket.reduce((prev, item, index) => {
+        const quanlitySet = item.quanlitySet ?? 1;
+        return prev + quanlitySet;
+      }, 0);
+
+      return totalQty;
+    };
 
     return (
       <View style={{ flex: 1 }}>
@@ -438,14 +450,15 @@ export default class Layout extends React.Component {
                   },
                 ]}
               >
-                {`${status &&
+                {`${
+                  status &&
                   status !== "paid" &&
                   status !== "pending" &&
                   status !== "incomplete" &&
                   status !== "complete"
-                  ? `${status}`.toUpperCase()
-                  : "SALE"
-                  }`}
+                    ? `${status}`.toUpperCase()
+                    : "SALE"
+                }`}
               </Text>
               <Text
                 style={[
@@ -555,13 +568,14 @@ export default class Layout extends React.Component {
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={layouts.fontPrintStyle}>
-                    {`: ${invoiceDetail?.createdDate
-                      ? formatWithMoment(
-                        invoiceDetail?.createdDate,
-                        "MM/DD/YYYY hh:mm A"
-                      )
-                      : ""
-                      }`}
+                    {`: ${
+                      invoiceDetail?.createdDate
+                        ? formatWithMoment(
+                            invoiceDetail?.createdDate,
+                            "MM/DD/YYYY hh:mm A"
+                          )
+                        : ""
+                    }`}
                   </Text>
                 </View>
               </View>
@@ -604,6 +618,51 @@ export default class Layout extends React.Component {
                 />
               ))}
 
+              {!isSalonApp && (
+                <View>
+                  <Dash
+                    style={{
+                      width: "100%",
+                      height: 1,
+                      marginVertical: scaleHeight(4),
+                      marginHorizontal: scaleWidth(4),
+                    }}
+                    dashGap={2}
+                    dashLength={10}
+                    dashThickness={1}
+                  />
+                  <View style={{ flexDirection: "row" }}>
+                    <Text style={[layouts.fontPrintStyle, { flex: 1 }]}>
+                      {"Total QTY"}
+                    </Text>
+                    <View
+                      style={{
+                        width: scaleWidth(90),
+                        justifyContent: "flex-start",
+                        alignItems: "flex-start",
+                      }}
+                    />
+                    <Text
+                      style={[
+                        layouts.fontPrintStyle,
+                        {
+                          width: scaleWidth(45),
+                        },
+                      ]}
+                    >
+                      {getTotalQty()}
+                    </Text>
+                    <View
+                      style={{
+                        width: scaleWidth(90),
+                        justifyContent: "flex-start",
+                        alignItems: "flex-start",
+                      }}
+                    />
+                  </View>
+                </View>
+              )}
+
               {/* ------------- Line end item invoice   ----------- */}
               <View
                 style={{
@@ -628,17 +687,30 @@ export default class Layout extends React.Component {
               <ItemTotal title={`Tax ${this.getTaxRate() > 0 ? "(" + this.getTaxRate() + "%)" : ""}`}
                 value={invoiceDetail?.tax || "0.00"} />
 
+              {invoiceDetail?.checkoutPaymentFeeSum != 0 &&
+                <ItemTotal
+                  title={"Non-Cash Adjustment"}
+                  value={invoiceDetail?.checkoutPaymentFeeSum || "0.00"}
+                />
+              }
+              {
+                invoiceDetail?.checkoutPaymentCashDiscountSum != 0 &&
+                <ItemTotal
+                  title={"Cash Discount"}
+                  value={invoiceDetail?.checkoutPaymentCashDiscountSum || "0.00"}
+                />
+              }
 
               <ItemTotal
                 title={"Total"}
                 value={invoiceDetail?.total || "0.00"}
+                style={{fontSize: scaleFont(20)}}
               />
 
-              
               {parseFloat(refundAmount) > 0 ? (
                 <ItemTotal
-                title={"Change"}
-                value={invoiceDetail?.refundAmount || "0.00"}
+                  title={"Change"}
+                  value={invoiceDetail?.refundAmount || "0.00"}
                 />
               ) : null}
 
@@ -671,79 +743,76 @@ export default class Layout extends React.Component {
                         </View>
                       </View>
                       {data.paymentMethod === "credit_card" ||
-                        data.paymentMethod === "debit_card" ? (
+                      data.paymentMethod === "debit_card" ? (
                         <View style={{ marginTop: scaleSize(5) }}>
-                          {
-                            data?.fee > 0 &&
+                          {data?.fee > 0 && (
                             <ItemTotal
-                            title={" Non-Cash Adjustment"}
-                            value={data?.fee}
+                              title={" Non-Cash Adjustment"}
+                              value={data?.fee}
                             />
-                          }
+                          )}
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.type || ""
-                              }: ***********${data?.paymentInformation?.number || ""
-                              }`}
+                            {` ${
+                              data?.paymentInformation?.type || ""
+                            }: ***********${
+                              data?.paymentInformation?.number || ""
+                            }`}
                           </Text>
-                         
+
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.sn
-                              ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                              : ""
-                              }`}
+                            {` ${
+                              data?.paymentInformation?.sn
+                                ? `Terminal ID: ${data?.paymentInformation?.sn}`
+                                : ""
+                            }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.refNum
-                              ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                              : ""
-                              }`}
+                            {` ${
+                              data?.paymentInformation?.refNum
+                                ? `Transaction #: ${data?.paymentInformation?.refNum}`
+                                : ""
+                            }`}
                           </Text>
 
                           {!stringIsEmptyOrWhiteSpaces(
                             l.get(data, "paymentInformation.signData")
                           ) && (
-                              <View style={styles.rowSignature}>
-                                <Text style={[layouts.fontPrintStyle]}>
-                                  {" Signature: "}
-                                </Text>
-                                <Image
-                                  style={styles.signImage}
-                                  source={{
-                                    uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
-                                  }}
-                                />
-                              </View>
-                            )}
-                            <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.name?.replace(
-                              /%20/g,
-                              " "
-                            ).replace(
-                              /%2f/g,
-                              " "
-                            ) || ""
-                              }`}
+                            <View style={styles.rowSignature}>
+                              <Text style={[layouts.fontPrintStyle]}>
+                                {" Signature: "}
+                              </Text>
+                              <Image
+                                style={styles.signImage}
+                                source={{
+                                  uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
+                                }}
+                              />
+                            </View>
+                          )}
+                          <Text style={[layouts.fontPrintStyle]}>
+                            {` ${
+                              data?.paymentInformation?.name
+                                ?.replace(/%20/g, " ")
+                                .replace(/%2f/g, " ") || ""
+                            }`}
                           </Text>
-                         
                         </View>
-                      ) : 
-                      <>
-                       {
-                            data?.fee > 0 &&
+                      ) : (
+                        <>
+                          {data?.fee > 0 && (
                             <ItemTotal
-                            title={" Non-Cash Adjustment"}
-                            value={data?.fee}
+                              title={" Non-Cash Adjustment"}
+                              value={data?.fee}
                             />
-                          }
-                          {
-                            data?.cashDiscount < 0 &&
+                          )}
+                          {data?.cashDiscount < 0 && (
                             <ItemTotal
-                            title={" Cash Discount"}
-                            value={data?.cashDiscount}
+                              title={" Cash Discount"}
+                              value={data?.cashDiscount}
                             />
-                          }
-                      </>
-                      }
+                          )}
+                        </>
+                      )}
                     </View>
                   ))}
                 </View>

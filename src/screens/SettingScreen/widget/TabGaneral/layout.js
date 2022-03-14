@@ -333,8 +333,8 @@ class Layout extends React.Component {
           </View>
 
           {/* ------- Staff appointment count ------ */}
-          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
-          <View style={{ width: scaleSize(180), justifyContent: "center" }}>
+          {/* <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
                 style={{
                   color: "#404040",
@@ -359,7 +359,7 @@ class Layout extends React.Component {
                 value={isStaffAppointmentCount}
               />
             </View>
-          </View>
+          </View> */}
 
           {/* ------- Gift for new customer  ------ */}
           {/* <View style={{ flexDirection: 'row', marginTop: scaleSize(8) }} >

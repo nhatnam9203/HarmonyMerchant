@@ -3,6 +3,7 @@ import { useReturnAppointment } from "@shared/services/api/retailer";
 import { statusSuccess } from "@shared/utils";
 import _ from "lodash";
 import React from "react";
+import { formatNumberFromCurrency } from "@utils";
 
 export const useProps = ({ params: { item }, navigation }) => {
   const [itemSelected, setItemSelected] = React.useState([]);
@@ -68,13 +69,17 @@ export const useProps = ({ params: { item }, navigation }) => {
         (itemQuantity?.bookingGiftCardId &&
           tempItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
-        let returnAmount = (originItem.total / originItem.quantity) * value;
+        let returnAmount =
+          (formatNumberFromCurrency(originItem.total) / originItem.quantity) *
+          value;
 
         if (
           originItem.returnQuantity + parseInt(value) ===
           originItem.quantity
         ) {
-          returnAmount = originItem.total - originItem.returnAmount;
+          returnAmount =
+            formatNumberFromCurrency(originItem.total) -
+            formatNumberFromCurrency(originItem.returnAmount);
         }
 
         tempItem.returnAmount = parseFloat(returnAmount).toFixed(2);
@@ -93,7 +98,10 @@ export const useProps = ({ params: { item }, navigation }) => {
           itemQuantity?.bookingProductId &&
           temp?.bookingProductId === itemQuantity.bookingProductId
         ) {
-          temp.returnAmount = (originItem.total / originItem.quantity) * value;
+          temp.returnAmount =
+            (formatNumberFromCurrency(originItem.total) /
+              formatNumberFromCurrency(originItem.quantity)) *
+            value;
           temp.returnQuantity = value;
         }
         return temp;
@@ -111,7 +119,9 @@ export const useProps = ({ params: { item }, navigation }) => {
           itemQuantity?.bookingGiftCardId &&
           temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId
         ) {
-          temp.returnAmount = (originItem.total / originItem.quantity) * value;
+          temp.returnAmount =
+            (formatNumberFromCurrency(originItem.total) / originItem.quantity) *
+            value;
           temp.returnQuantity = value;
         }
         return temp;

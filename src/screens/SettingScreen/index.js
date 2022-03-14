@@ -103,6 +103,9 @@ class SettingScreen extends Layout {
       case 0:
         const { profile } = this.props;
         return this.props.actions.app.getMerchantByID(profile.merchantId, true);
+      case 1:
+        console.log('aaaa')
+        return this.props.actions.app.getAdvanceSetting(true);
       case 2:
         this.resetStateStaffSetting();
         this.props.actions.category.getCategoriesByMerchantId(
