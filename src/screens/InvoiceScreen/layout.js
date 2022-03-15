@@ -750,12 +750,6 @@ export default class Layout extends React.Component {
                       {data.paymentMethod === "credit_card" ||
                       data.paymentMethod === "debit_card" ? (
                         <View style={{ marginTop: scaleSize(5) }}>
-                          {/* {data?.fee > 0 && (
-                            <ItemTotal
-                              title={" Non-Cash Adjustment"}
-                              value={data?.fee}
-                            />
-                          )} */}
                           <Text style={[layouts.fontPrintStyle]}>
                             {` ${
                               data?.paymentInformation?.type || ""
