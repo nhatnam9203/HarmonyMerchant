@@ -887,6 +887,7 @@ export const PopupInvoice = React.forwardRef(
           alert("Please connect to your printer! ");
           return;
         }
+
         await setAutoPrint(true);
         setPrintTempt(isPrintTempt);
         setPaymentMachineType(machineType);

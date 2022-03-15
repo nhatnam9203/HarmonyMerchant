@@ -713,42 +713,40 @@ class InvoiceScreen extends Layout {
           }
         }
       }
-    } else if(invoiceDetail?.paymentMethod === "multiple") {
+    } else if (invoiceDetail?.paymentMethod === "multiple") {
       await this.setState({
         visibleConfirmInvoiceStatus: false,
         visibleProcessingCredit: true,
       });
-      for(let i=0; i<invoiceDetail?.paymentInformation.length; i++) {
+      for (let i = 0; i < invoiceDetail?.paymentInformation.length; i++) {
         const paymentInformation = invoiceDetail?.paymentInformation[i];
         if (paymentInformation?.checkoutPaymentStatus == "paid") {
-          let status = true
-       
-          status = await this.handleVoidRefundMultipay(paymentInformation, i)
-          if(!status) {
+          let status = true;
+
+          status = await this.handleVoidRefundMultipay(paymentInformation, i);
+          if (!status) {
             await this.setState({
               visibleProcessingCredit: false,
             });
             setTimeout(() => {
               alert("Error");
             }, 300);
-            return
+            return;
           }
         }
-        
       }
-    
+
       this.props.actions.invoice.changeStatustransaction(
         invoiceDetail.checkoutId,
         this.getParamsSearch(),
         "",
         "dejavoo"
       );
-      
+
       await this.setState({
         visibleProcessingCredit: false,
         titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
       });
-      
     } else {
       //payment method != credit card
       await this.setState({
@@ -762,45 +760,43 @@ class InvoiceScreen extends Layout {
     }
   };
 
-  handleVoidRefundMultipay = async(paymentData, index) => {
-    
-      const {
-        paxMachineInfo,
-        invoiceDetail,
-        cloverMachineInfo,
-        paymentMachineType,
-        language,
-      } = this.props;
-      const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
-        paxMachineInfo;
-      const method = l.get(
-          paymentData,
-          "paymentData.method")
-      const paymentInformation = paymentData?.responseData
+  handleVoidRefundMultipay = async (paymentData, index) => {
+    const {
+      paxMachineInfo,
+      invoiceDetail,
+      cloverMachineInfo,
+      paymentMachineType,
+      language,
+    } = this.props;
+    const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+      paxMachineInfo;
+    const method = l.get(paymentData, "paymentData.method");
+    const paymentInformation = paymentData?.responseData;
 
-      if (invoiceDetail?.status === "paid") {
-        this.popupProcessingCreditRef.current?.setStateFromParent(false);
+    if (invoiceDetail?.status === "paid") {
+      this.popupProcessingCreditRef.current?.setStateFromParent(false);
 
-        if (paymentMachineType == PaymentTerminalType.Clover) {
-          //TODO: will change later
-          return false
-        } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-          if (method != "Dejavoo") {
-            await this.setState({
-              visibleConfirmInvoiceStatus: true,
-              visibleProcessingCredit: false,
-            });
-            alert(localize("Your transaction is invalid", language));
-            return;
-          }
-          const amount = l.get(paymentData, "amount");
+      if (paymentMachineType == PaymentTerminalType.Clover) {
+        //TODO: will change later
+        return false;
+      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+        if (method != "Dejavoo") {
+          await this.setState({
+            visibleConfirmInvoiceStatus: true,
+            visibleProcessingCredit: false,
+          });
+          alert(localize("Your transaction is invalid", language));
+          return;
+        }
+        const amount = l.get(paymentData, "amount");
 
-          if(index > 0) {
-            await this.performTimeConsumingTask(10000);
-          }
-          return new Promise((resolve, _) => { parseString(paymentInformation, (err, result) => {
+        if (index > 0) {
+          await this.performTimeConsumingTask(10000);
+        }
+        return new Promise((resolve, _) => {
+          parseString(paymentInformation, (err, result) => {
             if (err) {
-              resolve(false)
+              resolve(false);
             } else {
               const transactionId = l.get(result, "xmp.response.0.RefId.0");
               const invNum = l.get(result, "xmp.response.0.InvNum.0");
@@ -811,17 +807,20 @@ class InvoiceScreen extends Layout {
                 RefId: transactionId,
                 invNum: `${invNum}`,
               };
-            
-              let status = true
-              
+
+              let status = true;
+
               requestTransactionDejavoo(params).then((responses) => {
                 parseString(responses, (err, result) => {
-                  if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
-                    status = false
+                  if (
+                    err ||
+                    l.get(result, "xmp.response.0.ResultCode.0") != 0
+                  ) {
+                    status = false;
                   } else {
-                    status = true
+                    status = true;
                   }
-                })
+                });
                 this.props.actions.invoice.voidRefundPaymentTransaction(
                   paymentData?.paymentTransactionId,
                   status,
@@ -829,89 +828,88 @@ class InvoiceScreen extends Layout {
                   "dejavoo"
                 );
                 resolve(status);
-
               });
             }
-          })
-          
           });
-        } else {
-          //Pax
-          const amount = paymentInformation?.ApprovedAmount || 0;
-          const transactionId = paymentInformation?.RefNum || 0;
-          const extData = paymentInformation?.ExtData || "";
-          const invNum = paymentInformation?.InvNum || "";
-          const tempIpPax = commType == "TCP" ? ip : "";
-          const tempPortPax = commType == "TCP" ? port : "";
-          const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+        });
+      } else {
+        //Pax
+        const amount = paymentInformation?.ApprovedAmount || 0;
+        const transactionId = paymentInformation?.RefNum || 0;
+        const extData = paymentInformation?.ExtData || "";
+        const invNum = paymentInformation?.InvNum || "";
+        const tempIpPax = commType == "TCP" ? ip : "";
+        const tempPortPax = commType == "TCP" ? port : "";
+        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
 
-          if (method != "Pax") {
-            await this.setState({
-              visibleConfirmInvoiceStatus: true,
-              visibleProcessingCredit: false,
-            });
-            // alert(localize("Your transaction is invalid", language));
-            return false;
-          }
-          if(index > 0) {
-            await this.performTimeConsumingTask(5000);
-          }
-          return new Promise((resolve, _) => { 
-            let status = true;
-            PosLink.sendTransaction(
-              {
-                tenderType: "CREDIT",
-                transType: "RETURN",
-                amount: `${parseFloat(amount)}`,
-                transactionId: transactionId,
-                extData: extData,
-                commType: commType,
-                destIp: tempIpPax,
-                portDevice: tempPortPax,
-                timeoutConnect: "90000",
-                bluetoothAddr: idBluetooth,
-                invNum: `${invNum}`,
-              },
-              (data) => {
-                const dataJSon = JSON.parse(data);
-                if (dataJSon?.ResultCode === "000000") {
-                  status = true;
-                } else {
-                  status = false;
-                }
-                this.props.actions.invoice.voidRefundPaymentTransaction(
-                  paymentData?.paymentTransactionId,
-                  status,
-                  data,
-                  "pax"
-                );
-                resolve(status);
-              }
-            );
+        if (method != "Pax") {
+          await this.setState({
+            visibleConfirmInvoiceStatus: true,
+            visibleProcessingCredit: false,
           });
+          // alert(localize("Your transaction is invalid", language));
+          return false;
         }
-      } else if (invoiceDetail?.status === "complete") {
-        if (paymentMachineType == PaymentTerminalType.Clover) {
-          //TODO: will change later
-         return false
-        } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-          if (method != "Dejavoo") {
-            await this.setState({
-              visibleConfirmInvoiceStatus: true,
-              visibleProcessingCredit: false,
-            });
-            // alert(localize("Your transaction is invalid", language));
-            return false;
-          }
-         
-          const amount = l.get(paymentData, "amount");
+        if (index > 0) {
+          await this.performTimeConsumingTask(5000);
+        }
+        return new Promise((resolve, _) => {
+          let status = true;
+          PosLink.sendTransaction(
+            {
+              tenderType: "CREDIT",
+              transType: "RETURN",
+              amount: `${parseFloat(amount)}`,
+              transactionId: transactionId,
+              extData: extData,
+              commType: commType,
+              destIp: tempIpPax,
+              portDevice: tempPortPax,
+              timeoutConnect: "90000",
+              bluetoothAddr: idBluetooth,
+              invNum: `${invNum}`,
+            },
+            (data) => {
+              const dataJSon = JSON.parse(data);
+              if (dataJSon?.ResultCode === "000000") {
+                status = true;
+              } else {
+                status = false;
+              }
+              this.props.actions.invoice.voidRefundPaymentTransaction(
+                paymentData?.paymentTransactionId,
+                status,
+                data,
+                "pax"
+              );
+              resolve(status);
+            }
+          );
+        });
+      }
+    } else if (invoiceDetail?.status === "complete") {
+      if (paymentMachineType == PaymentTerminalType.Clover) {
+        //TODO: will change later
+        return false;
+      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+        if (method != "Dejavoo") {
+          await this.setState({
+            visibleConfirmInvoiceStatus: true,
+            visibleProcessingCredit: false,
+          });
+          // alert(localize("Your transaction is invalid", language));
+          return false;
+        }
 
-          if(index > 0) {
-            await this.performTimeConsumingTask(10000);
-          }
-          return new Promise((resolve, _) => { parseString(paymentInformation, (err, result) => {
+        const amount = l.get(paymentData, "amount");
+
+        if (index > 0) {
+          await this.performTimeConsumingTask(10000);
+        }
+        return new Promise((resolve, _) => {
+          parseString(paymentInformation, (err, result) => {
             if (err) {
-              resolve(false)
+              resolve(false);
             } else {
               const transactionId = l.get(result, "xmp.response.0.RefId.0");
               const invNum = l.get(result, "xmp.response.0.InvNum.0");
@@ -922,17 +920,20 @@ class InvoiceScreen extends Layout {
                 RefId: transactionId,
                 invNum: `${invNum}`,
               };
-            
-              let status = true
-              
+
+              let status = true;
+
               requestTransactionDejavoo(params).then((responses) => {
                 parseString(responses, (err, result) => {
-                  if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
-                    status = false
+                  if (
+                    err ||
+                    l.get(result, "xmp.response.0.ResultCode.0") != 0
+                  ) {
+                    status = false;
                   } else {
-                    status = true
+                    status = true;
                   }
-                })
+                });
                 this.props.actions.invoice.voidRefundPaymentTransaction(
                   paymentData?.paymentTransactionId,
                   status,
@@ -940,94 +941,90 @@ class InvoiceScreen extends Layout {
                   "dejavoo"
                 );
                 resolve(status);
-
               });
             }
-          })
-          
           });
-        } else {
-          //Pax
-          const transactionId = paymentInformation?.RefNum || 0;
-          const extData = paymentInformation?.ExtData || "";
-          const invNum = paymentInformation?.InvNum || "";
-          const tempIpPax = commType == "TCP" ? ip : "";
-          const tempPortPax = commType == "TCP" ? port : "";
-          const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-          this.popupProcessingCreditRef.current?.setStateFromParent(
-            transactionId
-          );
-          if (method != "Pax") {
-            await this.setState({
-              visibleConfirmInvoiceStatus: true,
-              visibleProcessingCredit: false,
-            });
-            // alert(localize("Your transaction is invalid", language));
-            return false;
-          }
-          
-          return new Promise((resolve, _) => { 
-            let status = true
-            PosLink.sendTransaction(
-              {
-                tenderType: "CREDIT",
-                transType: "VOID",
-                amount: "",
-                transactionId: transactionId,
-                extData: extData,
-                commType: commType,
-                destIp: tempIpPax,
-                portDevice: tempPortPax,
-                timeoutConnect: "90000",
-                bluetoothAddr: idBluetooth,
-                invNum: `${invNum}`,
-              },
-              (data) => {
-                const dataJSon = JSON.parse(data);
-                if (dataJSon?.ResultCode === "000000") {
-                  status = true;
-                } else {
-                  status = false;
-                }
-                this.props.actions.invoice.voidRefundPaymentTransaction(
-                  paymentData?.paymentTransactionId,
-                  status,
-                  data,
-                  "pax"
-                );
-                resolve(status);
-              }
-            );
-          })
+        });
+      } else {
+        //Pax
+        const transactionId = paymentInformation?.RefNum || 0;
+        const extData = paymentInformation?.ExtData || "";
+        const invNum = paymentInformation?.InvNum || "";
+        const tempIpPax = commType == "TCP" ? ip : "";
+        const tempPortPax = commType == "TCP" ? port : "";
+        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+        this.popupProcessingCreditRef.current?.setStateFromParent(
+          transactionId
+        );
+        if (method != "Pax") {
+          await this.setState({
+            visibleConfirmInvoiceStatus: true,
+            visibleProcessingCredit: false,
+          });
+          // alert(localize("Your transaction is invalid", language));
+          return false;
         }
+
+        return new Promise((resolve, _) => {
+          let status = true;
+          PosLink.sendTransaction(
+            {
+              tenderType: "CREDIT",
+              transType: "VOID",
+              amount: "",
+              transactionId: transactionId,
+              extData: extData,
+              commType: commType,
+              destIp: tempIpPax,
+              portDevice: tempPortPax,
+              timeoutConnect: "90000",
+              bluetoothAddr: idBluetooth,
+              invNum: `${invNum}`,
+            },
+            (data) => {
+              const dataJSon = JSON.parse(data);
+              if (dataJSon?.ResultCode === "000000") {
+                status = true;
+              } else {
+                status = false;
+              }
+              this.props.actions.invoice.voidRefundPaymentTransaction(
+                paymentData?.paymentTransactionId,
+                status,
+                data,
+                "pax"
+              );
+              resolve(status);
+            }
+          );
+        });
       }
-    
-  }
+    }
+  };
 
-  performTimeConsumingTask = async(timeOut) => {
+  performTimeConsumingTask = async (timeOut) => {
     return new Promise((resolve) =>
-      setTimeout(
-        () => { resolve('result') },
-        timeOut
-      )
+      setTimeout(() => {
+        resolve("result");
+      }, timeOut)
     );
-  }
+  };
 
-  requestDejavoo = async(params) => {
+  requestDejavoo = async (params) => {
     return new Promise((resolve, _) => {
       requestTransactionDejavoo(params).then((responses) => {
         parseString(responses, (err, result) => {
           if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
-            resolve("sucess")
+            resolve("sucess");
           } else if (l.get(result, "xmp.response.0.ResultCode.0") == 2) {
-            resolve("busy")
-          }else {
-            resolve("false")
+            resolve("busy");
+          } else {
+            resolve("false");
           }
-        })
-      })
-    })
-  }
+        });
+      });
+    });
+  };
 
   getParamsSearch = () => {
     const { searchKeyword } = this.props;
@@ -1597,52 +1594,35 @@ class InvoiceScreen extends Layout {
           });
           if (imageUri) {
             // if ko printRetailerAppointment thì tiếp tục flow cũ
-            if (
-              !this.invoiceRef?.current?.printRetailerAppointment({
-                isPrintTempt: false,
-                machineType: paymentMachineType,
-                isAppointmentTab: false,
-                invoice: invoiceDetail,
-              })
-            ) {
-              let commands = [];
-              commands.push({ appendLineFeed: 0 });
-              commands.push({
-                appendBitmap: imageUri,
-                width: parseFloat(widthPaper),
-                bothScale: true,
-                diffusion: true,
-                alignment: "Center",
-              });
-              commands.push({
-                appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-              });
+            setTimeout(async () => {
+              if (
+                !this.invoiceRef?.current?.printRetailerAppointment({
+                  isPrintTempt: false,
+                  machineType: paymentMachineType,
+                  isAppointmentTab: false,
+                  invoice: invoiceDetail,
+                })
+              ) {
+                let commands = [];
+                commands.push({ appendLineFeed: 0 });
+                commands.push({
+                  appendBitmap: imageUri,
+                  width: parseFloat(widthPaper),
+                  bothScale: true,
+                  diffusion: true,
+                  alignment: "Center",
+                });
+                commands.push({
+                  appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+                });
 
-              await PrintManager.getInstance().print(
-                emulation,
-                commands,
-                portName
-              );
-            }
-
-            // let commands = [];
-            // commands.push({ appendLineFeed: 0 });
-            // commands.push({
-            //   appendBitmap: imageUri,
-            //   width: parseFloat(widthPaper),
-            //   bothScale: true,
-            //   diffusion: true,
-            //   alignment: "Center",
-            // });
-            // commands.push({
-            //   appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-            // });
-
-            // await PrintManager.getInstance().print(
-            //   emulation,
-            //   commands,
-            //   portName
-            // );
+                await PrintManager.getInstance().print(
+                  emulation,
+                  commands,
+                  portName
+                );
+              }
+            }, 500);
 
             releaseCapture(imageUri);
           }
