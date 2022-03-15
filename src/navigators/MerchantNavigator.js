@@ -30,29 +30,6 @@ export const MerchantNavigator = () => {
   const merchant = useSelector((state) => state.dataLocal.profile);
   const isPlash = useSelector((state) => state.appMerchant.isPlash);
 
-  // React.useEffect(() => {
-  //   if (isPlash) {
-  //     return;
-  //   }
-  //   const { type } = merchant || {};
-  //   if (merchant?.needSetting) {
-  //     dispatch(loginStaff(merchant.merchantCode, "0000"));
-  //     NavigationServices.replace("SetupStore");
-  //   } else {
-  //     switch (type) {
-  //       case Constants.APP_TYPE.POS:
-  //         NavigationServices.replace("SalonNavigator");
-  //         break;
-  //       case Constants.APP_TYPE.RETAILER:
-  //         NavigationServices.replace("RetailerNavigator");
-  //         break;
-  //       default:
-  //         NavigationServices.replace("AuthNavigator");
-
-  //         break;
-  //     }
-  //   }
-  // }, [merchant?.type, isPlash]);
 
   return (
     <Navigator

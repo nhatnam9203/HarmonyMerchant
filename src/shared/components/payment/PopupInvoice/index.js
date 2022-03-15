@@ -461,56 +461,54 @@ export const PopupInvoice = React.forwardRef(
 
         if (imageUri) {
           if (portName) {
-            // if (isSalonApp()) {
+            if (isSalonApp()) {
+              let commands = [];
+              commands.push({ appendLineFeed: 0 });
+              commands.push({
+                appendBitmap: imageUri,
+                width: parseFloat(widthPaper),
+                bothScale: true,
+                diffusion: true,
+                alignment: "Center",
+              });
+              commands.push({
+                appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+              });
 
-            // } else {
-            //   await printAppointment({
-            //     emphasis: getEmphasisMode(),
-            //     isSalon: isSalonApp(),
-            //     name: isSalonApp() ? getCustomerName() : getInvoiceName(),
-            //     invoiceDate: formatWithMoment(
-            //       invoiceDetail?.createdDate,
-            //       "MM/DD/YYYY hh:mm A"
-            //     ),
-            //     invoiceNo: `${checkoutId}` ?? " ",
-            //     items: getBasketOnline(groupAppointment?.appointments) || [],
-            //     subTotal: getSubTotal(),
-            //     discount: getDiscount(),
-            //     tipAmount: getTipAmount(),
-            //     taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
-            //     tax: getTax(),
-            //     total: getTotal(),
-            //     change: getChange(),
-            //     barCode: invoiceDetail?.code + "",
-            //     printTempt: printTempt,
-            //     isSignature: isSignature,
-            //     fromAppointmentTab: fromAppointmentTab,
-            //     getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
-            //     footerReceipt: getFooterReceipt(),
-            //     promotionNotes: getPromotionNotes(
-            //       groupAppointment?.appointments
-            //     ),
-            //   });
-            // }
-
-            let commands = [];
-            commands.push({ appendLineFeed: 0 });
-            commands.push({
-              appendBitmap: imageUri,
-              width: parseFloat(widthPaper),
-              bothScale: true,
-              diffusion: true,
-              alignment: "Center",
-            });
-            commands.push({
-              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-            });
-
-            await PrintManager.getInstance().print(
-              emulation,
-              commands,
-              portName
-            );
+              await PrintManager.getInstance().print(
+                emulation,
+                commands,
+                portName
+              );
+            } else {
+              await printAppointment({
+                emphasis: getEmphasisMode(),
+                isSalon: isSalonApp(),
+                name: isSalonApp() ? getCustomerName() : getInvoiceName(),
+                invoiceDate: formatWithMoment(
+                  invoiceDetail?.createdDate,
+                  "MM/DD/YYYY hh:mm A"
+                ),
+                invoiceNo: `${checkoutId}` ?? " ",
+                items: getBasketOnline(groupAppointment?.appointments) || [],
+                subTotal: getSubTotal(),
+                discount: getDiscount(),
+                tipAmount: getTipAmount(),
+                taxRate: getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : "",
+                tax: getTax(),
+                total: getTotal(),
+                change: getChange(),
+                barCode: invoiceDetail?.code + "",
+                printTempt: printTempt,
+                isSignature: isSignature,
+                fromAppointmentTab: fromAppointmentTab,
+                getCheckoutPaymentMethods: getCheckoutPaymentMethods(),
+                footerReceipt: getFooterReceipt(),
+                promotionNotes: getPromotionNotes(
+                  groupAppointment?.appointments
+                ),
+              });
+            }
 
             releaseCapture(imageUri);
           } else {
@@ -1397,7 +1395,7 @@ export const PopupInvoice = React.forwardRef(
                             data.paymentMethod === "credit_card") ||
                           data.paymentMethod === "debit_card" ? (
                             <View style={{ marginTop: scaleSize(5) }}>
-                              {data?.fee > 0 && (
+                              {/* {data?.fee > 0 && (
                                 <TotalView
                                   title={"    Non-Cash Adjustment"}
                                   value={data?.fee}
@@ -1406,7 +1404,7 @@ export const PopupInvoice = React.forwardRef(
                                   }
                                   styleTextValue={layouts.fontPrintStyle}
                                 />
-                              )}
+                              )} */}
                               <Text style={[layouts.fontPrintStyle]}>
                                 {`    ${
                                   data?.paymentInformation?.type || ""
@@ -1453,30 +1451,7 @@ export const PopupInvoice = React.forwardRef(
                                 }`}
                               </Text>
                             </View>
-                          ) : (
-                            <>
-                              {data?.fee > 0 && (
-                                <TotalView
-                                  title={"    Non-Cash Adjustment"}
-                                  value={data?.fee}
-                                  styleTextTitle={
-                                    layouts.fontPrintSubTitleStyle
-                                  }
-                                  styleTextValue={layouts.fontPrintStyle}
-                                />
-                              )}
-                              {data?.cashDiscount < 0 && (
-                                <TotalView
-                                  title={"    Cash Discount"}
-                                  value={data?.cashDiscount}
-                                  styleTextTitle={
-                                    layouts.fontPrintSubTitleStyle
-                                  }
-                                  styleTextValue={layouts.fontPrintStyle}
-                                />
-                              )}
-                            </>
-                          )}
+                          ) : null}
                         </View>
                       ))}
                     </View>

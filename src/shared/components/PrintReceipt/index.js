@@ -21,13 +21,13 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     printerSelect
   );
 
-  const width = Math.max(Math.round(parseFloat(widthPaper) / 14), 30);
+  const width = Math.max(Math.round(parseFloat(widthPaper) / 15), 30);
   const wQTY = 5;
   const wTOTAL = 10;
 
   const createTextReceipt = (items) => {
     let textFormat = "\n";
-    textFormat += "--------------------------------------\n";
+    textFormat += "----------------------------------------------\n";
     let columnAliment = [
       PrintAlignmentText.LEFT,
       PrintAlignmentText.CENTER,
@@ -42,7 +42,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
       "",
     ]);
     textFormat += result + "\n";
-    textFormat += "--------------------------------------\n";
+    textFormat += "----------------------------------------------\n";
 
     const itemText = items.reduce((prev, item, index) => {
       const price = item.data && item.data.price ? item.data.price : 0;
@@ -103,7 +103,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     }, "");
 
     textFormat += itemText;
-    textFormat += "--------------------------------------\n";
+    textFormat += "----------------------------------------------\n";
 
     const totalQty = items.reduce((prev, item, index) => {
       const quanlitySet = item.quanlitySet ?? 1;
@@ -197,9 +197,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     });
 
     const text = createTextReceipt(items);
-    commands.push({
-      appendAlignment: StarPRNT.AlignmentPosition.Left,
-    });
+
     commands.push({
       appendBitmapText: text,
       fontSize: 10,
@@ -375,7 +373,7 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     }
 
     commands.push({
-      appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
+      appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
     });
 
     await PrintManager.getInstance().print(emulation, commands, portName);
