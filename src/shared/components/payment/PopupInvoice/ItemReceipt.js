@@ -276,7 +276,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
     return (
       <View style={styles.content}>
         <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={[styles.textStyle, textStyle]}>
+          <Text style={[layouts.fontPrintStyle, textStyle]}>
             {`${index + 1}. ${item?.productName ?? " "}`}
           </Text>
         </View>
@@ -289,7 +289,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
             },
           ]}
         >
-          <Text style={[styles.textStyle, textStyle]}>
+          <Text style={[layouts.fontPrintStyle, textStyle]}>
             {item?.saleQuantity}
           </Text>
         </View>
@@ -302,7 +302,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
           }}
         >
           <Text
-            style={[styles.textStyle, textStyle]}
+            style={[layouts.fontPrintStyle, textStyle]}
           >{`$ ${item?.saslePrice}`}</Text>
         </View>
 
@@ -315,7 +315,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
           ]}
         >
           <Text
-            style={[styles.textStyle, { textAlign: "center" }, textStyle]}
+            style={[layouts.fontPrintStyle, { textAlign: "center" }, textStyle]}
           >{`${item?.returnQuantity} `}</Text>
         </View>
 
@@ -327,7 +327,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
           }}
         >
           <Text
-            style={[styles.textStyle, { textAlign: "center" }, textStyle]}
+            style={[layouts.fontPrintStyle, { textAlign: "center" }, textStyle]}
           >{`$ ${item?.returnPrice}`}</Text>
         </View>
       </View>

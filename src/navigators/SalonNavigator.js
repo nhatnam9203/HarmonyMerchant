@@ -24,15 +24,19 @@ import {
 import { scaleSize } from "../utils";
 import { RTStaffCheckIn } from "@src/retailer/RTStaffCheckIn";
 import { ReportScreen } from "../merchant/ReportScreen";
+import { useMerchantExpired } from "@shared/hooks";
 
 const { Screen, Navigator } = createDrawerNavigator();
 export const SalonNavigator = () => {
+  const { checkAppIsExpired } = useMerchantExpired();
+
   const loadPax = async () => {
     await NativeModules.logPax.loadLogPax({ logLevel: 4, logDay: 5 });
   };
 
   React.useEffect(() => {
-    loadPax();
+    // loadPax();
+    checkAppIsExpired();
   }, []);
 
   return (

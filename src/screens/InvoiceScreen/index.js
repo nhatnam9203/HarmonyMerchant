@@ -1385,7 +1385,6 @@ class InvoiceScreen extends Layout {
 
       const extraItems = item.extras || []; // item : {extraName, price}
 
-
       stringItems =
         stringItems +
         `<t>${l.padEnd(
@@ -1598,52 +1597,52 @@ class InvoiceScreen extends Layout {
           });
           if (imageUri) {
             // if ko printRetailerAppointment thì tiếp tục flow cũ
-            // if (
-            //   this.invoiceRef?.current?.printRetailerAppointment({
-            //     isPrintTempt: false,
-            //     machineType: paymentMachineType,
-            //     isAppointmentTab: false,
-            //     invoice: invoiceDetail,
-            //   })
-            // ) {
-            //   let commands = [];
-            //   commands.push({ appendLineFeed: 0 });
-            //   commands.push({
-            //     appendBitmap: imageUri,
-            //     width: parseFloat(widthPaper),
-            //     bothScale: true,
-            //     diffusion: true,
-            //     alignment: "Center",
-            //   });
-            //   commands.push({
-            //     appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-            //   });
+            if (
+              !this.invoiceRef?.current?.printRetailerAppointment({
+                isPrintTempt: false,
+                machineType: paymentMachineType,
+                isAppointmentTab: false,
+                invoice: invoiceDetail,
+              })
+            ) {
+              let commands = [];
+              commands.push({ appendLineFeed: 0 });
+              commands.push({
+                appendBitmap: imageUri,
+                width: parseFloat(widthPaper),
+                bothScale: true,
+                diffusion: true,
+                alignment: "Center",
+              });
+              commands.push({
+                appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+              });
 
-            //   await PrintManager.getInstance().print(
-            //     emulation,
-            //     commands,
-            //     portName
-            //   );
-            // }
+              await PrintManager.getInstance().print(
+                emulation,
+                commands,
+                portName
+              );
+            }
 
-            let commands = [];
-            commands.push({ appendLineFeed: 0 });
-            commands.push({
-              appendBitmap: imageUri,
-              width: parseFloat(widthPaper),
-              bothScale: true,
-              diffusion: true,
-              alignment: "Center",
-            });
-            commands.push({
-              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-            });
+            // let commands = [];
+            // commands.push({ appendLineFeed: 0 });
+            // commands.push({
+            //   appendBitmap: imageUri,
+            //   width: parseFloat(widthPaper),
+            //   bothScale: true,
+            //   diffusion: true,
+            //   alignment: "Center",
+            // });
+            // commands.push({
+            //   appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            // });
 
-            await PrintManager.getInstance().print(
-              emulation,
-              commands,
-              portName
-            );
+            // await PrintManager.getInstance().print(
+            //   emulation,
+            //   commands,
+            //   portName
+            // );
 
             releaseCapture(imageUri);
           }
