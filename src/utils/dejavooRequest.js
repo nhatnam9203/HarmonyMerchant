@@ -99,3 +99,27 @@ export const requestTransactionDejavoo = async (params) => {
     const response = await handleRequest(configs)
     return response
   };
+
+  export const requestGetProcessingStatus = async () => {
+    const { hardware } = store.getState();
+    const { dejavooMachineInfo } = hardware;
+    
+   const configs = {
+    method: "get",
+    baseURL: api,
+    url: `?GetProcessingStatus?RegisterID=${_.get(dejavooMachineInfo, 'registerId')}`,
+    headers: headers,
+    timeout: 90000,
+    };
+    const response = await axios(configs);
+   
+    if (parseInt(_.get(response, 'status')) == 200) {
+      if(_.get(response, 'data') == "Transaction in progress"){
+        return true
+      } else {
+        return false
+      }
+    }else{
+      return true
+    }
+  };
