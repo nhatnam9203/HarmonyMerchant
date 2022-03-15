@@ -852,7 +852,6 @@ export const PopupInvoice = React.forwardRef(
         if (isSalonApp()) return false;
 
         reset();
-
         const { portName } = getInfoFromModelNameOfPrinter(
           printerList,
           printerSelect
@@ -880,6 +879,7 @@ export const PopupInvoice = React.forwardRef(
 
         return true;
       },
+      isSalonApp: () => isSalonApp(),
     }));
 
     React.useEffect(() => {
@@ -1418,8 +1418,7 @@ export const PopupInvoice = React.forwardRef(
                                 }`}
                               </Text>
                             </View>
-                          ) : null
-                          }
+                          ) : null}
                         </View>
                       ))}
                     </View>

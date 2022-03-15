@@ -1592,37 +1592,37 @@ class InvoiceScreen extends Layout {
             format: "jpg",
             quality: 0.1,
           });
+
           if (imageUri) {
             // if ko printRetailerAppointment thì tiếp tục flow cũ
-            setTimeout(async () => {
-              if (
-                !this.invoiceRef?.current?.printRetailerAppointment({
-                  isPrintTempt: false,
-                  machineType: paymentMachineType,
-                  isAppointmentTab: false,
-                  invoice: invoiceDetail,
-                })
-              ) {
-                let commands = [];
-                commands.push({ appendLineFeed: 0 });
-                commands.push({
-                  appendBitmap: imageUri,
-                  width: parseFloat(widthPaper),
-                  bothScale: true,
-                  diffusion: true,
-                  alignment: "Center",
-                });
-                commands.push({
-                  appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-                });
 
-                await PrintManager.getInstance().print(
-                  emulation,
-                  commands,
-                  portName
-                );
-              }
-            }, 500);
+            if (this.invoiceRef?.current?.isSalonApp()) {
+              let commands = [];
+              commands.push({ appendLineFeed: 0 });
+              commands.push({
+                appendBitmap: imageUri,
+                width: parseFloat(widthPaper),
+                bothScale: true,
+                diffusion: true,
+                alignment: "Center",
+              });
+              commands.push({
+                appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+              });
+
+              await PrintManager.getInstance().print(
+                emulation,
+                commands,
+                portName
+              );
+            } else {
+              this.invoiceRef?.current?.printRetailerAppointment({
+                isPrintTempt: false,
+                machineType: paymentMachineType,
+                isAppointmentTab: false,
+                invoice: invoiceDetail,
+              });
+            }
 
             releaseCapture(imageUri);
           }

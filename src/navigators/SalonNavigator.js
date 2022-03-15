@@ -36,7 +36,8 @@ export const SalonNavigator = () => {
 
   React.useEffect(() => {
     // loadPax();
-    checkAppIsExpired();
+    const isExpired = checkAppIsExpired();
+    console.log("isExpired " + isExpired);
   }, []);
 
   return (
