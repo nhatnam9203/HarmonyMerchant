@@ -706,12 +706,10 @@ class InvoiceScreen extends Layout {
           let status = true
        
           status = await this.handleVoidRefundMultipay(paymentInformation, i)
-          console.log("status", status)
           if(!status) {
             await this.setState({
               visibleProcessingCredit: false,
             });
-            console.log("Error")
             setTimeout(() => {
               alert("Error");
             }, 300);
@@ -721,7 +719,6 @@ class InvoiceScreen extends Layout {
         
       }
     
-      console.log('continue')
       this.props.actions.invoice.changeStatustransaction(
         invoiceDetail.checkoutId,
         this.getParamsSearch(),
@@ -858,7 +855,6 @@ class InvoiceScreen extends Layout {
                 invNum: `${invNum}`,
               },
               (data) => {
-                console.log('data', data)
                 const dataJSon = JSON.parse(data);
                 if (dataJSon?.ResultCode === "000000") {
                   status = true;
@@ -943,7 +939,6 @@ class InvoiceScreen extends Layout {
           this.popupProcessingCreditRef.current?.setStateFromParent(
             transactionId
           );
-          console.log('method', method)
           if (method != "Pax") {
             await this.setState({
               visibleConfirmInvoiceStatus: true,
@@ -970,7 +965,6 @@ class InvoiceScreen extends Layout {
                 invNum: `${invNum}`,
               },
               (data) => {
-                console.log('data', data)
                 const dataJSon = JSON.parse(data);
                 if (dataJSon?.ResultCode === "000000") {
                   status = true;
@@ -983,7 +977,6 @@ class InvoiceScreen extends Layout {
                   data,
                   "pax"
                 );
-                console.log('result status', status)
                 resolve(status);
               }
             );
