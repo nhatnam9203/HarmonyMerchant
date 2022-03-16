@@ -1,6 +1,4 @@
-const log = (obj, message = '') => {
-  Logger.log(`[ErrorHandler] ${message}`, obj);
-};
+import NavigationServices from "@navigators/NavigatorServices";
 
 const CODE_TYPE = {
   NONE: 0,
@@ -15,34 +13,38 @@ const CODE_TYPE = {
 
 const processNetworkError = () => {};
 
-const processResponseError = (status, code, message) => {
-  if (status === 200) {
-    switch (code) {
-      case CODE_TYPE.UNKNOWN:
-        return { message };
+const processResponseError = (codeNumber, codeStatus, message) => {
+  switch (parseInt(codeNumber, 10)) {
+    case 401:
+      if (parseInt(codeStatus) === CODE_TYPE.UNAUTHORIZED) {
+        // UNAUTHORIZED
+        NavigationServices.logout();
+      } else {
+        // NavigationServices.logout();
+        alert("Permission Denied");
+      }
+      break;
 
-      case CODE_TYPE.SUCCESS:
-      case CODE_TYPE.NONE:
-      default:
-        return null;
-    }
+    case 404: // not found
+      break;
+
+    case 400: // thieu field
+      if (codeStatus !== 2 && codeStatus !== 5 && codeStatus !== 4) {
+        // exception cho phone not exist -> checkout
+        setTimeout(() => {
+          alert(`${message}`);
+        }, 100);
+      }
+
+      break;
+    default:
+      break;
   }
 
-  if (status === 401) {
-    // UNAUTHORIZED
-  }
-
-  if (status === 400) {
-    // BAD REQUEST
-    return { messageError: message };
-  }
-
-  return { message };
+  return { message, codeNumber, codeStatus };
 };
 
 export const ErrorHandler = (response, error) => {
-  log({ response, error }, 'Parse Error');
-
   if (response) {
     const status = response.status;
     switch (status) {
@@ -52,7 +54,7 @@ export const ErrorHandler = (response, error) => {
         response = processResponseError(
           codeNumber ?? status,
           codeStatus,
-          message,
+          message
         );
         break;
     }

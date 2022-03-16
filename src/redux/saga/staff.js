@@ -381,7 +381,7 @@ function* editStaff(action) {
 function* loginStaff(action) {
   try {
     const responses = yield requestAPI(action);
-    const { codeNumber } = responses;
+    const { codeNumber, codeStatus } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
     if (parseInt(codeNumber) == 200) {
       yield put({ ...action, type: "LOGIN_STAFF_SUCCESS" });
@@ -410,6 +410,15 @@ function* loginStaff(action) {
       yield put({ type: "LOGIN_STAFF_FAIL" });
       yield put({
         type: "UNAUTHORIZED",
+      });
+    } else if (parseInt(codeNumber) === 400 && parseInt(codeStatus) === 4) {
+      yield put({ type: "LOGIN_STAFF_FAIL" });
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses?.message,
       });
     } else {
       yield put({ type: "LOGIN_STAFF_FAIL" });
