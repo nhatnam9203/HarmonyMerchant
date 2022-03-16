@@ -39,6 +39,12 @@ pod 'MultiplatformBleAdapter', :git => 'https://github.com/dotintent/MultiPlatfo
     flipper_post_install(installer)
     find_and_replace("../node_modules/react-native-spring-scrollview/ios/SpringScrollView/STSpringScrollView.m",
     "\n@interface STSpringScrollView ()", "#import \"RCTEventDispatcher.h\" \n@interface STSpringScrollView ()")
+
+    find_and_replace("../node_modules/react-native-view-shot/ios/RNViewShot.m",
+    "success = [rendered drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:YES];", "[rendered.layer renderInContext:UIGraphicsGetCurrentContext()];")
+
+    find_and_replace("../node_modules/react-native-view-shot/ios/RNViewShot.m",
+    "BOOL success;", "BOOL success=true;")
   end
 # post_install do |installer|
 #    ## Fix for XCode 12.5 beta
