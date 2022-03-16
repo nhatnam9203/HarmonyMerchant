@@ -1,6 +1,10 @@
 import { PopupActiveGiftCard } from "@components";
 import IMAGE from "@resources";
-import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+import {
+  ButtonGradient,
+  ButtonGradientWhite,
+  DialogInputBarcode,
+} from "@shared/components";
 import { InputSearch } from "@shared/components/InputSearch";
 import { PopupEnterAmountGiftCard } from "@shared/components/payment";
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
@@ -59,6 +63,7 @@ export const Layout = ({
   clearBasket,
   inputSearchRef,
   appointment,
+  inputBarcodeDialogRef,
 }) => {
   const { t } = useTranslation();
 
@@ -244,10 +249,11 @@ export const Layout = ({
           </View>
         </View>
       </View>
-      <DialogProductDetail 
-      ref={productDetailRef} 
-      onAddProduct={onAddProduct} 
-      appointment={appointment}/>
+      <DialogProductDetail
+        ref={productDetailRef}
+        onAddProduct={onAddProduct}
+        appointment={appointment}
+      />
       <PopupActiveGiftCard
         key={"checkout"}
         ref={(ref) => (activeGiftCardRef.current = ref)}
@@ -276,6 +282,11 @@ export const Layout = ({
         extractBill={extractBill}
         doneBill={doneBill}
       /> */}
+
+      <DialogInputBarcode
+        ref={inputBarcodeDialogRef}
+        onInputBarcode={onResultScanCode}
+      />
     </View>
   );
 };

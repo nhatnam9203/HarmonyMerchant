@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     letterSpacing: 0,
     color: colors.INACTIVE,
+    fontSize: scaleFont(16),
   },
 
   textEditStyle: {

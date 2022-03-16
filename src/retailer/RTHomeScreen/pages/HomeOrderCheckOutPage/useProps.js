@@ -56,6 +56,7 @@ export const useProps = ({
   const popupEnterAmountGiftCardRef = React.useRef(null);
   const editProductItemRef = React.useRef(null);
   const inputSearchRef = React.useRef(null);
+  const inputBarcodeDialogRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -195,7 +196,10 @@ export const useProps = ({
         appointmentTempUpdateProductItem(
           appointmentTempId,
           findItem?.bookingProductId,
-          { quantity: parseInt(findItem?.quantity) + parseInt(productItem?.quantity) }
+          {
+            quantity:
+              parseInt(findItem?.quantity) + parseInt(productItem?.quantity),
+          }
         );
       } else {
         addItemAppointmentTemp(submitProducts[0]);
@@ -447,6 +451,8 @@ export const useProps = ({
   // }, [productItemGet]);
 
   React.useEffect(() => {
+    if (!productItemByBarcodeGet) return;
+
     const { codeStatus, data } = productItemByBarcodeGet || {};
     if (statusSuccess(codeStatus)) {
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
@@ -496,6 +502,13 @@ export const useProps = ({
           setScanCodeTemp(null);
         }
       }
+
+      // Hide dialog input barcode if it is showing
+      inputBarcodeDialogRef.current?.hide();
+    } else if (codeStatus) {
+      //  TODO: show input code here!
+      inputBarcodeDialogRef.current?.show(scanCodeTemp);
+      setScanCodeTemp(null);
     }
   }, [productItemByBarcodeGet]);
 
@@ -557,6 +570,7 @@ export const useProps = ({
   }, [removeItemWaitingList]);
 
   return {
+    inputBarcodeDialogRef,
     categories: categories,
     subCategories: subCategories,
     products: products,
@@ -668,14 +682,13 @@ export const useProps = ({
       }
     },
     onResultScanCode: (data) => {
-      // scan barcode show product
       if (data?.trim()) {
         const code = data?.trim();
         setScanCodeTemp(code);
         getProductsByBarcode(code);
       } else {
         setTimeout(() => {
-          alert(`Scan code fail ${data}`);
+          alert(`Code input invalid ${data}`);
         }, 100);
       }
     },

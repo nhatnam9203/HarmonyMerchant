@@ -1,27 +1,27 @@
+import IMAGE from "@resources";
 import {
   ButtonGradient,
   ButtonGradientRed,
-  FormUploadImage,
   ButtonGradientWhite,
+  FormUploadImage,
 } from "@shared/components";
 import { CustomInput, CustomInputMoney } from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { InputSearch } from "@shared/components/InputSearch";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import { colors, fonts, layouts } from "@shared/themes";
 import { arrayIsEqual } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { AddProductVersionDialog } from "./AddProductVersionDialog";
 import {
   deleteProductVersion,
   generateProductVersion,
   updateOptionsQty,
 } from "./ProductState";
-import { InputSearch } from "@shared/components/InputSearch";
-import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
-import IMAGE from "@resources";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 const GenerateConfirmButton = WithDialogConfirm(ButtonGradient);
