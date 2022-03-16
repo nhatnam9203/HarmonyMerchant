@@ -22,7 +22,7 @@ import {
   PRINTER_MACHINE,
   formatWithMoment,
   checkStatusPrint,
-  getInfoFromModelNameOfPrinter
+  getInfoFromModelNameOfPrinter,
 } from "@utils";
 import connectRedux from "@redux/ConnectRedux";
 import PrintManager from "@lib/PrintManager";
@@ -79,7 +79,10 @@ class PopupStaffInvoicePrint extends React.Component {
     // const printMachine = "BT:TSP100"
 
     const { printerSelect, printerList } = this.props;
-    const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+    const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
     try {
       await this.setState({
         isProcessingPrint: true,
@@ -116,7 +119,10 @@ class PopupStaffInvoicePrint extends React.Component {
   processPrintInvoice = async () => {
     // const printMachine = await checkStatusPrint();
     const { printerSelect, printerList } = this.props;
-    const { portName } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+    const { portName } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
     if (portName) {
       await this.setState({
         isSignature: true,
@@ -133,17 +139,19 @@ class PopupStaffInvoicePrint extends React.Component {
         ? `0${parseInt(new Date().getHours()) - 12}`
         : parseInt(new Date().getHours());
     const surfix = parseInt(new Date().getHours()) - 12 > 0 ? "PM" : "AM";
-    const temptDate = `${hours}:${new Date().getMinutes() > 10
+    const temptDate = `${hours}:${
+      new Date().getMinutes() > 10
         ? new Date().getMinutes()
         : `0${new Date().getMinutes()}`
-      } ${surfix}`;
+    } ${surfix}`;
 
     return temptDate;
   }
 
   getDate() {
-    return `${new Date().getMonth() + 1
-      }/${new Date().getDate()}/${new Date().getFullYear()}`;
+    return `${
+      new Date().getMonth() + 1
+    }/${new Date().getDate()}/${new Date().getFullYear()}`;
   }
 
   cancelInvoicePrint = async () => {
@@ -226,7 +234,7 @@ class PopupStaffInvoicePrint extends React.Component {
       : "";
     const sales = receipts?.serviceSales || "0.00";
     const workingHour = receipts?.workingHour || "0";
-    const product =  receipts?.productSales || "0.00";
+    const product = receipts?.productSales || "0.00";
     const cash = receipts?.cash || "0.00";
     const nonCash = receipts?.nonCash || "0.00";
     const detail = receipts?.detail || [];
@@ -236,7 +244,7 @@ class PopupStaffInvoicePrint extends React.Component {
     return (
       <Modal
         visible={visiblePrintInvoice}
-        onRequestClose={() => { }}
+        onRequestClose={() => {}}
         transparent={true}
       >
         <View
@@ -340,10 +348,12 @@ class PopupStaffInvoicePrint extends React.Component {
                                 }}
                               />
                               <ItemStaffInvoice
-                                title={`Tip Fee (${x.fee && x.fee.value ? x.fee.value : "0.00%"
-                                  })`}
-                                value={`$ ${x.fee && x.fee.amount ? x.fee.amount : "0.00"
-                                  }`}
+                                title={`Tip Fee (${
+                                  x.fee && x.fee.value ? x.fee.value : "0.00%"
+                                })`}
+                                value={`$ ${
+                                  x.fee && x.fee.amount ? x.fee.amount : "0.00"
+                                }`}
                                 styleTilte={{
                                   fontSize: scaleSize(13),
                                   fontWeight: "200",
@@ -664,7 +674,7 @@ const mapStateToProps = (state) => ({
   groupAppointment: state.appointment.groupAppointment,
   paymentDetailInfo: state.appointment.paymentDetailInfo,
   printerSelect: state.dataLocal.printerSelect,
-  printerList: state.dataLocal.printerList
+  printerList: state.dataLocal.printerList,
 });
 
 export default connectRedux(mapStateToProps, PopupStaffInvoicePrint);

@@ -1590,39 +1590,57 @@ class InvoiceScreen extends Layout {
           this.props.actions.app.loadingApp();
           const imageUri = await captureRef(this.viewShotRef, {
             format: "jpg",
-            quality: 0.1,
+            quality: 0.8,
           });
 
           if (imageUri) {
             // if ko printRetailerAppointment thì tiếp tục flow cũ
 
-            if (this.invoiceRef?.current?.isSalonApp()) {
-              let commands = [];
-              commands.push({ appendLineFeed: 0 });
-              commands.push({
-                appendBitmap: imageUri,
-                width: parseFloat(widthPaper),
-                bothScale: true,
-                diffusion: true,
-                alignment: "Center",
-              });
-              commands.push({
-                appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-              });
+            // if (this.invoiceRef?.current?.isSalonApp()) {
+            //   let commands = [];
+            //   commands.push({ appendLineFeed: 0 });
+            //   commands.push({
+            //     appendBitmap: imageUri,
+            //     width: parseFloat(widthPaper),
+            //     bothScale: true,
+            //     diffusion: true,
+            //     alignment: "Center",
+            //   });
+            //   commands.push({
+            //     appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            //   });
 
-              await PrintManager.getInstance().print(
-                emulation,
-                commands,
-                portName
-              );
-            } else {
-              this.invoiceRef?.current?.printRetailerAppointment({
-                isPrintTempt: false,
-                machineType: paymentMachineType,
-                isAppointmentTab: false,
-                invoice: invoiceDetail,
-              });
-            }
+            //   await PrintManager.getInstance().print(
+            //     emulation,
+            //     commands,
+            //     portName
+            //   );
+            // } else {
+            //   this.invoiceRef?.current?.printRetailerAppointment({
+            //     isPrintTempt: false,
+            //     machineType: paymentMachineType,
+            //     isAppointmentTab: false,
+            //     invoice: invoiceDetail,
+            //   });
+            // }
+
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
+
+            await PrintManager.getInstance().print(
+              emulation,
+              commands,
+              portName
+            );
 
             releaseCapture(imageUri);
           }
@@ -1636,7 +1654,7 @@ class InvoiceScreen extends Layout {
             const imageUri = await captureRef(this.viewShotRef, {
               result: "base64",
               format: "jpg",
-              quality: 0.1,
+              quality: 0.8,
             });
             if (imageUri) {
               this.doPrintClover(imageUri);
@@ -1670,7 +1688,7 @@ class InvoiceScreen extends Layout {
       await this.setState({ receiptContentBg: "#fff" }, async () => {
         const imageUri = await captureRef(this.viewShotRef, {
           format: "jpg",
-          quality: 0.1,
+          quality: 0.8,
         });
         if (Platform.OS === "ios") {
           RNFetchBlob.ios.previewDocument(imageUri);
