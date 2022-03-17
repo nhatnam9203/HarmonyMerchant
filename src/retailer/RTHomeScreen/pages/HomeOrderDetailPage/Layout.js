@@ -3,6 +3,8 @@ import {
   ButtonGradient,
   ButtonGradientWhite,
   FormTitle,
+  PopupReceipt,
+  PopupReturnReceipt,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
@@ -10,10 +12,13 @@ import {
   ORDERED_STATUS,
   OrderStatusView,
 } from "@shared/components/OrderStatusView";
-import { PopupInvoice } from "@shared/components/payment";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
-import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
+import {
+  dateToString,
+  DATE_TIME_SHOW_FORMAT_STRING,
+  PURCHASE_POINTS_ORDER,
+} from "@shared/utils";
 import { formatMoneyWithUnit, formatNumberFromCurrency } from "@utils";
 import _ from "lodash";
 import React from "react";
@@ -26,8 +31,6 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
-import { PURCHASE_POINTS_ORDER, statusSuccess } from "@shared/utils";
-import { PopupReturnReceipt } from "@shared/components";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -54,11 +57,9 @@ export const Layout = ({
   printReturnInvoice,
   returnReceiptRef,
   doPrintClover,
-  getTaxRate
+  getTaxRate,
 }) => {
   const [t] = useTranslation();
-
-
 
   const renderButton = () => {
     switch (item?.status) {
@@ -219,10 +220,10 @@ export const Layout = ({
             source={
               cellItem?.imageUrl
                 ? {
-                  uri: cellItem?.imageUrl,
-                  priority: FastImage.priority.high,
-                  cache: FastImage.cacheControl.immutable,
-                }
+                    uri: cellItem?.imageUrl,
+                    priority: FastImage.priority.high,
+                    cache: FastImage.cacheControl.immutable,
+                  }
                 : IMAGE.product_holder
             }
             resizeMode="contain"
@@ -586,8 +587,8 @@ export const Layout = ({
             renderFooterComponent={() => (
               <View style={{ height: scaleHeight(10) }} />
             )}
-          // onRowPress={onSelectRow}
-          // draggable={true}
+            // onRowPress={onSelectRow}
+            // draggable={true}
           />
 
           {item?.returns?.length > 0 && (
@@ -629,15 +630,15 @@ export const Layout = ({
                 renderFooterComponent={() => (
                   <View style={{ height: scaleHeight(10) }} />
                 )}
-              // onRowPress={onSelectRow}
+                // onRowPress={onSelectRow}
               />
             </View>
           )}
 
           {item?.status === ORDERED_STATUS.PENDING ||
-            (item?.status === ORDERED_STATUS.PROCESS &&
-              item.purchasePoint === PURCHASE_POINTS_ORDER &&
-              item.payment?.length <= 0) ? (
+          (item?.status === ORDERED_STATUS.PROCESS &&
+            item.purchasePoint === PURCHASE_POINTS_ORDER &&
+            item.payment?.length <= 0) ? (
             <>
               <FormTitle label={t("Shipping Method")} />
               <FormShippingCarrier
@@ -721,8 +722,9 @@ export const Layout = ({
                             <Text style={styles.boldText}>{" - "}</Text>
                           )}
                         {item?.shipping?.trackingNumber && (
-                          <Text style={styles.boldText}>{`${item?.shipping?.trackingNumber
-                            } (${t("Tracking number")})`}</Text>
+                          <Text style={styles.boldText}>{`${
+                            item?.shipping?.trackingNumber
+                          } (${t("Tracking number")})`}</Text>
                         )}
                       </View>
                     </View>
@@ -758,7 +760,9 @@ export const Layout = ({
                   infoValue={formatMoneyWithUnit(item?.shippingFee)}
                 />
                 <InfoLine
-                  label={`Tax ${getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : ""}`}
+                  label={`Tax ${
+                    getTaxRate() > 0 ? "(" + getTaxRate() + "%)" : ""
+                  }`}
                   infoValue={formatMoneyWithUnit(item?.tax)}
                 />
                 <InfoLine
@@ -785,18 +789,21 @@ export const Layout = ({
                 infoTextStyle={styles.highInfoTextStyle}
               />
 
-              {formatNumberFromCurrency(item?.dueAmount) < 0 ? <InfoLine
-                label={t("Change Amount")}
-                infoValue={formatMoneyWithUnit(Math.abs(item?.dueAmount))}
-                labelTextStyle={styles.highLabelTextStyle}
-                infoTextStyle={styles.highInfoTextStyle}
-              /> : <InfoLine
-                label={t("Total Due")}
-                infoValue={formatMoneyWithUnit(item?.dueAmount)}
-                labelTextStyle={styles.highLabelTextStyle}
-                infoTextStyle={styles.highInfoTextStyle}
-              />}
-
+              {formatNumberFromCurrency(item?.dueAmount) < 0 ? (
+                <InfoLine
+                  label={t("Change Amount")}
+                  infoValue={formatMoneyWithUnit(Math.abs(item?.dueAmount))}
+                  labelTextStyle={styles.highLabelTextStyle}
+                  infoTextStyle={styles.highInfoTextStyle}
+                />
+              ) : (
+                <InfoLine
+                  label={t("Total Due")}
+                  infoValue={formatMoneyWithUnit(item?.dueAmount)}
+                  labelTextStyle={styles.highLabelTextStyle}
+                  infoTextStyle={styles.highInfoTextStyle}
+                />
+              )}
             </InfoContent>
             <View style={layouts.marginHorizontal} />
             <InfoContent label={t("Invoice")}>
@@ -832,9 +839,10 @@ export const Layout = ({
         </View>
       </KeyboardAwareScrollView>
 
-      <PopupInvoice
+      {/* <PopupInvoice
         ref={invoiceRef}
-        doPrintClover={doPrintClover} />
+        doPrintClover={doPrintClover} /> */}
+      <PopupReceipt ref={invoiceRef} doPrintClover={doPrintClover} />
 
       <PopupReturnReceipt ref={returnReceiptRef} />
     </View>

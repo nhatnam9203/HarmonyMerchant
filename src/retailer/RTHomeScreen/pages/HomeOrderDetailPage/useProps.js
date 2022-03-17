@@ -451,12 +451,14 @@ export const useProps = ({
       setDidNotPay(checked);
     },
     printCustomerInvoice: async () => {
-      invoiceRef.current?.showAppointmentReceipt({
-        appointmentId: appointmentDetail?.appointmentId,
-        checkoutId: appointmentDetail?.invoice?.checkoutId,
-        machineType: paymentMachineType,
-        isAppointmentTab: true,
-      });
+      // invoiceRef.current?.showAppointmentReceipt({
+      //   appointmentId: appointmentDetail?.appointmentId,
+      //   checkoutId: appointmentDetail?.invoice?.checkoutId,
+      //   machineType: paymentMachineType,
+      //   isAppointmentTab: true,
+      // });
+
+      invoiceRef.current?.show();
     },
     invoicePrintRef,
     visiblePrintInvoice,
@@ -465,11 +467,11 @@ export const useProps = ({
     },
     invoiceRef,
     shareCustomerInvoice: async () => {
-      invoiceRef.current?.showAppointmentReceipt({
-        appointmentId: appointmentDetail?.appointmentId,
-        checkoutId: appointmentDetail?.invoice?.checkoutId,
-        isShareMode: true,
-      });
+      // invoiceRef.current?.showAppointmentReceipt({
+      //   appointmentId: appointmentDetail?.appointmentId,
+      //   checkoutId: appointmentDetail?.invoice?.checkoutId,
+      //   isShareMode: true,
+      // });
     },
     getShippingMethodLabel: React.useCallback(() => {
       if (appointmentDetail?.shipping?.shippingMethod) {

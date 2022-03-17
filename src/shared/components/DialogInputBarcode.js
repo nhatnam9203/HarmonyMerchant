@@ -1,14 +1,9 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { ButtonGradient, CustomTextInput } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
-import { colors, fonts, layouts } from "@shared/themes";
+import { colors, fonts } from "@shared/themes";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ButtonGradient,
-  ButtonGradientWhite,
-  CustomTextInput,
-  FormLabelSwitch,
-} from "@shared/components";
+import { StyleSheet, Text, View } from "react-native";
 
 export const DialogInputBarcode = React.forwardRef(
   ({ onInputBarcode }, ref) => {

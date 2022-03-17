@@ -19,7 +19,7 @@ export const DialogLayout = React.forwardRef(
       title,
       behavior = "position",
       style,
-      onModalWillHide = () => { },
+      onModalWillHide = () => {},
       hideCloseButton = false,
       onForceClose,
     },
@@ -59,8 +59,8 @@ export const DialogLayout = React.forwardRef(
         hasBackdrop={true}
         backdropOpacity={0.2}
         onModalHide={onModalHide}
-        backdropTransitionOutTiming={0}
-        backdropTransitionInTiming={0}
+        // backdropTransitionOutTiming={0}
+        // backdropTransitionInTiming={0}
         animationIn="zoomIn"
         animationOut="zoomOut"
         backdropTransitionInTiming={150}
@@ -159,9 +159,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     marginRight: scaleWidth(10),
-    position: 'absolute',
-    top: 10, right: 2,
-
+    position: "absolute",
+    top: 10,
+    right: 2,
   },
 
   iconButtonClose: {
