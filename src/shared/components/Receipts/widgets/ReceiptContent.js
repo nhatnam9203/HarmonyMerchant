@@ -1,8 +1,21 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { ReceiptHeaderItem, ReceiptItem } from "./ReceiptItem";
+import {
+  ReceiptHeaderItem,
+  ReceiptItem,
+  ReceiptTotalItem,
+} from "./ReceiptItem";
 
 export const ReceiptContent = ({ items, type }) => {
+  const getTotalQty = () => {
+    const totalQty = items.reduce((prev, item, index) => {
+      const qty = item.data?.qty ?? 1;
+      return prev + qty;
+    }, 0);
+
+    return totalQty;
+  };
+
   return (
     <View style={styles.styles}>
       <ReceiptHeaderItem key="receipt-header" type={type} />
@@ -14,6 +27,11 @@ export const ReceiptContent = ({ items, type }) => {
           type={type}
         />
       ))}
+      <ReceiptTotalItem
+        key="receipt-total-qty"
+        type={type}
+        total={getTotalQty()}
+      />
     </View>
   );
 };

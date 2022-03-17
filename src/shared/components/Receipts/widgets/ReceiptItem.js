@@ -100,12 +100,12 @@ export const ReceiptItem = ({ item, index, type }) => {
                 <ColumOne>
                   {discount > 0 && (
                     <TextLabel key="discount">{`${t(
-                      " Discount"
+                      "Discount"
                     )}: $ ${discount}`}</TextLabel>
                   )}
                   {discountPercent > 0 && (
                     <TextLabel key="discountPercent">{`${t(
-                      " Discount"
+                      "Discount"
                     )}: ${discountPercent}%`}</TextLabel>
                   )}
                 </ColumOne>
@@ -113,14 +113,14 @@ export const ReceiptItem = ({ item, index, type }) => {
               ColumnTwo={() => (
                 <ColumTwo>
                   {discount > 0 && (
-                    <TextLabel key="discount">{`- ${formatMoneyWithUnit(
+                    <TextItem key="discount">{`- ${formatMoneyWithUnit(
                       discount / qty
-                    )}`}</TextLabel>
+                    )}`}</TextItem>
                   )}
                   {discountPercent > 0 && (
-                    <TextLabel key="discountPercent">{`- ${formatMoneyWithUnit(
+                    <TextItem key="discountPercent">{`- ${formatMoneyWithUnit(
                       (discountPercent * price) / 100
-                    )}`}</TextLabel>
+                    )}`}</TextItem>
                   )}
                 </ColumTwo>
               )}
@@ -128,14 +128,14 @@ export const ReceiptItem = ({ item, index, type }) => {
               ColumnFour={() => (
                 <ColumFour>
                   {discount > 0 && (
-                    <TextLabel key="discount">{`- ${formatMoneyWithUnit(
+                    <TextItem key="discount">{`- ${formatMoneyWithUnit(
                       discount
-                    )}`}</TextLabel>
+                    )}`}</TextItem>
                   )}
                   {discountPercent > 0 && (
-                    <TextLabel key="discountPercent">{`- ${formatMoneyWithUnit(
+                    <TextItem key="discountPercent">{`- ${formatMoneyWithUnit(
                       ((discountPercent * price) / 100) * qty
-                    )}`}</TextLabel>
+                    )}`}</TextItem>
                   )}
                 </ColumFour>
               )}
@@ -193,6 +193,66 @@ export const ReceiptHeaderItem = ({ type }) => {
     case ReceiptItemType.SALON:
     default:
       return <View style={styles.content}></View>;
+  }
+};
+
+export const ReceiptTotalItem = ({ type, total }) => {
+  const ColumOne = ({ children }) => (
+    <View
+      style={{ flex: 1, alignItems: "flex-start", justifyContent: "center" }}
+    >
+      {children}
+    </View>
+  );
+  const ColumTwo = ({ children }) => (
+    <View
+      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
+    >
+      {children}
+    </View>
+  );
+  const ColumThree = ({ children }) => (
+    <View
+      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
+    >
+      {children}
+    </View>
+  );
+  const ColumFour = ({ children }) => (
+    <View
+      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
+    >
+      {children}
+    </View>
+  );
+
+  switch (type) {
+    case ReceiptItemType.RETAILER:
+      return (
+        <>
+          <LineItem />
+          <LayoutFourColumn
+            key="retailer-item"
+            columnWidths={RETAILER_COLUMN_WIDTH}
+            ColumnOne={() => (
+              <ColumOne>
+                <TextLabel>{"Total items"}</TextLabel>
+              </ColumOne>
+            )}
+            ColumnTwo={() => <ColumTwo></ColumTwo>}
+            ColumnThree={() => (
+              <ColumThree>
+                <TextItem>{`${total}`}</TextItem>
+              </ColumThree>
+            )}
+            ColumnFour={() => <ColumFour></ColumFour>}
+          />
+        </>
+      );
+    case ReceiptItemType.RETAILER_RETURN:
+    case ReceiptItemType.SALON:
+    default:
+      return null;
   }
 };
 
@@ -287,7 +347,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: fonts.REGULAR,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(14),
     fontWeight: "normal",
   },
   textLabelStyle: {
@@ -295,12 +355,12 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(13),
     fontWeight: "normal",
+    marginLeft: scaleWidth(10),
   },
-  textExtraStyle: { fontSize: scaleFont(15), textAlign: "left" },
+  textExtraStyle: { fontSize: scaleFont(14), textAlign: "left" },
   textHeaderStyle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(15),
-    // fontWeight: "500",
     textAlign: "center",
     color: "#000",
   },
