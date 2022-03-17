@@ -19,14 +19,13 @@ export const useProps = ({ navigation }) => {
   };
 
   useFocusEffect(
-
     React.useCallback(() => {
-      console.log("isPermission " + isPermission);
-      if (isPermission) {
-        popupCheckPermissionRef.current.hide();
-      } else {
+
+      // if (isPermission) {
+      //   popupCheckPermissionRef.current.hide();
+      // } else {
         popupCheckPermissionRef.current.show();
-      }
+      // }
     }, [isPermission])
   );
 
