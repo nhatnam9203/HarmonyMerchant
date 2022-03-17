@@ -21,7 +21,7 @@ import {
   StyleSheet,
   Text,
 } from "react-native";
-import env from "react-native-config";
+import env, { Config } from "react-native-config";
 import { openSettings } from "react-native-permissions";
 import { parseString } from "react-native-xml2js";
 import Localization from "../localization";
@@ -64,7 +64,7 @@ export const scaleSize = (size) => {
   return (width * size) / Configs.DEFAULT_WIDTH;
 };
 
-export const requestAPI = async (action, header = {}) => {
+export const requestAPI = async (action, header = {}, isChangeServerReport = false) => {
   let method = action.method || "GET";
   let headers = Object.assign(
     { Accept: "application/json", "Content-Type": "application/json" },
@@ -85,7 +85,7 @@ export const requestAPI = async (action, header = {}) => {
   }`;
   const configs = {
     method: `${method}`.toLowerCase(),
-    baseURL: Configs.API_URL,
+    baseURL: isChangeServerReport ? Config.API_REPORT_URL : Configs.API_URL,
     url: `${action.api}`,
     headers: headers,
     timeout: action?.timeOut ?? action?.timeoutIncrease ? 90000 : 30000,
