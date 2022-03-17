@@ -75,7 +75,6 @@ export const SalesOverall = () => {
       setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
     }
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.rowContent}>
@@ -112,9 +111,7 @@ export const SalesOverall = () => {
           amount={formatMoneyWithUnit(summary?.averageOrder)}
         />
       </View>
-      <View style={styles.content}>
-        <SalesLineChart data={data} />
-      </View>
+      <View style={styles.content}>{/* <SalesLineChart data={data} /> */}</View>
     </View>
   );
 };

@@ -1,19 +1,31 @@
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
-import { checkIsTablet } from "@utils";
+import { checkIsTablet, getReceiptItems } from "@utils";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import { useProps } from "./useProps";
 import { ReceiptViewShot } from "./widgets";
-import { useTranslation } from "react-i18next";
+
+const DEFAULT_WIDTH = scaleWidth(391);
 
 export const PopupReceipt = React.forwardRef(
-  ({ cancelInvoicePrint, doPrintClover }, ref) => {
+  (
+    {
+      cancelInvoicePrint,
+      doPrintClover,
+      appointment,
+      invoice,
+      groupAppointment,
+    },
+    ref
+  ) => {
     const { t } = useTranslation();
-    // const {} = useProps();
     const dialogRef = React.useRef(null);
 
+    const { portName, emulation, widthPaper } = useProps();
     const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
+
     const [open, setOpen] = React.useState(false);
 
     const onModalHide = () => {
@@ -31,6 +43,24 @@ export const PopupReceipt = React.forwardRef(
 
     const onPrintButtonPress = () => {};
 
+    const getItems = () => {
+      if (appointment) {
+        return getReceiptItems(appointment);
+      }
+
+      if (groupAppointment) {
+        let temps = [];
+        groupAppointment.appointments?.forEach((app) => {
+          temps.push(...getReceiptItems(appointment));
+        });
+        return temps;
+      }
+
+      if (invoice) {
+        return getReceiptItems(invoice.basket);
+      }
+    };
+
     // forward Ref
     React.useImperativeHandle(ref, () => ({
       show: () => {
@@ -46,7 +76,7 @@ export const PopupReceipt = React.forwardRef(
         isVisible={open}
         // useNativeDriver={true}
         hasBackdrop={true}
-        backdropOpacity={0.2}
+        backdropOpacity={0.6}
         onModalHide={onModalHide}
         // backdropTransitionOutTiming={0}
         // backdropTransitionInTiming={0}
@@ -57,30 +87,36 @@ export const PopupReceipt = React.forwardRef(
         onModalWillHide={onModalWillHide}
       >
         <View style={styles.container}>
-          <View style={styles.content}>
-            <View style={{ height: tempHeight }}>
-              <ScrollView
-                style={{ flex: 1 }}
-                automaticallyAdjustContentInsets={true}
-                keyboardShouldPersistTaps="always"
-              >
-                <ReceiptViewShot />
-              </ScrollView>
-            </View>
+          <View
+            style={[
+              styles.content,
+              {
+                height: tempHeight,
+                width: widthPaper ? parseFloat(widthPaper) : DEFAULT_WIDTH,
+              },
+            ]}
+          >
+            <ScrollView
+              style={{ flex: 1 }}
+              automaticallyAdjustContentInsets={true}
+              keyboardShouldPersistTaps="always"
+            >
+              <ReceiptViewShot items={getItems()} />
+            </ScrollView>
           </View>
 
           <View style={styles.bottomStyle}>
             <ButtonGradientWhite
               label={t("NO")}
-              width={scaleWidth(160)}
-              height={scaleHeight(45)}
+              width={scaleWidth(140)}
+              height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
               onPress={onPrintButtonPress}
             />
             <ButtonGradient
               label={t("Print")}
-              width={scaleWidth(160)}
-              height={scaleHeight(45)}
+              width={scaleWidth(140)}
+              height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
               onPress={onPrintButtonPress}
             />
@@ -94,13 +130,13 @@ export const PopupReceipt = React.forwardRef(
 const styles = StyleSheet.create({
   dialog: {
     flex: 0,
-    width: scaleWidth(480),
   },
 
   container: {
     flex: 0,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: "#fff",
+    width: scaleWidth(391),
+    alignSelf: "center",
   },
 
   modal: {

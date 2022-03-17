@@ -330,12 +330,16 @@ export const getNameLanguage = (keyLanguage) => {
 
 export const getArrayProductsFromAppointment = (products = []) => {
   const temptArrayProducts = products.map((product) => {
+    console.log(product);
     return {
       type: "Product",
       id: `${product.productId}_pro`,
-      quanlitySet: product.quantity,
+      quanlitySet: product.quantity, // de khỏi bị bug
       data: {
         name: product.productName,
+        qty: product.quantity,
+        label: product.value,
+        discount: product.discount,
         productId: product.productId,
         price: product.price,
         bookingProductId: product.bookingProductId,
@@ -2077,4 +2081,29 @@ export const getTaxRateFromGroupAppointment = (groupAppointment) => {
   }
 
   return taxRate;
+};
+
+export const getReceiptItems = ({ services, products, giftCards, extras }) => {
+  const arrayProducts = getArrayProductsFromAppointment(products);
+  let arrayServices = getArrayServicesFromAppointment(services);
+  const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+
+  const extraServiceItems = extras || [];
+  if (extraServiceItems?.length > 0) {
+    const temps = arrayServices.map((item) => {
+      const findItems = extraServiceItems.filter(
+        (x) => x.bookingServiceId === item.bookingServiceId
+      );
+
+      if (findItems?.length) {
+        return Object.assign({}, item, {
+          extras: [...(item?.extras ?? []), ...findItems],
+        });
+      }
+      return item;
+    });
+    arrayServices = temps;
+  }
+
+  return arrayServices.concat(arrayProducts, arrayGiftCards);
 };

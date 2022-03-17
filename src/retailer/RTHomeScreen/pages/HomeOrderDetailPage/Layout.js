@@ -842,7 +842,11 @@ export const Layout = ({
       {/* <PopupInvoice
         ref={invoiceRef}
         doPrintClover={doPrintClover} /> */}
-      <PopupReceipt ref={invoiceRef} doPrintClover={doPrintClover} />
+      <PopupReceipt
+        ref={invoiceRef}
+        appointment={item}
+        doPrintClover={doPrintClover}
+      />
 
       <PopupReturnReceipt ref={returnReceiptRef} />
     </View>

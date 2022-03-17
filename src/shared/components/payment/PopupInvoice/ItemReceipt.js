@@ -5,6 +5,11 @@ import Dash from "react-native-dash";
 import { layouts } from "@shared/themes";
 
 export const ItemReceipt = ({ item, index, type, textStyle }) => {
+
+
+
+
+
   const renderItemInvoice = () => {
     const price = item.data && item.data.price ? item.data.price : 0;
     const discount = item?.data?.discount;
