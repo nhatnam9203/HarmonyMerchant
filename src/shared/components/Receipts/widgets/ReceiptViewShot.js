@@ -83,6 +83,7 @@ export const ReceiptViewShot = React.forwardRef(
           profile={profile}
           typeReceipt={typeReceipt}
           invoiceCode={invoiceCode}
+          promotionNotes={promotionNotes}
         />
       </View>
     );

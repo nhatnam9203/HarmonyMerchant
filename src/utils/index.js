@@ -330,9 +330,10 @@ export const getNameLanguage = (keyLanguage) => {
 
 export const getArrayProductsFromAppointment = (products = []) => {
   const temptArrayProducts = products.map((product) => {
+    // console.log(product);
     return {
       type: "Product",
-      id: `${product.productId}_pro`,
+      id: `${product.bookingProductId}_pro`,
       quanlitySet: product.quantity, // de khỏi bị bug
       data: {
         name: product.productName,
@@ -2105,4 +2106,13 @@ export const getReceiptItems = ({ services, products, giftCards, extras }) => {
   }
 
   return arrayServices.concat(arrayProducts, arrayGiftCards);
+};
+
+export const getReceiptSymbol = (status) => {
+  const salesStatus = ["PAID", "PENDING", "INCOMPLETE", "COMPLETE"];
+
+  if (!status) return "TICKET";
+  status = `${status}`.toUpperCase();
+  if (salesStatus.includes(status)) return "SALE";
+  return status;
 };

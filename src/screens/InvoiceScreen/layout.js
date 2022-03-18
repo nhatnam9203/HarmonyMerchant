@@ -36,6 +36,8 @@ import {
   PAYMENT_METHODS,
   scaleSize,
   stringIsEmptyOrWhiteSpaces,
+  getReceiptSymbol,
+  getTaxRateFromInvoice,
 } from "@utils";
 import * as l from "lodash";
 import React from "react";
@@ -52,6 +54,8 @@ import Dash from "react-native-dash";
 import { formatMoneyWithUnit } from "../../utils";
 import styles from "./style";
 import { ItemButton, ItemHistory, ItemInvoice } from "./widget";
+import { ReceiptViewShot } from "@shared/components";
+import { getInfoFromModelNameOfPrinter, getReceiptItems } from "@utils";
 
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 
@@ -342,43 +346,26 @@ export default class Layout extends React.Component {
 
   renderDetailInvoice() {
     const { profile, profileStaffLogin, invoiceDetail } = this.props;
-    const { receiptContentBg } = this.state;
-    const basket = this.convertBasket(invoiceDetail?.basket || []);
-    const checkoutPayments =
-      invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
-    const refundAmount = invoiceDetail?.refundAmount || 0.0;
-    const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
-    const tempStyle =
-      Platform.OS === "android"
-        ? { paddingHorizontal: scaleSize(5), backgroundColor: "#FFFFFF" }
-        : {
-            paddingHorizontal: scaleSize(5),
-            backgroundColor: receiptContentBg,
-          };
-    const status = invoiceDetail?.status || "";
-    const checkoutId = invoiceDetail?.checkoutId || "";
 
     let invoiceName = "";
     let isSalonApp = true;
-    if (profile && profile?.type === "SalonPos") {
-      const { firstName = " ", lastName = " " } = invoiceDetail?.user || {};
-      invoiceName = firstName + " " + lastName;
-      isSalonApp = true;
-    } else {
-      invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
-      if (!invoiceName && invoiceDetail?.user?.userId) {
-        invoiceName = getFullName(invoiceDetail?.user);
-      }
-      isSalonApp = false;
-    }
+    // if (profile && profile?.type === "SalonPos") {
+    //   const { firstName = " ", lastName = " " } = invoiceDetail?.user || {};
+    //   invoiceName = firstName + " " + lastName;
+    //   isSalonApp = true;
+    // } else {
+    //   invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
+    //   if (!invoiceName && invoiceDetail?.user?.userId) {
+    //     invoiceName = getFullName(invoiceDetail?.user);
+    //   }
+    //   isSalonApp = false;
+    // }
 
-    const getTotalQty = () => {
-      const totalQty = basket.reduce((prev, item, index) => {
-        const quanlitySet = item.quanlitySet ?? 1;
-        return prev + quanlitySet;
-      }, 0);
+    const checkoutPayments =
+      invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
 
-      return totalQty;
+    const getCustomer = () => {
+      return invoiceDetail.user;
     };
 
     return (
@@ -395,482 +382,32 @@ export default class Layout extends React.Component {
             automaticallyAdjustContentInsets={true}
             keyboardShouldPersistTaps="always"
           >
-            <View ref={this.viewShotRef} style={tempStyle}>
-              {/* ------------- Store Name ----------- */}
-              <Text
-                style={[
-                  layouts.fontPrintTitleStyle,
-                  { marginTop: scaleSize(8) },
-                ]}
-              >
-                {profile?.businessName || " "}
-              </Text>
-              {/* ------------- Store Address ----------- */}
-              <Text
-                numberOfLines={2}
-                style={[
-                  layouts.fontPrintSubTitleStyle,
-                  {
-                    paddingHorizontal: scaleSize(10),
-                    marginTop: scaleSize(4),
-                    textAlign: "center",
-                  },
-                ]}
-              >
-                {profile?.addressFull || " "}
-              </Text>
-              {/* ------------- Phone Address ----------- */}
-              <Text
-                style={[
-                  layouts.fontPrintSubTitleStyle,
-                  { paddingHorizontal: scaleSize(10) },
-                ]}
-              >
-                {`Tel : ${profile?.phone || ""}`}
-              </Text>
-              {/* ------------- Company Website ----------- */}
-              {!!profile?.webLink ? (
-                <Text
-                  style={[
-                    layouts.fontPrintSubTitleStyle,
-                    { paddingHorizontal: scaleSize(10) },
-                  ]}
-                >
-                  {profile?.webLink}
-                </Text>
-              ) : (
-                <View />
-              )}
-              {/* ------------- SALE/VOID/REFUND  ----------- */}
-              <Text
-                style={[
-                  layouts.fontPrintTitleStyle,
-                  {
-                    marginTop: scaleSize(6),
-                  },
-                ]}
-              >
-                {`${
-                  status &&
-                  status !== "paid" &&
-                  status !== "pending" &&
-                  status !== "incomplete" &&
-                  status !== "complete"
-                    ? `${status}`.toUpperCase()
-                    : "SALE"
-                }`}
-              </Text>
-              <Text
-                style={[
-                  layouts.fontPrintStyle,
-                  {
-                    textAlign: "center",
-                    marginBottom: scaleSize(6),
-                    fontSize: scaleFont(18),
-                  },
-                ]}
-              >
-                {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
-              </Text>
-              {/* ------------- Dot Border  ----------- */}
-              <Dash
-                style={{ width: "100%", height: 1 }}
-                dashGap={5}
-                dashLength={8}
-                dashThickness={1}
-                style={{ marginBottom: scaleSize(10) }}
-              />
-
-              {/* ------------- Staff ----------- */}
-              {/* <View style={{ flexDirection: "row" }}>
-                <View style={{ width: scaleSize(90) }}>
-                  <Text style={styles.txt_info}>{`Staff Name`}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.txt_info}>{`: ${invoiceName}`}</Text>
-                </View>
-              </View> */}
-
-              {profile.type === "SalonPos" ? (
-                <View style={{ flexDirection: "row" }}>
-                  <View
-                    style={{
-                      width: scaleSize(90),
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <Text
-                      style={[
-                        layouts.fontPrintSubTitleStyle,
-                        { textAlign: "left" },
-                      ]}
-                    >{`Customer`}</Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text
-                      style={[layouts.fontPrintStyle]}
-                    >{`: ${invoiceName}`}</Text>
-                  </View>
-                </View>
-              ) : (
-                <View style={{ flexDirection: "row" }}>
-                  <View
-                    style={{
-                      width: scaleSize(90),
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <Text
-                      style={[
-                        layouts.fontPrintSubTitleStyle,
-                        { textAlign: "left" },
-                      ]}
-                    >{`Staff Name`}</Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text
-                      style={[layouts.fontPrintStyle]}
-                    >{`: ${invoiceName}`}</Text>
-                  </View>
-                </View>
-              )}
-
-              {/* ------------- Invoice No ----------- */}
-              <View style={{ flexDirection: "row" }}>
-                <View
-                  style={{ width: scaleSize(90), justifyContent: "flex-start" }}
-                >
-                  <Text
-                    style={[
-                      layouts.fontPrintSubTitleStyle,
-                      { textAlign: "left" },
-                    ]}
-                  >{`Invoice No`}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={layouts.fontPrintStyle}>
-                    {checkoutId ? `: # ${checkoutId}` : ":"}
-                  </Text>
-                </View>
-              </View>
-
-              {/* ------------- Invoice Date ----------- */}
-              <View style={{ flexDirection: "row" }}>
-                <View
-                  style={{ width: scaleSize(90), justifyContent: "flex-start" }}
-                >
-                  <Text
-                    style={[
-                      layouts.fontPrintSubTitleStyle,
-                      { textAlign: "left" },
-                    ]}
-                  >{`Invoice Date `}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={layouts.fontPrintStyle}>
-                    {`: ${
-                      invoiceDetail?.createdDate
-                        ? formatWithMoment(
-                            invoiceDetail?.createdDate,
-                            "MM/DD/YYYY hh:mm A"
-                          )
-                        : ""
-                    }`}
-                  </Text>
-                </View>
-              </View>
-
-              {/* ------------- Dot Border  ----------- */}
-              <Dash
-                style={{ width: "100%", height: 1 }}
-                dashGap={5}
-                dashLength={8}
-                dashThickness={1}
-                style={{ marginBottom: scaleSize(4), marginTop: scaleSize(10) }}
-              />
-
-              {/* ------------- Header  ----------- */}
-
-              <ItemHeaderReceipt
-                type={profile.type}
-                textStyle={layouts.fontPrintSubTitleStyle}
-              />
-
-              {/* ------------- Dot Border  ----------- */}
-              <Dash
-                style={{ width: "100%", height: 1 }}
-                dashGap={5}
-                dashLength={8}
-                dashThickness={1}
-                style={{ marginBottom: scaleSize(4), marginTop: scaleSize(10) }}
-              />
-
-              {/* ------------- Item Invoice   ----------- */}
-              {/* <ItemPrintBasket key={index} item={item} index={index} /> */}
-
-              {basket?.map((item, index) => (
-                <ItemReceipt
-                  key={index}
-                  item={item}
-                  index={index}
-                  type={profile.type}
-                  textStyle={layouts.fontPrintStyle}
-                />
-              ))}
-
-              {!isSalonApp && (
-                <View>
-                  <Dash
-                    style={{
-                      width: "100%",
-                      height: 1,
-                      marginVertical: scaleHeight(4),
-                      marginHorizontal: scaleWidth(4),
-                    }}
-                    dashGap={2}
-                    dashLength={10}
-                    dashThickness={1}
-                  />
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={[layouts.fontPrintStyle, { flex: 1 }]}>
-                      {"Total QTY"}
-                    </Text>
-                    <View
-                      style={{
-                        width: scaleWidth(90),
-                        justifyContent: "flex-start",
-                        alignItems: "flex-start",
-                      }}
-                    />
-                    <Text
-                      style={[
-                        layouts.fontPrintStyle,
-                        {
-                          width: scaleWidth(45),
-                        },
-                      ]}
-                    >
-                      {getTotalQty()}
-                    </Text>
-                    <View
-                      style={{
-                        width: scaleWidth(90),
-                        justifyContent: "flex-start",
-                        alignItems: "flex-start",
-                      }}
-                    />
-                  </View>
-                </View>
-              )}
-
-              {/* ------------- Line end item invoice   ----------- */}
-              <View
-                style={{
-                  height: 2,
-                  backgroundColor: "#000",
-                  marginVertical: scaleSize(10),
-                }}
-              />
-              {/* ------------- SubTotal   ----------- */}
-              <ItemTotal
-                title={"Subtotal"}
-                value={invoiceDetail?.subTotal || "0.00"}
-              />
-              <ItemTotal
-                title={"Discount"}
-                value={invoiceDetail?.discount || "0.00"}
-              />
-              <ItemTotal
-                title={"Tip"}
-                value={invoiceDetail?.tipAmount || "0.00"}
-              />
-              <ItemTotal
-                title={`Tax ${
-                  this.getTaxRate() > 0 ? "(" + this.getTaxRate() + "%)" : ""
-                }`}
-                value={invoiceDetail?.tax || "0.00"}
-              />
-
-              {invoiceDetail?.checkoutPaymentFeeSum != 0 && (
-                <ItemTotal
-                  title={"Non-Cash Adjustment"}
-                  value={invoiceDetail?.checkoutPaymentFeeSum || "0.00"}
-                />
-              )}
-              {invoiceDetail?.checkoutPaymentCashDiscountSum != 0 && (
-                <ItemTotal
-                  title={"Cash Discount"}
-                  value={
-                    invoiceDetail?.checkoutPaymentCashDiscountSum || "0.00"
-                  }
-                />
-              )}
-
-              <ItemTotal
-                title={"Total"}
-                value={invoiceDetail?.total || "0.00"}
-                style={{ fontSize: scaleFont(20) }}
-              />
-
-              {parseFloat(refundAmount) > 0 ? (
-                <ItemTotal
-                  title={"Change"}
-                  value={invoiceDetail?.refundAmount || "0.00"}
-                />
-              ) : null}
-
-              {
-                <View>
-                  {checkoutPayments.map((data, index) => (
-                    <View key={index} style={{ marginBottom: scaleSize(4) }}>
-                      <View style={{ flexDirection: "row" }}>
-                        <Text style={[layouts.fontPrintStyle]}>
-                          {`- Entry method: ${getPaymentString(
-                            data?.paymentMethod
-                          )}`}
-                          {/* ------------ Amount -------------- */}
-                        </Text>
-                        <View
-                          style={{
-                            flex: 1,
-                            alignItems: "flex-end",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Text
-                            style={[
-                              layouts.fontPrintStyle,
-                              { fontSize: scaleFont(18) },
-                            ]}
-                          >
-                            {`$${data?.amount || ""}`}
-                          </Text>
-                        </View>
-                      </View>
-                      {data.paymentMethod === "credit_card" ||
-                      data.paymentMethod === "debit_card" ? (
-                        <View style={{ marginTop: scaleSize(5) }}>
-                          <Text style={[layouts.fontPrintStyle]}>
-                            {` ${
-                              data?.paymentInformation?.type || ""
-                            }: ***********${
-                              data?.paymentInformation?.number || ""
-                            }`}
-                          </Text>
-
-                          <Text style={[layouts.fontPrintStyle]}>
-                            {` ${
-                              data?.paymentInformation?.sn
-                                ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                : ""
-                            }`}
-                          </Text>
-                          <Text style={[layouts.fontPrintStyle]}>
-                            {` ${
-                              data?.paymentInformation?.refNum
-                                ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                : ""
-                            }`}
-                          </Text>
-
-                          {!stringIsEmptyOrWhiteSpaces(
-                            l.get(data, "paymentInformation.signData")
-                          ) && (
-                            <View style={styles.rowSignature}>
-                              <Text style={[layouts.fontPrintStyle]}>
-                                {" Signature: "}
-                              </Text>
-                              <Image
-                                style={styles.signImage}
-                                source={{
-                                  uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
-                                }}
-                              />
-                            </View>
-                          )}
-                          <Text style={[layouts.fontPrintStyle]}>
-                            {` ${
-                              data?.paymentInformation?.name
-                                ?.replace(/%20/g, " ")
-                                .replace(/%2f/g, " ") || ""
-                            }`}
-                          </Text>
-                        </View>
-                      ) : null}
-                    </View>
-                  ))}
-                </View>
-              }
-
-              <View style={{ height: scaleSize(16) }} />
-
-              {promotionNotes ? (
-                <Text style={layouts.fontPrintStyle}>
-                  {`Discount note: `}
-                  <Text style={{ fontWeight: "600" }}>
-                    {`${promotionNotes}`}
-                  </Text>
-                </Text>
-              ) : null}
-
-              {/* ----------- Thanks , see you again -------- */}
-              <View style={{ height: scaleSize(20) }} />
-              {!profile?.receiptFooter && (
-                <Text
-                  style={[
-                    layouts.fontPrintSubTitleStyle,
-                    { alignSelf: "center" },
-                  ]}
-                >
-                  {`Thank you !`}
-                </Text>
-              )}
-              {!profile?.receiptFooter && (
-                <Text
-                  style={[
-                    layouts.fontPrintSubTitleStyle,
-                    { alignSelf: "center" },
-                  ]}
-                >
-                  {`Please come again`}
-                </Text>
-              )}
-
-              {!!profile?.receiptFooter && (
-                <Text
-                  style={[
-                    layouts.fontPrintSubTitleStyle,
-                    { alignSelf: "center" },
-                  ]}
-                >
-                  {` ${profile?.receiptFooter} `}
-                </Text>
-              )}
-              <View style={{ height: scaleSize(8) }} />
-              {/* ------------- This is not a bill   ----------- */}
-              <Text
-                style={[
-                  layouts.fontPrintStyle,
-                  {
-                    alignSelf: "center",
-                  },
-                ]}
-              >
-                {`********* Merchant's Receipt *********`}
-              </Text>
-              <View style={{ height: scaleHeight(20) }} />
-
-              {invoiceDetail?.invoiceNo && (
-                <Barcode
-                  format="CODE128"
-                  value={invoiceDetail?.code + ""}
-                  text={`${invoiceDetail?.code}`}
-                  style={{ marginBottom: 10 }}
-                  maxWidth={scaleWidth(300)}
-                />
-              )}
-            </View>
-            <View style={{ height: scaleSize(90) }} />
+            <ReceiptViewShot
+              backgroundColor={"#fff"}
+              items={getReceiptItems(invoiceDetail?.basket || [])}
+              profile={profile}
+              customer={getCustomer()}
+              printTemp={false}
+              fromAppointmentTab={false}
+              invoiceDate={invoiceDetail?.createdDate}
+              invoiceNO={invoiceDetail?.checkoutId}
+              symbol={getReceiptSymbol(invoiceDetail?.status)}
+              typeReceipt={"Merchant's Receipt"}
+              invoiceCode={invoiceDetail?.code}
+              subTotal={invoiceDetail.subTotal}
+              discount={invoiceDetail.discount}
+              tip={invoiceDetail.tipAmount}
+              tax={invoiceDetail.tax}
+              total={invoiceDetail.total}
+              fee={invoiceDetail.checkoutPaymentFeeSum}
+              cashDiscount={invoiceDetail.checkoutPaymentCashDiscountSum}
+              // due={due}
+              change={invoiceDetail.refundAmount}
+              taxRate={getTaxRateFromInvoice(invoiceDetail)}
+              promotionNotes={invoiceDetail.promotionNotes}
+              checkoutPaymentMethods={checkoutPayments}
+              isSignature={false}
+            />
           </ScrollView>
         </View>
 

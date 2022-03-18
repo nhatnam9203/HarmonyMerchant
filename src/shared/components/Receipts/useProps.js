@@ -1,4 +1,8 @@
-import { getInfoFromModelNameOfPrinter, getReceiptItems } from "@utils";
+import {
+  getInfoFromModelNameOfPrinter,
+  getReceiptItems,
+  getReceiptSymbol,
+} from "@utils";
 import { useSelector } from "react-redux";
 import { getTaxRateFromGroupAppointment } from "@utils";
 
@@ -45,25 +49,20 @@ export const useProps = ({
   const getSymbol = () => {
     if (fromAppointmentTab) return "TICKET";
 
-    const salesStatus = ["PAID", "PENDING", "INCOMPLETE", "COMPLETE"];
     let status;
-
     if (invoice) {
       status = invoice.status;
     }
-
     if (appointment) {
       status = appointment.status;
     }
-
     if (groupAppointment) {
       status = groupAppointment?.status;
     }
 
     if (!status) return "TICKET";
-    status = `${status}`.toUpperCase();
-    if (salesStatus.includes(status)) return "SALE";
-    return status;
+
+    return getReceiptSymbol(status);
   };
 
   const getInvoiceDate = () => {
@@ -165,6 +164,9 @@ export const useProps = ({
       return Math.abs(groupAppointment?.dueAmount);
     if (appointment && appointment?.dueAmount < 0)
       return Math.abs(appointment?.dueAmount);
+    if (invoice) {
+      return invoice.refundAmount;
+    }
     return 0;
   };
 

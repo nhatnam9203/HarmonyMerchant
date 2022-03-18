@@ -51,7 +51,9 @@ export const ReceiptHeader = ({
       <TextInvoice label="Invoice Date ">
         {`${formatWithMoment(invoiceDate, "MM/DD/YYYY hh:mm A")}`}
       </TextInvoice>
-      <TextInvoice label="Invoice NO    ">{`#${invoiceNO}`}</TextInvoice>
+      {invoiceNO && (
+        <TextInvoice label="Invoice NO    ">{`#${invoiceNO}`}</TextInvoice>
+      )}
     </View>
   );
 };

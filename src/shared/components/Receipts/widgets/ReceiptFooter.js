@@ -17,6 +17,7 @@ export const ReceiptFooter = ({
   profile,
   typeReceipt,
   invoiceCode,
+  promotionNotes,
 }) => {
   const { t } = useTranslation();
 
@@ -29,8 +30,15 @@ export const ReceiptFooter = ({
         <TextLabel>{`Thank you!\nPlease come again`}</TextLabel>
       )}
       {/* ------------- Promotions Note   ----------- */}
-
-      <TextLabel>{`********* ${typeReceipt} *********`}</TextLabel>
+      {promotionNotes ? (
+        <Text style={styles.textLabelStyle}>
+          {`Discount note: `}
+          <Text
+            style={[styles.textLabelStyle, { fontWeight: "600" }]}
+          >{`${promotionNotes}`}</Text>
+        </Text>
+      ) : null}
+      <TextLabel>{`********* ${typeReceipt ?? "Receipt"} *********`}</TextLabel>
       {!!invoiceCode && (
         <Barcode
           format="CODE128"

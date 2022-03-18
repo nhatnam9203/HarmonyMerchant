@@ -84,7 +84,7 @@ export const ReceiptTotal = ({
       {!printTemp && (
         <>
           {checkoutPaymentMethods?.map((data, index) => (
-            <View>
+            <View key={`${index}`}>
               <TextTotal
                 label={`- Entry method: ${getPaymentString(
                   data?.paymentMethod || ""
