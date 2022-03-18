@@ -55,6 +55,10 @@ export const useProps = ({
       status = appointment.status;
     }
 
+    if (groupAppointment) {
+      status = groupAppointment?.status;
+    }
+
     if (!status) return "TICKET";
     status = `${status}`.toUpperCase();
     if (salesStatus.includes(status)) return "SALE";
@@ -72,6 +76,31 @@ export const useProps = ({
     return "";
   };
 
+  const getTypeOfReceipt = () => {
+    let status;
+
+    if (invoice) {
+      status = invoice.status;
+    }
+
+    if (appointment) {
+      status = appointment.status;
+    }
+
+    if (groupAppointment) {
+      status = groupAppointment?.status;
+    }
+
+    if (fromAppointmentTab) return "Customer's Receipt";
+    return "Merchant's Receipt";
+  };
+
+  const getInvoiceCode = () => {
+    if (invoice) return invoice.code;
+    if (appointment) return appointment.invoice?.code;
+    return null;
+  };
+
   return {
     portName,
     emulation,
@@ -84,5 +113,7 @@ export const useProps = ({
     symbol: getSymbol(),
     invoiceDate: getInvoiceDate(),
     invoiceNO: getInvoiceNO(),
+    typeReceipt: getTypeOfReceipt(),
+    invoiceCode: getInvoiceCode(),
   };
 };

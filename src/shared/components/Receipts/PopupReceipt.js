@@ -41,6 +41,8 @@ export const PopupReceipt = React.forwardRef(
       symbol,
       invoiceDate,
       invoiceNO,
+      typeReceipt,
+      invoiceCode
     } = useProps({
       appointment,
       invoice,
@@ -121,6 +123,8 @@ export const PopupReceipt = React.forwardRef(
                 invoiceDate={invoiceDate}
                 invoiceNO={invoiceNO}
                 symbol={symbol}
+                typeReceipt={typeReceipt}
+                invoiceCode={invoiceCode}
               />
             </ScrollView>
           </View>

@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { ReceiptContent } from "./ReceiptContent";
 import { ReceiptItemType } from "./ReceiptItem";
 import { ReceiptHeader } from "./ReceiptHeader";
+import { ReceiptFooter } from "./ReceiptFooter";
 
 export const ReceiptViewShot = React.forwardRef(
   (
@@ -17,7 +18,9 @@ export const ReceiptViewShot = React.forwardRef(
       printTemp,
       fromAppointmentTab,
       invoiceDate,
-      invoiceNO
+      invoiceNO,
+      typeReceipt,
+      invoiceCode
     },
     ref
   ) => {
@@ -47,6 +50,12 @@ export const ReceiptViewShot = React.forwardRef(
           invoiceNO={invoiceNO}
         />
         <ReceiptContent items={items} type={getReceiptType()} />
+        <ReceiptFooter
+          fromAppointmentTab={fromAppointmentTab}
+          profile={profile}
+          typeReceipt={typeReceipt}
+          invoiceCode={invoiceCode}
+        />
       </View>
     );
   }
