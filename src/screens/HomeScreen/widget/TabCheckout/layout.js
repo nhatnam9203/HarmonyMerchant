@@ -9,7 +9,6 @@ import {
   PopupCheckStaffPermission,
   PopupConfirm,
   PopupInvoicePrint,
-  // PopupPairingCode,
   PopupPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
@@ -17,8 +16,9 @@ import {
   ScrollableTabView,
   Text,
 } from "@components";
+import { QRCodePay } from "@components/PaymentButtons";
 import ICON from "@resources";
-import { PopupInvoice } from "@shared/components/payment";
+import { PopupReceipt } from "@shared/components";
 import {
   checkCategoryIsNotExist,
   formatMoney,
@@ -56,13 +56,12 @@ import {
   PopupBlockDiscount,
   PopupDiscount,
   PopupDiscountLocal,
+  PopupEnterAmountCustomService,
   PopupEnterAmountGiftCard,
   PopupGiftCardDetail,
   PopupPaymentDetails,
-  PopupEnterAmountCustomService,
 } from "./widget";
 import { StaffItem } from "./widget/NewCheckoutComponent";
-import { QRCodePay } from "@components/PaymentButtons";
 
 class Layout extends React.Component {
   renderHeader() {
@@ -1588,10 +1587,16 @@ class Layout extends React.Component {
           addCustomerInfo={this.addCustomerInfo}
         />
 
-        <PopupInvoice
+        {/* <PopupInvoice
           ref={this.invoiceRef}
           cancelInvoicePrint={this.cancelInvoicePrint}
           doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
+        /> */}
+
+        <PopupReceipt
+          ref={this.invoiceRef}
+          groupAppointment={groupAppointment}
+          doPrintClover={this.doPrintClover}
         />
 
         <PopupEnterAmountCustomService

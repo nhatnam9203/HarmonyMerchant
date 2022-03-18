@@ -70,10 +70,11 @@ export const ReceiptTotal = ({
       {printTemp && !fromAppointmentTab && (
         <>
           <View style={styles.margin} />
-          <TextFill label={"Tip"}>
+          <TextFill label={`${_.padEnd("Tip", 15, " ")}`}>
             <View style={styles.line} />
           </TextFill>
-          <TextFill label={"Total"}>
+          <View style={styles.margin} />
+          <TextFill label={`${_.padEnd("Total", 14, " ")}`}>
             <View style={styles.line} />
           </TextFill>
         </>
@@ -131,7 +132,7 @@ export const ReceiptTotal = ({
       )}
       <View style={styles.margin} />
       {((isSignature && !printTemp) || (printTemp && !fromAppointmentTab)) && (
-        <TextFill label={"Signature"}>
+        <TextFill label={`${_.padEnd("Signature", 10, " ")}`}>
           <View style={styles.line} />
         </TextFill>
       )}

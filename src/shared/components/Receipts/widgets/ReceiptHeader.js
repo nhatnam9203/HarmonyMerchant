@@ -7,15 +7,13 @@ import { LineHeader } from "./ReceiptLine";
 
 export const ReceiptHeader = ({
   profile,
-  type,
   symbol = "TICKET",
   customer,
   staff,
   invoiceDate,
-  invoiceNO,
+  invoiceNO = "Unknown",
 }) => {
   const { t } = useTranslation();
-
   return (
     <View style={styles.container}>
       <View style={styles.margin} />
@@ -30,24 +28,22 @@ export const ReceiptHeader = ({
         <TextLabel>{`${profile?.webLink ?? " "}`}</TextLabel>
       )}
       <View style={styles.margin} />
-      <TextSymbol>{symbol}</TextSymbol>
+      <TextSymbol>{` ${symbol} `}</TextSymbol>
       <View style={styles.margin} />
       <TextLabel>
         {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
       </TextLabel>
       <LineHeader />
       <TextInvoice label="Customer     ">
-        {`${customer?.firstName ?? ""} ${customer?.lastName ?? ""}`}
+        {`${customer?.firstName ?? " "} ${customer?.lastName ?? " "}`}
       </TextInvoice>
       {!!staff?.name && (
-        <TextInvoice label="Staff name    ">{`${staff?.name}`}</TextInvoice>
+        <TextInvoice label="Staff name    ">{` ${staff?.name}`}</TextInvoice>
       )}
       <TextInvoice label="Invoice Date ">
         {`${formatWithMoment(invoiceDate, "MM/DD/YYYY hh:mm A")}`}
       </TextInvoice>
-      {invoiceNO && (
-        <TextInvoice label="Invoice NO    ">{`#${invoiceNO}`}</TextInvoice>
-      )}
+      <TextInvoice label="Invoice No    ">{` #${invoiceNO}`}</TextInvoice>
     </View>
   );
 };
@@ -70,7 +66,8 @@ const TextSymbol = ({ children }) => (
 
 const TextInvoice = ({ label = "", children }) => (
   <Text style={styles.textInvoiceLabelStyle}>
-    {`${label}: `} <Text style={styles.textInvoiceStyle}>{children}</Text>
+    {`${label}: `}
+    <Text style={styles.textInvoiceStyle}>{children}</Text>
   </Text>
 );
 

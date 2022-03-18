@@ -31,7 +31,7 @@ export const useProps = ({
     if (groupAppointment) {
       let temps = [];
       groupAppointment.appointments?.forEach((app) => {
-        temps.push(...getReceiptItems(appointment));
+        temps.push(...getReceiptItems(app));
       });
       return temps;
     }
@@ -73,7 +73,7 @@ export const useProps = ({
   const getInvoiceNO = () => {
     if (invoice) return invoice.checkoutId;
     if (appointment) return appointment.invoice?.checkoutId;
-    return "";
+    return undefined;
   };
 
   const getTypeOfReceipt = () => {

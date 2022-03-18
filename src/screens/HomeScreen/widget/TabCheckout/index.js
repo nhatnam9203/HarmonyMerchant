@@ -995,12 +995,16 @@ class TabCheckout extends Layout {
       }
 
       this.props.actions.appointment.closeModalPaymentCompleted();
-      this.invoiceRef.current?.showAppointmentReceipt({
-        appointmentId: groupAppointment?.mainAppointmentId,
-        checkoutId: paymentDetailInfo?.invoiceNo,
-        isSalon: true,
-        isPrintTempt: false,
-        machineType: paymentMachineType,
+      // this.invoiceRef.current?.showAppointmentReceipt({
+      //   appointmentId: groupAppointment?.mainAppointmentId,
+      //   checkoutId: paymentDetailInfo?.invoiceNo,
+      //   isSalon: true,
+      //   isPrintTempt: false,
+      //   machineType: paymentMachineType,
+      // });
+
+      await this.invoiceRef.current?.show({
+        isPrintTempt: true,
       });
     }
   };
@@ -1009,13 +1013,16 @@ class TabCheckout extends Layout {
     const { groupAppointment, paymentDetailInfo, paymentMachineType } =
       this.props;
 
-    await this.invoiceRef.current?.showAppointmentReceipt({
-      appointmentId: groupAppointment?.mainAppointmentId,
-      checkoutId: paymentDetailInfo?.invoiceNo,
+    await this.invoiceRef.current?.show({
       isPrintTempt: true,
-      isSalon: true,
-      machineType: paymentMachineType,
     });
+    // await this.invoiceRef.current?.showAppointmentReceipt({
+    //   appointmentId: groupAppointment?.mainAppointmentId,
+    //   checkoutId: paymentDetailInfo?.invoiceNo,
+    //   isPrintTempt: true,
+    //   isSalon: true,
+    //   machineType: paymentMachineType,
+    // });
   };
 
   checkStatusCashier = async () => {
@@ -3174,12 +3181,12 @@ class TabCheckout extends Layout {
   shareTemptInvoice = async () => {
     const { groupAppointment } = this.props;
 
-    this.invoiceRef.current?.showAppointmentReceipt({
-      appointmentId: groupAppointment?.mainAppointmentId,
-      isShareMode: true,
-      isSalon: true,
-      isPrintTempt: false,
-    });
+    // this.invoiceRef.current?.showAppointmentReceipt({
+    //   appointmentId: groupAppointment?.mainAppointmentId,
+    //   isShareMode: true,
+    //   isSalon: true,
+    //   isPrintTempt: false,
+    // });
   };
 
   cancelInvoice = async () => {
