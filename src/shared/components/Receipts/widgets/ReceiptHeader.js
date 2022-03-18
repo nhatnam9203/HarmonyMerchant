@@ -11,7 +11,15 @@ import { useTranslation } from "react-i18next";
 import { fonts, color, layouts } from "@shared/themes";
 import { LineHeader, LineItem } from "./ReceiptLine";
 
-export const ReceiptHeader = ({ profile, type, symbol = "TICKET" }) => {
+export const ReceiptHeader = ({
+  profile,
+  type,
+  symbol = "TICKET",
+  customer,
+  staff,
+  invoiceDate,
+  invoiceNO,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -34,8 +42,16 @@ export const ReceiptHeader = ({ profile, type, symbol = "TICKET" }) => {
         {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
       </TextLabel>
       <LineHeader />
-
-      <LineHeader />
+      <TextInvoice label="Customer">
+        {`${customer?.firstName ?? ""} ${customer?.lastName ?? ""}`}
+      </TextInvoice>
+      {!!staff?.name && (
+        <TextInvoice label="Staff name">{`${staff?.name}`}</TextInvoice>
+      )}
+      <TextInvoice label="Invoice Date">
+        {`${formatWithMoment(invoiceDate, "MM/DD/YYYY hh:mm A")}`}
+      </TextInvoice>
+      <TextInvoice label="Invoice NO">{`#${invoiceNO}`}</TextInvoice>
     </View>
   );
 };
@@ -54,6 +70,12 @@ const TextName = ({ children, numberOfLines = 0 }) => (
 
 const TextSymbol = ({ children }) => (
   <Text style={styles.textSymbolStyle}>{children}</Text>
+);
+
+const TextInvoice = ({ label = "", children }) => (
+  <Text style={styles.textInvoiceLabelStyle}>
+    {`${label}: `} <Text style={styles.textInvoiceStyle}>{children}</Text>
+  </Text>
 );
 
 const styles = StyleSheet.create({
@@ -81,6 +103,22 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(20),
     textAlign: "center",
+  },
+
+  textInvoiceLabelStyle: {
+    fontFamily: fonts.MEDIUM,
+    color: "#000",
+    fontSize: scaleFont(15),
+    textAlign: "left",
+    fontWeight: "500",
+  },
+
+  textInvoiceStyle: {
+    fontFamily: fonts.MEDIUM,
+    color: "#000",
+    fontSize: scaleFont(15),
+    textAlign: "left",
+    fontWeight: "normal",
   },
 
   margin: {

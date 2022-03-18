@@ -23,6 +23,12 @@ export const PopupReceipt = React.forwardRef(
     const { t } = useTranslation();
     const dialogRef = React.useRef(null);
 
+    const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
+
+    const [open, setOpen] = React.useState(false);
+    const [printTemp, setPrintTemp] = React.useState(false);
+    const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
+
     const {
       portName,
       emulation,
@@ -32,12 +38,16 @@ export const PopupReceipt = React.forwardRef(
       items,
       customer,
       machineType,
-    } = useProps({ appointment, invoice, groupAppointment });
-    const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
-
-    const [open, setOpen] = React.useState(false);
-    const [printTemp, setPrintTemp] = React.useState(false);
-    const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
+      symbol,
+      invoiceDate,
+      invoiceNO,
+    } = useProps({
+      appointment,
+      invoice,
+      groupAppointment,
+      printTemp,
+      fromAppointmentTab,
+    });
 
     const hide = () => {
       setOpen(false);
@@ -63,7 +73,8 @@ export const PopupReceipt = React.forwardRef(
 
     // forward Ref
     React.useImperativeHandle(ref, () => ({
-      show: ({ isPrintTempt = false, isAppointmentTab = false }) => {
+      show: (params) => {
+        const { isPrintTempt, isAppointmentTab } = params ?? {};
         setPrintTemp(isPrintTempt);
         setFromAppointmentTab(isAppointmentTab);
         setOpen(true);
@@ -104,10 +115,12 @@ export const PopupReceipt = React.forwardRef(
               <ReceiptViewShot
                 items={items}
                 profile={profile}
-                staff={profileStaffLogin}
                 customer={customer}
                 printTemp={printTemp}
                 fromAppointmentTab={fromAppointmentTab}
+                invoiceDate={invoiceDate}
+                invoiceNO={invoiceNO}
+                symbol={symbol}
               />
             </ScrollView>
           </View>

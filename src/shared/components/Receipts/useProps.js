@@ -1,7 +1,13 @@
 import { getInfoFromModelNameOfPrinter, getReceiptItems } from "@utils";
 import { useSelector } from "react-redux";
 
-export const useProps = ({ appointment, invoice, groupAppointment }) => {
+export const useProps = ({
+  appointment,
+  invoice,
+  groupAppointment,
+  printTemp,
+  fromAppointmentTab,
+}) => {
   const { profile, profileStaffLogin, printerList, printerSelect } =
     useSelector((state) => state.dataLocal) ?? {};
 
@@ -31,10 +37,40 @@ export const useProps = ({ appointment, invoice, groupAppointment }) => {
   };
 
   const getCustomer = () => {
+    if (appointment) return appointment.customer;
     return null;
   };
 
-  const getSymbol = () => {};
+  const getSymbol = () => {
+    if (fromAppointmentTab) return "TICKET";
+
+    const salesStatus = ["PAID", "PENDING", "INCOMPLETE", "COMPLETE"];
+    let status;
+
+    if (invoice) {
+      status = invoice.status;
+    }
+
+    if (appointment) {
+      status = appointment.status;
+    }
+
+    if (!status) return "TICKET";
+    status = `${status}`.toUpperCase();
+    if (salesStatus.includes(status)) return "SALE";
+    return status;
+  };
+
+  const getInvoiceDate = () => {
+    if (invoice) return invoice.createdDate;
+    if (appointment) return appointment.invoice?.createdDate;
+  };
+
+  const getInvoiceNO = () => {
+    if (invoice) return invoice.checkoutId;
+    if (appointment) return appointment.invoice?.checkoutId;
+    return "";
+  };
 
   return {
     portName,
@@ -45,5 +81,8 @@ export const useProps = ({ appointment, invoice, groupAppointment }) => {
     items: getItems(),
     customer: getCustomer(),
     machineType: paymentMachineType,
+    symbol: getSymbol(),
+    invoiceDate: getInvoiceDate(),
+    invoiceNO: getInvoiceNO(),
   };
 };

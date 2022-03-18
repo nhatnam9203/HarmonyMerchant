@@ -16,6 +16,8 @@ export const ReceiptViewShot = React.forwardRef(
       symbol,
       printTemp,
       fromAppointmentTab,
+      invoiceDate,
+      invoiceNO
     },
     ref
   ) => {
@@ -39,9 +41,10 @@ export const ReceiptViewShot = React.forwardRef(
       >
         <ReceiptHeader
           profile={profile}
-          staff={staff}
           customer={customer}
           symbol={symbol}
+          invoiceDate={invoiceDate}
+          invoiceNO={invoiceNO}
         />
         <ReceiptContent items={items} type={getReceiptType()} />
       </View>
