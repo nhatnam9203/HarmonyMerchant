@@ -17,7 +17,7 @@ export const ReceiptItemType = {
 export const ReceiptItem = ({ item, index, type }) => {
   const { t } = useTranslation();
 
-  const { data = {}, note = "" } = item || {};
+  const { data = {}, note = "", staff = {}, extras = [] } = item || {};
   const {
     price = 0,
     discount = 0,
@@ -52,6 +52,14 @@ export const ReceiptItem = ({ item, index, type }) => {
   const ColumFour = ({ children }) => (
     <View
       style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
+    >
+      {children}
+    </View>
+  );
+
+  const ColumStaff = ({ children }) => (
+    <View
+      style={{ flex: 1, alignItems: "center", justifyContent: "flex-start" }}
     >
       {children}
     </View>
@@ -142,7 +150,43 @@ export const ReceiptItem = ({ item, index, type }) => {
     case ReceiptItemType.RETAILER_RETURN:
     case ReceiptItemType.SALON:
     default:
-      return <View style={styles.content}></View>;
+      return (
+        <>
+          {index > 0 && <LineItem />}
+          <LayoutThreeColumn
+            key="salon-item"
+            columnWidths={SALON_COLUMN_WIDTH}
+            ColumnOne={() => (
+              <ColumOne>
+                <TextItem>{`${index + 1}. ${name}`}</TextItem>
+                {extras?.length > 0 &&
+                  extras.map((x) => (
+                    <TextLabel
+                      key={`${x.extraId}`}
+                    >{`   - ${x.extraName}`}</TextLabel>
+                  ))}
+                {!!note && <TextLabel>{`(Note: ${note})`}</TextLabel>}
+              </ColumOne>
+            )}
+            ColumnTwo={() => (
+              <ColumStaff>
+                <TextItem>{`${staff?.displayName ?? ""}`}</TextItem>
+              </ColumStaff>
+            )}
+            ColumnThree={() => (
+              <ColumThree>
+                <TextItem>{`${formatMoneyWithUnit(price)}`}</TextItem>
+                {extras?.length > 0 &&
+                  extras.map((x) => (
+                    <TextLabel key={`${x.extraId}`}>{`${formatMoneyWithUnit(
+                      x.price ?? 0
+                    )}`}</TextLabel>
+                  ))}
+              </ColumThree>
+            )}
+          />
+        </>
+      );
   }
 };
 
@@ -150,7 +194,9 @@ export const ReceiptHeaderItem = ({ type }) => {
   const { t } = useTranslation();
 
   const onRenderColumOne = () => (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View
+      style={{ flex: 1, alignItems: "flex-start", justifyContent: "center" }}
+    >
       <TextHeader>{t("DESCRIPTION")}</TextHeader>
     </View>
   );
@@ -167,6 +213,12 @@ export const ReceiptHeaderItem = ({ type }) => {
   const onRenderColumFour = () => (
     <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
       <TextHeader>{t("TOTAL")}</TextHeader>
+    </View>
+  );
+
+  const onRenderStaffColumn = () => (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <TextHeader>{t("STAFF")}</TextHeader>
     </View>
   );
 
@@ -188,7 +240,18 @@ export const ReceiptHeaderItem = ({ type }) => {
     case ReceiptItemType.RETAILER_RETURN:
     case ReceiptItemType.SALON:
     default:
-      return <View style={styles.content}></View>;
+      return (
+        <>
+          <LineHeader />
+          <LayoutThreeColumn
+            columnWidths={SALON_COLUMN_WIDTH}
+            ColumnOne={onRenderColumOne}
+            ColumnTwo={onRenderStaffColumn}
+            ColumnThree={onRenderColumFour}
+          />
+          <LineHeader />
+        </>
+      );
   }
 };
 
@@ -286,6 +349,41 @@ const LayoutFourColumn = ({
             return (
               <View key="f-four" style={{ flex: x }}>
                 {ColumnFour()}
+              </View>
+            );
+        }
+      })}
+    </View>
+  );
+};
+
+const LayoutThreeColumn = ({
+  columnWidths,
+  ColumnOne,
+  ColumnTwo,
+  ColumnThree,
+}) => {
+  return (
+    <View style={styles.content}>
+      {columnWidths.map((x, idx) => {
+        switch (idx) {
+          case 0:
+            return (
+              <View key="f-one" style={{ flex: x }}>
+                {ColumnOne()}
+              </View>
+            );
+          case 1:
+            return (
+              <View key="f-two" style={{ flex: x }}>
+                {ColumnTwo()}
+              </View>
+            );
+          case 2:
+          default:
+            return (
+              <View key="f-three" style={{ flex: x }}>
+                {ColumnThree()}
               </View>
             );
         }

@@ -353,7 +353,7 @@ export const getArrayServicesFromAppointment = (services = []) => {
   const temptArrayServices = services.map((service) => {
     return {
       type: "Service",
-      id: `${service.serviceId}_ser`,
+      id: `${service.bookingServiceId}_ser`,
       data: {
         name: service?.serviceName || "",
         serviceId: service?.serviceId || 0,
@@ -375,7 +375,7 @@ export const getArrayExtrasFromAppointment = (extras = []) => {
   const temptArrayExtras = extras.map((extra) => {
     return {
       type: "Extra",
-      id: `${extra?.extraId}_extra`,
+      id: `${extra?.bookingExtraId}_extra`,
       data: {
         name: extra?.extraName || "",
         extraId: extra?.extraId || 0,

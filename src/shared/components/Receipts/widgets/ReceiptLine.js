@@ -12,6 +12,7 @@ export const LineHeader = () => (
     dashGap={2}
     dashLength={10}
     dashThickness={1}
+    dashColor="#000d"
   />
 );
 

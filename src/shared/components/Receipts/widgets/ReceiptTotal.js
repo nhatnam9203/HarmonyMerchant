@@ -30,6 +30,9 @@ export const ReceiptTotal = ({
   return (
     <View style={styles.container}>
       <View style={styles.margin} />
+      <View style={styles.line} />
+      <View style={styles.margin} />
+
       <TextTotal label={"Subtotal"}>{`${formatMoneyWithUnit(
         subtotal
       )}`}</TextTotal>
@@ -221,5 +224,11 @@ const styles = StyleSheet.create({
     width: scaleWidth(100),
     height: scaleHeight(40),
     resizeMode: "contain",
+  },
+
+  line: {
+    flex: 1,
+    borderBottomColor: "#000e",
+    borderBottomWidth: 1,
   },
 });
