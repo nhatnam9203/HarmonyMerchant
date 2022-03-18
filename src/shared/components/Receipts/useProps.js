@@ -1,5 +1,6 @@
 import { getInfoFromModelNameOfPrinter, getReceiptItems } from "@utils";
 import { useSelector } from "react-redux";
+import { getTaxRateFromGroupAppointment } from "@utils";
 
 export const useProps = ({
   appointment,
@@ -101,6 +102,102 @@ export const useProps = ({
     return null;
   };
 
+  const getSubTotal = () => {
+    if (groupAppointment) return groupAppointment?.subTotal;
+    if (appointment) return appointment?.subTotal;
+    return 0;
+  };
+  const getDiscount = () => {
+    if (groupAppointment) return groupAppointment?.discount;
+    if (appointment) return appointment?.discount;
+    return 0;
+  };
+  const getTipAmount = () => {
+    if (groupAppointment) return groupAppointment?.tipAmount;
+    if (appointment) return appointment?.tipAmount;
+    return 0;
+  };
+
+  const getTax = () => {
+    if (groupAppointment) {
+      return groupAppointment?.tax;
+    }
+    if (appointment) {
+      return appointment?.tax;
+    }
+    return 0;
+  };
+
+  const getTotal = () => {
+    if (groupAppointment) return groupAppointment?.total;
+    if (appointment) return appointment?.total;
+    return 0;
+  };
+
+  const getNonCashFee = () => {
+    if (groupAppointment) {
+      return groupAppointment?.checkoutPaymentFeeSum;
+    } else if (invoice) {
+      return invoice?.checkoutPaymentFeeSum;
+    }
+    return 0;
+  };
+
+  const getCashDiscount = () => {
+    if (groupAppointment) {
+      return groupAppointment?.checkoutPaymentCashDiscountSum;
+    } else if (invoice) {
+      return invoice?.checkoutPaymentCashDiscountSum;
+    }
+    return 0;
+  };
+
+  const getDue = () => {
+    if (groupAppointment && groupAppointment?.dueAmount > 0)
+      return groupAppointment?.dueAmount;
+    if (appointment && appointment?.dueAmount > 0)
+      return appointment?.dueAmount;
+    return 0;
+  };
+
+  const getChange = () => {
+    if (groupAppointment && groupAppointment?.dueAmount < 0)
+      return Math.abs(groupAppointment?.dueAmount);
+    if (appointment && appointment?.dueAmount < 0)
+      return Math.abs(appointment?.dueAmount);
+    return 0;
+  };
+
+  const getTaxRate = () => {
+    return getTaxRateFromGroupAppointment(groupAppointment);
+  };
+
+  const getPromotionNotes = (appointments) => {
+    let promotionNotes = [];
+    appointments?.forEach((appointment) => {
+      const note = appointment?.promotionNotes?.note || "";
+      if (note) {
+        promotionNotes.push(note);
+      }
+    });
+
+    return promotionNotes.join(",");
+  };
+
+  const getCheckoutPaymentMethods = () => {
+    if (invoice) {
+      return invoice?.checkoutPayments?.slice(0).reverse() || [];
+    }
+
+    if (appointment) {
+      return appointment.payment;
+    }
+
+    return groupAppointment?.paymentMethods?.length > 0
+      ? groupAppointment?.paymentMethods
+      : groupAppointment?.checkoutPayments;
+  };
+
   return {
     portName,
     emulation,
@@ -115,5 +212,17 @@ export const useProps = ({
     invoiceNO: getInvoiceNO(),
     typeReceipt: getTypeOfReceipt(),
     invoiceCode: getInvoiceCode(),
+    subTotal: getSubTotal(),
+    discount: getDiscount(),
+    tip: getTipAmount(),
+    tax: getTax(),
+    total: getTotal(),
+    fee: getNonCashFee(),
+    cashDiscount: getCashDiscount(),
+    due: getDue(),
+    change: getChange(),
+    taxRate: getTaxRate(),
+    promotionNotes: getPromotionNotes(),
+    checkoutPaymentMethods: getCheckoutPaymentMethods(),
   };
 };

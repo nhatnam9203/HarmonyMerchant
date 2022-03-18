@@ -54,11 +54,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(16),
-    fontWeight: "500",
+    fontWeight: "400",
     textAlign: "center",
   },
 

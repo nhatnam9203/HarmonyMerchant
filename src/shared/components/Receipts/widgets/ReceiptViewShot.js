@@ -5,6 +5,7 @@ import { ReceiptContent } from "./ReceiptContent";
 import { ReceiptItemType } from "./ReceiptItem";
 import { ReceiptHeader } from "./ReceiptHeader";
 import { ReceiptFooter } from "./ReceiptFooter";
+import { ReceiptTotal } from "./ReceiptTotal";
 
 export const ReceiptViewShot = React.forwardRef(
   (
@@ -12,7 +13,6 @@ export const ReceiptViewShot = React.forwardRef(
       backgroundColor,
       items,
       profile,
-      staff,
       customer,
       symbol,
       printTemp,
@@ -20,7 +20,20 @@ export const ReceiptViewShot = React.forwardRef(
       invoiceDate,
       invoiceNO,
       typeReceipt,
-      invoiceCode
+      invoiceCode,
+      subTotal,
+      discount,
+      tip,
+      tax,
+      total,
+      fee,
+      cashDiscount,
+      due,
+      change,
+      taxRate,
+      promotionNotes,
+      checkoutPaymentMethods,
+      isSignature,
     },
     ref
   ) => {
@@ -50,6 +63,21 @@ export const ReceiptViewShot = React.forwardRef(
           invoiceNO={invoiceNO}
         />
         <ReceiptContent items={items} type={getReceiptType()} />
+        <ReceiptTotal
+          subtotal={subTotal}
+          discount={discount}
+          tip={tip}
+          tax={tax}
+          taxRate={taxRate}
+          change={change}
+          cashDiscount={cashDiscount}
+          fee={fee}
+          total={total}
+          printTemp={printTemp}
+          fromAppointmentTab={fromAppointmentTab}
+          checkoutPaymentMethods={checkoutPaymentMethods}
+          isSignature={isSignature}
+        />
         <ReceiptFooter
           fromAppointmentTab={fromAppointmentTab}
           profile={profile}

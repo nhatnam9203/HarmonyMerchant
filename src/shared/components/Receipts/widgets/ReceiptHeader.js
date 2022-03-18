@@ -42,16 +42,16 @@ export const ReceiptHeader = ({
         {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
       </TextLabel>
       <LineHeader />
-      <TextInvoice label="Customer">
+      <TextInvoice label="Customer     ">
         {`${customer?.firstName ?? ""} ${customer?.lastName ?? ""}`}
       </TextInvoice>
       {!!staff?.name && (
-        <TextInvoice label="Staff name">{`${staff?.name}`}</TextInvoice>
+        <TextInvoice label="Staff name    ">{`${staff?.name}`}</TextInvoice>
       )}
-      <TextInvoice label="Invoice Date">
+      <TextInvoice label="Invoice Date ">
         {`${formatWithMoment(invoiceDate, "MM/DD/YYYY hh:mm A")}`}
       </TextInvoice>
-      <TextInvoice label="Invoice NO">{`#${invoiceNO}`}</TextInvoice>
+      <TextInvoice label="Invoice NO    ">{`#${invoiceNO}`}</TextInvoice>
     </View>
   );
 };
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(15),
     textAlign: "left",
-    fontWeight: "500",
+    fontWeight: "400",
   },
 
   textInvoiceStyle: {
@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(15),
     textAlign: "left",
-    fontWeight: "normal",
   },
 
   margin: {

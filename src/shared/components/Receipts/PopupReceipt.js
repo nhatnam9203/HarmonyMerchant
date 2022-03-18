@@ -28,6 +28,7 @@ export const PopupReceipt = React.forwardRef(
     const [open, setOpen] = React.useState(false);
     const [printTemp, setPrintTemp] = React.useState(false);
     const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
+    const [isSignature, setIsSignature] = React.useState(true);
 
     const {
       portName,
@@ -42,7 +43,19 @@ export const PopupReceipt = React.forwardRef(
       invoiceDate,
       invoiceNO,
       typeReceipt,
-      invoiceCode
+      invoiceCode,
+      subTotal,
+      discount,
+      tip,
+      tax,
+      total,
+      fee,
+      cashDiscount,
+      due,
+      change,
+      taxRate,
+      promotionNotes,
+      checkoutPaymentMethods,
     } = useProps({
       appointment,
       invoice,
@@ -125,6 +138,19 @@ export const PopupReceipt = React.forwardRef(
                 symbol={symbol}
                 typeReceipt={typeReceipt}
                 invoiceCode={invoiceCode}
+                subTotal={subTotal}
+                discount={discount}
+                tip={tip}
+                tax={tax}
+                total={total}
+                fee={fee}
+                cashDiscount={cashDiscount}
+                due={due}
+                change={change}
+                taxRate={taxRate}
+                promotionNotes={promotionNotes}
+                checkoutPaymentMethods={checkoutPaymentMethods}
+                isSignature={isSignature}
               />
             </ScrollView>
           </View>
