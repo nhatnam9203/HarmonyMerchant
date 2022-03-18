@@ -8,54 +8,38 @@ import {
   PopupCheckStaffPermission,
   PopupConfirmInvoiceStatus,
   PopupConfirmPrintInvoice,
-  PopupInvoicePrint,
   PopupProcessingCredit,
   ScrollableTabView,
   StatusBarHeader,
   Text,
 } from "@components";
 import configs from "@configs";
-import Barcode from "@kichiyaki/react-native-barcode-generator";
 import IMAGE from "@resources";
-import { ButtonGradientWhite } from "@shared/components";
+import { ButtonGradientWhite, ReceiptViewShot } from "@shared/components";
 import { PopupInvoice } from "@shared/components/payment";
-import {
-  ItemHeaderReceipt,
-  ItemReceipt,
-} from "@shared/components/payment/PopupInvoice/ItemReceipt";
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import { layouts } from "@shared/themes";
-import { getFullName } from "@shared/utils";
 import {
   formatMoney,
-  formatWithMoment,
-  getPaymentString,
-  getStaffNameForInvoice,
+  getReceiptItems,
+  getReceiptSymbol,
+  getTaxRateFromInvoice,
   localize,
   menuTabs,
   PAYMENT_METHODS,
   scaleSize,
-  stringIsEmptyOrWhiteSpaces,
-  getReceiptSymbol,
-  getTaxRateFromInvoice,
 } from "@utils";
-import * as l from "lodash";
 import React from "react";
 import {
   ActivityIndicator,
   Image,
-  Platform,
   ScrollView,
   TextInput,
   View,
   VirtualizedList,
 } from "react-native";
-import Dash from "react-native-dash";
-import { formatMoneyWithUnit } from "../../utils";
 import styles from "./style";
 import { ItemButton, ItemHistory, ItemInvoice } from "./widget";
-import { ReceiptViewShot } from "@shared/components";
-import { getInfoFromModelNameOfPrinter, getReceiptItems } from "@utils";
 
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 

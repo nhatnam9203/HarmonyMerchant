@@ -2,9 +2,9 @@ import {
   getInfoFromModelNameOfPrinter,
   getReceiptItems,
   getReceiptSymbol,
+  getTaxRateFromGroupAppointment,
 } from "@utils";
 import { useSelector } from "react-redux";
-import { getTaxRateFromGroupAppointment } from "@utils";
 
 export const useProps = ({
   appointment,

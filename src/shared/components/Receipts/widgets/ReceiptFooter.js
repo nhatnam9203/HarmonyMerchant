@@ -1,16 +1,8 @@
-import {
-  formatMoneyWithUnit,
-  formatMoney,
-  formatNumberFromCurrency,
-  formatWithMoment,
-} from "@utils";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Dash from "react-native-dash";
-import { useTranslation } from "react-i18next";
-import { fonts, color, layouts } from "@shared/themes";
-import { LineHeader, LineItem } from "./ReceiptLine";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
+import { fonts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
 
 export const ReceiptFooter = ({
   fromAppointmentTab,

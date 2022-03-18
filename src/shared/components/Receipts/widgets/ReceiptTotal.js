@@ -1,19 +1,13 @@
+import { fonts } from "@shared/themes";
 import {
   formatMoneyWithUnit,
-  formatMoney,
-  formatNumberFromCurrency,
-  formatWithMoment,
-  stringIsEmptyOrWhiteSpaces,
   getPaymentString,
+  stringIsEmptyOrWhiteSpaces,
 } from "@utils";
-import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
-import Dash from "react-native-dash";
-import { useTranslation } from "react-i18next";
-import { fonts, color, layouts } from "@shared/themes";
-import { LineHeader, LineItem } from "./ReceiptLine";
-import Barcode from "@kichiyaki/react-native-barcode-generator";
 import _ from "lodash";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 export const ReceiptTotal = ({
   subtotal = 0,

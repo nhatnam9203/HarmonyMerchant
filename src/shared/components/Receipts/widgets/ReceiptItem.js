@@ -1,13 +1,8 @@
-import {
-  formatMoneyWithUnit,
-  formatMoney,
-  formatNumberFromCurrency,
-} from "@utils";
+import { fonts } from "@shared/themes";
+import { formatMoneyWithUnit, formatNumberFromCurrency } from "@utils";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Dash from "react-native-dash";
 import { useTranslation } from "react-i18next";
-import { fonts, color, layouts } from "@shared/themes";
+import { StyleSheet, Text, View } from "react-native";
 import { LineHeader, LineItem } from "./ReceiptLine";
 
 const SALON_COLUMN_WIDTH = [5, 2, 3];

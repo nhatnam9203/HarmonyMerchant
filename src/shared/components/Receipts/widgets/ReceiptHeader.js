@@ -1,15 +1,9 @@
-import {
-  formatMoneyWithUnit,
-  formatMoney,
-  formatNumberFromCurrency,
-  formatWithMoment,
-} from "@utils";
+import { fonts } from "@shared/themes";
+import { formatWithMoment } from "@utils";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Dash from "react-native-dash";
 import { useTranslation } from "react-i18next";
-import { fonts, color, layouts } from "@shared/themes";
-import { LineHeader, LineItem } from "./ReceiptLine";
+import { StyleSheet, Text, View } from "react-native";
+import { LineHeader } from "./ReceiptLine";
 
 export const ReceiptHeader = ({
   profile,
