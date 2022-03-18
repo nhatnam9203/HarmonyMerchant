@@ -1,11 +1,24 @@
+import { useAppType } from "@shared/hooks";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { ReceiptContent } from "./ReceiptContent";
 import { ReceiptItemType } from "./ReceiptItem";
-import { useAppType } from "@shared/hooks";
+import { ReceiptHeader } from "./ReceiptHeader";
 
 export const ReceiptViewShot = React.forwardRef(
-  ({ backgroundColor, items }, ref) => {
+  (
+    {
+      backgroundColor,
+      items,
+      profile,
+      staff,
+      customer,
+      symbol,
+      printTemp,
+      fromAppointmentTab,
+    },
+    ref
+  ) => {
     const viewShotRef = React.useRef(null);
     const { isRetailApp, isSalonApp } = useAppType();
 
@@ -24,6 +37,12 @@ export const ReceiptViewShot = React.forwardRef(
         ref={viewShotRef}
         style={[styles.viewShotContainer, { backgroundColor }]}
       >
+        <ReceiptHeader
+          profile={profile}
+          staff={staff}
+          customer={customer}
+          symbol={symbol}
+        />
         <ReceiptContent items={items} type={getReceiptType()} />
       </View>
     );

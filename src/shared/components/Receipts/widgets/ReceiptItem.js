@@ -8,6 +8,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Dash from "react-native-dash";
 import { useTranslation } from "react-i18next";
 import { fonts, color, layouts } from "@shared/themes";
+import { LineHeader, LineItem } from "./ReceiptLine";
 
 const SALON_COLUMN_WIDTH = [5, 2, 3];
 const RETAILER_COLUMN_WIDTH = [4, 2, 1.5, 2.5];
@@ -310,34 +311,6 @@ const TextLabel = ({ children }) => (
   <Text style={styles.textLabelStyle}>{children}</Text>
 );
 
-const LineHeader = () => (
-  <Dash
-    style={{
-      width: "100%",
-      height: 1,
-      marginVertical: scaleHeight(4),
-      marginHorizontal: scaleWidth(4),
-    }}
-    dashGap={2}
-    dashLength={10}
-    dashThickness={1}
-  />
-);
-
-const LineItem = () => (
-  <Dash
-    style={{
-      width: "98%",
-      height: 1,
-      paddingHorizontal: scaleWidth(5),
-    }}
-    dashGap={4}
-    dashLength={1}
-    dashThickness={1}
-    dashColor="#0009"
-  />
-);
-
 const styles = StyleSheet.create({
   content: {
     flexDirection: "row",
@@ -348,11 +321,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts.REGULAR,
     color: "#000",
     fontSize: scaleFont(14),
-    fontWeight: "normal",
+    fontWeight: "500",
   },
   textLabelStyle: {
     fontFamily: fonts.LIGHT,
-    color: "#000",
+    color: "#000d",
     fontSize: scaleFont(13),
     fontWeight: "normal",
     marginLeft: scaleWidth(10),

@@ -6,7 +6,7 @@ import {
   ReceiptTotalItem,
 } from "./ReceiptItem";
 
-export const ReceiptContent = ({ items, type }) => {
+export const ReceiptContent = ({ items, type, symbol }) => {
   const getTotalQty = () => {
     const totalQty = items.reduce((prev, item, index) => {
       const qty = item.data?.qty ?? 1;
@@ -17,8 +17,8 @@ export const ReceiptContent = ({ items, type }) => {
   };
 
   return (
-    <View style={styles.styles}>
-      <ReceiptHeaderItem key="receipt-header" type={type} />
+    <View style={styles.container}>
+      <ReceiptHeaderItem key="receipt-header" type={type} symbol={symbol}/>
       {items.map((x, idx) => (
         <ReceiptItem
           key={`receipt-item-${x.id ?? idx}`}

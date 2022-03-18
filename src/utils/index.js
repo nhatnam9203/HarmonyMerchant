@@ -330,7 +330,6 @@ export const getNameLanguage = (keyLanguage) => {
 
 export const getArrayProductsFromAppointment = (products = []) => {
   const temptArrayProducts = products.map((product) => {
-    console.log(product);
     return {
       type: "Product",
       id: `${product.productId}_pro`,

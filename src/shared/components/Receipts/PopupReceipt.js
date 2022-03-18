@@ -1,5 +1,5 @@
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
-import { checkIsTablet, getReceiptItems } from "@utils";
+import { checkIsTablet } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -23,13 +23,28 @@ export const PopupReceipt = React.forwardRef(
     const { t } = useTranslation();
     const dialogRef = React.useRef(null);
 
-    const { portName, emulation, widthPaper } = useProps();
+    const {
+      portName,
+      emulation,
+      widthPaper,
+      profile,
+      profileStaffLogin,
+      items,
+      customer,
+      machineType,
+    } = useProps({ appointment, invoice, groupAppointment });
     const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
 
     const [open, setOpen] = React.useState(false);
+    const [printTemp, setPrintTemp] = React.useState(false);
+    const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
+
+    const hide = () => {
+      setOpen(false);
+    };
 
     const onModalHide = () => {
-      setOpen(false);
+      // setOpen(false);
     };
 
     const onModalWillHide = () => {};
@@ -42,28 +57,15 @@ export const PopupReceipt = React.forwardRef(
     };
 
     const onPrintButtonPress = () => {};
-
-    const getItems = () => {
-      if (appointment) {
-        return getReceiptItems(appointment);
-      }
-
-      if (groupAppointment) {
-        let temps = [];
-        groupAppointment.appointments?.forEach((app) => {
-          temps.push(...getReceiptItems(appointment));
-        });
-        return temps;
-      }
-
-      if (invoice) {
-        return getReceiptItems(invoice.basket);
-      }
+    const onCancelButtonPress = () => {
+      hide();
     };
 
     // forward Ref
     React.useImperativeHandle(ref, () => ({
-      show: () => {
+      show: ({ isPrintTempt = false, isAppointmentTab = false }) => {
+        setPrintTemp(isPrintTempt);
+        setFromAppointmentTab(isAppointmentTab);
         setOpen(true);
       },
     }));
@@ -78,12 +80,10 @@ export const PopupReceipt = React.forwardRef(
         hasBackdrop={true}
         backdropOpacity={0.6}
         onModalHide={onModalHide}
-        // backdropTransitionOutTiming={0}
-        // backdropTransitionInTiming={0}
-        animationIn="zoomIn"
-        animationOut="zoomOut"
-        backdropTransitionInTiming={150}
-        backdropTransitionOutTiming={0}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        animationInTiming={0}
+        animationOutTiming={0}
         onModalWillHide={onModalWillHide}
       >
         <View style={styles.container}>
@@ -101,7 +101,14 @@ export const PopupReceipt = React.forwardRef(
               automaticallyAdjustContentInsets={true}
               keyboardShouldPersistTaps="always"
             >
-              <ReceiptViewShot items={getItems()} />
+              <ReceiptViewShot
+                items={items}
+                profile={profile}
+                staff={profileStaffLogin}
+                customer={customer}
+                printTemp={printTemp}
+                fromAppointmentTab={fromAppointmentTab}
+              />
             </ScrollView>
           </View>
 
@@ -111,7 +118,7 @@ export const PopupReceipt = React.forwardRef(
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
-              onPress={onPrintButtonPress}
+              onPress={onCancelButtonPress}
             />
             <ButtonGradient
               label={t("Print")}
