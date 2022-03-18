@@ -65,6 +65,7 @@ export const scaleSize = (size) => {
 };
 
 export const requestAPI = async (action, header = {}, isChangeServerReport = false) => {
+  console.log('action', action)
   let method = action.method || "GET";
   let headers = Object.assign(
     { Accept: "application/json", "Content-Type": "application/json" },

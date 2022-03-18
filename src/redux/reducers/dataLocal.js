@@ -31,6 +31,8 @@ const initialState = {
 
   deviceName: '',
   isTurnOnAutoClose: false,
+  profileLoginReport: {},
+  tokenReportServer: false,
 };
 
 function dataLocalReducer(state = initialState, action) {
@@ -56,6 +58,12 @@ function dataLocalReducer(state = initialState, action) {
         ...state,
         profile: action.payload.profile,
         token: action?.payload?.token || state.token,
+      };
+    case 'SAVE_PROFILE_REPORT_SERVER':
+      return {
+        ...state,
+        profileLoginReport: action.payload.profile,
+        tokenReportServer: action?.payload?.token || state.tokenReportServer,
       };
     case 'GET_MERCHANT_BY_ID_SUCCESS':
       return {

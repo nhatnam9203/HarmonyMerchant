@@ -30,7 +30,9 @@ export function forgotPassword(email) {
   };
 }
 
-export function checkStaffPermission(merchantCode, staffPin, tabName = menuTabs.MENU_INVOICE, appointmentId = "", isBlock = false) {
+export function checkStaffPermission(merchantCode, 
+  staffPin, tabName = menuTabs.MENU_INVOICE, appointmentId = "", 
+  isBlock = false, isChangeServerReport = false) {
   return {
     type: "CHECK_STAFF_PERMISSION",
     body: {
@@ -43,6 +45,7 @@ export function checkStaffPermission(merchantCode, staffPin, tabName = menuTabs.
     tabName,
     appointmentId,
     isBlock,
+    isChangeServerReport,
   };
 }
 
@@ -69,5 +72,28 @@ export function activeFirebase(firebaseToken) {
     token: true,
     api: `merchant/setupFireBase`,
     firebaseToken,
+  };
+}
+
+/**
+ * loginReportServer : 
+ * report api is separately, login to get token for call report apis
+ * @param {*} email 
+ * @param {*} password 
+ * @param {*} terminalId 
+ * @param {*} isRememberMID 
+ * @returns 
+ */
+ export function loginReportServer(email, password, terminalId, isRememberMID = false) {
+  return {
+    type: "LOGIN_REPORT_SERVER",
+    body: {
+      email,
+      password,
+      terminalId
+    },
+    method: "POST",
+    api: `merchant/login`,
+    isRememberMID,
   };
 }

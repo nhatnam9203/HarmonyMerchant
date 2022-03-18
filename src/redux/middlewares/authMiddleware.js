@@ -6,7 +6,8 @@ const log = (obj, message = "") => {
   Logger.log(`[authMiddleware] ${message}`, obj);
 };
 const authMiddleware = (store) => (next) => async (action) => {
-  const token = await getAuthToken();
+  //profileLoginReport.token: server change report api separately, token for report is different
+  const token = action?.isChangeServerReport ? await getAuthTokenReport() : await getAuthToken();
   const appState = store.getState();
   const versionApp = configs.APP_VERSION;
   const deviceId = appState?.appMerchant?.deviceId;
@@ -16,7 +17,9 @@ const authMiddleware = (store) => (next) => async (action) => {
   if (action.token) {
     return next({
       ...action_tempt,
-      token: appState?.dataLocal?.profileStaffLogin?.token ?? token,
+      token: action?.isChangeServerReport ? 
+            appState?.dataLocal?.profileLoginReport?.token ?? token
+            : appState?.dataLocal?.profileStaffLogin?.token ?? token,
     });
   } else {
     if (token) {
