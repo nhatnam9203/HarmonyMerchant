@@ -4,7 +4,7 @@ import RNFetchBlob from "rn-fetch-blob";
 
 import { requestAPI } from "../../utils";
 import Configs from "@configs";
-import { saveAuthToken } from "@shared/storages/authToken";
+import { saveAuthToken, saveAuthTokenReport } from "@shared/storages/authToken";
 
 function* addStaffByMerchant(action) {
   try {
@@ -428,6 +428,46 @@ function* loginStaff(action) {
   }
 }
 
+function* loginStaffReportServer(action) {
+  try {
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    yield put({ type: "STOP_LOADING_ROOT" });
+    if (parseInt(codeNumber) == 200) {
+      yield put({ ...action, type: "LOGIN_STAFF_REPORT_SERVER_SUCCESS" });
+      yield call(saveAuthTokenReport, responses.data?.token);
+
+      yield put({
+            type: "UPDATE_PROFILE_STAFF_REPORT_SERVER_SUCCESS",
+            payload: responses.data,
+          });
+
+      yield put({
+        type: "RESET_STATE_LOGIN_STAFF_REPORT_SERVER",
+        payload: true,
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({ type: "LOGIN_STAFF_REPORT_SERVER_FAIL" });
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({ type: "LOGIN_STAFF_REPORT_SERVER_FAIL" });
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses?.message,
+      });
+    }
+    yield put({ type: "STOP_LOADING_ROOT" });
+  } catch (error) {
+    yield put({ type: "LOGIN_STAFF_REPORT_SERVER_FAIL" });
+    yield put({ type: "STOP_LOADING_ROOT" });
+    // yield put({ ...action, type: error, typeParent: action.type });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
 function* forgotPin(action) {
   try {
     yield put({ type: "LOADING_ROOT" });
@@ -617,5 +657,6 @@ export default function* saga() {
     takeLatest("GET_STAFF_DETAIL_BY_ID", getStaffDetailByMerchantId),
     takeLatest("GET_STAFF_SERVICE", getStaffService),
     takeLatest("UPDATE_STAFF_STATUS", updateStaffStatus),
+    takeLatest("LOGIN_STAFF_REPORT_SERVER", loginStaffReportServer),
   ]);
 }

@@ -102,7 +102,7 @@ export function getOverallPaymentMethod(
     token: true,
     api: `overall/paymentMethod?${params}&method=${method}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -117,7 +117,7 @@ export function getOverallMarketingEfficiency(
     token: true,
     api: `overall/marketingEfficiency?${params}&promotionId=${promotionId}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -132,7 +132,7 @@ export function getGiftCardReportSales(
     token: true,
     api: `giftCard/reportSales?${params}&giftCardGeneralId=${giftCardGeneralId}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -147,7 +147,7 @@ export function getServiceByCategoryReportSales(
     token: true,
     api: `service/report/saleByCategory?${params}&category=${categoryId}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -162,7 +162,7 @@ export function getServiceByServiceReportSales(
     token: true,
     api: `service/report/saleByService?${params}&service=${serviceId}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -177,7 +177,7 @@ export function getProductByCategoryReportSales(
     token: true,
     api: `product/report/saleByCategory?${params}&category=${categoryId}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -192,7 +192,7 @@ export function getProductByProductReportSales(
     token: true,
     api: `product/report/saleByProduct?${params}&product=${productId}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -212,7 +212,7 @@ export function exportPaymentMethod(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -231,7 +231,7 @@ export function exportPaymentMethodStatistics(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -250,7 +250,7 @@ export function exportMarketingEfficiency(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -269,7 +269,7 @@ export function exportMarketingEfficiencyStatistics(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -288,7 +288,7 @@ export function exportGiftCardReportSales(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -307,7 +307,7 @@ export function exportGiftCardReportSalesStatistics(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -332,7 +332,7 @@ export function getCustomerSales(
     token: true,
     api: `appointment/report/customerSales?${params}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -351,7 +351,7 @@ export function exportCustomerSalesSales(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -373,7 +373,7 @@ export function exportProductSaleByCategory(
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
     isChangeServerReport,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -392,7 +392,7 @@ export function exportProductSaleByCategoryDetail(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -411,7 +411,7 @@ export function exportProductSaleByProduct(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -430,7 +430,7 @@ export function exportProductSaleByProductDetail(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -451,7 +451,7 @@ export function exportServiceSaleByCategory(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -470,7 +470,7 @@ export function exportServiceSaleByCategoryDetail(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -489,7 +489,7 @@ export function exportServiceSaleByService(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -508,7 +508,7 @@ export function exportServiceSaleByServiceDetail(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -524,7 +524,7 @@ export function getReportStaffServiceDuration(
     token: true,
     api: `staff/report/serviceduration?${params}&staffId=${staffId}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -539,7 +539,7 @@ export function getReportStaffServiceDurationDetail(
     token: true,
     api: `staff/report/serviceduration/detail/${durationServiceId}?${params}`,
     isShowLoading,
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -558,7 +558,7 @@ export function exportStaffServiceDuration(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 
@@ -577,7 +577,7 @@ export function exportServiceStaffDurationDetail(
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
-    isChangeServerReport,
+    isChangeServerReport: true,
   };
 }
 

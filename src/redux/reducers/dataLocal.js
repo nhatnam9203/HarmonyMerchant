@@ -31,8 +31,10 @@ const initialState = {
 
   deviceName: '',
   isTurnOnAutoClose: false,
+  profileStaffLoginReportServer: {},
   profileLoginReport: {},
   tokenReportServer: false,
+  isLoginStaffReportServer: false,
 };
 
 function dataLocalReducer(state = initialState, action) {
@@ -91,6 +93,11 @@ function dataLocalReducer(state = initialState, action) {
         ...state,
         profileStaffLogin: action.payload,
       };
+    case 'UPDATE_PROFILE_STAFF_REPORT_SERVER_SUCCESS':
+      return {
+        ...state,
+        profileStaffLoginReportServer: action.payload,
+      };
     case 'RESET_NEED_SETTING_STORE':
       return {
         ...state,
@@ -105,6 +112,16 @@ function dataLocalReducer(state = initialState, action) {
       return {
         ...state,
         isLoginStaff: false,
+      };
+    case 'LOGIN_STAFF_REPORT_SERVER':
+      return {
+        ...state,
+        isLoginStaffReportServer: false,
+      };
+    case 'RESET_STATE_LOGIN_STAFF_REPORT_SERVER':
+      return {
+        ...state,
+        isLoginStaffReportServer: action.payload,
       };
     case 'ADD_APPOINTMENT_OFFLINE_MODE':
       return {

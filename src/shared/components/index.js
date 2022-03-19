@@ -45,3 +45,4 @@ export * from "./PopupCheckPermission";
 export * from "./PopupPinCode";
 export * from "./CustomTextInput";
 export * from "./PrintReceipt";
+export * from "./DialogPinCodeReportServer";

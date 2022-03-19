@@ -1,5 +1,5 @@
 import actions from "@actions";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { APP_TYPE } from "@shared/constants";
 import { menuTabs } from "@utils";
@@ -14,19 +14,26 @@ export const useProps = ({ navigation }) => {
 
   const [isShowBackButton, showBackButton] = React.useState(false);
 
+  const tokenReportServer = useSelector(
+    (state) => state.dataLocal.tokenReportServer
+  );
+
   const openDrawer = () => {
     navigation.openDrawer();
   };
 
+  useEffect(()=>{
+    dispatch(actions.auth.login(email));
+  },[])
+
   useFocusEffect(
     React.useCallback(() => {
-
-      // if (isPermission) {
-      //   popupCheckPermissionRef.current.hide();
-      // } else {
+      if (isPermission) {
+        popupCheckPermissionRef.current.hide();
+      } else {
         popupCheckPermissionRef.current.show();
-      // }
-    }, [isPermission])
+      }
+    }, [isPermission, tokenReportServer])
   );
 
   return {
