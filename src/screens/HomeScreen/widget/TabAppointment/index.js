@@ -258,6 +258,8 @@ class TabAppointment extends Layout {
               // });
               // TODO: print with checkoutId
 
+              console.log(appointment);
+
               break;
 
             case "jumpToCustomerHistory":
