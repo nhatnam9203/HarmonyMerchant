@@ -204,6 +204,7 @@ export function getListStaffsSalaryTop(
     isShowLoading,
     timeOut: 120000,
     page,
+    isChangeServerReport: true,
   };
 }
 

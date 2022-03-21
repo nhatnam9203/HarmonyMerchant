@@ -3,7 +3,7 @@ import { configure } from "axios-hooks";
 import Configs from "@configs";
 import { Platform } from "react-native";
 import { ErrorHandler } from "./ErrorHandler";
-import { getAuthToken } from "@shared/storages/authToken";
+import { getAuthTokenReport } from "@shared/storages/authToken";
 import NavigationServices from "@navigators/NavigatorServices";
 
 const log = (obj, message = "") => {

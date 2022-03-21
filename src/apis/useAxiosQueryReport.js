@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 let cancelToken;
 
-export const useAxiosQuery = ({
+export const useAxiosQueryReport = ({
   params,
   queryId,
   onSuccess,
