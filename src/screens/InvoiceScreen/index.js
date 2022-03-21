@@ -1548,6 +1548,8 @@ class InvoiceScreen extends Layout {
         dejavooMachineInfo,
       } = this.props;
 
+      this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
+
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
         printerSelect
@@ -1640,6 +1642,7 @@ class InvoiceScreen extends Layout {
 
     const printMachine = await checkStatusPrint();
     const { isSetup } = cloverMachineInfo;
+
     if (
       (printMachine && printMachine.length > 0) ||
       (paymentMachineType == PaymentTerminalType.Clover && isSetup) ||
@@ -1656,7 +1659,7 @@ class InvoiceScreen extends Layout {
 
   shareCustomerInvoice = async () => {
     try {
-      const { printerSelect, paymentMachineType } = this.props;
+      const { paymentMachineType } = this.props;
 
       await this.setState({ receiptContentBg: "#fff" }, async () => {
         const imageUri = await this.viewShowRef.current?.captureImageUrl({

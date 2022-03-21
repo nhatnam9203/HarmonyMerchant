@@ -74,7 +74,7 @@ const TextSymbol = ({ children }) => (
 
 const TextInvoice = ({ label = "", children }) => (
   <Text style={styles.textInvoiceLabelStyle}>
-    {`${label} :  `}
+    {` ${label} :   `}
     <Text style={styles.textInvoiceStyle}>{children}</Text>
   </Text>
 );
@@ -114,18 +114,17 @@ const styles = StyleSheet.create({
   },
 
   textInvoiceLabelStyle: {
-    fontFamily: fonts.REGULAR,
+    fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(16),
+    fontSize: scaleFont(15),
     textAlign: "left",
   },
 
   textInvoiceStyle: {
     fontFamily: fonts.REGULAR,
     color: "#000",
-    fontSize: scaleFont(16),
+    fontSize: scaleFont(15),
     textAlign: "left",
-    fontWeight: "400",
   },
 
   margin: {
