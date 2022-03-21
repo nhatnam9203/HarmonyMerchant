@@ -9,9 +9,9 @@ export const ReceiptHeader = ({
   profile,
   symbol = "TICKET",
   customer,
-  staff,
   invoiceDate,
   invoiceNO = "Unknown",
+  staffName,
 }) => {
   const { t } = useTranslation();
   return (
@@ -37,8 +37,8 @@ export const ReceiptHeader = ({
       <TextInvoice label="Customer     ">
         {`${customer?.firstName ?? " "} ${customer?.lastName ?? " "}`}
       </TextInvoice>
-      {!!staff?.name && (
-        <TextInvoice label="Staff name    ">{` ${staff?.name}`}</TextInvoice>
+      {!!staffName && (
+        <TextInvoice label="Staff name   ">{` ${staffName}`}</TextInvoice>
       )}
       <TextInvoice label="Invoice Date ">
         {`${formatWithMoment(invoiceDate, "MM/DD/YYYY hh:mm A")}`}

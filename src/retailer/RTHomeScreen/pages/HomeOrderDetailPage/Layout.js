@@ -58,6 +58,7 @@ export const Layout = ({
   returnReceiptRef,
   doPrintClover,
   getTaxRate,
+  cancelInvoicePrint,
 }) => {
   const [t] = useTranslation();
 
@@ -839,13 +840,12 @@ export const Layout = ({
         </View>
       </KeyboardAwareScrollView>
 
-      {/* <PopupInvoice
-        ref={invoiceRef}
-        doPrintClover={doPrintClover} /> */}
+
       <PopupReceipt
         ref={invoiceRef}
         appointment={item}
         doPrintClover={doPrintClover}
+        cancelInvoicePrint={cancelInvoicePrint}
       />
 
       <PopupReturnReceipt ref={returnReceiptRef} />

@@ -6,6 +6,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import { useProps } from "./useProps";
 import { ReceiptViewShot } from "./widgets";
+import { usePrinter } from "./usePrinter";
 
 const DEFAULT_WIDTH = scaleWidth(391);
 
@@ -22,6 +23,7 @@ export const PopupReceipt = React.forwardRef(
   ) => {
     const { t } = useTranslation();
     const dialogRef = React.useRef(null);
+    const viewShotRef = React.useRef(null);
 
     const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
 
@@ -64,6 +66,25 @@ export const PopupReceipt = React.forwardRef(
       fromAppointmentTab,
     });
 
+    const { printProcess, shareProcess, processLoading } = usePrinter({
+      printTemp,
+      viewShotRef,
+      doPrintClover,
+      isSignature,
+      setIsSignature,
+      onCancelPrint: (temp) => {
+        if (cancelInvoicePrint && typeof cancelInvoicePrint === "function") {
+          cancelInvoicePrint(temp);
+        }
+
+        // reset
+        setOpen(false);
+        setIsSignature(true);
+        setPrintTemp(false);
+        setFromAppointmentTab(false);
+      },
+    });
+
     const hide = () => {
       setOpen(false);
     };
@@ -81,7 +102,10 @@ export const PopupReceipt = React.forwardRef(
       }
     };
 
-    const onPrintButtonPress = () => {};
+    const onPrintButtonPress = async () => {
+      await printProcess();
+      hide();
+    };
     const onCancelButtonPress = () => {
       hide();
     };
@@ -128,6 +152,7 @@ export const PopupReceipt = React.forwardRef(
               keyboardShouldPersistTaps="always"
             >
               <ReceiptViewShot
+                ref={viewShotRef}
                 items={items}
                 profile={profile}
                 customer={customer}

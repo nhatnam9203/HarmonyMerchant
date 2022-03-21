@@ -1,13 +1,20 @@
 import {
   PopupActiveGiftCard,
-  PopupChangeMoney, PopupChangeTip, PopupConfirm,
+  PopupChangeMoney,
+  PopupChangeTip,
+  PopupConfirm,
   PopupPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
-  PopupSendLinkInstall
+  PopupSendLinkInstall,
 } from "@components";
 import IMAGE from "@resources";
-import { ButtonGradient, ButtonGradientWhite, CustomCheckBox } from "@shared/components";
+import {
+  ButtonGradient,
+  ButtonGradientWhite,
+  CustomCheckBox,
+  PopupReceipt,
+} from "@shared/components";
 import {
   ErrorMessagePaxModal,
   PopupBill,
@@ -17,8 +24,7 @@ import {
   PopupDiscountLocal,
   PopupEnterAmountGiftCard,
   PopupGiftCardDetail,
-  PopupInvoice,
-  PopupPaymentDetails
+  PopupPaymentDetails,
 } from "@shared/components/payment";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
@@ -30,7 +36,7 @@ import {
   BasketPaymentContent,
   ButtonPaymentMethod,
   CheckOutCustomerInfo,
-  DialogProductDetail
+  DialogProductDetail,
 } from "../../widget";
 
 const ExitCheckoutConfirmButton = WithDialogConfirm(ButtonGradientWhite);
@@ -115,7 +121,7 @@ export const Layout = ({
   onDidNotPayCheck,
   isDidNotPay,
   getPurchasePoint,
-  didNotPayComplete
+  didNotPayComplete,
 }) => {
   const [t] = useTranslation();
 
@@ -184,7 +190,7 @@ export const Layout = ({
               fontSize={scaleFont(17)}
               textWeight="normal"
               onPress={onGoBackCheckOut}
-            // onPress={onGoBackOrderList}
+              // onPress={onGoBackOrderList}
             >
               <Image source={IMAGE.back} />
             </ButtonGradientWhite>
@@ -194,22 +200,26 @@ export const Layout = ({
         <View style={styles.container}>
           <View style={styles.listContent}>
             <View style={styles.basketHeader}>
-
               <Text style={styles.basketTitle}>
                 {t("Select payment method")}
               </Text>
 
-              {getPurchasePoint() === "CallOrder" && <CustomCheckBox
-                label={t("Did not pay")}
-                onValueChange={onDidNotPayCheck}
-                selectedColor={colors.OCEAN_BLUE}
-                onCheckColor="#fff"
-                textStyle={styles.textStyle}
-                style={styles.customCheckbox}
-              />}
+              {getPurchasePoint() === "CallOrder" && (
+                <CustomCheckBox
+                  label={t("Did not pay")}
+                  onValueChange={onDidNotPayCheck}
+                  selectedColor={colors.OCEAN_BLUE}
+                  onCheckColor="#fff"
+                  textStyle={styles.textStyle}
+                  style={styles.customCheckbox}
+                />
+              )}
             </View>
             <View style={layouts.marginVertical} />
-            <View style={[layouts.fill, isDidNotPay && styles.disableStyle]} pointerEvents={isDidNotPay ? "none" : "auto"}>
+            <View
+              style={[layouts.fill, isDidNotPay && styles.disableStyle]}
+              pointerEvents={isDidNotPay ? "none" : "auto"}
+            >
               {/* <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"HarmonyPay"}
@@ -226,7 +236,6 @@ export const Layout = ({
                 />
               </View> */}
               <View style={styles.rowContent}>
-
                 <ButtonPaymentMethod
                   key={"Cash"}
                   title={"Cash"}
@@ -240,8 +249,6 @@ export const Layout = ({
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
-
-
               </View>
               <View style={styles.rowContent}>
                 <ButtonPaymentMethod
@@ -334,8 +341,12 @@ export const Layout = ({
       <PopupConfirm
         visible={visibleConfirmPayment ? true : false}
         title={t("Verify payment")}
-        message={t("This may be a duplicate, do you want to accept this payment?")}
-        onRequestClose={() => { setVisibleConfirmPayment }}
+        message={t(
+          "This may be a duplicate, do you want to accept this payment?"
+        )}
+        onRequestClose={() => {
+          setVisibleConfirmPayment;
+        }}
         confimYes={confirmPaymentClover}
         confirmNo={rejectPaymentClover}
         textLeftButton={t("Reject")}
@@ -411,9 +422,12 @@ export const Layout = ({
         resultScanCode={resultScanCode}
       />
 
-      <PopupInvoice ref={invoiceRef}
+      <PopupReceipt
+        ref={invoiceRef}
+        doPrintClover={doPrintClover}
         cancelInvoicePrint={cancelInvoicePrint}
-        doPrintClover={doPrintClover} />
+        groupAppointment={groupAppointment}
+      />
 
       <PopupChangeTip
         ref={changeTipRef}
@@ -425,7 +439,7 @@ export const Layout = ({
       />
 
       <PopupPayCompleted
-        onRequestClose={() => { }}
+        onRequestClose={() => {}}
         printBill={printBill}
         donotPrintBill={donotPrintBill}
       />
@@ -573,9 +587,9 @@ const styles = StyleSheet.create({
     color: colors.OCEAN_BLUE,
     // textDecorationLine: "underline",
   },
-  customCheckbox: { height: scaleHeight(40), },
+  customCheckbox: { height: scaleHeight(40) },
 
   disableStyle: {
-    opacity: 0.7
-  }
+    opacity: 0.7,
+  },
 });

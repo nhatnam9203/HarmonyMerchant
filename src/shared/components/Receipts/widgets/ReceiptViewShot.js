@@ -6,6 +6,8 @@ import { ReceiptItemType } from "./ReceiptItem";
 import { ReceiptHeader } from "./ReceiptHeader";
 import { ReceiptFooter } from "./ReceiptFooter";
 import { ReceiptTotal } from "./ReceiptTotal";
+import { captureRef, releaseCapture } from "react-native-view-shot";
+import { getStaffNameForInvoice } from "@utils";
 
 export const ReceiptViewShot = React.forwardRef(
   (
@@ -50,6 +52,19 @@ export const ReceiptViewShot = React.forwardRef(
       }
     };
 
+    React.useImperativeHandle(ref, () => ({
+      captureImageUrl: async (paymentMachineType, printerSelect) => {
+        const imageUri = await captureRef(viewShotRef, {
+          ...(paymentMachineType === "Clover" &&
+            !printerSelect && { result: "base64" }),
+          format: "jpg",
+          quality: 0.8,
+        });
+
+        return imageUri;
+      },
+    }));
+
     return (
       <View
         ref={viewShotRef}
@@ -61,6 +76,7 @@ export const ReceiptViewShot = React.forwardRef(
           symbol={symbol}
           invoiceDate={invoiceDate}
           invoiceNO={invoiceNO}
+          staffName={getStaffNameForInvoice(items)}
         />
         <ReceiptContent items={items} type={getReceiptType()} />
         <ReceiptTotal

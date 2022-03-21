@@ -1080,7 +1080,7 @@ export const getQuickFilterStringInvoice = (type) => {
   return quickFilter;
 };
 
-export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
+export const getStaffNameForInvoice = (basket = []) => {
   // const staffNameLogin = profileStaffLogin.displayName ? profileStaffLogin.displayName : "";
 
   let staffArr = [];
@@ -2083,7 +2083,9 @@ export const getTaxRateFromGroupAppointment = (groupAppointment) => {
   return taxRate;
 };
 
-export const getReceiptItems = ({ services, products, giftCards, extras }) => {
+export const getReceiptItems = (params = {}) => {
+  const { services, products, giftCards, extras } = params;
+
   const arrayProducts = getArrayProductsFromAppointment(products);
   let arrayServices = getArrayServicesFromAppointment(services);
   const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);

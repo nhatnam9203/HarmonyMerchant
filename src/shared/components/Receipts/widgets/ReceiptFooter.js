@@ -31,13 +31,15 @@ export const ReceiptFooter = ({
         </Text>
       ) : null}
       <TextLabel>{`********* ${typeReceipt ?? "Receipt"} *********`}</TextLabel>
+      <View style={styles.margin} />
       {!!invoiceCode && (
         <Barcode
           format="CODE128"
           value={invoiceCode + ""}
           text={`${invoiceCode}`}
           style={{ marginBottom: 10 }}
-          maxWidth={scaleWidth(260)}
+          maxWidth={scaleWidth(280)}
+          height={scaleHeight(50)}
         />
       )}
     </View>
@@ -58,8 +60,8 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(16),
-    fontWeight: "400",
+    fontSize: scaleFont(17),
+    fontWeight: "500",
     textAlign: "center",
   },
 

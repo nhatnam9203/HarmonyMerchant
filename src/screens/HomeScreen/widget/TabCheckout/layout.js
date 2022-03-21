@@ -1587,16 +1587,11 @@ class Layout extends React.Component {
           addCustomerInfo={this.addCustomerInfo}
         />
 
-        {/* <PopupInvoice
-          ref={this.invoiceRef}
-          cancelInvoicePrint={this.cancelInvoicePrint}
-          doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
-        /> */}
-
         <PopupReceipt
           ref={this.invoiceRef}
           groupAppointment={groupAppointment}
           doPrintClover={this.doPrintClover}
+          cancelInvoicePrint={this.cancelInvoicePrint}
         />
 
         <PopupEnterAmountCustomService

@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { WebView } from "react-native-webview";
 import _ from "ramda";
-import { PopupInvoice } from "@shared/components/payment";
+import { PopupReceipt } from "@shared/components";
 
 import styles from "./style";
 
@@ -16,6 +16,9 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
+
+    const { groupAppointment } = this.props;
+
     return (
       <View style={styles.container}>
         <WebView
@@ -44,9 +47,11 @@ class Layout extends React.Component {
           onContentProcessDidTerminate={this.reloadWebview}
         />
 
-        <PopupInvoice
+        <PopupReceipt
           ref={this.invoiceRef}
-          doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
+          doPrintClover={this.doPrintClover}
+          cancelInvoicePrint={this.cancelInvoicePrint}
+          groupAppointment={groupAppointment}
         />
       </View>
     );

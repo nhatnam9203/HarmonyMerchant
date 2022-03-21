@@ -15,8 +15,11 @@ import {
 } from "@components";
 import configs from "@configs";
 import IMAGE from "@resources";
-import { ButtonGradientWhite, ReceiptViewShot } from "@shared/components";
-import { PopupInvoice } from "@shared/components/payment";
+import {
+  ButtonGradientWhite,
+  ReceiptViewShot,
+  PopupReceipt,
+} from "@shared/components";
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import { layouts } from "@shared/themes";
 import {
@@ -368,7 +371,7 @@ export default class Layout extends React.Component {
           >
             <ReceiptViewShot
               backgroundColor={"#fff"}
-              items={getReceiptItems(invoiceDetail?.basket || [])}
+              items={getReceiptItems(invoiceDetail?.basket)}
               profile={profile}
               customer={getCustomer()}
               printTemp={false}
@@ -647,6 +650,7 @@ export default class Layout extends React.Component {
       visibleConfirmPrintInvoice,
       invoiceTabPermission,
       profileLoginInvoice,
+      invoiceDetail,
     } = this.props;
     const {
       visibleCalendar,
@@ -719,7 +723,12 @@ export default class Layout extends React.Component {
           language={language}
         />
 
-        <PopupInvoice ref={this.invoiceRef} />
+        <PopupReceipt
+          ref={this.invoiceRef}
+          invoice={invoiceDetail}
+          // doPrintClover={this.doPrintClover}
+          // cancelInvoicePrint={this.cancelInvoicePrint}
+        />
       </ParentContainer>
     );
   }
