@@ -1659,23 +1659,23 @@ class InvoiceScreen extends Layout {
 
   shareCustomerInvoice = async () => {
     try {
-      const { paymentMachineType } = this.props;
+      const { paymentMachineType, printerSelect } = this.props;
 
       await this.setState({ receiptContentBg: "#fff" }, async () => {
         const imageUri = await this.viewShowRef.current?.captureImageUrl({
           paymentMachineType,
-          printerSelect: true,
+          printerSelect,
         });
         if (Platform.OS === "ios") {
           RNFetchBlob.ios.previewDocument(imageUri);
         } else {
-          const shareResponse = await Share.open({
+          await Share.open({
             url: `file://${imageUri}`,
           });
         }
       });
     } catch (error) {
-      // alert(error)
+      alert(error);
     }
   };
 

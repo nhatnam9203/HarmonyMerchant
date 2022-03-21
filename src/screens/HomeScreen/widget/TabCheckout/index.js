@@ -737,14 +737,6 @@ class TabCheckout extends Layout {
     // }
 
     this.blockAppointmentRef = [];
-
-    console.log("isOpenBlockAppointmentId " + isOpenBlockAppointmentId);
-    console.log("isBookingFromCalendar " + isBookingFromCalendar);
-    console.log("isCancelAppointment " + isCancelAppointment);
-
-    console.log(
-      "appointmentIdBookingFromCalendar " + appointmentIdBookingFromCalendar
-    );
   };
 
   setStateFromParent = () => {
@@ -1007,22 +999,6 @@ class TabCheckout extends Layout {
         isPrintTempt: true,
       });
     }
-  };
-
-  printTemptInvoice = async () => {
-    const { groupAppointment, paymentDetailInfo, paymentMachineType } =
-      this.props;
-
-    await this.invoiceRef.current?.show({
-      isPrintTempt: true,
-    });
-    // await this.invoiceRef.current?.showAppointmentReceipt({
-    //   appointmentId: groupAppointment?.mainAppointmentId,
-    //   checkoutId: paymentDetailInfo?.invoiceNo,
-    //   isPrintTempt: true,
-    //   isSalon: true,
-    //   machineType: paymentMachineType,
-    // });
   };
 
   checkStatusCashier = async () => {
@@ -3178,15 +3154,20 @@ class TabCheckout extends Layout {
     this.subscriptions = [];
   }
 
-  shareTemptInvoice = async () => {
-    const { groupAppointment } = this.props;
+  printTemptInvoice = async () => {
+    const { groupAppointment, paymentDetailInfo, paymentMachineType } =
+      this.props;
 
-    // this.invoiceRef.current?.showAppointmentReceipt({
-    //   appointmentId: groupAppointment?.mainAppointmentId,
-    //   isShareMode: true,
-    //   isSalon: true,
-    //   isPrintTempt: false,
-    // });
+    await this.invoiceRef.current?.show({
+      isPrintTempt: true,
+    });
+  };
+
+  shareTemptInvoice = async () => {
+    await this.invoiceRef.current?.share({
+      isPrintTempt: true,
+      isAppointmentTab: false,
+    });
   };
 
   cancelInvoice = async () => {

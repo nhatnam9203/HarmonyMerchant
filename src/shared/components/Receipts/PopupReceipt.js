@@ -31,6 +31,8 @@ export const PopupReceipt = React.forwardRef(
     const [printTemp, setPrintTemp] = React.useState(false);
     const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
     const [isSignature, setIsSignature] = React.useState(true);
+    const [isShare, setIsShare] = React.useState(false);
+    const [receiptBackground, setReceiptBackground] = React.useState("#fff");
 
     const {
       portName,
@@ -72,7 +74,7 @@ export const PopupReceipt = React.forwardRef(
       doPrintClover,
       isSignature,
       setIsSignature,
-      onCancelPrint: (temp) => {
+      onCancelPrint: async (temp) => {
         if (cancelInvoicePrint && typeof cancelInvoicePrint === "function") {
           cancelInvoicePrint(temp);
         }
@@ -82,6 +84,15 @@ export const PopupReceipt = React.forwardRef(
         setIsSignature(true);
         setPrintTemp(false);
         setFromAppointmentTab(false);
+        setIsShare(false);
+      },
+      onCancelShare: async () => {
+        // reset
+        setOpen(false);
+        setIsSignature(true);
+        setPrintTemp(false);
+        setFromAppointmentTab(false);
+        setIsShare(false);
       },
     });
 
@@ -106,6 +117,10 @@ export const PopupReceipt = React.forwardRef(
       await printProcess();
       hide();
     };
+
+    const onShareButtonPress = async () => {
+      await shareProcess();
+    };
     const onCancelButtonPress = () => {
       hide();
     };
@@ -114,9 +129,24 @@ export const PopupReceipt = React.forwardRef(
     React.useImperativeHandle(ref, () => ({
       show: (params) => {
         const { isPrintTempt, isAppointmentTab } = params ?? {};
+        setIsShare(false);
         setPrintTemp(isPrintTempt);
         setFromAppointmentTab(isAppointmentTab);
         setOpen(true);
+
+        const receiptContentBg =
+          machineType == PaymentTerminalType.Clover && !portName
+            ? "#fff"
+            : "#0000";
+        setReceiptBackground(receiptContentBg);
+      },
+      share: (params) => {
+        const { isPrintTempt, isAppointmentTab } = params ?? {};
+        setIsShare(true);
+        setPrintTemp(isPrintTempt);
+        setFromAppointmentTab(isAppointmentTab);
+        setOpen(true);
+        setReceiptBackground("#fff");
       },
     }));
 
@@ -146,32 +176,39 @@ export const PopupReceipt = React.forwardRef(
               },
             ]}
           >
-            <ReceiptViewShot
-              ref={viewShotRef}
-              items={items}
-              profile={profile}
-              customer={customer}
-              printTemp={printTemp}
-              fromAppointmentTab={fromAppointmentTab}
-              invoiceDate={invoiceDate}
-              invoiceNO={invoiceNO}
-              symbol={symbol}
-              typeReceipt={typeReceipt}
-              invoiceCode={invoiceCode}
-              subTotal={subTotal}
-              discount={discount}
-              tip={tip}
-              tax={tax}
-              total={total}
-              fee={fee}
-              cashDiscount={cashDiscount}
-              due={due}
-              change={change}
-              taxRate={taxRate}
-              promotionNotes={promotionNotes}
-              checkoutPaymentMethods={checkoutPaymentMethods}
-              isSignature={isSignature}
-            />
+            <ScrollView
+              style={{ flex: 1 }}
+              automaticallyAdjustContentInsets={true}
+              keyboardShouldPersistTaps="always"
+            >
+              <ReceiptViewShot
+                ref={viewShotRef}
+                backgroundColor={receiptBackground}
+                items={items}
+                profile={profile}
+                customer={customer}
+                printTemp={printTemp}
+                fromAppointmentTab={fromAppointmentTab}
+                invoiceDate={invoiceDate}
+                invoiceNO={invoiceNO}
+                symbol={symbol}
+                typeReceipt={typeReceipt}
+                invoiceCode={invoiceCode}
+                subTotal={subTotal}
+                discount={discount}
+                tip={tip}
+                tax={tax}
+                total={total}
+                fee={fee}
+                cashDiscount={cashDiscount}
+                due={due}
+                change={change}
+                taxRate={taxRate}
+                promotionNotes={promotionNotes}
+                checkoutPaymentMethods={checkoutPaymentMethods}
+                isSignature={isSignature}
+              />
+            </ScrollView>
           </View>
 
           <View style={styles.bottomStyle}>
@@ -182,13 +219,23 @@ export const PopupReceipt = React.forwardRef(
               borderRadius={scaleWidth(3)}
               onPress={onCancelButtonPress}
             />
-            <ButtonGradient
-              label={t("Print")}
-              width={scaleWidth(140)}
-              height={scaleHeight(40)}
-              borderRadius={scaleWidth(3)}
-              onPress={onPrintButtonPress}
-            />
+            {isShare ? (
+              <ButtonGradient
+                label={t("Share")}
+                width={scaleWidth(140)}
+                height={scaleHeight(40)}
+                borderRadius={scaleWidth(3)}
+                onPress={onShareButtonPress}
+              />
+            ) : (
+              <ButtonGradient
+                label={t("Print")}
+                width={scaleWidth(140)}
+                height={scaleHeight(40)}
+                borderRadius={scaleWidth(3)}
+                onPress={onPrintButtonPress}
+              />
+            )}
           </View>
         </View>
       </Modal>

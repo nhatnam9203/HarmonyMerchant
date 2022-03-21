@@ -149,7 +149,7 @@ class Layout extends React.Component {
                     { fontSize: scaleSize(9), fontWeight: "500" },
                   ]}
                 >
-                  {localize("Share receipt", language)}
+                  {localize("Share Receipt", language)}
                 </Text>
               </Button>
               <Button
@@ -166,7 +166,7 @@ class Layout extends React.Component {
                     { fontSize: scaleSize(9), fontWeight: "500" },
                   ]}
                 >
-                  {localize("Print receipt", language)}
+                  {localize("Print Receipt", language)}
                 </Text>
               </Button>
             </View>
@@ -1347,6 +1347,7 @@ class Layout extends React.Component {
       isBookingFromCalendar,
       appointmentIdBookingFromCalendar,
     } = this.props;
+
     const {
       visibleConfirm,
       visibleChangeStylist,

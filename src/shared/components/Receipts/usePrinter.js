@@ -4,6 +4,8 @@ import Share from "react-native-share";
 import { StarPRNT } from "react-native-star-prnt";
 import { releaseCapture } from "react-native-view-shot";
 import { useSelector } from "react-redux";
+import RNFetchBlob from "rn-fetch-blob";
+import { Platform } from "react-native";
 
 export const usePrinter = ({
   viewShotRef,
@@ -12,6 +14,7 @@ export const usePrinter = ({
   isSignature,
   setIsSignature,
   onCancelPrint,
+  onCancelShare,
 }) => {
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
   const { profile, printerList, printerSelect } =
@@ -124,7 +127,7 @@ export const usePrinter = ({
     }
   };
 
-  const onShareProcess = async () => {
+  const shareProcess = async () => {
     try {
       await setLoading(true);
       const imageUrl = await viewShotRef.current?.captureImageUrl({
@@ -132,26 +135,26 @@ export const usePrinter = ({
         printerSelect,
       });
       await setLoading(false);
+      await onCancelShare();
 
-      if (Platform.OS === "ios") {
-        setTimeout(() => {
+      setTimeout(async () => {
+        if (Platform.OS === "ios") {
           RNFetchBlob.ios.previewDocument(imageUrl);
-        }, 500);
-      } else {
-        await Share.open({
-          url: `file://${imageUri}`,
-        });
-      }
+        } else {
+          await Share.open({
+            url: `file://${imageUri}`,
+          });
+        }
+      }, 1000);
     } catch (error) {
-      console.log(error);
-      await setVisible(false);
+      alert(error);
+      await onCancelShare();
     }
   };
 
   return {
     processLoading: loading,
     printProcess,
-    onShareProcess,
-    onShareProcess,
+    shareProcess,
   };
 };
