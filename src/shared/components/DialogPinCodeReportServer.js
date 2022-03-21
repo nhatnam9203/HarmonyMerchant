@@ -7,6 +7,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { checkPermissionStaff, useAxiosMutation } from "@apis";
+import { usePermissionReportServer } from "@shared/hooks";
+import { menuTabs } from "@utils";
+import { useAppType } from "@shared/hooks";
+import NavigationServices from "@navigators/NavigatorServices";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogPincodeReportServer] ${message}`, obj);
@@ -33,12 +38,15 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
+  const textInputRef = React.useRef(null);
 
   const merchantID = useSelector(
-    (state) => state.dataLocal?.profileLoginReport?.merchantCode
+    (state) => state.dataLocal?.profile?.merchantCode
   );
   const isLoginStaffReportServer = useSelector((state) => state.dataLocal.isLoginStaffReportServer);
   const [value, setValue] = React.useState("");
+
+  const { isRetailApp, isSalonApp } = useAppType();
 
   /**
   |--------------------------------------------------
@@ -46,7 +54,7 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
 
   |--------------------------------------------------
   */
-  const [, getCategoriesList] = useGetCategoriesList();
+  // const [, getCategoriesList] = useGetCategoriesList();
   // !! call login staff
   React.useImperativeHandle(ref, () => ({
     show: () => {
@@ -61,6 +69,40 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
   const onHandleSubmit = () => {
     dispatch(actions.staff.loginStaffReportServer(merchantID, value));
   };
+
+   /**
+     * Clear text input
+     */
+    const clearTextInput = () => {
+      setValue("");
+      textInputRef.current?.clear();
+    };
+
+
+   /**
+     * Handle Close Popup Events
+     */
+    const onHandleClose = () => {
+      dialogRef.current?.hide();
+      clearTextInput();
+    };
+
+   /**
+     * API Check permission
+     */
+    const [{ isLoading = false }, requestCheckPermission] = useAxiosMutation({
+      ...checkPermissionStaff(merchantID, value, menuTabs.MENU_REPORT),
+      onSuccess: (data, response) => {
+        if (response?.codeNumber === 200) {
+          // permission
+          onHandleClose();
+        } else {
+          // not permission
+          clearTextInput();
+          alert(response?.message);
+        }
+      },
+    });
 
   /**
   |--------------------------------------------------
@@ -79,20 +121,32 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
   //   }
   // }, [staffLogin]);
 
-  // const onLoadApps = React.useCallback(() => {
-  //   if (isLoginStaff) {
-  //     getCategoriesList();
-  //   }
-  // }, [isLoginStaff]);
-
   React.useEffect(() => {
-    dialogRef.current?.hide();
-    onLoadApps();
-  }, [isLoginStaff]);
+    console.log('isLoginStaffReportServer', isLoginStaffReportServer)
+    if (isLoginStaffReportServer) {
+      requestCheckPermission();
+      dispatch(actions.dataLocal.resetStateLoginStaffReportServer(false));
+    }
+  }, [isLoginStaffReportServer]);
 
-  React.useEffect(() => {
-    dialogRef.current?.show();
-  }, []);
+
+   /**
+   * Handle Force Close Popup Events
+   */
+  const onHandleForceClosePopup = () => {
+    clearTextInput();
+
+    // if retailer app back to home screen
+    if (isRetailApp()) {
+      NavigationServices.navigate("home.order.top_tab");
+    }
+
+    // if salon app chua xu ly
+    if (isSalonApp()) {
+      NavigationServices.navigate("Home");
+    }
+  };
+
 
   const renderItem = ({ item }) => {
     const onPressItem = () => {
@@ -121,7 +175,6 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
       <DialogLayout
         title={t("Lock Screen")}
         ref={dialogRef}
-        hideCloseButton={true}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
@@ -135,6 +188,7 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
           </View>
         )}
         style={styles.dialog}
+        onForceClose={onHandleForceClosePopup}
       >
         <View style={styles.container}>
           <View style={styles.marginVertical} />
@@ -152,6 +206,7 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
           <View style={styles.input}>
             <TextInput
               // onChangeText={onHandleChangeText}
+              ref={textInputRef}
               value={value}
               secureTextEntry={true}
               blurOnSubmit={false}

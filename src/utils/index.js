@@ -84,14 +84,16 @@ export const requestAPI = async (action, header = {}, isChangeServerReport = fal
   headers["DeviceID"] = `${encodeURIComponent(action?.deviceName)}_${
     action?.deviceId
   }`;
+  console.log('action', action)
   const configs = {
     method: `${method}`.toLowerCase(),
-    baseURL: isChangeServerReport ? Config.API_REPORT_URL : Configs.API_URL,
+    baseURL: action.isChangeServerReport ? Config.API_REPORT_URL : Configs.API_URL,
     url: `${action.api}`,
     headers: headers,
     timeout: action?.timeOut ?? action?.timeoutIncrease ? 90000 : 30000,
     validateStatus: (status) => status >= 200 && status < 600,
   };
+  console.log('configs', configs)
 
   if (
     (method == "POST" || method == "DELETE" || method == "PUT") &&

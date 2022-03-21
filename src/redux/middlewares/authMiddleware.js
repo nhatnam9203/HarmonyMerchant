@@ -1,6 +1,6 @@
 import configs from "@configs";
 import { getDeviceId, getDeviceName } from "@shared/services/Device";
-import { getAuthToken } from "@shared/storages/authToken";
+import { getAuthToken, getAuthTokenReport } from "@shared/storages/authToken";
 
 const log = (obj, message = "") => {
   Logger.log(`[authMiddleware] ${message}`, obj);

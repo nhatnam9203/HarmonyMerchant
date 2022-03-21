@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { APP_TYPE } from "@shared/constants";
 import { menuTabs } from "@utils";
 import { useFocusEffect } from "@react-navigation/native";
-import { usePermission } from "@shared/hooks";
+// import { usePermission } from "@shared/hooks";
 
 export const useProps = ({ navigation }) => {
   const screenReportRef = React.useRef(null);
   const dispatch = useDispatch();
-  const popupCheckPermissionRef = React.useRef(null);
-  const { isPermission } = usePermission(menuTabs.MENU_REPORT);
+  const popupLoginStaffRef = React.useRef(null);
+  // const { isPermission } = usePermission(menuTabs.MENU_REPORT);
 
   const [isShowBackButton, showBackButton] = React.useState(false);
 
@@ -23,18 +23,18 @@ export const useProps = ({ navigation }) => {
   };
 
   useEffect(()=>{
-    dispatch(actions.auth.login(email));
+    popupLoginStaffRef.current?.show()
   },[])
 
-  useFocusEffect(
-    React.useCallback(() => {
-      if (isPermission) {
-        popupCheckPermissionRef.current.hide();
-      } else {
-        popupCheckPermissionRef.current.show();
-      }
-    }, [isPermission, tokenReportServer])
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     if (isPermission) {
+  //       popupLoginStaffRef.current.hide();
+  //     } else {
+  //       popupLoginStaffRef.current.show();
+  //     }
+  //   }, [isPermission, tokenReportServer])
+  // );
 
   return {
     openDrawer,
@@ -59,7 +59,7 @@ export const useProps = ({ navigation }) => {
 
       return type === APP_TYPE.POS;
     },
-    popupCheckPermissionRef,
+    popupLoginStaffRef,
     onForceClosePopupPermission: () => { },
   };
 };
