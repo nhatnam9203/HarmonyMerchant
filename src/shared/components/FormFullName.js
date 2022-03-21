@@ -60,7 +60,7 @@ export const FormFullName = React.forwardRef(
     return (
       <View style={styles.container}>
         <Text style={styles.textStyle}>
-          {title ?? t("Full Name")}{" "}
+          {title ?? `${t("Full Name")} `}
           {required && <Text style={styles.requiredStyle}>*</Text>}
         </Text>
         <View style={styles.content}>

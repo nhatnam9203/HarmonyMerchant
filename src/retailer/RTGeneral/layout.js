@@ -805,7 +805,7 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
         marginTop: scaleSize(25),
       }}
     >
-      <Text
+      {/* <Text
         style={{
           color: "#404040",
           fontSize: scaleSize(16),
@@ -813,8 +813,8 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
           width: scaleSize(150),
         }}
       >
-        {" "}
-      </Text>
+        {` `}
+      </Text> */}
       <View
         style={{
           flex: 1,

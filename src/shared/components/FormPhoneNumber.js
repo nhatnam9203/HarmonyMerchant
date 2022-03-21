@@ -53,7 +53,7 @@ export const FormPhoneNumber = ({
     <View style={styles.container}>
       {hasTitle && (
         <Text style={styles.textStyle}>
-          {t("Phone Number")}{" "}
+          {`${t("Phone Number")} `}
           {required && <Text style={styles.requiredStyle}>*</Text>}
         </Text>
       )}

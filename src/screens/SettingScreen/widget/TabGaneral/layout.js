@@ -143,8 +143,8 @@ class Layout extends React.Component {
             placeHolder="08:00 AM"
           />
 
-           {/* ------- Auto Turn  ------ */}
-           <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+          {/* ------- Auto Turn  ------ */}
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
             <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
                 style={{
@@ -804,7 +804,7 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
         marginTop: scaleSize(25),
       }}
     >
-      <Text
+      {/* <Text
         style={{
           color: "#404040",
           fontSize: scaleSize(16),
@@ -812,8 +812,8 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
           width: scaleSize(150),
         }}
       >
-        {" "}
-      </Text>
+        {` `}
+      </Text> */}
       <View
         style={{
           flex: 1,

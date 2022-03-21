@@ -20,6 +20,8 @@ import {
   getTaxRateFromAppointment,
   POS_SERIAL,
   REMOTE_APP_ID,
+  getInfoFromModelNameOfPrinter,
+  PaymentTerminalType,
 } from "@utils";
 import _ from "lodash";
 import React from "react";
@@ -63,7 +65,8 @@ export const useProps = ({
   const cloverMachineInfo = useSelector(
     (state) => state.hardware.cloverMachineInfo
   );
-
+  const printerList = useSelector((state) => state.dataLocal.printerList);
+  const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
   /**
   |--------------------------------------------------
   | STATE variables
@@ -451,14 +454,31 @@ export const useProps = ({
       setDidNotPay(checked);
     },
     printCustomerInvoice: async () => {
-      // invoiceRef.current?.showAppointmentReceipt({
-      //   appointmentId: appointmentDetail?.appointmentId,
-      //   checkoutId: appointmentDetail?.invoice?.checkoutId,
-      //   machineType: paymentMachineType,
-      //   isAppointmentTab: true,
-      // });
+      const { portName } = getInfoFromModelNameOfPrinter(
+        printerList,
+        printerSelect
+      );
 
-      invoiceRef.current?.show();
+      if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
+        alert("Please connect to your printer!");
+        return;
+      }
+
+      if (
+        paymentSelected === "Cash" ||
+        (paymentSelected === "Other" && profile?.isOpenCashier)
+      ) {
+        if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
+          openCashDrawerClover();
+        } else {
+          openCashDrawer(portName);
+        }
+      }
+
+      invoiceRef.current?.show({
+        isPrintTempt: false,
+        isAppointmentTab: false,
+      });
     },
     invoicePrintRef,
     visiblePrintInvoice,
@@ -467,11 +487,10 @@ export const useProps = ({
     },
     invoiceRef,
     shareCustomerInvoice: async () => {
-      // invoiceRef.current?.showAppointmentReceipt({
-      //   appointmentId: appointmentDetail?.appointmentId,
-      //   checkoutId: appointmentDetail?.invoice?.checkoutId,
-      //   isShareMode: true,
-      // });
+      invoiceRef.current?.share({
+        isPrintTempt: false,
+        isAppointmentTab: false,
+      });
     },
     getShippingMethodLabel: React.useCallback(() => {
       if (appointmentDetail?.shipping?.shippingMethod) {

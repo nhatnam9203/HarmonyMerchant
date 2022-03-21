@@ -111,7 +111,7 @@ export const FormAddress = React.forwardRef(
     return reverse ? (
       <View style={styles.container}>
         <Text style={styles.textStyle}>
-          {t("Address")}{" "}
+          {`${t("Address")} `}
           {required && <Text style={styles.requiredStyle}>*</Text>}
         </Text>
         <View style={[styles.content, { flexDirection: "column" }]}>
@@ -188,7 +188,7 @@ export const FormAddress = React.forwardRef(
     ) : (
       <View style={styles.container}>
         <Text style={styles.textStyle}>
-          {t("Address")}{" "}
+          {`${t("Address")} `}
           {required && <Text style={styles.requiredStyle}>*</Text>}
         </Text>
         <View style={styles.content}>

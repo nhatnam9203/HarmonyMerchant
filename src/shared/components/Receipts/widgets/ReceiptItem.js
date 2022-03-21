@@ -40,8 +40,8 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${index + 1}. ${name}`}</TextItem>
-          {!!label && <TextLabel>{`${label}`}</TextLabel>}
-          {!!note && <TextLabel>{`${note}.`}</TextLabel>}{" "}
+          {!!label && <TextLabel>{`${label} `}</TextLabel>}
+          {!!note && <TextLabel>{`${note}.`}</TextLabel>}
         </View>
       );
 

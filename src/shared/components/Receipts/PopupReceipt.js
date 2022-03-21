@@ -33,6 +33,7 @@ export const PopupReceipt = React.forwardRef(
     const [isSignature, setIsSignature] = React.useState(true);
     const [isShare, setIsShare] = React.useState(false);
     const [receiptBackground, setReceiptBackground] = React.useState("#fff");
+    const [autoPrint, setAutoPrint] = React.useState(false);
 
     const {
       portName,
@@ -68,6 +69,16 @@ export const PopupReceipt = React.forwardRef(
       fromAppointmentTab,
     });
 
+    const resetAll = () => {
+      // reset
+      setOpen(false);
+      setIsSignature(true);
+      setPrintTemp(false);
+      setFromAppointmentTab(false);
+      setIsShare(false);
+      setAutoPrint(false);
+    };
+
     const { printProcess, shareProcess, processLoading } = usePrinter({
       printTemp,
       viewShotRef,
@@ -78,21 +89,10 @@ export const PopupReceipt = React.forwardRef(
         if (cancelInvoicePrint && typeof cancelInvoicePrint === "function") {
           cancelInvoicePrint(temp);
         }
-
-        // reset
-        setOpen(false);
-        setIsSignature(true);
-        setPrintTemp(false);
-        setFromAppointmentTab(false);
-        setIsShare(false);
+        resetAll();
       },
       onCancelShare: async () => {
-        // reset
-        setOpen(false);
-        setIsSignature(true);
-        setPrintTemp(false);
-        setFromAppointmentTab(false);
-        setIsShare(false);
+        resetAll();
       },
     });
 
@@ -148,7 +148,29 @@ export const PopupReceipt = React.forwardRef(
         setOpen(true);
         setReceiptBackground("#fff");
       },
+      print: (params) => {
+        const { isPrintTempt, isAppointmentTab } = params ?? {};
+        setIsShare(false);
+        setPrintTemp(isPrintTempt);
+        setFromAppointmentTab(isAppointmentTab);
+
+        const receiptContentBg =
+          machineType == PaymentTerminalType.Clover && !portName
+            ? "#fff"
+            : "#0000";
+        setReceiptBackground(receiptContentBg);
+        setAutoPrint(true);
+      },
     }));
+
+    React.useEffect(() => {
+      if (autoPrint) {
+        setTimeout(async () => {
+          await printProcess();
+        }, 250);
+        resetAll();
+      }
+    }, [autoPrint]);
 
     return (
       <Modal
@@ -162,8 +184,8 @@ export const PopupReceipt = React.forwardRef(
         onModalHide={onModalHide}
         animationIn="fadeIn"
         animationOut="fadeOut"
-        animationInTiming={0}
-        animationOutTiming={0}
+        animationInTiming={1}
+        animationOutTiming={1}
         onModalWillHide={onModalWillHide}
       >
         <View style={styles.container}>

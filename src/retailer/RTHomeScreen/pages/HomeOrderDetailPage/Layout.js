@@ -413,7 +413,7 @@ export const Layout = ({
     <View style={layouts.fill}>
       <View style={styles.headContent}>
         <Text style={styles.headTitle}>
-          {t("Order")}{" "}
+          {`${t("Order")} `}
           {
             <Text style={[styles.headTitle, { color: colors.OCEAN_BLUE }]}>
               {`#${item?.code}`}
@@ -839,7 +839,6 @@ export const Layout = ({
           </View>
         </View>
       </KeyboardAwareScrollView>
-
 
       <PopupReceipt
         ref={invoiceRef}

@@ -987,16 +987,10 @@ class TabCheckout extends Layout {
       }
 
       this.props.actions.appointment.closeModalPaymentCompleted();
-      // this.invoiceRef.current?.showAppointmentReceipt({
-      //   appointmentId: groupAppointment?.mainAppointmentId,
-      //   checkoutId: paymentDetailInfo?.invoiceNo,
-      //   isSalon: true,
-      //   isPrintTempt: false,
-      //   machineType: paymentMachineType,
-      // });
 
-      await this.invoiceRef.current?.show({
-        isPrintTempt: true,
+      await this.invoiceRef.current?.print({
+        isPrintTempt: false,
+        isAppointmentTab: false,
       });
     }
   };
@@ -3160,6 +3154,7 @@ class TabCheckout extends Layout {
 
     await this.invoiceRef.current?.show({
       isPrintTempt: true,
+      isAppointmentTab: false,
     });
   };
 

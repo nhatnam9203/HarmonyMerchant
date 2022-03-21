@@ -80,7 +80,7 @@ export const usePrinter = ({
         else {
           if (paymentMachineType == "Clover") {
             if (doPrintClover && typeof doPrintClover === "function") {
-              doPrintClover(imageUri);
+              doPrintClover(imageUrl);
             }
           } else if (paymentMachineType == "Dejavoo") {
             // const content = getContentXmlReceipt();
@@ -92,7 +92,7 @@ export const usePrinter = ({
         }
 
         // clear image
-        releaseCapture(imageUri);
+        releaseCapture(imageUrl);
       }
 
       // Print customer receipt
@@ -135,7 +135,6 @@ export const usePrinter = ({
         printerSelect,
       });
       await setLoading(false);
-      await onCancelShare();
 
       setTimeout(async () => {
         if (Platform.OS === "ios") {
@@ -145,7 +144,9 @@ export const usePrinter = ({
             url: `file://${imageUri}`,
           });
         }
-      }, 1000);
+      }, 250);
+
+      await onCancelShare();
     } catch (error) {
       alert(error);
       await onCancelShare();

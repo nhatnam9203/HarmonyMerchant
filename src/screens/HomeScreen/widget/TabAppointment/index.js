@@ -248,14 +248,16 @@ class TabAppointment extends Layout {
               const appointment = data?.appointment;
               // const isTemp = appointment?.status !== "paid";
               //
-              this.invoiceRef.current?.showAppointmentReceipt({
-                appointmentId: appointment?.id,
-                checkoutId: appointment?.checkoutId,
-                isPrintTempt: true,
-                isSalon: true,
-                machineType: this.props.paymentMachineType,
-                isAppointmentTab: true,
-              });
+              // this.invoiceRef.current?.showAppointmentReceipt({
+              //   appointmentId: appointment?.id,
+              //   checkoutId: appointment?.checkoutId,
+              //   isPrintTempt: true,
+              //   isSalon: true,
+              //   machineType: this.props.paymentMachineType,
+              //   isAppointmentTab: true,
+              // });
+              // TODO: print with checkoutId
+
               break;
 
             case "jumpToCustomerHistory":

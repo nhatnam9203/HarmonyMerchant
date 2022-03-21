@@ -920,6 +920,7 @@ export const useProps = ({
           openCashDrawer(portName);
         }
       }
+
       showInvoicePrint(false);
     }
   };
@@ -1002,11 +1003,16 @@ export const useProps = ({
     // this.props.actions.appointment.closeModalPaymentCompleted();
     dispatch(actions.appointment.closeModalPaymentCompleted());
 
-    invoiceRef.current?.showAppointmentReceipt({
-      appointmentId: groupAppointment?.mainAppointmentId,
-      checkoutId: paymentDetailInfo?.invoiceNo,
+    // invoiceRef.current?.showAppointmentReceipt({
+    //   appointmentId: groupAppointment?.mainAppointmentId,
+    //   checkoutId: paymentDetailInfo?.invoiceNo,
+    //   isPrintTempt: isTemptPrint,
+    //   machineType: paymentMachineType,
+    // });
+
+    await invoiceRef.current?.print({
       isPrintTempt: isTemptPrint,
-      machineType: paymentMachineType,
+      isAppointmentTab: false,
     });
   };
 
@@ -1395,10 +1401,9 @@ export const useProps = ({
       clover.doPrintWithConnect(printInfo);
     },
     shareTemptInvoice: async () => {
-      await invoiceRef.current?.showAppointmentReceipt({
-        appointmentId: groupAppointment?.mainAppointmentId,
-        isShareMode: true,
+      invoiceRef.current?.share({
         isPrintTempt: false,
+        isAppointmentTab: false,
       });
     },
     invoiceRef,
