@@ -33,6 +33,7 @@ class TabAppointment extends Layout {
       visiblePrintInvoice: false,
       appointment: null,
       loadMessage: null,
+      appointment: null,
     };
     this.webviewRef = React.createRef();
     this.amountRef = React.createRef();
@@ -259,6 +260,7 @@ class TabAppointment extends Layout {
               // TODO: print with checkoutId
 
               console.log(appointment);
+              this.setState({ appointment });
 
               break;
 
@@ -312,10 +314,21 @@ class TabAppointment extends Layout {
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
     const { isReloadWebview } = this.props;
+    const { appointment } = this.state;
 
     if (isReloadWebview && isReloadWebview != prevProps.isReloadWebview) {
       this.reloadWebviewFromParent();
       this.props.actions.app.resetStateReloadWebView();
+    }
+
+    if (appointment && appointment != prevState?.appointment) {
+      this.invoiceRef.current?.show({
+        isPrintTempt: true,
+        isAppointmentTab: true,
+      });
+      // setTimeout(() => {
+      //   this.setState({ appointment: null });
+      // }, 1000);
     }
   }
 

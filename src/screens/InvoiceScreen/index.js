@@ -1550,7 +1550,7 @@ class InvoiceScreen extends Layout {
 
       this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
-      const { portName } = getInfoFromModelNameOfPrinter(
+      const { portName, widthPaper, emulation } = getInfoFromModelNameOfPrinter(
         printerList,
         printerSelect
       );
@@ -1562,6 +1562,7 @@ class InvoiceScreen extends Layout {
           printerSelect,
         });
         if (imageUri) {
+          let commands = [];
           commands.push({ appendLineFeed: 0 });
           commands.push({
             appendBitmap: imageUri,
@@ -1649,7 +1650,7 @@ class InvoiceScreen extends Layout {
       (paymentMachineType == PaymentTerminalType.Dejavoo &&
         l.get(dejavooMachineInfo, "isSetup"))
     ) {
-      await this.setState(receiptContentBg, async () => {
+      await this.setState({ receiptContentBg }, async () => {
         this.props.actions.invoice.togglPopupConfirmPrintInvoice(true);
       });
     } else {

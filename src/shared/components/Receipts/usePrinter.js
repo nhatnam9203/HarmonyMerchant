@@ -6,6 +6,7 @@ import { releaseCapture } from "react-native-view-shot";
 import { useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
 import { Platform } from "react-native";
+import PrintManager from "@lib/PrintManager";
 
 export const usePrinter = ({
   viewShotRef,
@@ -15,6 +16,7 @@ export const usePrinter = ({
   setIsSignature,
   onCancelPrint,
   onCancelShare,
+  fromAppointmentTab,
 }) => {
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
   const { profile, printerList, printerSelect } =
@@ -32,23 +34,6 @@ export const usePrinter = ({
     }
   };
 
-  const createCommands = (imageUrl) => {
-    let commands = [];
-    commands.push({ appendLineFeed: 0 });
-    commands.push({
-      appendBitmap: imageUrl,
-      width: parseFloat(widthPaper),
-      bothScale: true,
-      diffusion: true,
-      alignment: "Center",
-    });
-    commands.push({
-      appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-    });
-
-    return commands;
-  };
-
   const doPrintAgain = async () => {
     if (paymentMachineType === "Dejavoo") {
       setTimeout(() => {
@@ -60,6 +45,17 @@ export const usePrinter = ({
       }, 500);
     }
   };
+
+  React.useEffect(() => {
+    if (
+      !isSignature &&
+      !printTemp &&
+      profile?.isPrintReceipt &&
+      !fromAppointmentTab
+    ) {
+      printProcess();
+    }
+  }, [isSignature, printTemp, profile?.isPrintReceipt]);
 
   const printProcess = async () => {
     try {
@@ -73,7 +69,19 @@ export const usePrinter = ({
 
       if (imageUrl) {
         if (portName) {
-          const commands = createCommands(imageUrl);
+          let commands = [];
+          commands.push({ appendLineFeed: 0 });
+          commands.push({
+            appendBitmap: imageUrl,
+            width: parseFloat(widthPaper),
+            bothScale: true,
+            diffusion: true,
+            alignment: "Center",
+          });
+          commands.push({
+            appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+          });
+
           await PrintManager.getInstance().print(emulation, commands, portName);
         }
         // Other devices

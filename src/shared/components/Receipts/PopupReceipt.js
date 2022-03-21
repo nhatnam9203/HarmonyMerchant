@@ -1,5 +1,5 @@
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
-import { checkIsTablet } from "@utils";
+import { checkIsTablet, PaymentTerminalType } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -84,6 +84,7 @@ export const PopupReceipt = React.forwardRef(
       viewShotRef,
       doPrintClover,
       isSignature,
+      fromAppointmentTab,
       setIsSignature,
       onCancelPrint: async (temp) => {
         if (cancelInvoicePrint && typeof cancelInvoicePrint === "function") {

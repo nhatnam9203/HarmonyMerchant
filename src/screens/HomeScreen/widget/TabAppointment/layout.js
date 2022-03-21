@@ -17,7 +17,7 @@ class Layout extends React.Component {
           true
           `;
 
-    const { groupAppointment } = this.props;
+    const { appointment } = this.state;
 
     return (
       <View style={styles.container}>
@@ -51,7 +51,7 @@ class Layout extends React.Component {
           ref={this.invoiceRef}
           doPrintClover={this.doPrintClover}
           cancelInvoicePrint={this.cancelInvoicePrint}
-          groupAppointment={groupAppointment}
+          appointment={appointment}
         />
       </View>
     );
