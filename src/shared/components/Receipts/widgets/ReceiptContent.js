@@ -16,8 +16,9 @@ export const ReceiptContent = ({ items, type, symbol }) => {
     return totalQty ?? 0;
   };
 
+
   return (
-    <View style={styles.container}>
+    <>
       <ReceiptHeaderItem key="receipt-header" type={type} symbol={symbol} />
       {items?.map((x, idx) => (
         <ReceiptItem
@@ -32,12 +33,6 @@ export const ReceiptContent = ({ items, type, symbol }) => {
         type={type}
         total={getTotalQty()}
       />
-    </View>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

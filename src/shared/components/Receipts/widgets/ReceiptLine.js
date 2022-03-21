@@ -4,10 +4,9 @@ import React from "react";
 export const LineHeader = () => (
   <Dash
     style={{
-      width: "100%",
       height: 1,
-      marginVertical: scaleHeight(4),
-      marginHorizontal: scaleWidth(4),
+      marginVertical: scaleHeight(10),
+      marginHorizontal: scaleWidth(0),
     }}
     dashGap={2}
     dashLength={10}
@@ -21,7 +20,8 @@ export const LineItem = () => (
     style={{
       width: "98%",
       height: 1,
-      paddingHorizontal: scaleWidth(5),
+      marginVertical: scaleHeight(4),
+      marginHorizontal: scaleWidth(4),
     }}
     dashGap={4}
     dashLength={1}

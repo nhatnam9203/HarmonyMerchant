@@ -28,80 +28,82 @@ export const ReceiptItem = ({ item, index, type }) => {
   } = data;
 
   const totalPrice = formatNumberFromCurrency(price) * qty;
-  const ColumOne = ({ children }) => (
-    <View
-      style={{ flex: 1, alignItems: "flex-start", justifyContent: "center" }}
-    >
-      {children}
-    </View>
-  );
-  const ColumTwo = ({ children }) => (
-    <View
-      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
-    >
-      {children}
-    </View>
-  );
-  const ColumThree = ({ children }) => (
-    <View
-      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
-    >
-      {children}
-    </View>
-  );
-  const ColumFour = ({ children }) => (
-    <View
-      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
-    >
-      {children}
-    </View>
-  );
-
-  const ColumStaff = ({ children }) => (
-    <View
-      style={{ flex: 1, alignItems: "center", justifyContent: "flex-start" }}
-    >
-      {children}
-    </View>
-  );
 
   switch (type) {
     case ReceiptItemType.RETAILER:
+      const onRenderRetailerColumOne = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <TextItem>{`${index + 1}. ${name}`}</TextItem>
+          {!!label && <TextLabel>{`${label}`}</TextLabel>}
+          {!!note && <TextLabel>{`${note}.`}</TextLabel>}{" "}
+        </View>
+      );
+
+      const onRenderRetailerColumTwo = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+          }}
+        >
+          <TextItem>{`${formatMoneyWithUnit(price)}`}</TextItem>
+        </View>
+      );
+
+      const onRenderRetailerColumThree = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+          }}
+        >
+          <TextItem>{`${qty}`}</TextItem>
+        </View>
+      );
+
+      const onRenderRetailerColumFour = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+          }}
+        >
+          <TextItem>{`${formatMoneyWithUnit(totalPrice)}`}</TextItem>
+        </View>
+      );
+
       return (
-        <>
+        <View>
           {index > 0 && <LineItem />}
           <LayoutFourColumn
             key="retailer-item"
             columnWidths={RETAILER_COLUMN_WIDTH}
-            ColumnOne={() => (
-              <ColumOne>
-                <TextItem>{`${index + 1}. ${name}`}</TextItem>
-                {!!label && <TextLabel>{`${label}`}</TextLabel>}
-                {!!note && <TextLabel>{`${note}.`}</TextLabel>}
-              </ColumOne>
-            )}
-            ColumnTwo={() => (
-              <ColumTwo>
-                <TextItem>{`${formatMoneyWithUnit(price)}`}</TextItem>
-              </ColumTwo>
-            )}
-            ColumnThree={() => (
-              <ColumThree>
-                <TextItem>{`${qty}`}</TextItem>
-              </ColumThree>
-            )}
-            ColumnFour={() => (
-              <ColumFour>
-                <TextItem>{`${formatMoneyWithUnit(totalPrice)}`}</TextItem>
-              </ColumFour>
-            )}
+            ColumnOne={onRenderRetailerColumOne}
+            ColumnTwo={onRenderRetailerColumTwo}
+            ColumnThree={onRenderRetailerColumThree}
+            ColumnFour={onRenderRetailerColumFour}
           />
           {(discount > 0 || discountPercent > 0) && (
             <LayoutFourColumn
               key="retailer-item-discount"
               columnWidths={RETAILER_COLUMN_WIDTH}
               ColumnOne={() => (
-                <ColumOne>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-start",
+                    justifyContent: "center",
+                  }}
+                >
                   {discount > 0 && (
                     <TextLabel key="discount">{`${t(
                       "Discount"
@@ -112,10 +114,16 @@ export const ReceiptItem = ({ item, index, type }) => {
                       "Discount"
                     )}: ${discountPercent}%`}</TextLabel>
                   )}
-                </ColumOne>
+                </View>
               )}
               ColumnTwo={() => (
-                <ColumTwo>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-end",
+                    justifyContent: "flex-start",
+                  }}
+                >
                   {discount > 0 && (
                     <TextItem key="discount">{`- ${formatMoneyWithUnit(
                       discount / qty
@@ -126,11 +134,25 @@ export const ReceiptItem = ({ item, index, type }) => {
                       (discountPercent * price) / 100
                     )}`}</TextItem>
                   )}
-                </ColumTwo>
+                </View>
               )}
-              ColumnThree={() => <ColumThree></ColumThree>}
+              ColumnThree={() => (
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-end",
+                    justifyContent: "flex-start",
+                  }}
+                />
+              )}
               ColumnFour={() => (
-                <ColumFour>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-end",
+                    justifyContent: "flex-start",
+                  }}
+                >
                   {discount > 0 && (
                     <TextItem key="discount">{`- ${formatMoneyWithUnit(
                       discount
@@ -141,51 +163,75 @@ export const ReceiptItem = ({ item, index, type }) => {
                       ((discountPercent * price) / 100) * qty
                     )}`}</TextItem>
                   )}
-                </ColumFour>
+                </View>
               )}
             />
           )}
-        </>
+        </View>
       );
     case ReceiptItemType.RETAILER_RETURN:
     case ReceiptItemType.SALON:
     default:
+      const onRenderColumOne = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <TextItem>{`${index + 1}. ${name}`}</TextItem>
+          {extras?.length > 0 &&
+            extras.map((x) => (
+              <TextLabel
+                key={`${x.extraId}`}
+              >{`   - ${x.extraName}`}</TextLabel>
+            ))}
+          {!!note && <TextLabel>{`(Note: ${note})`}</TextLabel>}
+        </View>
+      );
+
+      const onRenderColumTwo = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "flex-start",
+          }}
+        >
+          <TextLabel>{`${staff?.displayName ?? ""}`}</TextLabel>
+        </View>
+      );
+
+      const onRenderColumThree = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+          }}
+        >
+          <TextLabel>{`${formatMoneyWithUnit(price)}`}</TextLabel>
+          {extras?.length > 0 &&
+            extras.map((x) => (
+              <TextLabel key={`${x.extraId}`}>{`${formatMoneyWithUnit(
+                x.price ?? 0
+              )}`}</TextLabel>
+            ))}
+        </View>
+      );
+
       return (
-        <>
+        <View>
           {index > 0 && <LineItem />}
           <LayoutThreeColumn
             key="salon-item"
             columnWidths={SALON_COLUMN_WIDTH}
-            ColumnOne={() => (
-              <ColumOne>
-                <TextItem>{`${index + 1}. ${name}`}</TextItem>
-                {extras?.length > 0 &&
-                  extras.map((x) => (
-                    <TextLabel
-                      key={`${x.extraId}`}
-                    >{`   - ${x.extraName}`}</TextLabel>
-                  ))}
-                {!!note && <TextLabel>{`(Note: ${note})`}</TextLabel>}
-              </ColumOne>
-            )}
-            ColumnTwo={() => (
-              <ColumStaff>
-                <TextItem>{`${staff?.displayName ?? ""}`}</TextItem>
-              </ColumStaff>
-            )}
-            ColumnThree={() => (
-              <ColumThree>
-                <TextItem>{`${formatMoneyWithUnit(price)}`}</TextItem>
-                {extras?.length > 0 &&
-                  extras.map((x) => (
-                    <TextLabel key={`${x.extraId}`}>{`${formatMoneyWithUnit(
-                      x.price ?? 0
-                    )}`}</TextLabel>
-                  ))}
-              </ColumThree>
-            )}
+            ColumnOne={onRenderColumOne}
+            ColumnTwo={onRenderColumTwo}
+            ColumnThree={onRenderColumThree}
           />
-        </>
+        </View>
       );
   }
 };
@@ -226,6 +272,7 @@ export const ReceiptHeaderItem = ({ type }) => {
     case ReceiptItemType.RETAILER:
       return (
         <>
+          <View style={styles.margin} />
           <LineHeader />
           <LayoutFourColumn
             columnWidths={RETAILER_COLUMN_WIDTH}
@@ -242,6 +289,7 @@ export const ReceiptHeaderItem = ({ type }) => {
     default:
       return (
         <>
+          <View style={styles.margin} />
           <LineHeader />
           <LayoutThreeColumn
             columnWidths={SALON_COLUMN_WIDTH}
@@ -256,33 +304,29 @@ export const ReceiptHeaderItem = ({ type }) => {
 };
 
 export const ReceiptTotalItem = ({ type, total }) => {
-  const ColumOne = ({ children }) => (
+  const onRenderColumOne = () => (
     <View
       style={{ flex: 1, alignItems: "flex-start", justifyContent: "center" }}
     >
-      {children}
+      <TextLabel>{"Total items"}</TextLabel>
     </View>
   );
-  const ColumTwo = ({ children }) => (
+  const onRenderColumTwo = () => (
+    <View
+      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
+    />
+  );
+  const onRenderColumThree = () => (
     <View
       style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
     >
-      {children}
+      <TextItem>{`${total}`}</TextItem>
     </View>
   );
-  const ColumThree = ({ children }) => (
+  const onRenderColumFour = () => (
     <View
       style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
-    >
-      {children}
-    </View>
-  );
-  const ColumFour = ({ children }) => (
-    <View
-      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
-    >
-      {children}
-    </View>
+    ></View>
   );
 
   switch (type) {
@@ -293,18 +337,10 @@ export const ReceiptTotalItem = ({ type, total }) => {
           <LayoutFourColumn
             key="retailer-item"
             columnWidths={RETAILER_COLUMN_WIDTH}
-            ColumnOne={() => (
-              <ColumOne>
-                <TextLabel>{"Total items"}</TextLabel>
-              </ColumOne>
-            )}
-            ColumnTwo={() => <ColumTwo></ColumTwo>}
-            ColumnThree={() => (
-              <ColumThree>
-                <TextItem>{`${total}`}</TextItem>
-              </ColumThree>
-            )}
-            ColumnFour={() => <ColumFour></ColumFour>}
+            ColumnOne={onRenderColumOne}
+            ColumnTwo={onRenderColumTwo}
+            ColumnThree={onRenderColumThree}
+            ColumnFour={onRenderColumFour}
           />
         </>
       );
@@ -407,25 +443,23 @@ const TextLabel = ({ children }) => (
 const styles = StyleSheet.create({
   content: {
     flexDirection: "row",
-    paddingVertical: scaleHeight(3),
   },
 
   textStyle: {
-    fontFamily: fonts.REGULAR,
+    fontFamily: fonts.LIGHT,
     color: "#000",
-    fontSize: scaleFont(14),
+    fontSize: scaleFont(16),
     fontWeight: "500",
   },
   textLabelStyle: {
     fontFamily: fonts.LIGHT,
     color: "#000d",
-    fontSize: scaleFont(13),
+    fontSize: scaleFont(16),
     fontWeight: "normal",
     marginLeft: scaleWidth(10),
   },
-  textExtraStyle: { fontSize: scaleFont(14), textAlign: "left" },
   textHeaderStyle: {
-    fontFamily: fonts.BOLD,
+    fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
     textAlign: "center",
     color: "#000",
@@ -441,5 +475,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: scaleHeight(30),
+  },
+
+  margin: {
+    width: scaleWidth(10),
+    height: scaleHeight(10),
   },
 });

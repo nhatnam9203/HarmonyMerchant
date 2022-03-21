@@ -63,7 +63,7 @@ export const usePrinter = ({
       if (!viewShotRef) return; // Không có gì để print
 
       await setLoading(false);
-      const imageUrl = await captureImageUrl({
+      const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
       });
@@ -127,7 +127,7 @@ export const usePrinter = ({
   const onShareProcess = async () => {
     try {
       await setLoading(true);
-      const imageUrl = await captureImageUrl({
+      const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
       });

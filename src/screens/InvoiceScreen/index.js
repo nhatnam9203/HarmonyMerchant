@@ -74,8 +74,7 @@ class InvoiceScreen extends Layout {
     this.confirmInvoiceStatusRef = React.createRef();
     this.popupProcessingCreditRef = React.createRef();
     this.invoicePrintRef = React.createRef();
-    this.invoicePrintRef = React.createRef();
-    this.viewShotRef = React.createRef();
+    this.viewShowRef = React.createRef();
     this.virtualizedListRef = React.createRef();
     this.invoiceRef = React.createRef();
 
@@ -1298,39 +1297,6 @@ class InvoiceScreen extends Layout {
     };
   };
 
-  printInvoice = async () => {
-    const { invoiceDetail } = this.props;
-
-    const { titleInvoice } = this.state;
-
-    if (!invoiceDetail?.appointmentId) {
-      alert("You don't select invoice!");
-    } else {
-      const printMachine = await checkStatusPrint();
-      const { cloverMachineInfo, paymentMachineType, dejavooMachineInfo } =
-        this.props;
-      const { isSetup } = cloverMachineInfo;
-      if (
-        (printMachine && printMachine.length > 0) ||
-        (paymentMachineType == PaymentTerminalType.Clover && isSetup) ||
-        (paymentMachineType == PaymentTerminalType.Dejavoo &&
-          l.get(dejavooMachineInfo, "isSetup"))
-      ) {
-        this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
-
-        this.invoiceRef.current?.showAppointmentReceipt({
-          appointmentId: invoiceDetail?.appointmentId || "",
-          checkoutId: invoiceDetail?.checkoutId || "",
-          isSalon: true,
-          isPrintTempt: false,
-          machineType: paymentMachineType,
-        });
-      } else {
-        alert("Please connect to your printer!");
-      }
-    }
-  };
-
   cancelInvoicePrint = async (isPrintTempt) => {
     await this.setState({ visiblePrintInvoice: false });
     this.updateInvoiceDetailAfterCallServer();
@@ -1571,110 +1537,75 @@ class InvoiceScreen extends Layout {
     return xmlContent;
   }
 
-  printCustomerInvoice = async () => {
+  printInvoice = async () => {
     try {
-      const { printerSelect, printerList, paymentMachineType, invoiceDetail } =
-        this.props;
+      const {
+        printerSelect,
+        printerList,
+        paymentMachineType,
+        invoiceDetail,
+        cloverMachineInfo,
+        dejavooMachineInfo,
+      } = this.props;
 
-      const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
+      const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
         printerSelect
       );
-      const receiptContentBg =
-        paymentMachineType == PaymentTerminalType.Clover && !portName
-          ? { receiptContentBg: "#ffff" }
-          : { receiptContentBg: "#00000000" };
 
-      await this.setState(receiptContentBg, async () => {
-        if (portName) {
+      if (portName) {
+        this.props.actions.app.loadingApp();
+        const imageUri = await this.viewShowRef.current?.captureImageUrl({
+          paymentMachineType,
+          printerSelect,
+        });
+        if (imageUri) {
+          commands.push({ appendLineFeed: 0 });
+          commands.push({
+            appendBitmap: imageUri,
+            width: parseFloat(widthPaper),
+            bothScale: true,
+            diffusion: true,
+            alignment: "Center",
+          });
+          commands.push({
+            appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+          });
+
+          await PrintManager.getInstance().print(emulation, commands, portName);
+
+          releaseCapture(imageUri);
+        }
+        this.props.actions.app.stopLoadingApp();
+      } else {
+        const { cloverMachineInfo, paymentMachineType, dejavooMachineInfo } =
+          this.props;
+        const { isSetup } = cloverMachineInfo;
+        if (paymentMachineType == PaymentTerminalType.Clover && isSetup) {
           this.props.actions.app.loadingApp();
           const imageUri = await captureRef(this.viewShotRef, {
+            result: "base64",
             format: "jpg",
             quality: 0.8,
           });
-
           if (imageUri) {
-            // if ko printRetailerAppointment thì tiếp tục flow cũ
-
-            // if (this.invoiceRef?.current?.isSalonApp()) {
-            //   let commands = [];
-            //   commands.push({ appendLineFeed: 0 });
-            //   commands.push({
-            //     appendBitmap: imageUri,
-            //     width: parseFloat(widthPaper),
-            //     bothScale: true,
-            //     diffusion: true,
-            //     alignment: "Center",
-            //   });
-            //   commands.push({
-            //     appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-            //   });
-
-            //   await PrintManager.getInstance().print(
-            //     emulation,
-            //     commands,
-            //     portName
-            //   );
-            // } else {
-            //   this.invoiceRef?.current?.printRetailerAppointment({
-            //     isPrintTempt: false,
-            //     machineType: paymentMachineType,
-            //     isAppointmentTab: false,
-            //     invoice: invoiceDetail,
-            //   });
-            // }
-
-            commands.push({ appendLineFeed: 0 });
-            commands.push({
-              appendBitmap: imageUri,
-              width: parseFloat(widthPaper),
-              bothScale: true,
-              diffusion: true,
-              alignment: "Center",
-            });
-            commands.push({
-              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-            });
-
-            await PrintManager.getInstance().print(
-              emulation,
-              commands,
-              portName
-            );
-
+            this.doPrintClover(imageUri);
             releaseCapture(imageUri);
           }
           this.props.actions.app.stopLoadingApp();
+        } else if (
+          paymentMachineType == PaymentTerminalType.Dejavoo &&
+          l.get(dejavooMachineInfo, "isSetup")
+        ) {
+          const content = this.getContentXmlReceipt();
+          const params = {
+            content,
+          };
+          requestPrintDejavoo(params);
         } else {
-          const { cloverMachineInfo, paymentMachineType, dejavooMachineInfo } =
-            this.props;
-          const { isSetup } = cloverMachineInfo;
-          if (paymentMachineType == PaymentTerminalType.Clover && isSetup) {
-            this.props.actions.app.loadingApp();
-            const imageUri = await captureRef(this.viewShotRef, {
-              result: "base64",
-              format: "jpg",
-              quality: 0.8,
-            });
-            if (imageUri) {
-              this.doPrintClover(imageUri);
-              releaseCapture(imageUri);
-            }
-            this.props.actions.app.stopLoadingApp();
-          } else if (
-            paymentMachineType == PaymentTerminalType.Dejavoo &&
-            l.get(dejavooMachineInfo, "isSetup")
-          ) {
-            const content = this.getContentXmlReceipt();
-            const params = {
-              content,
-            };
-            requestPrintDejavoo(params);
-          } else {
-            alert("Please connect to your printer!");
-          }
+          alert("Please connect to your printer!");
         }
-      });
+      }
     } catch (error) {
       this.props.actions.app.stopLoadingApp();
       setTimeout(() => {
@@ -1683,12 +1614,54 @@ class InvoiceScreen extends Layout {
     }
   };
 
+  printCustomerInvoice = async () => {
+    const {
+      printerSelect,
+      printerList,
+      paymentMachineType,
+      invoiceDetail,
+      cloverMachineInfo,
+      dejavooMachineInfo,
+    } = this.props;
+
+    if (!invoiceDetail?.appointmentId) {
+      alert("You don't select invoice!");
+      return;
+    }
+
+    const { portName } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
+    const receiptContentBg =
+      paymentMachineType == PaymentTerminalType.Clover && !portName
+        ? "#fff"
+        : "#0000";
+
+    const printMachine = await checkStatusPrint();
+    const { isSetup } = cloverMachineInfo;
+    if (
+      (printMachine && printMachine.length > 0) ||
+      (paymentMachineType == PaymentTerminalType.Clover && isSetup) ||
+      (paymentMachineType == PaymentTerminalType.Dejavoo &&
+        l.get(dejavooMachineInfo, "isSetup"))
+    ) {
+      await this.setState(receiptContentBg, async () => {
+        this.props.actions.invoice.togglPopupConfirmPrintInvoice(true);
+      });
+    } else {
+      alert("Please connect to your printer!");
+    }
+  };
+
   shareCustomerInvoice = async () => {
     try {
+      const { printerSelect, paymentMachineType } = this.props;
+
       await this.setState({ receiptContentBg: "#fff" }, async () => {
-        const imageUri = await captureRef(this.viewShotRef, {
-          format: "jpg",
-          quality: 0.8,
+        const imageUri = await this.viewShowRef.current?.captureImageUrl({
+          paymentMachineType,
+          printerSelect: true,
         });
         if (Platform.OS === "ios") {
           RNFetchBlob.ios.previewDocument(imageUri);

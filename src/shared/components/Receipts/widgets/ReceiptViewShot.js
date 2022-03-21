@@ -1,6 +1,6 @@
 import { useAppType } from "@shared/hooks";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { ReceiptContent } from "./ReceiptContent";
 import { ReceiptItemType } from "./ReceiptItem";
 import { ReceiptHeader } from "./ReceiptHeader";
@@ -58,7 +58,7 @@ export const ReceiptViewShot = React.forwardRef(
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
           format: "jpg",
-          quality: 0.8,
+          quality: 1,
         });
 
         return imageUri;
@@ -108,6 +108,7 @@ export const ReceiptViewShot = React.forwardRef(
 
 const styles = StyleSheet.create({
   viewShotContainer: {
+    flex: 0,
     paddingHorizontal: scaleWidth(10),
   },
 });

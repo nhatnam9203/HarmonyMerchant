@@ -33,7 +33,7 @@ export const ReceiptTotal = ({
       <View style={styles.line} />
       <View style={styles.margin} />
 
-      <TextTotal label={"Subtotal"}>{`${formatMoneyWithUnit(
+      <TextTotal label={"Subtotal"} fontSize={17}>{`${formatMoneyWithUnit(
         subtotal
       )}`}</TextTotal>
       <TextTotal label={"Discount"}>{`${formatMoneyWithUnit(

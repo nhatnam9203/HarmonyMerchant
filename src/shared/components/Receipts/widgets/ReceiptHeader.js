@@ -29,24 +29,32 @@ export const ReceiptHeader = ({
       )}
       <View style={styles.margin} />
       <TextSymbol>{` ${symbol} `}</TextSymbol>
-      <View style={styles.margin} />
-      <TextLabel>
+      {/* <View style={styles.margin} /> */}
+      <TextTime>
         {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
-      </TextLabel>
-      <LineHeader />
+      </TextTime>
+      {/* <LineHeader />
+       */}
+      <View style={styles.margin} />
+      <View style={styles.margin} />
+      {!!staffName && (
+        <TextInvoice label="Staff name   ">{`${staffName}`}</TextInvoice>
+      )}
       <TextInvoice label="Customer     ">
         {`${customer?.firstName ?? " "} ${customer?.lastName ?? " "}`}
       </TextInvoice>
-      {!!staffName && (
-        <TextInvoice label="Staff name   ">{` ${staffName}`}</TextInvoice>
-      )}
+      <TextInvoice label="Invoice No    ">{`#${invoiceNO}`}</TextInvoice>
       <TextInvoice label="Invoice Date ">
         {`${formatWithMoment(invoiceDate, "MM/DD/YYYY hh:mm A")}`}
       </TextInvoice>
-      <TextInvoice label="Invoice No    ">{` #${invoiceNO}`}</TextInvoice>
+      <View style={styles.margin} />
     </View>
   );
 };
+
+const TextTime = ({ children }) => (
+  <Text style={styles.textTimeStyle}>{children}</Text>
+);
 
 const TextLabel = ({ children, numberOfLines = 0 }) => (
   <Text style={styles.textLabelStyle} numberOfLines={numberOfLines}>
@@ -66,7 +74,7 @@ const TextSymbol = ({ children }) => (
 
 const TextInvoice = ({ label = "", children }) => (
   <Text style={styles.textInvoiceLabelStyle}>
-    {`${label}: `}
+    {`${label} :  `}
     <Text style={styles.textInvoiceStyle}>{children}</Text>
   </Text>
 );
@@ -86,8 +94,15 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(17),
     fontWeight: "normal",
+    textAlign: "center",
+  },
+
+  textTimeStyle: {
+    fontFamily: fonts.LIGHT,
+    color: "#000",
+    fontSize: scaleFont(15),
     textAlign: "center",
   },
 
@@ -99,18 +114,18 @@ const styles = StyleSheet.create({
   },
 
   textInvoiceLabelStyle: {
-    fontFamily: fonts.MEDIUM,
+    fontFamily: fonts.REGULAR,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(16),
     textAlign: "left",
-    fontWeight: "400",
   },
 
   textInvoiceStyle: {
-    fontFamily: fonts.MEDIUM,
+    fontFamily: fonts.REGULAR,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(16),
     textAlign: "left",
+    fontWeight: "400",
   },
 
   margin: {

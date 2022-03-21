@@ -333,6 +333,7 @@ export default class Layout extends React.Component {
 
   renderDetailInvoice() {
     const { profile, profileStaffLogin, invoiceDetail } = this.props;
+    const { receiptContentBg } = this.state;
 
     let invoiceName = "";
     let isSalonApp = true;
@@ -370,7 +371,8 @@ export default class Layout extends React.Component {
             keyboardShouldPersistTaps="always"
           >
             <ReceiptViewShot
-              backgroundColor={"#fff"}
+              ref={this.viewShowRef}
+              backgroundColor={receiptContentBg}
               items={getReceiptItems(invoiceDetail?.basket)}
               profile={profile}
               customer={getCustomer()}

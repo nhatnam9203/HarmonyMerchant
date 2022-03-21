@@ -146,38 +146,32 @@ export const PopupReceipt = React.forwardRef(
               },
             ]}
           >
-            <ScrollView
-              style={{ flex: 1 }}
-              automaticallyAdjustContentInsets={true}
-              keyboardShouldPersistTaps="always"
-            >
-              <ReceiptViewShot
-                ref={viewShotRef}
-                items={items}
-                profile={profile}
-                customer={customer}
-                printTemp={printTemp}
-                fromAppointmentTab={fromAppointmentTab}
-                invoiceDate={invoiceDate}
-                invoiceNO={invoiceNO}
-                symbol={symbol}
-                typeReceipt={typeReceipt}
-                invoiceCode={invoiceCode}
-                subTotal={subTotal}
-                discount={discount}
-                tip={tip}
-                tax={tax}
-                total={total}
-                fee={fee}
-                cashDiscount={cashDiscount}
-                due={due}
-                change={change}
-                taxRate={taxRate}
-                promotionNotes={promotionNotes}
-                checkoutPaymentMethods={checkoutPaymentMethods}
-                isSignature={isSignature}
-              />
-            </ScrollView>
+            <ReceiptViewShot
+              ref={viewShotRef}
+              items={items}
+              profile={profile}
+              customer={customer}
+              printTemp={printTemp}
+              fromAppointmentTab={fromAppointmentTab}
+              invoiceDate={invoiceDate}
+              invoiceNO={invoiceNO}
+              symbol={symbol}
+              typeReceipt={typeReceipt}
+              invoiceCode={invoiceCode}
+              subTotal={subTotal}
+              discount={discount}
+              tip={tip}
+              tax={tax}
+              total={total}
+              fee={fee}
+              cashDiscount={cashDiscount}
+              due={due}
+              change={change}
+              taxRate={taxRate}
+              promotionNotes={promotionNotes}
+              checkoutPaymentMethods={checkoutPaymentMethods}
+              isSignature={isSignature}
+            />
           </View>
 
           <View style={styles.bottomStyle}>
