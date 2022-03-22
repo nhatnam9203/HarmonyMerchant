@@ -2,39 +2,24 @@ import actions from "@actions";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { APP_TYPE } from "@shared/constants";
-import { menuTabs } from "@utils";
 import { useFocusEffect } from "@react-navigation/native";
-// import { usePermission } from "@shared/hooks";
 
 export const useProps = ({ navigation }) => {
   const screenReportRef = React.useRef(null);
   const dispatch = useDispatch();
   const popupLoginStaffRef = React.useRef(null);
-  // const { isPermission } = usePermission(menuTabs.MENU_REPORT);
 
   const [isShowBackButton, showBackButton] = React.useState(false);
-
-  const tokenReportServer = useSelector(
-    (state) => state.dataLocal.tokenReportServer
-  );
 
   const openDrawer = () => {
     navigation.openDrawer();
   };
 
-  useEffect(()=>{
-    popupLoginStaffRef.current?.show()
-  },[])
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     if (isPermission) {
-  //       popupLoginStaffRef.current.hide();
-  //     } else {
-  //       popupLoginStaffRef.current.show();
-  //     }
-  //   }, [isPermission, tokenReportServer])
-  // );
+  useFocusEffect(
+    React.useCallback(() => {
+      popupLoginStaffRef.current?.show()
+    }, [])
+  );
 
   return {
     openDrawer,
