@@ -45,4 +45,5 @@ export * from "./PopupPinCode";
 export * from "./CustomTextInput";
 export * from "./PrintReceipt";
 export * from "./DialogInputBarcode";
+export * from "./DialogPinCodeReportServer";
 export * from "./Receipts";

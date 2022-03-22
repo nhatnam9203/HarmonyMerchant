@@ -12,7 +12,7 @@ function* getReportOverallPaymentMethod(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -46,7 +46,7 @@ function* getReportOverallMarketingEfficiency(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -80,7 +80,7 @@ function* getReportGiftCardSales(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -114,7 +114,7 @@ function* getReportCustomerSales(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -148,7 +148,7 @@ function* getServiceSalesByCategory(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -182,7 +182,7 @@ function* getServiceSalesByService(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -216,7 +216,7 @@ function* getProductSalesByCategory(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -250,7 +250,7 @@ function* getProductSalesByProduct(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -284,7 +284,7 @@ function* getReportStaffServiceDuration(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -318,7 +318,7 @@ function* getReportStaffServiceDurationDetail(action) {
     if (action.isShowLoading) {
       yield put({ type: "LOADING_ROOT" });
     }
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
 
@@ -355,7 +355,7 @@ function* exportReport(action) {
       type: "DOWNLOAD_REPORT_EXPORT",
     });
 
-    const responses = yield requestAPI(action);
+    const responses = yield requestAPI(action, {}, true);
 
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {

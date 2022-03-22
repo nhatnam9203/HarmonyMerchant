@@ -5,6 +5,7 @@ const initialState = {
   errorLogin: null,
   isLoadingCheckStaffPermission: false,
   visiblePopupCheckStaffPermission: false,
+  errorLoginReport: null,
 };
 
 function authReducer(state = initialState, action) {
@@ -18,6 +19,16 @@ function authReducer(state = initialState, action) {
       return {
         ...state,
         errorLogin: action?.payload?.message || null,
+      };
+    case "LOGIN_REPORT_SERVER_SUCCESS":
+      return {
+        ...state,
+        errorLoginReport: null,
+      };
+    case "LOGIN_REPORT_SERVER_FAIL":
+      return {
+        ...state,
+        errorLoginReport: action?.payload?.message || null,
       };
     case "CHECK_STAFF_PERMISSION":
       return {

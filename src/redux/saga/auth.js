@@ -4,7 +4,7 @@ import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import Configs from "@configs";
 import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI, menuTabs } from "../../utils";
-import { saveAuthToken } from "@shared/storages/authToken";
+import { saveAuthToken, saveAuthTokenReport } from "@shared/storages/authToken";
 
 const getAsyncStoreToken = async () => {
   let token = null;
@@ -84,6 +84,61 @@ function* login(action) {
   } catch (error) {
     yield put({
       type: "LOGIN_APP_FAIL",
+      payload: error,
+    });
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
+function* loginReportServer(action) {
+  let responses = {};
+  try {
+    yield put({
+      type: "LOGIN_REPORT_SERVER_FAIL",
+      payload: null,
+    });
+    yield put({ type: "LOADING_ROOT" });
+
+    // const fcmToken = yield call(getFcmToken);
+    const deviceUniqueId = yield call(getDeviceId);
+
+    let body = action.body || {};
+    body = Object.assign({}, body, {
+      // firebaseToken: fcmToken,
+      deviceId: deviceUniqueId,
+    });
+    action.body = body;
+
+    responses = yield requestAPI(action);
+    yield put({ type: "STOP_LOADING_ROOT" });
+    const { codeNumber } = responses;
+    if (parseInt(codeNumber) == 200) {
+      yield put({
+        type: "SAVE_PROFILE_REPORT_SERVER",
+        payload: {
+          profile: responses?.data?.merchant,
+          token: responses?.data?.token,
+        },
+      });
+      yield put({
+        type: "LOGIN_REPORT_SERVER_SUCCESS",
+        payload: action?.body?.email || "",
+      });
+
+      yield call(saveAuthTokenReport, responses?.data?.token);
+
+      yield put({ type: "STOP_LOADING_ROOT" });
+    } else {
+      yield put({
+        type: "LOGIN_REPORT_SERVER_FAIL",
+        payload: responses,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: "LOGIN_REPORT_SERVER_FAIL",
       payload: error,
     });
     yield put({ type: error });
@@ -331,5 +386,6 @@ export default function* saga() {
     takeLatest("CHECK_STAFF_PERMISSION", checkStaffPermission),
     takeLatest("REQUEST_LOGOUT_APP", requestLogout),
     takeLatest("ACTIVE_FIREBASE", activeFirebase),
+    takeLatest("LOGIN_REPORT_SERVER", loginReportServer),
   ]);
 }

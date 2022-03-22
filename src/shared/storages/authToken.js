@@ -29,3 +29,33 @@ export const getAuthToken = async () => {
       });
   });
 };
+
+export const saveAuthTokenReport = (token) => {
+  storage.save({
+    key: StorageKey.authTokenReport,
+    data: token,
+    // expires: 1000 * 3600,
+  });
+};
+
+export const getAuthTokenReport = async () => {
+  return new Promise((resolve, reject) => {
+    return storage
+      .load({ key: StorageKey.authTokenReport })
+      .then((res) => resolve(res))
+      .catch((err) => {
+        // any exception including data not found
+        // goes to catch()
+        // console.warn(err.message);
+        switch (err.name) {
+          case 'NotFoundError':
+            // TODO;
+            break;
+          case 'ExpiredError':
+            // TODO
+            break;
+        }
+        return resolve(null);
+      });
+  });
+};
