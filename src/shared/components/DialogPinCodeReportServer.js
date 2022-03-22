@@ -122,7 +122,6 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
   // }, [staffLogin]);
 
   React.useEffect(() => {
-    console.log('isLoginStaffReportServer', isLoginStaffReportServer)
     if (isLoginStaffReportServer) {
       requestCheckPermission();
       dispatch(actions.dataLocal.resetStateLoginStaffReportServer(false));
