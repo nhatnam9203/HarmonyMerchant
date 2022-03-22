@@ -5,10 +5,31 @@ import { Platform } from "react-native";
 import { ErrorHandler } from "./ErrorHandler";
 import { getAuthToken } from "@shared/storages/authToken";
 import NavigationServices from "@navigators/NavigatorServices";
+import * as ROUTE from "./route";
+import { getAuthTokenReport } from "@shared/storages/authToken";
 
 const log = (obj, message = "") => {
   Logger.log(`[axiosClient] ${message}`, obj);
 };
+
+const UseTokenReportPaths = [
+  `${ROUTE.RETAILER_CUSTOMER.url}/export`,
+  `${ROUTE.RETAILER_ORDER.url}/export`,
+  `${ROUTE.RETAILER_PRODUCTS.url}/export`,
+  `${ROUTE.RETAILER_REPORT_PRODUCT.url}/saleByCategory/export`,
+  `${ROUTE.RETAILER_APPOINTMENT_REPORT.url}/customerSales/export`,
+  `${ROUTE.RETAILER_REPORT_SALES.url}/order/export`,
+  "merchantstafflogtime/export",
+  `${ROUTE.RETAILER_APPOINTMENT_REPORT.url}/customerSales`,
+  `${ROUTE.RETAILER_OVERALL.url}/marketingEfficiency`,
+  `${ROUTE.RETAILER_OVERALL.url}/paymentMethod`,
+  `${ROUTE.RETAILER_REPORT_PRODUCT.url}/saleByCategory`,
+  `${ROUTE.RETAILER_REPORT_SALES.url}/order`,
+  `${ROUTE.RETAILER_REPORT_SALES.url}/overall`,
+  `${ROUTE.RETAILER_REPORT_PRODUCT.url}/saleByProduct`,
+  `${ROUTE.RETAILER_STAFF.url}/salary`,
+  `MerchantStaffLogtime`,
+];
 
 export const axios = Axios.create({
   baseURL: Configs.API_URL,
@@ -26,7 +47,6 @@ export const axios = Axios.create({
 // request interceptor to add token to request headers
 axios.interceptors.request.use(
   async (config) => {
-    console.log(config?.url);
     const token = await getAuthToken();
     // console.log(token);
     if (token) {
@@ -34,6 +54,7 @@ axios.interceptors.request.use(
         authorization: `Bearer ${token}`,
       });
     }
+
     // console.log("retailer axios", config)
     return config;
   },
