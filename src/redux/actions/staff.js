@@ -135,6 +135,20 @@ export function loginStaff(merchantCode, staffPin, isPincodeInvoice = false) {
   };
 }
 
+export function loginStaffReportServer(merchantCode, staffPin, isPincodeInvoice = false) {
+  return {
+    type: "LOGIN_STAFF_REPORT_SERVER",
+    body: {
+      merchantCode: merchantCode,
+      staffPin: staffPin,
+    },
+    method: "POST",
+    api: `staff/login`,
+    isPincodeInvoice,
+    isChangeServerReport: true,
+  };
+}
+
 export function forgotPin(merchantCode, email) {
   return {
     type: "FORGOT_PIN",
@@ -190,6 +204,7 @@ export function getListStaffsSalaryTop(
     isShowLoading,
     timeOut: 120000,
     page,
+    isChangeServerReport: true,
   };
 }
 

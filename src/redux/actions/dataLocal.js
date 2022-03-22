@@ -45,6 +45,12 @@ export function resetStateLoginStaff(flag = false) {
     }
 }
 
+export function resetStateLoginStaffReportServer(flag = false) {
+    return {
+      type: "RESET_STATE_LOGIN_STAFF_REPORT_SERVER",
+      payload: flag,
+    };
+  }
 
 export function resetNeddSettingStore() {
     return {

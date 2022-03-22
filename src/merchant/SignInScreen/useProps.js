@@ -62,6 +62,7 @@ export const useProps = ({ navigation }) => {
     },
     validationSchema: SignInSchema,
     onSubmit: ({ email, password, terminalId }) => {
+      console.log("signInFormik")
       dispatch(actions.auth.login(email, password, terminalId, isRememberMID));
     },
   });

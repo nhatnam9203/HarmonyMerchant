@@ -33,6 +33,7 @@ axios.interceptors.request.use(
         authorization: `Bearer ${token}`,
       });
     }
+    console.log("retailer axios", config)
     return config;
   },
   (error) => Promise.reject(error)

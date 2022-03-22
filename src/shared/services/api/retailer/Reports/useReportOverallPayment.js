@@ -1,14 +1,14 @@
-import useAxios from "axios-hooks";
 import { RETAILER_OVERALL } from "../../route";
 import { appMerchant } from "@redux/slices";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useAxiosReport } from "@shared/services/api/useAxiosReport";
 
 export const useReportOverallPayment = () => {
   const dispatch = useDispatch();
 
   const [{ data: reportOverallPayment, loading, error, response }, execute] =
-    useAxios(
+  useAxiosReport(
       { method: "GET" },
       {
         manual: true,
