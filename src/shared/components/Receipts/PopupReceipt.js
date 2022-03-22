@@ -67,6 +67,7 @@ export const PopupReceipt = React.forwardRef(
       groupAppointment,
       printTemp,
       fromAppointmentTab,
+      isSignature,
     });
 
     const resetAll = () => {

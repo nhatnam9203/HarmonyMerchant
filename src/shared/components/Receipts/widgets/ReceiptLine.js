@@ -9,9 +9,9 @@ export const LineHeader = () => (
       marginHorizontal: scaleWidth(0),
     }}
     dashGap={2}
-    dashLength={10}
+    dashLength={6}
     dashThickness={1}
-    dashColor="#000d"
+    dashColor="#000"
   />
 );
 

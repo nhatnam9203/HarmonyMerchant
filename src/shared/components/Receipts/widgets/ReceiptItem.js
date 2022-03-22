@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { LineHeader, LineItem } from "./ReceiptLine";
 
-const SALON_COLUMN_WIDTH = [5, 2, 3];
+const SALON_COLUMN_WIDTH = [4, 3, 3];
 const RETAILER_COLUMN_WIDTH = [4, 2, 1.5, 2.5];
 
 export const ReceiptItemType = {
@@ -446,15 +446,15 @@ const styles = StyleSheet.create({
   },
 
   textStyle: {
-    fontFamily: fonts.LIGHT,
+    fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(16),
+    fontSize: scaleFont(15),
     fontWeight: "500",
   },
   textLabelStyle: {
-    fontFamily: fonts.LIGHT,
+    fontFamily: fonts.MEDIUM,
     color: "#000d",
-    fontSize: scaleFont(16),
+    fontSize: scaleFont(15),
     fontWeight: "normal",
     marginLeft: scaleWidth(10),
   },

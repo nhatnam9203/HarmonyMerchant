@@ -9,7 +9,7 @@ import {
   PopupCheckStaffPermission,
   PopupConfirm,
   PopupInvoicePrint,
-  PopupPayCompleted,
+  DialogPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
   PopupSendLinkInstall,
@@ -1361,6 +1361,7 @@ class Layout extends React.Component {
       staffOfService,
       visibleConfirmPayment,
       visibleInvoice,
+      paymentSelected,
     } = this.state;
 
     let app0 = null;
@@ -1485,10 +1486,13 @@ class Layout extends React.Component {
           }}
         />
 
-        <PopupPayCompleted
+        <DialogPayCompleted
           onRequestClose={() => {}}
           printBill={this.printBill}
           donotPrintBill={this.donotPrintBill}
+          cancelInvoicePrint={this.cancelInvoicePrint}
+          doPrintClover={this.doPrintClover}
+          paymentSelected={paymentSelected}
         />
         <PopupProcessingCredit
           visible={this.state.visibleProcessingCredit}

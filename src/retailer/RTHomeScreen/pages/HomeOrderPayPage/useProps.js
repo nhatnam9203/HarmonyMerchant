@@ -881,6 +881,7 @@ export const useProps = ({
   };
 
   const printTemptInvoice = async () => {
+    console.log("printTemptInvoice");
     showInvoicePrint(true);
   };
 
@@ -907,22 +908,22 @@ export const useProps = ({
       await connectSignalR.current?.stop();
     }
 
-    if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
-      alert("Please connect to your printer!");
-    } else {
-      if (
-        paymentSelected === "Cash" ||
-        (paymentSelected === "Other" && profile?.isOpenCashier)
-      ) {
-        if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
-          openCashDrawerClover();
-        } else {
-          openCashDrawer(portName);
-        }
-      }
+    // if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
+    //   alert("Please connect to your printer!");
+    // } else {
+    //   if (
+    //     paymentSelected === "Cash" ||
+    //     (paymentSelected === "Other" && profile?.isOpenCashier)
+    //   ) {
+    //     if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
+    //       openCashDrawerClover();
+    //     } else {
+    //       openCashDrawer(portName);
+    //     }
+    //   }
 
-      showInvoicePrint(false);
-    }
+    //   showInvoicePrint(false);
+    // }
   };
 
   const openCashDrawerClover = () => {
@@ -980,7 +981,9 @@ export const useProps = ({
     }
 
     await dispatch(basketRetailer.clearBasket());
-    onCompleteBack();
+    setTimeout(() => {
+      onCompleteBack();
+    }, 1000);
   };
 
   const openCashDrawer = async () => {
@@ -1010,7 +1013,7 @@ export const useProps = ({
     //   machineType: paymentMachineType,
     // });
 
-    await invoiceRef.current?.print({
+    await invoiceRef.current?.show({
       isPrintTempt: isTemptPrint,
       isAppointmentTab: false,
     });

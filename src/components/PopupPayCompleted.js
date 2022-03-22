@@ -7,7 +7,6 @@ import { scaleSize, getTitleSendLinkGoogle } from "../utils";
 import connectRedux from "@redux/ConnectRedux";
 import ICON from "@resources";
 import Button from "./Button";
-import { forEach } from "ramda";
 
 class PopupPayCompleted extends React.Component {
   constructor(props) {

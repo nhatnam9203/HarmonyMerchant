@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
 import { Platform } from "react-native";
 import PrintManager from "@lib/PrintManager";
+import { Alert } from "react-native";
 
 export const usePrinter = ({
   viewShotRef,
@@ -28,7 +29,8 @@ export const usePrinter = ({
     printerSelect
   );
 
-  const onCancel = (temp) => {
+  const onCancel = async (temp) => {
+    await setLoading(false);
     if (onCancelPrint && typeof onCancelPrint === "function") {
       onCancelPrint(temp ?? printTemp);
     }
@@ -40,28 +42,24 @@ export const usePrinter = ({
         setIsSignature(false);
       }, 2000);
     } else {
-      setTimeout(() => {
-        setIsSignature(false);
-      }, 500);
+      setIsSignature(false);
     }
   };
 
   React.useEffect(() => {
-    if (
-      !isSignature &&
-      !printTemp &&
-      profile?.isPrintReceipt &&
-      !fromAppointmentTab
-    ) {
+    if (!isSignature && !printTemp && !fromAppointmentTab) {
       printProcess();
     }
   }, [isSignature, printTemp, profile?.isPrintReceipt]);
 
   const printProcess = async () => {
     try {
-      if (!viewShotRef) return; // Không có gì để print
+      if (!viewShotRef) {
+        alert("Error render");
+        return;
+      } // Không có gì để print
 
-      await setLoading(false);
+      await setLoading(true);
       const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
@@ -113,7 +111,7 @@ export const usePrinter = ({
             "",
             [
               {
-                text: "Cancel",
+                text: "NO",
                 onPress: onCancel,
                 style: "cancel",
               },
@@ -130,7 +128,7 @@ export const usePrinter = ({
       }
     } catch (error) {
       console.log(`Printer error with ${error}`);
-      alert(`Printer error with ${error}`);
+      setLoading(false);
       onCancel();
     }
   };
@@ -156,8 +154,8 @@ export const usePrinter = ({
 
       await onCancelShare();
     } catch (error) {
-      alert(error);
-      await onCancelShare();
+      setLoading(false);
+      onCancelShare();
     }
   };
 

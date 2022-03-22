@@ -3,7 +3,7 @@ import {
   PopupChangeMoney,
   PopupChangeTip,
   PopupConfirm,
-  PopupPayCompleted,
+  DialogPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
   PopupSendLinkInstall,
@@ -438,10 +438,13 @@ export const Layout = ({
         }}
       />
 
-      <PopupPayCompleted
+      <DialogPayCompleted
         onRequestClose={() => {}}
         printBill={printBill}
         donotPrintBill={donotPrintBill}
+        cancelInvoicePrint={cancelInvoicePrint}
+        doPrintClover={doPrintClover}
+        appointmentTemp={groupAppointment}
       />
 
       <PopupProcessingCredit

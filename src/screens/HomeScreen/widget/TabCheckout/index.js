@@ -972,27 +972,7 @@ class TabCheckout extends Layout {
       connectionSignalR.stop();
     }
 
-    if (paymentMachineType === PaymentTerminalType.Pax && !portName) {
-      alert("Please connect to your printer!");
-    } else {
-      if (
-        paymentSelected === "Cash" ||
-        (paymentSelected === "Other" && profile?.isOpenCashier)
-      ) {
-        if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
-          this.openCashDrawerClover();
-        } else {
-          this.openCashDrawer(portName);
-        }
-      }
-
-      this.props.actions.appointment.closeModalPaymentCompleted();
-
-      await this.invoiceRef.current?.print({
-        isPrintTempt: false,
-        isAppointmentTab: false,
-      });
-    }
+    this.props.actions.appointment.closeModalPaymentCompleted();
   };
 
   checkStatusCashier = async () => {

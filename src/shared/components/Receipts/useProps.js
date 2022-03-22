@@ -12,6 +12,7 @@ export const useProps = ({
   groupAppointment,
   printTemp,
   fromAppointmentTab,
+  isSignature,
 }) => {
   const { profile, profileStaffLogin, printerList, printerSelect } =
     useSelector((state) => state.dataLocal) ?? {};
@@ -73,7 +74,7 @@ export const useProps = ({
   const getInvoiceNO = () => {
     if (invoice) return invoice.checkoutId;
     if (appointment) return appointment.invoice?.checkoutId;
-    return undefined;
+    return null;
   };
 
   const getTypeOfReceipt = () => {
@@ -91,7 +92,8 @@ export const useProps = ({
       status = groupAppointment?.status;
     }
 
-    if (fromAppointmentTab) return "Customer's Receipt";
+    if (fromAppointmentTab || printTemp || !isSignature)
+      return "Customer's Receipt";
     return "Merchant's Receipt";
   };
 
