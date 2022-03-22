@@ -981,9 +981,7 @@ export const useProps = ({
     }
 
     await dispatch(basketRetailer.clearBasket());
-    setTimeout(() => {
-      onCompleteBack();
-    }, 1000);
+    onCompleteBack();
   };
 
   const openCashDrawer = async () => {
