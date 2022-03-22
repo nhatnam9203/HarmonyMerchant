@@ -9,13 +9,14 @@ import {
   PopupCheckStaffPermission,
   PopupConfirm,
   PopupInvoicePrint,
-  DialogPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
   PopupSendLinkInstall,
   ScrollableTabView,
   Text,
 } from "@components";
+import { DialogPayCompleted } from "@components/DialogPayCompleted";
+
 import { QRCodePay } from "@components/PaymentButtons";
 import ICON from "@resources";
 import { PopupReceipt } from "@shared/components";

@@ -26,6 +26,7 @@ export const axios = Axios.create({
 // request interceptor to add token to request headers
 axios.interceptors.request.use(
   async (config) => {
+    console.log(config?.url);
     const token = await getAuthToken();
     // console.log(token);
     if (token) {
@@ -33,7 +34,7 @@ axios.interceptors.request.use(
         authorization: `Bearer ${token}`,
       });
     }
-    console.log("retailer axios", config)
+    // console.log("retailer axios", config)
     return config;
   },
   (error) => Promise.reject(error)

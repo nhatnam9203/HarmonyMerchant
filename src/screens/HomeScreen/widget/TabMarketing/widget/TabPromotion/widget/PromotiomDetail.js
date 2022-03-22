@@ -1,10 +1,5 @@
-import {
-  Button,
-  CustomTimePicker,
-  Dropdown,
-  InputForm,
-  Text,
-} from "@components";
+import { Button, Dropdown, InputForm, Text } from "@components";
+import { CustomTimePicker } from "@components/CustomTimePicker";
 import { default as ICON, default as IMAGE } from "@resources";
 import {
   CustomCheckBox,

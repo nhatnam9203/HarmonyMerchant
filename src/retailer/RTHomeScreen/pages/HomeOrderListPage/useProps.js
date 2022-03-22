@@ -77,7 +77,7 @@ export const useProps = ({ params: { reload } }) => {
   |  API EXPORT
   |--------------------------------------------------
   */
-  const [exportOrderList, ExportOrderList] = useExportOrderList();
+  const [exportOrderList, funcExportOrderList] = useExportOrderList();
   const callExportOrderList = (values) => {
     const params = Object.assign({}, values, {
       page: page,
@@ -95,7 +95,7 @@ export const useProps = ({ params: { reload } }) => {
       }),
     });
     exportRef.current?.onSetFileName(getTimeTitleFile("ReportOrder", params));
-    ExportOrderList(params);
+    funcExportOrderList(params);
   };
 
   React.useEffect(() => {

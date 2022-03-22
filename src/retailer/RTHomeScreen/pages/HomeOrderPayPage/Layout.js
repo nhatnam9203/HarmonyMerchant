@@ -3,11 +3,11 @@ import {
   PopupChangeMoney,
   PopupChangeTip,
   PopupConfirm,
-  DialogPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
   PopupSendLinkInstall,
 } from "@components";
+import { DialogPayCompleted } from "@components/DialogPayCompleted";
 import IMAGE from "@resources";
 import {
   ButtonGradient,

@@ -1,4 +1,4 @@
-import { CustomTimePicker } from "@components";
+import { CustomTimePicker } from "@components/CustomTimePicker";
 import IMAGE from "@resources";
 import {
   ButtonGradient,

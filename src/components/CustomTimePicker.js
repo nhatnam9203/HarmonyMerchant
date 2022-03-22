@@ -5,7 +5,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const HOURS_FORMAT = "hh:mm A";
 const LAYOUT_WIDTH = "100%";
 
-const CustomTimePicker = ({
+export const CustomTimePicker = ({
   renderBase,
   onChangeDate,
   style,
@@ -82,5 +82,3 @@ const CustomTimePicker = ({
     </View>
   );
 };
-
-export default CustomTimePicker;

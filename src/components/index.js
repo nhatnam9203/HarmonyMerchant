@@ -55,10 +55,8 @@ import PopupInfomationCodePush from "./PopupInfomationCodePush";
 import DropdownSearchable from "./DropdownSearchable";
 import GradientButton from "./GradientButton";
 import Slider from "./Slider";
-import CustomTimePicker from "./CustomTimePicker";
 import KeyboardNumeric from "./KeyboardNumeric";
 import PopupPairingCode from "./PopupPairingCode";
-import { DialogPayCompleted } from "./DialogPayCompleted";
 
 module.exports = {
   PopupPairingCode,
@@ -119,7 +117,8 @@ module.exports = {
   PopupInfomationCodePush,
   DropdownSearchable,
   GradientButton,
-  CustomTimePicker,
   KeyboardNumeric,
-  DialogPayCompleted,
 };
+
+// export * from "./DialogPayCompleted";
+// export * from "./CustomTimePicker";
