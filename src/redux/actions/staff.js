@@ -236,6 +236,7 @@ export function getExportStaffSalary(
     isShowLoading,
     fileName,
     extention: type ?? "pdf",
+    isChangeServerReport: true,
   };
 }
 
@@ -254,6 +255,7 @@ export function getExportStaffStatistics(
     isShowLoading,
     fileName,
     extention: type ?? "pdf",
+    isChangeServerReport: true,
   };
 }
 
