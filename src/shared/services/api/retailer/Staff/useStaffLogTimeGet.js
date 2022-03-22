@@ -1,12 +1,12 @@
 import { appMerchant } from "@redux/slices";
-import useAxios from "axios-hooks";
+import { useAxiosReport } from "@shared/services/api/useAxiosReport";
 import React from "react";
 import { useDispatch } from "react-redux";
 
 export const useStaffLogTimeGet = () => {
   const dispatch = useDispatch();
 
-  const [{ data: staffLogTime, loading, error, response }, execute] = useAxios(
+  const [{ data: staffLogTime, loading, error, response }, execute] = useAxiosReport(
     { method: "GET" },
     {
       manual: true,
