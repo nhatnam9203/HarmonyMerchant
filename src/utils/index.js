@@ -64,7 +64,11 @@ export const scaleSize = (size) => {
   return (width * size) / Configs.DEFAULT_WIDTH;
 };
 
-export const requestAPI = async (action, header = {}, isChangeServerReport = false) => {
+export const requestAPI = async (
+  action,
+  header = {},
+  isChangeServerReport = false
+) => {
   let method = action.method || "GET";
   let headers = Object.assign(
     { Accept: "application/json", "Content-Type": "application/json" },
@@ -85,7 +89,9 @@ export const requestAPI = async (action, header = {}, isChangeServerReport = fal
   }`;
   const configs = {
     method: `${method}`.toLowerCase(),
-    baseURL: action.isChangeServerReport ? Config.API_REPORT_URL : Configs.API_URL,
+    baseURL: action.isChangeServerReport
+      ? Config.API_REPORT_URL
+      : Configs.API_URL,
     url: `${action.api}`,
     headers: headers,
     timeout: action?.timeOut ?? action?.timeoutIncrease ? 90000 : 30000,
@@ -343,6 +349,7 @@ export const getArrayProductsFromAppointment = (products = []) => {
         productId: product.productId,
         price: product.price,
         bookingProductId: product.bookingProductId,
+        barcode: product.barcode,
       },
     };
   });

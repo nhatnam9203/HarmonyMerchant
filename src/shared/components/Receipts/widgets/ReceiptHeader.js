@@ -41,7 +41,9 @@ export const ReceiptHeader = ({
         <TextInvoice label="Staff name   ">{`${staffName}`}</TextInvoice>
       )}
       <TextInvoice label="Customer     ">
-        {`${customer?.firstName ?? " "} ${customer?.lastName ?? " "}`}
+        {`${customer?.firstName ?? "Unknown"} ${
+          customer?.lastName ?? "Unknown"
+        }`}
       </TextInvoice>
       {invoiceNO && (
         <TextInvoice label="Invoice No    ">{`#${invoiceNO}`}</TextInvoice>

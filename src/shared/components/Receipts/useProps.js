@@ -43,7 +43,17 @@ export const useProps = ({
   };
 
   const getCustomer = () => {
-    if (appointment) return appointment.customer;
+    if (appointment?.customer) {
+      return appointment.customer;
+    }
+
+    if (appointment?.firstName) {
+      return {
+        firstName: appointment.firstName,
+        lastName: appointment.lastName,
+        customerId: appointment.customerId,
+      };
+    }
     return null;
   };
 
@@ -73,7 +83,13 @@ export const useProps = ({
 
   const getInvoiceNO = () => {
     if (invoice) return invoice.checkoutId;
-    if (appointment) return appointment.invoice?.checkoutId;
+    if (appointment?.invoice?.checkoutId) {
+      return appointment.invoice.checkoutId;
+    }
+
+    if (appointment?.checkoutId) {
+      return appointment?.checkoutId;
+    }
     return null;
   };
 

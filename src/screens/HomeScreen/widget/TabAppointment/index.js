@@ -259,7 +259,9 @@ class TabAppointment extends Layout {
               // });
               // TODO: print with checkoutId
 
-              console.log(appointment);
+              // console.log(appointment);
+
+
               this.setState({ appointment });
 
               break;

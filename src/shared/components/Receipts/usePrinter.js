@@ -1,4 +1,4 @@
-import { getInfoFromModelNameOfPrinter } from "@utils";
+import { getInfoFromModelNameOfPrinter, PaymentTerminalType } from "@utils";
 import React from "react";
 import Share from "react-native-share";
 import { StarPRNT } from "react-native-star-prnt";
@@ -58,6 +58,11 @@ export const usePrinter = ({
         alert("Error render");
         return;
       } // Không có gì để print
+
+      if (!portName || paymentMachineType === PaymentTerminalType.Pax) {
+        alert("Please connect to your printer! ");
+        return;
+      }
 
       await setLoading(true);
       const imageUrl = await viewShotRef.current?.captureImageUrl({
