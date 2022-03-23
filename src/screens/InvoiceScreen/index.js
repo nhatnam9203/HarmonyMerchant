@@ -1557,10 +1557,12 @@ class InvoiceScreen extends Layout {
 
       if (portName) {
         this.props.actions.app.loadingApp();
+
         const imageUri = await this.viewShowRef.current?.captureImageUrl({
           paymentMachineType,
           printerSelect,
         });
+
         if (imageUri) {
           let commands = [];
           commands.push({ appendLineFeed: 0 });
@@ -1581,15 +1583,12 @@ class InvoiceScreen extends Layout {
         }
         this.props.actions.app.stopLoadingApp();
       } else {
-        const { cloverMachineInfo, paymentMachineType, dejavooMachineInfo } =
-          this.props;
         const { isSetup } = cloverMachineInfo;
         if (paymentMachineType == PaymentTerminalType.Clover && isSetup) {
           this.props.actions.app.loadingApp();
-          const imageUri = await captureRef(this.viewShotRef, {
-            result: "base64",
-            format: "jpg",
-            quality: 0.8,
+          const imageUri = await this.viewShowRef.current?.captureImageUrl({
+            paymentMachineType,
+            printerSelect,
           });
           if (imageUri) {
             this.doPrintClover(imageUri);
@@ -1656,6 +1655,10 @@ class InvoiceScreen extends Layout {
     } else {
       alert("Please connect to your printer!");
     }
+
+    // await this.setState({ receiptContentBg }, async () => {
+    //   this.props.actions.invoice.togglPopupConfirmPrintInvoice(true);
+    // });
   };
 
   shareCustomerInvoice = async () => {
