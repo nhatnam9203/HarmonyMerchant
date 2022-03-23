@@ -94,9 +94,9 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
   const onChangeFilterId = async (filterId) => {
     setResetTab(false);
     await setFilterNameItem(filterId);
-    if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
-      await getProductSaleByProduct(filterId);
-    }
+    // if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
+    //   await getProductSaleByProduct(filterId);
+    // }
   };
 
   const onGoStatistics = async (item) => {
