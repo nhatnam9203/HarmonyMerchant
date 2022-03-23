@@ -59,7 +59,7 @@ export const usePrinter = ({
         return;
       } // Không có gì để print
 
-      if (!portName || paymentMachineType === PaymentTerminalType.Pax) {
+      if (!portName && paymentMachineType === PaymentTerminalType.Pax) {
         alert("Please connect to your printer! ");
         return;
       }
