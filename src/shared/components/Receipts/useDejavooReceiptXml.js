@@ -218,7 +218,6 @@ export const useDejavooReceiptXml = ({
   };
 
   return {
-    getInvoiceItemsXml,
     getContentXmlReceipt,
   };
 };
