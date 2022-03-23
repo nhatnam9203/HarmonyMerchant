@@ -260,6 +260,7 @@ export const PopupReceipt = React.forwardRef(
 
           <View style={styles.bottomStyle}>
             <ButtonGradientWhite
+              disable={processLoading}
               label={t("NO")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
@@ -269,6 +270,8 @@ export const PopupReceipt = React.forwardRef(
             {isShare ? (
               <ButtonGradient
                 label={t("Share")}
+                disable={processLoading}
+                loading={processLoading}
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
@@ -276,6 +279,8 @@ export const PopupReceipt = React.forwardRef(
               />
             ) : (
               <ButtonGradient
+                disable={processLoading}
+                loading={processLoading}
                 label={t("Print")}
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}
