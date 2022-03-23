@@ -33,9 +33,10 @@ export const ReceiptTotal = ({
       <View style={styles.line} />
       <View style={styles.margin} />
 
-      <TextTotal label={"Subtotal"} fontSize={17}>{`${formatMoneyWithUnit(
-        subtotal
-      )}`}</TextTotal>
+      <TextTotal
+        label={"Subtotal"}
+        fontSize={scaleFont(17)}
+      >{`${formatMoneyWithUnit(subtotal)}`}</TextTotal>
       <TextTotal label={"Discount"}>{`${formatMoneyWithUnit(
         discount
       )}`}</TextTotal>
@@ -58,7 +59,7 @@ export const ReceiptTotal = ({
           <TextTotal
             label={"Total"}
             fontWeight={"600"}
-            fontSize={17}
+            fontSize={scaleFont(20)}
           >{`${formatMoneyWithUnit(total)}`}</TextTotal>
         </>
       )}
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
 
   line: {
     flex: 1,
-    borderBottomColor: "#000e",
+    borderBottomColor: "#000",
     borderBottomWidth: 1,
   },
 });

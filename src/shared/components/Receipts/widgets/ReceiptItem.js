@@ -25,6 +25,7 @@ export const ReceiptItem = ({ item, index, type }) => {
     qty = 1,
     name = "",
     label = "",
+    barCode,
   } = data;
 
   const totalPrice = formatNumberFromCurrency(price) * qty;
@@ -40,6 +41,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${index + 1}. ${name}`}</TextItem>
+          {!!barCode && <TextLabel>{`- Barcode: ${barCode} `}</TextLabel>}
           {!!label && <TextLabel>{`${label} `}</TextLabel>}
           {!!note && <TextLabel>{`${note}.`}</TextLabel>}
         </View>
@@ -449,17 +451,17 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(15),
-    fontWeight: "500",
+    fontWeight: "600",
   },
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
-    color: "#000d",
+    color: "#000",
     fontSize: scaleFont(15),
     fontWeight: "normal",
     marginLeft: scaleWidth(10),
   },
   textHeaderStyle: {
-    fontFamily: fonts.REGULAR,
+    fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
     textAlign: "center",
     color: "#000",

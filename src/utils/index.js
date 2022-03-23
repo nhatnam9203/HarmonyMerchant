@@ -349,7 +349,7 @@ export const getArrayProductsFromAppointment = (products = []) => {
         productId: product.productId,
         price: product.price,
         bookingProductId: product.bookingProductId,
-        barcode: product.barcode,
+        barCode: product.barCode,
       },
     };
   });

@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
 
   textTimeStyle: {
-    fontFamily: fonts.LIGHT,
+    fontFamily: fonts.REGULAR,
     color: "#000",
     fontSize: scaleFont(15),
     textAlign: "center",

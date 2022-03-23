@@ -924,6 +924,8 @@ export const useProps = ({
 
     //   showInvoicePrint(false);
     // }
+
+    dispatch(actions.appointment.closeModalPaymentCompleted());
   };
 
   const openCashDrawerClover = () => {

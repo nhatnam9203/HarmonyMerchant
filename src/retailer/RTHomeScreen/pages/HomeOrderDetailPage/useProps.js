@@ -464,16 +464,16 @@ export const useProps = ({
         return;
       }
 
-      if (
-        paymentSelected === "Cash" ||
-        (paymentSelected === "Other" && profile?.isOpenCashier)
-      ) {
-        if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
-          openCashDrawerClover();
-        } else {
-          openCashDrawer(portName);
-        }
-      }
+      // if (
+      //   paymentSelected === "Cash" ||
+      //   (paymentSelected === "Other" && profile?.isOpenCashier)
+      // ) {
+      //   if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
+      //     openCashDrawerClover();
+      //   } else {
+      //     openCashDrawer(portName);
+      //   }
+      // }
 
       invoiceRef.current?.show({
         isPrintTempt: false,

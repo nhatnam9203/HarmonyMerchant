@@ -26,6 +26,6 @@ export const LineItem = () => (
     dashGap={4}
     dashLength={1}
     dashThickness={1}
-    dashColor="#0009"
+    dashColor="#000"
   />
 );
