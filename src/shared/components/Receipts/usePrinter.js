@@ -1,4 +1,8 @@
-import { getInfoFromModelNameOfPrinter, PaymentTerminalType } from "@utils";
+import {
+  getInfoFromModelNameOfPrinter,
+  PaymentTerminalType,
+  requestPrintDejavoo,
+} from "@utils";
 import React from "react";
 import Share from "react-native-share";
 import { StarPRNT } from "react-native-star-prnt";
@@ -18,6 +22,7 @@ export const usePrinter = ({
   onCancelPrint,
   onCancelShare,
   fromAppointmentTab,
+  getContentXmlReceipt,
 }) => {
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
   const { profile, printerList, printerSelect } =
@@ -94,11 +99,11 @@ export const usePrinter = ({
               doPrintClover(imageUrl);
             }
           } else if (paymentMachineType == "Dejavoo") {
-            // const content = getContentXmlReceipt();
-            // const params = {
-            //   content,
-            // };
-            // requestPrintDejavoo(params);
+            const content = getContentXmlReceipt();
+            const params = {
+              content,
+            };
+            requestPrintDejavoo(params);
           }
         }
 

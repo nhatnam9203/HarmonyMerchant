@@ -41,8 +41,8 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${index + 1}. ${name}`}</TextItem>
-          {!!barCode && <TextLabel>{`- Barcode: ${barCode} `}</TextLabel>}
           {!!label && <TextLabel>{`${label} `}</TextLabel>}
+          {!!barCode && <TextLabel>{`- Barcode: ${barCode} `}</TextLabel>}
           {!!note && <TextLabel>{`${note}.`}</TextLabel>}
         </View>
       );

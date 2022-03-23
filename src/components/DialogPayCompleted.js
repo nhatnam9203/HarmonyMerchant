@@ -31,7 +31,7 @@ export const DialogPayCompleted = ({
   cancelInvoicePrint,
   doPrintClover,
   paymentSelected,
-  appointmentTemp,
+  groupAppointment,
 }) => {
   const viewShotRef = React.useRef(null);
   const { t } = useTranslation();
@@ -48,9 +48,7 @@ export const DialogPayCompleted = ({
   const visiblePaymentCompleted = useSelector(
     (state) => state.appointment.visiblePaymentCompleted
   );
-  const groupAppointment =
-    useSelector((state) => state.appointment.groupAppointment) ??
-    appointmentTemp;
+
   const [isSendLink, setSendLink] = React.useState(false);
 
   const {
@@ -158,6 +156,9 @@ export const DialogPayCompleted = ({
 
       await printProcess();
     }
+
+    // TEST
+    // await printProcess();
   };
 
   cancelPrintBill = () => {

@@ -7,6 +7,7 @@ import Modal from "react-native-modal";
 import { useProps } from "./useProps";
 import { ReceiptViewShot } from "./widgets";
 import { usePrinter } from "./usePrinter";
+import { useDejavooReceiptXml } from "./useDejavooReceiptXml";
 
 const DEFAULT_WIDTH = scaleWidth(391);
 
@@ -70,15 +71,26 @@ export const PopupReceipt = React.forwardRef(
       isSignature,
     });
 
-    const resetAll = () => {
-      // reset
-      setOpen(false);
-      setIsSignature(true);
-      setPrintTemp(false);
-      setFromAppointmentTab(false);
-      setIsShare(false);
-      setAutoPrint(false);
-    };
+    const { getContentXmlReceipt } = useDejavooReceiptXml({
+      items,
+      checkoutPaymentMethods,
+      invoiceNO,
+      symbol,
+      invoiceDate,
+      subTotal,
+      discount,
+      tip,
+      tax,
+      total,
+      fee,
+      cashDiscount,
+      due,
+      change,
+      taxRate,
+      isSignature,
+      printTemp,
+      typeReceipt,
+    });
 
     const { printProcess, shareProcess, processLoading } = usePrinter({
       printTemp,
@@ -96,7 +108,18 @@ export const PopupReceipt = React.forwardRef(
       onCancelShare: async () => {
         resetAll();
       },
+      getContentXmlReceipt,
     });
+
+    const resetAll = () => {
+      // reset
+      setOpen(false);
+      setIsSignature(true);
+      setPrintTemp(false);
+      setFromAppointmentTab(false);
+      setIsShare(false);
+      setAutoPrint(false);
+    };
 
     const hide = () => {
       setOpen(false);
@@ -237,6 +260,7 @@ export const PopupReceipt = React.forwardRef(
 
           <View style={styles.bottomStyle}>
             <ButtonGradientWhite
+              disable={processLoading}
               label={t("NO")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
@@ -246,6 +270,8 @@ export const PopupReceipt = React.forwardRef(
             {isShare ? (
               <ButtonGradient
                 label={t("Share")}
+                disable={processLoading}
+                loading={processLoading}
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
@@ -253,6 +279,8 @@ export const PopupReceipt = React.forwardRef(
               />
             ) : (
               <ButtonGradient
+                disable={processLoading}
+                loading={processLoading}
                 label={t("Print")}
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}

@@ -444,7 +444,8 @@ export const Layout = ({
         donotPrintBill={donotPrintBill}
         cancelInvoicePrint={cancelInvoicePrint}
         doPrintClover={doPrintClover}
-        appointmentTemp={groupAppointment}
+        groupAppointment={groupAppointment}
+        paymentSelected={paymentSelected}
       />
 
       <PopupProcessingCredit
