@@ -1,12 +1,10 @@
 import {
-  formatMoney,
   formatNumberFromCurrency,
   formatWithMoment,
   getCenterBoldStringArrayXml,
   getCenterStringArrayXml,
   getPaymentString,
   stringIsEmptyOrWhiteSpaces,
-  formatNumberFromCurrency,
 } from "@utils";
 import _ from "lodash";
 import { useSelector } from "react-redux";
