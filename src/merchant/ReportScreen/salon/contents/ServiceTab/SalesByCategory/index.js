@@ -94,9 +94,9 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
     setResetTab(false);
 
     await setFilterNameItem(filterId);
-    if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
-      await getServiceSalesByCategory(filterId);
-    }
+    // if (FILTER_NAME_DEFAULT_LIST.find((x) => x.value === filterId)) {
+    //   await getServiceSalesByCategory(filterId);
+    // }
   };
 
   const onGoStatistics = async (item) => {
