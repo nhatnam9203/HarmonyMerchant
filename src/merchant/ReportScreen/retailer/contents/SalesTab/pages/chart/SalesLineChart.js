@@ -76,6 +76,7 @@ const log = (obj, message = "") => {
 const formatValuesForKey = (array, pickKey) => {
   return array.map((obj) => {
     const item = Object.entries(obj).filter(([key, value]) => key === pickKey);
+
     const itemDate = Object.entries(obj).filter(
       ([key, value]) => key === "date"
     );
@@ -85,10 +86,12 @@ const formatValuesForKey = (array, pickKey) => {
       result = Object.assign({}, result, { x: dateToString(value, "DD MMM") });
     }
 
-    if (item) {
+    if (item?.length > 0) {
       const [key, value] = item[0];
       const ft = formatNumberFromCurrency(value);
       result = Object.assign({}, result, { y: parseFloat(ft.toFixed(2)) });
+    } else {
+      result = Object.assign({}, result, { y: 0 });
     }
 
     return result;
@@ -124,7 +127,9 @@ export default function SalesLineChart({ data }) {
     if (data?.length > 0) {
       // ======= map values =======
       const formatterValues = pickValuesForKey(data, "date", "date");
+
       const revenueValues = formatValuesForKey(data, "revenue");
+
       const profitValues = formatValuesForKey(data, "profit");
 
       const createDataSet = {
