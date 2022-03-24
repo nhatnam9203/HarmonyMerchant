@@ -17,6 +17,8 @@ export const useProps = ({
   const { profile, profileStaffLogin, printerList, printerSelect } =
     useSelector((state) => state.dataLocal) ?? {};
 
+  const { paymentDetailInfo } = useSelector((state) => state.appointment);
+
   const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
     printerList,
     printerSelect
@@ -54,6 +56,16 @@ export const useProps = ({
         customerId: appointment.customerId,
       };
     }
+
+    if (groupAppointment?.appointments?.length > 0) {
+      const firstAppointment = groupAppointment?.appointments[0];
+      return {
+        firstName: firstAppointment.firstName,
+        lastName: firstAppointment.lastName,
+        customerId: firstAppointment.customerId,
+      };
+    }
+
     return null;
   };
 
@@ -213,9 +225,23 @@ export const useProps = ({
       return appointment.payment;
     }
 
-    return groupAppointment?.paymentMethods?.length > 0
-      ? groupAppointment?.paymentMethods
-      : groupAppointment?.checkoutPayments;
+    if (groupAppointment?.paymentMethods?.length > 0) {
+      return groupAppointment?.paymentMethods;
+    }
+
+    if (groupAppointment?.checkoutPayments?.length > 0) {
+      return groupAppointment?.checkoutPayments;
+    }
+
+    if (
+      paymentDetailInfo?.checkoutGroupId === groupAppointment?.checkoutGroupId
+    ) {
+      return paymentDetailInfo.paidAmounts &&
+        paymentDetailInfo.paidAmounts.length > 0
+        ? paymentDetailInfo.paidAmounts.slice(0).reverse()
+        : [];
+    }
+    return [];
   };
 
   return {

@@ -1,26 +1,40 @@
 import actions from "@actions";
+import PrintManager from "@lib/PrintManager";
 import ICON from "@resources";
 import { ReceiptViewShot } from "@shared/components";
 import { usePrinter } from "@shared/components/Receipts/usePrinter";
 import { useProps } from "@shared/components/Receipts/useProps";
-import { checkIsTablet, PaymentTerminalType } from "@utils";
-import React from "react";
+import { colors, fonts, metrics } from "@shared/themes";
 import {
+  APP_NAME,
+  checkIsTablet,
+  PaymentTerminalType,
+  POS_SERIAL,
+  REMOTE_APP_ID,
+} from "@utils";
+import _ from "lodash";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  ActivityIndicator,
   Image,
+  NativeModules,
+  ScrollView,
+  StyleSheet,
   Text,
   View,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getTitleSendLinkGoogle, scaleSize } from "../utils";
 import Button from "./Button";
 import ButtonCustom from "./ButtonCustom";
 import ModalCustom from "./ModalCustom";
-import { metrics } from "@shared/themes";
-import { useTranslation } from "react-i18next";
-import { fonts, colors } from "@shared/themes";
+
+const signalR = require("@microsoft/signalr");
+
+const PosLink = NativeModules.payment;
+const PoslinkAndroid = NativeModules.PoslinkModule;
+const { clover } = NativeModules;
 
 const DEFAULT_WIDTH = scaleWidth(391);
 
@@ -131,6 +145,33 @@ export const DialogPayCompleted = ({
     }
   };
 
+  openCashDrawerClover = () => {
+    const port = _.get(cloverMachineInfo, "port")
+      ? _.get(cloverMachineInfo, "port")
+      : 80;
+    const url = `wss://${_.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
+
+    clover.openCashDrawer({
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: _.get(cloverMachineInfo, "token")
+        ? _.get(cloverMachineInfo, "token", "")
+        : "",
+    });
+  };
+
+  openCashDrawer = async () => {
+    if (portName) {
+      await PrintManager.getInstance().openCashDrawer(portName);
+    } else {
+      setTimeout(() => {
+        alert("Please connect to your cash drawer.");
+      }, 700);
+    }
+  };
+
   onButtonPrintBillPress = async () => {
     handleSendGoogleLinkReview();
 
@@ -148,9 +189,9 @@ export const DialogPayCompleted = ({
         (paymentSelected === "Other" && profile?.isOpenCashier)
       ) {
         if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
-          this.openCashDrawerClover();
+          await openCashDrawerClover();
         } else {
-          this.openCashDrawer(portName);
+          await openCashDrawer();
         }
       }
 
