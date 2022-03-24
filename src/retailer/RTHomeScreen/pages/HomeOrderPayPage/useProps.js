@@ -102,7 +102,7 @@ export const useProps = ({
     (state) => state.hardware.cloverMachineInfo
   );
   const dejavooMachineInfo = useSelector(
-    (state) => state.hardware.cloverMachineInfo
+    (state) => state.hardware.dejavooMachineInfo
   );
 
   const [isTax, setIsTax] = React.useState(false);
@@ -881,7 +881,6 @@ export const useProps = ({
   };
 
   const printTemptInvoice = async () => {
-    console.log("printTemptInvoice");
     showInvoicePrint(true);
   };
 

@@ -31,7 +31,6 @@ export const useDejavooReceiptXml = ({
   customer,
   promotionNotes,
 }) => {
-  console.log("customer", customer, checkoutPaymentMethods)
   const profile = useSelector((state) => state.dataLocal.profile);
 
   const getInvoiceItemsXml = () => {
