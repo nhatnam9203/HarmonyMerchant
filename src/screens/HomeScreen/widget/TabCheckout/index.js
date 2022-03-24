@@ -3129,9 +3129,6 @@ class TabCheckout extends Layout {
   }
 
   printTemptInvoice = async () => {
-    const { groupAppointment, paymentDetailInfo, paymentMachineType } =
-      this.props;
-
     await this.invoiceRef.current?.show({
       isPrintTempt: true,
       isAppointmentTab: false,

@@ -17,7 +17,7 @@ export const useProps = ({
   const { profile, profileStaffLogin, printerList, printerSelect } =
     useSelector((state) => state.dataLocal) ?? {};
 
-  const { paymentDetailInfo } = useSelector((state) => state.appointment);
+  const { paymentDetailInfo } = useSelector((state) => state.appointment) ?? {};
 
   const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
     printerList,
@@ -217,31 +217,34 @@ export const useProps = ({
   };
 
   const getCheckoutPaymentMethods = () => {
-    if (invoice) {
-      return invoice?.checkoutPayments?.slice(0).reverse() || [];
+    let methods = [];
+
+    if (invoice?.checkoutPayments?.length > 0) {
+      methods = invoice?.checkoutPayments;
     }
 
-    if (appointment) {
-      return appointment.payment;
+    if (appointment?.payment?.length > 0) {
+      methods = appointment.payment;
     }
 
     if (groupAppointment?.paymentMethods?.length > 0) {
-      return groupAppointment?.paymentMethods;
+      methods = groupAppointment?.paymentMethods;
     }
 
     if (groupAppointment?.checkoutPayments?.length > 0) {
-      return groupAppointment?.checkoutPayments;
+      methods = groupAppointment?.checkoutPayments;
     }
 
     if (
-      paymentDetailInfo?.checkoutGroupId === groupAppointment?.checkoutGroupId
+      paymentDetailInfo?.checkoutGropId == groupAppointment?.checkoutGroupId
     ) {
-      return paymentDetailInfo.paidAmounts &&
-        paymentDetailInfo.paidAmounts.length > 0
-        ? paymentDetailInfo.paidAmounts.slice(0).reverse()
-        : [];
+      methods =
+        paymentDetailInfo.paidAmounts?.length > 0
+          ? paymentDetailInfo.paidAmounts
+          : [];
     }
-    return [];
+
+    return methods;
   };
 
   return {

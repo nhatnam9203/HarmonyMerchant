@@ -215,7 +215,6 @@ export const DialogPayCompleted = ({
           await openCashDrawer();
         }
       }
-
       await printProcess();
     }
 
