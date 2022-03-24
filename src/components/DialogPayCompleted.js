@@ -21,6 +21,7 @@ import ModalCustom from "./ModalCustom";
 import { metrics } from "@shared/themes";
 import { useTranslation } from "react-i18next";
 import { fonts, colors } from "@shared/themes";
+import { useDejavooReceiptXml } from "@shared/components/Receipts/useDejavooReceiptXml";
 
 const DEFAULT_WIDTH = scaleWidth(391);
 
@@ -84,6 +85,29 @@ export const DialogPayCompleted = ({
     isSignature,
   });
 
+  const { getContentXmlReceipt } = useDejavooReceiptXml({
+    items,
+    checkoutPaymentMethods,
+    invoiceNO,
+    symbol,
+    invoiceDate,
+    subTotal,
+    discount,
+    tip,
+    tax,
+    total,
+    fee,
+    cashDiscount,
+    due,
+    change,
+    taxRate,
+    isSignature,
+    printTemp,
+    typeReceipt,
+    customer,
+    promotionNotes,
+  });
+
   const { printProcess, shareProcess, processLoading } = usePrinter({
     printTemp,
     viewShotRef,
@@ -102,6 +126,7 @@ export const DialogPayCompleted = ({
     onCancelShare: async () => {
       resetAll();
     },
+    getContentXmlReceipt,
   });
 
   const resetAll = () => {
@@ -149,7 +174,7 @@ export const DialogPayCompleted = ({
       ) {
         if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
           this.openCashDrawerClover();
-        } else {
+        } else if(portName) {
           this.openCashDrawer(portName);
         }
       }
