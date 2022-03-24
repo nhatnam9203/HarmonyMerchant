@@ -90,6 +90,8 @@ export const PopupReceipt = React.forwardRef(
       isSignature,
       printTemp,
       typeReceipt,
+      customer,
+      promotionNotes,
     });
 
     const { printProcess, shareProcess, processLoading } = usePrinter({

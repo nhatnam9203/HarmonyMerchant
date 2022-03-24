@@ -28,6 +28,8 @@ export const useDejavooReceiptXml = ({
   isSignature,
   printTemp,
   typeReceipt,
+  customer,
+  promotionNotes,
 }) => {
   const profile = useSelector((state) => state.dataLocal.profile);
 
@@ -139,8 +141,10 @@ export const useDejavooReceiptXml = ({
           "MM/DD/YYYY hh:mm A"
         )} )`}</c></t>
         <t><c>${"-".repeat(24)}</c></t>
-        <t>Customer: ${getCustomerName()}</t>
-        <t>Invoice Date: ${invoiceDate}</t>
+        <t>Customer: ${customer?.firstName ?? "Unknown"} ${
+          customer?.lastName ?? "Unknown"
+        }</t>
+        <t>Invoice Date: ${formatWithMoment(invoiceDate, "MM/DD/YYYY hh:mm A")}</t>
         <t>${invoiceNo}</t>
         <t><c>${"-".repeat(24)}</c></t>
         <t><b><c>DESCRIPTION.......TOTAL</c></b></t>
@@ -179,7 +183,7 @@ export const useDejavooReceiptXml = ({
         ${
           !printTemp
             ? `<t><b><c>${_.padEnd("Total: ", 15, ".")}${_.padStart(
-                `$${getTotal()}`,
+                `$${total}`,
                 9,
                 "."
               )}</c></b></t>

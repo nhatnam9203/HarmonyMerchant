@@ -29,6 +29,10 @@ import { getTitleSendLinkGoogle, scaleSize } from "../utils";
 import Button from "./Button";
 import ButtonCustom from "./ButtonCustom";
 import ModalCustom from "./ModalCustom";
+import { metrics } from "@shared/themes";
+import { useTranslation } from "react-i18next";
+import { fonts, colors } from "@shared/themes";
+import { useDejavooReceiptXml } from "@shared/components/Receipts/useDejavooReceiptXml";
 
 const signalR = require("@microsoft/signalr");
 
@@ -98,6 +102,29 @@ export const DialogPayCompleted = ({
     isSignature,
   });
 
+  const { getContentXmlReceipt } = useDejavooReceiptXml({
+    items,
+    checkoutPaymentMethods,
+    invoiceNO,
+    symbol,
+    invoiceDate,
+    subTotal,
+    discount,
+    tip,
+    tax,
+    total,
+    fee,
+    cashDiscount,
+    due,
+    change,
+    taxRate,
+    isSignature,
+    printTemp,
+    typeReceipt,
+    customer,
+    promotionNotes,
+  });
+
   const { printProcess, shareProcess, processLoading } = usePrinter({
     printTemp,
     viewShotRef,
@@ -116,6 +143,7 @@ export const DialogPayCompleted = ({
     onCancelShare: async () => {
       resetAll();
     },
+    getContentXmlReceipt,
   });
 
   const resetAll = () => {
