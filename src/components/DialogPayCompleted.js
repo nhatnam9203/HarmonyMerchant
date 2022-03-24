@@ -2,6 +2,7 @@ import actions from "@actions";
 import PrintManager from "@lib/PrintManager";
 import ICON from "@resources";
 import { ReceiptViewShot } from "@shared/components";
+import { useDejavooReceiptXml } from "@shared/components/Receipts/useDejavooReceiptXml";
 import { usePrinter } from "@shared/components/Receipts/usePrinter";
 import { useProps } from "@shared/components/Receipts/useProps";
 import { colors, fonts, metrics } from "@shared/themes";
@@ -29,15 +30,7 @@ import { getTitleSendLinkGoogle, scaleSize } from "../utils";
 import Button from "./Button";
 import ButtonCustom from "./ButtonCustom";
 import ModalCustom from "./ModalCustom";
-import { metrics } from "@shared/themes";
-import { useTranslation } from "react-i18next";
-import { fonts, colors } from "@shared/themes";
-import { useDejavooReceiptXml } from "@shared/components/Receipts/useDejavooReceiptXml";
 
-const signalR = require("@microsoft/signalr");
-
-const PosLink = NativeModules.payment;
-const PoslinkAndroid = NativeModules.PoslinkModule;
 const { clover } = NativeModules;
 
 const DEFAULT_WIDTH = scaleWidth(391);
