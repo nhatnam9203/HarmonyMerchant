@@ -13,6 +13,7 @@ import actions from "@actions";
 import { ReportLayout } from "../../../../widget";
 import PaymentMethod from "./PaymentMethod";
 import PaymentStatistic from "./PaymentStatistic";
+import { useFocusEffect } from "@react-navigation/native";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -56,6 +57,12 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
       )
     );
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getOverallPaymentMethod();
+    }, [filterNameItem, titleRangeTime])
+  );
 
   const showCalendar = (isShow) => {
     layoutRef?.current?.showCalendar(isShow);

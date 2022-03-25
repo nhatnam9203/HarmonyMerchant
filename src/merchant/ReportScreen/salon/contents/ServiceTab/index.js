@@ -28,6 +28,17 @@ function ServiceTab({ style, showBackButton }, ref) {
     salesByCategoryTabRef?.current?.goBack();
     salesByServiceTabRef?.current?.goBack();
     setCurrentTab(tabIndex);
+
+    switch (tabIndex) {
+      case 0:
+        salesByCategoryTabRef.current?.getServiceSales();
+        break;
+      case 1:
+        salesByServiceTabRef.current?.getServiceSales();
+        break;
+      default:
+        break;
+    }
   };
 
   const onGoBack = () => {

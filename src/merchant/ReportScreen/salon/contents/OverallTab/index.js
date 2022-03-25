@@ -28,6 +28,17 @@ function OverallTab({ style, showBackButton }, ref) {
     paymentTabRef?.current?.goBack();
     efficiencyTabRef?.current?.goBack();
     setCurrentTab(tabIndex);
+
+    switch (tabIndex) {
+      case 0:
+        paymentTabRef.current?.getOverallPaymentMethod();
+        break;
+      case 1:
+        efficiencyTabRef.current?.getMarketingEfficiencyMethod();
+        break;
+      default:
+        break;
+    }
   };
 
   const onGoBack = () => {
