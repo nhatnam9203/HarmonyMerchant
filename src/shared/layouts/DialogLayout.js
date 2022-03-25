@@ -47,6 +47,9 @@ export const DialogLayout = React.forwardRef(
       hide: () => {
         setOpen(false);
       },
+      isShow: () => {
+        return open;
+      },
     }));
 
     return (
@@ -59,12 +62,12 @@ export const DialogLayout = React.forwardRef(
         hasBackdrop={true}
         backdropOpacity={0.2}
         onModalHide={onModalHide}
-        // backdropTransitionOutTiming={0}
-        // backdropTransitionInTiming={0}
         animationIn="zoomIn"
         animationOut="zoomOut"
-        backdropTransitionInTiming={150}
-        backdropTransitionOutTiming={0}
+        backdropTransitionInTiming={1}
+        backdropTransitionOutTiming={1}
+        animationInTiming={1}
+        animationOutTiming={1}
         onModalWillHide={onModalWillHide}
       >
         <KeyboardAvoidingView behavior={behavior}>

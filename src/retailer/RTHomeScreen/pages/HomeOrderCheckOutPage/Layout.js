@@ -64,6 +64,7 @@ export const Layout = ({
   inputSearchRef,
   appointment,
   inputBarcodeDialogRef,
+  getProductLoading
 }) => {
   const { t } = useTranslation();
 
@@ -286,6 +287,7 @@ export const Layout = ({
       <DialogInputBarcode
         ref={inputBarcodeDialogRef}
         onInputBarcode={onResultScanCode}
+        loading={getProductLoading}
       />
     </View>
   );

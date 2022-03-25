@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 
 export const DialogInputBarcode = React.forwardRef(
-  ({ onInputBarcode }, ref) => {
+  ({ onInputBarcode, loading }, ref) => {
     const { t } = useTranslation();
     const dialogRef = React.useRef(null);
     const [value, setValue] = React.useState(null);
@@ -36,6 +36,9 @@ export const DialogInputBarcode = React.forwardRef(
       hide: () => {
         reset();
         dialogRef.current?.hide();
+      },
+      isShow: () => {
+        return dialogRef.current?.isShow();
       },
     }));
 
@@ -68,7 +71,8 @@ export const DialogInputBarcode = React.forwardRef(
             <View style={styles.margin} />
 
             <ButtonGradient
-              disable={!value}
+              loading={loading}
+              disable={!value || loading}
               label={t("Add to basket")}
               width={scaleWidth(160)}
               height={scaleHeight(45)}
