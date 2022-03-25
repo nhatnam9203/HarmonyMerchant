@@ -178,7 +178,7 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
     getProductSales: () => { 
-      getProductSaleByCategory(); 
+      refreshData(); 
     }
   }));
 
