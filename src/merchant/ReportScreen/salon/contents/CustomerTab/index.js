@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ReportLayout } from "../../../widget";
@@ -45,11 +46,17 @@ function CustomerTab({ style, showBackButton }, ref) {
 
   /**function */
   const getCustomerReportSales = async () => {
-    console.log("===> getCustomerReportSales");
     await dispatch(
       actions.report.getCustomerSales(true, layoutRef?.current?.getTimeUrl())
     );
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getCustomerReportSales();
+    }, [])
+  );
+
 
   const showCalendar = (isShow) => {
     layoutRef?.current?.showCalendar(isShow);
@@ -131,9 +138,9 @@ function CustomerTab({ style, showBackButton }, ref) {
   }));
 
   /**effect */
-  useEffect(() => {
-    getCustomerReportSales();
-  }, []);
+  // useEffect(() => {
+  //   getCustomerReportSales();
+  // }, []);
 
   const refreshData = () => {
     setRefreshing(true);

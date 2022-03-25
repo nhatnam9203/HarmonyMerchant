@@ -28,6 +28,17 @@ function ProductTab({ style, showBackButton }, ref) {
     salesByCategoryTabRef?.current?.goBack();
     salesByProductTabRef?.current?.goBack();
     setCurrentTab(tabIndex);
+
+    switch (tabIndex) {
+      case 0:
+        salesByCategoryTabRef.current?.getProductSales();
+        break;
+      case 1:
+        salesByProductTabRef.current?.getProductSales();
+        break;
+      default:
+        break;
+    }
   };
 
   const onGoBack = () => {
