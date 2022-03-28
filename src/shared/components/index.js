@@ -47,3 +47,4 @@ export * from "./PrintReceipt";
 export * from "./DialogInputBarcode";
 export * from "./DialogPinCodeReportServer";
 export * from "./Receipts";
+export * from "./BottomToastMessage";

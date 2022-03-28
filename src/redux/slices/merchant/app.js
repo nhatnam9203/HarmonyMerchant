@@ -1,16 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import AsyncStorage from '@react-native-community/async-storage';
+import { createSlice } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import AsyncStorage from "@react-native-community/async-storage";
 
 /**
 |--------------------------------------------------
 | APP SLICES
 |--------------------------------------------------
 */
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[AppMerchant  Slice] ${message}`, obj);
 };
-const reducerName = 'merchant.app';
+const reducerName = "merchant.app";
 const initialState = {
   appLoading: false,
   deviceId: null,
@@ -19,7 +19,8 @@ const initialState = {
   merchantID: null,
   rememberMID: false,
   exportLoading: false,
-  exportType: '',
+  exportType: "",
+  hideExpiredToastMsg: false,
 };
 let appSlice = createSlice({
   name: reducerName,
@@ -70,6 +71,11 @@ let appSlice = createSlice({
         state.exportType = action.payload;
       },
     },
+    hideExpiredMessage: {
+      reducer: (state, action) => {
+        state.hideExpiredToastMsg = true;
+      },
+    },
   },
 });
 
@@ -77,9 +83,9 @@ let { actions, reducer } = appSlice;
 
 let appMerchantReducer = persistReducer(
   {
-    key: 'appMerchant',
+    key: "appMerchant",
     storage: AsyncStorage,
-    whitelist: ['merchantID', 'rememberMID'],
+    whitelist: ["merchantID", "rememberMID"],
   },
   reducer
 );
