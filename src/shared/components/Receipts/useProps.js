@@ -3,6 +3,7 @@ import {
   getReceiptItems,
   getReceiptSymbol,
   getTaxRateFromGroupAppointment,
+  getTaxRateFromAppointment,
 } from "@utils";
 import { useSelector } from "react-redux";
 
@@ -201,7 +202,10 @@ export const useProps = ({
   };
 
   const getTaxRate = () => {
-    return getTaxRateFromGroupAppointment(groupAppointment);
+    if (groupAppointment)
+      return getTaxRateFromGroupAppointment(groupAppointment);
+
+    if (appointment) return getTaxRateFromAppointment(appointment);
   };
 
   const getPromotionNotes = (appointments) => {

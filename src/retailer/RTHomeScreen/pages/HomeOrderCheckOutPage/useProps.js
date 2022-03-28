@@ -460,6 +460,7 @@ export const useProps = ({
         inputBarcodeDialogRef.current?.hide();
 
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
+
       if (tmp) {
         const attributeIds = tmp.attributeIds;
 
