@@ -1,18 +1,17 @@
 {
-    "i18n-ally.localesPaths": [
-        "ios/Pods/Flipper-Folly/folly/lang",
-        "ios/Pods/RCT-Folly/folly/lang",
-        "ios/Pods/boost-for-react-native/boost/locale",
-        "src/shared/services/translation/locales",
-        "ios/Pods/boost-for-react-native/boost/predef/language",
-        "ios/Pods/Headers/Private/Flipper-Folly/folly/lang",
-        "ios/Pods/Headers/Private/RCT-Folly/folly/lang",
-        "ios/Pods/Headers/Public/Flipper-Folly/folly/lang",
-        "ios/Pods/Headers/Public/RCT-Folly/folly/lang"
-    ],
-    "i18next.i18nPaths": "/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Flipper-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/RCT-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/boost-for-react-native/boost/locale,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/src/shared/services/translation/locales,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Headers/Private/Flipper-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Headers/Private/RCT-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Headers/Public/Flipper-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Headers/Public/RCT-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/Hpmerchant4,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/Hpmerchant4/src/shared/services/translation/locales",
-    "cSpell.words": [
-        "Pressable"
-    ],
-    "i18n-ally.keystyle": "nested"
+  "i18n-ally.localesPaths": [
+    "ios/Pods/Flipper-Folly/folly/lang",
+    "ios/Pods/RCT-Folly/folly/lang",
+    "ios/Pods/boost-for-react-native/boost/locale",
+    "src/shared/services/translation/locales",
+    "ios/Pods/boost-for-react-native/boost/predef/language",
+    "ios/Pods/Headers/Private/Flipper-Folly/folly/lang",
+    "ios/Pods/Headers/Private/RCT-Folly/folly/lang",
+    "ios/Pods/Headers/Public/Flipper-Folly/folly/lang",
+    "ios/Pods/Headers/Public/RCT-Folly/folly/lang"
+  ],
+  "i18next.i18nPaths": "/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Flipper-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/RCT-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/boost-for-react-native/boost/locale,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/src/shared/services/translation/locales,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Headers/Private/Flipper-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Headers/Private/RCT-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Headers/Public/Flipper-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Headers/Public/RCT-Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/Hpmerchant4,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/Hpmerchant4/src/shared/services/translation/locales",
+  "cSpell.words": ["Pressable"],
+  "i18n-ally.keystyle": "nested",
+  "eslint.packageManager": "yarn" // Xác định cho eslint biết đâu là
 }

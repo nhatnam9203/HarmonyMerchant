@@ -451,10 +451,14 @@ export const useProps = ({
   // }, [productItemGet]);
 
   React.useEffect(() => {
-    if (!productItemByBarcodeGet) return;
+    if (!productItemByBarcodeGet?.data) return;
 
-    const { codeStatus, data } = productItemByBarcodeGet || {};
+    const { codeStatus, data } = productItemByBarcodeGet?.data || {};
     if (statusSuccess(codeStatus)) {
+      // Hide dialog input barcode đi
+      if (inputBarcodeDialogRef.current?.isShow())
+        inputBarcodeDialogRef.current?.hide();
+
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
       if (tmp) {
         const attributeIds = tmp.attributeIds;
@@ -484,7 +488,9 @@ export const useProps = ({
         setScanCodeTemp(null);
       } else {
         if (data?.quantities?.length > 0) {
-          productDetailRef.current?.show(data);
+          setTimeout(() => {
+            productDetailRef.current?.show(data);
+          }, 350);
         } else {
           if (!isCheckQty || data?.quantity >= 1) {
             setTimeout(() => {
@@ -504,13 +510,12 @@ export const useProps = ({
       }
 
       // Hide dialog input barcode if it is showing
-      inputBarcodeDialogRef.current?.hide();
     } else if (codeStatus) {
       //  TODO: show input code here!
       inputBarcodeDialogRef.current?.show(scanCodeTemp);
       setScanCodeTemp(null);
     }
-  }, [productItemByBarcodeGet]);
+  }, [productItemByBarcodeGet?.data]);
 
   /**
    * UPDATE category label effects
@@ -592,6 +597,7 @@ export const useProps = ({
     searchProducts: productListData,
     editProductItemRef,
     inputSearchRef,
+    getProductLoading: productItemByBarcodeGet?.loading,
     onPressCategoryItem: (categoryItem) => {
       if (!categoryItem) {
         return;

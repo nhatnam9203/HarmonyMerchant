@@ -131,13 +131,13 @@ export const useProps = ({ params: { reload } }) => {
   }, [category, page, searchVal, needToOrder]);
 
   React.useEffect(() => {
-    const { codeStatus, message, data } = productItemGet || {};
+    const { codeStatus, message, data } = productItemGet?.data || {};
     if (statusSuccess(codeStatus)) {
       NavigationServices.navigate("retailer.inventory.product.detail", {
         item: data,
       });
     }
-  }, [productItemGet]);
+  }, [productItemGet?.data]);
 
   // React.useEffect(() => {
   //   const { codeStatus, data } = product || {};

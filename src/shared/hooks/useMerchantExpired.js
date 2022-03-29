@@ -8,6 +8,8 @@ export const useMerchantExpired = () => {
     (state) => state.dataLocal?.profile?.expiredDate
   );
 
+
+
   const checkAppIsExpired = () => {
     if (expiredDate) {
       const temp = "2030-05-01T00:00:00";

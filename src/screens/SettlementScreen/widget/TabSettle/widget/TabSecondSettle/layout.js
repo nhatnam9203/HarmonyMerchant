@@ -149,7 +149,7 @@ class Layout extends React.Component {
 
     renderActualAmount() {
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, discount, total, note,
-            paymentByCashStatistic, otherPaymentStatistic,paymentByGiftcard
+            paymentByCashStatistic, otherPaymentStatistic,paymentByGiftcard,
         } = this.state.settleTotal;
 
         return (
@@ -196,6 +196,19 @@ class Layout extends React.Component {
                     }}
                     value={discount}
                 />
+                {/* {
+                    returnAmount != 0 && 
+                    <ItemPaymentsReport
+                        title="Return Amount"
+                        backgroundColor="#F1F1F1"
+                        txtStyle={{
+                            color: "#404040",
+
+                        }}
+                        value={` ${-returnAmount}`}
+                    />
+                } */}
+                
                 <View style={{ height: 1 }} />
                 <ItemPaymentsReport
                     title="Total"

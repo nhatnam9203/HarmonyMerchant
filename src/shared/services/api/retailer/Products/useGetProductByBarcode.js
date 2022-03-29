@@ -19,10 +19,10 @@ export const useGetProductsByBarcode = () => {
     if (loading) {
       dispatch(appMerchant.showLoading());
     }
-    if (!loading && response) {
+    if (!loading || response) {
       dispatch(appMerchant.hideLoading());
     }
-  }, [dispatch, loading, response]);
+  }, [loading, response]);
 
   const getProductsByBarcode = (barcode) => {
     execute({
@@ -30,5 +30,5 @@ export const useGetProductsByBarcode = () => {
     });
   };
 
-  return [productItemGet, getProductsByBarcode];
+  return [{ data: productItemGet, loading }, getProductsByBarcode];
 };
