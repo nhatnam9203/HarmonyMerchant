@@ -225,18 +225,22 @@ export const useProps = ({
 
     if (invoice?.checkoutPayments?.length > 0) {
       methods = invoice?.checkoutPayments;
+      return methods;
     }
 
     if (appointment?.payment?.length > 0) {
       methods = appointment.payment;
+      return methods;
     }
 
     if (groupAppointment?.paymentMethods?.length > 0) {
       methods = groupAppointment?.paymentMethods;
+      return methods;
     }
 
     if (groupAppointment?.checkoutPayments?.length > 0) {
       methods = groupAppointment?.checkoutPayments;
+      return methods;
     }
 
     if (
@@ -246,9 +250,9 @@ export const useProps = ({
         paymentDetailInfo.paidAmounts?.length > 0
           ? paymentDetailInfo.paidAmounts
           : [];
-    }
 
-    return methods;
+      return methods;
+    }
   };
 
   return {
