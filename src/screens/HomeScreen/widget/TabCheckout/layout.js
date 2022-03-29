@@ -1494,7 +1494,7 @@ class Layout extends React.Component {
           cancelInvoicePrint={this.cancelInvoicePrint}
           doPrintClover={this.doPrintClover}
           paymentSelected={paymentSelected}
-          groupAppointment={groupAppointment}
+          groupAppointmentId={groupAppointment?.mainAppointmentId}
         />
         <PopupProcessingCredit
           visible={this.state.visibleProcessingCredit}

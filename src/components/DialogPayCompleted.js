@@ -30,6 +30,11 @@ import { getTitleSendLinkGoogle, scaleSize } from "../utils";
 import Button from "./Button";
 import ButtonCustom from "./ButtonCustom";
 import ModalCustom from "./ModalCustom";
+import {
+  useGetGroupAppointment,
+  useGetInvoiceDetail,
+} from "@shared/services/api/app";
+import { getFullName, statusSuccess } from "@shared/utils";
 
 const { clover } = NativeModules;
 
@@ -42,7 +47,7 @@ export const DialogPayCompleted = ({
   cancelInvoicePrint,
   doPrintClover,
   paymentSelected,
-  groupAppointment,
+  groupAppointmentId,
 }) => {
   const viewShotRef = React.useRef(null);
   const { t } = useTranslation();
@@ -53,6 +58,7 @@ export const DialogPayCompleted = ({
   const [isSignature, setIsSignature] = React.useState(true);
   const [receiptBackground, setReceiptBackground] = React.useState("#fff");
   const [autoPrint, setAutoPrint] = React.useState(false);
+  const [groupAppointment, setGroupAppointment] = React.useState(null);
 
   const dispatch = useDispatch();
   const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
@@ -61,6 +67,9 @@ export const DialogPayCompleted = ({
   );
 
   const [isSendLink, setSendLink] = React.useState(false);
+
+  const [groupAppointmentData, getGroupAppointment] = useGetGroupAppointment();
+  const [invoiceDetailData, getInvoiceDetail] = useGetInvoiceDetail();
 
   const {
     portName,
@@ -144,6 +153,7 @@ export const DialogPayCompleted = ({
     setIsSignature(true);
     setPrintTemp(false);
     setAutoPrint(false);
+    setGroupAppointment(null);
   };
 
   switchSendLink = () => {
@@ -226,6 +236,22 @@ export const DialogPayCompleted = ({
     handleSendGoogleLinkReview();
     donotPrintBill();
   };
+
+  React.useEffect(() => {
+    console.log(groupAppointmentId);
+
+    if (visiblePaymentCompleted && groupAppointmentId) {
+      // console.log(groupAppointmentId);
+      getGroupAppointment(groupAppointmentId);
+    }
+  }, [visiblePaymentCompleted, groupAppointmentId]);
+
+  React.useEffect(() => {
+    const { codeStatus, data } = groupAppointmentData || {};
+    if (statusSuccess(codeStatus)) {
+      setGroupAppointment(data);
+    }
+  }, [groupAppointmentData]);
 
   return (
     <>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { View, Modal, PanResponder } from 'react-native';
+import { View, Modal, PanResponder } from "react-native";
 
 export default class ModalCustom extends React.PureComponent {
   constructor(props) {
@@ -15,7 +15,7 @@ export default class ModalCustom extends React.PureComponent {
     });
   }
   onBackDrop = () => {
-    if (typeof this.props.onRequestClose === 'function') {
+    if (typeof this.props.onRequestClose === "function") {
       this.props.onRequestClose();
     }
   };
@@ -26,16 +26,16 @@ export default class ModalCustom extends React.PureComponent {
         transparent={this.props.transparent}
         visible={this.props.visible}
         onRequestClose={this.onBackDrop}
-        animationType={this.props.animationType || 'none'}
+        animationType={this.props.animationType || "none"}
       >
         <View
           {...this._panResponder.panHandlers}
           style={[
             {
               flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0,0,0,0.6)',
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgba(0,0,0,0.6)",
             },
             this.props.style,
           ]}
