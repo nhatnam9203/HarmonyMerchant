@@ -59,6 +59,7 @@ export const DialogPayCompleted = ({
   const [receiptBackground, setReceiptBackground] = React.useState("#fff");
   const [autoPrint, setAutoPrint] = React.useState(false);
   const [groupAppointment, setGroupAppointment] = React.useState(null);
+  const [waiting, setWaiting] = React.useState(false);
 
   const dispatch = useDispatch();
   const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
@@ -204,6 +205,8 @@ export const DialogPayCompleted = ({
   };
 
   onButtonPrintBillPress = async () => {
+    if (waiting) return; // chờ chút đang get lại groupAppointment
+
     handleSendGoogleLinkReview();
 
     if (paymentMachineType === PaymentTerminalType.Pax && !portName) {
@@ -235,12 +238,12 @@ export const DialogPayCompleted = ({
   cancelPrintBill = () => {
     handleSendGoogleLinkReview();
     donotPrintBill();
+    setWaiting(false);
   };
 
   React.useEffect(() => {
-    console.log(groupAppointmentId);
-
     if (visiblePaymentCompleted && groupAppointmentId) {
+      setWaiting(true);
       // console.log(groupAppointmentId);
       getGroupAppointment(groupAppointmentId);
     }
@@ -251,6 +254,7 @@ export const DialogPayCompleted = ({
     if (statusSuccess(codeStatus)) {
       setGroupAppointment(data);
     }
+    if (groupAppointmentData) setWaiting(false);
   }, [groupAppointmentData]);
 
   return (
