@@ -150,9 +150,11 @@ export const usePrinter = ({
         paymentMachineType,
         printerSelect,
       });
-      await setLoading(false);
+      await onCancelShare();
 
       setTimeout(async () => {
+        await setLoading(false);
+
         if (Platform.OS === "ios") {
           RNFetchBlob.ios.previewDocument(imageUrl);
         } else {
@@ -160,9 +162,7 @@ export const usePrinter = ({
             url: `file://${imageUri}`,
           });
         }
-      }, 250);
-
-      await onCancelShare();
+      }, 500);
     } catch (error) {
       setLoading(false);
       onCancelShare();

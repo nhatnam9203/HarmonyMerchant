@@ -555,5 +555,24 @@ export const useProps = ({
     getTaxRate: () => {
       return getTaxRateFromAppointment(appointmentDetail);
     },
+
+    getTotalQty: () => {
+      const items =
+        [
+          ...(appointmentDetail?.products?.map((x) =>
+            Object.assign({}, x, { key: x.bookingProductId })
+          ) || []),
+          ...(appointmentDetail?.giftCards?.map((x) =>
+            Object.assign({}, x, { key: x.bookingGiftCardId })
+          ) || []),
+        ] || [];
+
+      const totalQty = items?.reduce((prev, item, index) => {
+        const qty = item.data?.qty ?? 1;
+        return prev + qty;
+      }, 0);
+
+      return totalQty ?? 0;
+    },
   };
 };

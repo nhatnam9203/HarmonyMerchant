@@ -59,6 +59,7 @@ export const Layout = ({
   doPrintClover,
   getTaxRate,
   cancelInvoicePrint,
+  getTotalQty,
 }) => {
   const [t] = useTranslation();
 
@@ -591,6 +592,19 @@ export const Layout = ({
             // onRowPress={onSelectRow}
             // draggable={true}
           />
+          <View style={layouts.marginVertical} />
+          <View
+            style={{
+              flexDirection: "row",
+              backgroundColor: "#ddd",
+              paddingVertical: scaleHeight(10),
+            }}
+          >
+            <View style={layouts.marginHorizontal} />
+            <Text style={layouts.fontLabel}>{t("Total items")}</Text>
+            <View style={{ width: scaleWidth(310) }} />
+            <Text style={layouts.fontLabel}>{`${getTotalQty()}`}</Text>
+          </View>
 
           {item?.returns?.length > 0 && (
             <View>
