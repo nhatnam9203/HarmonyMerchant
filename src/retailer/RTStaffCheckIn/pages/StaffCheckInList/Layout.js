@@ -107,7 +107,6 @@ export const Layout = ({
               borderRadius={scaleWidth(3)}
               fontSize={scaleFont(15)}
               textColor={colors.WHITE}
-              borderRadius={scaleWidth(2)}
               fontWeight="normal"
               onPress={onHandleDelete}
               description={t("Are you sure you want to Delete this session ?")}

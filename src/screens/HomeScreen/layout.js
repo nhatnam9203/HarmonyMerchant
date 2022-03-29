@@ -9,8 +9,6 @@ import {
 } from "@components";
 import configs from "@configs";
 import ICON from "@resources";
-import { ButtonCheckIn } from "@shared/components/ButtonCheckIn";
-import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
 import {
   formatWithMoment,
   getColorTitleByNotiType,
@@ -33,7 +31,6 @@ import styles from "./style";
 import { TabAppointment, TabCheckout, TabMarketing } from "./widget";
 
 const { height } = Dimensions.get("window");
-const ButtonStaffCheckIn = WithDialogStaffCheckIn(ButtonCheckIn);
 
 export default class Layout extends React.Component {
   renderNotiItem(noti) {
@@ -187,8 +184,6 @@ export default class Layout extends React.Component {
               },
             ]}
           >
-            {/* <ButtonStaffCheckIn height={scaleSize(32)} /> */}
-
             <Button onPress={this.showLockScreen}>
               <Image
                 source={ICON.signOut}
