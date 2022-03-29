@@ -136,7 +136,7 @@ export default function SalesLineChart({ data }) {
         dataSets: [
           {
             values: revenueValues,
-            label: "revenue",
+            label: "grossSales",
             config: {
               // mode: "CUBIC_BEZIER",
               drawValues: false,
@@ -160,7 +160,7 @@ export default function SalesLineChart({ data }) {
           },
           {
             values: profitValues,
-            label: "profit",
+            label: "totalEndDay",
             config: {
               // mode: "CUBIC_BEZIER",
               drawValues: false,

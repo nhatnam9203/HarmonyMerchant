@@ -91,7 +91,7 @@ export const SalesOverall = () => {
           amount={summary?.totalOrder}
         />
         <ButtonOverall
-          label={t("total revenue").toUpperCase()}
+          label={t("total gross sales").toUpperCase()}
           amount={formatMoneyWithUnit(summary?.revenue)}
         />
         <ButtonOverall
@@ -103,7 +103,7 @@ export const SalesOverall = () => {
           amount={formatMoneyWithUnit(summary?.tax)}
         />
         <ButtonOverall
-          label={t("total profit").toUpperCase()}
+          label={t("total end day").toUpperCase()}
           amount={formatMoneyWithUnit(summary?.profit)}
         />
         <ButtonOverall
