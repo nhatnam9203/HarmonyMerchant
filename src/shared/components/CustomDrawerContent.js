@@ -9,12 +9,13 @@ import { Image, StyleSheet } from "react-native";
 import IMAGE from "@resources";
 import { AgencyLogo } from "./AgencyLogo";
 import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
-import { useNavigation } from "@react-navigation/native";
+import { useLogTime } from "@shared/components/StaffLogTime";
 
 const StaffLogTime = WithDialogStaffCheckIn(DrawerItem);
 
 export const CustomDrawerContent = (props) => {
   const { navigation } = props || {};
+  const { startLogTime } = useLogTime();
   return (
     <DrawerContentScrollView
       {...props}
@@ -31,7 +32,7 @@ export const CustomDrawerContent = (props) => {
         activeTintColor="#FFC130"
         inactiveTintColor="#FFFFFF"
       />
-      <StaffLogTime
+      {/* <StaffLogTime
         {...props}
         label="Log Time"
         icon={() => <CustomDrawerIcon source={IMAGE["Timekeeping"]} />}
@@ -43,6 +44,19 @@ export const CustomDrawerContent = (props) => {
         activeBackgroundColor="#0764B0"
         inActiveBackgroundColor="#0764B0"
         inactiveTintColor="#FFFFFF"
+      /> */}
+      <DrawerItem
+        label="Log Time"
+        icon={() => <CustomDrawerIcon source={IMAGE["Timekeeping"]} />}
+        onShowed={() => {
+          navigation?.closeDrawer();
+        }}
+        style={styles.itemStyle}
+        labelStyle={styles.labelStyle}
+        activeBackgroundColor="#0764B0"
+        inActiveBackgroundColor="#0764B0"
+        inactiveTintColor="#FFFFFF"
+        onPress={startLogTime}
       />
 
       <AgencyLogo />
