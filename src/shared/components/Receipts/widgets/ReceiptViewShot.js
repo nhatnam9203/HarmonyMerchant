@@ -36,6 +36,7 @@ export const ReceiptViewShot = React.forwardRef(
       promotionNotes,
       checkoutPaymentMethods,
       isSignature,
+      itemReturn,
     },
     ref
   ) => {
@@ -43,6 +44,10 @@ export const ReceiptViewShot = React.forwardRef(
     const { isRetailApp, isSalonApp } = useAppType();
 
     const getReceiptType = () => {
+      if (isRetailApp() && itemReturn) {
+        return ReceiptItemType.RETAILER_RETURN;
+      }
+
       if (isSalonApp()) {
         return ReceiptItemType.SALON;
       }

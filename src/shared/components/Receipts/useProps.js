@@ -13,6 +13,7 @@ export const useProps = ({
   printTemp,
   fromAppointmentTab,
   isSignature,
+  itemReturn,
 }) => {
   const { profile, profileStaffLogin, printerList, printerSelect } =
     useSelector((state) => state.dataLocal) ?? {};

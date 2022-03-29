@@ -35,6 +35,7 @@ export const PopupReceipt = React.forwardRef(
     const [isShare, setIsShare] = React.useState(false);
     const [receiptBackground, setReceiptBackground] = React.useState("#fff");
     const [autoPrint, setAutoPrint] = React.useState(false);
+    const [itemReturn, setItemReturn] = React.useState(false);
 
     const {
       portName,
@@ -69,6 +70,7 @@ export const PopupReceipt = React.forwardRef(
       printTemp,
       fromAppointmentTab,
       isSignature,
+      itemReturn,
     });
 
     const { getContentXmlReceipt } = useDejavooReceiptXml({
@@ -121,6 +123,7 @@ export const PopupReceipt = React.forwardRef(
       setFromAppointmentTab(false);
       setIsShare(false);
       setAutoPrint(false);
+      setItemReturn(null);
     };
 
     const hide = () => {
@@ -187,6 +190,32 @@ export const PopupReceipt = React.forwardRef(
             : "#0000";
         setReceiptBackground(receiptContentBg);
         setAutoPrint(true);
+      },
+      showWithReturnItem: (it) => {
+        setIsShare(false);
+        setPrintTemp(false);
+        setFromAppointmentTab(false);
+        setOpen(true);
+
+        const receiptContentBg =
+          machineType == PaymentTerminalType.Clover && !portName
+            ? "#fff"
+            : "#0000";
+        setReceiptBackground(receiptContentBg);
+        setItemReturn(it);
+      },
+      shareWithReturnItem: (it) => {
+        setIsShare(true);
+        setPrintTemp(false);
+        setFromAppointmentTab(false);
+        setOpen(true);
+
+        const receiptContentBg =
+          machineType == PaymentTerminalType.Clover && !portName
+            ? "#fff"
+            : "#0000";
+        setReceiptBackground(receiptContentBg);
+        setItemReturn(it);
       },
     }));
 
@@ -256,6 +285,7 @@ export const PopupReceipt = React.forwardRef(
                 promotionNotes={promotionNotes}
                 checkoutPaymentMethods={checkoutPaymentMethods}
                 isSignature={isSignature}
+                itemReturn={itemReturn}
               />
             </ScrollView>
           </View>

@@ -520,12 +520,14 @@ export const useProps = ({
     }, [appointmentDetail]),
     returnReceiptRef,
     printReturnInvoice: (itemReturn) => {
-      returnReceiptRef.current?.showReceipt({
-        item: itemReturn,
-        appointment: appointmentDetail,
-        isShareMode: false,
-        machineType: paymentMachineType,
-      });
+      // returnReceiptRef.current?.showReceipt({
+      //   item: itemReturn,
+      //   appointment: appointmentDetail,
+      //   isShareMode: false,
+      //   machineType: paymentMachineType,
+      // });
+
+      invoiceRef.current?.showWithReturnItem(itemReturn);
     },
     shareReturnInvoice: (itemReturn) => {
       returnReceiptRef.current?.showReceipt({
@@ -533,6 +535,8 @@ export const useProps = ({
         item: itemReturn,
         appointment: appointmentDetail,
       });
+
+      // invoiceRef.current?.shareWithReturnItem(itemReturn);
     },
     doPrintClover: (imageUri) => {
       const port = _.get(cloverMachineInfo, "port")
