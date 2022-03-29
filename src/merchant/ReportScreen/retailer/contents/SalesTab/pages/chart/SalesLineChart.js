@@ -128,9 +128,9 @@ export default function SalesLineChart({ data }) {
       // ======= map values =======
       const formatterValues = pickValuesForKey(data, "date", "date");
 
-      const revenueValues = formatValuesForKey(data, "revenue");
+      const revenueValues = formatValuesForKey(data, "grossSales");
 
-      const profitValues = formatValuesForKey(data, "profit");
+      const profitValues = formatValuesForKey(data, "totalEndDay");
 
       const createDataSet = {
         dataSets: [
