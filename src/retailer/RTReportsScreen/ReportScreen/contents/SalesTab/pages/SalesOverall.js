@@ -19,6 +19,7 @@ import { getQuickFilterTimeRange, formatMoneyWithUnit } from "@utils";
 import { useTranslation } from "react-i18next";
 import SalesLineChart from "./chart/SalesLineChart";
 import { useFocusEffect } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[SalesOverall] ${message}`, obj);
@@ -26,6 +27,8 @@ const log = (obj, message = "") => {
 
 export const SalesOverall = () => {
   const { t } = useTranslation();
+
+  const tokenReportServer = useSelector((state) => state.dataLocal.tokenReportServer);
 
   const [timeVal, setTimeVal] = React.useState();
   const [data, setData] = React.useState();
@@ -38,6 +41,7 @@ export const SalesOverall = () => {
   */
   const [reportSalesOverall, getReportSalesOverall] = useReportSaleOverall();
   const callGetReportSalesOverall = React.useCallback(() => {
+    if(!tokenReportServer) return 
     getReportSalesOverall({
       ...timeVal,
       sort: {},
@@ -74,6 +78,10 @@ export const SalesOverall = () => {
       setSummary(summary);
     }
   }, [reportSalesOverall]);
+
+  React.useEffect(() => {
+    callGetReportSalesOverall();
+  }, [tokenReportServer])
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === "Customize Date") {

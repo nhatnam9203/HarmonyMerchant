@@ -9,6 +9,7 @@ import { StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { SalesOverall } from "./pages";
 import { colors } from "@shared/themes";
+import { useReportSaleOverall } from "@shared/services/api/retailer";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -19,6 +20,7 @@ function SalesTab({ style, showBackButton }, ref) {
   const pathFileReportStaff = useSelector(
     (state) => state.staff.pathFileReportStaffSalary
   );
+  const tokenReportServer = useSelector((state) => state.dataLocal.tokenReportServer);
 
   const pathFileReportStaffStatistic = useSelector(
     (state) => state.staff.pathFileReportStaffStatistic
@@ -39,6 +41,7 @@ function SalesTab({ style, showBackButton }, ref) {
 
   /**function */
   const getListStaffsSalaryTop = async () => {
+    if(!tokenReportServer) return
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
         layoutRef?.current?.getTimeUrl(),

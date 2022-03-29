@@ -28,6 +28,7 @@ function SalesTab({ style, showBackButton }, ref) {
   const isDownloadReportStaff = useSelector(
     (state) => state.staff.isDownloadReportStaff
   );
+  const tokenReportServer = useSelector((state) => state.dataLocal.tokenReportServer);
 
   /**state */
   const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
@@ -40,6 +41,7 @@ function SalesTab({ style, showBackButton }, ref) {
 
   /**function */
   const getListStaffsSalaryTop = async () => {
+    if(!tokenReportServer) return 
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
         layoutRef?.current?.getTimeUrl(),
@@ -136,6 +138,10 @@ function SalesTab({ style, showBackButton }, ref) {
   React.useEffect(() => {
     setRefreshing(false);
   }, [listStaffsSalary]);
+
+  React.useEffect(() => {
+    getListStaffsSalaryTop();
+  }, [tokenReportServer])
 
   return (
     <View style={styles.container}>

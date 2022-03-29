@@ -11,6 +11,7 @@ import { ReportLayout } from "../../../../widget";
 import StaffReportTab from "./StaffReportTab";
 import StaffStatistic from "./StaffStatistic";
 import { useFocusEffect } from "@react-navigation/native";
+import { getAuthTokenReport } from "@shared/storages/authToken";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -20,6 +21,8 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
 
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
   const nextPage = useSelector((state) => state.staff.listStaffsSalaryNextPage);
+
+  const tokenReportServer = useSelector((state) => state.dataLocal.tokenReportServer);
 
   const pathFileReportStaff = useSelector(
     (state) => state.staff.pathFileReportStaffSalary
@@ -45,6 +48,7 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
   /**function */
   const getListStaffsSalaryTop = async (page = 1) => {
     if (page <= 0) return;
+    if(!tokenReportServer) return 
 
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
@@ -153,6 +157,10 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
   React.useEffect(() => {
     setRefreshing(false);
   }, [listStaffsSalary]);
+
+  React.useEffect(() => {
+    getListStaffsSalaryTop(1);
+  }, [tokenReportServer])
 
   return (
     <View style={[styles.container, style]}>

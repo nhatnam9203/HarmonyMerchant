@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { ButtonOverall } from "../../../../widget";
 import SalesLineChart from "./chart/SalesLineChart";
+import { useSelector } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[SalesOverall] ${message}`, obj);
@@ -19,7 +20,7 @@ export const SalesOverall = () => {
   const [timeVal, setTimeVal] = React.useState();
   const [data, setData] = React.useState();
   const [summary, setSummary] = React.useState();
-
+  const tokenReportServer = useSelector((state) => state.dataLocal.tokenReportServer);
   /**
   |--------------------------------------------------
   | CALL API
@@ -27,6 +28,7 @@ export const SalesOverall = () => {
   */
   const [reportSalesOverall, getReportSalesOverall] = useReportSaleOverall();
   const callGetReportSalesOverall = React.useCallback(() => {
+    if(!tokenReportServer) return 
     getReportSalesOverall({
       ...timeVal,
       sort: {},
@@ -63,6 +65,16 @@ export const SalesOverall = () => {
       setSummary(summary);
     }
   }, [reportSalesOverall]);
+
+  React.useEffect(() => {
+    if(tokenReportServer) {
+      getReportSalesOverall({
+        ...timeVal,
+        sort: {},
+      });
+    }
+   
+  }, [tokenReportServer])
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === "Customize Date") {
