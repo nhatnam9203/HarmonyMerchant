@@ -15,7 +15,7 @@ const StaffLogTime = WithDialogStaffCheckIn(DrawerItem);
 
 export const CustomDrawerContent = (props) => {
   const { navigation } = props || {};
-  const { startLogTime } = useLogTime();
+  // const { startLogTime } = useLogTime();
   return (
     <DrawerContentScrollView
       {...props}
@@ -32,7 +32,7 @@ export const CustomDrawerContent = (props) => {
         activeTintColor="#FFC130"
         inactiveTintColor="#FFFFFF"
       />
-      {/* <StaffLogTime
+      <StaffLogTime
         {...props}
         label="Log Time"
         icon={() => <CustomDrawerIcon source={IMAGE["Timekeeping"]} />}
@@ -44,8 +44,8 @@ export const CustomDrawerContent = (props) => {
         activeBackgroundColor="#0764B0"
         inActiveBackgroundColor="#0764B0"
         inactiveTintColor="#FFFFFF"
-      /> */}
-      <DrawerItem
+      />
+      {/* <DrawerItem
         label="Log Time"
         icon={() => <CustomDrawerIcon source={IMAGE["Timekeeping"]} />}
         onShowed={() => {
@@ -57,7 +57,7 @@ export const CustomDrawerContent = (props) => {
         inActiveBackgroundColor="#0764B0"
         inactiveTintColor="#FFFFFF"
         onPress={startLogTime}
-      />
+      /> */}
 
       <AgencyLogo />
     </DrawerContentScrollView>
