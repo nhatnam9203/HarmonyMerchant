@@ -111,7 +111,9 @@ export const SalesOverall = () => {
           amount={formatMoneyWithUnit(summary?.averageOrder)}
         />
       </View>
-      <View style={styles.content}>{/* <SalesLineChart data={data} /> */}</View>
+      <View style={styles.content}>
+        <SalesLineChart data={data} />
+      </View>
     </View>
   );
 };
