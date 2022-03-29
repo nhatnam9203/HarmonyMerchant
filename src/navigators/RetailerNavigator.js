@@ -3,13 +3,13 @@
  *
  */
 import actions from "@actions";
-import { ParentContainer } from '@components';
+import { ParentContainer } from "@components";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useIsFocused } from "@react-navigation/native";
 import IMAGE from "@resources";
 import {
   CustomDrawerContent,
-  CustomDrawerIcon
+  CustomDrawerIcon,
 } from "@shared/components/CustomDrawerContent";
 import { RTCustomerScreen } from "@src/retailer/RTCustomerScreen";
 import { RTHomeScreen } from "@src/retailer/RTHomeScreen";
@@ -20,12 +20,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReportScreen } from "../merchant/ReportScreen";
 import { InvoiceScreen, SettlementScreen, SupportScreen } from "../screens";
 import NavigationServices from "@navigators/NavigatorServices";
-import { View } from 'react-native'
-import { PopupPinCode } from "@shared/components"
-import { useLockScreen } from '@shared/hooks'
+import { View } from "react-native";
+import { PopupPinCode } from "@shared/components";
+import { useLockScreen } from "@shared/hooks";
 
 const { Screen, Navigator } = createDrawerNavigator();
-
 
 export const RetailerNavigator = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -35,16 +34,18 @@ export const RetailerNavigator = ({ navigation }) => {
   const notiIntervalId = useSelector((state) => state.app.notiIntervalId);
 
   const isFocused = useIsFocused();
-  const { loginStaff } = useLockScreen(() => {
-    popupPinCodeRef.current?.hide();
-    dispatch(actions.app.closeAllPopupPincode());
+  const { loginStaff } = useLockScreen({
+    onSubmitSuccess: () => {
+      popupPinCodeRef.current?.hide();
+      dispatch(actions.app.closeAllPopupPincode());
+    },
+    isActive: popupPinCodeRef.current?.isShow(),
   });
 
   const onSubmit = (value) => {
-
     // popupPinCodeRef.current?.hide();
     loginStaff(value);
-  }
+  };
 
   const handleLockScreen = () => {
     // console.log("isFocused " + isFocused);
@@ -52,25 +53,22 @@ export const RetailerNavigator = ({ navigation }) => {
       NavigationServices.navigate("home.order.top_tab");
       popupPinCodeRef.current?.show();
     }
-  }
+  };
 
   const clearIntervalById = () => {
     if (notiIntervalId) {
       clearInterval(notiIntervalId);
       dispatch(actions.app.resetNotiIntervalId());
     }
-  }
+  };
 
-  const onForceClosePopupPinCode = () => {
-
-  }
+  const onForceClosePopupPinCode = () => {};
 
   React.useEffect(() => {
     if (profile?.merchantId) {
       dispatch(actions.app.getMerchantByID(profile.merchantId, true));
     }
   }, [profile?.merchantId]);
-
 
   return (
     <>
@@ -94,7 +92,9 @@ export const RetailerNavigator = ({ navigation }) => {
             options={{
               drawerIcon: ({ focused }) => (
                 <CustomDrawerIcon
-                  source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
+                  source={
+                    focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]
+                  }
                 />
               ),
             }}
@@ -127,7 +127,11 @@ export const RetailerNavigator = ({ navigation }) => {
           />
         </Navigator>
       </ParentContainer>
-      <PopupPinCode ref={popupPinCodeRef} onSubmit={onSubmit} onForceClose={onForceClosePopupPinCode} />
+      <PopupPinCode
+        ref={popupPinCodeRef}
+        onSubmit={onSubmit}
+        onForceClose={onForceClosePopupPinCode}
+      />
     </>
   );
 };

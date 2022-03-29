@@ -54,7 +54,6 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
 
   |--------------------------------------------------
   */
-  // const [, getCategoriesList] = useGetCategoriesList();
   // !! call login staff
   React.useImperativeHandle(ref, () => ({
     show: () => {

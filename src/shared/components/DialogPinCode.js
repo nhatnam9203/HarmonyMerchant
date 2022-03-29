@@ -86,8 +86,10 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   }, [isLoginStaff]);
 
   React.useEffect(() => {
-    dialogRef.current?.hide();
-    onLoadApps();
+    if (dialogRef.current?.isShow()) {
+      dialogRef.current?.hide();
+      onLoadApps();
+    }
   }, [isLoginStaff]);
 
   React.useEffect(() => {

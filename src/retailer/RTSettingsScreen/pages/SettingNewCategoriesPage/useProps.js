@@ -86,6 +86,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   }, [categoriesGet?.data]);
 
   React.useEffect(() => {
+    console.log("RTSettingScreen");
     getCategoriesList(null);
     if (isEdit && item) {
       getCategories(item.categoryId);
