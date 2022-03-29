@@ -108,7 +108,10 @@ export const PopupReceipt = React.forwardRef(
         resetAll();
       },
       onCancelShare: async () => {
-        resetAll();
+        setOpen(false);
+        setTimeout(() => {
+          resetAll();
+        }, 2000);
       },
       getContentXmlReceipt,
     });

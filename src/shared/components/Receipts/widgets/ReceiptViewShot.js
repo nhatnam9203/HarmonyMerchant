@@ -53,12 +53,16 @@ export const ReceiptViewShot = React.forwardRef(
     };
 
     React.useImperativeHandle(ref, () => ({
-      captureImageUrl: async (paymentMachineType, printerSelect) => {
+      captureImageUrl: async ({
+        paymentMachineType,
+        printerSelect,
+        quality = 0.8,
+      }) => {
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
           format: "jpg",
-          quality: 1,
+          quality: quality,
         });
 
         return imageUri;

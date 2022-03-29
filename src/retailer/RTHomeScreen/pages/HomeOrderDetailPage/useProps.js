@@ -568,7 +568,7 @@ export const useProps = ({
         ] || [];
 
       const totalQty = items?.reduce((prev, item, index) => {
-        const qty = item.data?.qty ?? 1;
+        const qty = item.quantity ?? 1;
         return prev + qty;
       }, 0);
 

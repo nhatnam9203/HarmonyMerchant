@@ -316,7 +316,7 @@ export const useProps = ({
       alert(message);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productsList?.data]);
+  }, [productsList]);
 
   /**
    * Create appointment temp effects

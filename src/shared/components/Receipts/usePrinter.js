@@ -70,6 +70,7 @@ export const usePrinter = ({
       }
 
       await setLoading(true);
+
       const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
@@ -146,11 +147,14 @@ export const usePrinter = ({
   const shareProcess = async () => {
     try {
       await setLoading(true);
+
       const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
+        quality: 0.1,
       });
-      await onCancelShare();
+
+      onCancelShare();
 
       setTimeout(async () => {
         await setLoading(false);
