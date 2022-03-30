@@ -128,7 +128,9 @@ export const useProps = ({
 
   const getInvoiceCode = () => {
     if (invoice) return invoice.code;
-    if (appointment) return appointment.invoice?.code;
+    if (appointment) {
+      return appointment.invoice?.code ?? appointment.code;
+    }
     return null;
   };
 

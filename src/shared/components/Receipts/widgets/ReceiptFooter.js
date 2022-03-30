@@ -12,7 +12,6 @@ export const ReceiptFooter = ({
   promotionNotes,
 }) => {
   const { t } = useTranslation();
-
   return (
     <View style={styles.container}>
       {fromAppointmentTab && <View style={{ height: scaleHeight(200) }} />}
@@ -32,16 +31,18 @@ export const ReceiptFooter = ({
       ) : null}
       <TextLabel>{`********* ${typeReceipt ?? "Receipt"} *********`}</TextLabel>
       <View style={styles.margin} />
+      <View style={styles.margin} />
+
       {!!invoiceCode && (
         <Barcode
           format="CODE128"
-          value={invoiceCode + ""}
+          value={`${invoiceCode}`}
           text={`${invoiceCode}`}
-          style={{ marginBottom: 10 }}
-          maxWidth={scaleWidth(280)}
-          height={scaleHeight(50)}
+          // height={scaleHeight(70)}
+          // style={{ marginBottom: 10 }}
         />
       )}
+      <View style={styles.margin} />
     </View>
   );
 };
