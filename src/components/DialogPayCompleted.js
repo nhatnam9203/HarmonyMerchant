@@ -245,20 +245,26 @@ export const DialogPayCompleted = ({
   };
 
   React.useEffect(() => {
-    if (visiblePaymentCompleted && paymentDetailInfo?.invoiceNo) {
+    if (visiblePaymentCompleted && paymentDetailInfo?.invoiceNo && groupAppointmentId) {
       // setWaiting(true);
       // console.log(groupAppointmentId);
-      // getGroupAppointment(groupAppointmentId);
+      getGroupAppointment(groupAppointmentId);
       getInvoiceDetail(paymentDetailInfo?.invoiceNo)
     }
-  }, [visiblePaymentCompleted, paymentDetailInfo?.invoiceNo]);
+  }, [visiblePaymentCompleted, paymentDetailInfo?.invoiceNo, groupAppointmentId]);
+
+  React.useEffect(() => {
+    const { codeStatus, data } = groupAppointmentData || {};
+    if (statusSuccess(codeStatus)) {
+      setGroupAppointment(data);
+    }
+  }, [groupAppointmentData]);
 
   React.useEffect(() => {
     const { codeStatus, data } = invoiceDetailData || {};
     if (statusSuccess(codeStatus)) {
       setInvoice(data);
     }
-    // if (invoiceDetailData) setWaiting(false);
   }, [invoiceDetailData]);
 
   return (
