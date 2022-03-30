@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
   rowSignature: {
     flexDirection: "row",
     alignItems: "center",
+    paddingBottom: scaleHeight(20),
   },
 
   signImage: {

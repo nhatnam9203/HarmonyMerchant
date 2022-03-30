@@ -60,7 +60,7 @@ export const DialogPayCompleted = ({
   const [receiptBackground, setReceiptBackground] = React.useState("#fff");
   const [autoPrint, setAutoPrint] = React.useState(false);
   const [groupAppointment, setGroupAppointment] = React.useState(null);
-  const [invoice, setInvoice] = React.useState(null);
+  // const [invoice, setInvoice] = React.useState(null);
   // const [waiting, setWaiting] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -101,7 +101,6 @@ export const DialogPayCompleted = ({
     promotionNotes,
     checkoutPaymentMethods,
   } = useProps({
-    invoice,
     groupAppointment,
     printTemp,
     fromAppointmentTab: false,
@@ -245,13 +244,13 @@ export const DialogPayCompleted = ({
   };
 
   React.useEffect(() => {
-    if (visiblePaymentCompleted && paymentDetailInfo?.invoiceNo && groupAppointmentId) {
+    if (visiblePaymentCompleted && groupAppointmentId) {
       // setWaiting(true);
       // console.log(groupAppointmentId);
       getGroupAppointment(groupAppointmentId);
-      getInvoiceDetail(paymentDetailInfo?.invoiceNo)
+      // getInvoiceDetail(paymentDetailInfo?.invoiceNo)
     }
-  }, [visiblePaymentCompleted, paymentDetailInfo?.invoiceNo, groupAppointmentId]);
+  }, [visiblePaymentCompleted, groupAppointmentId]);
 
   React.useEffect(() => {
     const { codeStatus, data } = groupAppointmentData || {};
@@ -260,12 +259,12 @@ export const DialogPayCompleted = ({
     }
   }, [groupAppointmentData]);
 
-  React.useEffect(() => {
-    const { codeStatus, data } = invoiceDetailData || {};
-    if (statusSuccess(codeStatus)) {
-      setInvoice(data);
-    }
-  }, [invoiceDetailData]);
+  // React.useEffect(() => {
+  //   const { codeStatus, data } = invoiceDetailData || {};
+  //   if (statusSuccess(codeStatus)) {
+  //     setInvoice(data);
+  //   }
+  // }, [invoiceDetailData]);
 
   return (
     <>
