@@ -530,13 +530,13 @@ export const useProps = ({
       invoiceRef.current?.showWithReturnItem(itemReturn);
     },
     shareReturnInvoice: (itemReturn) => {
-      returnReceiptRef.current?.showReceipt({
-        isShareMode: true,
-        item: itemReturn,
-        appointment: appointmentDetail,
-      });
+      // returnReceiptRef.current?.showReceipt({
+      //   isShareMode: true,
+      //   item: itemReturn,
+      //   appointment: appointmentDetail,
+      // });
 
-      // invoiceRef.current?.shareWithReturnItem(itemReturn);
+      invoiceRef.current?.shareWithReturnItem(itemReturn);
     },
     doPrintClover: (imageUri) => {
       const port = _.get(cloverMachineInfo, "port")

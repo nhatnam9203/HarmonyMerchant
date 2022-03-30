@@ -29,6 +29,25 @@ export const useProps = ({
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
 
   const getItems = () => {
+    if (itemReturn) {
+      console.log(itemReturn);
+      let temps = [];
+      const { products = [], giftcards = [] } = itemReturn?.returnData || {};
+      temps = products?.map((x, index) => ({
+        type: "Return",
+        id: `${index}_return`,
+        data: {
+          name: x.productName,
+          qty: x.saleQuantity,
+          productId: `${index}_return`,
+          price: x.saslePrice,
+          returnPrice: x.returnPrice,
+          returnQuantity: x.returnQuantity,
+        },
+      }));
+      return temps;
+    }
+
     if (appointment) {
       return getReceiptItems(appointment);
     }

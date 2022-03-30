@@ -7,6 +7,7 @@ import { LineHeader, LineItem } from "./ReceiptLine";
 
 const SALON_COLUMN_WIDTH = [4, 3, 3];
 const RETAILER_COLUMN_WIDTH = [4, 2, 1.5, 2.5];
+const RETAILER_RETURN_COLUMN_WIDTH = [3, 1, 2, 2, 2];
 
 export const ReceiptItemType = {
   SALON: "SalonPos",
@@ -26,6 +27,8 @@ export const ReceiptItem = ({ item, index, type }) => {
     name = "",
     label = "",
     barCode,
+    returnPrice = 0,
+    returnQuantity = 1,
   } = data;
 
   const totalPrice = formatNumberFromCurrency(price) * qty;
@@ -172,6 +175,80 @@ export const ReceiptItem = ({ item, index, type }) => {
         </View>
       );
     case ReceiptItemType.RETAILER_RETURN:
+      const renderName = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <TextItem>{`${index + 1}. ${name}`}</TextItem>
+        </View>
+      );
+
+      const renderQty = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+          }}
+        >
+          <TextItem>{`${qty}`}</TextItem>
+        </View>
+      );
+
+      const renderPrice = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+          }}
+        >
+          <TextItem>{`${price}`}</TextItem>
+        </View>
+      );
+
+      const renderReturnQty = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <TextItem>{`${returnQuantity}`}</TextItem>
+        </View>
+      );
+
+      const renderReturnPrice = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+          }}
+        >
+          <TextItem>{`${returnPrice}`}</TextItem>
+        </View>
+      );
+
+      return (
+        <View>
+          {index > 0 && <LineItem />}
+          <LayoutFiveColumn
+            key="return-item"
+            columnWidths={RETAILER_RETURN_COLUMN_WIDTH}
+            ColumnOne={renderName}
+            ColumnTwo={renderQty}
+            ColumnThree={renderPrice}
+            ColumnFour={renderReturnQty}
+            ColumnFive={renderReturnPrice}
+          />
+        </View>
+      );
     case ReceiptItemType.SALON:
     default:
       const onRenderColumOne = () => (
@@ -287,6 +364,65 @@ export const ReceiptHeaderItem = ({ type }) => {
         </>
       );
     case ReceiptItemType.RETAILER_RETURN:
+      const nameCol = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <TextHeader>{t("Name")}</TextHeader>
+        </View>
+      );
+
+      const qtyCol = () => (
+        <View
+          style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}
+        >
+          <TextHeader>{t("Qty")}</TextHeader>
+        </View>
+      );
+
+      const priceCol = () => (
+        <View
+          style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}
+        >
+          <TextHeader>{t("Total")}</TextHeader>
+        </View>
+      );
+
+      const returnQtyCol = () => (
+        <View
+          style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}
+        >
+          <TextHeader>{t("Return")}</TextHeader>
+        </View>
+      );
+
+      const returnTotalCol = () => (
+        <View
+          style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}
+        >
+          <TextHeader>{t("Price")}</TextHeader>
+        </View>
+      );
+
+      return (
+        <>
+          <View style={styles.margin} />
+          <LineHeader />
+          <LayoutFiveColumn
+            columnWidths={RETAILER_RETURN_COLUMN_WIDTH}
+            ColumnOne={nameCol}
+            ColumnTwo={qtyCol}
+            ColumnThree={priceCol}
+            ColumnFour={returnQtyCol}
+            ColumnFive={returnTotalCol}
+          />
+          <LineHeader />
+        </>
+      );
     case ReceiptItemType.SALON:
     default:
       return (
@@ -422,6 +558,55 @@ const LayoutThreeColumn = ({
             return (
               <View key="f-three" style={{ flex: x }}>
                 {ColumnThree()}
+              </View>
+            );
+        }
+      })}
+    </View>
+  );
+};
+
+const LayoutFiveColumn = ({
+  columnWidths,
+  ColumnOne,
+  ColumnTwo,
+  ColumnThree,
+  ColumnFour,
+  ColumnFive,
+}) => {
+  return (
+    <View style={styles.content}>
+      {columnWidths.map((x, idx) => {
+        switch (idx) {
+          case 0:
+            return (
+              <View key="f-one" style={{ flex: x }}>
+                {ColumnOne()}
+              </View>
+            );
+          case 1:
+            return (
+              <View key="f-two" style={{ flex: x }}>
+                {ColumnTwo()}
+              </View>
+            );
+          case 2:
+            return (
+              <View key="f-three" style={{ flex: x }}>
+                {ColumnThree()}
+              </View>
+            );
+          case 3:
+            return (
+              <View key="f-four" style={{ flex: x }}>
+                {ColumnFour()}
+              </View>
+            );
+          case 4:
+          default:
+            return (
+              <View key="f-five" style={{ flex: x }}>
+                {ColumnFive()}
               </View>
             );
         }
