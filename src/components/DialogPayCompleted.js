@@ -52,7 +52,7 @@ export const DialogPayCompleted = ({
   const viewShotRef = React.useRef(null);
   const { t } = useTranslation();
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
-  const { paymentDetailInfo } = useSelector((state) => state.dataLocal);
+  const { paymentDetailInfo } = useSelector((state) => state.appointment);
 
   const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
   const [printTemp, setPrintTemp] = React.useState(false);
@@ -245,14 +245,13 @@ export const DialogPayCompleted = ({
   };
 
   React.useEffect(() => {
-    console.log('visiblePaymentCompleted', visiblePaymentCompleted)
-    if (visiblePaymentCompleted && paymentDetailInfo) {
+    if (visiblePaymentCompleted && paymentDetailInfo?.invoiceNo) {
       // setWaiting(true);
       // console.log(groupAppointmentId);
       // getGroupAppointment(groupAppointmentId);
       getInvoiceDetail(paymentDetailInfo?.invoiceNo)
     }
-  }, [visiblePaymentCompleted]);
+  }, [visiblePaymentCompleted, paymentDetailInfo?.invoiceNo]);
 
   React.useEffect(() => {
     const { codeStatus, data } = invoiceDetailData || {};
