@@ -52,6 +52,7 @@ export const DialogPayCompleted = ({
   const viewShotRef = React.useRef(null);
   const { t } = useTranslation();
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
+  const { paymentDetailInfo } = useSelector((state) => state.appointment);
 
   const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
   const [printTemp, setPrintTemp] = React.useState(false);
@@ -59,7 +60,8 @@ export const DialogPayCompleted = ({
   const [receiptBackground, setReceiptBackground] = React.useState("#fff");
   const [autoPrint, setAutoPrint] = React.useState(false);
   const [groupAppointment, setGroupAppointment] = React.useState(null);
-  const [waiting, setWaiting] = React.useState(false);
+  // const [invoice, setInvoice] = React.useState(null);
+  // const [waiting, setWaiting] = React.useState(false);
 
   const dispatch = useDispatch();
   const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
@@ -205,7 +207,7 @@ export const DialogPayCompleted = ({
   };
 
   onButtonPrintBillPress = async () => {
-    if (waiting) return; // chờ chút đang get lại groupAppointment
+    // if (waiting) return; // chờ chút đang get lại groupAppointment
 
     handleSendGoogleLinkReview();
 
@@ -238,14 +240,15 @@ export const DialogPayCompleted = ({
   cancelPrintBill = () => {
     handleSendGoogleLinkReview();
     donotPrintBill();
-    setWaiting(false);
+    // setWaiting(false);
   };
 
   React.useEffect(() => {
     if (visiblePaymentCompleted && groupAppointmentId) {
-      setWaiting(true);
+      // setWaiting(true);
       // console.log(groupAppointmentId);
       getGroupAppointment(groupAppointmentId);
+      // getInvoiceDetail(paymentDetailInfo?.invoiceNo)
     }
   }, [visiblePaymentCompleted, groupAppointmentId]);
 
@@ -254,8 +257,14 @@ export const DialogPayCompleted = ({
     if (statusSuccess(codeStatus)) {
       setGroupAppointment(data);
     }
-    if (groupAppointmentData) setWaiting(false);
   }, [groupAppointmentData]);
+
+  // React.useEffect(() => {
+  //   const { codeStatus, data } = invoiceDetailData || {};
+  //   if (statusSuccess(codeStatus)) {
+  //     setInvoice(data);
+  //   }
+  // }, [invoiceDetailData]);
 
   return (
     <>
