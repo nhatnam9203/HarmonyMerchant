@@ -14,6 +14,7 @@ import { ReportLayout } from "../../../../widget";
 
 import SalesByCategory from "./SalesByCategory";
 import SalesByCategoryStatistic from "./SalesByCategoryStatistic";
+import { useFocusEffect } from "@react-navigation/native";
 
 const FILTER_NAME_DEFAULT_LIST = [
   { value: "All Category", id: "all" },
@@ -74,6 +75,16 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
       )
     );
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const filterItem = serviceSaleByCategoryList.find(
+        (item) => item.categoryName === filterNameItem
+      );
+  
+      getServiceSalesByCategory(getCategoryId() || filterItem?.categoryId);
+    }, [filterNameItem, titleRangeTime])
+  );
 
   const showCalendar = (isShow) => {
     layoutRef?.current?.showCalendar(isShow);
@@ -163,12 +174,15 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
+    getServiceSales: () => {
+      refreshData();
+    }
   }));
 
   /**effect */
-  useEffect(() => {
-    getServiceSalesByCategory();
-  }, []);
+  // useEffect(() => {
+  //   getServiceSalesByCategory();
+  // }, []);
 
   const refreshData = () => {
     setRefreshing(true);

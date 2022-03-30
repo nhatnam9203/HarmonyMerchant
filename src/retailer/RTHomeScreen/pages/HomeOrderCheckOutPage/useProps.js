@@ -306,14 +306,17 @@ export const useProps = ({
    * GET Products effects
    */
   React.useEffect(() => {
-    if (productsList?.data) {
+    const { codeStatus, message, data } = productsList || {};
+    if (data) {
       setActiveTab(CUSTOM_LIST_TYPES.PRO);
       setProducts(
         productsList?.data?.filter((product) => product.visibility !== "web")
       );
+    } else if (codeStatus === 7) {
+      alert(message);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productsList?.data]);
+  }, [productsList]);
 
   /**
    * Create appointment temp effects
@@ -460,6 +463,7 @@ export const useProps = ({
         inputBarcodeDialogRef.current?.hide();
 
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
+
       if (tmp) {
         const attributeIds = tmp.attributeIds;
 

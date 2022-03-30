@@ -261,7 +261,6 @@ class TabAppointment extends Layout {
 
               // console.log(appointment);
 
-
               this.setState({ appointment });
 
               break;

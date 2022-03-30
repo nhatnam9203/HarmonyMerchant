@@ -70,6 +70,8 @@ export const usePrinter = ({
       }
 
       await setLoading(true);
+      // var startTime = performance.now();
+
       const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
@@ -86,6 +88,14 @@ export const usePrinter = ({
             diffusion: true,
             alignment: "Center",
           });
+
+          // var endTime = performance.now();
+          // commands.push({
+          //   appendBitmapText: `Call to printProcess took ${
+          //     endTime - startTime
+          //   } milliseconds`,
+          // });
+
           commands.push({
             appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
           });
@@ -146,23 +156,31 @@ export const usePrinter = ({
   const shareProcess = async () => {
     try {
       await setLoading(true);
+      // var startTime = performance.now();
+
       const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
+        quality: 0.1,
       });
-      await setLoading(false);
+
+      onCancelShare();
 
       setTimeout(async () => {
+        await setLoading(false);
+
         if (Platform.OS === "ios") {
           RNFetchBlob.ios.previewDocument(imageUrl);
+          // var endTime = performance.now();
+          // console.log(
+          //   `Call to doSomething took ${endTime - startTime} milliseconds`
+          // );
         } else {
           await Share.open({
             url: `file://${imageUri}`,
           });
         }
-      }, 250);
-
-      await onCancelShare();
+      }, 500);
     } catch (error) {
       setLoading(false);
       onCancelShare();

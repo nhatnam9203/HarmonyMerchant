@@ -97,6 +97,7 @@ function dataLocalReducer(state = initialState, action) {
       return {
         ...state,
         profileStaffLoginReportServer: action.payload,
+        tokenReportServer: action?.payload?.token || state.tokenReportServer,
       };
     case 'RESET_NEED_SETTING_STORE':
       return {

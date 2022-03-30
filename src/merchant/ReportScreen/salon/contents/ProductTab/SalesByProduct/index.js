@@ -13,6 +13,7 @@ import { ReportLayout } from "../../../../widget";
 
 import SalesByProduct from "./SalesByProduct";
 import { SalesByProductStatistic } from "./SalesByProductStatistic";
+import { useFocusEffect } from "@react-navigation/native";
 
 const FILTER_NAME_DEFAULT_LIST = [
   { value: "All product", id: "all" },
@@ -75,6 +76,16 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
       )
     );
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const filterItem = productSaleByProductList.find(
+        (item) => item.name === filterNameItem
+      );
+  
+      getProductSaleByProduct(getProductId() || filterItem?.productId);
+    }, [filterNameItem, titleRangeTime])
+  );
 
   const showCalendar = (isShow) => {
     layoutRef?.current?.showCalendar(isShow);
@@ -165,12 +176,15 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
+    getProductSales: () => { 
+      refreshData();
+    }
   }));
 
   /**effect */
-  useEffect(() => {
-    getProductSaleByProduct();
-  }, []);
+  // useEffect(() => {
+  //   getProductSaleByProduct();
+  // }, []);
 
   const refreshData = () => {
     setRefreshing(true);

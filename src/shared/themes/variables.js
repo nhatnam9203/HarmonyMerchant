@@ -162,4 +162,12 @@ export const layouts = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
   },
+
+  fontLabel: {
+    fontFamily: fonts.MEDIUM,
+    color: "#000",
+    fontSize: scaleFont(16),
+    fontWeight: "500",
+    textAlign: "center",
+  },
 });

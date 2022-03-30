@@ -13,6 +13,7 @@ import actions from "@actions";
 import { ReportLayout } from "../../../../widget";
 import MarketingEfficiency from "./MarketingEfficiency";
 import MarketingEfficiencyStatistic from "./MarketingEfficiencyStatistic";
+import { useFocusEffect } from "@react-navigation/native";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -56,6 +57,12 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
       )
     );
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getMarketingEfficiencyMethod();
+    }, [filterNameItem, titleRangeTime])
+  );
 
   const showCalendar = (isShow) => {
     layoutRef?.current?.showCalendar(isShow);
