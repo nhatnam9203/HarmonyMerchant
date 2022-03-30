@@ -52,6 +52,7 @@ export const DialogPayCompleted = ({
   const viewShotRef = React.useRef(null);
   const { t } = useTranslation();
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
+  const { paymentDetailInfo } = useSelector((state) => state.dataLocal);
 
   const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
   const [printTemp, setPrintTemp] = React.useState(false);
@@ -59,6 +60,7 @@ export const DialogPayCompleted = ({
   const [receiptBackground, setReceiptBackground] = React.useState("#fff");
   const [autoPrint, setAutoPrint] = React.useState(false);
   const [groupAppointment, setGroupAppointment] = React.useState(null);
+  const [invoice, setInvoice] = React.useState(null);
   const [waiting, setWaiting] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -99,6 +101,7 @@ export const DialogPayCompleted = ({
     promotionNotes,
     checkoutPaymentMethods,
   } = useProps({
+    invoice,
     groupAppointment,
     printTemp,
     fromAppointmentTab: false,
@@ -242,20 +245,22 @@ export const DialogPayCompleted = ({
   };
 
   React.useEffect(() => {
-    if (visiblePaymentCompleted && groupAppointmentId) {
+    console.log(visiblePaymentCompleted, paymentDetailInfo)
+    if (visiblePaymentCompleted && paymentDetailInfo) {
       setWaiting(true);
       // console.log(groupAppointmentId);
-      getGroupAppointment(groupAppointmentId);
+      // getGroupAppointment(groupAppointmentId);
+      getInvoiceDetail(paymentDetailInfo?.invoiceNo)
     }
-  }, [visiblePaymentCompleted, groupAppointmentId]);
+  }, [visiblePaymentCompleted, paymentDetailInfo]);
 
   React.useEffect(() => {
-    const { codeStatus, data } = groupAppointmentData || {};
+    const { codeStatus, data } = invoiceDetailData || {};
     if (statusSuccess(codeStatus)) {
-      setGroupAppointment(data);
+      setInvoice(data);
     }
-    if (groupAppointmentData) setWaiting(false);
-  }, [groupAppointmentData]);
+    if (invoiceDetailData) setWaiting(false);
+  }, [invoiceDetailData]);
 
   return (
     <>
