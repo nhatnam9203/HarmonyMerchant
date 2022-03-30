@@ -6,6 +6,7 @@ import React from "react";
 import { formatNumberFromCurrency } from "@utils";
 
 export const useProps = ({ params: { item }, navigation }) => {
+  const dialogCompleteRef = React.useRef(null);
   const [itemSelected, setItemSelected] = React.useState([]);
   const [notes, setNotes] = React.useState(null);
   const [data, setData] = React.useState(JSON.parse(JSON.stringify(item)));
@@ -26,18 +27,7 @@ export const useProps = ({ params: { item }, navigation }) => {
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentReturn || {};
     if (statusSuccess(codeStatus)) {
-      if (navigation?.canGoBack()) {
-        // navigation.goBack();
-        NavigationServices.navigate("retailer.home.order.detail", {
-          order: item,
-          screenId: "retailer.home.order.list",
-          backScreenId: "retailer.home.order.list",
-        });
-      } else {
-        NavigationServices.navigate("retailer.home.order.list", {
-          reload: true,
-        });
-      }
+      dialogCompleteRef.current?.show();
     }
   }, [appointmentReturn]);
 
@@ -197,6 +187,7 @@ export const useProps = ({ params: { item }, navigation }) => {
   };
 
   return {
+    dialogCompleteRef,
     goBack: () => {
       NavigationServices.goBack();
     },
@@ -260,5 +251,18 @@ export const useProps = ({ params: { item }, navigation }) => {
     updateQuantity,
     updateTotal,
     setToggleReturnShipping: (bl) => {},
+    onCancelDialogReturnItemComplete: () => {
+      if (navigation?.canGoBack()) {
+        NavigationServices.navigate("retailer.home.order.detail", {
+          order: item,
+          screenId: "retailer.home.order.list",
+          backScreenId: "retailer.home.order.list",
+        });
+      } else {
+        NavigationServices.navigate("retailer.home.order.list", {
+          reload: true,
+        });
+      }
+    },
   };
 };

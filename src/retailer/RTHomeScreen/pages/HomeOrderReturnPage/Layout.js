@@ -4,6 +4,7 @@ import {
   ButtonGradientWhite,
   CustomCheckBox,
   FormTitle,
+  DialogReturnItemComplete,
 } from "@shared/components";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
@@ -29,6 +30,8 @@ export const Layout = ({
   updateQuantity,
   updateTotal,
   setToggleReturnShipping,
+  dialogCompleteRef,
+  onCancelDialogReturnItemComplete
 }) => {
   const [t] = useTranslation();
 
@@ -187,137 +190,138 @@ export const Layout = ({
     (itemSelected?.length > 0 && filterListNotEmpty?.length == 0);
 
   return (
-    <View style={layouts.fill}>
-      <View style={styles.headContent}>
-        <Text style={styles.headTitle}>{t("Return order")}</Text>
-        <View style={styles.headerRightContent}>
-          <View style={layouts.marginHorizontal} />
-          <View style={layouts.marginHorizontal} />
-          <ButtonGradientWhite
-            width={scaleWidth(40)}
-            height={scaleHeight(40)}
-            fontSize={scaleFont(17)}
-            textWeight="normal"
-            onPress={goBack}
-          >
-            <Image source={IMAGE.back} />
-          </ButtonGradientWhite>
-        </View>
-      </View>
-      <KeyboardAwareScrollView>
-        <View style={styles.container}>
-          <FormTitle label={t("Items To Return")} />
-          <Table
-            // items={item?.products?.filter((x) => !x.isReturn) || []}
-            items={
-              [
-                ...(item?.products?.map((x) =>
-                  Object.assign({}, x, { key: x.bookingProductId })
-                ) || []),
-                ...(item?.giftCards?.map((x) =>
-                  Object.assign({}, x, { key: x.bookingGiftCardId })
-                ) || []),
-              ] || []
-            }
-            headerKeyLabels={{
-              productName: t("Product"),
-              price: t("Price"),
-              quantity: t("Qty"),
-              subTotal: t("Subtotal"),
-              tax: t("Tax"),
-              discount: t("Discount"),
-              total: t("Total"),
-            }}
-            whiteListKeys={[
-              "productName",
-              "price",
-              "quantity",
-              "subTotal",
-              "tax",
-              "discount",
-              "total",
-            ]}
-            primaryKey="key"
-            widthForKeys={{
-              productName: scaleWidth(280),
-              price: scaleWidth(150),
-              quantity: scaleWidth(100),
-              subTotal: scaleWidth(120),
-              tax: scaleWidth(120),
-              discount: scaleWidth(120),
-              total: scaleWidth(170),
-            }}
-            emptyDescription={t("No Products")}
-            styleTextKeys={{ total: styles.highLabelTextStyle }}
-            formatFunctionKeys={{
-              price: (value) => `${formatMoneyWithUnit(value)}`,
-              subTotal: (value) => `${formatMoneyWithUnit(value)}`,
-              tax: (value) => `${formatMoneyWithUnit(value)}`,
-              discount: (value) => `${formatMoneyWithUnit(value)}`,
-              total: (value) => `${formatMoneyWithUnit(value)}`,
-            }}
-            renderCell={onRenderCell}
-            // onRowPress={onSelectRow}
-            // draggable={true}
-            renderFooterComponent={() => (
-              <View style={{ height: scaleHeight(10) }} />
-            )}
-          />
-          <FormTitle label={t("Order Total")} />
-          <View style={layouts.horizontal}>
-            <InfoContent label={t("Order Total")}>
-              <View style={styles.personContent}>
-                <InfoLine
-                  label={t("Subtotal")}
-                  infoValue={formatMoneyWithUnit(item?.subTotal)}
-                />
-                <InfoLine
-                  label={t("Shipping & Handling")}
-                  infoValue={formatMoneyWithUnit(item?.shippingAmount)}
-                />
-                <InfoLine
-                  label={t("Tax")}
-                  infoValue={formatMoneyWithUnit(item?.tax)}
-                />
-                <InfoLine
-                  label={t("Discount")}
-                  infoValue={formatMoneyWithUnit(item?.discount)}
-                />
-              </View>
-              <InfoLine
-                label={t("Grand Total")}
-                infoValue={formatMoneyWithUnit(item?.total)}
-                labelTextStyle={styles.highLabelTextStyle}
-                infoTextStyle={styles.highInfoTextStyle}
-              />
-
-              <InfoLine
-                label={t("Total Return")}
-                infoValue={formatMoneyWithUnit(item?.returnAmount)}
-                labelTextStyle={styles.highLabelTextStyle}
-                infoTextStyle={styles.highInfoTextStyle}
-              />
-
-              {formatNumberFromCurrency(item?.dueAmount) < 0 ? (
-                <InfoLine
-                  label={t("Change Amount")}
-                  infoValue={formatMoneyWithUnit(Math.abs(item?.dueAmount))}
-                  labelTextStyle={styles.highLabelTextStyle}
-                  infoTextStyle={styles.highInfoTextStyle}
-                />
-              ) : (
-                <InfoLine
-                  label={t("Total Due")}
-                  infoValue={formatMoneyWithUnit(item?.dueAmount)}
-                  labelTextStyle={styles.highLabelTextStyle}
-                  infoTextStyle={styles.highInfoTextStyle}
-                />
-              )}
-            </InfoContent>
+    <>
+      <View style={layouts.fill}>
+        <View style={styles.headContent}>
+          <Text style={styles.headTitle}>{t("Return order")}</Text>
+          <View style={styles.headerRightContent}>
             <View style={layouts.marginHorizontal} />
+            <View style={layouts.marginHorizontal} />
+            <ButtonGradientWhite
+              width={scaleWidth(40)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textWeight="normal"
+              onPress={goBack}
+            >
+              <Image source={IMAGE.back} />
+            </ButtonGradientWhite>
+          </View>
+        </View>
+        <KeyboardAwareScrollView>
+          <View style={styles.container}>
+            <FormTitle label={t("Items To Return")} />
+            <Table
+              // items={item?.products?.filter((x) => !x.isReturn) || []}
+              items={
+                [
+                  ...(item?.products?.map((x) =>
+                    Object.assign({}, x, { key: x.bookingProductId })
+                  ) || []),
+                  ...(item?.giftCards?.map((x) =>
+                    Object.assign({}, x, { key: x.bookingGiftCardId })
+                  ) || []),
+                ] || []
+              }
+              headerKeyLabels={{
+                productName: t("Product"),
+                price: t("Price"),
+                quantity: t("Qty"),
+                subTotal: t("Subtotal"),
+                tax: t("Tax"),
+                discount: t("Discount"),
+                total: t("Total"),
+              }}
+              whiteListKeys={[
+                "productName",
+                "price",
+                "quantity",
+                "subTotal",
+                "tax",
+                "discount",
+                "total",
+              ]}
+              primaryKey="key"
+              widthForKeys={{
+                productName: scaleWidth(280),
+                price: scaleWidth(150),
+                quantity: scaleWidth(100),
+                subTotal: scaleWidth(120),
+                tax: scaleWidth(120),
+                discount: scaleWidth(120),
+                total: scaleWidth(170),
+              }}
+              emptyDescription={t("No Products")}
+              styleTextKeys={{ total: styles.highLabelTextStyle }}
+              formatFunctionKeys={{
+                price: (value) => `${formatMoneyWithUnit(value)}`,
+                subTotal: (value) => `${formatMoneyWithUnit(value)}`,
+                tax: (value) => `${formatMoneyWithUnit(value)}`,
+                discount: (value) => `${formatMoneyWithUnit(value)}`,
+                total: (value) => `${formatMoneyWithUnit(value)}`,
+              }}
+              renderCell={onRenderCell}
+              // onRowPress={onSelectRow}
+              // draggable={true}
+              renderFooterComponent={() => (
+                <View style={{ height: scaleHeight(10) }} />
+              )}
+            />
+            <FormTitle label={t("Order Total")} />
+            <View style={layouts.horizontal}>
+              <InfoContent label={t("Order Total")}>
+                <View style={styles.personContent}>
+                  <InfoLine
+                    label={t("Subtotal")}
+                    infoValue={formatMoneyWithUnit(item?.subTotal)}
+                  />
+                  <InfoLine
+                    label={t("Shipping & Handling")}
+                    infoValue={formatMoneyWithUnit(item?.shippingAmount)}
+                  />
+                  <InfoLine
+                    label={t("Tax")}
+                    infoValue={formatMoneyWithUnit(item?.tax)}
+                  />
+                  <InfoLine
+                    label={t("Discount")}
+                    infoValue={formatMoneyWithUnit(item?.discount)}
+                  />
+                </View>
+                <InfoLine
+                  label={t("Grand Total")}
+                  infoValue={formatMoneyWithUnit(item?.total)}
+                  labelTextStyle={styles.highLabelTextStyle}
+                  infoTextStyle={styles.highInfoTextStyle}
+                />
 
-            <InfoContent label={t("Return Comments")}>
-              {/* <CustomCheckBox
+                <InfoLine
+                  label={t("Total Return")}
+                  infoValue={formatMoneyWithUnit(item?.returnAmount)}
+                  labelTextStyle={styles.highLabelTextStyle}
+                  infoTextStyle={styles.highInfoTextStyle}
+                />
+
+                {formatNumberFromCurrency(item?.dueAmount) < 0 ? (
+                  <InfoLine
+                    label={t("Change Amount")}
+                    infoValue={formatMoneyWithUnit(Math.abs(item?.dueAmount))}
+                    labelTextStyle={styles.highLabelTextStyle}
+                    infoTextStyle={styles.highInfoTextStyle}
+                  />
+                ) : (
+                  <InfoLine
+                    label={t("Total Due")}
+                    infoValue={formatMoneyWithUnit(item?.dueAmount)}
+                    labelTextStyle={styles.highLabelTextStyle}
+                    infoTextStyle={styles.highInfoTextStyle}
+                  />
+                )}
+              </InfoContent>
+              <View style={layouts.marginHorizontal} />
+
+              <InfoContent label={t("Return Comments")}>
+                {/* <CustomCheckBox
                 label={t("Return shipping and tip")}
                 onValueChange={setToggleReturnShipping}
                 selectedColor={colors.OCEAN_BLUE}
@@ -325,18 +329,18 @@ export const Layout = ({
                 textStyle={[styles.textStyle, { color: colors.OCEAN_BLUE }]}
                 style={{ height: scaleHeight(40) }}
               /> */}
-              <FormEditNotes
-                // defaultValue={item?.note}
-                // onSubmitNotes={onSubmitNotes}
-                isShowButtonSubmit={false}
-                onChangeValue={setNotes}
-              />
-            </InfoContent>
+                <FormEditNotes
+                  // defaultValue={item?.note}
+                  // onSubmitNotes={onSubmitNotes}
+                  isShowButtonSubmit={false}
+                  onChangeValue={setNotes}
+                />
+              </InfoContent>
+            </View>
           </View>
-        </View>
-      </KeyboardAwareScrollView>
-      <View style={styles.buttonContent}>
-        {/* <ButtonGradientWhite
+        </KeyboardAwareScrollView>
+        <View style={styles.buttonContent}>
+          {/* <ButtonGradientWhite
           // onPress={buttonCancelPress}
           label={t("return").toUpperCase()}
           width={scaleWidth(400)}
@@ -345,18 +349,24 @@ export const Layout = ({
           fontSize={scaleFont(25)}
           fontWeight="500"
         /> */}
-        <ButtonGradient
-          label={t("return").toUpperCase()}
-          width={scaleWidth(400)}
-          height={scaleHeight(60)}
-          fontSize={scaleFont(25)}
-          textColor={colors.WHITE}
-          fontWeight="500"
-          disable={disableButton}
-          onPress={onHandleReturn}
-        />
+          <ButtonGradient
+            label={t("return").toUpperCase()}
+            width={scaleWidth(400)}
+            height={scaleHeight(60)}
+            fontSize={scaleFont(25)}
+            textColor={colors.WHITE}
+            fontWeight="500"
+            disable={disableButton}
+            onPress={onHandleReturn}
+          />
+        </View>
       </View>
-    </View>
+      <DialogReturnItemComplete
+        ref={dialogCompleteRef}
+        groupAppointmentId={item?.appointmentId}
+        cancelPrint={onCancelDialogReturnItemComplete}
+      />
+    </>
   );
 };
 

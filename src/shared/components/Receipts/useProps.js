@@ -30,7 +30,6 @@ export const useProps = ({
 
   const getItems = () => {
     if (itemReturn) {
-      console.log(itemReturn);
       let temps = [];
       const { products = [], giftcards = [] } = itemReturn?.returnData || {};
       temps = products?.map((x, index) => ({
@@ -91,6 +90,7 @@ export const useProps = ({
   };
 
   const getSymbol = () => {
+    if (itemReturn) return "RETURN";
     if (fromAppointmentTab) return "TICKET";
 
     let status;
