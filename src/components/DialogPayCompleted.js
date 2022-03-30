@@ -61,7 +61,7 @@ export const DialogPayCompleted = ({
   const [autoPrint, setAutoPrint] = React.useState(false);
   const [groupAppointment, setGroupAppointment] = React.useState(null);
   const [invoice, setInvoice] = React.useState(null);
-  const [waiting, setWaiting] = React.useState(false);
+  // const [waiting, setWaiting] = React.useState(false);
 
   const dispatch = useDispatch();
   const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
@@ -208,7 +208,7 @@ export const DialogPayCompleted = ({
   };
 
   onButtonPrintBillPress = async () => {
-    if (waiting) return; // chờ chút đang get lại groupAppointment
+    // if (waiting) return; // chờ chút đang get lại groupAppointment
 
     handleSendGoogleLinkReview();
 
@@ -241,25 +241,25 @@ export const DialogPayCompleted = ({
   cancelPrintBill = () => {
     handleSendGoogleLinkReview();
     donotPrintBill();
-    setWaiting(false);
+    // setWaiting(false);
   };
 
   React.useEffect(() => {
-    console.log(visiblePaymentCompleted, paymentDetailInfo)
+    console.log('visiblePaymentCompleted', visiblePaymentCompleted)
     if (visiblePaymentCompleted && paymentDetailInfo) {
-      setWaiting(true);
+      // setWaiting(true);
       // console.log(groupAppointmentId);
       // getGroupAppointment(groupAppointmentId);
       getInvoiceDetail(paymentDetailInfo?.invoiceNo)
     }
-  }, [visiblePaymentCompleted, paymentDetailInfo]);
+  }, [visiblePaymentCompleted]);
 
   React.useEffect(() => {
     const { codeStatus, data } = invoiceDetailData || {};
     if (statusSuccess(codeStatus)) {
       setInvoice(data);
     }
-    if (invoiceDetailData) setWaiting(false);
+    // if (invoiceDetailData) setWaiting(false);
   }, [invoiceDetailData]);
 
   return (
