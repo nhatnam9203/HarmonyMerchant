@@ -5,6 +5,7 @@ import {
   ButtonGradientWhite,
   FormTitle,
   ProductOptionImage,
+  ButtonPrintBarcode,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
@@ -111,6 +112,32 @@ export const Layout = ({
             </Text>
           </View>
         );
+      case "barCode":
+        return (
+          <View
+            style={{
+              width: cellWidth,
+              paddingVertical: scaleHeight(2),
+              paddingHorizontal: scaleWidth(5),
+            }}
+            key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
+          >
+            <Text
+              style={[
+                textStyle,
+                {
+                  textAlign: "left",
+                  textAlignVertical: "top",
+                },
+              ]}
+            >
+              {cellItem?.barCode}
+              {!!cellItem?.barCode && (
+                <ButtonPrintBarcode barCode={cellItem?.barCode} />
+              )}
+            </Text>
+          </View>
+        );
       default:
         return null;
     }
@@ -197,7 +224,9 @@ export const Layout = ({
               <ProductInfoLine
                 label={t("Barcode")}
                 infoValue={productItem?.barCode}
-              />
+              >
+                <ButtonPrintBarcode barCode={productItem?.barCode} />
+              </ProductInfoLine>
               {/* <ProductInfoLine
                 label={t("Price")}
                 infoValue={`${formatMoneyWithUnit(productItem?.price)}`}
@@ -268,8 +297,8 @@ export const Layout = ({
                 "imageUrl",
               ]}
               widthForKeys={{
-                label: scaleWidth(230),
-                barCode: scaleWidth(110),
+                label: scaleWidth(220),
+                barCode: scaleWidth(120),
                 description: scaleWidth(180),
                 costPrice: scaleWidth(100),
                 price: scaleWidth(100),
@@ -342,12 +371,24 @@ export const Layout = ({
   );
 };
 
-let ProductInfoLine = ({ label, infoValue, textStyle }) => {
+let ProductInfoLine = ({ label, infoValue, textStyle, children }) => {
   return (
     <View style={styles.infoLineContent}>
       {!!label && <Text style={styles.infoLabelText}>{label}</Text>}
       {!!infoValue && (
-        <Text style={[styles.infoText, textStyle]}>{infoValue}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            flex: 3,
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <View style={{ justifyContent: "center", alignContent: "center" }}>
+            <Text style={[styles.infoText, textStyle]}>{infoValue}</Text>
+          </View>
+          <View style={{ flex: 1 }}>{children && children}</View>
+        </View>
       )}
     </View>
   );
@@ -438,7 +479,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
-    flex: 1,
+    flex: 2,
   },
 
   infoText: {
@@ -449,7 +490,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
-    flex: 1,
   },
 
   headLabelButton: {
