@@ -127,7 +127,7 @@ export const Layout = ({
                 textStyle,
                 {
                   textAlign: "left",
-                  textAlignVertical: "top",
+                  lineHeight: scaleHeight(30),
                 },
               ]}
             >
@@ -272,7 +272,7 @@ export const Layout = ({
             <Table
               key={"table-version"}
               tableStyle={styles.tableProductVersion}
-              rowHeight={scaleHeight(60)}
+              rowHeight={scaleHeight(80)}
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
@@ -298,8 +298,8 @@ export const Layout = ({
               ]}
               widthForKeys={{
                 label: scaleWidth(220),
-                barCode: scaleWidth(120),
-                description: scaleWidth(180),
+                barCode: scaleWidth(150),
+                description: scaleWidth(150),
                 costPrice: scaleWidth(100),
                 price: scaleWidth(100),
                 needToOrder: scaleWidth(70),

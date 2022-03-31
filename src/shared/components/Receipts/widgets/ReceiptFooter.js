@@ -38,6 +38,7 @@ export const ReceiptFooter = ({
           format="CODE128"
           value={`${invoiceCode}`}
           text={`${invoiceCode}`}
+          height={60}
           // height={scaleHeight(70)}
           // style={{ marginBottom: 10 }}
         />

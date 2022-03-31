@@ -68,7 +68,6 @@ export const ButtonPrintBarcode = ({ barCode }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: scaleWidth(4),
     marginLeft: scaleWidth(5),
   },
 
