@@ -255,11 +255,6 @@ export const useProps = ({
       return methods;
     }
 
-    if (groupAppointment?.paymentMethods?.length > 0) {
-      methods = groupAppointment?.paymentMethods;
-      return methods;
-    }
-
     if (groupAppointment?.checkoutPayments?.length > 0) {
       methods = groupAppointment?.checkoutPayments;
       return methods;

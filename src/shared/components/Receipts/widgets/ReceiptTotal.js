@@ -115,16 +115,29 @@ export const ReceiptTotal = ({
                     _.get(data, "paymentInformation.signData")
                   ) && (
                     <View style={styles.rowSignature}>
-                      <TextTotal label={"    Signature: "}>
-                        <Image
+                      <Text style={styles.textLabelStyle}>
+                       {"    Signature:"}
+                      </Text>
+                      <Image
                           style={styles.signImage}
                           source={{
                             uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
                           }}
                         />
-                      </TextTotal>
                     </View>
                   )}
+                  {data?.paymentInformation?.name ?
+                   <TextPayment>
+                   {`    ${data?.paymentInformation?.name?.replace(
+                        /%20/g,
+                        " "
+                      ).replace(
+                        /%2f/g,
+                        " "
+                      )}`}
+                  </TextPayment> : null
+                  }
+                  
                 </View>
               ) : null}
             </View>
@@ -227,6 +240,7 @@ const styles = StyleSheet.create({
     width: scaleWidth(100),
     height: scaleHeight(40),
     resizeMode: "contain",
+    marginLeft: scaleWidth(10),
   },
 
   line: {
