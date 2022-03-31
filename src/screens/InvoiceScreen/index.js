@@ -1095,12 +1095,12 @@ class InvoiceScreen extends Layout {
       }
     } else {
       if (data.ResultCode === "000000") {
-        this.props.actions.invoice.voidRefundPaymentTransaction(
-          paymentData?.paymentTransactionId,
-          true,
-          result,
-          "pax"
-        );
+        // this.props.actions.invoice.voidRefundPaymentTransaction(
+        //   paymentData?.paymentTransactionId,
+        //   true,
+        //   result,
+        //   "pax"
+        // );
         this.props.actions.invoice.changeStatustransaction(
           invoiceDetail?.checkoutId,
           this.getParamsSearch(),
@@ -1111,12 +1111,12 @@ class InvoiceScreen extends Layout {
           titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
         });
       } else {
-        this.props.actions.invoice.voidRefundPaymentTransaction(
-          paymentData?.paymentTransactionId,
-          false,
-          result,
-          "pax"
-        );
+        // this.props.actions.invoice.voidRefundPaymentTransaction(
+        //   paymentData?.paymentTransactionId,
+        //   false,
+        //   result,
+        //   "pax"
+        // );
         PosLink.cancelTransaction();
         setTimeout(() => {
           alert(data.message);
