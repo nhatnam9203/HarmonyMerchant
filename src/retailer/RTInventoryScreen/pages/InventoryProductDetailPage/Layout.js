@@ -127,14 +127,14 @@ export const Layout = ({
                 textStyle,
                 {
                   textAlign: "left",
-                  lineHeight: scaleHeight(30),
+                  // lineHeight: scaleHeight(30),
                 },
               ]}
             >
               {cellItem?.barCode}
-              {!!cellItem?.barCode && (
+              {/* {!!cellItem?.barCode && (
                 <ButtonPrintBarcode barCode={cellItem?.barCode} />
-              )}
+              )} */}
             </Text>
           </View>
         );
@@ -225,7 +225,10 @@ export const Layout = ({
                 label={t("Barcode")}
                 infoValue={productItem?.barCode}
               >
-                <ButtonPrintBarcode barCode={productItem?.barCode} />
+                <ButtonPrintBarcode
+                  product={productItem}
+                  // barCode={productItem?.barCode}
+                />
               </ProductInfoLine>
               {/* <ProductInfoLine
                 label={t("Price")}

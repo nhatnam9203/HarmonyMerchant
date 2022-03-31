@@ -6,7 +6,7 @@ import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { StarPRNT } from "react-native-star-prnt";
 import { useDispatch, useSelector } from "react-redux";
 
-export const ButtonPrintBarcode = ({ barCode }) => {
+export const ButtonPrintBarcode = ({ product }) => {
   const { printerSelect, printerList } = useSelector(
     (state) => state.dataLocal
   );
@@ -20,9 +20,18 @@ export const ButtonPrintBarcode = ({ barCode }) => {
   );
 
   const onPrintCode = async () => {
-    if (!barCode) return;
+    if (!product) return;
     if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
       alert("Please connect to your printer!");
+      return;
+    }
+
+    const temps =
+      product.quantities?.filter((x) => !!x.barCode)?.map((x) => x.barCode) ||
+      [];
+    const barCodeList = [product?.barCode, ...temps];
+    if (barCodeList?.length <= 0) {
+      alert("No barcode to print!");
       return;
     }
 
@@ -32,23 +41,21 @@ export const ButtonPrintBarcode = ({ barCode }) => {
       commands.push({
         appendAlignment: StarPRNT.AlignmentPosition.Center,
       });
-      commands.push({
-        append: `\n`,
-      });
-      commands.push({
-        appendBarcode: "{B" + `${barCode}`,
-        BarcodeSymbology: StarPRNT.BarcodeSymbology.Code128,
-        BarcodeWidth: StarPRNT.BarcodeWidth.Mode1,
-        height: 50,
-        hri: true,
-      });
+      barCodeList?.forEach((x) => {
+        commands.push({
+          append: `\n`,
+        });
+        commands.push({
+          appendBarcode: "{B" + `${x}`,
+          BarcodeSymbology: StarPRNT.BarcodeSymbology.Code128,
+          BarcodeWidth: StarPRNT.BarcodeWidth.Mode1,
+          height: 50,
+          hri: true,
+        });
 
-      commands.push({
-        append: `\n`,
-      });
-
-      commands.push({
-        appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+        commands.push({
+          appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+        });
       });
 
       await PrintManager.getInstance().print(emulation, commands, portName);
@@ -69,6 +76,7 @@ export const ButtonPrintBarcode = ({ barCode }) => {
 const styles = StyleSheet.create({
   container: {
     marginLeft: scaleWidth(5),
+    padding: scaleWidth(5),
   },
 
   image: {
