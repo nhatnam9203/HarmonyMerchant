@@ -18,6 +18,7 @@ import { FormProductOption } from "./FormProductOption";
 import { FormProductOptionQty } from "./FormProductOptionQty";
 import { PRODUCT_VISIBLE_TYPE } from "@shared/utils";
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
+import { formatNumberFromCurrency } from "@utils";
 
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 
@@ -94,7 +95,11 @@ export const Layout = ({
                 placeholder={t("Enter cost price")}
                 required={true}
                 onChangeValue={(value) => {
-                  if (value) form.setFieldValue("costPrice", parseFloat(value));
+                  if (value)
+                    form.setFieldValue(
+                      "costPrice",
+                      formatNumberFromCurrency(value)
+                    );
                 }}
                 defaultValue={productItem?.costPrice}
                 keyboardType="numeric"
@@ -108,7 +113,11 @@ export const Layout = ({
                 placeholder={t("Enter price")}
                 required={true}
                 onChangeValue={(value) => {
-                  if (value) form.setFieldValue("price", parseFloat(value));
+                  if (value)
+                    form.setFieldValue(
+                      "price",
+                      formatNumberFromCurrency(value)
+                    );
                 }}
                 defaultValue={productItem?.price}
                 keyboardType="numeric"
