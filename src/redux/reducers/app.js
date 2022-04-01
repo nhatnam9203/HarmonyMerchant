@@ -44,7 +44,7 @@ const initialState = {
   notiCurrentPage: 0,
 
   currentAppMode: "POS",
-  advanceSetting: {}
+  advanceSetting: {},
 };
 
 function appReducer(state = initialState, action) {
@@ -355,7 +355,6 @@ function appReducer(state = initialState, action) {
         type: action.payload,
       };
     case "GET_ADVANCE_SETTING_SUCCESS":
-      console.log('data', action.payload)
       return {
         ...state,
         advanceSetting: action.payload,

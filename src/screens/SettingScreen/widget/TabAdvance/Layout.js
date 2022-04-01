@@ -10,8 +10,10 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInputMask } from "react-native-masked-text";
+import { LoyaltyProgram } from "./widgets";
 
 export const Layout = ({
+  advanceSetting,
   isCashDiscount,
   setIsCashDiscount,
   dataLocal,
@@ -35,70 +37,24 @@ export const Layout = ({
       <KeyboardAwareScrollView bounces={false}>
         <View style={styles.content}>
           <Title text={"Advance"} />
-          <View style={styles.halfContent}>
-            <FormLabelSwitch
-              defaultValue={dataLocal?.IsLoyaltyProgram}
-              onValueChange={setIsLoyaltyProgram}
-              label={"Loyalty program"}
-              textStyle={styles.label}
-            />
-          </View>
-          {dataLocal?.IsLoyaltyProgram && (
-            <>
-              <Text style={styles.label}>
-                {"Star earn per "}
-                <Text style={[styles.label, { color: "#0764B0" }]}>
-                  {"$1"}
-                </Text>
-                {" spent by payment method"}
-              </Text>
-              <View style={styles.margin} />
-              <View style={styles.margin} />
+          <View style={styles.margin} />
 
-              <RowContent>
-                <Text style={[styles.label, { color: "#0764B0", flex: 1 }]}>
-                  {"Payment method"}
-                </Text>
-                <Text style={[styles.label, { color: "#0764B0", flex: 2 }]}>
-                  {"Star earned"}
-                </Text>
-              </RowContent>
-              <View style={styles.margin} />
-              <PaymentMethodRate
-                method={"Cash"}
-                value={`${cashStarRate}`}
-                setValue={setCashStarRate}
-              />
-              <View style={styles.margin} />
-              <PaymentMethodRate
-                method={"HarmonyPay"}
-                value={`${harmonyPayStarRate}`}
-                setValue={setHarmonyPayStarRate}
-              />
-              <View style={styles.margin} />
-              <PaymentMethodRate
-                method={"Credit card"}
-                value={`${creditCardStarRate}`}
-                setValue={setCreditCardStarRate}
-              />
-              <View style={styles.margin} />
-              <PaymentMethodRate
-                method={"Other"}
-                value={`${otherStarRate}`}
-                setValue={setOtherStarRate}
-              />
-            </>
-          )}
+          <LoyaltyProgram
+            advanceSetting={advanceSetting}
+            setIsLoyaltyProgram={setIsLoyaltyProgram}
+            setCashStarRate={setCashStarRate}
+            setHarmonyPayStarRate={setHarmonyPayStarRate}
+            setCreditCardStarRate={setCreditCardStarRate}
+            setOtherStarRate={setOtherStarRate}
+          />
 
-           {/* ------- Cash Discount ------ */}
-          <View style={styles.halfContent}>
-            <FormLabelSwitch
-              defaultValue={dataLocal?.IsCashDiscount}
-              onValueChange={setIsCashDiscount}
-              label={"Apply Cash Discount program"}
-              textStyle={styles.label}
-            />
-          </View>
+          {/* ------- Cash Discount ------ */}
+          <FormLabelSwitch
+            defaultValue={dataLocal?.IsCashDiscount}
+            onValueChange={setIsCashDiscount}
+            label={"Apply Cash Discount program"}
+            textStyle={styles.label}
+          />
         </View>
       </KeyboardAwareScrollView>
 
@@ -130,65 +86,6 @@ const Title = ({ text }) => <Text style={styles.header}>{`${text}`}</Text>;
 const RowContent = ({ children }) => (
   <View style={styles.rowContent}>{children}</View>
 );
-const PaymentMethodRate = ({ method = "Cash", value, setValue }) => (
-  <RowContent>
-    <Text style={[styles.text, { flex: 1 }]}>{method}</Text>
-    <View
-      style={{
-        flex: 2,
-        alignItems: "flex-start",
-      }}
-    >
-      <CustomTextInput
-        width={scaleWidth(200)}
-        height={scaleHeight(40)}
-        keyboardType="numeric"
-        textAlign="left"
-        selectTextOnFocus={true}
-        value={value}
-        defaultValue={"0"}
-        onChangeText={setValue}
-      />
-    </View>
-  </RowContent>
-);
-
-const TextInputSettingRow = ({title, value, setValue}) => (
-  <RowContent>
-      <Text
-        style={[styles.text, { flex: 1 }]}
-      >
-        {title}
-      </Text>
-      <View
-        style={{
-          flex: 2,
-          alignItems: "flex-start",
-        }}
-      >
-      <View style={[styles.containerInputView, styles.border]}>
-        <TextInputMask
-          type={"money"}
-          options={{
-            precision: 2,
-            separator: ".",
-            delimiter: ",",
-            unit: "",
-            suffixUnit: "",
-          }}
-          placeholder="0.00"
-          style={{
-            padding: 5,
-            fontSize: scaleFont(18),
-            flex: 1
-          }}
-          value={value}
-          onChangeText={setValue}
-        />
-      </View>
-    </View>
-  </RowContent>
-)
 
 const styles = StyleSheet.create({
   container: {
