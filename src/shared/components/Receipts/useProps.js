@@ -133,7 +133,10 @@ export const useProps = ({
 
   const getInvoiceCode = () => {
     if (invoice) return invoice.code;
-    if (appointment) return appointment.invoice?.code;
+    if (appointment) {
+      if (appointment.invoice?.code) return appointment.invoice?.code;
+      if (appointment?.code) return appointment?.code;
+    }
     if (groupAppointment?.appointments?.length > 0) {
       const ap = groupAppointment?.appointments[0];
       if (ap?.code) return ap?.code;

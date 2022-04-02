@@ -18,8 +18,11 @@ export const ReceiptHeader = ({
     <View style={styles.container}>
       <View style={styles.margin} />
       <TextName> {`${profile?.businessName ?? " "}`}</TextName>
-      <TextLabel numberOfLines={2}>
-        {`${profile?.addressFull ?? " "} ${profile?.zip ?? " "}`}
+      <TextLabel numberOfLines={2}>{`${profile?.address ?? " "}`}</TextLabel>
+      <TextLabel numberOfLines={1}>
+        {`${profile?.city ?? " "},  ${profile?.state?.name ?? " "} ${
+          profile?.zip ?? " "
+        }`}
       </TextLabel>
       <TextLabel numberOfLines={2}>
         {`Tel : ${profile?.phone ?? " "}`}
@@ -31,7 +34,7 @@ export const ReceiptHeader = ({
       <TextSymbol>{` ${symbol} `}</TextSymbol>
       {/* <View style={styles.margin} /> */}
       <TextTime>
-        {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
+        {` ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} `}
       </TextTime>
       {/* <LineHeader />
        */}
