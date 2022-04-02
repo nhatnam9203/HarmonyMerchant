@@ -98,15 +98,14 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(17),
-    fontWeight: "normal",
+    fontSize: scaleFont(18),
     textAlign: "center",
   },
 
   textTimeStyle: {
-    fontFamily: fonts.REGULAR,
+    fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(17),
     textAlign: "center",
   },
 
@@ -120,14 +119,14 @@ const styles = StyleSheet.create({
   textInvoiceLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(17),
     textAlign: "left",
   },
 
   textInvoiceStyle: {
-    fontFamily: fonts.REGULAR,
+    fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(17),
     textAlign: "left",
   },
 

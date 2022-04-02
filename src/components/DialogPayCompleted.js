@@ -64,7 +64,6 @@ export const DialogPayCompleted = ({
   // const [waiting, setWaiting] = React.useState(false);
 
   const dispatch = useDispatch();
-  const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
   const visiblePaymentCompleted = useSelector(
     (state) => state.appointment.visiblePaymentCompleted
   );
@@ -265,6 +264,7 @@ export const DialogPayCompleted = ({
   //     setInvoice(data);
   //   }
   // }, [invoiceDetailData]);
+  const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
 
   return (
     <>
