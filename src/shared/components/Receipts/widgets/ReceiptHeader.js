@@ -19,7 +19,7 @@ export const ReceiptHeader = ({
       <View style={styles.margin} />
       <TextName> {`${profile?.businessName ?? " "}`}</TextName>
       <TextLabel numberOfLines={2}>
-        {`${profile?.addressFull ?? " "}`}
+        {`${profile?.addressFull ?? " "} ${profile?.zip ?? " "}`}
       </TextLabel>
       <TextLabel numberOfLines={2}>
         {`Tel : ${profile?.phone ?? " "}`}

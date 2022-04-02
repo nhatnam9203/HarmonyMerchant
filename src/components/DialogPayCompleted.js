@@ -336,7 +336,7 @@ export const DialogPayCompleted = ({
               </View>
 
               {/* ------------ Check box ----- */}
-              {profile.sendReviewLinkOption === "manual" ? (
+              {profile.sendReviewLinkOption === "manual" && (
                 <View
                   style={{
                     flex: 1,
@@ -361,7 +361,8 @@ export const DialogPayCompleted = ({
                     {`Send Google Review Link`}
                   </Text>
                 </View>
-              ) : (
+              )}
+              {profile.sendReviewLinkOption === "auto" && (
                 <View
                   style={{
                     flex: 1,
@@ -489,6 +490,7 @@ const styles = StyleSheet.create({
 
   content: {
     position: "absolute",
+    // top: 0,
     top: metrics.screenHeight,
   },
 
