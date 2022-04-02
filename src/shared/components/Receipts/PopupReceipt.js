@@ -218,7 +218,12 @@ export const PopupReceipt = React.forwardRef(
         animationOutTiming={1}
         onModalWillHide={onModalWillHide}
       >
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            { width: widthPaper ? parseFloat(widthPaper) : DEFAULT_WIDTH },
+          ]}
+        >
           <View
             style={[
               styles.content,
@@ -308,7 +313,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 0,
     backgroundColor: "#fff",
-    width: scaleWidth(391),
+    // width: scaleWidth(391),
     alignSelf: "center",
   },
 
