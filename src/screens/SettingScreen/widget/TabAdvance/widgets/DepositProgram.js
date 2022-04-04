@@ -55,7 +55,9 @@ const RowContent = ({ children }) => (
 
 const DepositAmount = ({ method = "", value, setValue }) => (
   <RowContent>
-    <Text style={[styles.text, { flex: 1 }]}>{`${method}`}</Text>
+    <Text
+      style={[styles.text, { flex: 1, color: "#0764B0" }]}
+    >{`${method}`}</Text>
     <View
       style={{
         flex: 1,
