@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(17),
-    fontWeight: "500",
+    fontWeight: "600",
     textAlign: "center",
   },
 

@@ -35,7 +35,7 @@ export const ReceiptTotal = ({
 
       <TextTotal
         label={"Subtotal"}
-        fontSize={scaleFont(17)}
+        fontSize={scaleFont(20)}
       >{`${formatMoneyWithUnit(subtotal)}`}</TextTotal>
       <TextTotal label={"Discount"}>{`${formatMoneyWithUnit(
         discount
@@ -116,28 +116,23 @@ export const ReceiptTotal = ({
                   ) && (
                     <View style={styles.rowSignature}>
                       <Text style={styles.textLabelStyle}>
-                       {"    Signature:"}
+                        {"    Signature:"}
                       </Text>
                       <Image
-                          style={styles.signImage}
-                          source={{
-                            uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
-                          }}
-                        />
+                        style={styles.signImage}
+                        source={{
+                          uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
+                        }}
+                      />
                     </View>
                   )}
-                  {data?.paymentInformation?.name ?
-                   <TextPayment>
-                   {`    ${data?.paymentInformation?.name?.replace(
-                        /%20/g,
-                        " "
-                      ).replace(
-                        /%2f/g,
-                        " "
-                      )}`}
-                  </TextPayment> : null
-                  }
-                  
+                  {data?.paymentInformation?.name ? (
+                    <TextPayment>
+                      {`    ${data?.paymentInformation?.name
+                        ?.replace(/%20/g, " ")
+                        .replace(/%2f/g, " ")}`}
+                    </TextPayment>
+                  ) : null}
                 </View>
               ) : null}
             </View>
@@ -196,17 +191,17 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(17),
     textAlign: "left",
-    fontWeight: "500",
+    // fontWeight: "600",
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(17),
     textAlign: "right",
-    fontWeight: "normal",
+    fontWeight: "600",
   },
 
   margin: {
@@ -226,7 +221,7 @@ const styles = StyleSheet.create({
 
   line: {
     flex: 1,
-    borderBottomColor: "#0006",
+    borderBottomColor: "#000",
     borderBottomWidth: 1,
   },
 
@@ -241,11 +236,5 @@ const styles = StyleSheet.create({
     height: scaleHeight(40),
     resizeMode: "contain",
     marginLeft: scaleWidth(10),
-  },
-
-  line: {
-    flex: 1,
-    borderBottomColor: "#000",
-    borderBottomWidth: 1,
   },
 });

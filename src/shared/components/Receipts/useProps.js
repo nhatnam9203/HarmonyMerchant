@@ -123,6 +123,11 @@ export const useProps = ({
     if (appointment?.checkoutId) {
       return appointment?.checkoutId;
     }
+
+    if (groupAppointment) {
+      return groupAppointment.checkoutGroupId;
+    }
+
     return null;
   };
 
@@ -149,7 +154,12 @@ export const useProps = ({
   const getInvoiceCode = () => {
     if (invoice) return invoice.code;
     if (appointment) {
-      return appointment.invoice?.code ?? appointment.code;
+      if (appointment.invoice?.code) return appointment.invoice?.code;
+      if (appointment?.code) return appointment?.code;
+    }
+    if (groupAppointment?.appointments?.length > 0) {
+      const ap = groupAppointment?.appointments[0];
+      if (ap?.code) return ap?.code;
     }
     return null;
   };

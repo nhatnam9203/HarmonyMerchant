@@ -9,9 +9,9 @@ export const LineHeader = () => (
       marginHorizontal: scaleWidth(0),
     }}
     dashGap={2}
-    dashLength={6}
-    dashThickness={1}
-    dashColor="#000"
+    dashLength={8}
+    dashThickness={2}
+    // dashColor="#000"
   />
 );
 
@@ -24,8 +24,8 @@ export const LineItem = () => (
       marginHorizontal: scaleWidth(4),
     }}
     dashGap={4}
-    dashLength={1}
-    dashThickness={1}
-    dashColor="#000"
+    dashLength={2}
+    dashThickness={2}
+    // dashColor="#000"
   />
 );

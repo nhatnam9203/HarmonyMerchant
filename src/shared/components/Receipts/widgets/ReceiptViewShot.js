@@ -61,7 +61,7 @@ export const ReceiptViewShot = React.forwardRef(
       captureImageUrl: async ({
         paymentMachineType,
         printerSelect,
-        quality = 0.8,
+        quality = 1,
       }) => {
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&

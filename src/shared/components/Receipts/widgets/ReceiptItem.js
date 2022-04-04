@@ -635,19 +635,19 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(18),
     fontWeight: "600",
   },
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(15),
-    fontWeight: "normal",
+    fontSize: scaleFont(16),
+    fontWeight: "600",
     marginLeft: scaleWidth(10),
   },
   textHeaderStyle: {
     fontFamily: fonts.MEDIUM,
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(18),
     textAlign: "center",
     color: "#000",
   },
