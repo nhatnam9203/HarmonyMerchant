@@ -94,42 +94,42 @@ const styles = StyleSheet.create({
   textNameStyle: {
     fontFamily: fonts.BOLD,
     color: "#000",
-    fontSize: scaleFont(20),
+    fontSize: scaleFont(21),
     textAlign: "center",
   },
 
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(18),
+    fontSize: scaleFont(19),
     textAlign: "center",
   },
 
   textTimeStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(17),
+    fontSize: scaleFont(18),
     textAlign: "center",
   },
 
   textSymbolStyle: {
     fontFamily: fonts.BOLD,
     color: "#000",
-    fontSize: scaleFont(20),
+    fontSize: scaleFont(21),
     textAlign: "center",
   },
 
   textInvoiceLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(17),
+    fontSize: scaleFont(18),
     textAlign: "left",
   },
 
   textInvoiceStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(17),
+    fontSize: scaleFont(18),
     textAlign: "left",
   },
 
