@@ -10,13 +10,11 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInputMask } from "react-native-masked-text";
-import { LoyaltyProgram } from "./widgets";
+import { LoyaltyProgram, DepositProgram } from "./widgets";
 
 export const Layout = ({
   advanceSetting,
-  isCashDiscount,
   setIsCashDiscount,
-  dataLocal,
   isHadUpdate,
   setIsLoyaltyProgram,
   setCashStarRate,
@@ -25,10 +23,9 @@ export const Layout = ({
   setOtherStarRate,
   onSaveButtonPress,
   onCancelButtonPress,
-  cashStarRate,
-  creditCardStarRate,
-  harmonyPayStarRate,
-  otherStarRate,
+  setDepositMiniumAmount,
+  setDepositPercent,
+  setIsDepositProgram,
 }) => {
   const [t] = useTranslation();
 
@@ -39,6 +36,7 @@ export const Layout = ({
           <Title text={"Advance"} />
           <View style={styles.margin} />
 
+          {/* ------- Loyalty Program ------ */}
           <LoyaltyProgram
             advanceSetting={advanceSetting}
             setIsLoyaltyProgram={setIsLoyaltyProgram}
@@ -50,10 +48,18 @@ export const Layout = ({
 
           {/* ------- Cash Discount ------ */}
           <FormLabelSwitch
-            defaultValue={dataLocal?.IsCashDiscount}
+            defaultValue={advanceSetting?.IsCashDiscount}
             onValueChange={setIsCashDiscount}
-            label={"Apply Cash Discount program"}
+            label={"-  Apply Cash Discount program"}
             textStyle={styles.label}
+          />
+
+          {/* ------- Deposit ------ */}
+          <DepositProgram
+            advanceSetting={advanceSetting}
+            setDepositMiniumAmount={setDepositMiniumAmount}
+            setDepositPercent={setDepositPercent}
+            setIsDepositProgram={setIsDepositProgram}
           />
         </View>
       </KeyboardAwareScrollView>
@@ -130,7 +136,7 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    fontFamily: fonts.MEDIUM,
+    fontFamily: fonts.BOLD,
     fontSize: scaleFont(18),
     fontStyle: "normal",
     letterSpacing: 0,

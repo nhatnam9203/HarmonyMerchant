@@ -10,69 +10,37 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export const LoyaltyProgram = ({
+export const DepositProgram = ({
   advanceSetting,
-  setIsLoyaltyProgram,
-  setCashStarRate,
-  setCreditCardStarRate,
-  setHarmonyPayStarRate,
-  setOtherStarRate,
+  setDepositMiniumAmount,
+  setDepositPercent,
+  setIsDepositProgram,
 }) => {
-  // console.log(advanceSetting);
   return (
     <View>
       <View style={styles.container}>
         <FormLabelSwitch
-          defaultValue={advanceSetting?.IsLoyaltyProgram}
-          onValueChange={setIsLoyaltyProgram}
-          label={"- Loyalty program"}
+          defaultValue={advanceSetting?.IsAppointmentDeposit}
+          onValueChange={setIsDepositProgram}
+          label={"- Appointment deposit"}
           textStyle={styles.label}
         />
       </View>
-      {advanceSetting?.IsLoyaltyProgram && (
+      {advanceSetting?.IsAppointmentDeposit && (
         <>
           <View style={styles.content}>
-            <Text style={styles.subLabel}>
-              {"∗ Star earn per "}
-              <Text style={[styles.subLabel, { color: "#0764B0" }]}>
-                {"$1"}
-              </Text>
-              {" spent by payment method"}
-            </Text>
-            <View style={styles.margin} />
             <View style={styles.margin} />
 
-            <RowContent>
-              <Text style={[styles.label, { color: "#0764B0", flex: 1 }]}>
-                {"Payment method"}
-              </Text>
-              <Text style={[styles.label, { color: "#0764B0", flex: 1 }]}>
-                {"Star earned"}
-              </Text>
-            </RowContent>
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Cash"}
-              value={`${advanceSetting?.CashStarRate}`}
-              setValue={setCashStarRate}
+            <DepositAmount
+              method={"Minium appointment amount ($)"}
+              value={`${advanceSetting?.MinimumAppointmentAmountRequireDeposit}`}
+              setValue={setDepositMiniumAmount}
             />
             <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"HarmonyPay"}
-              value={`${advanceSetting?.HarmonyPayStarRate}`}
-              setValue={setHarmonyPayStarRate}
-            />
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Credit card"}
-              value={`${advanceSetting?.CreditCardStarRate}`}
-              setValue={setCreditCardStarRate}
-            />
-            <View style={styles.margin} />
-            <PaymentMethodRate
-              method={"Other"}
-              value={`${advanceSetting?.OtherStarRate}`}
-              setValue={setOtherStarRate}
+            <DepositAmount
+              method={"Deposit amount (%)"}
+              value={`${advanceSetting?.DepositPercent}`}
+              setValue={setDepositPercent}
             />
           </View>
         </>
@@ -85,9 +53,9 @@ const RowContent = ({ children }) => (
   <View style={styles.rowContent}>{children}</View>
 );
 
-const PaymentMethodRate = ({ method = "Cash", value, setValue }) => (
+const DepositAmount = ({ method = "", value, setValue }) => (
   <RowContent>
-    <Text style={[styles.text, { flex: 1 }]}>{method}</Text>
+    <Text style={[styles.text, { flex: 1 }]}>{`${method}`}</Text>
     <View
       style={{
         flex: 1,
@@ -102,6 +70,7 @@ const PaymentMethodRate = ({ method = "Cash", value, setValue }) => (
         selectTextOnFocus={true}
         value={value}
         onChangeText={setValue}
+        // clearButtonMode="always"
       />
     </View>
   </RowContent>

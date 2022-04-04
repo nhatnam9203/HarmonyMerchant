@@ -5,10 +5,14 @@ import {
   useAxiosQuery,
 } from "@apis";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as advanceLocalState from "./AdvanceLocalState";
+import { formatNumberFromCurrency } from "@utils";
+
+import actions from "@actions";
 
 export const useProps = (props) => {
+  const dispatch = useDispatch();
   const settings = useSelector((state) => state.app.advanceSetting);
 
   const [advanceSetting, dispatchAdvanceSetting] = React.useReducer(
@@ -41,16 +45,13 @@ export const useProps = (props) => {
   const [, editAdvance] = useAxiosMutation({
     ...editAdvanceSetting(advanceSetting),
     onSuccess: (data, response) => {
-      // setData(dataLocal);
-      // setCashStarRate(dataLocal?.CashStarRate);
-      // setCreditCardStarRate(dataLocal?.CreditCardStarRate);
-      // setHarmonyPayStarRate(dataLocal?.HarmonyPayStarRate);
-      // setOtherStarRate(dataLocal?.OtherStarRate);
-      // setIsCashDiscount(dataLocal?.IsCashDiscount);
+      dispatch(actions.app.updateAdvanceSetting(advanceSetting));
       alert("Update success!");
     },
     onError: (err) => {
+      dispatchAdvanceSetting(advanceLocalState.setAdvanceSetting(settings));
       console.log(err);
+      alert("Update error!");
     },
   });
 
@@ -67,7 +68,6 @@ export const useProps = (props) => {
 
   React.useEffect(() => {
     dispatchAdvanceSetting(advanceLocalState.setAdvanceSetting(settings));
-
     return () => {
       // componentWillUnmount events
     };
@@ -75,84 +75,48 @@ export const useProps = (props) => {
 
   return {
     advanceSetting,
-
-    isCashDiscount,
-    setIsCashDiscount: (isCashDiscount) => {
-      // setIsCashDiscount(isCashDiscount);
-      // setDataLocal({
-      //   ...dataLocal,
-      //   IsCashDiscount: isCashDiscount,
-      // });
-    },
-
-    isHadUpdate: () => isHadUpdate(),
-    setIsLoyaltyProgram: (value = false) => {
-      // setDataLocal({
-      //   ...dataLocal,
-      //   IsLoyaltyProgram: value,
-      // });
-      dispatchAdvanceSetting(advanceLocalState.updateLoyaltyProgram(value));
-    },
-    setCashStarRate: (value) => {
-      let temp = value;
-      // setCashStarRate(temp);
-      if (!temp || isNaN(parseFloat(value))) {
-        temp = 0;
-      }
-      // setDataLocal({
-      //   ...dataLocal,
-      //   CashStarRate: parseFloat(temp).toFixed(2),
-      // });
-      dispatchAdvanceSetting(advanceLocalState.updateCashStarRate(temp));
-    },
-    setCreditCardStarRate: (value) => {
-      let temp = value;
-      // setCreditCardStarRate(temp);
-      if (!temp || isNaN(parseFloat(value))) {
-        temp = 0;
-      }
-
-      // setDataLocal({
-      //   ...dataLocal,
-      //   CreditCardStarRate: parseFloat(temp).toFixed(2),
-      // });
-      dispatchAdvanceSetting(advanceLocalState.updateCreditCardStarRate(temp));
-    },
-    setHarmonyPayStarRate: (value) => {
-      let temp = value;
-      // setHarmonyPayStarRate(temp);
-      if (!temp || isNaN(parseFloat(value))) {
-        temp = 0;
-      }
-      // setDataLocal({
-      //   ...dataLocal,
-      //   HarmonyPayStarRate: parseFloat(temp).toFixed(2),
-      // });
-      dispatchAdvanceSetting(advanceLocalState.updateHarmonyPayStarRate(temp));
-    },
-    setOtherStarRate: (value) => {
-      let temp = value;
-      // setOtherStarRate(temp);
-      if (!temp || isNaN(parseFloat(value))) {
-        temp = 0;
-      }
-      // setDataLocal({
-      //   ...dataLocal,
-      //   OtherStarRate: parseFloat(temp).toFixed(2),
-      // });
-
-      dispatchAdvanceSetting(advanceLocalState.updateOtherStarRate(temp));
-    },
     onSaveButtonPress: () => {
       editAdvance();
     },
     onCancelButtonPress: () => {
-      setDataLocal(settings);
-      setCashStarRate(settings?.CashStarRate);
-      setCreditCardStarRate(settings?.CreditCardStarRate);
-      setHarmonyPayStarRate(settings?.HarmonyPayStarRate);
-      setOtherStarRate(settings?.OtherStarRate);
-      setIsCashDiscount(settings?.IsCashDiscount);
+      dispatchAdvanceSetting(advanceLocalState.setAdvanceSetting(settings));
+    },
+    setIsCashDiscount: (isCashDiscount) => {
+      dispatchAdvanceSetting(
+        advanceLocalState.updateIsCashDiscount(isCashDiscount)
+      );
+    },
+    isHadUpdate: () => isHadUpdate(),
+    setIsLoyaltyProgram: (value = false) => {
+      dispatchAdvanceSetting(advanceLocalState.updateLoyaltyProgram(value));
+    },
+    setCashStarRate: (value) => {
+      dispatchAdvanceSetting(advanceLocalState.updateCashStarRate(value));
+    },
+    setCreditCardStarRate: (value) => {
+      dispatchAdvanceSetting(advanceLocalState.updateCreditCardStarRate(value));
+    },
+    setHarmonyPayStarRate: (value) => {
+      dispatchAdvanceSetting(advanceLocalState.updateHarmonyPayStarRate(value));
+    },
+    setOtherStarRate: (value) => {
+      dispatchAdvanceSetting(advanceLocalState.updateOtherStarRate(value));
+    },
+    // Deposit
+    setDepositMiniumAmount: (value) => {
+      dispatchAdvanceSetting(
+        advanceLocalState.updateDepositMiniumAmount(value)
+      );
+    },
+    setDepositPercent: (value) => {
+      dispatchAdvanceSetting(
+        advanceLocalState.updateDepositPercentAmount(value)
+      );
+    },
+    setIsDepositProgram: (value = false) => {
+      dispatchAdvanceSetting(
+        advanceLocalState.updateIsDepositAppointment(value)
+      );
     },
   };
 };

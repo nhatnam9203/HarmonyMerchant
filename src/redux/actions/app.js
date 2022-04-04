@@ -388,10 +388,16 @@ export function readAllNotification() {
   };
 }
 
-
 export function setMerchantType(payload) {
   return {
     type: "SET_MERCHANT_TYPE",
+    payload,
+  };
+}
+
+export function updateAdvanceSetting(payload) {
+  return {
+    type: "GET_ADVANCE_SETTING_SUCCESS",
     payload,
   };
 }

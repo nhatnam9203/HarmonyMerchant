@@ -49,3 +49,4 @@ export * from "./Receipts";
 export * from "./BottomToastMessage";
 export * from "./DialogReturnItemComplete";
 export * from "./ButtonPrintBarcode";
+export * from "./Inputs";
