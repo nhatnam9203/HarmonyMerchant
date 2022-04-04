@@ -456,12 +456,8 @@ export const useProps = ({
   React.useEffect(() => {
     if (!productItemByBarcodeGet?.data) return;
 
-    const { codeStatus, data } = productItemByBarcodeGet?.data || {};
+    const { codeStatus, data, message } = productItemByBarcodeGet?.data || {};
     if (statusSuccess(codeStatus)) {
-      // Hide dialog input barcode đi
-      if (inputBarcodeDialogRef.current?.isShow())
-        inputBarcodeDialogRef.current?.hide();
-
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
       if (tmp) {
@@ -516,7 +512,7 @@ export const useProps = ({
       // Hide dialog input barcode if it is showing
     } else if (codeStatus) {
       //  TODO: show input code here!
-      inputBarcodeDialogRef.current?.show(scanCodeTemp);
+      alert(message);
       setScanCodeTemp(null);
     }
   }, [productItemByBarcodeGet?.data]);

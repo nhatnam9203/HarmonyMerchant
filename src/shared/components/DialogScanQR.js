@@ -1,21 +1,25 @@
 import IMAGE from "@resources";
-import { FormInput } from "@shared/components";
+import { InputText } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { RNCamera } from "react-native-camera";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import { useDispatch } from "react-redux";
+import { QRCameraScanner } from "./QRCameraScanner";
+import { Keyboard } from "react-native";
 
 export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   const dispatch = useDispatch();
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const dialogRef = React.useRef(null);
+  const timeOutRef = React.useRef(null);
   const textInputRef = React.useRef(null);
 
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(null);
+  const [softInputOnFocus, showSoftInputOnFocus] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -24,42 +28,49 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   */
   const onHandleSuccess = (e) => {
     const code = e?.data;
-    dialogRef.current?.hide();
 
     if (typeof onSuccess === "function" && onSuccess) {
       onSuccess(code);
     }
   };
 
-  const onHandleSubmit = () => {
-    dialogRef.current?.hide();
-    // console.log(`====> onHandleSubmit:  ${value}`);
-    if (typeof onSuccess === "function" && onSuccess) {
-      onSuccess(value);
-    }
+  const onHandleChangeText = (text) => {
+    setValue(text);
+    if (timeOutRef.current) clearTimeout(timeOutRef.current);
+    timeOutRef.current = setTimeout(() => {
+      if (typeof onSuccess === "function" && onSuccess) {
+        onSuccess(text);
+      }
+      setValue("");
+    }, 1500);
+  };
+
+  const onEditing = () => {
+    showSoftInputOnFocus((prev) => !prev);
+  };
+
+  const onModalWillHide = async () => {
     setValue("");
+    showSoftInputOnFocus(false);
     textInputRef.current?.clear();
   };
 
-  const onChangeValue = (text) => {
-    setValue(text);
-    dialogRef.current?.hide();
-
-    if (typeof onSuccess === "function" && onSuccess) {
-      onSuccess(text);
+  React.useEffect(() => {
+    if (softInputOnFocus) {
+      textInputRef.current?.blur();
+    } else {
+      Keyboard.dismiss();
+      textInputRef.current?.focus();
     }
-
-    setTimeout(() => {
-      setValue("");
-      textInputRef.current?.clear();
-    }, 100);
-  };
+  }, [softInputOnFocus]);
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
       setValue("");
       dialogRef.current?.show();
-      // textInputRef.current?.focus();
+      setTimeout(() => {
+        textInputRef.current?.focus();
+      }, 1000);
     },
     hide: () => {
       dialogRef.current?.hide();
@@ -72,54 +83,31 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
         title={title ?? t("Scan QR code")}
         ref={dialogRef}
         style={styles.dialog}
+        onModalWillHide={onModalWillHide}
       >
         <View style={styles.container}>
-          <View style={styles.camera}>
-            <QRCodeScanner
-              //ref={this.scannerRef}
-              onRead={onHandleSuccess}
-              // cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
-              flashMode={RNCamera.Constants.FlashMode.torch}
-              showMarker={true}
-              // reactivateTimeout={500}
-              containerStyle={styles.qrStyle}
-              cameraStyle={styles.qrStyle}
-              cameraType="back"
-              customMarker={
-                <Image
-                  style={styles.markerStyle}
-                  source={IMAGE["scan_marker"]}
-                />
-              }
+          <QRCameraScanner onReadCode={onHandleSuccess} />
+          <View style={styles.margin} />
+          <View style={styles.inputContent}>
+            <InputText
+              txtInputRef={textInputRef}
+              placeholder={t("Enter  barcode")}
+              onChangeText={onHandleChangeText}
+              value={value}
+              // autoFocus={true}
+              showSoftInputOnFocus={softInputOnFocus}
+              style={{ flex: 1 }}
             />
 
-            <Text style={styles.textCamera}>
-              {t("Focus Camera on Barcode Or QR Code to Scan SKU Number")}
-            </Text>
-          </View>
-
-          <View style={styles.inputContent}>
-            <FormInput
-              // label={t("Input Barcode")}
-              placeholder={t("Enter  barcode")}
-              //required={true}
-              onChangeValue={onChangeValue}
-              defaultValue={""}
-              // editable={false}
-              textInputRef={textInputRef}
-              autoFocus={true}
-              showSoftInputOnFocus={false}
-            >
-              {/* <View style={layouts.marginHorizontal} /> */}
-              {/* <ButtonGradient
-                label={t("Submit")}
-                width={scaleWidth(140)}
-                height={scaleHeight(40)}
-                borderRadius={scaleWidth(3)}
-                disable={value?.length <= 0}
-                onPress={onHandleSubmit}
-              /> */}
-            </FormInput>
+            <TouchableOpacity style={styles.editButton} onPress={onEditing}>
+              <Image
+                style={[
+                  styles.icon,
+                  { tintColor: softInputOnFocus ? "#0764B0" : "#666" },
+                ]}
+                source={IMAGE["edit_customer_icon"]}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </DialogLayout>
@@ -182,6 +170,20 @@ const styles = StyleSheet.create({
   },
 
   inputContent: {
-    width: "100%",
+    width: scaleWidth(400),
+    height: scaleHeight(45),
+    flexDirection: "row",
+  },
+
+  margin: {
+    height: scaleHeight(10),
+    width: scaleWidth(10),
+  },
+
+  editButton: {
+    height: scaleHeight(40),
+    width: scaleWidth(50),
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

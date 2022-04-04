@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   textLabelStyle: {
-    fontFamily: fonts.MEDIUM,
+    // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(18),
     fontWeight: "600",

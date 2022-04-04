@@ -1,12 +1,11 @@
+import IMAGE from "@resources";
 import { ButtonGradient, FormInput } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { RNCamera } from "react-native-camera";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
-import IMAGE from "@resources";
 
 export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
   const [t] = useTranslation();
