@@ -6,8 +6,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { LineHeader, LineItem } from "./ReceiptLine";
 
 const SALON_COLUMN_WIDTH = [4, 3, 3];
-const RETAILER_COLUMN_WIDTH = [4, 2, 1.5, 2.5];
 const RETAILER_RETURN_COLUMN_WIDTH = [3, 1, 2, 2, 2];
+const RETAILER_COLUMN_WIDTH = [4, 2.5, 1, 2.5];
 
 export const ReceiptItemType = {
   SALON: "SalonPos",
@@ -66,7 +66,7 @@ export const ReceiptItem = ({ item, index, type }) => {
         <View
           style={{
             flex: 1,
-            alignItems: "flex-end",
+            alignItems: "center",
             justifyContent: "flex-start",
           }}
         >
@@ -326,12 +326,12 @@ export const ReceiptHeaderItem = ({ type }) => {
     </View>
   );
   const onRenderColumTwo = () => (
-    <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <TextHeader>{t("PRICE")}</TextHeader>
     </View>
   );
   const onRenderColumThree = () => (
-    <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <TextHeader>{t("QTY")}</TextHeader>
     </View>
   );
@@ -456,7 +456,7 @@ export const ReceiptTotalItem = ({ type, total }) => {
   );
   const onRenderColumThree = () => (
     <View
-      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
+      style={{ flex: 1, alignItems: "center", justifyContent: "flex-start" }}
     >
       <TextItem>{`${total}`}</TextItem>
     </View>
@@ -635,25 +635,25 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(18),
+    fontSize: scaleFont(19),
     fontWeight: "600",
   },
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(16),
+    fontSize: scaleFont(17),
     fontWeight: "600",
     marginLeft: scaleWidth(10),
   },
   textHeaderStyle: {
     fontFamily: fonts.MEDIUM,
-    fontSize: scaleFont(18),
+    fontSize: scaleFont(19),
     textAlign: "center",
     color: "#000",
   },
 
   headerStyle: {
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(17),
     fontWeight: "500",
     textAlign: "left",
   },

@@ -38,9 +38,9 @@ export const ReceiptFooter = ({
           format="CODE128"
           value={`${invoiceCode}`}
           text={`${invoiceCode}`}
-          height={60}
-          // height={scaleHeight(70)}
-          // style={{ marginBottom: 10 }}
+          style={{ marginBottom: 10 }}
+          maxWidth={scaleWidth(300)}
+          height={scaleHeight(80)}
         />
       )}
       <View style={styles.margin} />
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(17),
+    fontSize: scaleFont(18),
     fontWeight: "600",
     textAlign: "center",
   },

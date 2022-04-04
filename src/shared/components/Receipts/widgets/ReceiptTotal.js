@@ -35,7 +35,7 @@ export const ReceiptTotal = ({
 
       <TextTotal
         label={"Subtotal"}
-        fontSize={scaleFont(20)}
+        fontSize={scaleFont(21)}
       >{`${formatMoneyWithUnit(subtotal)}`}</TextTotal>
       <TextTotal label={"Discount"}>{`${formatMoneyWithUnit(
         discount
@@ -59,7 +59,7 @@ export const ReceiptTotal = ({
           <TextTotal
             label={"Total"}
             fontWeight={"600"}
-            fontSize={scaleFont(20)}
+            fontSize={scaleFont(21)}
           >{`${formatMoneyWithUnit(total)}`}</TextTotal>
         </>
       )}
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(17),
+    fontSize: scaleFont(18),
     textAlign: "left",
     // fontWeight: "600",
   },
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(17),
+    fontSize: scaleFont(18),
     textAlign: "right",
     fontWeight: "600",
   },
