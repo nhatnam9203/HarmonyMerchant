@@ -481,16 +481,17 @@ export const useProps = ({
                 productQuantityId: tmp?.id,
               })
             );
-          }, 100);
+          }, 150);
         } else {
           alert("Product is out of stock!");
         }
         setScanCodeTemp(null);
       } else {
+        inputBarcodeDialogRef.current?.hide();
         if (data?.quantities?.length > 0) {
           setTimeout(() => {
             productDetailRef.current?.show(data);
-          }, 350);
+          }, 550);
         } else {
           if (!isCheckQty || data?.quantity >= 1) {
             setTimeout(() => {
@@ -786,6 +787,10 @@ export const useProps = ({
     },
     clearBasket: () => {
       dispatch(basketRetailer.clearBasket());
+    },
+    showScanBarcode: () => {
+      if (!inputBarcodeDialogRef.current?.isShow())
+        inputBarcodeDialogRef.current?.show();
     },
   };
 };

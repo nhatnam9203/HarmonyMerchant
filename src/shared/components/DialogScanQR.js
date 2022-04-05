@@ -75,6 +75,9 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
     hide: () => {
       dialogRef.current?.hide();
     },
+    isShow: () => {
+      return dialogRef.current?.isShow();
+    },
   }));
 
   return (

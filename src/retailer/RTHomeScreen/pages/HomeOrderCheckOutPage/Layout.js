@@ -1,13 +1,8 @@
 import { PopupActiveGiftCard } from "@components";
 import IMAGE from "@resources";
-import {
-  ButtonGradient,
-  ButtonGradientWhite,
-  DialogInputBarcode,
-} from "@shared/components";
+import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
 import { InputSearch } from "@shared/components/InputSearch";
 import { PopupEnterAmountGiftCard } from "@shared/components/payment";
-import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import { colors, fonts, layouts } from "@shared/themes";
 import _ from "lodash";
 import React from "react";
@@ -21,8 +16,7 @@ import {
   DialogEditProductOrder,
   DialogProductDetail,
 } from "../../widget";
-
-const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
+import { DialogScanQR } from "@shared/components/DialogScanQR";
 
 export const Layout = ({
   activeTab,
@@ -64,7 +58,7 @@ export const Layout = ({
   inputSearchRef,
   appointment,
   inputBarcodeDialogRef,
-  getProductLoading
+  showScanBarcode
 }) => {
   const { t } = useTranslation();
 
@@ -92,12 +86,12 @@ export const Layout = ({
         />
         <View style={layouts.marginHorizontal} />
 
-        <ScanQRButton
+        <ButtonGradientWhite
           label={t("Scan")}
           title={t("Scan Barcode")}
           width={scaleWidth(140)}
           height={scaleHeight(40)}
-          onResultScanCode={onResultScanCode}
+          onPress={showScanBarcode}
           leftChildren={() => (
             <Image
               source={IMAGE.scancode}
@@ -284,11 +278,7 @@ export const Layout = ({
         doneBill={doneBill}
       /> */}
 
-      <DialogInputBarcode
-        ref={inputBarcodeDialogRef}
-        onInputBarcode={onResultScanCode}
-        loading={getProductLoading}
-      />
+      <DialogScanQR onSuccess={onResultScanCode} ref={inputBarcodeDialogRef} />
     </View>
   );
 };
