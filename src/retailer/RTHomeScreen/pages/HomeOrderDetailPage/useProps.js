@@ -476,7 +476,7 @@ export const useProps = ({
       // }
 
       invoiceRef.current?.show({
-        isPrintTempt: true,
+        isPrintTempt: false,
         isAppointmentTab: false,
       });
     },

@@ -6,6 +6,8 @@ import {
   getTaxRateFromAppointment,
 } from "@utils";
 import { useSelector } from "react-redux";
+import { getStaffNameForInvoice } from "@utils";
+import { useAppType } from "@shared/hooks";
 
 export const useProps = ({
   appointment,
@@ -16,6 +18,8 @@ export const useProps = ({
   isSignature,
   itemReturn,
 }) => {
+  const { isRetailApp, isSalonApp } = useAppType();
+
   const { profile, profileStaffLogin, printerList, printerSelect } =
     useSelector((state) => state.dataLocal) ?? {};
 
@@ -282,13 +286,33 @@ export const useProps = ({
     }
   };
 
+  const items = getItems();
+  const getStaffName = () => {
+    if (isSalonApp()) return getStaffNameForInvoice(items);
+
+    if (groupAppointment?.appointments?.length > 0) {
+      const ap = groupAppointment?.appointments[0];
+      if (ap.staff) return ap.staff.displayName;
+    }
+
+    if (appointment) {
+      if (appointment.staff) return appointment.staff.displayName;
+    }
+
+    if (invoice?.staff) {
+      return invoice.staff?.displayName;
+    }
+
+    return "";
+  };
+
   return {
     portName,
     emulation,
     widthPaper,
     profile,
     profileStaffLogin,
-    items: getItems(),
+    items: items,
     customer: getCustomer(),
     machineType: paymentMachineType,
     symbol: getSymbol(),
@@ -308,5 +332,6 @@ export const useProps = ({
     taxRate: getTaxRate(),
     promotionNotes: getPromotionNotes(),
     checkoutPaymentMethods: getCheckoutPaymentMethods(),
+    staffName: getStaffName(),
   };
 };

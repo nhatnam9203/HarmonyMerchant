@@ -43,6 +43,7 @@ import {
 } from "react-native";
 import styles from "./style";
 import { ItemButton, ItemHistory, ItemInvoice } from "./widget";
+import { getStaffNameForInvoice } from "@utils";
 
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 
@@ -356,6 +357,14 @@ export default class Layout extends React.Component {
       return invoiceDetail.user;
     };
 
+    const getStaffName = () => {
+      let name = getStaffNameForInvoice(invoiceDetail?.basket);
+      if (!name && invoiceDetail?.staff) {
+        name = invoiceDetail.staff.displayName;
+      }
+      return name;
+    };
+
     return (
       <View style={{ flex: 1 }}>
         <View
@@ -396,6 +405,7 @@ export default class Layout extends React.Component {
               promotionNotes={invoiceDetail.promotionNotes}
               checkoutPaymentMethods={checkoutPayments}
               isSignature={false}
+              staffName={getStaffName()}
             />
           </ScrollView>
         </View>

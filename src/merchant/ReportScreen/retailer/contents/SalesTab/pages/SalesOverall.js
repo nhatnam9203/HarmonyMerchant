@@ -20,7 +20,9 @@ export const SalesOverall = () => {
   const [timeVal, setTimeVal] = React.useState();
   const [data, setData] = React.useState();
   const [summary, setSummary] = React.useState();
-  const tokenReportServer = useSelector((state) => state.dataLocal.tokenReportServer);
+  const tokenReportServer = useSelector(
+    (state) => state.dataLocal.tokenReportServer
+  );
   /**
   |--------------------------------------------------
   | CALL API
@@ -28,7 +30,7 @@ export const SalesOverall = () => {
   */
   const [reportSalesOverall, getReportSalesOverall] = useReportSaleOverall();
   const callGetReportSalesOverall = React.useCallback(() => {
-    if(!tokenReportServer) return 
+    if (!tokenReportServer) return;
     getReportSalesOverall({
       ...timeVal,
       sort: {},
@@ -67,14 +69,13 @@ export const SalesOverall = () => {
   }, [reportSalesOverall]);
 
   React.useEffect(() => {
-    if(tokenReportServer) {
+    if (tokenReportServer) {
       getReportSalesOverall({
         ...timeVal,
         sort: {},
       });
     }
-   
-  }, [tokenReportServer])
+  }, [tokenReportServer]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === "Customize Date") {
@@ -104,7 +105,7 @@ export const SalesOverall = () => {
         />
         <ButtonOverall
           label={t("total gross sales").toUpperCase()}
-          amount={formatMoneyWithUnit(summary?.revenue)}
+          amount={formatMoneyWithUnit(summary?.grossSales)}
         />
         <ButtonOverall
           label={t("total cost").toUpperCase()}
@@ -116,7 +117,7 @@ export const SalesOverall = () => {
         />
         <ButtonOverall
           label={t("total end day").toUpperCase()}
-          amount={formatMoneyWithUnit(summary?.profit)}
+          amount={formatMoneyWithUnit(summary?.totalEndDay)}
         />
         <ButtonOverall
           label={t("average order").toUpperCase()}

@@ -7,7 +7,6 @@ import { ReceiptHeader } from "./ReceiptHeader";
 import { ReceiptFooter } from "./ReceiptFooter";
 import { ReceiptTotal } from "./ReceiptTotal";
 import { captureRef, releaseCapture } from "react-native-view-shot";
-import { getStaffNameForInvoice } from "@utils";
 
 export const ReceiptViewShot = React.forwardRef(
   (
@@ -37,6 +36,7 @@ export const ReceiptViewShot = React.forwardRef(
       checkoutPaymentMethods,
       isSignature,
       itemReturn,
+      staffName
     },
     ref
   ) => {
@@ -85,7 +85,7 @@ export const ReceiptViewShot = React.forwardRef(
           symbol={symbol}
           invoiceDate={invoiceDate}
           invoiceNO={invoiceNO}
-          staffName={getStaffNameForInvoice(items)}
+          staffName={staffName}
         />
         <ReceiptContent items={items} type={getReceiptType()} />
         <ReceiptTotal
