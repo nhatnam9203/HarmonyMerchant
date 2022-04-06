@@ -630,6 +630,11 @@ class InvoiceScreen extends Layout {
       const tempIpPax = commType == "TCP" ? ip : "";
       const tempPortPax = commType == "TCP" ? port : "";
       const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+      if (invoiceDetail?.status === "complete") {
+        this.popupProcessingCreditRef.current?.setStateFromParent(
+          transactionId
+        );
+      }
 
       if (method != "Pax") {
         await this.setState({
