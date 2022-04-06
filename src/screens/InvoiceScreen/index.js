@@ -426,7 +426,7 @@ class InvoiceScreen extends Layout {
     });
   };
 
-  confirmChangeInvoiceStatus = async () => {
+  handleVoidRefundClover = async() => {
     const {
       paxMachineInfo,
       invoiceDetail,
@@ -435,75 +435,20 @@ class InvoiceScreen extends Layout {
       language,
     } = this.props;
   
-    if (invoiceDetail?.paymentMethod === "credit_card" 
-      || invoiceDetail?.paymentMethod === "multiple") {
+    const paymentInformation =
+      invoiceDetail?.paymentInformation[0]?.responseData || {};
+    const method = l.get(
+      invoiceDetail,
+      "paymentInformation.0.paymentData.method"
+    );
+
+    if (!_.isEmpty(paymentInformation)) {
       await this.setState({
         visibleConfirmInvoiceStatus: false,
         visibleProcessingCredit: true,
       });
-      for (let i = 0; i < invoiceDetail?.paymentInformation.length; i++) {
-        const paymentInformation = invoiceDetail?.paymentInformation[i];
-        if (paymentInformation?.checkoutPaymentStatus == "paid") {
-          let status = true;
+      this.popupProcessingCreditRef.current?.setStateFromParent(false);
 
-          status = await this.handleVoidRefundTerminal(paymentInformation, i);
-          if (!status) {
-            await this.setState({
-              visibleProcessingCredit: false,
-            });
-            setTimeout(() => {
-              alert("Error");
-            }, 300);
-            return;
-          }
-        }
-      }
-
-      this.props.actions.invoice.changeStatustransaction(
-        invoiceDetail.checkoutId,
-        this.getParamsSearch(),
-        "",
-        paymentMachineType.toLowerCase()
-      );
-
-      await this.setState({
-        visibleProcessingCredit: false,
-        titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
-      });
-    } else {
-      //payment method == cash , other, harmony pay
-      await this.setState({
-        visibleConfirmInvoiceStatus: false,
-        titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
-      });
-      this.props.actions.invoice.changeStatustransaction(
-        invoiceDetail?.checkoutId,
-        this.getParamsSearch()
-      );
-    }
-  };
-
-  handleVoidRefundTerminal = async (paymentData, index) => {
-    const {
-      paxMachineInfo,
-      invoiceDetail,
-      cloverMachineInfo,
-      paymentMachineType,
-      language,
-    } = this.props;
-    const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
-      paxMachineInfo;
-    const method = l.get(paymentData, "paymentData.method");
-    const paymentInformation = paymentData?.responseData;
-
-    this.popupProcessingCreditRef.current?.setStateFromParent(false);
-
-    if (paymentMachineType == PaymentTerminalType.Clover) {
-      if (invoiceDetail?.paymentMethod === "multiple") { 
-         //TODO: will change later
-        return false;
-      }
-     
       if (method != "Clover") {
         await this.setState({
           visibleConfirmInvoiceStatus: true,
@@ -534,14 +479,102 @@ class InvoiceScreen extends Layout {
       } else {
         clover.voidPayment(paymentInfo);
       }
-    } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+    }
+  }
+
+  confirmChangeInvoiceStatus = async () => {
+    const {
+      paxMachineInfo,
+      invoiceDetail,
+      cloverMachineInfo,
+      paymentMachineType,
+      language,
+    } = this.props;
+  
+    if (invoiceDetail?.paymentMethod === "credit_card" 
+      || invoiceDetail?.paymentMethod === "multiple") {
+      if (paymentMachineType == "Clover") {
+        if (invoiceDetail?.paymentMethod === "credit_card") {
+          this.handleVoidRefundClover();
+        } else {
+          //To do later
+          setTimeout(() => {
+            alert("Can not void/refund for multiple transactions on Clover");
+          }, 300);
+        }
+
+      } else {
+        await this.setState({
+          visibleConfirmInvoiceStatus: false,
+          visibleProcessingCredit: true,
+        });
+        for (let i = 0; i < invoiceDetail?.paymentInformation.length; i++) {
+          const paymentInformation = invoiceDetail?.paymentInformation[i];
+          if (paymentInformation?.checkoutPaymentStatus == "paid") {
+            let status = true;
+  
+            status = await this.handleVoidRefundTerminal(paymentInformation, i);
+            if (!status) {
+              await this.setState({
+                visibleProcessingCredit: false,
+              });
+              setTimeout(() => {
+                alert("Error");
+              }, 300);
+              return;
+            }
+          }
+        }
+  
+        this.props.actions.invoice.changeStatustransaction(
+          invoiceDetail.checkoutId,
+          this.getParamsSearch(),
+          "",
+          paymentMachineType.toLowerCase()
+        );
+  
+        await this.setState({
+          visibleProcessingCredit: false,
+          titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
+        });
+      }
+      
+    } else {
+      //payment method == cash , other, harmony pay
+      await this.setState({
+        visibleConfirmInvoiceStatus: false,
+        titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
+      });
+      this.props.actions.invoice.changeStatustransaction(
+        invoiceDetail?.checkoutId,
+        this.getParamsSearch()
+      );
+    }
+  };
+
+  handleVoidRefundTerminal = async (paymentData, index) => {
+    const {
+      paxMachineInfo,
+      invoiceDetail,
+      cloverMachineInfo,
+      paymentMachineType,
+      language,
+    } = this.props;
+    const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+      paxMachineInfo;
+    const method = l.get(paymentData, "paymentData.method");
+    const paymentInformation = paymentData?.responseData;
+
+    this.popupProcessingCreditRef.current?.setStateFromParent(false);
+
+    if (paymentMachineType == PaymentTerminalType.Dejavoo) {
       if (method != "Dejavoo") {
         await this.setState({
           visibleConfirmInvoiceStatus: true,
           visibleProcessingCredit: false,
         });
         alert(localize("Your transaction is invalid", language));
-        return;
+        return false;
       }
       const transType = invoiceDetail?.status === "paid" ? "Return" : "Void"
       const amount = l.get(paymentData, "amount");
