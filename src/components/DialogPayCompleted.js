@@ -99,6 +99,7 @@ export const DialogPayCompleted = ({
     taxRate,
     promotionNotes,
     checkoutPaymentMethods,
+    staffName,
   } = useProps({
     groupAppointment,
     printTemp,
@@ -463,6 +464,7 @@ export const DialogPayCompleted = ({
               promotionNotes={promotionNotes}
               checkoutPaymentMethods={checkoutPaymentMethods}
               isSignature={isSignature}
+              staffName={staffName}
             />
           </ScrollView>
         </View>

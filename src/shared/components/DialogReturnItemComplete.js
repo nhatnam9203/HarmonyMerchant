@@ -28,6 +28,7 @@ export const DialogReturnItemComplete = React.forwardRef(
     const [autoPrint, setAutoPrint] = React.useState(false);
     const [receiptBackground, setReceiptBackground] = React.useState("#fff");
     const [appointment, setAppointment] = React.useState(null);
+    const [isSignature, setIsSignature] = React.useState(true);
 
     const [appointmentGet, getAppointment] = useGetAppointment();
 
@@ -57,21 +58,22 @@ export const DialogReturnItemComplete = React.forwardRef(
       taxRate,
       promotionNotes,
       checkoutPaymentMethods,
+      staffName,
     } = useProps({
       appointment,
-      printTemp: true,
+      printTemp: false,
       fromAppointmentTab: false,
-      isSignature: false,
+      isSignature,
       itemReturn,
     });
 
     const { printProcess, shareProcess, processLoading } = usePrinter({
-      printTemp: true,
+      printTemp: false,
       viewShotRef,
       doPrintClover: () => {},
-      isSignature: false,
+      isSignature,
       fromAppointmentTab: false,
-      setIsSignature: () => {},
+      setIsSignature,
       onCancelPrint: async (temp) => {
         setShowModal(false);
 
@@ -91,6 +93,7 @@ export const DialogReturnItemComplete = React.forwardRef(
 
     const resetAll = () => {
       // reset
+      setIsSignature(true);
       setShowModal(false);
       setAutoPrint(false);
       setItemReturn(null);
@@ -203,7 +206,7 @@ export const DialogReturnItemComplete = React.forwardRef(
                 items={items}
                 profile={profile}
                 customer={customer}
-                printTemp={true}
+                printTemp={false}
                 fromAppointmentTab={false}
                 invoiceDate={invoiceDate}
                 invoiceNO={invoiceNO}
@@ -224,6 +227,7 @@ export const DialogReturnItemComplete = React.forwardRef(
                 checkoutPaymentMethods={checkoutPaymentMethods}
                 isSignature={false}
                 itemReturn={itemReturn}
+                staffName={staffName}
               />
             </ScrollView>
           </View>
@@ -298,7 +302,7 @@ const styles = StyleSheet.create({
 
   content: {
     position: "absolute",
-    top: 0,
+    // top: 0,
     top: metrics.screenHeight,
   },
 });
