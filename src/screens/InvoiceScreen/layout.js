@@ -163,6 +163,7 @@ export default class Layout extends React.Component {
             width={scaleWidth(110)}
             height={scaleHeight(50)}
             onResultScanCode={this.onResultScanCode}
+            autoHideWhenComplete={true}
             leftChildren={() => (
               <Image
                 source={IMAGE.scancode}

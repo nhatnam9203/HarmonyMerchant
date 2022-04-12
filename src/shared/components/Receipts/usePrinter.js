@@ -47,7 +47,9 @@ export const usePrinter = ({
         setIsSignature(false);
       }, 2000);
     } else {
-      setIsSignature(false);
+      setTimeout(() => {
+        setIsSignature(false);
+      }, 250);
     }
   };
 
