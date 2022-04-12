@@ -25,7 +25,7 @@ export const useHarmonyQuery = ({
   };
 
   const { refetch, status, isError, isFetching, data } = useQuery(
-    queryKey ?? queryData?.queryId,
+    [queryKey ?? queryData?.queryId],
     requestGetByAxios,
     {
       enabled,
