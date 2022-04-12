@@ -585,6 +585,7 @@ export const useProps = ({
   }, [removeItemWaitingList]);
 
   return {
+    scanCodeTemp,
     inputBarcodeDialogRef,
     categories: categories,
     subCategories: subCategories,
@@ -700,10 +701,11 @@ export const useProps = ({
     onResultScanCode: async (data) => {
       if (data?.trim()) {
         const code = data?.trim();
-        console.log(code);
         await setScanCodeTemp(code);
         const args = getProductByBarcode(code);
-        requestGetProductByBarcode(args);
+        setTimeout(() => {
+          requestGetProductByBarcode(args);
+        }, 250);
         // getProductsByBarcode(code);
       } else {
         setTimeout(() => {

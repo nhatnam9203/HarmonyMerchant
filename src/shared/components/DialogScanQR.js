@@ -28,7 +28,6 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   */
   const onHandleSuccess = (e) => {
     const code = e?.data;
-
     if (typeof onSuccess === "function" && onSuccess) {
       onSuccess(code);
     }
@@ -42,7 +41,7 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
         onSuccess(text);
       }
       setValue("");
-    }, 1500);
+    }, 2500);
   };
 
   const onEditing = () => {
