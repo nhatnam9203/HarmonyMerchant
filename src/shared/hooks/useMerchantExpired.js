@@ -13,8 +13,8 @@ export const useMerchantExpired = () => {
   const [, requestMerchantGeneral] = useHarmonyQuery({
     onSuccess: (response) => {
       const { data } = response || {};
-      if (data?.createdDate) {
-        setExpiredDate(data?.createdDate);
+      if (data?.expiredDate) {
+        setExpiredDate(data?.expiredDate);
       }
     },
     onError: (e) => {
@@ -24,8 +24,7 @@ export const useMerchantExpired = () => {
 
   React.useEffect(() => {
     if (expiredDate) {
-      const temp = "2022-04-01T00:00:00";
-      const dateToMilliseconds = moment(temp).valueOf(); // Unix Timestamp (milliseconds)
+      const dateToMilliseconds = moment(expiredDate).valueOf(); // Unix Timestamp (milliseconds)
       const current = new Date().getTime();
       const delta = dateToMilliseconds - current - TIME_REMIND;
       setIsExpiredDate(delta <= 0);
