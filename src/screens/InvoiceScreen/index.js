@@ -499,7 +499,7 @@ class InvoiceScreen extends Layout {
         } else {
           //To do later
           setTimeout(() => {
-            alert("Can not void/refund for multiple transactions on Clover");
+            alert("Can not void/refund for multiple payment on Clover");
           }, 300);
         }
 
