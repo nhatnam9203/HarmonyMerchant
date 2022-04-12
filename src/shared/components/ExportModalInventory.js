@@ -128,7 +128,7 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const onHandleChangeSelect = (item) => {
-      setNeedToOrder(item?.value);
+      setNeedToOrder(item?.value ?? 0);
     };
 
     /**
