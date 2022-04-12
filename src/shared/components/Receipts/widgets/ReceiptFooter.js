@@ -20,15 +20,21 @@ export const ReceiptFooter = ({
       ) : (
         <TextLabel>{`Thank you!\nPlease come again`}</TextLabel>
       )}
+
       {/* ------------- Promotions Note   ----------- */}
       {promotionNotes ? (
-        <Text style={styles.textLabelStyle}>
-          {`Discount note: `}
-          <Text
-            style={[styles.textLabelStyle, { fontWeight: "600" }]}
-          >{`${promotionNotes}`}</Text>
-        </Text>
+        <>
+          <View style={styles.margin} />
+          <Text style={styles.textLabelStyle}>
+            {`Discount note: `}
+            <Text
+              style={[styles.textLabelStyle, { fontWeight: "600" }]}
+            >{`${promotionNotes}`}</Text>
+          </Text>
+          <View style={styles.margin} />
+        </>
       ) : null}
+
       <TextLabel>{`********* ${typeReceipt ?? "Receipt"} *********`}</TextLabel>
       <View style={styles.margin} />
       <View style={styles.margin} />

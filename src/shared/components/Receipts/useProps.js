@@ -244,15 +244,30 @@ export const useProps = ({
     if (appointment) return getTaxRateFromAppointment(appointment);
   };
 
-  const getPromotionNotes = (appointments) => {
-    let promotionNotes = [];
-    appointments?.forEach((appointment) => {
+  const getPromotionNotes = () => {
+    let promotionNotes = [""];
+    if (groupAppointment && groupAppointment.appointments?.length > 0) {
+      groupAppointment.appointments?.forEach((appointment) => {
+        const note = appointment?.promotionNotes?.note || "";
+        if (note) {
+          promotionNotes.push(note);
+        }
+      });
+    }
+
+    if (invoice) {
+      const note = invoice?.promotionNotes?.note || "";
+      if (note) {
+        promotionNotes.push(note);
+      }
+    }
+
+    if (appointment) {
       const note = appointment?.promotionNotes?.note || "";
       if (note) {
         promotionNotes.push(note);
       }
-    });
-
+    }
     return promotionNotes.join(",");
   };
 

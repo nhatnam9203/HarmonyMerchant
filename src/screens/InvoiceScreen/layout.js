@@ -403,7 +403,7 @@ export default class Layout extends React.Component {
               // due={due}
               change={invoiceDetail.refundAmount}
               taxRate={getTaxRateFromInvoice(invoiceDetail)}
-              promotionNotes={invoiceDetail.promotionNotes}
+              promotionNotes={invoiceDetail.promotionNotes?.note ?? ""}
               checkoutPaymentMethods={checkoutPayments}
               isSignature={false}
               staffName={getStaffName()}

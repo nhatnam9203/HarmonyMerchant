@@ -217,6 +217,7 @@ export const useProps = ({
         //  TODO: show input code here!
         alert(message);
         setScanCodeTemp(null);
+        inputBarcodeDialogRef.current?.autoFocus();
       }
     },
     onError: (e) => {
@@ -696,10 +697,11 @@ export const useProps = ({
         }
       }
     },
-    onResultScanCode: (data) => {
+    onResultScanCode: async (data) => {
       if (data?.trim()) {
         const code = data?.trim();
-        setScanCodeTemp(code);
+        console.log(code);
+        await setScanCodeTemp(code);
         const args = getProductByBarcode(code);
         requestGetProductByBarcode(args);
         // getProductsByBarcode(code);
