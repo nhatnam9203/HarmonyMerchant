@@ -1,4 +1,8 @@
-import { ButtonGradient, FormInputAmount } from "@shared/components";
+import {
+  ButtonGradient,
+  FormInputAmount,
+  FormLabelSwitch,
+} from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { useGetProducts } from "@shared/services/api/retailer";
 import { colors, fonts } from "@shared/themes";
@@ -7,6 +11,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { InputMoney } from "@shared/components";
+import { formatNumberFromCurrency } from "@utils";
 
 export const DialogEditProductOrder = React.forwardRef(
   ({ onEditProductItem }, ref) => {
@@ -22,6 +28,7 @@ export const DialogEditProductOrder = React.forwardRef(
     const [quantity, setQuantity] = React.useState(1);
     const [productItem, setProductItem] = React.useState(null);
     const [maxCountQty, setMaxCountQty] = React.useState(10);
+    const [applyToCost, setApplyToCost] = React.useState(false);
 
     /**
   |--------------------------------------------------
@@ -33,10 +40,10 @@ export const DialogEditProductOrder = React.forwardRef(
 
     React.useImperativeHandle(ref, () => ({
       show: (item) => {
-        // console.log(item);
+        console.log(item);
         dialogRef.current?.show();
-        setQuantity(item.quantity);
-        setAmount(item.price);
+        setQuantity(item.quantity ?? 1);
+        setAmount(item.price ?? 0);
         setProductItem(item);
         getProducts(item.productId);
       },
@@ -52,13 +59,27 @@ export const DialogEditProductOrder = React.forwardRef(
 
     const handleSubmit = (event) => {
       if (onEditProductItem && typeof onEditProductItem === "function") {
-        onEditProductItem(productItem, { quantity: quantity ?? 1 });
+        onEditProductItem(productItem, {
+          quantity: quantity ?? 1,
+          price: formatNumberFromCurrency(amount),
+          // changeToCost: true,
+        });
       }
       dialogRef.current?.hide();
     };
 
     const onHandleChangeText = (val = 1) => {
       setQuantity(Math.max(1, parseInt(val)));
+    };
+
+    const onHandleApplyToCostPrice = () => {
+      if (applyToCost) {
+        setApplyToCost(true);
+        setAmount(productItem?.costPrice ?? 0);
+      } else {
+        setApplyToCost(false);
+        setAmount(productItem?.price);
+      }
     };
     /**
   |--------------------------------------------------
@@ -74,12 +95,23 @@ export const DialogEditProductOrder = React.forwardRef(
             (x) => x.id === productItem.productQuantityId
           );
 
-          // console.log(findItem);
           if (findItem) {
             setMaxCountQty(findItem.quantity);
+            if (
+              formatNumberFromCurrency(findItem.costPrice ?? 0) ===
+              formatNumberFromCurrency(amount)
+            ) {
+              setApplyToCost(true);
+            }
           }
         } else {
           setMaxCountQty(data.quantity);
+          if (
+            formatNumberFromCurrency(data.costPrice ?? 0) ===
+            formatNumberFromCurrency(amount)
+          ) {
+            setApplyToCost(true);
+          }
         }
       }
     }, [productsGet]);
@@ -104,55 +136,41 @@ export const DialogEditProductOrder = React.forwardRef(
           )}
           style={styles.dialog}
         >
-          {/* <KeyboardAwareScrollView
-            ref={scrollRef}
-            // extraScrollHeight={-100}
-            // extraHeight={250}
-          >
-
-          </KeyboardAwareScrollView> */}
           <View style={styles.container}>
             <View style={styles.marginVertical} />
-            {/* <Text style={styles.textStyle}>{t("Price ($)")}</Text>
-              <View style={styles.marginVertical} />
+            <Text style={styles.textStyle}>{t("Price ($)")}</Text>
 
-              <CustomInputMoney
-                style={styles.textInputContainer}
-                textInputProps={{
-                  placeholder: "Price",
-                  fontSize: scaleFont(15),
-                  textAlign: "left",
-                  defaultValue: amount || 0,
-                  onChangeText: setAmount,
-                  keyboardType: "numeric",
-                  onFocus: (event: Event) => {
-                    // `bind` the function if you're using ES6 classes
-                    _scrollToInput(ReactNative.findNodeHandle(event.target));
-                  },
-                  editable: false,
-                }}
-              />
-              <View style={styles.marginVertical} /> */}
+            <View
+              style={{
+                height: scaleHeight(40),
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
+              <View style={{ width: scaleWidth(20) }} />
+              <View style={{ width: scaleWidth(200) }}>
+                <FormLabelSwitch
+                  label={t("- Apply to cost price")}
+                  onValueChange={onHandleApplyToCostPrice}
+                  defaultValue={applyToCost}
+                />
+              </View>
+            </View>
 
-            {/* <Text style={styles.textStyle}>{t("Quantity")}</Text>
             <View style={styles.marginVertical} />
-            <View style={styles.textInputContainer}>
-              <TextInput
-                onChangeText={onHandleChangeText}
-                value={quantity ? quantity + "" : "1"}
-                style={styles.textInput}
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <InputMoney
+                width={scaleWidth(220)}
+                height={scaleHeight(40)}
                 keyboardType="numeric"
-                placeholder="1"
+                textAlign="center"
+                value={`${amount}`}
+                onChangeText={setAmount}
               />
-            </View> */}
+            </View>
+            <View style={styles.marginVertical} />
 
-            {/* <FormInput
-              label={t("Quantity")}
-              placeholder={t("1")}
-              required={true}
-              onChangeValue={onHandleChangeText}
-              defaultValue={quantity ? quantity + "" : ""}
-            /> */}
             <Text style={styles.textStyle}>{t("Quantity")}</Text>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <FormInputAmount
