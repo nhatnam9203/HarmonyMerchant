@@ -1,7 +1,7 @@
 import {
   ButtonGradient,
   ButtonGradientWhite,
-  ReceiptViewShot,
+  ReceiptViewShot
 } from "@shared/components";
 import { usePrinter } from "@shared/components/Receipts/usePrinter";
 import { useProps } from "@shared/components/Receipts/useProps";

@@ -18,6 +18,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { changeOption, removeOption, updateOption } from "./ProductState";
+import { useIsWareHouse } from "@shared/hooks";
 
 const log = (obj, message = "") => {
   Logger.log(`[FormProductOption] ${message}`, obj);
@@ -26,7 +27,7 @@ const log = (obj, message = "") => {
 export const FormProductOption = React.forwardRef(
   ({ item, dispatchProduct }, ref) => {
     const [t] = useTranslation();
-
+    const { isWareHouse } = useIsWareHouse();
     /**
   |--------------------------------------------------
   | CALL API
@@ -294,15 +295,17 @@ export const FormProductOption = React.forwardRef(
     return (
       <View style={styles.container}>
         <InfoHeading label={item?.label}>
-          <TouchableOpacity onPress={onRemoveOptionsPress}>
-            <Image
-              style={{
-                width: scaleWidth(22),
-                height: scaleHeight(22),
-              }}
-              source={IMAGE.remove_color_row}
-            />
-          </TouchableOpacity>
+          {isWareHouse && (
+            <TouchableOpacity onPress={onRemoveOptionsPress}>
+              <Image
+                style={{
+                  width: scaleWidth(22),
+                  height: scaleHeight(22),
+                }}
+                source={IMAGE.remove_color_row}
+              />
+            </TouchableOpacity>
+          )}
         </InfoHeading>
         <View style={styles.content}>
           {item?.values?.length > 0 && (

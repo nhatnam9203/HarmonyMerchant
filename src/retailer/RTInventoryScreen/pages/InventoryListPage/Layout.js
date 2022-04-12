@@ -57,6 +57,7 @@ export const Layout = ({
   onButtonApprovePress,
   onHandleQuantity,
   isPermission,
+  isWareHouse,
 }) => {
   const { t } = useTranslation();
 
@@ -372,7 +373,7 @@ export const Layout = ({
           />
         </View>
         <ButtonGradient
-          disable={!isPermission()}
+          disable={!isPermission() || isWareHouse}
           onPress={onButtonNewProductPress}
           label={t("Add Product")}
           width={scaleWidth(140)}

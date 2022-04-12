@@ -14,6 +14,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import * as l from "lodash";
+import { useIsWareHouse } from "@shared/hooks";
 
 const DEFAULT_PAGE = 1;
 
@@ -21,6 +22,7 @@ export const useProps = ({ params: { reload } }) => {
   const { t } = useTranslation();
   const exportRef = React.useRef(null);
   const needToOrderRef = React.useRef(null);
+
   const categories = useSelector(
     (state) => state.inventoryRetailer?.categories
   );
@@ -29,6 +31,8 @@ export const useProps = ({ params: { reload } }) => {
   );
 
   const merchant = useSelector((state) => state.dataLocal.profile);
+  const { isWareHouse } = useIsWareHouse();
+
   const [searchVal, setSearchVal] = React.useState();
   const [category, setCategory] = React.useState(-1);
   const [needToOrder, setNeedToOrder] = React.useState(NEED_TO_ORDER[0].value);
@@ -199,6 +203,7 @@ export const useProps = ({ params: { reload } }) => {
   };
 
   return {
+    isWareHouse,
     items,
     onButtonNewProductPress: () => {
       NavigationServices.navigate("retailer.inventory.product.edit", {

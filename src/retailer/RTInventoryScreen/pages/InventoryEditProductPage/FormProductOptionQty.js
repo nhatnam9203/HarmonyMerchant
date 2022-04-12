@@ -22,6 +22,7 @@ import {
   generateProductVersion,
   updateOptionsQty,
 } from "./ProductState";
+import { useIsWareHouse } from "@shared/hooks";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 const GenerateConfirmButton = WithDialogConfirm(ButtonGradient);
@@ -35,6 +36,8 @@ export const FormProductOptionQty = ({
   itemIsGenerated,
 }) => {
   const [t] = useTranslation();
+  const { isWareHouse } = useIsWareHouse();
+
   const flatListRef = React.useRef(null);
   const [optionsQty, setOptionsQty] = React.useState(null);
   const [highlightIndex, setHighlightIndex] = React.useState(-1);
@@ -287,6 +290,7 @@ export const FormProductOptionQty = ({
             key={getUniqueId(columnKey, rowIndex, "cell-action")}
           >
             <DeleteConfirmButton
+              disable={isWareHouse}
               label={t("Delete")}
               width={scaleWidth(72)}
               height={scaleHeight(30)}
@@ -369,6 +373,7 @@ export const FormProductOptionQty = ({
             renderButton={(onShowDialog) => (
               <View style={[layouts.horizontal, layouts.horizontalCenterRight]}>
                 <ButtonGradient
+                  disable={isWareHouse}
                   label={t("Manual Generate")}
                   width={scaleWidth(135)}
                   height={scaleHeight(35)}
@@ -384,6 +389,7 @@ export const FormProductOptionQty = ({
 
           <View style={layouts.marginHorizontal} />
           <GenerateConfirmButton
+            disable={isWareHouse}
             label={t("Auto Generate")}
             description={t("Do you want to generate auto ?")}
             width={scaleWidth(120)}

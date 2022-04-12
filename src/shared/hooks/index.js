@@ -3,3 +3,4 @@ export * from "./useAppType";
 export * from "./useLockScreen";
 export * from "./useMerchantExpired";
 export * from "./usePermissionReportServer";
+export * from "./useIsWareHouse";
