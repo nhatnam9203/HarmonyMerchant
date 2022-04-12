@@ -6,3 +6,4 @@ export * from "./consumer";
 export * from "./appointment";
 export * from "./setting";
 export * from "./merchant";
+export * from "./retailer";

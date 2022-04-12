@@ -52,9 +52,14 @@ export const ExportModalInventory = React.forwardRef(
       NEED_TO_ORDER[0].value
     );
     const [page, setPage] = React.useState(EXPORT_PAGE[1]);
+    const [waiting, setWaiting] = React.useState(false);
+
     React.useImperativeHandle(ref, () => ({
       show: () => {
-        setShowModal(true);
+        resetState();
+        setTimeout(() => {
+          setShowModal(true);
+        }, 500);
       },
       hide: () => {
         setShowModal(false);
@@ -70,6 +75,7 @@ export const ExportModalInventory = React.forwardRef(
       setFileName(title);
       setNeedToOrder(0);
       selectSwitchRef.current?.setValue(0);
+      setWaiting(false);
     };
 
     const onHandleChange = (val) => {
@@ -105,7 +111,6 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const hideModal = () => {
-      resetState();
       setShowModal(false);
     };
 
@@ -127,8 +132,9 @@ export const ExportModalInventory = React.forwardRef(
       setFileName(value);
     };
 
-    const onHandleChangeSelect = (item) => {
-      setNeedToOrder(item?.value);
+    const onHandleChangeSelect = async (item) => {
+      await setWaiting(true);
+      await setNeedToOrder(item?.value ?? 0);
     };
 
     /**
@@ -139,6 +145,10 @@ export const ExportModalInventory = React.forwardRef(
     React.useEffect(() => {
       mode && dispatch(appMerchant.saveExportType(mode));
     }, [mode]);
+
+    React.useEffect(() => {
+      setWaiting(false);
+    }, [isNeedToOrder]);
 
     /**
   |--------------------------------------------------

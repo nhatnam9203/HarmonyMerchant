@@ -183,6 +183,7 @@ export const FormProductOptionQty = ({
               width={scaleWidth(40)}
               height={scaleHeight(50)}
               onResultScanCode={onResultScanCode}
+              autoHideWhenComplete={true}
               leftChildren={() => (
                 <Image
                   source={IMAGE.scancode}
