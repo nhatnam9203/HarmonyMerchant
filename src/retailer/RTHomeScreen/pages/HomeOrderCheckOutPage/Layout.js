@@ -58,7 +58,8 @@ export const Layout = ({
   inputSearchRef,
   appointment,
   inputBarcodeDialogRef,
-  showScanBarcode
+  showScanBarcode,
+  scanCodeTemp,
 }) => {
   const { t } = useTranslation();
 

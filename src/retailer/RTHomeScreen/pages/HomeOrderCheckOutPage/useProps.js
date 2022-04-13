@@ -36,6 +36,7 @@ import { getInfoFromModelNameOfPrinter } from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
+import { useHarmonyQuery, getProductByBarcode } from "@apis";
 
 export const useProps = ({
   params: { purchasePoint = PURCHASE_POINTS_STORE },
@@ -150,6 +151,79 @@ export const useProps = ({
   | Functional
   |--------------------------------------------------
   */
+
+  const [, requestGetProductByBarcode] = useHarmonyQuery({
+    onSuccess: (response) => {
+      const { codeStatus, data, message } = response || {};
+      // console.log(response);
+
+      // if (!data) return;
+
+      if (statusSuccess(codeStatus)) {
+        const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
+
+        if (tmp) {
+          const attributeIds = tmp.attributeIds;
+
+          const filterOptions = data?.options?.map((v) => {
+            let temp = v?.values.filter((i) =>
+              attributeIds.includes(i.attributeValueId)
+            );
+            const { values, ...pro } = v;
+            return Object.assign({}, pro, { values: temp });
+          });
+
+          if (!isCheckQty || tmp.quantity >= 1) {
+            setTimeout(() => {
+              addProductToBasket(
+                Object.assign({}, data, {
+                  id: Date.now(),
+                  quantity: 1,
+                  options: filterOptions,
+                  productQuantityId: tmp?.id,
+                })
+              );
+            }, 250);
+          } else {
+            alert("Product is out of stock!");
+          }
+          setScanCodeTemp(null);
+        } else {
+          inputBarcodeDialogRef.current?.hide();
+          if (data?.quantities?.length > 0) {
+            setTimeout(() => {
+              productDetailRef.current?.show(data);
+            }, 550);
+          } else {
+            if (!isCheckQty || data?.quantity >= 1) {
+              setTimeout(() => {
+                addProductToBasket(
+                  Object.assign({}, data, {
+                    id: Date.now(),
+                    quantity: 1,
+                  })
+                );
+              }, 250);
+            } else {
+              alert("Product is out of stock!");
+            }
+
+            setScanCodeTemp(null);
+          }
+        }
+
+        // Hide dialog input barcode if it is showing
+      } else if (codeStatus) {
+        //  TODO: show input code here!
+        alert(message);
+        setScanCodeTemp(null);
+        inputBarcodeDialogRef.current?.autoFocus();
+      }
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
 
   const resetAll = async () => {
     setCategoryId(null);
@@ -453,71 +527,6 @@ export const useProps = ({
   //   }
   // }, [productItemGet]);
 
-  React.useEffect(() => {
-    if (!productItemByBarcodeGet?.data) return;
-
-    const { codeStatus, data, message } = productItemByBarcodeGet?.data || {};
-    if (statusSuccess(codeStatus)) {
-      const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
-
-      if (tmp) {
-        const attributeIds = tmp.attributeIds;
-
-        const filterOptions = data?.options?.map((v) => {
-          let temp = v?.values.filter((i) =>
-            attributeIds.includes(i.attributeValueId)
-          );
-          const { values, ...pro } = v;
-          return Object.assign({}, pro, { values: temp });
-        });
-
-        if (!isCheckQty || tmp.quantity >= 1) {
-          setTimeout(() => {
-            addProductToBasket(
-              Object.assign({}, data, {
-                id: Date.now(),
-                quantity: 1,
-                options: filterOptions,
-                productQuantityId: tmp?.id,
-              })
-            );
-          }, 150);
-        } else {
-          alert("Product is out of stock!");
-        }
-        setScanCodeTemp(null);
-      } else {
-        inputBarcodeDialogRef.current?.hide();
-        if (data?.quantities?.length > 0) {
-          setTimeout(() => {
-            productDetailRef.current?.show(data);
-          }, 550);
-        } else {
-          if (!isCheckQty || data?.quantity >= 1) {
-            setTimeout(() => {
-              addProductToBasket(
-                Object.assign({}, data, {
-                  id: Date.now(),
-                  quantity: 1,
-                })
-              );
-            }, 100);
-          } else {
-            alert("Product is out of stock!");
-          }
-
-          setScanCodeTemp(null);
-        }
-      }
-
-      // Hide dialog input barcode if it is showing
-    } else if (codeStatus) {
-      //  TODO: show input code here!
-      alert(message);
-      setScanCodeTemp(null);
-    }
-  }, [productItemByBarcodeGet?.data]);
-
   /**
    * UPDATE category label effects
    */
@@ -576,6 +585,7 @@ export const useProps = ({
   }, [removeItemWaitingList]);
 
   return {
+    scanCodeTemp,
     inputBarcodeDialogRef,
     categories: categories,
     subCategories: subCategories,
@@ -688,11 +698,15 @@ export const useProps = ({
         }
       }
     },
-    onResultScanCode: (data) => {
+    onResultScanCode: async (data) => {
       if (data?.trim()) {
         const code = data?.trim();
-        setScanCodeTemp(code);
-        getProductsByBarcode(code);
+        await setScanCodeTemp(code);
+        const args = getProductByBarcode(code);
+        setTimeout(() => {
+          requestGetProductByBarcode(args);
+        }, 250);
+        // getProductsByBarcode(code);
       } else {
         setTimeout(() => {
           alert(`Code input invalid ${data}`);

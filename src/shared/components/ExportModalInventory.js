@@ -1,32 +1,38 @@
+import { appMerchant } from "@redux/slices";
 import IMAGE from "@resources";
 import { colors, fonts, layouts } from "@shared/themes";
+import {
+  createFilePath,
+  getInfoPathFile,
+  handleShareFile,
+  handleTheDownloadedFile,
+} from "@shared/utils/files";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  KeyboardAvoidingView,
 } from "react-native";
-import { useDispatch } from "react-redux";
-import { appMerchant } from "@redux/slices";
 import DropDownPicker from "react-native-dropdown-picker";
 import Modal from "react-native-modal";
+import { useDispatch } from "react-redux";
 import { ButtonGradient, ButtonGradientWhite } from "./Button";
 import { CustomInput } from "./CustomInput";
 import { CustomRadioSelect } from "./CustomRadioSelect";
-import {
-  createFilePath,
-  getInfoPathFile,
-  handleTheDownloadedFile,
-  handleShareFile,
-} from "@shared/utils/files";
+
 const EXPORT_FUNCTION = [
   // { value: 'pdf', label: 'PDF' },
   { value: "excel", label: "EXCEL" },
   { value: "csv", label: "CSV" },
+];
+
+const NEED_TO_ORDER = [
+  { label: "The products need to order more", value: 0 },
+  { label: "All product", value: 1 },
 ];
 
 const EXPORT_PAGE = ["preview", "export"];
@@ -35,27 +41,26 @@ export const ExportModalInventory = React.forwardRef(
   ({ onExportFile, title, disable = false }, ref) => {
     const [t] = useTranslation();
     const dispatch = useDispatch();
+
     const selectSwitchRef = React.useRef(null);
-    const NEED_TO_ORDER = [
-      { label: t("The products need to order more"), value: 0 },
-      { label: t("All product"), value: 1 },
-    ];
 
     const [open, setOpen] = React.useState(false);
     const [items, setItems] = React.useState(EXPORT_FUNCTION);
     const [value, setValue] = React.useState(null);
     const [mode, setMode] = React.useState(null);
-    const [show_modal, setShowModal] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
     const [files, setFiles] = React.useState({});
     const [fileName, setFileName] = React.useState(title);
-    const [isNeedToOrder, setNeedToOrder] = React.useState(
-      NEED_TO_ORDER[0].value
-    );
+    const [isNeedToOrder, setNeedToOrder] = React.useState(0); // 0 == The products need to order more
     const [page, setPage] = React.useState(EXPORT_PAGE[1]);
+
     React.useImperativeHandle(ref, () => ({
       show: () => {
-        setShowModal(true);
+        setTimeout(() => {
+          setShowModal(true);
+        }, 500);
       },
+
       hide: () => {
         setShowModal(false);
       },
@@ -73,11 +78,13 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const onHandleChange = (val) => {
-      setMode(val); // !! select type export => call server get file here follow type select, set callback
+      setMode(val);
       val && setShowModal(true);
     };
 
     const onRequestFileFromServer = () => {
+      console.log("onRequestFileFromServer " + isNeedToOrder);
+
       if (typeof onExportFile === "function") {
         onExportFile({
           type: mode,
@@ -105,8 +112,10 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const hideModal = () => {
-      resetState();
       setShowModal(false);
+      setTimeout(() => {
+        resetState();
+      }, 1000);
     };
 
     const onDownloadFile = () => {
@@ -127,7 +136,7 @@ export const ExportModalInventory = React.forwardRef(
       setFileName(value);
     };
 
-    const onHandleChangeSelect = (item) => {
+    const onHandleChangeSelect = async (item) => {
       setNeedToOrder(item?.value ?? 0);
     };
 
@@ -152,9 +161,8 @@ export const ExportModalInventory = React.forwardRef(
         case "csv":
           return IMAGE.ExportCsvFileImage;
         case "pdf":
-          return IMAGE.ExportPdfFileImage;
         default:
-          return "";
+          return IMAGE.ExportPdfFileImage;
       }
     };
 
@@ -188,7 +196,7 @@ export const ExportModalInventory = React.forwardRef(
       );
     };
 
-    const renderContent = React.useCallback(() => {
+    const renderContent = () => {
       switch (page) {
         case EXPORT_PAGE[1]:
           return (
@@ -206,7 +214,7 @@ export const ExportModalInventory = React.forwardRef(
               />
               <View style={layouts.marginVertical} />
               <CustomRadioSelect
-                red={selectSwitchRef}
+                ref={selectSwitchRef}
                 data={NEED_TO_ORDER}
                 onSelect={onHandleChangeSelect}
                 required={true}
@@ -228,7 +236,7 @@ export const ExportModalInventory = React.forwardRef(
         default:
           return null;
       }
-    }, [page]);
+    };
 
     return (
       <View>
@@ -255,8 +263,6 @@ export const ExportModalInventory = React.forwardRef(
           showTickIcon={false}
           showArrowIcon={false}
           disableBorderRadius={true}
-
-          // placeholder={placeholder}
         />
         <ButtonGradientWhite
           disable={disable}
@@ -278,8 +284,8 @@ export const ExportModalInventory = React.forwardRef(
 
         <Modal
           style={styles.modal}
-          visible={show_modal}
-          onRequestClose={hideModal}
+          visible={showModal}
+          onRequestClose={() => {}}
         >
           <KeyboardAvoidingView behavior="position">
             <View style={styles.container}>

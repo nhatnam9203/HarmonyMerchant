@@ -49,7 +49,7 @@ export const ButtonPrintBarcode = ({ product }) => {
           appendBarcode: "{B" + `${x}`,
           BarcodeSymbology: StarPRNT.BarcodeSymbology.Code128,
           BarcodeWidth: StarPRNT.BarcodeWidth.Mode1,
-          height: 50,
+          height: 100,
           hri: true,
         });
 

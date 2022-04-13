@@ -360,6 +360,7 @@ export const Layout = ({
             width={scaleWidth(120)}
             borderRadius={scaleWidth(3)}
             onResultScanCode={onResultScanCode}
+            autoHideWhenComplete={true}
             leftChildren={() => (
               <Image
                 source={IMAGE.scancode}

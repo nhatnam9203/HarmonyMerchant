@@ -1586,7 +1586,7 @@ class Layout extends React.Component {
         <PopupAddEditCustomer
           ref={this.addEditCustomerInfoRef}
           visible={visibleAddEditCustomerPopup}
-          title={"Customer Infomation"}
+          title={"Customer Information"}
           onRequestClose={() =>
             this.setState({ visibleAddEditCustomerPopup: false })
           }

@@ -28,7 +28,6 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   */
   const onHandleSuccess = (e) => {
     const code = e?.data;
-
     if (typeof onSuccess === "function" && onSuccess) {
       onSuccess(code);
     }
@@ -42,7 +41,7 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
         onSuccess(text);
       }
       setValue("");
-    }, 1500);
+    }, 2500);
   };
 
   const onEditing = () => {
@@ -70,13 +69,19 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
       dialogRef.current?.show();
       setTimeout(() => {
         textInputRef.current?.focus();
-      }, 1000);
+      }, 250);
     },
     hide: () => {
       dialogRef.current?.hide();
     },
     isShow: () => {
       return dialogRef.current?.isShow();
+    },
+    autoFocus: () => {
+      showSoftInputOnFocus(true);
+      setTimeout(() => {
+        textInputRef.current?.focus();
+      }, 250);
     },
   }));
 

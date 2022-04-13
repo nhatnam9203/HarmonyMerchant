@@ -85,6 +85,7 @@ export const ReceiptTotal = ({
           {checkoutPaymentMethods?.map((data, index) => (
             <View key={`${index}`}>
               <TextTotal
+                fontSize={scaleFont(17)}
                 label={`- Entry method: ${getPaymentString(
                   data?.paymentMethod || ""
                 )}`}
@@ -158,7 +159,12 @@ const TextTotal = ({
   fontSize,
 }) => (
   <View style={styles.textLabelContent}>
-    <Text style={styles.textLabelStyle}>{`${label}: `}</Text>
+    <Text
+      style={[
+        styles.textLabelStyle,
+        { ...(fontSize && { fontSize: fontSize }) },
+      ]}
+    >{`${label}: `}</Text>
     {children && (
       <Text
         style={[

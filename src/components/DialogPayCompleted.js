@@ -61,7 +61,7 @@ export const DialogPayCompleted = ({
   const [autoPrint, setAutoPrint] = React.useState(false);
   const [groupAppointment, setGroupAppointment] = React.useState(null);
   // const [invoice, setInvoice] = React.useState(null);
-  // const [waiting, setWaiting] = React.useState(false);
+  const [waiting, setWaiting] = React.useState(false);
 
   const dispatch = useDispatch();
   const visiblePaymentCompleted = useSelector(
@@ -157,6 +157,7 @@ export const DialogPayCompleted = ({
     setPrintTemp(false);
     setAutoPrint(false);
     setGroupAppointment(null);
+    setWaiting(false);
   };
 
   switchSendLink = () => {
@@ -245,7 +246,7 @@ export const DialogPayCompleted = ({
 
   React.useEffect(() => {
     if (visiblePaymentCompleted && groupAppointmentId) {
-      // setWaiting(true);
+      setWaiting(true);
       // console.log(groupAppointmentId);
       getGroupAppointment(groupAppointmentId);
       // getInvoiceDetail(paymentDetailInfo?.invoiceNo)
@@ -254,6 +255,11 @@ export const DialogPayCompleted = ({
 
   React.useEffect(() => {
     const { codeStatus, data } = groupAppointmentData || {};
+
+    if (groupAppointmentData) {
+      setWaiting(false);
+    }
+
     if (statusSuccess(codeStatus)) {
       setGroupAppointment(data);
     }
@@ -397,17 +403,31 @@ export const DialogPayCompleted = ({
                 borderTopColor: "rgb(212,211,211)",
               }}
             >
-              <ButtonCustom
-                width={scaleSize(100)}
-                height={40}
-                backgroundColor="#0764B0"
-                // title={localize('Search', language)}
-                title="Yes"
-                textColor="#fff"
-                onPress={onButtonPrintBillPress}
-                style={{ borderWidth: 1, borderColor: "#C5C5C5" }}
-                styleText={{ fontSize: scaleSize(18), fontWeight: "normal" }}
-              />
+              {waiting ? (
+                <View
+                  style={{
+                    width: scaleSize(120),
+                    height: scaleSize(45),
+                    backgroundColor: "#0764B0",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ActivityIndicator size="large" color="#fff" />
+                </View>
+              ) : (
+                <ButtonCustom
+                  width={scaleSize(100)}
+                  height={40}
+                  backgroundColor="#0764B0"
+                  // title={localize('Search', language)}
+                  title="Yes"
+                  textColor="#fff"
+                  onPress={onButtonPrintBillPress}
+                  style={{ borderWidth: 1, borderColor: "#C5C5C5" }}
+                  styleText={{ fontSize: scaleSize(18), fontWeight: "normal" }}
+                />
+              )}
 
               <ButtonCustom
                 width={scaleSize(100)}

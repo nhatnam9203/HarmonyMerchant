@@ -111,6 +111,7 @@ export const DialogReturnItemComplete = React.forwardRef(
     const onNoButtonPress = () => {
       hideModal();
     };
+
     const onYesButtonPress = () => {
       if (paymentMachineType === PaymentTerminalType.Pax && !portName) {
         alert("Please connect to your printer!");

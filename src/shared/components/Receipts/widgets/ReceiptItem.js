@@ -7,7 +7,7 @@ import { LineHeader, LineItem } from "./ReceiptLine";
 
 const SALON_COLUMN_WIDTH = [4, 3, 3];
 const RETAILER_RETURN_COLUMN_WIDTH = [3, 1, 2, 2, 2];
-const RETAILER_COLUMN_WIDTH = [4, 2.5, 1, 2.5];
+const RETAILER_COLUMN_WIDTH = [3, 2.5, 1.5, 3];
 
 export const ReceiptItemType = {
   SALON: "SalonPos",
