@@ -13,7 +13,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import { ButtonCustom, PopupParent, Dropdown, TextInputSuggestion,Loading } from '@components';
 import {
     scaleSize, localize, getIdStateByName, getNameStateById, ListCodeAreaPhone,
-    getCodeAreaPhone, checkStateIsValid, checkIsTablet
+    getCodeAreaPhone, checkStateIsValid, checkIsTablet, validateEmail
 } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -120,6 +120,11 @@ class PopupAddEditCustomer extends React.Component {
 
             if (customerInfo?.addressPost?.state !== "" && !checkStateIsValid(stateCity, customerInfo?.addressPost?.state)) {
                 keyError = "StateInvalid";
+                break
+            }
+
+            if(!validateEmail(customerInfo?.email)) {
+                keyError = "EmailInvalid";
                 break
             }
         }
@@ -503,7 +508,8 @@ const strings = {
     firstName: 'Missing Info: First Name',
     lastName: 'Missing Info: Last Name',
     phone: 'Missing Info: Phone',
-    StateInvalid: "State Invalid"
+    StateInvalid: "State Invalid",
+    EmailInvalid: "Email Invalid",
 }
 
 const mapStateToProps = state => ({
