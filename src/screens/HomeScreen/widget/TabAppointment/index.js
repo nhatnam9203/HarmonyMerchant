@@ -10,6 +10,7 @@ import {
   APP_NAME,
   POS_SERIAL,
   requestEditTipDejavoo,
+  handleResponseDejavoo
 } from "@utils";
 import { isEmpty } from "lodash";
 import React from "react";
@@ -17,6 +18,7 @@ import { AppState, NativeModules } from "react-native";
 import Layout from "./layout";
 import _ from "lodash";
 import NavigationServices from "@navigators/NavigatorServices";
+import { parseString } from "react-native-xml2js";
 
 const { clover } = NativeModules;
 
@@ -34,6 +36,7 @@ class TabAppointment extends Layout {
       visiblePrintInvoice: false,
       appointment: null,
       loadMessage: null,
+      isEditTipCreditCard: false,
     };
     this.webviewRef = React.createRef();
     this.amountRef = React.createRef();
@@ -276,21 +279,16 @@ class TabAppointment extends Layout {
               break;
             case "goToInvoice":
               if (data?.appointment?.checkoutId > 0) {
-                //hard code
-                this.props.actions.invoice.getInvoiceDetail(data?.appointment?.checkoutId);
-                ////
-
-                // NavigationServices.navigate("Invoice", {
-                //   appointmentFromWeb: data?.appointment,
-                //   request: "detail",
-                // });
-
-                /////
+                NavigationServices.navigate("Invoice", {
+                  appointmentFromWeb: data?.appointment,
+                  request: "detail",
+                });
               }
               break;
             case "editTipCreditCard":
               if (data?.appointment?.checkoutId > 0) {
-
+                this.setState({...this.state, isEditTipCreditCard: true})
+                this.props.actions.invoice.getInvoiceDetail(data?.appointment?.checkoutId);
               }
               break;
             default:
@@ -347,28 +345,47 @@ class TabAppointment extends Layout {
       // }, 1000);
     }
 
-    if(invoiceDetail && invoiceDetail != prevProps.invoiceDetail) {
-      console.log('invoiceDetail', invoiceDetail)
+    if (invoiceDetail && invoiceDetail != prevProps.invoiceDetail 
+      && this.state.isEditTipCreditCard) {
+      this.setState({...this.state, isEditTipCreditCard: false})
       if(_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
         const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
         const paymentData = paymentInformation?.paymentData;
         const tip = '10.0'
-        parseString(paymentData, (err, result) => {
+        parseString(paymentInformation?.responseData, (err, result) => {
           if (err) {
-            resolve(false);
+            setTimeout(() => {
+              alert(err)
+            }, 300)
           } else {
             const refId = _.get(result, "xmp.response.0.RefId.0");
             const invNum = _.get(result, "xmp.response.0.InvNum.0");
-            const last4 = _.get(result, "xmp.response.0.ExtData.AcntLast4")
+            const last4 = _.get(paymentData, 'card_number');
+            const extraData = _.get(result, "xmp.response.0.ExtData.0").split(",");
+            let amount = 0
+            if (extraData) {
+              const findIndex = _.findIndex(extraData, item => {
+                return item.includes("Amount")
+              })
+              amount = findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
+            }
+            
             const params = {
-              amount: paymentInformation?.amount,
+              amount,
               refId,
               invNum,
               tip,
               last4,
             }
             requestEditTipDejavoo(params).then((responses) => {
-              console.log('responses edit tip', responses)
+              const result = handleResponseDejavoo(responses);
+              if (result) {
+                //call server change tip
+              } else {
+                setTimeout(() => {
+                  alert(result?.message || "Error")
+                }, 300)
+              }
             });
           }
         });

@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
     AUTHEN_KEY,
+    stringIsEmptyOrWhiteSpaces
   } from '@utils';
 import _ from "lodash";
 import { parseString } from "react-native-xml2js";
@@ -148,3 +149,29 @@ export const requestTransactionDejavoo = async (params) => {
       return true
     }
   };
+
+  export const handleResponseDejavoo = (message) => {
+    return new Promise((resolve) => {
+      try {
+        parseString(message, (err, result) => {
+          const errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+          if (err || errorCode != 0) {
+            // let detailMessage = _.get(result, "xmp.response.0.RespMSG.0", "")
+            //   .replace(/%20/g, " ");
+            // detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
+            //   ? `: ${detailMessage}`
+            //   : detailMessage;
+    
+            // const resultTxt =
+            //   `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
+            //   "Transaction failed";
+              resolve(false)
+          } else {
+            resolve(true)
+          }
+        });
+      } catch (error) {
+        resolve(false)
+      }
+    })
+  }
