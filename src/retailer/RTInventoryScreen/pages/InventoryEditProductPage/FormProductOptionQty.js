@@ -291,7 +291,7 @@ export const FormProductOptionQty = ({
             key={getUniqueId(columnKey, rowIndex, "cell-action")}
           >
             <DeleteConfirmButton
-              disable={isWareHouse}
+              disable={!isWareHouse}
               label={t("Delete")}
               width={scaleWidth(72)}
               height={scaleHeight(30)}
@@ -374,7 +374,7 @@ export const FormProductOptionQty = ({
             renderButton={(onShowDialog) => (
               <View style={[layouts.horizontal, layouts.horizontalCenterRight]}>
                 <ButtonGradient
-                  disable={isWareHouse}
+                  disable={!isWareHouse}
                   label={t("Manual Generate")}
                   width={scaleWidth(135)}
                   height={scaleHeight(35)}
@@ -390,7 +390,7 @@ export const FormProductOptionQty = ({
 
           <View style={layouts.marginHorizontal} />
           <GenerateConfirmButton
-            disable={isWareHouse}
+            disable={!isWareHouse}
             label={t("Auto Generate")}
             description={t("Do you want to generate auto ?")}
             width={scaleWidth(120)}
