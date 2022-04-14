@@ -45,7 +45,7 @@ export default function CustomerDetail({
   }, [navigation]);
 
   React.useEffect(() => {
-    if (customerId && data?.length > 0) {
+    if (data?.length > 0) {
       const itemSelect = data.find(
         (detail) => detail.customerId === customerId
       );
@@ -65,21 +65,6 @@ export default function CustomerDetail({
 
   return (
     <View style={styles.container}>
-      <View style={styles.rowContent}>
-        <View style={layouts.horizontal}>
-          <ButtonCalendarFilter
-            ref={calendarRef}
-            onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(105)}
-            paddingTop={scaleHeight(170)}
-            // defaultValue={timeValue}
-          />
-        </View>
-      </View>
-      <View style={styles.rowContent}>
-        <Text style={layouts.title}>{name}</Text>
-        <ExportModal />
-      </View>
       <View style={styles.content}>
         <Table
           items={details}
@@ -119,11 +104,28 @@ export default function CustomerDetail({
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             total: (value) => `${formatMoneyWithUnit(value)}`,
+            billToName: (value) => value ?? " ",
+            shipToName: (value) => value ?? " ",
           }}
           renderCell={onRenderCell}
           onRefresh={onRefresh}
           //   onRowPress={onSelectRow}
         />
+      </View>
+      <View style={styles.rowContent}>
+        <Text style={layouts.title}>{name}</Text>
+        <ExportModal />
+      </View>
+      <View style={styles.rowContent}>
+        <View style={layouts.horizontal}>
+          <ButtonCalendarFilter
+            ref={calendarRef}
+            onChangeTimeValue={onChangeTimeValue}
+            paddingLeft={scaleWidth(105)}
+            paddingTop={scaleHeight(170)}
+            // defaultValue={timeValue}
+          />
+        </View>
       </View>
     </View>
   );
@@ -132,6 +134,7 @@ export default function CustomerDetail({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column-reverse",
   },
 
   content: {
