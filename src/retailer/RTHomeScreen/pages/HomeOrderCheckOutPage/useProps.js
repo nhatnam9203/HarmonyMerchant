@@ -290,7 +290,11 @@ export const useProps = ({
           }
         );
       } else {
-        addItemAppointmentTemp(submitProducts[0]);
+        addItemAppointmentTemp(
+          Object.assign({}, submitProducts[0], {
+            isCostPrice: isApplyCostPrice,
+          })
+        );
       }
     } else {
       if (!appointment) {
