@@ -1,5 +1,5 @@
 import IMAGE from "@resources";
-import { ButtonGradient } from "@shared/components";
+import { ButtonGradient, FormLabelSwitch } from "@shared/components";
 import { colors, fonts, layouts } from "@shared/themes";
 import { PURCHASE_POINTS_ORDER } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
@@ -22,7 +22,17 @@ const log = (obj, message = "") => {
 };
 
 export const BasketContentView = React.forwardRef(
-  ({ onHadSubmitted, onRemoveItem, onEditItem }, ref) => {
+  (
+    {
+      onHadSubmitted,
+      onRemoveItem,
+      onEditItem,
+      isApplyCostPrice,
+      setIsApplyCostPrice,
+      isTempAppointment,
+    },
+    ref
+  ) => {
     const [t] = useTranslation();
     const dispatch = useDispatch();
 
@@ -189,6 +199,24 @@ export const BasketContentView = React.forwardRef(
           keyExtractor={(item) => item?.key + ""}
         />
         <View style={styles.totalContent}>
+          <View style={layouts.marginVertical} />
+          {isTempAppointment && (
+            <View style={{ height: scaleHeight(45) }}>
+              <FormLabelSwitch
+                label={t("* Apply all items to cost price")}
+                textStyle={{
+                  fontFamily: fonts.MEDIUM,
+                  fontSize: scaleFont(15),
+                  fontWeight: "500",
+                  fontStyle: "normal",
+                  textAlign: "left",
+                  color: colors.GREYISH_BROWN,
+                }}
+                onValueChange={setIsApplyCostPrice}
+                defaultValue={isApplyCostPrice}
+              />
+            </View>
+          )}
           <View style={layouts.marginVertical} />
           <TotalInfo
             label={t("Subtotal")}

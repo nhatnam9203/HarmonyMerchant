@@ -59,7 +59,7 @@ export const BlueButtonStyle = {
 export const ButtonGradient = ({
   width,
   height,
-  borderRadius = 1,
+  borderRadius = scaleWidth(3),
   label = " ",
   textStyle,
   onPress,

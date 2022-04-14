@@ -36,7 +36,11 @@ import { getInfoFromModelNameOfPrinter } from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
-import { useHarmonyQuery, getProductByBarcode } from "@apis";
+import {
+  useHarmonyQuery,
+  getProductByBarcode,
+  applyCostPriceToAppointment,
+} from "@apis";
 
 export const useProps = ({
   params: { purchasePoint = PURCHASE_POINTS_STORE },
@@ -96,6 +100,7 @@ export const useProps = ({
   const [searchVal, setSearchVal] = React.useState();
   const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
+  const [isApplyCostPrice, setIsApplyCostPrice] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -222,6 +227,15 @@ export const useProps = ({
     },
     onError: (e) => {
       console.log(e);
+    },
+  });
+
+  const [, requestApplyToCostPrice] = useHarmonyQuery({
+    onSuccess: (response) => {
+      const { codeStatus } = response || {};
+      if (statusSuccess(codeStatus)) {
+        getAppointmentTemp(appointmentTempId);
+      }
     },
   });
 
@@ -805,6 +819,15 @@ export const useProps = ({
     showScanBarcode: () => {
       if (!inputBarcodeDialogRef.current?.isShow())
         inputBarcodeDialogRef.current?.show();
+    },
+    isApplyCostPrice,
+    isTempAppointment: appointmentTempId && !appointmentId,
+    onChangeApplyCostPrice: (bl) => {
+      setIsApplyCostPrice(bl);
+      if (appointmentTempId) {
+        const args = applyCostPriceToAppointment(appointmentTempId, bl);
+        requestApplyToCostPrice(args);
+      }
     },
   };
 };

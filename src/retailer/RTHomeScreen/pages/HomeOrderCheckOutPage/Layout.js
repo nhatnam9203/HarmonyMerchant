@@ -60,6 +60,9 @@ export const Layout = ({
   inputBarcodeDialogRef,
   showScanBarcode,
   scanCodeTemp,
+  isApplyCostPrice,
+  isTempAppointment,
+  onChangeApplyCostPrice,
 }) => {
   const { t } = useTranslation();
 
@@ -241,6 +244,9 @@ export const Layout = ({
               onHadSubmitted={onHadSubmitted}
               onRemoveItem={onRemoveItem}
               onEditItem={onShowDialogEditProductItem}
+              isApplyCostPrice={isApplyCostPrice}
+              isTempAppointment={isTempAppointment}
+              setIsApplyCostPrice={onChangeApplyCostPrice}
             />
           </View>
         </View>
