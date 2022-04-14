@@ -25,6 +25,8 @@ export const QRCameraScanner = ({ onReadCode }) => {
           customMarker={
             <Image style={styles.markerStyle} source={IMAGE["scan_marker"]} />
           }
+          reactivate={true}
+          reactivateTimeout={1000}
         />
         <TouchableOpacity
           style={{

@@ -374,7 +374,7 @@ export const Layout = ({
           />
         </View>
         <ButtonGradient
-          disable={!isPermission() || isWareHouse}
+          disable={!isPermission() || !isWareHouse}
           onPress={onButtonNewProductPress}
           label={t("Add Product")}
           width={scaleWidth(140)}
