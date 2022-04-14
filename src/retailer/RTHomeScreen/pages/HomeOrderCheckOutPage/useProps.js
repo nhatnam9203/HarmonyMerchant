@@ -289,6 +289,7 @@ export const useProps = ({
             quantity:
               parseInt(findItem?.quantity) + parseInt(productItem?.quantity),
             isCostPrice: isApplyCostPrice,
+            price: findItem.price,
           }
         );
       } else {
