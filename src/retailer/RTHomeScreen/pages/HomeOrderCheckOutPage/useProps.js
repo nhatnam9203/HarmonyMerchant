@@ -246,6 +246,7 @@ export const useProps = ({
     setSubCategories(null);
     setProducts(null);
     setSearchData(null);
+    setIsApplyCostPrice(false);
   };
 
   const reloadAll = () => {
@@ -287,6 +288,7 @@ export const useProps = ({
           {
             quantity:
               parseInt(findItem?.quantity) + parseInt(productItem?.quantity),
+            isCostPrice: isApplyCostPrice,
           }
         );
       } else {
@@ -828,7 +830,7 @@ export const useProps = ({
     isTempAppointment: appointmentTempId && !appointmentId,
     onChangeApplyCostPrice: (bl) => {
       setIsApplyCostPrice(bl);
-      if (appointmentTempId) {
+      if (appointmentTempId && typeof bl !== "undefined") {
         const args = applyCostPriceToAppointment(appointmentTempId, bl);
         requestApplyToCostPrice(args);
       }

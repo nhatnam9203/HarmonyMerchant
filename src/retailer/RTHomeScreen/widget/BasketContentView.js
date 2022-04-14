@@ -213,7 +213,7 @@ export const BasketContentView = React.forwardRef(
                   color: colors.GREYISH_BROWN,
                 }}
                 onValueChange={setIsApplyCostPrice}
-                defaultValue={isApplyCostPrice}
+                defaultValue={false}
               />
             </View>
           )}
