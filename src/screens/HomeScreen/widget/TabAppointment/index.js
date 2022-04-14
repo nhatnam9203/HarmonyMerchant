@@ -9,6 +9,7 @@ import {
   REMOTE_APP_ID,
   APP_NAME,
   POS_SERIAL,
+  requestEditTipDejavoo,
 } from "@utils";
 import { isEmpty } from "lodash";
 import React from "react";
@@ -33,7 +34,6 @@ class TabAppointment extends Layout {
       visiblePrintInvoice: false,
       appointment: null,
       loadMessage: null,
-      appointment: null,
     };
     this.webviewRef = React.createRef();
     this.amountRef = React.createRef();
@@ -276,10 +276,21 @@ class TabAppointment extends Layout {
               break;
             case "goToInvoice":
               if (data?.appointment?.checkoutId > 0) {
-                NavigationServices.navigate("Invoice", {
-                  appointmentFromWeb: data?.appointment,
-                  request: "detail",
-                });
+                //hard code
+                this.props.actions.invoice.getInvoiceDetail(data?.appointment?.checkoutId);
+                ////
+
+                // NavigationServices.navigate("Invoice", {
+                //   appointmentFromWeb: data?.appointment,
+                //   request: "detail",
+                // });
+
+                /////
+              }
+              break;
+            case "editTipCreditCard":
+              if (data?.appointment?.checkoutId > 0) {
+
               }
               break;
             default:
@@ -292,6 +303,10 @@ class TabAppointment extends Layout {
       console.log("Calling from web is error " + error);
     }
   };
+
+  handleEditTipCreditCard(checkoutId, params) {
+    this.props.actions.invoice.getInvoiceDetail(checkoutId);
+  }
 
   doPrintClover(imageUri) {
     const { cloverMachineInfo } = this.props;
@@ -314,7 +329,7 @@ class TabAppointment extends Layout {
   }
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
-    const { isReloadWebview } = this.props;
+    const { isReloadWebview, invoiceDetail } = this.props;
     const { appointment } = this.state;
 
     if (isReloadWebview && isReloadWebview != prevProps.isReloadWebview) {
@@ -330,6 +345,35 @@ class TabAppointment extends Layout {
       // setTimeout(() => {
       //   this.setState({ appointment: null });
       // }, 1000);
+    }
+
+    if(invoiceDetail && invoiceDetail != prevProps.invoiceDetail) {
+      console.log('invoiceDetail', invoiceDetail)
+      if(_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
+        const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
+        const paymentData = paymentInformation?.paymentData;
+        const tip = '10.0'
+        parseString(paymentData, (err, result) => {
+          if (err) {
+            resolve(false);
+          } else {
+            const refId = _.get(result, "xmp.response.0.RefId.0");
+            const invNum = _.get(result, "xmp.response.0.InvNum.0");
+            const last4 = _.get(result, "xmp.response.0.ExtData.AcntLast4")
+            const params = {
+              amount: paymentInformation?.amount,
+              refId,
+              invNum,
+              tip,
+              last4,
+            }
+            requestEditTipDejavoo(params).then((responses) => {
+              console.log('responses edit tip', responses)
+            });
+          }
+        });
+        
+      }
     }
   }
 
@@ -361,6 +405,7 @@ const mapStateToProps = (state) => ({
   isOfflineMode: state.network.isOfflineMode,
   paymentMachineType: state.hardware.paymentMachineType,
   cloverMachineInfo: state.hardware.cloverMachineInfo,
+  invoiceDetail: state.invoice.invoiceDetail,
 });
 
 export default connectRedux(mapStateToProps, TabAppointment);
