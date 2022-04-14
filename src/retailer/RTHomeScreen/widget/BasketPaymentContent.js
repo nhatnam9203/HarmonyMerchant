@@ -571,4 +571,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+
+  icon: {
+    marginRight: scaleWidth(8),
+    resizeMode: "contain",
+  },
 });

@@ -410,4 +410,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+
+  icon: {
+    marginRight: scaleWidth(8),
+    resizeMode: "contain",
+  },
 });

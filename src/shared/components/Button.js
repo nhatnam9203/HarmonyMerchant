@@ -133,7 +133,7 @@ export const ButtonGradient = ({
 
 export const ButtonGradientWhite = ({
   textColor,
-  borderRadius = scaleHeight(1),
+  borderRadius = scaleHeight(3),
   borderColor = "#ccc",
   ...props
 }) => (
@@ -154,7 +154,7 @@ export const ButtonGradientWhite = ({
 
 export const ButtonGradientRed = ({
   textColor,
-  borderRadius = scaleHeight(1),
+  borderRadius = scaleHeight(3),
   borderColor,
   ...props
 }) => (
@@ -175,7 +175,7 @@ export const ButtonGradientRed = ({
 
 export const ButtonGradientGreen = ({
   textColor,
-  borderRadius = scaleHeight(1),
+  borderRadius = scaleHeight(3),
   borderColor,
   ...props
 }) => (

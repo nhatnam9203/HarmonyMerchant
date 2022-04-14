@@ -321,7 +321,11 @@ export const useProps = ({
           );
         } else {
           // add item to appointment
-          addAppointmentItem(submitProducts[0]);
+          addAppointmentItem(
+            Object.assign({}, submitProducts[0], {
+              isCostPrice: isApplyCostPrice,
+            })
+          );
         }
       }
     }

@@ -131,11 +131,11 @@ export const Layout = ({
         <View style={layouts.marginHorizontal} />
         <ButtonGradient
           // disable={true}
-          width={scaleWidth(100)}
+          width={scaleWidth(120)}
           height={scaleHeight(32)}
           fontSize={scaleFont(12)}
           textWeight="normal"
-          label={t("Share receipt")}
+          label={t("Share Receipt")}
           onPress={shareTemptInvoice}
           leftChildren={() => (
             <Image style={styles.icon} source={IMAGE.share_icon} />
@@ -144,11 +144,11 @@ export const Layout = ({
         <View style={layouts.marginHorizontal} />
         <ButtonGradient
           // disable={true}
-          width={scaleWidth(100)}
+          width={scaleWidth(120)}
           height={scaleHeight(32)}
           fontSize={scaleFont(12)}
           textWeight="normal"
-          label={t("Print receipt")}
+          label={t("Print Receipt")}
           onPress={printTemptInvoice}
           leftChildren={() => (
             <Image style={styles.icon} source={IMAGE.print_btn} />
@@ -578,7 +578,7 @@ const styles = StyleSheet.create({
   icon: {
     width: scaleWidth(20),
     height: scaleHeight(20),
-    marginRight: scaleWidth(5),
+    marginRight: scaleWidth(8),
   },
 
   textStyle: {
