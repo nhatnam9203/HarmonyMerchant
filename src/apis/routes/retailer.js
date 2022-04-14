@@ -5,3 +5,6 @@ export const getProductByBarcode = (barcode) => ({
     method: "GET",
   },
 });
+
+
+// export const

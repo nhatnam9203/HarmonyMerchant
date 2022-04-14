@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { InputMoney } from "@shared/components";
-import { formatNumberFromCurrency } from "@utils";
+import { formatNumberFromCurrency, formatMoney } from "@utils";
 
 export const DialogEditProductOrder = React.forwardRef(
   ({ onEditProductItem }, ref) => {
@@ -73,9 +73,9 @@ export const DialogEditProductOrder = React.forwardRef(
     };
 
     const onHandleApplyToCostPrice = () => {
-      if (applyToCost) {
+      if (!applyToCost) {
         setApplyToCost(true);
-        setAmount(productItem?.costPrice ?? 0);
+        setAmount(formatMoney(productItem?.costPrice) ?? 0);
       } else {
         setApplyToCost(false);
         setAmount(productItem?.price);
@@ -153,7 +153,7 @@ export const DialogEditProductOrder = React.forwardRef(
                 <FormLabelSwitch
                   label={t("- Apply to cost price")}
                   onValueChange={onHandleApplyToCostPrice}
-                  defaultValue={applyToCost}
+                  defaultValue={false}
                 />
               </View>
             </View>
