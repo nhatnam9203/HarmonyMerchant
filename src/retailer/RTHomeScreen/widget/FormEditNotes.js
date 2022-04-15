@@ -91,15 +91,23 @@ export const FormEditNotes = ({
           )}
         />
         <View style={layouts.marginHorizontal} />
-        {isShowButtonSubmit && (
-          <ButtonGradient
-            label={t("Submit notes")}
-            width={scaleWidth(140)}
-            height={scaleHeight(40)}
-            fontSize={scaleFont(17)}
-            textWeight="normal"
-            onPress={onHandleSubmitNotes}
-          />
+        {true && (
+          <View
+            style={{
+              flex: 1,
+              alignItems: "flex-end",
+              justifyContent: "flex-start",
+            }}
+          >
+            <ButtonGradient
+              label={t("Submit notes")}
+              width={scaleWidth(140)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textWeight="normal"
+              onPress={onHandleSubmitNotes}
+            />
+          </View>
         )}
       </View>
     </View>
@@ -154,7 +162,7 @@ const styles = StyleSheet.create({
 
   notesContainer: {
     maxHeight: scaleHeight(135),
-    width: "100%",
+    flex: 1,
   },
 
   horizontal: {
