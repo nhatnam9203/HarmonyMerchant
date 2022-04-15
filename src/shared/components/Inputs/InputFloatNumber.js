@@ -10,7 +10,7 @@ export const InputFloatNumber = (props) => {
     textAlign = "center",
     style,
     textStyle,
-    value,
+    value = "0",
     ...txtInputProps
   } = props;
 

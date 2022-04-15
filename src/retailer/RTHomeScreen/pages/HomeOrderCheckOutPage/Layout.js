@@ -60,6 +60,9 @@ export const Layout = ({
   inputBarcodeDialogRef,
   showScanBarcode,
   scanCodeTemp,
+  isApplyCostPrice,
+  isTempAppointment,
+  onChangeApplyCostPrice,
 }) => {
   const { t } = useTranslation();
 
@@ -241,6 +244,9 @@ export const Layout = ({
               onHadSubmitted={onHadSubmitted}
               onRemoveItem={onRemoveItem}
               onEditItem={onShowDialogEditProductItem}
+              isApplyCostPrice={isApplyCostPrice}
+              isTempAppointment={isTempAppointment}
+              setIsApplyCostPrice={onChangeApplyCostPrice}
             />
           </View>
         </View>
@@ -403,5 +409,10 @@ const styles = StyleSheet.create({
     height: scaleHeight(40),
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+
+  icon: {
+    marginRight: scaleWidth(8),
+    resizeMode: "contain",
   },
 });

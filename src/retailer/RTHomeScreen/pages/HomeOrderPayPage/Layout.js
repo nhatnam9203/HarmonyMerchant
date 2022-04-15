@@ -131,11 +131,11 @@ export const Layout = ({
         <View style={layouts.marginHorizontal} />
         <ButtonGradient
           // disable={true}
-          width={scaleWidth(100)}
+          width={scaleWidth(120)}
           height={scaleHeight(32)}
           fontSize={scaleFont(12)}
           textWeight="normal"
-          label={t("Share receipt")}
+          label={t("Share Receipt")}
           onPress={shareTemptInvoice}
           leftChildren={() => (
             <Image style={styles.icon} source={IMAGE.share_icon} />
@@ -144,11 +144,11 @@ export const Layout = ({
         <View style={layouts.marginHorizontal} />
         <ButtonGradient
           // disable={true}
-          width={scaleWidth(100)}
+          width={scaleWidth(120)}
           height={scaleHeight(32)}
           fontSize={scaleFont(12)}
           textWeight="normal"
-          label={t("Print receipt")}
+          label={t("Print Receipt")}
           onPress={printTemptInvoice}
           leftChildren={() => (
             <Image style={styles.icon} source={IMAGE.print_btn} />
@@ -199,7 +199,7 @@ export const Layout = ({
 
         <View style={styles.container}>
           <View style={styles.listContent}>
-            <View style={styles.basketHeader}>
+            <View style={styles.paymentHeader}>
               <Text style={styles.basketTitle}>
                 {t("Select payment method")}
               </Text>
@@ -526,18 +526,27 @@ const styles = StyleSheet.create({
     borderRightColor: "#dddddd",
   },
 
-  basketHeader: {
+  paymentHeader: {
     height: scaleHeight(48),
     backgroundColor: colors.VERY_LIGHT_PINK_1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: scaleWidth(16),
-
     borderTopWidth: scaleWidth(1),
     borderBottomWidth: scaleWidth(1),
     borderStyle: "solid",
     borderColor: "#dddddd",
+  },
+
+  basketHeader: {
+    height: scaleHeight(48),
+    backgroundColor: colors.VERY_LIGHT_PINK_1,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#dddddd",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   basketTitle: {
@@ -578,7 +587,7 @@ const styles = StyleSheet.create({
   icon: {
     width: scaleWidth(20),
     height: scaleHeight(20),
-    marginRight: scaleWidth(5),
+    marginRight: scaleWidth(8),
   },
 
   textStyle: {

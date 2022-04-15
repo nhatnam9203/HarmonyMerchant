@@ -5,3 +5,14 @@ export const getProductByBarcode = (barcode) => ({
     method: "GET",
   },
 });
+
+export const applyCostPriceToAppointment = (
+  tempAppointmentId,
+  isCostPrice
+) => ({
+  queryId: "applyCostPriceToAppointment",
+  params: {
+    url: `retailer/appointment/changepriceforbasket/${tempAppointmentId}/change/${isCostPrice}`,
+    method: "PUT",
+  },
+});

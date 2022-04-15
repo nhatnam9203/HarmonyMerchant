@@ -36,7 +36,11 @@ import { getInfoFromModelNameOfPrinter } from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
-import { useHarmonyQuery, getProductByBarcode } from "@apis";
+import {
+  useHarmonyQuery,
+  getProductByBarcode,
+  applyCostPriceToAppointment,
+} from "@apis";
 
 export const useProps = ({
   params: { purchasePoint = PURCHASE_POINTS_STORE },
@@ -96,6 +100,7 @@ export const useProps = ({
   const [searchVal, setSearchVal] = React.useState();
   const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
+  const [isApplyCostPrice, setIsApplyCostPrice] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -225,6 +230,15 @@ export const useProps = ({
     },
   });
 
+  const [, requestApplyToCostPrice] = useHarmonyQuery({
+    onSuccess: (response) => {
+      const { codeStatus } = response || {};
+      if (statusSuccess(codeStatus)) {
+        getAppointmentTemp(appointmentTempId);
+      }
+    },
+  });
+
   const resetAll = async () => {
     setCategoryId(null);
     setActiveTab(CUSTOM_LIST_TYPES.CAT);
@@ -232,6 +246,7 @@ export const useProps = ({
     setSubCategories(null);
     setProducts(null);
     setSearchData(null);
+    setIsApplyCostPrice(false);
   };
 
   const reloadAll = () => {
@@ -273,10 +288,16 @@ export const useProps = ({
           {
             quantity:
               parseInt(findItem?.quantity) + parseInt(productItem?.quantity),
+            isCostPrice: isApplyCostPrice,
+            price: findItem.price,
           }
         );
       } else {
-        addItemAppointmentTemp(submitProducts[0]);
+        addItemAppointmentTemp(
+          Object.assign({}, submitProducts[0], {
+            isCostPrice: isApplyCostPrice,
+          })
+        );
       }
     } else {
       if (!appointment) {
@@ -296,11 +317,18 @@ export const useProps = ({
           appointmentUpdateProductItem(
             appointmentId,
             findItem?.bookingProductId,
-            { quantity: findItem?.quantity + productItem?.quantity }
+            {
+              quantity: findItem?.quantity + productItem?.quantity,
+              isCostPrice: isApplyCostPrice,
+            }
           );
         } else {
           // add item to appointment
-          addAppointmentItem(submitProducts[0]);
+          addAppointmentItem(
+            Object.assign({}, submitProducts[0], {
+              isCostPrice: isApplyCostPrice,
+            })
+          );
         }
       }
     }
@@ -805,6 +833,15 @@ export const useProps = ({
     showScanBarcode: () => {
       if (!inputBarcodeDialogRef.current?.isShow())
         inputBarcodeDialogRef.current?.show();
+    },
+    isApplyCostPrice,
+    isTempAppointment: appointmentTempId && !appointmentId,
+    onChangeApplyCostPrice: (bl) => {
+      setIsApplyCostPrice(bl);
+      if (appointmentTempId && typeof bl !== "undefined") {
+        const args = applyCostPriceToAppointment(appointmentTempId, bl);
+        requestApplyToCostPrice(args);
+      }
     },
   };
 };
