@@ -164,7 +164,7 @@ export const useProps = ({
 
       // if (!data) return;
 
-      if (statusSuccess(codeStatus)) {
+      if (statusSuccess(codeStatus) && scanCodeTemp) {
         const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
         if (tmp) {
@@ -188,7 +188,7 @@ export const useProps = ({
                   productQuantityId: tmp?.id,
                 })
               );
-            }, 250);
+            }, 50);
           } else {
             alert("Product is out of stock!");
           }
@@ -198,7 +198,7 @@ export const useProps = ({
           if (data?.quantities?.length > 0) {
             setTimeout(() => {
               productDetailRef.current?.show(data);
-            }, 550);
+            }, 750);
           } else {
             if (!isCheckQty || data?.quantity >= 1) {
               setTimeout(() => {
@@ -208,11 +208,10 @@ export const useProps = ({
                     quantity: 1,
                   })
                 );
-              }, 250);
+              }, 50);
             } else {
               alert("Product is out of stock!");
             }
-
             setScanCodeTemp(null);
           }
         }
