@@ -8,7 +8,7 @@ import { getFullName, splitCodeAndPhone } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { DialogNewCustomer } from "./DialogNewCustomer";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);

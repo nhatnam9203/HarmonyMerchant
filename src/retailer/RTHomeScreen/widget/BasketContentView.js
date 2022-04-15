@@ -132,9 +132,6 @@ export const BasketContentView = React.forwardRef(
     }));
 
     const renderItem = ({ item }) => {
-      // const firstItem = item.value[0];
-      // const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
-
       const onHandleDeleteItem = () => {
         if (onRemoveItem && typeof onRemoveItem === "function") {
           onRemoveItem(item);
@@ -176,14 +173,30 @@ export const BasketContentView = React.forwardRef(
               </Text>
               <Text style={styles.totalInfoText}>{item?.value}</Text>
             </View>
-            <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
-              "items"
-            )}`}</Text>
+            <View
+              style={{
+                width: scaleWidth(70),
+                justifyContent: "center",
+                alignItems: "flex-end",
+              }}
+            >
+              <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
+                "items"
+              )}`}</Text>
+            </View>
+
             <View style={layouts.marginHorizontal} />
-            <View style={layouts.marginHorizontal} />
-            <Text style={styles.productItemPrice}>
-              {formatMoneyWithUnit(item?.price)}
-            </Text>
+            <View
+              style={{
+                width: scaleWidth(80),
+                justifyContent: "center",
+                alignItems: "flex-end",
+              }}
+            >
+              <Text style={styles.productItemPrice}>
+                {formatMoneyWithUnit(item?.price)}
+              </Text>
+            </View>
           </TouchableOpacity>
         </ProductItem>
       );
