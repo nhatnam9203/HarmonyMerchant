@@ -269,14 +269,29 @@ export const BasketPaymentContent = React.forwardRef(
                 </View>
               )}
             </View>
-            <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
-              "items"
-            )}`}</Text>
+            <View
+              style={{
+                width: scaleWidth(70),
+                justifyContent: "center",
+                alignItems: "flex-end",
+              }}
+            >
+              <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
+                "items"
+              )}`}</Text>
+            </View>
             <View style={layouts.marginHorizontal} />
-            <View style={layouts.marginHorizontal} />
-            <Text style={styles.productItemPrice}>
-              {formatMoneyWithUnit(item?.price)}
-            </Text>
+            <View
+              style={{
+                width: scaleWidth(80),
+                justifyContent: "center",
+                alignItems: "flex-end",
+              }}
+            >
+              <Text style={styles.productItemPrice}>
+                {formatMoneyWithUnit(item?.price)}
+              </Text>
+            </View>
           </View>
         </TouchableOpacity>
       );

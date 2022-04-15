@@ -199,7 +199,7 @@ export const Layout = ({
 
         <View style={styles.container}>
           <View style={styles.listContent}>
-            <View style={styles.basketHeader}>
+            <View style={styles.paymentHeader}>
               <Text style={styles.basketTitle}>
                 {t("Select payment method")}
               </Text>
@@ -526,18 +526,27 @@ const styles = StyleSheet.create({
     borderRightColor: "#dddddd",
   },
 
-  basketHeader: {
+  paymentHeader: {
     height: scaleHeight(48),
     backgroundColor: colors.VERY_LIGHT_PINK_1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: scaleWidth(16),
-
     borderTopWidth: scaleWidth(1),
     borderBottomWidth: scaleWidth(1),
     borderStyle: "solid",
     borderColor: "#dddddd",
+  },
+
+  basketHeader: {
+    height: scaleHeight(48),
+    backgroundColor: colors.VERY_LIGHT_PINK_1,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#dddddd",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   basketTitle: {
