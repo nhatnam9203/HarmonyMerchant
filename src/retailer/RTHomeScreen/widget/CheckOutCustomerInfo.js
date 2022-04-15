@@ -15,7 +15,7 @@ const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 
 export const CheckOutCustomerInfo = React.forwardRef(
   ({ customerInfo, canDelete = false }, ref) => {
-    const [t] = useTranslation();
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const dialogNewRef = React.useRef(null);
     const dialogPhoneRef = React.useRef(null);
@@ -110,8 +110,8 @@ export const CheckOutCustomerInfo = React.forwardRef(
             <View style={layouts.marginHorizontal} />
             <ButtonPhone
               dialogPhoneRef={dialogPhoneRef}
-              width={scaleWidth(30)}
-              height={scaleHeight(30)}
+              width={scaleWidth(35)}
+              height={scaleHeight(35)}
               fontSize={scaleFont(13)}
               textWeight="normal"
               onPress={onSubmitPhone}
@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
   icon: {
     width: scaleWidth(18),
     height: scaleHeight(18),
+    resizeMode: "contain",
   },
 
   textStyle: {

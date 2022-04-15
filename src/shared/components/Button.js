@@ -60,7 +60,7 @@ export const ButtonGradient = ({
   width,
   height,
   borderRadius = scaleWidth(3),
-  label = " ",
+  label,
   textStyle,
   onPress,
   borderWidth = scaleWidth(1),
@@ -111,7 +111,7 @@ export const ButtonGradient = ({
               size={scaleWidth(25)}
               color="#fff"
             />
-          ) : (
+          ) : !!label ? (
             <Text
               style={[
                 styles.buttonText,
@@ -123,6 +123,8 @@ export const ButtonGradient = ({
             >
               {label}
             </Text>
+          ) : (
+            <></>
           )}
           {children}
         </LinearGradient>

@@ -33,7 +33,7 @@ export const BasketContentView = React.forwardRef(
     },
     ref
   ) => {
-    const [t] = useTranslation();
+    const { t } = useTranslation();
     const dispatch = useDispatch();
 
     const [appointmentItem, setAppointmentItem] = React.useState(null);
