@@ -317,7 +317,10 @@ export const useProps = ({
           appointmentUpdateProductItem(
             appointmentId,
             findItem?.bookingProductId,
-            { quantity: findItem?.quantity + productItem?.quantity }
+            {
+              quantity: findItem?.quantity + productItem?.quantity,
+              isCostPrice: isApplyCostPrice,
+            }
           );
         } else {
           // add item to appointment
