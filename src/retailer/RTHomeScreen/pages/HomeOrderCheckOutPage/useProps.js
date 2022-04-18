@@ -41,6 +41,7 @@ import {
   getProductByBarcode,
   applyCostPriceToAppointment,
 } from "@apis";
+import { useGetAppointmentQuery } from "@shared/services";
 
 export const useProps = ({
   params: { purchasePoint = PURCHASE_POINTS_STORE },
@@ -164,7 +165,9 @@ export const useProps = ({
 
       // if (!data) return;
 
-      if (statusSuccess(codeStatus) && scanCodeTemp) {
+      if (statusSuccess(codeStatus)) {
+        if (!scanCodeTemp) return;
+
         const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
         if (tmp) {
@@ -188,17 +191,20 @@ export const useProps = ({
                   productQuantityId: tmp?.id,
                 })
               );
-            }, 50);
+
+              setScanCodeTemp(null);
+            }, 250);
           } else {
             alert("Product is out of stock!");
+            setScanCodeTemp(null);
           }
-          setScanCodeTemp(null);
         } else {
           inputBarcodeDialogRef.current?.hide();
           if (data?.quantities?.length > 0) {
             setTimeout(() => {
               productDetailRef.current?.show(data);
-            }, 750);
+              setScanCodeTemp(null);
+            }, 550);
           } else {
             if (!isCheckQty || data?.quantity >= 1) {
               setTimeout(() => {
@@ -208,11 +214,12 @@ export const useProps = ({
                     quantity: 1,
                   })
                 );
-              }, 50);
+                setScanCodeTemp(null);
+              }, 250);
             } else {
               alert("Product is out of stock!");
+              setScanCodeTemp(null);
             }
-            setScanCodeTemp(null);
           }
         }
 
@@ -237,6 +244,13 @@ export const useProps = ({
       }
     },
   });
+
+  // const appointmentQuery = useGetAppointmentQuery(appointmentId, {
+  //   skip: true,
+  //   selectFromResult: (data) => {
+  //     console.log(data);
+  //   },
+  // });
 
   const resetAll = async () => {
     setCategoryId(null);
@@ -275,7 +289,7 @@ export const useProps = ({
     if (appointmentTempId) {
       const findItem = appointmentTemp?.products?.find(
         (x) =>
-          x.productQuantityId === productItem.productQuantityId ||
+          x.productQuantityId == productItem.productQuantityId ||
           (productItem?.quantities?.length <= 0 &&
             x.productId === productItem.productId)
       );
@@ -319,6 +333,7 @@ export const useProps = ({
             {
               quantity: findItem?.quantity + productItem?.quantity,
               isCostPrice: isApplyCostPrice,
+              price: findItem.price,
             }
           );
         } else {
@@ -728,11 +743,13 @@ export const useProps = ({
     onResultScanCode: async (data) => {
       if (data?.trim()) {
         const code = data?.trim();
-        await setScanCodeTemp(code);
-        const args = getProductByBarcode(code);
+        if (scanCodeTemp) return;
+
+        setScanCodeTemp(code);
         setTimeout(() => {
+          const args = getProductByBarcode(code);
           requestGetProductByBarcode(args);
-        }, 250);
+        }, 350);
         // getProductsByBarcode(code);
       } else {
         setTimeout(() => {
