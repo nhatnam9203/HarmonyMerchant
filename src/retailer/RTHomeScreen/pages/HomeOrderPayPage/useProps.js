@@ -317,12 +317,14 @@ export const useProps = ({
     useUpdateAppointmentTax();
 
   const onCompleteBack = async () => {
-    if (screenId && screenId !== "retailer.home.order.check_out") {
+    console.log(screenId);
+
+    if (screenId && screenId != "retailer.home.order.check_out") {
       NavigationServices.navigate(screenId, {
         reload: true,
       });
     } else
-      NavigationServices.navigate("retailer.home.order", {
+      NavigationServices.navigate("retailer.home.order.list", {
         reload: true,
       });
   };

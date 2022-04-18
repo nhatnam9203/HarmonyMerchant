@@ -33,14 +33,12 @@ export const DialogEditProductOrder = React.forwardRef(
     /**
   |--------------------------------------------------
   | CALL API
-
   |--------------------------------------------------
   */
     const [productsGet, getProducts] = useGetProducts();
 
     React.useImperativeHandle(ref, () => ({
       show: (item) => {
-        console.log(item);
         dialogRef.current?.show();
         setQuantity(item.quantity ?? 1);
         setAmount(item.price ?? 0);
@@ -102,6 +100,8 @@ export const DialogEditProductOrder = React.forwardRef(
               formatNumberFromCurrency(amount)
             ) {
               setApplyToCost(true);
+            } else {
+              setApplyToCost(false);
             }
           }
         } else {
@@ -111,10 +111,12 @@ export const DialogEditProductOrder = React.forwardRef(
             formatNumberFromCurrency(amount)
           ) {
             setApplyToCost(true);
+          } else {
+            setApplyToCost(false);
           }
         }
       }
-    }, [productsGet]);
+    }, [productsGet, amount]);
 
     return (
       <View>
@@ -167,6 +169,7 @@ export const DialogEditProductOrder = React.forwardRef(
                 textAlign="center"
                 value={`${amount}`}
                 onChangeText={setAmount}
+                editable={applyToCost}
               />
             </View>
             <View style={styles.marginVertical} />
