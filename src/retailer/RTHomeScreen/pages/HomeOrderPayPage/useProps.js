@@ -317,7 +317,7 @@ export const useProps = ({
     useUpdateAppointmentTax();
 
   const onCompleteBack = async () => {
-    console.log(screenId);
+    // console.log(screenId);
 
     if (screenId && screenId != "retailer.home.order.check_out") {
       NavigationServices.navigate(screenId, {
