@@ -1,5 +1,7 @@
 export const appointmentBuilder = (builder) => ({
   getAppointment: builder.query({
-    query: (appointmentId) => ({ url: `/${appointmentId}` }),
+    query: (appointmentId) => ({
+      url: `retailer/appointment/${appointmentId}`,
+    }),
   }),
 });

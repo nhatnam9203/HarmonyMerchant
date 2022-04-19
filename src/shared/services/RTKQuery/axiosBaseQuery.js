@@ -13,6 +13,7 @@ export const axiosHarmony = axios.create({
       Platform.OS
     }`,
     // DeviceID: `${encodeURIComponent(deviceName)}_${deviceId}`,
+    From: "POS",
   },
 });
 
@@ -63,7 +64,7 @@ axiosHarmony.interceptors.response.use(
     return response;
   },
   async (error) => {
-    log(error, "error");
+    console.log(error);
     const config = error?.config;
 
     if (error?.response?.status === 401 && !config._retry) {
@@ -88,7 +89,6 @@ export const axiosBaseQuery =
         params,
       });
 
-      console.log(result);
       return { data: result.data };
     } catch (axiosError) {
       let err = axiosError;

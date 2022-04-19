@@ -1,8 +1,8 @@
-import { createApi } from "@reduxjs/toolkit/query";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../axiosBaseQuery";
 import { appointmentBuilder } from "./appointment";
 
-const harmonyApi = createApi({
+export const harmonyApi = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl: "",
   }),
@@ -15,4 +15,4 @@ const harmonyApi = createApi({
   },
 });
 
-export const { useGetAppointmentQuery } = harmonyApi;
+export const { useGetAppointmentQuery, usePrefetch } = harmonyApi;
