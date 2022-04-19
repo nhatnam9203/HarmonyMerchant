@@ -1,7 +1,7 @@
 import {
   ButtonGradient,
   FormInputAmount,
-  FormLabelSwitch,
+  SwitchLabel,
 } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { useGetProducts } from "@shared/services/api/retailer";
@@ -15,7 +15,7 @@ import { InputMoney } from "@shared/components";
 import { formatNumberFromCurrency, formatMoney } from "@utils";
 
 export const DialogEditProductOrder = React.forwardRef(
-  ({ onEditProductItem }, ref) => {
+  ({ onEditProductItem, isApplyCostPrice }, ref) => {
     const dispatch = useDispatch();
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
@@ -29,19 +29,19 @@ export const DialogEditProductOrder = React.forwardRef(
     const [productItem, setProductItem] = React.useState(null);
     const [maxCountQty, setMaxCountQty] = React.useState(10);
     const [applyToCost, setApplyToCost] = React.useState(false);
+    const [sourceItem, setSourceItem] = React.useState(null);
 
     /**
   |--------------------------------------------------
   | CALL API
-
   |--------------------------------------------------
   */
     const [productsGet, getProducts] = useGetProducts();
 
     React.useImperativeHandle(ref, () => ({
       show: (item) => {
-        console.log(item);
         dialogRef.current?.show();
+        setSourceItem(null);
         setQuantity(item.quantity ?? 1);
         setAmount(item.price ?? 0);
         setProductItem(item);
@@ -78,7 +78,7 @@ export const DialogEditProductOrder = React.forwardRef(
         setAmount(formatMoney(productItem?.costPrice) ?? 0);
       } else {
         setApplyToCost(false);
-        setAmount(productItem?.price);
+        setAmount(sourceItem?.price);
       }
     };
     /**
@@ -96,25 +96,31 @@ export const DialogEditProductOrder = React.forwardRef(
           );
 
           if (findItem) {
+            setSourceItem(findItem);
             setMaxCountQty(findItem.quantity);
             if (
               formatNumberFromCurrency(findItem.costPrice ?? 0) ===
               formatNumberFromCurrency(amount)
             ) {
               setApplyToCost(true);
+            } else {
+              setApplyToCost(false);
             }
           }
         } else {
+          setSourceItem(data);
           setMaxCountQty(data.quantity);
           if (
             formatNumberFromCurrency(data.costPrice ?? 0) ===
             formatNumberFromCurrency(amount)
           ) {
             setApplyToCost(true);
+          } else {
+            setApplyToCost(false);
           }
         }
       }
-    }, [productsGet]);
+    }, [productsGet, amount]);
 
     return (
       <View>
@@ -137,27 +143,29 @@ export const DialogEditProductOrder = React.forwardRef(
           style={styles.dialog}
         >
           <View style={styles.container}>
-            <View style={styles.marginVertical} />
-            <Text style={styles.textStyle}>{t("Price ($)")}</Text>
-
-            <View
-              style={{
-                height: scaleHeight(40),
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-start",
-              }}
-            >
-              <View style={{ width: scaleWidth(20) }} />
-              <View style={{ width: scaleWidth(200) }}>
-                <FormLabelSwitch
-                  label={t("- Apply to cost price")}
-                  onValueChange={onHandleApplyToCostPrice}
-                  defaultValue={false}
-                />
+            {!isApplyCostPrice && (
+              <View>
+                <View style={styles.marginVertical} />
+                <Text style={styles.textStyle}>{t("Price ($)")}</Text>
+                <View
+                  style={{
+                    height: scaleHeight(40),
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <View style={{ width: scaleWidth(20) }} />
+                  <View style={{ width: scaleWidth(200) }}>
+                    <SwitchLabel
+                      label={t("- Apply to cost price")}
+                      toggleSwitch={onHandleApplyToCostPrice}
+                      isEnabled={applyToCost}
+                    />
+                  </View>
+                </View>
               </View>
-            </View>
-
+            )}
             <View style={styles.marginVertical} />
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <InputMoney
@@ -167,10 +175,10 @@ export const DialogEditProductOrder = React.forwardRef(
                 textAlign="center"
                 value={`${amount}`}
                 onChangeText={setAmount}
+                editable={!applyToCost}
               />
             </View>
             <View style={styles.marginVertical} />
-
             <Text style={styles.textStyle}>{t("Quantity")}</Text>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <FormInputAmount

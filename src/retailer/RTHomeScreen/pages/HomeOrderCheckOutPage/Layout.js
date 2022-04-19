@@ -274,6 +274,7 @@ export const Layout = ({
       <DialogEditProductOrder
         ref={editProductItemRef}
         onEditProductItem={onSubmitEditProductItem}
+        isApplyCostPrice={isApplyCostPrice}
       />
 
       {/* <PopupBill

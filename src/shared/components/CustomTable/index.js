@@ -89,6 +89,7 @@ export function Table({
   tableStyle,
   sortLocal = SORT_STATE.desc,
   renderFooterComponent,
+  renderHeaderComponent,
   flatListRef = (ref) => {},
   highlightIndex,
   // params olds
@@ -414,6 +415,13 @@ export function Table({
     }
   };
 
+  const onRenderHeaderComponent = () => {
+    if (renderHeaderComponent && typeof renderHeaderComponent === "function") {
+      return renderHeaderComponent();
+    }
+    return <View />;
+  };
+
   // render line spacing
   const renderSeparator = () => {
     return <View style={styles.separator} />;
@@ -453,7 +461,7 @@ export function Table({
           data={tableData}
           renderItem={renderItem}
           keyExtractor={(item) => getValueForColumnKey(item, primaryKey)}
-          // ListHeaderComponent={renderHeader}
+          ListHeaderComponent={onRenderHeaderComponent}
           ListFooterComponent={onRenderFooterSpace}
           ItemSeparatorComponent={renderSeparator}
           ListEmptyComponent={() => (
@@ -475,7 +483,7 @@ export function Table({
           ref={flatListRef}
           renderItem={renderItem}
           keyExtractor={(item) => getValueForColumnKey(item, primaryKey)}
-          // ListHeaderComponent={renderHeader}
+          ListHeaderComponent={onRenderHeaderComponent}
           ListFooterComponent={onRenderFooterSpace}
           ItemSeparatorComponent={renderSeparator}
           ListEmptyComponent={() => (
