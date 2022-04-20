@@ -8,11 +8,15 @@ import { LineHeader, LineItem } from "./ReceiptLine";
 const SALON_COLUMN_WIDTH = [4, 3, 3];
 const RETAILER_RETURN_COLUMN_WIDTH = [3, 1, 2, 2, 2];
 const RETAILER_COLUMN_WIDTH = [3, 2.5, 1.5, 3];
+const SETTLEMENT_COLUMN_WIDTH = [2, 2, 2, 2, 2];
+const TWO_COLS = [1, 1];
 
 export const ReceiptItemType = {
   SALON: "SalonPos",
   RETAILER: "RetailerPos",
   RETAILER_RETURN: "RetailerReturn",
+  SETTLEMENT: "Settlement",
+  TWO_COLS: "TwoCols",
 };
 
 export const ReceiptItem = ({ item, index, type }) => {
@@ -34,6 +38,89 @@ export const ReceiptItem = ({ item, index, type }) => {
   const totalPrice = formatNumberFromCurrency(price) * qty;
 
   switch (type) {
+    case ReceiptItemType.TWO_COLS:
+      const labelLeftCol = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <TextItem fontSize={scaleFont(16)}>{`${item.name}`}</TextItem>
+        </View>
+      );
+
+      const labelRightCol = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "center",
+          }}
+        >
+          <TextItem fontSize={scaleFont(16)}>{`${formatMoneyWithUnit(
+            item.value
+          )}`}</TextItem>
+        </View>
+      );
+
+      return (
+        <>
+          <View style={styles.margin} />
+          <LayoutTwoColumn
+            columnWidths={TWO_COLS}
+            ColumnOne={labelLeftCol}
+            ColumnTwo={labelRightCol}
+          />
+        </>
+      );
+
+    case ReceiptItemType.SETTLEMENT:
+      const renderSettStaff = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-start",
+            justifyContent: "center",
+            paddingVertical: scaleHeight(8),
+          }}
+        >
+          <TextItem fontSize={scaleFont(14)}>{`${item.name}`}</TextItem>
+        </View>
+      );
+
+      const renderSettPrice = (price) => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "center",
+            paddingVertical: scaleHeight(8),
+          }}
+        >
+          {price && (
+            <TextItem fontSize={scaleFont(14)}>{`${formatMoneyWithUnit(
+              price
+            )}`}</TextItem>
+          )}
+        </View>
+      );
+
+      return (
+        <>
+          {index > 0 && <LineItem />}
+          <LayoutFiveColumn
+            key="settlement-item"
+            columnWidths={SETTLEMENT_COLUMN_WIDTH}
+            ColumnOne={renderSettStaff}
+            ColumnTwo={() => renderSettPrice(item.sales)}
+            ColumnThree={() => renderSettPrice(item.tax)}
+            ColumnFour={() => renderSettPrice(item.tip)}
+            ColumnFive={() => renderSettPrice(item.total)}
+          />
+        </>
+      );
     case ReceiptItemType.RETAILER:
       const onRenderRetailerColumOne = () => (
         <View
@@ -315,7 +402,7 @@ export const ReceiptItem = ({ item, index, type }) => {
   }
 };
 
-export const ReceiptHeaderItem = ({ type }) => {
+export const ReceiptHeaderItem = ({ type, items }) => {
   const { t } = useTranslation();
 
   const onRenderColumOne = () => (
@@ -348,6 +435,67 @@ export const ReceiptHeaderItem = ({ type }) => {
   );
 
   switch (type) {
+    case ReceiptItemType.TWO_COLS:
+      const settLabelLeftCol = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <TextHeader>{t(`${items[0]}`)}</TextHeader>
+        </View>
+      );
+
+      const settLabelRightCol = () => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "center",
+          }}
+        >
+          <TextHeader>{t(`${items[1]}`)}</TextHeader>
+        </View>
+      );
+
+      return (
+        <>
+          <View style={styles.margin} />
+          <LayoutTwoColumn
+            columnWidths={TWO_COLS}
+            ColumnOne={settLabelLeftCol}
+            ColumnTwo={settLabelRightCol}
+          />
+        </>
+      );
+    case ReceiptItemType.SETTLEMENT:
+      const settNameCol = (txt = "") => (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <TextHeader>{t(`${txt}`)}</TextHeader>
+        </View>
+      );
+
+      return (
+        <>
+          <View style={styles.margin} />
+          <LayoutFiveColumn
+            columnWidths={SETTLEMENT_COLUMN_WIDTH}
+            ColumnOne={() => settNameCol("STAFF")}
+            ColumnTwo={() => settNameCol("SALE")}
+            ColumnThree={() => settNameCol("TAX")}
+            ColumnFour={() => settNameCol("TIP")}
+            ColumnFive={() => settNameCol("TOTAL")}
+          />
+        </>
+      );
     case ReceiptItemType.RETAILER:
       return (
         <>
@@ -468,6 +616,20 @@ export const ReceiptTotalItem = ({ type, total }) => {
   );
 
   switch (type) {
+    case ReceiptItemType.SETTLEMENT:
+      return (
+        <>
+          <LayoutFiveColumn
+            key="settlement-item"
+            columnWidths={SETTLEMENT_COLUMN_WIDTH}
+            ColumnOne={onRenderColumOne}
+            ColumnTwo={onRenderColumTwo}
+            ColumnThree={onRenderColumFour}
+            ColumnFour={onRenderColumFour}
+            ColumnFive={onRenderColumThree}
+          />
+        </>
+      );
     case ReceiptItemType.RETAILER:
       return (
         <>
@@ -487,6 +649,30 @@ export const ReceiptTotalItem = ({ type, total }) => {
     default:
       return null;
   }
+};
+
+const LayoutTwoColumn = ({ columnWidths, ColumnOne, ColumnTwo }) => {
+  return (
+    <View style={styles.content}>
+      {columnWidths.map((x, idx) => {
+        switch (idx) {
+          case 0:
+            return (
+              <View key="f-one" style={{ flex: x }}>
+                {ColumnOne()}
+              </View>
+            );
+          case 1:
+          default:
+            return (
+              <View key="f-two" style={{ flex: x }}>
+                {ColumnTwo()}
+              </View>
+            );
+        }
+      })}
+    </View>
+  );
 };
 
 const LayoutFourColumn = ({
@@ -619,8 +805,10 @@ const TextHeader = ({ children }) => (
   <Text style={styles.textHeaderStyle}>{children}</Text>
 );
 
-const TextItem = ({ children }) => (
-  <Text style={styles.textStyle}>{children}</Text>
+const TextItem = ({ children, fontSize }) => (
+  <Text style={[styles.textStyle, { ...(fontSize && { fontSize }) }]}>
+    {children}
+  </Text>
 );
 
 const TextLabel = ({ children }) => (

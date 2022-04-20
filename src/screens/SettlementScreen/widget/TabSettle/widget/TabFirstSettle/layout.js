@@ -385,7 +385,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { settleWaiting, language } = this.props;
+    const { settleWaiting, language, staffSales, gitfCardSales } = this.props;
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -415,6 +415,8 @@ class Layout extends React.Component {
         <PopupSettlementReceipt
           ref={this.receiptRef}
           settlement={settleWaiting}
+          staffSales={staffSales}
+          gitfCardSales={gitfCardSales}
         />
       </View>
     );

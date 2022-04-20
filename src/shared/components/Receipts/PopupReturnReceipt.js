@@ -329,11 +329,12 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 </Text>
                 {/* ------------- Dot Border  ----------- */}
                 <Dash
-                  style={{ width: "100%", height: 1 }}
                   dashGap={5}
                   dashLength={8}
                   dashThickness={1}
                   style={{
+                    width: "100%",
+                    height: 1,
                     marginVertical: scaleHeight(10),
                     marginHorizontal: scaleWidth(4),
                   }}
@@ -394,11 +395,11 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 </View>
                 {/* ------------- Dot Border  ----------- */}
                 <Dash
-                  style={{ height: 1 }}
                   dashGap={5}
                   dashLength={8}
                   dashThickness={1}
                   style={{
+                    height: 1,
                     marginVertical: scaleHeight(10),
                     marginHorizontal: scaleWidth(4),
                   }}
@@ -415,11 +416,12 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
 
                 {/* ------------- Dot Border  ----------- */}
                 <Dash
-                  style={{ width: "100%", height: 1 }}
                   dashGap={5}
                   dashLength={8}
                   dashThickness={1}
                   style={{
+                    width: "100%",
+                    height: 1,
                     marginVertical: scaleHeight(10),
                     marginHorizontal: scaleWidth(4),
                   }}
@@ -492,11 +494,12 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 )}
 
                 <Dash
-                  style={{ width: "100%", height: 1 }}
                   dashGap={5}
                   dashLength={8}
                   dashThickness={1}
                   style={{
+                    width: "100%",
+                    height: 1,
                     marginVertical: scaleHeight(10),
                     marginHorizontal: scaleWidth(4),
                   }}

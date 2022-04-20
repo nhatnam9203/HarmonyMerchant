@@ -5,6 +5,7 @@ export const LineHeader = () => (
   <Dash
     style={{
       height: 1,
+      width: "100%",
       marginVertical: scaleHeight(10),
       marginHorizontal: scaleWidth(0),
     }}
