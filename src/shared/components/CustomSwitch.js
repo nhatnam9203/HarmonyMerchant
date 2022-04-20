@@ -8,20 +8,24 @@ export const CustomSwitch = ({
   disabled,
   isBlock = false,
 }) => {
-  const [isEnabled, setIsEnabled] = React.useState();
+  const [isEnabled, setIsEnabled] = React.useState(defaultValue ?? false);
 
   const toggleSwitch = () => {
     if (!isBlock) {
-      setIsEnabled((previousState) => !previousState);
+      const val = !isEnabled;
+      if (onValueChange && typeof onValueChange === "function") {
+        onValueChange(val);
+      }
+      setIsEnabled(val);
     }
   };
 
-  React.useEffect(() => {
-    if (onValueChange && typeof onValueChange === "function") {
-      onValueChange(isEnabled);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEnabled]);
+  // React.useEffect(() => {
+  //   if (onValueChange && typeof onValueChange === "function") {
+  //     onValueChange(isEnabled);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isEnabled]);
 
   React.useEffect(() => {
     setIsEnabled(defaultValue);

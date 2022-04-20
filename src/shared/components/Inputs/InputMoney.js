@@ -10,7 +10,7 @@ export const InputMoney = (props) => {
     textAlign = "center",
     style,
     textStyle,
-    value,
+    value = "0",
     ...txtInputProps
   } = props;
 
@@ -34,6 +34,7 @@ export const InputMoney = (props) => {
           textStyle,
         ]}
         placeholder="$ 0.00"
+        value={value}
         {...txtInputProps}
       />
     </View>

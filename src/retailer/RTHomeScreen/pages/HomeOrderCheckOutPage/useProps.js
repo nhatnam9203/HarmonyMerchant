@@ -36,7 +36,12 @@ import { getInfoFromModelNameOfPrinter } from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
-import { useHarmonyQuery, getProductByBarcode } from "@apis";
+import {
+  useHarmonyQuery,
+  getProductByBarcode,
+  applyCostPriceToAppointment,
+} from "@apis";
+import { useGetAppointmentQuery } from "@shared/services";
 
 export const useProps = ({
   params: { purchasePoint = PURCHASE_POINTS_STORE },
@@ -96,6 +101,7 @@ export const useProps = ({
   const [searchVal, setSearchVal] = React.useState();
   const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
+  const [isApplyCostPrice, setIsApplyCostPrice] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -160,6 +166,8 @@ export const useProps = ({
       // if (!data) return;
 
       if (statusSuccess(codeStatus)) {
+        if (!scanCodeTemp) return;
+
         const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
         if (tmp) {
@@ -183,16 +191,19 @@ export const useProps = ({
                   productQuantityId: tmp?.id,
                 })
               );
+
+              setScanCodeTemp(null);
             }, 250);
           } else {
             alert("Product is out of stock!");
+            setScanCodeTemp(null);
           }
-          setScanCodeTemp(null);
         } else {
           inputBarcodeDialogRef.current?.hide();
           if (data?.quantities?.length > 0) {
             setTimeout(() => {
               productDetailRef.current?.show(data);
+              setScanCodeTemp(null);
             }, 550);
           } else {
             if (!isCheckQty || data?.quantity >= 1) {
@@ -203,12 +214,12 @@ export const useProps = ({
                     quantity: 1,
                   })
                 );
+                setScanCodeTemp(null);
               }, 250);
             } else {
               alert("Product is out of stock!");
+              setScanCodeTemp(null);
             }
-
-            setScanCodeTemp(null);
           }
         }
 
@@ -225,6 +236,22 @@ export const useProps = ({
     },
   });
 
+  const [, requestApplyToCostPrice] = useHarmonyQuery({
+    onSuccess: (response) => {
+      const { codeStatus } = response || {};
+      if (statusSuccess(codeStatus)) {
+        getAppointmentTemp(appointmentTempId);
+      }
+    },
+  });
+
+  // const appointmentQuery = useGetAppointmentQuery(appointmentId, {
+  //   skip: true,
+  //   selectFromResult: (data) => {
+  //     console.log(data);
+  //   },
+  // });
+
   const resetAll = async () => {
     setCategoryId(null);
     setActiveTab(CUSTOM_LIST_TYPES.CAT);
@@ -232,6 +259,7 @@ export const useProps = ({
     setSubCategories(null);
     setProducts(null);
     setSearchData(null);
+    setIsApplyCostPrice(false);
   };
 
   const reloadAll = () => {
@@ -261,7 +289,7 @@ export const useProps = ({
     if (appointmentTempId) {
       const findItem = appointmentTemp?.products?.find(
         (x) =>
-          x.productQuantityId === productItem.productQuantityId ||
+          x.productQuantityId == productItem.productQuantityId ||
           (productItem?.quantities?.length <= 0 &&
             x.productId === productItem.productId)
       );
@@ -273,10 +301,16 @@ export const useProps = ({
           {
             quantity:
               parseInt(findItem?.quantity) + parseInt(productItem?.quantity),
+            isCostPrice: isApplyCostPrice,
+            price: findItem.price,
           }
         );
       } else {
-        addItemAppointmentTemp(submitProducts[0]);
+        addItemAppointmentTemp(
+          Object.assign({}, submitProducts[0], {
+            isCostPrice: isApplyCostPrice,
+          })
+        );
       }
     } else {
       if (!appointment) {
@@ -296,11 +330,19 @@ export const useProps = ({
           appointmentUpdateProductItem(
             appointmentId,
             findItem?.bookingProductId,
-            { quantity: findItem?.quantity + productItem?.quantity }
+            {
+              quantity: findItem?.quantity + productItem?.quantity,
+              isCostPrice: isApplyCostPrice,
+              price: findItem.price,
+            }
           );
         } else {
           // add item to appointment
-          addAppointmentItem(submitProducts[0]);
+          addAppointmentItem(
+            Object.assign({}, submitProducts[0], {
+              isCostPrice: isApplyCostPrice,
+            })
+          );
         }
       }
     }
@@ -701,11 +743,13 @@ export const useProps = ({
     onResultScanCode: async (data) => {
       if (data?.trim()) {
         const code = data?.trim();
-        await setScanCodeTemp(code);
-        const args = getProductByBarcode(code);
+        if (scanCodeTemp) return;
+
+        setScanCodeTemp(code);
         setTimeout(() => {
+          const args = getProductByBarcode(code);
           requestGetProductByBarcode(args);
-        }, 250);
+        }, 350);
         // getProductsByBarcode(code);
       } else {
         setTimeout(() => {
@@ -805,6 +849,15 @@ export const useProps = ({
     showScanBarcode: () => {
       if (!inputBarcodeDialogRef.current?.isShow())
         inputBarcodeDialogRef.current?.show();
+    },
+    isApplyCostPrice,
+    isTempAppointment: appointmentTempId && !appointmentId,
+    onChangeApplyCostPrice: (bl) => {
+      setIsApplyCostPrice(bl);
+      if (appointmentTempId && typeof bl !== "undefined") {
+        const args = applyCostPriceToAppointment(appointmentTempId, bl);
+        requestApplyToCostPrice(args);
+      }
     },
   };
 };

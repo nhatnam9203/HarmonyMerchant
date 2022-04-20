@@ -52,6 +52,7 @@ class TabFirstSettle extends Layout {
     this.otherAmountRef = React.createRef();
     this.cashAmountRef = React.createRef();
     this.creditAmountRef = React.createRef();
+    this.receiptRef = React.createRef();
   }
 
   setStateFromParent = async () => {
@@ -108,21 +109,28 @@ class TabFirstSettle extends Layout {
     if (Platform.OS === "android") {
       this.handlePAXReport_Android();
     } else {
-      const { cloverMachineInfo, dejavooMachineInfo, paymentMachineType } = this.props;
+      const { cloverMachineInfo, dejavooMachineInfo, paymentMachineType } =
+        this.props;
       if (paymentMachineType == PaymentTerminalType.Clover) {
-        if(l.get(cloverMachineInfo, 'isSetup')){
-          this.handleRequestAPIByTerminalID(l.get(cloverMachineInfo, 'serialNumber'), "clover")
-        }else{
-          this.handleRequestAPIByTerminalID(null, "clover")
+        if (l.get(cloverMachineInfo, "isSetup")) {
+          this.handleRequestAPIByTerminalID(
+            l.get(cloverMachineInfo, "serialNumber"),
+            "clover"
+          );
+        } else {
+          this.handleRequestAPIByTerminalID(null, "clover");
           this.props.actions.app.connectPaxMachineError(
             "Don't have setup in Hardware Tab!"
           );
         }
       } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-        if(l.get(dejavooMachineInfo, 'isSetup')){
-          this.handleRequestAPIByTerminalID(l.get(dejavooMachineInfo, 'sn'), "dejavoo")
-        }else{
-          this.handleRequestAPIByTerminalID(null, "dejavoo")
+        if (l.get(dejavooMachineInfo, "isSetup")) {
+          this.handleRequestAPIByTerminalID(
+            l.get(dejavooMachineInfo, "sn"),
+            "dejavoo"
+          );
+        } else {
+          this.handleRequestAPIByTerminalID(null, "dejavoo");
           this.props.actions.app.connectPaxMachineError(
             "Don't have setup in Hardware Tab!"
           );
@@ -451,7 +459,9 @@ class TabFirstSettle extends Layout {
     this.setState({
       isEditCashAmount: true,
     });
-    this.cashAmountRef.current?.setStateFromParent(this.state.editPaymentByCash);
+    this.cashAmountRef.current?.setStateFromParent(
+      this.state.editPaymentByCash
+    );
   };
 
   cancelEditCashAmount = () => {
@@ -475,7 +485,9 @@ class TabFirstSettle extends Layout {
     this.setState({
       isEditOtherAmount: true,
     });
-    this.otherAmountRef.current?.setStateFromParent(this.state.editOtherPayment);
+    this.otherAmountRef.current?.setStateFromParent(
+      this.state.editOtherPayment
+    );
   };
 
   cancelEditOtherAmount = () => {
@@ -497,6 +509,14 @@ class TabFirstSettle extends Layout {
 
   refreshSettlement = async () => {
     this.handlePAXReport();
+  };
+
+  printSettlement = async () => {
+    this.receiptRef.current?.print();
+  };
+
+  shareSettlement = async () => {
+    this.receiptRef.current?.share();
   };
 
   handleRequestAPIByTerminalID = (terminalID, paymentTerminal) => {
@@ -594,7 +614,7 @@ const mapStateToProps = (state) => ({
   gitfCardSales: state.invoice.gitfCardSales,
   listStaffByMerchant: state.staff.listStaffByMerchant,
   isHandleInternalFirstSettlemetTab:
-  state.invoice.isHandleInternalFirstSettlemetTab,
+    state.invoice.isHandleInternalFirstSettlemetTab,
   cloverMachineInfo: state.hardware.cloverMachineInfo,
   dejavooMachineInfo: state.hardware.dejavooMachineInfo,
   paymentMachineType: state.hardware.paymentMachineType,

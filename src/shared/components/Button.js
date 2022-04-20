@@ -59,8 +59,8 @@ export const BlueButtonStyle = {
 export const ButtonGradient = ({
   width,
   height,
-  borderRadius = 1,
-  label = " ",
+  borderRadius = scaleWidth(3),
+  label,
   textStyle,
   onPress,
   borderWidth = scaleWidth(1),
@@ -111,7 +111,7 @@ export const ButtonGradient = ({
               size={scaleWidth(25)}
               color="#fff"
             />
-          ) : (
+          ) : !!label ? (
             <Text
               style={[
                 styles.buttonText,
@@ -123,6 +123,8 @@ export const ButtonGradient = ({
             >
               {label}
             </Text>
+          ) : (
+            <></>
           )}
           {children}
         </LinearGradient>
@@ -133,7 +135,7 @@ export const ButtonGradient = ({
 
 export const ButtonGradientWhite = ({
   textColor,
-  borderRadius = scaleHeight(1),
+  borderRadius = scaleHeight(3),
   borderColor = "#ccc",
   ...props
 }) => (
@@ -154,7 +156,7 @@ export const ButtonGradientWhite = ({
 
 export const ButtonGradientRed = ({
   textColor,
-  borderRadius = scaleHeight(1),
+  borderRadius = scaleHeight(3),
   borderColor,
   ...props
 }) => (
@@ -175,7 +177,7 @@ export const ButtonGradientRed = ({
 
 export const ButtonGradientGreen = ({
   textColor,
-  borderRadius = scaleHeight(1),
+  borderRadius = scaleHeight(3),
   borderColor,
   ...props
 }) => (

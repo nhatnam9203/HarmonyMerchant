@@ -56,6 +56,7 @@ export default function SalesByProduct({
           items={data}
           headerKeyLabels={{
             name: t("Product name"),
+            barCode: t("Barcode"),
             quantity: t("Qty sold"),
             totalRevenue: t("Total revenue"),
             totalCost: t("Total cost"),
@@ -64,6 +65,7 @@ export default function SalesByProduct({
           }}
           whiteListKeys={[
             "name",
+            "barCode",
             "quantity",
             "totalRevenue",
             "totalCost",
@@ -76,10 +78,11 @@ export default function SalesByProduct({
           //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
             name: scaleWidth(200),
-            quantity: scaleWidth(120),
-            totalRevenue: scaleWidth(180),
-            totalCost: scaleWidth(180),
-            totalTax: scaleWidth(180),
+            barCode: scaleWidth(150),
+            quantity: scaleWidth(80),
+            totalRevenue: scaleWidth(150),
+            totalCost: scaleWidth(150),
+            totalTax: scaleWidth(150),
           }}
           emptyDescription={t("No Report Data")}
           //   styleTextKeys={{ customerName: styles.textName }}

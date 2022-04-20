@@ -23,15 +23,7 @@ import { formatMoneyWithUnit, formatNumberFromCurrency } from "@utils";
 import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  SectionList,
-  KeyboardAvoidingView,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
@@ -39,7 +31,6 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
-import i18next from "i18next";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -70,69 +61,7 @@ export const Layout = ({
   cancelInvoicePrint,
   getTotalQty,
 }) => {
-  const { t } = useTranslation();
-
-  const getSectionData = React.useCallback(() => {
-    let data = [
-      {
-        key: "order",
-        title: i18next.t("Order & Account Information"),
-        data: [1],
-      },
-      {
-        key: "items",
-        title: i18next.t("Items Ordered"),
-        data: [1],
-      },
-    ];
-
-    if (item?.returns?.length > 0) {
-      data.push({
-        key: "return",
-        title: i18next.t("Return History"),
-        data: [1],
-      });
-    }
-
-    if (
-      item?.status === ORDERED_STATUS.PENDING ||
-      (item?.status === ORDERED_STATUS.PROCESS &&
-        item.purchasePoint === PURCHASE_POINTS_ORDER &&
-        item.payment?.length <= 0)
-    ) {
-      data.push({
-        key: "shipping",
-        title: i18next.t("Shipping Method"),
-        data: [1],
-      });
-
-      data.push({
-        key: "address_pending",
-        title: i18next.t("Address Information"),
-        data: [1],
-      });
-    } else {
-      data.push({
-        key: "address_complete",
-        title: i18next.t("Address Information"),
-        data: [1],
-      });
-
-      data.push({
-        key: "payment",
-        title: i18next.t("Payment & Shipping Method"),
-        data: [1],
-      });
-    }
-
-    data.push({
-      key: "total",
-      title: i18next.t("Order Total"),
-      data: [1],
-    });
-
-    return data;
-  }, [item]);
+  const [t] = useTranslation();
 
   const renderButton = () => {
     switch (item?.status) {
@@ -479,13 +408,83 @@ export const Layout = ({
     }
   };
 
-  const onRenderSectionItem = (params) => {
-    const { section } = params || {};
+  // console.log(item);
 
-    switch (section.key) {
-      case "order":
-        return (
-          <View style={[layouts.horizontal, styles.container]}>
+  return (
+    <View style={layouts.fill}>
+      <View style={styles.headContent}>
+        <Text style={styles.headTitle}>
+          {`${t("Order")} `}
+          {
+            <Text style={[styles.headTitle, { color: colors.OCEAN_BLUE }]}>
+              {`#${item?.code}`}
+            </Text>
+          }
+        </Text>
+        <View style={styles.headerRightContent}>
+          <View style={layouts.marginHorizontal} />
+          {renderButton()}
+          <View style={layouts.marginHorizontal} />
+          {item?.invoice?.checkoutId && (
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={shareCustomerInvoice}
+                style={{
+                  width: scaleWidth(40),
+                  height: scaleHeight(40),
+                  backgroundColor: "#0764B0",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: scaleWidth(4),
+                }}
+              >
+                <Image
+                  source={IMAGE.share_icon}
+                  style={{
+                    width: scaleWidth(20),
+                    height: scaleHeight(20),
+                  }}
+                />
+              </TouchableOpacity>
+              <View style={layouts.marginHorizontal} />
+
+              <TouchableOpacity
+                onPress={printCustomerInvoice}
+                style={{
+                  width: scaleWidth(40),
+                  height: scaleHeight(40),
+                  backgroundColor: "#0764B0",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: scaleWidth(4),
+                }}
+              >
+                <Image
+                  source={IMAGE.print_btn}
+                  style={{
+                    width: scaleWidth(20),
+                    height: scaleHeight(20),
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          <View style={layouts.marginHorizontal} />
+          <ButtonGradientWhite
+            width={scaleWidth(40)}
+            height={scaleHeight(40)}
+            fontSize={scaleFont(17)}
+            textWeight="normal"
+            onPress={goBack}
+          >
+            <Image source={IMAGE.back} />
+          </ButtonGradientWhite>
+        </View>
+      </View>
+      <KeyboardAwareScrollView>
+        <View style={styles.container}>
+          <FormTitle label={t("Order & Account Information")} />
+          <View style={layouts.horizontal}>
             <InfoContent label={t("Order Information")}>
               <View style={styles.personContent}>
                 <InfoLine label={t("ID")} infoValue={`#${item?.code}`} />
@@ -527,200 +526,244 @@ export const Layout = ({
               </View>
             </InfoContent>
           </View>
-        );
-      case "items":
-        return (
-          <View style={styles.container}>
-            <Table
-              items={
-                [
-                  ...(item?.products?.map((x) =>
-                    Object.assign({}, x, { key: x.bookingProductId })
-                  ) || []),
-                  ...(item?.giftCards?.map((x) =>
-                    Object.assign({}, x, { key: x.bookingGiftCardId })
-                  ) || []),
-                ] || []
-              }
-              tableStyle={styles.table}
-              headerKeyLabels={{
-                productName: t("Product"),
-                // sku: t("SKU"),
-                price: t("Price"),
-                quantity: t("Qty"),
-                subTotal: t("Subtotal"),
-                tax: t("Tax"),
-                discount: t("Discount"),
-                total: t("Total"),
-                // returnQuantity: t("Return Qty"),
-                status: t("Return"),
-              }}
-              whiteListKeys={[
-                "productName",
-                // "sku",
-                "price",
-                "quantity",
-                "subTotal",
-                "tax",
-                "discount",
-                "total",
-                // "returnQuantity",
-                "status",
-              ]}
-              primaryKey="key"
-              widthForKeys={{
-                productName: scaleWidth(300),
-                // sku: scaleWidth(100),
-                price: scaleWidth(100),
-                quantity: scaleWidth(100),
-                subTotal: scaleWidth(100),
-                tax: scaleWidth(100),
-                discount: scaleWidth(100),
-                // returnQuantity: scaleWidth(80),
-                total: scaleWidth(100),
-              }}
-              emptyDescription={t("No Products")}
-              styleTextKeys={{ total: styles.highLabelTextStyle }}
-              formatFunctionKeys={{
-                price: (value) => `${formatMoneyWithUnit(value || 0)}`,
-                subTotal: (value) => `${formatMoneyWithUnit(value || 0)}`,
-                tax: (value) => `${formatMoneyWithUnit(value || 0)}`,
-                discount: (value) => `${formatMoneyWithUnit(value || 0)}`,
-                total: (value) => `${formatMoneyWithUnit(value || 0)}`,
-              }}
-              renderCell={onRenderCell}
-              renderFooterComponent={() => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    backgroundColor: "#eee",
-                    paddingVertical: scaleHeight(10),
-                  }}
-                >
-                  <View style={layouts.marginHorizontal} />
-                  <Text style={layouts.fontLabel}>{t("Total items")}</Text>
-                  <View style={{ width: scaleWidth(310) }} />
-                  <Text style={layouts.fontLabel}>{`${getTotalQty()}`}</Text>
-                </View>
-              )}
 
-              // onRowPress={onSelectRow}
-              // draggable={true}
-            />
-          </View>
-        );
-      case "shipping":
-        return (
-          <View style={styles.container}>
-            <FormShippingCarrier
-              onChangeValue={onChangeShippingMethod}
-              appointment={item}
-            />
-          </View>
-        );
-      case "address_pending":
-        return (
-          <View style={styles.container}>
-            <FormAddressInformation
-              ref={formAddressRef}
-              customerId={item?.customerId}
-              shippingAddress={item?.shippingAddress}
-              billingAddress={item?.billingAddress}
-              onChangeShippingAddress={onEditShippingAddress}
-              onChangeBillingAddress={onEditBillingAddress}
-              screenId="retailer.home.order.detail"
-            />
-          </View>
-        );
-      case "address_complete":
-        return (
-          <View style={[layouts.horizontal, styles.container]}>
-            <InfoContent label={t("Billing Address")}>
-              {item?.billingAddress && (
-                <View style={styles.personContent}>
-                  <Text>{`${item?.billingAddress?.addressFirstName} ${item?.billingAddress?.addressLastName}\n${item?.billingAddress?.street} ${item?.billingAddress?.city} ${item?.billingAddress?.stateName}\n${item?.billingAddress?.addressPhone}`}</Text>
-                </View>
-              )}
-            </InfoContent>
+          <FormTitle label={t("Items Ordered")} />
+          <Table
+            items={
+              [
+                ...(item?.products?.map((x) =>
+                  Object.assign({}, x, { key: x.bookingProductId })
+                ) || []),
+                ...(item?.giftCards?.map((x) =>
+                  Object.assign({}, x, { key: x.bookingGiftCardId })
+                ) || []),
+              ] || []
+            }
+            tableStyle={styles.table}
+            headerKeyLabels={{
+              productName: t("Product"),
+              // sku: t("SKU"),
+              price: t("Price"),
+              quantity: t("Qty"),
+              subTotal: t("Subtotal"),
+              tax: t("Tax"),
+              discount: t("Discount"),
+              total: t("Total"),
+              // returnQuantity: t("Return Qty"),
+              status: t("Return"),
+            }}
+            whiteListKeys={[
+              "productName",
+              // "sku",
+              "price",
+              "quantity",
+              "subTotal",
+              "tax",
+              "discount",
+              "total",
+              // "returnQuantity",
+              "status",
+            ]}
+            primaryKey="key"
+            widthForKeys={{
+              productName: scaleWidth(300),
+              // sku: scaleWidth(100),
+              price: scaleWidth(100),
+              quantity: scaleWidth(100),
+              subTotal: scaleWidth(100),
+              tax: scaleWidth(100),
+              discount: scaleWidth(100),
+              // returnQuantity: scaleWidth(80),
+              total: scaleWidth(100),
+            }}
+            emptyDescription={t("No Products")}
+            styleTextKeys={{ total: styles.highLabelTextStyle }}
+            formatFunctionKeys={{
+              price: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              subTotal: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              tax: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              discount: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              total: (value) => `${formatMoneyWithUnit(value || 0)}`,
+            }}
+            renderCell={onRenderCell}
+            renderFooterComponent={() => (
+              <View style={{ height: scaleHeight(10) }} />
+            )}
+            // onRowPress={onSelectRow}
+            // draggable={true}
+          />
+          <View style={layouts.marginVertical} />
+          <View
+            style={{
+              flexDirection: "row",
+              backgroundColor: "#ddd",
+              paddingVertical: scaleHeight(10),
+            }}
+          >
             <View style={layouts.marginHorizontal} />
-            <InfoContent label={t("Shipping Address")}>
-              {item?.shippingAddress && (
-                <View style={styles.personContent}>
-                  <Text>{`${item?.shippingAddress?.addressFirstName} ${item?.shippingAddress?.addressLastName}\n${item?.shippingAddress?.street} ${item?.shippingAddress?.city} ${item?.shippingAddress?.stateName}\n${item?.shippingAddress?.addressPhone}`}</Text>
-                </View>
-              )}
-            </InfoContent>
+            <Text style={layouts.fontLabel}>{t("Total items")}</Text>
+            <View style={{ width: scaleWidth(310) }} />
+            <Text style={layouts.fontLabel}>{`${getTotalQty()}`}</Text>
           </View>
-        );
-      case "payment":
-        return (
-          <View style={[layouts.horizontal, styles.container]}>
-            <InfoContent label={t("Payment Informations")}>
-              {item?.payment?.length > 0 &&
-                item?.payment.map((payItem, indx) => (
-                  <View
-                    style={styles.personContent}
-                    key={`${indx}-${payItem?.paymentMethod}-${payItem?.amount}`}
-                  >
-                    <Text style={styles.boldText}>
-                      {`${getPaymentString(
-                        payItem?.paymentMethod
-                      )} - ${formatMoneyWithUnit(payItem?.amount)}`}
-                    </Text>
-                  </View>
-                ))}
-              {item?.didNotPay && (
-                <View style={styles.personContent}>
-                  <Text style={styles.boldText}>{`${t("Did not pay")}`}</Text>
-                </View>
-              )}
-            </InfoContent>
-            <View style={layouts.marginHorizontal} />
-            {/** Shipping  */}
-            <InfoContent label={t("Shipping & Handling Information")}>
-              {/** Shipping Carrier */}
-              {!!item?.shipping?.shippingCarrier && (
-                <View style={styles.personContent}>
-                  <Text>{t("Shipping carrier")}</Text>
-                  <View style={layouts.marginVertical} />
 
-                  <View style={layouts.horizontal}>
-                    {item?.shipping?.shippingCarrier && (
-                      <Text
-                        style={styles.boldText}
-                      >{`${item?.shipping?.shippingCarrier}`}</Text>
-                    )}
-                    {item?.shipping?.shippingCarrier &&
-                      item?.shipping?.trackingNumber && (
-                        <Text style={styles.boldText}>{" - "}</Text>
-                      )}
-                    {item?.shipping?.trackingNumber && (
-                      <Text style={styles.boldText}>{`${
-                        item?.shipping?.trackingNumber
-                      } (${t("Tracking number")})`}</Text>
-                    )}
-                  </View>
-                </View>
-              )}
+          {item?.returns?.length > 0 && (
+            <View>
+              <FormTitle label={`${t("Return History")}`} />
+              <Table
+                items={item?.returns || []}
+                tableStyle={styles.table}
+                headerKeyLabels={{
+                  code: t("Code"),
+                  createdDate: t("Date"),
+                  notes: t("Note"),
+                  createdBy: t("Staff"),
+                  receipt: t("Receipt"),
+                }}
+                whiteListKeys={[
+                  "code",
+                  "createdDate",
+                  "createdBy",
+                  "notes",
+                  "receipt",
+                ]}
+                primaryKey="code"
+                widthForKeys={{
+                  code: scaleWidth(200),
+                  createdDate: scaleWidth(200),
+                  createdBy: scaleWidth(200),
+                  notes: scaleWidth(280),
+                  receipt: scaleWidth(120),
+                }}
+                emptyDescription={t("No Returns History")}
+                styleTextKeys={{ total: styles.highLabelTextStyle }}
+                formatFunctionKeys={{
+                  code: (value) => `#${value}`,
+                  createdDate: (value) =>
+                    dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
+                }}
+                renderCell={onRenderCellReturn}
+                renderFooterComponent={() => (
+                  <View style={{ height: scaleHeight(10) }} />
+                )}
+                // onRowPress={onSelectRow}
+              />
+            </View>
+          )}
 
-              {item?.shipping?.shippingMethod && (
-                <View style={styles.personContent}>
-                  <Text>{t("Shipping method")}</Text>
-                  <View style={layouts.marginVertical} />
+          {item?.status === ORDERED_STATUS.PENDING ||
+          (item?.status === ORDERED_STATUS.PROCESS &&
+            item.purchasePoint === PURCHASE_POINTS_ORDER &&
+            item.payment?.length <= 0) ? (
+            <>
+              <FormTitle label={t("Shipping Method")} />
+              <FormShippingCarrier
+                onChangeValue={onChangeShippingMethod}
+                appointment={item}
+              />
 
-                  <View style={layouts.horizontal}>
-                    <Text
-                      style={styles.boldText}
-                    >{`${getShippingMethodLabel()}`}</Text>
-                  </View>
-                </View>
-              )}
-            </InfoContent>
-          </View>
-        );
-      case "total":
-        return (
-          <View style={[layouts.horizontal, styles.container]}>
+              <FormTitle label={t("Address Information")} />
+              <FormAddressInformation
+                ref={formAddressRef}
+                customerId={item?.customerId}
+                shippingAddress={item?.shippingAddress}
+                billingAddress={item?.billingAddress}
+                onChangeShippingAddress={onEditShippingAddress}
+                onChangeBillingAddress={onEditBillingAddress}
+                screenId="retailer.home.order.detail"
+              />
+            </>
+          ) : (
+            <>
+              <FormTitle label={t("Address Information")} />
+              <View style={layouts.horizontal}>
+                <InfoContent label={t("Billing Address")}>
+                  {item?.billingAddress && (
+                    <View style={styles.personContent}>
+                      <Text>{`${item?.billingAddress?.addressFirstName} ${item?.billingAddress?.addressLastName}\n${item?.billingAddress?.street} ${item?.billingAddress?.city} ${item?.billingAddress?.stateName}\n${item?.billingAddress?.addressPhone}`}</Text>
+                    </View>
+                  )}
+                </InfoContent>
+                <View style={layouts.marginHorizontal} />
+                <InfoContent label={t("Shipping Address")}>
+                  {item?.shippingAddress && (
+                    <View style={styles.personContent}>
+                      <Text>{`${item?.shippingAddress?.addressFirstName} ${item?.shippingAddress?.addressLastName}\n${item?.shippingAddress?.street} ${item?.shippingAddress?.city} ${item?.shippingAddress?.stateName}\n${item?.shippingAddress?.addressPhone}`}</Text>
+                    </View>
+                  )}
+                </InfoContent>
+              </View>
+
+              <FormTitle label={t("Payment & Shipping Method")} />
+              <View style={layouts.horizontal}>
+                <InfoContent label={t("Payment Informations")}>
+                  {item?.payment?.length > 0 &&
+                    item?.payment.map((payItem, indx) => (
+                      <View
+                        style={styles.personContent}
+                        key={`${indx}-${payItem?.paymentMethod}-${payItem?.amount}`}
+                      >
+                        <Text style={styles.boldText}>
+                          {`${getPaymentString(
+                            payItem?.paymentMethod
+                          )} - ${formatMoneyWithUnit(payItem?.amount)}`}
+                        </Text>
+                      </View>
+                    ))}
+                  {item?.didNotPay && (
+                    <View style={styles.personContent}>
+                      <Text style={styles.boldText}>
+                        {`${t("Did not pay")}`}
+                      </Text>
+                    </View>
+                  )}
+                </InfoContent>
+                <View style={layouts.marginHorizontal} />
+                {/** Shipping  */}
+                <InfoContent label={t("Shipping & Handling Information")}>
+                  {/** Shipping Carrier */}
+                  {!!item?.shipping?.shippingCarrier && (
+                    <View style={styles.personContent}>
+                      <Text>{t("Shipping carrier")}</Text>
+                      <View style={layouts.marginVertical} />
+
+                      <View style={layouts.horizontal}>
+                        {item?.shipping?.shippingCarrier && (
+                          <Text
+                            style={styles.boldText}
+                          >{`${item?.shipping?.shippingCarrier}`}</Text>
+                        )}
+                        {item?.shipping?.shippingCarrier &&
+                          item?.shipping?.trackingNumber && (
+                            <Text style={styles.boldText}>{" - "}</Text>
+                          )}
+                        {item?.shipping?.trackingNumber && (
+                          <Text style={styles.boldText}>{`${
+                            item?.shipping?.trackingNumber
+                          } (${t("Tracking number")})`}</Text>
+                        )}
+                      </View>
+                    </View>
+                  )}
+
+                  {item?.shipping?.shippingMethod && (
+                    <View style={styles.personContent}>
+                      <Text>{t("Shipping method")}</Text>
+                      <View style={layouts.marginVertical} />
+
+                      <View style={layouts.horizontal}>
+                        <Text
+                          style={styles.boldText}
+                        >{`${getShippingMethodLabel()}`}</Text>
+                      </View>
+                    </View>
+                  )}
+                </InfoContent>
+              </View>
+            </>
+          )}
+
+          <FormTitle label={t("Order Total")} />
+          <View style={layouts.horizontal}>
             <InfoContent label={t("Order Total")}>
               <View style={styles.personContent}>
                 <InfoLine
@@ -808,142 +851,8 @@ export const Layout = ({
               </InfoContent>
             </InfoContent>
           </View>
-        );
-      case "return":
-        return (
-          <View style={styles.container}>
-            <Table
-              items={item?.returns || []}
-              tableStyle={styles.table}
-              headerKeyLabels={{
-                code: t("Code"),
-                createdDate: t("Date"),
-                notes: t("Note"),
-                createdBy: t("Staff"),
-                receipt: t("Receipt"),
-              }}
-              whiteListKeys={[
-                "code",
-                "createdDate",
-                "createdBy",
-                "notes",
-                "receipt",
-              ]}
-              primaryKey="code"
-              widthForKeys={{
-                code: scaleWidth(200),
-                createdDate: scaleWidth(200),
-                createdBy: scaleWidth(200),
-                notes: scaleWidth(280),
-                receipt: scaleWidth(120),
-              }}
-              emptyDescription={t("No Returns History")}
-              styleTextKeys={{ total: styles.highLabelTextStyle }}
-              formatFunctionKeys={{
-                code: (value) => `#${value}`,
-                createdDate: (value) =>
-                  dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
-              }}
-              renderCell={onRenderCellReturn}
-              renderFooterComponent={() => (
-                <View style={{ height: scaleHeight(10) }} />
-              )}
-              // onRowPress={onSelectRow}
-            />
-          </View>
-        );
-      default:
-        return <View />;
-    }
-  };
-
-  return (
-    <View style={layouts.fill}>
-      <KeyboardAvoidingView behavior="position" style={{ flex: 1 }}>
-        <View style={styles.headContent}>
-          <Text style={styles.headTitle}>
-            {`${t("Order")} `}
-            {
-              <Text style={[styles.headTitle, { color: colors.OCEAN_BLUE }]}>
-                {`#${item?.code}`}
-              </Text>
-            }
-          </Text>
-          <View style={styles.headerRightContent}>
-            <View style={layouts.marginHorizontal} />
-            {renderButton()}
-            <View style={layouts.marginHorizontal} />
-            {item?.invoice?.checkoutId && (
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  onPress={shareCustomerInvoice}
-                  style={{
-                    width: scaleWidth(40),
-                    height: scaleHeight(40),
-                    backgroundColor: "#0764B0",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: scaleWidth(4),
-                  }}
-                >
-                  <Image
-                    source={IMAGE.share_icon}
-                    style={{
-                      width: scaleWidth(20),
-                      height: scaleHeight(20),
-                    }}
-                  />
-                </TouchableOpacity>
-                <View style={layouts.marginHorizontal} />
-
-                <TouchableOpacity
-                  onPress={printCustomerInvoice}
-                  style={{
-                    width: scaleWidth(40),
-                    height: scaleHeight(40),
-                    backgroundColor: "#0764B0",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: scaleWidth(4),
-                  }}
-                >
-                  <Image
-                    source={IMAGE.print_btn}
-                    style={{
-                      width: scaleWidth(20),
-                      height: scaleHeight(20),
-                    }}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-            <View style={layouts.marginHorizontal} />
-            <ButtonGradientWhite
-              width={scaleWidth(40)}
-              height={scaleHeight(40)}
-              fontSize={scaleFont(17)}
-              textWeight="normal"
-              onPress={goBack}
-            >
-              <Image source={IMAGE.back} />
-            </ButtonGradientWhite>
-          </View>
         </View>
-        <SectionList
-          sections={getSectionData()}
-          keyExtractor={(item, index) => item.key}
-          renderItem={onRenderSectionItem}
-          renderSectionHeader={({ section: { title } }) => (
-            <View style={styles.container}>
-              <FormTitle label={title} />
-            </View>
-          )}
-          stickySectionHeadersEnabled={false}
-          ListFooterComponent={() => (
-            <View style={{ height: scaleHeight(50) }} />
-          )}
-        />
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
 
       <PopupReceipt
         ref={invoiceRef}
@@ -1011,8 +920,9 @@ let InfoContent = ({
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: scaleWidth(16),
-    paddingVertical: scaleHeight(8),
+    paddingVertical: scaleHeight(16),
   },
 
   headContent: {

@@ -1,18 +1,9 @@
-import Axios from "axios";
-import { configure } from "axios-hooks";
 import Configs from "@configs";
-import { Platform } from "react-native";
-import { ErrorHandler } from "./ErrorHandler";
 import { getAuthToken } from "@shared/storages/authToken";
-import NavigationServices from "@navigators/NavigatorServices";
-import * as ROUTE from "./route";
-import { getAuthTokenReport } from "@shared/storages/authToken";
+import axios from "axios";
+import { Platform } from "react-native";
 
-const log = (obj, message = "") => {
-  Logger.log(`[axiosClient] ${message}`, obj);
-};
-
-export const axios = Axios.create({
+export const axiosHarmony = axios.create({
   baseURL: Configs.API_URL,
   timeout: 30000,
   headers: {
@@ -22,14 +13,14 @@ export const axios = Axios.create({
       Platform.OS
     }`,
     // DeviceID: `${encodeURIComponent(deviceName)}_${deviceId}`,
+    From: "POS",
   },
 });
 
 // request interceptor to add token to request headers
-axios.interceptors.request.use(
+axiosHarmony.interceptors.request.use(
   async (config) => {
     const token = await getAuthToken();
-    // console.log(token);
     if (token) {
       config.headers = Object.assign({}, config.headers, {
         authorization: `Bearer ${token}`,
@@ -42,9 +33,8 @@ axios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-axios.interceptors.response.use(
+axiosHarmony.interceptors.response.use(
   (response) => {
-    log(response, "response");
     const { codeStatus = 0, codeNumber = 0, message } = response?.data;
     switch (parseInt(codeNumber, 10)) {
       case 401:
@@ -54,6 +44,7 @@ axios.interceptors.response.use(
           // NavigationServices.logout();
         }
         break;
+
       case 404: // not found
         break;
 
@@ -64,8 +55,8 @@ axios.interceptors.response.use(
             alert(`${message}`);
           }, 100);
         }
-
         break;
+
       default:
         break;
     }
@@ -73,7 +64,7 @@ axios.interceptors.response.use(
     return response;
   },
   async (error) => {
-    log(error, "error");
+    console.log(error);
     const config = error?.config;
 
     if (error?.response?.status === 401 && !config._retry) {
@@ -87,4 +78,25 @@ axios.interceptors.response.use(
   }
 );
 
-configure({ axios });
+export const axiosBaseQuery =
+  ({ baseUrl } = { baseUrl: "" }) =>
+  async ({ url, method, data, params }) => {
+    try {
+      const result = await axiosHarmony({
+        url: baseUrl + url,
+        method,
+        data,
+        params,
+      });
+
+      return { data: result.data };
+    } catch (axiosError) {
+      let err = axiosError;
+      return {
+        error: {
+          status: err.response?.status,
+          data: err.response?.data || err.message,
+        },
+      };
+    }
+  };
