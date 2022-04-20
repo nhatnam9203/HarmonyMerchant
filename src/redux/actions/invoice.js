@@ -314,3 +314,12 @@ export function resetStateCreditBatchDetailById() {
         type: 'RESET_STATE_CREDIT_BATCH_DETAIL_BY_ID',
     }
 }
+
+export function editPaidAppointment(params, id) {
+    return {
+        type: 'EDIT_PAID_APPOINTMENT',
+        method: 'PUT',
+        body: params,
+        api: `appointment/updateStaffAppointmentPaid/${id}`
+    }
+  }

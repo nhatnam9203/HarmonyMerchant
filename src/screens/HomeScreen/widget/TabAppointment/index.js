@@ -45,6 +45,7 @@ class TabAppointment extends Layout {
     this.popupCheckDiscountPermissionRef = React.createRef();
     this.invoicePrintRef = React.createRef();
     this.invoiceRef = React.createRef();
+    this.tipSum = 0.0
   }
 
   componentDidMount() {
@@ -285,10 +286,21 @@ class TabAppointment extends Layout {
                 });
               }
               break;
-            case "editTipCreditCard":
+            case "updateAppointmentPaid":
+              console.log('updateAppointmentPaid', data)
               if (data?.appointment?.checkoutId > 0) {
                 this.setState({...this.state, isEditTipCreditCard: true})
                 this.props.actions.invoice.getInvoiceDetail(data?.appointment?.checkoutId);
+
+                const services = data?.body?.services
+                let tipSum = 0;
+                if (services) {
+                  tipSum = _.sumBy(services, item =>{
+                    return parseFloat(item.tipAmount)
+                  });
+                  this.tipSum = tipSum;
+                  this.editTipParams = data?.body
+                }
               }
               break;
             default:
@@ -351,7 +363,6 @@ class TabAppointment extends Layout {
       if(_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
         const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
         const paymentData = paymentInformation?.paymentData;
-        const tip = '10.0'
         parseString(paymentInformation?.responseData, (err, result) => {
           if (err) {
             setTimeout(() => {
@@ -374,13 +385,14 @@ class TabAppointment extends Layout {
               amount,
               refId,
               invNum,
-              tip,
+              tip: this.tipSum.toFixed(2),
               last4,
             }
             requestEditTipDejavoo(params).then((responses) => {
               const result = handleResponseDejavoo(responses);
               if (result) {
                 //call server change tip
+                this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.checkoutId);
               } else {
                 setTimeout(() => {
                   alert(result?.message || "Error")
