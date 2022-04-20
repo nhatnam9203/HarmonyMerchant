@@ -46,6 +46,7 @@ class TabAppointment extends Layout {
     this.invoicePrintRef = React.createRef();
     this.invoiceRef = React.createRef();
     this.tipSum = 0.0
+    this.editTipParams = {}
   }
 
   componentDidMount() {
