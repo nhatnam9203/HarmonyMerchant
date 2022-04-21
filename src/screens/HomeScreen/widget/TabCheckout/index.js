@@ -23,6 +23,7 @@ import {
   requestTransactionDejavoo,
   requestPreviousTransactionReportDejavoo,
   stringIsEmptyOrWhiteSpaces,
+  handleResponseDejavoo,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
@@ -1776,14 +1777,16 @@ class TabCheckout extends Layout {
     try {
       parseString(message, (err, result) => {
         const errorCode = l.get(result, "xmp.response.0.ResultCode.0");
-        if (err || errorCode != 0) {
+        if (err || errorCode != 0 || l.get(result, "xmp.response.0.Message.0") != "Approved") {
           if (errorCode == '999') {
-            const parameter = {
+            const param = {
               RefId: payAppointmentId,
             };
-            requestPreviousTransactionReportDejavoo(parameter).then((response) => {
-             console.log('requestPreviousTransactionReportDejavoo', response)
-              
+            requestPreviousTransactionReportDejavoo(param).then((response) => {
+            this.handleResponseCreditCardDejavoo(response, 
+                                              online, 
+                                              moneyUserGiveForStaff,
+                                              parameter)
             })
           } else {
             let detailMessage = l.get(result, "xmp.response.0.RespMSG.0", "")

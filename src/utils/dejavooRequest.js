@@ -32,9 +32,7 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: 15000,
-    // hardcode 
-    //timeout: 120000,
+    timeout: 120000,
     };
     const response = await handleRequest(configs)
     return response
@@ -45,15 +43,12 @@ export const requestTransactionDejavoo = async (params) => {
       const response = await axios(configs);
    
       if (parseInt(_.get(response, 'status')) == 200) {
-        console.log('response', response)
         const xmlResponse = _.get(response, 'data')
         return xmlResponse
       } else {
-        console.log("<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>")
         return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
       }
     } catch (error) {
-      console.log("<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>")
       return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
     }
   }
@@ -78,7 +73,6 @@ export const requestTransactionDejavoo = async (params) => {
     timeout: 90000,
     data: param,
     };
-    console.log('configs', configs)
     const response = await handleRequest(configs)
     return response
   };
@@ -151,3 +145,20 @@ export const requestTransactionDejavoo = async (params) => {
     const response = await handleRequest(configs)
     return response
   };
+
+  export const handleResponseDejavoo = (message) => {
+    return new Promise((resolve) => {
+      try {
+        parseString(message, (err, result) => {
+          const errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+          if (err || errorCode != 0) {
+              resolve(false)
+          } else {
+            resolve(true)
+          }
+        });
+      } catch (error) {
+        resolve(false)
+      }
+    })
+  }
