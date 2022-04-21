@@ -32,7 +32,9 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: 120000,
+    timeout: 15000,
+    // hardcode 
+    //timeout: 120000,
     };
     const response = await handleRequest(configs)
     return response
@@ -43,12 +45,15 @@ export const requestTransactionDejavoo = async (params) => {
       const response = await axios(configs);
    
       if (parseInt(_.get(response, 'status')) == 200) {
+        console.log('response', response)
         const xmlResponse = _.get(response, 'data')
         return xmlResponse
       } else {
+        console.log("<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>")
         return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
       }
     } catch (error) {
+      console.log("<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>")
       return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
     }
   }
@@ -133,7 +138,7 @@ export const requestTransactionDejavoo = async (params) => {
                 `<RefId>${_.get(params, 'RefId', '1')}</RefId>`+
                 `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
                 `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
-                `<PrintReceipt>NO</PrintReceipt>`
+                `<PrintReceipt>No</PrintReceipt>`+
                 `</request>`
     
    const configs = {
@@ -141,7 +146,7 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: 120000,
+    timeout: 90000,
     };
     const response = await handleRequest(configs)
     return response

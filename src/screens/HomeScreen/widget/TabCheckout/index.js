@@ -21,6 +21,7 @@ import {
   POS_SERIAL,
   PaymentTerminalType,
   requestTransactionDejavoo,
+  requestPreviousTransactionReportDejavoo,
   stringIsEmptyOrWhiteSpaces,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
@@ -1776,34 +1777,44 @@ class TabCheckout extends Layout {
       parseString(message, (err, result) => {
         const errorCode = l.get(result, "xmp.response.0.ResultCode.0");
         if (err || errorCode != 0) {
-          let detailMessage = l
-            .get(result, "xmp.response.0.RespMSG.0", "")
-            .replace(/%20/g, " ");
-          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
-            ? `: ${detailMessage}`
-            : detailMessage;
+          if (errorCode == '999') {
+            const parameter = {
+              RefId: payAppointmentId,
+            };
+            requestPreviousTransactionReportDejavoo(parameter).then((response) => {
+             console.log('requestPreviousTransactionReportDejavoo', response)
+              
+            })
+          } else {
+            let detailMessage = l.get(result, "xmp.response.0.RespMSG.0", "")
+              .replace(/%20/g, " ");
+            detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
+              ? `: ${detailMessage}`
+              : detailMessage;
 
-          const resultTxt =
-            `${l.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
-            "Transaction failed";
-          if (payAppointmentId) {
-            this.props.actions.appointment.cancelHarmonyPayment(
-              payAppointmentId,
-              "transaction fail",
-              resultTxt
-            );
+            const resultTxt =
+              `${l.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
+              "Transaction failed";
+            if (payAppointmentId) {
+              this.props.actions.appointment.cancelHarmonyPayment(
+                payAppointmentId,
+                "transaction fail",
+                resultTxt
+              );
+            }
+
+            const errorText =
+              errorCode == "999" || errorCode == "2"
+                ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
+                : resultTxt;
+            setTimeout(() => {
+              this.setState({
+                visibleErrorMessageFromPax: true,
+                errorMessageFromPax: `${errorText}`,
+              });
+            }, 300);
           }
-
-          const errorText =
-            errorCode == "999" || errorCode == "2"
-              ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
-              : resultTxt;
-          setTimeout(() => {
-            this.setState({
-              visibleErrorMessageFromPax: true,
-              errorMessageFromPax: `${errorText}`,
-            });
-          }, 300);
+          
         } else {
           const SN = l.get(result, "xmp.response.0.SN.0");
           if (!stringIsEmptyOrWhiteSpaces(SN)) {
