@@ -715,12 +715,3 @@ export function isProcessPaymentClover(isProcess = false) {
     payload: isProcess,
   };
 }
-
-export function editPaidAppointment(params, id) {
-  return {
-      type: 'EDIT_PAID_APPOINTMENT',
-      method: 'PUT',
-      body: params,
-      api: `appointment/updateStaffAppointmentPaid/${id}`
-  }
-}
