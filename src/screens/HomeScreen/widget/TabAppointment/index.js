@@ -360,55 +360,60 @@ class TabAppointment extends Layout {
 
     if (invoiceDetail && invoiceDetail != prevProps.invoiceDetail 
       && this.state.isEditTipCreditCard) {
-      this.setState({...this.state, isEditTipCreditCard: false})
-      if(_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
-        const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
-        const paymentData = paymentInformation?.paymentData;
-        parseString(paymentInformation?.responseData, (err, result) => {
-          if (err) {
-            setTimeout(() => {
-              alert(err)
-            }, 300)
-          } else {
-            const refId = _.get(result, "xmp.response.0.RefId.0");
-            const invNum = _.get(result, "xmp.response.0.InvNum.0");
-            const last4 = _.get(paymentData, 'card_number');
-            const extraData = _.get(result, "xmp.response.0.ExtData.0").split(",");
-            let amount = 0
-            if (extraData) {
-              const findIndex = _.findIndex(extraData, item => {
-                return item.includes("Amount")
-              })
-              amount = findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
-            }
-            
-            const params = {
-              amount,
-              refId,
-              invNum,
-              tip: this.tipSum.toFixed(2),
-              last4,
-            }
-            requestEditTipDejavoo(params).then((responses) => {
-              const result = handleResponseDejavoo(responses);
-              if (result) {
-                //call server change tip
-                this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
-              } else {
-                setTimeout(() => {
-                  alert(result?.message || "Error")
-                }, 300)
-              }
-            });
-          }
-        });
-        
-      }
+      this.handleEditTipCreditPayment(invoiceDetail);
     }
   }
 
   componentWillUnmount() {
     AppState.removeEventListener("change", this.handleAppStateChange);
+  }
+
+  async handleEditTipCreditPayment(invoiceDetail) {
+    this.setState({...this.state, isEditTipCreditCard: false})
+    if(_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
+      const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
+      const paymentData = paymentInformation?.paymentData;
+      parseString(paymentInformation?.responseData, (err, result) => {
+        if (err) {
+          setTimeout(() => {
+            alert(err)
+          }, 300)
+        } else {
+          const refId = _.get(result, "xmp.response.0.RefId.0");
+          const invNum = _.get(result, "xmp.response.0.InvNum.0");
+          const last4 = _.get(paymentData, 'card_number');
+          const extraData = _.get(result, "xmp.response.0.ExtData.0").split(",");
+          let amount = 0
+          if (extraData) {
+            const findIndex = _.findIndex(extraData, item => {
+              return item.includes("Amount")
+            })
+            amount = findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
+          }
+          
+          const params = {
+            amount,
+            refId,
+            invNum,
+            tip: this.tipSum.toFixed(2),
+            last4,
+          }
+          requestEditTipDejavoo(params).then(async (responses) => {
+            const result = await handleResponseDejavoo(responses)
+            if (result) {
+              //call server change tip
+              this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
+            } else {
+              setTimeout(() => {
+                alert(result?.message || "Error")
+              }, 300)
+            }
+           
+          });
+        }
+      });
+      
+    }
   }
 
   reloadWebview = () => {
