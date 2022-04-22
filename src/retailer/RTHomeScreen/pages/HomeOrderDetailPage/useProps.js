@@ -476,7 +476,7 @@ export const useProps = ({
       // }
 
       invoiceRef.current?.show({
-        isPrintTempt: false,
+        isPrintTempt: true,
         isAppointmentTab: false,
       });
     },
@@ -488,7 +488,7 @@ export const useProps = ({
     invoiceRef,
     shareCustomerInvoice: async () => {
       invoiceRef.current?.share({
-        isPrintTempt: false,
+        isPrintTempt: true,
         isAppointmentTab: false,
       });
     },

@@ -10,13 +10,16 @@ export const SwitchLabel = ({
   toggleSwitch,
   isEnabled,
   disabled = false,
+  isLabelFront = true,
   ...props
 }) => {
   const { t } = useTranslation();
 
   return (
     <View style={[styles.container, style]}>
-      <Text style={textStyle ?? styles.textStyle}>{label}</Text>
+      {isLabelFront && (
+        <Text style={textStyle ?? styles.textStyle}>{label}</Text>
+      )}
       <Switch
         trackColor={{ false: colors.WHITE, true: colors.OCEAN_BLUE }}
         thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
@@ -28,6 +31,9 @@ export const SwitchLabel = ({
           transform: [{ scale: Platform.OS === "ios" ? 0.9 : 1 }],
         }}
       />
+      {!isLabelFront && (
+        <Text style={textStyle ?? styles.textStyle}>{label}</Text>
+      )}
     </View>
   );
 };
