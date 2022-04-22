@@ -399,16 +399,14 @@ class TabAppointment extends Layout {
             last4,
           }
           requestEditTipDejavoo(params).then(async (responses) => {
-            const result = await handleResponseDejavoo(responses)
-            if (result) {
-              //call server change tip
-              this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
-            } else {
+             handleResponseDejavoo(responses).then(result => {
+                this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
+             },
+             error => {
               setTimeout(() => {
-                alert(result?.message || "Error")
+                alert(error || "Error")
               }, 300)
-            }
-           
+             })
           });
         }
       });

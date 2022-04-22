@@ -151,18 +151,18 @@ export const requestTransactionDejavoo = async (params) => {
   };
 
   export const handleResponseDejavoo = (message) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       try {
         parseString(message, (err, result) => {
           const errorCode = _.get(result, "xmp.response.0.ResultCode.0");
           if (err || errorCode != 0) {
-              resolve(false)
+              reject(_.get(result, "xmp.response.0.Message.0"))
           } else {
             resolve(true)
           }
         });
       } catch (error) {
-        resolve(false)
+        reject("Error")
       }
     })
   }
