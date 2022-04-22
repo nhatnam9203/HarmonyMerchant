@@ -715,3 +715,10 @@ export function isProcessPaymentClover(isProcess = false) {
     payload: isProcess,
   };
 }
+
+export function saveLastTransactionAppointment(appointment) {
+  return {
+    type: "SAVE_LAST_TRANSACTION_APPOINTMENT",
+    payload: appointment,
+  };
+}
