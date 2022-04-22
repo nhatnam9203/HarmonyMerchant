@@ -1,10 +1,9 @@
 import React from "react";
 
-export const useLogTime = () => {
+export const useStaffLogTime = () => {
   return {
     startLogTime: () => {
       console.log("startLogTime");
-
     },
   };
 };

@@ -52,3 +52,4 @@ export * from "./ButtonPrintBarcode";
 export * from "./Inputs";
 export * from "./QRCameraScanner";
 export * from "./SwitchLabel";
+export * from "./StaffLogTime";

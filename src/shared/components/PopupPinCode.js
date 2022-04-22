@@ -34,7 +34,16 @@ const MAX_LENGTH = 4;
  * Component Popup
  */
 export const PopupPinCode = React.forwardRef(
-  ({ onForceClosePopup, onClosePopup, onSubmit }, ref) => {
+  (
+    {
+      onForceClosePopup,
+      onClosePopup,
+      onSubmit,
+      title,
+      hideCloseButton = true,
+    },
+    ref
+  ) => {
     const dispatch = useDispatch();
     const [t] = useTranslation();
 
@@ -144,9 +153,9 @@ export const PopupPinCode = React.forwardRef(
     return (
       <View>
         <DialogLayout
-          title={t("Lock Screen")}
+          title={title ?? t("Lock Screen")}
           ref={dialogRef}
-          hideCloseButton={true}
+          hideCloseButton={hideCloseButton}
           bottomChildren={() => (
             <View style={styles.bottomStyle}>
               <ButtonGradient

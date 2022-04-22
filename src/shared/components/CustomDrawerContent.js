@@ -9,13 +9,13 @@ import { Image, StyleSheet } from "react-native";
 import IMAGE from "@resources";
 import { AgencyLogo } from "./AgencyLogo";
 import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
-import { useLogTime } from "@shared/components/StaffLogTime";
+import { WithDialogStaffLogTime } from "@shared/HOC/withDialogStaffLogTime";
 
-const StaffLogTime = WithDialogStaffCheckIn(DrawerItem);
+// const StaffLogTime = WithDialogStaffCheckIn(DrawerItem);
+const StaffLogTime = WithDialogStaffLogTime(DrawerItem);
 
 export const CustomDrawerContent = (props) => {
   const { navigation } = props || {};
-  // const { startLogTime } = useLogTime();
   return (
     <DrawerContentScrollView
       {...props}
@@ -34,7 +34,7 @@ export const CustomDrawerContent = (props) => {
       />
       <StaffLogTime
         {...props}
-        label="Log Time"
+        label="Staff LogTime"
         icon={() => <CustomDrawerIcon source={IMAGE["Timekeeping"]} />}
         onShowed={() => {
           navigation?.closeDrawer();
