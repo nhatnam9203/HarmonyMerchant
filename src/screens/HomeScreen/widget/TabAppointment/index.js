@@ -393,7 +393,7 @@ class TabAppointment extends Layout {
               const result = handleResponseDejavoo(responses);
               if (result) {
                 //call server change tip
-                this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.checkoutId);
+                this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
               } else {
                 setTimeout(() => {
                   alert(result?.message || "Error")
