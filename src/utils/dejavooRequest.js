@@ -123,6 +123,23 @@ export const requestTransactionDejavoo = async (params) => {
     }
   };
 
+  export const handleResponseDejavoo = (message) => {
+    return new Promise((resolve, reject) => {
+      try {
+        parseString(message, (err, result) => {
+          const errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+          if (err || errorCode != 0) {
+              reject(_.get(result, "xmp.response.0.Message.0"))
+          } else {
+            resolve(true)
+          }
+        });
+      } catch (error) {
+        reject("Error")
+      }
+    })
+  }
+
   export const requestPreviousTransactionReportDejavoo = async (params) => {
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
@@ -145,20 +162,3 @@ export const requestTransactionDejavoo = async (params) => {
     const response = await handleRequest(configs)
     return response
   };
-
-  export const handleResponseDejavoo = (message) => {
-    return new Promise((resolve) => {
-      try {
-        parseString(message, (err, result) => {
-          const errorCode = _.get(result, "xmp.response.0.ResultCode.0");
-          if (err || errorCode != 0) {
-              resolve(false)
-          } else {
-            resolve(true)
-          }
-        });
-      } catch (error) {
-        resolve(false)
-      }
-    })
-  }

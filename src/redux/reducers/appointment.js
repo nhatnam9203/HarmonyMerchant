@@ -59,7 +59,9 @@ const initialState = {
   appointmentIdBookingFromCalendar: 0,
   visiblePopupPaymentConfirm: false,
   isProcessPaymentClover: false,
-  lastTransactionAppointment: {},
+  lastTransactionAppointmentId: null,
+  isCreditPaymentToServer: false,
+  errorMessage: ""
 };
 
 function appointmentReducer(state = initialState, action) {
@@ -67,7 +69,7 @@ function appointmentReducer(state = initialState, action) {
     case "SAVE_LAST_TRANSACTION_APPOINTMENT":
       return {
         ...state,
-        lastTransactionAppointment: action.payload,
+        lastTransactionAppointmentId: action.payload,
       }
     case "IS_PROCESS_PAYMENT_CLOVER":
       return {
@@ -421,28 +423,38 @@ function appointmentReducer(state = initialState, action) {
         ...state,
         paxAmount: action?.paxAmount || 0,
         amountCredtitForSubmitToServer: action?.moneyUserGiveForStaff || 0,
+        isCreditPaymentToServer: false,
+        errorMessage: "",
       };
     case "CHECK_CREDIT_PAYMENT_TO_SERVER_SUCCESS":
       return {
         ...state,
         payAppointmentId: action.payload,
         startProcessingPax: true,
+        isCreditPaymentToServer: false,
+        errorMessage: ""
       };
     case "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL":
+      const oldPayAppointmentId = state.payAppointmentId || state.lastTransactionAppointmentId
+      console.log('oldPayAppointmentId', oldPayAppointmentId)
       return {
         ...state,
+        lastTransactionAppointmentId: oldPayAppointmentId,
         payAppointmentId: 0,
         startProcessingPax: false,
+        isCreditPaymentToServer: true,
       };
+    case "SAVE_ERROR_MESSAGE":
+      return {
+        ...state,
+        errorMessage: action.payload,
+      }
     case "RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER":
       return {
         ...state,
         startProcessingPax: false,
-      };
-    case "RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER":
-      return {
-        ...state,
-        startProcessingPax: false,
+        isCreditPaymentToServer: false,
+        errorMessage: ""
       };
     case "GET_STAFF_LIST_BY_CURRENT_DATE_SUCCESS":
       return {

@@ -1257,8 +1257,8 @@ function* checkCreditPaymentToServer(action) {
       });
     } else {
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
-        message: responses?.message,
+        type: "SAVE_ERROR_MESSAGE",
+        payload: responses?.message,
       });
       yield put({
         type: "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL",
@@ -1266,7 +1266,11 @@ function* checkCreditPaymentToServer(action) {
     }
   } catch (error) {
     yield put({ type: "STOP_LOADING_ROOT" });
-    yield put({ type: error });
+    // yield put({ type: error });
+    yield put({
+      type: "SAVE_ERROR_MESSAGE",
+      payload: error,
+    });
     yield put({
       type: "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL",
     });
