@@ -62,7 +62,11 @@ export const useProps = (props) => {
       settings?.CreditCardStarRate !== advanceSetting?.CreditCardStarRate ||
       settings?.HarmonyPayStarRate !== advanceSetting?.HarmonyPayStarRate ||
       settings?.OtherStarRate !== advanceSetting?.OtherStarRate ||
-      settings?.IsCashDiscount !== advanceSetting?.IsCashDiscount
+      settings?.IsCashDiscount !== advanceSetting?.IsCashDiscount ||
+      settings?.IsAppointmentDeposit !== advanceSetting?.IsAppointmentDeposit ||
+      settings?.DepositPercent !== advanceSetting?.DepositPercent ||
+      settings?.MinimumAppointmentAmountRequireDeposit !==
+        advanceSetting?.MinimumAppointmentAmountRequireDeposit
     );
   };
 
