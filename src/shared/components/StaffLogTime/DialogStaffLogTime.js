@@ -1,48 +1,34 @@
-import { CustomTimePicker } from "@components/CustomTimePicker";
-import IMAGE from "@resources";
+import actions from "@actions";
 import {
   ButtonGradient,
-  CustomRadioSelect,
   FormInput,
   FormInputMask,
-  SwitchLabel,
   PopupPinCode,
+  SwitchLabel,
 } from "@shared/components";
+import { useLockScreen } from "@shared/hooks";
 import { DialogLayout } from "@shared/layouts";
-import {
-  useStaffLogTimeCreate,
-  useStaffLogTimeEdit,
-} from "@shared/services/api/retailer/Staff";
 import { colors, fonts } from "@shared/themes";
 import {
   dateToString,
   STAFF_CHECK_IN_TYPE,
-  STAFF_LOG_TIME_TYPE,
+  STAFF_CHECK_OUT_TYPE,
 } from "@shared/utils";
-import { statusSuccess } from "@shared/utils/app";
-import {
-  formatHourMinute,
-  formatNumberFromCurrency,
-  formatWithMoment,
-  role,
-} from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useDispatch, useSelector } from "react-redux";
-import { useStaffLoginMutation } from "@shared/services";
-import { useLockScreen } from "@shared/hooks";
-import actions from "@actions";
+import {
+  formatWithMoment,
+  formatHourMinute,
+  formatNumberFromCurrency,
+} from "@utils";
+import moment from "moment";
+import { useStaffLogTimeCreateMutation } from "@shared/services";
+
+const HOURS_FORMAT = "hh:mm A";
+const DATE_FORMAT = "YYYY-MM-DD";
 
 export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
@@ -51,32 +37,92 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const scrollRef = React.useRef(null);
   const popupPinCodeRef = React.useRef(null);
 
-  const profileStaffLogin = useSelector(
-    (state) => state.dataLocal?.profileStaffLogin
-  );
+  const { merchantStaffLogtime, displayName } =
+    useSelector((state) => state.dataLocal?.profileStaffLogin) || {};
 
   const [cashCheck, setCashCheck] = React.useState(false);
   const [note, setNote] = React.useState(null);
   const [amount, setAmount] = React.useState(0);
   const [startLogTime, setStartLogTime] = React.useState(false);
+  const [logTimeType, setLogTimeType] = React.useState(STAFF_CHECK_IN_TYPE);
 
   const { loginStaff } = useLockScreen({
-    onSubmitSuccess: () => {
+    onSubmitSuccess: async () => {
       if (!startLogTime) return;
       popupPinCodeRef.current?.hide();
       dispatch(actions.app.closeAllPopupPincode());
 
+      const { startTime, startDate, type } = merchantStaffLogtime;
+
+      setLogTimeType(type);
+
+      // const startDateFormat = getStartDateFormat(startDate);
+      // const startTimeToString = getStartTimeFormat(startTime);
+
+      const lastDateStaffLog = `${formatWithMoment(
+        new Date(startDate),
+        DATE_FORMAT
+      )}T${formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))}:00`;
+
+      const lastDate = new Date(lastDateStaffLog);
+      const todayDate = new Date();
+
+      if (
+        lastDate.setHours(0, 0, 0, 0) == todayDate.setHours(0, 0, 0, 0) &&
+        type === STAFF_CHECK_IN_TYPE
+      ) {
+        setLogTimeType(STAFF_CHECK_OUT_TYPE);
+      } else {
+        //
+        setLogTimeType(STAFF_CHECK_IN_TYPE);
+      }
+
       setTimeout(() => {
         dialogRef.current?.show();
-      }, 1000);
+      }, 2000);
     },
     isActive: popupPinCodeRef.current?.isShow(),
   });
 
-  // const [staffLogin, { isLoading: isLoginStaff, data: loginStaffData }] =
-  //   useStaffLoginMutation();
+  const [
+    createStaffLogTime,
+    { isLoading: isStaffLogTime, data: staffLogTimeCreated },
+  ] = useStaffLogTimeCreateMutation();
 
-  const onButtonPressed = () => {};
+  const getStartTimeFormat = (startTime) => {
+    return dateToString(startTime, "LT");
+  };
+
+  const getStartDateFormat = (startDate) => {
+    return dateToString(startDate, "MM/DD/YYYY");
+  };
+
+  const getLogTimeTextForType = React.useCallback(
+    () =>
+      logTimeType === STAFF_CHECK_IN_TYPE ? t("Check-In") : t("Check-Out"),
+    [logTimeType]
+  );
+
+  const onButtonPressed = async () => {
+    if (isStaffLogTime) return;
+
+    const currentDate = `${formatWithMoment(
+      new Date(),
+      DATE_FORMAT
+    )}T${formatHourMinute(formatWithMoment(new Date(), HOURS_FORMAT))}:00`;
+
+    const data = {
+      merchantStaffLogtimeId: 0,
+      startDate: currentDate,
+      startTime: currentDate,
+      note: note,
+      amount: formatNumberFromCurrency(amount),
+      type: logTimeType,
+      staffName: displayName,
+    };
+
+    await createStaffLogTime(data);
+  };
 
   const onCashCheck = () => {
     setCashCheck((prev) => !prev);
@@ -109,21 +155,28 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
     },
   }));
 
+  React.useEffect(() => {
+    if (staffLogTimeCreated) {
+      console.log(staffLogTimeCreated);
+    }
+  }, staffLogTimeCreated);
+
   return (
     <View>
       <DialogLayout
-        title={t("Check-In")}
+        title={getLogTimeTextForType()}
         ref={dialogRef}
         style={styles.dialog}
         behavior={"none"}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
-              label={t("Save")}
+              label={getLogTimeTextForType()}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
               onPress={onButtonPressed}
+              isLoading={isStaffLogTime}
             />
           </View>
         )}
@@ -140,12 +193,14 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
                 {`Hello `}
                 <Text
                   style={[{ color: colors.OCEAN_BLUE }]}
-                >{`${profileStaffLogin?.displayName}`}</Text>
+                >{`${displayName}`}</Text>
                 {" !"}
               </Text>
               <View style={styles.margin} />
               <Text style={styles.textStyle}>
-                {t("Press the Check-In button to start your shift")}
+                {t(
+                  `Press the ${getLogTimeTextForType()} button to start your shift`
+                )}
               </Text>
               <View style={styles.marginVertical} />
 
