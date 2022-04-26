@@ -12,17 +12,10 @@ export const WithDialogStaffLogTime = (WrappedComponent) => {
     const dialogRef = React.useRef(null);
 
     const show = () => {
-      //   if (showEditForm && typeof showEditForm === "function") {
-      //     const item = showEditForm();
-      //     dialogRef.current?.showWithItem(item);
-      //   } else {
-      //     dialogRef.current?.show();
-      //     if (onShowed && typeof onShowed === "function") {
-      //       onShowed();
-      //     }
-      //   }
-
       dialogRef.current?.show();
+      if (onShowed && typeof onShowed === "function") {
+        onShowed();
+      }
     };
 
     return (

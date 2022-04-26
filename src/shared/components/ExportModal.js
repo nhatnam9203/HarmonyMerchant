@@ -30,15 +30,18 @@ const EXPORT_FUNCTION = [
 
 export const ExportModal = React.forwardRef(
   ({ onExportFile, title, exportFuncs }, ref) => {
-    const [t] = useTranslation();
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
-    const [items, setItems] = React.useState(exportFuncs ?? EXPORT_FUNCTION);
+    const [items, setItems] = React.useState(
+      exportFuncs?.length > 0 ? exportFuncs : EXPORT_FUNCTION
+    );
     const [value, setValue] = React.useState(null);
     const [mode, setMode] = React.useState(null);
     const [show_modal, setShowModal] = React.useState(false);
     const [files, setFiles] = React.useState({});
     const [fileName, setFileName] = React.useState(title);
+
     React.useImperativeHandle(ref, () => ({
       show: () => {
         setShowModal(true);
@@ -55,6 +58,7 @@ export const ExportModal = React.forwardRef(
       setMode(null);
       setValue(null);
       setFileName(title);
+      setOpen(false);
     };
 
     const onHandleChange = async (val) => {
@@ -189,9 +193,8 @@ export const ExportModal = React.forwardRef(
           showTickIcon={false}
           showArrowIcon={false}
           disableBorderRadius={true}
-
-          // placeholder={placeholder}
         />
+
         <ButtonGradientWhite
           label={t("Export")}
           width={scaleWidth(100)}
@@ -259,13 +262,13 @@ const styles = StyleSheet.create({
     width: 0,
     height: 0,
     borderWidth: 0,
+    paddingHorizontal: 0,
   },
 
   dropDownContainerStyle: {
     borderWidth: 0,
     borderColor: "#fff",
     borderRadius: scaleHeight(3),
-    marginTop: scaleHeight(35),
   },
 
   textStyle: {

@@ -56,9 +56,6 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
 
       setLogTimeType(type);
 
-      // const startDateFormat = getStartDateFormat(startDate);
-      // const startTimeToString = getStartTimeFormat(startTime);
-
       const lastDateStaffLog = `${formatWithMoment(
         new Date(startDate),
         DATE_FORMAT
@@ -157,9 +154,10 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
 
   React.useEffect(() => {
     if (staffLogTimeCreated) {
-      console.log(staffLogTimeCreated);
+      setStartLogTime(false);
+      dialogRef.current?.hide();
     }
-  }, staffLogTimeCreated);
+  }, [staffLogTimeCreated]);
 
   return (
     <View>

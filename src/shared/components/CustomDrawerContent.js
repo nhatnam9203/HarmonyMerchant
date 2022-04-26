@@ -44,6 +44,7 @@ export const CustomDrawerContent = (props) => {
         activeBackgroundColor="#0764B0"
         inActiveBackgroundColor="#0764B0"
         inactiveTintColor="#FFFFFF"
+
       />
       {/* <DrawerItem
         label="Log Time"
