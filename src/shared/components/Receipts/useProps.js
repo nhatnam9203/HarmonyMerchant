@@ -35,17 +35,21 @@ export const useProps = ({
   const getItems = () => {
     if (itemReturn) {
       let temps = [];
-      const { products = [], giftcards = [] } = itemReturn?.returnData || {};
-      temps = products?.map((x, index) => ({
+      const {
+        Products = [],
+        products = [],
+        Giftcards = [],
+      } = itemReturn?.returnData || {};
+      temps = [...Products, ...products]?.map((x, index) => ({
         type: "Return",
         id: `${index}_return`,
         data: {
-          name: x.productName,
-          qty: x.saleQuantity,
+          name: x.ProductName,
+          qty: x.SaleQuantity,
           productId: `${index}_return`,
-          price: x.saslePrice,
-          returnPrice: x.returnPrice,
-          returnQuantity: x.returnQuantity,
+          price: x.SalePrice,
+          returnPrice: x.ReturnPrice,
+          returnQuantity: x.ReturnQuantity,
         },
       }));
       return temps;

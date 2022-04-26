@@ -10,6 +10,7 @@ export const ReceiptFooter = ({
   typeReceipt,
   invoiceCode,
   promotionNotes,
+  widthPaper,
 }) => {
   const { t } = useTranslation();
   return (
@@ -41,12 +42,13 @@ export const ReceiptFooter = ({
 
       {!!invoiceCode && (
         <Barcode
-          format="CODE128"
+          format="CODE39"
           value={`${invoiceCode}`}
           text={`${invoiceCode}`}
           style={{ marginBottom: 10 }}
-          maxWidth={scaleWidth(300)}
-          height={scaleHeight(80)}
+          maxWidth={widthPaper ? parseFloat(widthPaper) : scaleWidth(300)}
+          height={scaleHeight(85)}
+          textStyle={styles.textBarcodeStyle}
         />
       )}
       <View style={styles.margin} />
@@ -70,6 +72,14 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(18),
     fontWeight: "600",
+    textAlign: "center",
+  },
+
+  textBarcodeStyle: {
+    // fontFamily: fonts.MEDIUM,
+    color: "#000",
+    fontSize: scaleFont(16),
+    fontWeight: "500",
     textAlign: "center",
   },
 

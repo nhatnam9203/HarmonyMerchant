@@ -1,7 +1,7 @@
 import {
   ButtonGradient,
   ButtonGradientWhite,
-  ReceiptViewShot
+  ReceiptViewShot,
 } from "@shared/components";
 import { usePrinter } from "@shared/components/Receipts/usePrinter";
 import { useProps } from "@shared/components/Receipts/useProps";
@@ -29,6 +29,7 @@ export const DialogReturnItemComplete = React.forwardRef(
     const [receiptBackground, setReceiptBackground] = React.useState("#fff");
     const [appointment, setAppointment] = React.useState(null);
     const [isSignature, setIsSignature] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
 
     const [appointmentGet, getAppointment] = useGetAppointment();
 
@@ -135,6 +136,7 @@ export const DialogReturnItemComplete = React.forwardRef(
     React.useEffect(() => {
       if (show_modal && groupAppointmentId) {
         getAppointment(groupAppointmentId);
+        setLoading(true);
       }
     }, [show_modal, groupAppointmentId]);
 
@@ -149,6 +151,11 @@ export const DialogReturnItemComplete = React.forwardRef(
           );
           setItemReturn(temps[0]);
         }
+      } else {
+      }
+
+      if (appointmentGet) {
+        setLoading(false);
       }
     }, [appointmentGet]);
 
@@ -182,6 +189,7 @@ export const DialogReturnItemComplete = React.forwardRef(
                 height={scaleHeight(45)}
                 borderRadius={scaleWidth(3)}
                 onPress={onYesButtonPress}
+                loading={loading}
               />
             </View>
           </View>
@@ -303,7 +311,7 @@ const styles = StyleSheet.create({
 
   content: {
     position: "absolute",
-    // top: 0,
-    top: metrics.screenHeight,
+    top: 0,
+    // top: metrics.screenHeight,
   },
 });

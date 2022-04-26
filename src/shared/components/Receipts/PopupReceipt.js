@@ -132,6 +132,9 @@ export const PopupReceipt = React.forwardRef(
 
     const hide = () => {
       setOpen(false);
+      setTimeout(() => {
+        resetAll();
+      }, 1000);
     };
 
     const onModalHide = () => {
@@ -145,6 +148,7 @@ export const PopupReceipt = React.forwardRef(
       if (onForceClose && typeof onForceClose === "function") {
         onForceClose();
       }
+      resetAll();
     };
 
     const onPrintButtonPress = async () => {
@@ -296,6 +300,7 @@ export const PopupReceipt = React.forwardRef(
                 isSignature={isSignature}
                 itemReturn={itemReturn}
                 staffName={staffName}
+                widthPaper={widthPaper}
               />
             </ScrollView>
           </View>
