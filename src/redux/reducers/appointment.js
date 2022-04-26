@@ -60,6 +60,7 @@ const initialState = {
   visiblePopupPaymentConfirm: false,
   isProcessPaymentClover: false,
   lastTransactionAppointmentId: null,
+  lastGroupAppointmentPay: null,
   isCreditPaymentToServer: false,
   errorMessage: ""
 };
@@ -427,19 +428,19 @@ function appointmentReducer(state = initialState, action) {
         errorMessage: "",
       };
     case "CHECK_CREDIT_PAYMENT_TO_SERVER_SUCCESS":
+
       return {
         ...state,
+        lastTransactionAppointmentId: action.payload,
+        lastGroupAppointmentPay: Object.assign({}, state.groupAppointment),
         payAppointmentId: action.payload,
         startProcessingPax: true,
         isCreditPaymentToServer: false,
         errorMessage: ""
       };
     case "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL":
-      const oldPayAppointmentId = state.payAppointmentId || state.lastTransactionAppointmentId
-      console.log('oldPayAppointmentId', oldPayAppointmentId)
       return {
         ...state,
-        lastTransactionAppointmentId: oldPayAppointmentId,
         payAppointmentId: 0,
         startProcessingPax: false,
         isCreditPaymentToServer: true,
