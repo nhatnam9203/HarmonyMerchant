@@ -17,6 +17,7 @@ import ItemPaymentsReport, {
   GiftCardItem,
   TotalItem,
   HeaderPaymentsReport,
+  DepositItem,
 } from "./widget/ItemsSettlement";
 import PopupProcessingReportPax from "./widget/PopupProcessingReportPax";
 import ICON from "@resources";
@@ -179,9 +180,10 @@ class Layout extends React.Component {
   }
 
   renderStaffsTable() {
-    const { staffSales, gitfCardSales } = this.props;
+    const { staffSales, gitfCardSales, deposits = 0 } = this.props;
     let totalAmount = 0;
     let giftCardTotal = 0;
+    let depositTotal = 0;
     if (staffSales.length > 0) {
       staffSales.forEach((staff) => {
         totalAmount =
@@ -200,6 +202,14 @@ class Layout extends React.Component {
       });
     }
 
+    // if (deposits.length > 0) {
+    //   deposits.forEach((x) => {
+    //     depositTotal =
+    //       parseFloat(depositTotal) +
+    //       parseFloat(formatNumberFromCurrency(x.total ? x.total : 0.0));
+    //   });
+    // }
+
     return (
       <View style={{ flex: 1.3 }}>
         {/* ---------- Header --------- */}
@@ -216,10 +226,13 @@ class Layout extends React.Component {
             )}
             keyExtractor={(item, index) => `${item.staffId}_${index}`}
             ListFooterComponent={() => (
-              <GiftCardItem
-                total={formatMoney(giftCardTotal)}
-                onPress={this.onPressGiftCardTotal}
-              />
+              <>
+                <DepositItem total={formatMoney(deposits)} onPress={() => {}} />
+                <GiftCardItem
+                  total={formatMoney(giftCardTotal)}
+                  onPress={this.onPressGiftCardTotal}
+                />
+              </>
             )}
           />
         </View>
@@ -241,6 +254,7 @@ class Layout extends React.Component {
       isEditCashAmount,
       creditCount,
       paymentByGiftcard,
+      depositedAmount,
     } = this.state;
 
     const temtpTotal = roundFloatNumber(
@@ -290,6 +304,12 @@ class Layout extends React.Component {
               title="Gift Card"
               backgroundColor="#3C92D9"
               value={paymentByGiftcard}
+            />
+            <View style={{ height: 1 }} />
+            <ItemPaymentsReport
+              title="Deposited amount"
+              backgroundColor="#3C92D9"
+              value={depositedAmount}
             />
             <View style={{ height: 1 }} />
             <ItemPaymentsReport

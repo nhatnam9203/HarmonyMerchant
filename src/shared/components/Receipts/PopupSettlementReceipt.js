@@ -334,6 +334,16 @@ export const PopupSettlementReceipt = React.forwardRef(
                   />
 
                   <ReceiptItem
+                    key={`receipt-payment-deposit-amount`}
+                    item={{
+                      name: "Deposit amount",
+                      value: settlement.depositedAmount,
+                    }}
+                    index={3}
+                    type="TwoCols"
+                  />
+
+                  <ReceiptItem
                     key={`receipt-payment-other`}
                     item={{
                       name: "Other",

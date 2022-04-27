@@ -1911,6 +1911,7 @@ export const proccessingSettlement = async (
   const discountSettlement = settleWaiting?.discount || 0.0;
   const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0;
   const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0;
+  const depositedAmount = settleWaiting?.depositedAmount || 0.0;
   const settleTotal = {
     paymentByHarmony: editPaymentByHarmony,
     paymentByCreditCard: editPaymentByCreditCard,
@@ -1924,6 +1925,7 @@ export const proccessingSettlement = async (
       ? settleWaiting.otherPayment
       : 0.0,
     paymentByGiftcard: paymentByGiftcard,
+    depositedAmount: depositedAmount,
     total: roundFloatNumber(
       formatNumberFromCurrency(editPaymentByHarmony) +
         formatNumberFromCurrency(editPaymentByCreditCard) +

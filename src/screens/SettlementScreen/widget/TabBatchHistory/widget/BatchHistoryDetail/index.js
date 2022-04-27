@@ -53,7 +53,9 @@ class BatchHistoryDetail extends Layout {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     staffSalesBySettlementId: state.invoice.staffSalesBySettlementId,
-    gitfCardSalesBySettlementId: state.invoice.gitfCardSalesBySettlementId
+    gitfCardSalesBySettlementId: state.invoice.gitfCardSalesBySettlementId,
+    depositTotalBySettlementId: state.invoice.depositTotalBySettlementId,
+
 });
 
 export default connectRedux(mapStateToProps, BatchHistoryDetail);

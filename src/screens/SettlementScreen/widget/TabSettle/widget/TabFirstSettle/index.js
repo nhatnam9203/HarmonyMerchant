@@ -34,6 +34,7 @@ class TabFirstSettle extends Layout {
       editOtherPayment: 0.0,
       discountSettlement: 0.0,
       paymentByGiftcard: 0.0,
+      depositedAmount: 0.0,
       total: 0.0,
       note: "",
       isShowKeyboard: false,
@@ -354,6 +355,7 @@ class TabFirstSettle extends Layout {
       note,
       discountSettlement,
       paymentByGiftcard,
+      depositedAmount,
       terminalID,
     } = this.state;
     this.props.gotoTabSecondSettle(
@@ -527,6 +529,7 @@ class TabFirstSettle extends Layout {
     this.props.actions.invoice.getSettlementWating(terminalID, paymentTerminal);
     this.props.actions.invoice.getListStaffsSales(terminalID);
     this.props.actions.invoice.getListGiftCardSales(terminalID);
+    this.props.actions.invoice.getListDeposits(terminalID);
     if (terminalID && paymentTerminal == "pax") {
       this.props.actions.app.ConnectPaxMachineSuccess();
     }
@@ -595,6 +598,7 @@ class TabFirstSettle extends Layout {
         discountSettlement: settleWaiting?.discount || 0.0,
         editPaymentByCreditCard: settleWaiting?.paymentByCreditCard || 0.0,
         paymentByGiftcard: settleWaiting?.paymentByGiftcard || 0.0,
+        depositedAmount: settleWaiting?.depositedAmount || 0.0,
       });
     }
   }
@@ -612,6 +616,7 @@ const mapStateToProps = (state) => ({
   profileStaffLogin: state.dataLocal.profileStaffLogin,
   staffSales: state.invoice.staffSales,
   gitfCardSales: state.invoice.gitfCardSales,
+  deposits: state.invoice.deposits,
   listStaffByMerchant: state.staff.listStaffByMerchant,
   isHandleInternalFirstSettlemetTab:
     state.invoice.isHandleInternalFirstSettlemetTab,
