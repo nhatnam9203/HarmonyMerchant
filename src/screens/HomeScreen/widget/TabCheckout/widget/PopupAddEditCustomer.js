@@ -123,7 +123,7 @@ class PopupAddEditCustomer extends React.Component {
                 break
             }
 
-            if(!validateEmail(customerInfo?.email)) {
+            if(customerInfo?.email !== "" && !validateEmail(customerInfo?.email)) {
                 keyError = "EmailInvalid";
                 break
             }
