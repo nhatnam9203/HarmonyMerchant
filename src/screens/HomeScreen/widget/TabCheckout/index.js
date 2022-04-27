@@ -21,7 +21,9 @@ import {
   POS_SERIAL,
   PaymentTerminalType,
   requestTransactionDejavoo,
+  requestPreviousTransactionReportDejavoo,
   stringIsEmptyOrWhiteSpaces,
+  handleResponseDejavoo,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
@@ -1620,6 +1622,8 @@ class TabCheckout extends Layout {
       paxAmount,
       groupAppointment,
       payAppointmentId,
+      isCreditPaymentToServer,
+      lastTransactionAppointmentId,
     } = this.props;
     if (paymentMachineType == PaymentTerminalType.Clover) {
       const port = l.get(cloverMachineInfo, "port")
@@ -1643,9 +1647,13 @@ class TabCheckout extends Layout {
         externalId: `${payAppointmentId}`, //`${groupAppointment?.checkoutGroupId || 0}`,
       });
     } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-      this.setState({
-        visibleProcessingCredit: true,
-      });
+       setTimeout(() => {
+        this.setState({
+          visibleProcessingCredit: true,
+          visibleErrorMessageFromPax: false,
+        });
+       }, 200) 
+      
       const {
         isTipOnPaxMachine,
         paxAmount,
@@ -1660,7 +1668,7 @@ class TabCheckout extends Layout {
         tenderType: tenderType,
         transType: "Sale",
         amount: parseFloat(paxAmount / 100).toFixed(2),
-        RefId: payAppointmentId,
+        RefId: isCreditPaymentToServer ? lastTransactionAppointmentId : payAppointmentId,
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       };
 
@@ -1768,51 +1776,69 @@ class TabCheckout extends Layout {
     moneyUserGiveForStaff,
     parameter
   ) {
-    const { profile, payAppointmentId, groupAppointment } = this.props;
-    await this.setState({
-      visibleProcessingCredit: false,
-    });
+    const { profile, payAppointmentId, 
+      groupAppointment, 
+      isCreditPaymentToServer,
+      lastTransactionAppointmentId,
+      lastGroupAppointmentPay } = this.props;
+
     try {
       parseString(message, (err, result) => {
-        const errorCode = l.get(result, "xmp.response.0.ResultCode.0");
-        if (err || errorCode != 0) {
-          let detailMessage = l
-            .get(result, "xmp.response.0.RespMSG.0", "")
-            .replace(/%20/g, " ");
-          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
-            ? `: ${detailMessage}`
-            : detailMessage;
+        let errorCode = l.get(result, "xmp.response.0.ResultCode.0");
 
-          const resultTxt =
-            `${l.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
-            "Transaction failed";
-          if (payAppointmentId) {
-            this.props.actions.appointment.cancelHarmonyPayment(
-              payAppointmentId,
-              "transaction fail",
-              resultTxt
-            );
+        if (err || errorCode != 0 || l.get(result, "xmp.response.0.Message.0") != "Approved") {
+          if (errorCode == '999' && 
+            groupAppointment?.checkoutGroupId == lastGroupAppointmentPay?.checkoutGroupId) {
+            //time out
+            const param = {
+              RefId: payAppointmentId,
+            };
+            requestPreviousTransactionReportDejavoo(param).then((response) => {
+              this.handleResponseCreditCardDejavoo(response, 
+                                              online, 
+                                              moneyUserGiveForStaff,
+                                              parameter)
+            })
+          } else {
+            let detailMessage = l.get(result, "xmp.response.0.RespMSG.0", "")
+              .replace(/%20/g, " ");
+            detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
+              ? `: ${detailMessage}`
+              : detailMessage;
+
+            const resultTxt =
+              `${l.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
+              "Transaction failed";
+
+            if (payAppointmentId) {
+              this.props.actions.appointment.cancelHarmonyPayment(
+                payAppointmentId,
+                "transaction fail",
+                resultTxt
+              );
+            }
+
+            setTimeout(() => {
+              this.setState({
+                visibleProcessingCredit: false,
+                visibleErrorMessageFromPax: true,
+                errorMessageFromPax: resultTxt,
+              });
+            }, 400)
+           
           }
-
-          const errorText =
-            errorCode == "999" || errorCode == "2"
-              ? `${resultTxt}. Please Cancel on payment terminal and retry again.`
-              : resultTxt;
-          setTimeout(() => {
-            this.setState({
-              visibleErrorMessageFromPax: true,
-              errorMessageFromPax: `${errorText}`,
-            });
-          }, 300);
+          
         } else {
+          this.setState({visibleProcessingCredit: false})
           const SN = l.get(result, "xmp.response.0.SN.0");
           if (!stringIsEmptyOrWhiteSpaces(SN)) {
             this.props.actions.hardware.setDejavooMachineSN(SN);
           }
+          const payAppointmentIdTemp = payAppointmentId || lastTransactionAppointmentId;
           this.props.actions.appointment.submitPaymentWithCreditCard(
             profile?.merchantId || 0,
             message,
-            payAppointmentId,
+            payAppointmentIdTemp,
             moneyUserGiveForStaff,
             "dejavoo",
             parameter
@@ -2928,6 +2954,12 @@ class TabCheckout extends Layout {
       blockAppointments,
       isLoadingRemoveBlockAppointment,
       startProcessingPax,
+      isCreditPaymentToServer,
+      lastTransactionAppointmentId,
+      groupAppointment,
+      amountCredtitForSubmitToServer,
+      errorMessage,
+      paymentMachineType
     } = this.props;
     if (
       blockAppointments.length > 0 &&
@@ -2953,6 +2985,78 @@ class TabCheckout extends Layout {
         false
       );
       this.sendTransactionToPaymentMachine();
+    }
+
+    if (isCreditPaymentToServer && 
+        prevProps.isCreditPaymentToServer !== isCreditPaymentToServer) {
+        //get fail check credit card payment to server
+        this.handleCheckCreditCardFail();
+    }
+  }
+
+  handleCheckCreditCardFail () {
+    const {
+      lastTransactionAppointmentId,
+      groupAppointment,
+      amountCredtitForSubmitToServer,
+      errorMessage,
+      paymentMachineType,
+      lastGroupAppointmentPay
+    } = this.props;
+    if (lastTransactionAppointmentId && paymentMachineType == PaymentTerminalType.Dejavoo) {
+      this.setState({
+      visibleProcessingCredit: true,
+      });
+      const param = {
+        RefId: lastTransactionAppointmentId,
+      };
+      requestPreviousTransactionReportDejavoo(param).then((response) => {
+        parseString(response, (err, result) => {
+          if (l.get(result, "xmp.response.0.Message.0") == "Approved") {
+            const invNum = l.get(result, "xmp.response.0.InvNum.0")
+            //check if current groupAppointment is failed groupAppointment before.
+            if (invNum == groupAppointment.checkoutGroupId) {
+              this.handleResponseCreditCardDejavoo(response, 
+                true, 
+                amountCredtitForSubmitToServer,
+                null)
+            } else {
+                this.setState({
+                visibleProcessingCredit: false,
+                visibleErrorMessageFromPax: true,
+                errorMessageFromPax: errorMessage,
+              });
+            }
+          } else {
+            //if not found transaction on dejavoo
+            //check previous group appointment is current group appointment
+            //call payment on dejavoo again
+            if (groupAppointment?.checkoutGroupId 
+              == lastGroupAppointmentPay?.checkoutGroupId) {
+              
+                this.props.actions.appointment.resetStateCheckCreditPaymentToServer(
+                  false
+                );
+                this.sendTransactionToPaymentMachine();
+            } else {
+              //If it's not previous group appointment that create
+              // transaction payAppointmentId, show error
+              this.setState({
+                visibleProcessingCredit: false,
+                visibleErrorMessageFromPax: true,
+                errorMessageFromPax: errorMessage,
+              });
+            }
+          }
+        })
+        
+      })
+    } else {
+        this.setState({
+        visibleProcessingCredit: false,
+        visibleErrorMessageFromPax: true,
+        errorMessageFromPax: errorMessage,
+      });
     }
   }
 
@@ -3233,6 +3337,11 @@ const mapStateToProps = (state) => ({
   dejavooMachineInfo: state.hardware.dejavooMachineInfo,
   paymentMachineType: state.hardware.paymentMachineType,
   customService: state.service.customService,
+  isCreditPaymentToServer: state.appointment.isCreditPaymentToServer,
+  lastTransactionAppointmentId: state.appointment.lastTransactionAppointmentId,
+  lastGroupAppointmentPay: state.appointment.lastGroupAppointmentPay,
+  errorMessage: state.appointment.errorMessage,
+  visibleDisconnect: state.app.visibleDisconnect,
 });
 
 export default connectRedux(mapStateToProps, TabCheckout);

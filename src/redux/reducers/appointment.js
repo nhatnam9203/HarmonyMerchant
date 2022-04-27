@@ -59,10 +59,19 @@ const initialState = {
   appointmentIdBookingFromCalendar: 0,
   visiblePopupPaymentConfirm: false,
   isProcessPaymentClover: false,
+  lastTransactionAppointmentId: null,
+  lastGroupAppointmentPay: null,
+  isCreditPaymentToServer: false,
+  errorMessage: ""
 };
 
 function appointmentReducer(state = initialState, action) {
   switch (action.type) {
+    case "SAVE_LAST_TRANSACTION_APPOINTMENT":
+      return {
+        ...state,
+        lastTransactionAppointmentId: action.payload,
+      }
     case "IS_PROCESS_PAYMENT_CLOVER":
       return {
         ...state,
@@ -415,28 +424,38 @@ function appointmentReducer(state = initialState, action) {
         ...state,
         paxAmount: action?.paxAmount || 0,
         amountCredtitForSubmitToServer: action?.moneyUserGiveForStaff || 0,
+        isCreditPaymentToServer: false,
+        errorMessage: "",
       };
     case "CHECK_CREDIT_PAYMENT_TO_SERVER_SUCCESS":
+
       return {
         ...state,
+        lastTransactionAppointmentId: action.payload,
+        lastGroupAppointmentPay: Object.assign({}, state.groupAppointment),
         payAppointmentId: action.payload,
         startProcessingPax: true,
+        isCreditPaymentToServer: false,
+        errorMessage: ""
       };
     case "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL":
       return {
         ...state,
         payAppointmentId: 0,
         startProcessingPax: false,
+        isCreditPaymentToServer: true,
       };
+    case "SAVE_ERROR_MESSAGE":
+      return {
+        ...state,
+        errorMessage: action.payload,
+      }
     case "RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER":
       return {
         ...state,
         startProcessingPax: false,
-      };
-    case "RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER":
-      return {
-        ...state,
-        startProcessingPax: false,
+        isCreditPaymentToServer: false,
+        errorMessage: ""
       };
     case "GET_STAFF_LIST_BY_CURRENT_DATE_SUCCESS":
       return {
