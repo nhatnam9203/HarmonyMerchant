@@ -77,6 +77,16 @@ export const useProps = ({
   const payAppointmentId = useSelector(
     (state) => state.appointment.payAppointmentId
   );
+  const lastTransactionAppointmentId = useSelector(
+    (state) => state.appointment.lastTransactionAppointmentId
+  );
+  const lastGroupAppointmentPay = useSelector(
+    (state) => state.appointment.lastGroupAppointmentPay
+  );
+
+  const errorMessage = useSelector(
+    (state) => state.appointment.errorMessage
+  );
   const appointmentIdOffline = useSelector(
     (state) => state.appointment.appointmentIdOffline
   );
@@ -103,6 +113,12 @@ export const useProps = ({
   );
   const dejavooMachineInfo = useSelector(
     (state) => state.hardware.dejavooMachineInfo
+  );
+  const isCreditPaymentToServer = useSelector(
+    (state) => state.appointment.isCreditPaymentToServer
+  );
+  const startProcessingPax = useSelector(
+    (state) => state.appointment.startProcessingPax
   );
 
   const [isTax, setIsTax] = React.useState(false);
@@ -135,11 +151,67 @@ export const useProps = ({
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
-  const startProcessingPax = useSelector(
-    (state) => state.appointment.startProcessingPax
-  );
+  
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
+
+  const handleCheckCreditCardFail = () => {
+    if (lastTransactionAppointmentId && paymentMachineType == PaymentTerminalType.Dejavoo) {
+      this.setState({
+      visibleProcessingCredit: true,
+      });
+      const param = {
+        RefId: lastTransactionAppointmentId,
+      };
+      requestPreviousTransactionReportDejavoo(param).then((response) => {
+        parseString(response, (err, result) => {
+          if (_.get(result, "xmp.response.0.Message.0") == "Approved") {
+            const invNum = _.get(result, "xmp.response.0.InvNum.0")
+            //check if current groupAppointment is failed groupAppointment before.
+            if (invNum == groupAppointment.checkoutGroupId) {
+              this.handleResponseCreditCardDejavoo(response, 
+                true, 
+                moneyUserGiveForStaff,
+                null)
+            } else {
+                this.setState({
+                visibleProcessingCredit: false,
+                visibleErrorMessageFromPax: true,
+                errorMessageFromPax: errorMessage,
+              });
+            }
+          } else {
+            //if not found transaction on dejavoo
+            //check previous group appointment is current group appointment
+            //call payment on dejavoo again
+            if (groupAppointment?.checkoutGroupId 
+              == lastGroupAppointmentPay?.checkoutGroupId) {
+              
+                this.props.actions.appointment.resetStateCheckCreditPaymentToServer(
+                  false
+                );
+                this.sendTransactionToPaymentMachine();
+            } else {
+              //If it's not previous group appointment that create
+              // transaction payAppointmentId, show error
+              this.setState({
+                visibleProcessingCredit: false,
+                visibleErrorMessageFromPax: true,
+                errorMessageFromPax: errorMessage,
+              });
+            }
+          }
+        })
+        
+      })
+    } else {
+        this.setState({
+        visibleProcessingCredit: false,
+        visibleErrorMessageFromPax: true,
+        errorMessageFromPax: errorMessage,
+      });
+    }
+  }
 
   const handleResponseCreditCardForCloverSuccess = async (message) => {
     setVisibleProcessingCredit(false);
@@ -310,6 +382,12 @@ export const useProps = ({
       }
     }
   }, [startProcessingPax]);
+
+  React.useEffect(() => {
+    if(isCreditPaymentToServer) {
+      handleCheckCreditCardFail();
+    }
+  }, [isCreditPaymentToServer]);
 
   /** CALL API */
   const [appointmentGet, getAppointment] = useGetAppointment();
