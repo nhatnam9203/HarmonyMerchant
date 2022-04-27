@@ -30,7 +30,6 @@ export const MerchantNavigator = () => {
   const merchant = useSelector((state) => state.dataLocal.profile);
   const isPlash = useSelector((state) => state.appMerchant.isPlash);
 
-
   return (
     <Navigator
       initialRouteName="merchant.splash"
