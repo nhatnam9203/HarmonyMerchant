@@ -1834,7 +1834,8 @@ class TabCheckout extends Layout {
           if (!stringIsEmptyOrWhiteSpaces(SN)) {
             this.props.actions.hardware.setDejavooMachineSN(SN);
           }
-          const payAppointmentIdTemp = payAppointmentId || lastTransactionAppointmentId;
+          const payAppointmentIdTemp = isCreditPaymentToServer ? 
+                                       lastTransactionAppointmentId : payAppointmentId;
           this.props.actions.appointment.submitPaymentWithCreditCard(
             profile?.merchantId || 0,
             message,
@@ -2955,11 +2956,6 @@ class TabCheckout extends Layout {
       isLoadingRemoveBlockAppointment,
       startProcessingPax,
       isCreditPaymentToServer,
-      lastTransactionAppointmentId,
-      groupAppointment,
-      amountCredtitForSubmitToServer,
-      errorMessage,
-      paymentMachineType
     } = this.props;
     if (
       blockAppointments.length > 0 &&
