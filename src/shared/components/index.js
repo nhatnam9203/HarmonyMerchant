@@ -54,3 +54,4 @@ export * from "./QRCameraScanner";
 export * from "./SwitchLabel";
 export * from "./StaffLogTime";
 export * from "./CustomDrawer";
+export * from "./CustomTabBar";

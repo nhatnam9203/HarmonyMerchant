@@ -10,7 +10,7 @@ import {
   APP_NAME,
   POS_SERIAL,
   requestEditTipDejavoo,
-  handleResponseDejavoo
+  handleResponseDejavoo,
 } from "@utils";
 import { isEmpty } from "lodash";
 import React from "react";
@@ -45,8 +45,8 @@ class TabAppointment extends Layout {
     this.popupCheckDiscountPermissionRef = React.createRef();
     this.invoicePrintRef = React.createRef();
     this.invoiceRef = React.createRef();
-    this.tipSum = 0.0
-    this.editTipParams = {}
+    this.tipSum = 0.0;
+    this.editTipParams = {};
   }
 
   componentDidMount() {
@@ -279,6 +279,7 @@ class TabAppointment extends Layout {
               }
 
               break;
+
             case "goToInvoice":
               if (data?.appointment?.checkoutId > 0) {
                 NavigationServices.navigate("Invoice", {
@@ -287,20 +288,23 @@ class TabAppointment extends Layout {
                 });
               }
               break;
-            case "updateAppointmentPaid":
-              console.log('updateAppointmentPaid', data)
-              if (data?.appointment?.checkoutId > 0) {
-                this.setState({...this.state, isEditTipCreditCard: true})
-                this.props.actions.invoice.getInvoiceDetail(data?.appointment?.checkoutId);
 
-                const services = data?.body?.services
+            case "updateAppointmentPaid":
+              console.log("updateAppointmentPaid", data);
+              if (data?.appointment?.checkoutId > 0) {
+                this.setState({ ...this.state, isEditTipCreditCard: true });
+                this.props.actions.invoice.getInvoiceDetail(
+                  data?.appointment?.checkoutId
+                );
+
+                const services = data?.body?.services;
                 let tipSum = 0;
                 if (services) {
-                  tipSum = _.sumBy(services, item =>{
-                    return parseFloat(item.tipAmount)
+                  tipSum = _.sumBy(services, (item) => {
+                    return parseFloat(item.tipAmount);
                   });
                   this.tipSum = tipSum;
-                  this.editTipParams = data?.body
+                  this.editTipParams = data?.body;
                 }
               }
               break;
@@ -358,8 +362,11 @@ class TabAppointment extends Layout {
       // }, 1000);
     }
 
-    if (invoiceDetail && invoiceDetail != prevProps.invoiceDetail 
-      && this.state.isEditTipCreditCard) {
+    if (
+      invoiceDetail &&
+      invoiceDetail != prevProps.invoiceDetail &&
+      this.state.isEditTipCreditCard
+    ) {
       this.handleEditTipCreditPayment(invoiceDetail);
     }
   }
@@ -369,48 +376,55 @@ class TabAppointment extends Layout {
   }
 
   async handleEditTipCreditPayment(invoiceDetail) {
-    this.setState({...this.state, isEditTipCreditCard: false})
-    if(_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
-      const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
+    this.setState({ ...this.state, isEditTipCreditCard: false });
+    if (_.get(invoiceDetail, "paymentInformation", []).length > 0) {
+      const paymentInformation = _.get(invoiceDetail, "paymentInformation.0");
       const paymentData = paymentInformation?.paymentData;
       parseString(paymentInformation?.responseData, (err, result) => {
         if (err) {
           setTimeout(() => {
-            alert(err)
-          }, 300)
+            alert(err);
+          }, 300);
         } else {
           const refId = _.get(result, "xmp.response.0.RefId.0");
           const invNum = _.get(result, "xmp.response.0.InvNum.0");
-          const last4 = _.get(paymentData, 'card_number');
-          const extraData = _.get(result, "xmp.response.0.ExtData.0").split(",");
-          let amount = 0
+          const last4 = _.get(paymentData, "card_number");
+          const extraData = _.get(result, "xmp.response.0.ExtData.0").split(
+            ","
+          );
+          let amount = 0;
           if (extraData) {
-            const findIndex = _.findIndex(extraData, item => {
-              return item.includes("Amount")
-            })
-            amount = findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
+            const findIndex = _.findIndex(extraData, (item) => {
+              return item.includes("Amount");
+            });
+            amount =
+              findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
           }
-          
+
           const params = {
             amount,
             refId,
             invNum,
             tip: this.tipSum.toFixed(2),
             last4,
-          }
+          };
           requestEditTipDejavoo(params).then(async (responses) => {
-             handleResponseDejavoo(responses).then(result => {
-                this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
-             },
-             error => {
-              setTimeout(() => {
-                alert(error || "Error")
-              }, 300)
-             })
+            handleResponseDejavoo(responses).then(
+              (result) => {
+                this.props.actions.invoice.editPaidAppointment(
+                  { ...this.editTipParams, responses },
+                  invoiceDetail?.appointmentId
+                );
+              },
+              (error) => {
+                setTimeout(() => {
+                  alert(error || "Error");
+                }, 300);
+              }
+            );
           });
         }
       });
-      
     }
   }
 
