@@ -36,7 +36,8 @@ export const ReceiptViewShot = React.forwardRef(
       checkoutPaymentMethods,
       isSignature,
       itemReturn,
-      staffName
+      staffName,
+      returnTotal,
     },
     ref
   ) => {
@@ -86,6 +87,7 @@ export const ReceiptViewShot = React.forwardRef(
           invoiceDate={invoiceDate}
           invoiceNO={invoiceNO}
           staffName={staffName}
+          returnCode={itemReturn?.code}
         />
         <ReceiptContent items={items} type={getReceiptType()} />
         <ReceiptTotal
@@ -98,6 +100,7 @@ export const ReceiptViewShot = React.forwardRef(
           cashDiscount={cashDiscount}
           fee={fee}
           total={total}
+          returnTotal={returnTotal}
           printTemp={printTemp}
           fromAppointmentTab={fromAppointmentTab}
           checkoutPaymentMethods={checkoutPaymentMethods}

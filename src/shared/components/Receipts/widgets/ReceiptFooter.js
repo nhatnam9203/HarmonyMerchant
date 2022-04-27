@@ -41,12 +41,12 @@ export const ReceiptFooter = ({
 
       {!!invoiceCode && (
         <Barcode
-          format="CODE128"
+          format="CODE39"
           value={`${invoiceCode}`}
           text={`${invoiceCode}`}
           style={{ marginBottom: 10 }}
-          maxWidth={scaleWidth(300)}
-          height={scaleHeight(80)}
+          maxWidth={scaleWidth(350)}
+          height={scaleHeight(85)}
         />
       )}
       <View style={styles.margin} />

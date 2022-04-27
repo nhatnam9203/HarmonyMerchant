@@ -1,7 +1,7 @@
 import {
   ButtonGradient,
   ButtonGradientWhite,
-  ReceiptViewShot
+  ReceiptViewShot,
 } from "@shared/components";
 import { usePrinter } from "@shared/components/Receipts/usePrinter";
 import { useProps } from "@shared/components/Receipts/useProps";
@@ -59,6 +59,7 @@ export const DialogReturnItemComplete = React.forwardRef(
       promotionNotes,
       checkoutPaymentMethods,
       staffName,
+      returnTotal,
     } = useProps({
       appointment,
       printTemp: false,
@@ -219,6 +220,7 @@ export const DialogReturnItemComplete = React.forwardRef(
                 tip={tip}
                 tax={tax}
                 total={total}
+                returnTotal={returnTotal}
                 fee={fee}
                 cashDiscount={cashDiscount}
                 due={due}

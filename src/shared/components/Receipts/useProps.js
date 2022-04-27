@@ -33,10 +33,11 @@ export const useProps = ({
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
 
   const getItems = () => {
+    console.log(itemReturn);
     if (itemReturn) {
       let temps = [];
       const { products = [], giftcards = [] } = itemReturn?.returnData || {};
-      temps = products?.map((x, index) => ({
+      temps = products.map((x, index) => ({
         type: "Return",
         id: `${index}_return`,
         data: {
@@ -321,6 +322,12 @@ export const useProps = ({
     return "";
   };
 
+  const getReturnTotal = () => {
+    if (groupAppointment) return groupAppointment?.returnAmount;
+    if (appointment) return appointment?.returnAmount;
+    return 0;
+  };
+
   return {
     portName,
     emulation,
@@ -348,5 +355,6 @@ export const useProps = ({
     promotionNotes: getPromotionNotes(),
     checkoutPaymentMethods: getCheckoutPaymentMethods(),
     staffName: getStaffName(),
+    returnTotal: getReturnTotal(),
   };
 };

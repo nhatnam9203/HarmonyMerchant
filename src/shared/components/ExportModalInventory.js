@@ -332,13 +332,14 @@ const styles = StyleSheet.create({
     width: 0,
     height: 0,
     borderWidth: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
   },
 
   dropDownContainerStyle: {
     borderWidth: 0,
     borderColor: "#fff",
     borderRadius: scaleHeight(3),
-    marginTop: scaleHeight(35),
   },
 
   textStyle: {

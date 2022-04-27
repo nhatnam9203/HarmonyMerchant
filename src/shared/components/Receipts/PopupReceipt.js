@@ -64,6 +64,7 @@ export const PopupReceipt = React.forwardRef(
       promotionNotes,
       checkoutPaymentMethods,
       staffName,
+      returnTotal,
     } = useProps({
       appointment,
       invoice,
@@ -132,6 +133,9 @@ export const PopupReceipt = React.forwardRef(
 
     const hide = () => {
       setOpen(false);
+      setTimeout(() => {
+        resetAll();
+      }, 1000);
     };
 
     const onModalHide = () => {
@@ -145,6 +149,9 @@ export const PopupReceipt = React.forwardRef(
       if (onForceClose && typeof onForceClose === "function") {
         onForceClose();
       }
+      setTimeout(() => {
+        resetAll();
+      }, 1000);
     };
 
     const onPrintButtonPress = async () => {
@@ -286,6 +293,7 @@ export const PopupReceipt = React.forwardRef(
                 tip={tip}
                 tax={tax}
                 total={total}
+                returnTotal={returnTotal}
                 fee={fee}
                 cashDiscount={cashDiscount}
                 due={due}
