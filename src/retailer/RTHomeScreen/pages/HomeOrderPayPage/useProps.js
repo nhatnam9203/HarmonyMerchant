@@ -21,6 +21,7 @@ import {
   REMOTE_APP_ID,
   requestTransactionDejavoo,
   stringIsEmptyOrWhiteSpaces,
+  requestPreviousTransactionReportDejavoo,
 } from "@utils";
 import _ from "lodash";
 import React from "react";
@@ -77,6 +78,16 @@ export const useProps = ({
   const payAppointmentId = useSelector(
     (state) => state.appointment.payAppointmentId
   );
+  const lastTransactionAppointmentId = useSelector(
+    (state) => state.appointment.lastTransactionAppointmentId
+  );
+  const lastGroupAppointmentPay = useSelector(
+    (state) => state.appointment.lastGroupAppointmentPay
+  );
+
+  const errorMessage = useSelector(
+    (state) => state.appointment.errorMessage
+  );
   const appointmentIdOffline = useSelector(
     (state) => state.appointment.appointmentIdOffline
   );
@@ -103,6 +114,12 @@ export const useProps = ({
   );
   const dejavooMachineInfo = useSelector(
     (state) => state.hardware.dejavooMachineInfo
+  );
+  const isCreditPaymentToServer = useSelector(
+    (state) => state.appointment.isCreditPaymentToServer
+  );
+  const startProcessingPax = useSelector(
+    (state) => state.appointment.startProcessingPax
   );
 
   const [isTax, setIsTax] = React.useState(false);
@@ -135,11 +152,57 @@ export const useProps = ({
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
-  const startProcessingPax = useSelector(
-    (state) => state.appointment.startProcessingPax
-  );
+  
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
+
+  const handleCheckCreditCardFail = () => {
+    if (lastTransactionAppointmentId && paymentMachineType == PaymentTerminalType.Dejavoo) {
+     
+      setVisibleProcessingCredit(true);
+      const param = {
+        RefId: lastTransactionAppointmentId,
+      };
+      requestPreviousTransactionReportDejavoo(param).then((response) => {
+        parseString(response, (err, result) => {
+          if (_.get(result, "xmp.response.0.Message.0") == "Approved") {
+            const invNum = _.get(result, "xmp.response.0.InvNum.0")
+            //check if current groupAppointment is failed groupAppointment before.
+            if (invNum == groupAppointment.checkoutGroupId) {
+              handleResponseCreditCardDejavoo(response, 
+                true, 
+                moneyUserGiveForStaff,
+                null)
+            } else {
+              setVisibleProcessingCredit(false);
+              setVisibleErrorMessageFromPax(true);
+              setErrorMessageFromPax(errorMessage);
+            }
+          } else {
+            //if not found transaction on dejavoo
+            //check previous group appointment is current group appointment
+            //call payment on dejavoo again
+            if (groupAppointment?.checkoutGroupId 
+              == lastGroupAppointmentPay?.checkoutGroupId) {
+              dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
+              sendTransactionToPaymentMachine();
+            } else {
+              //If it's not previous group appointment that create
+              // transaction payAppointmentId, show error
+              setVisibleProcessingCredit(false);
+              setVisibleErrorMessageFromPax(true);
+              setErrorMessageFromPax(errorMessage);
+            }
+          }
+        })
+        
+      })
+    } else {
+      setVisibleProcessingCredit(false);
+      setVisibleErrorMessageFromPax(true);
+      setErrorMessageFromPax(errorMessage);
+    }
+  }
 
   const handleResponseCreditCardForCloverSuccess = async (message) => {
     setVisibleProcessingCredit(false);
@@ -253,63 +316,15 @@ export const useProps = ({
   React.useEffect(() => {
     if (startProcessingPax) {
       dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
-      if (paymentMachineType == PaymentTerminalType.Clover) {
-        setIsGetResponsePaymentPax(false);
-        setVisibleProcessingCredit(true);
-        const moneyCreditCard = Number(
-          formatNumberFromCurrency(moneyUserGiveForStaff) * 100
-        ).toFixed(2);
-        const port = _.get(cloverMachineInfo, "port")
-          ? _.get(cloverMachineInfo, "port")
-          : 80;
-        const url = `wss://${_.get(
-          cloverMachineInfo,
-          "ip"
-        )}:${port}/remote_pay`;
-
-        dispatch(actions.appointment.isProcessPaymentClover(true));
-
-        setVisibleProcessingCredit(true);
-
-        clover.sendTransaction({
-          url,
-          remoteAppId: REMOTE_APP_ID,
-          appName: APP_NAME,
-          posSerial: POS_SERIAL,
-          token: _.get(cloverMachineInfo, "token")
-            ? _.get(cloverMachineInfo, "token", "")
-            : "",
-          tipMode: isTipOnPaxMachine ? "ON_SCREEN_BEFORE_PAYMENT" : "NO_TIP",
-          amount: `${parseFloat(moneyCreditCard)}`,
-          externalId: `${payAppointmentId}`,
-        });
-      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-        setVisibleProcessingCredit(true);
-
-        const tenderType =
-          paymentSelected === "Credit Card" ? "Credit" : "Debit";
-
-        const parameter = {
-          tenderType: tenderType,
-          transType: "Sale",
-          amount: Number(moneyUserGiveForStaff).toFixed(2),
-          RefId: payAppointmentId,
-          invNum: `${groupAppointment?.checkoutGroupId || 0}`,
-        };
-        requestTransactionDejavoo(parameter).then((responses) => {
-          handleResponseCreditCardDejavoo(
-            responses,
-            true,
-            moneyUserGiveForStaff,
-            parameter
-          );
-        });
-      } else {
-        //send by Pax
-        sendTransactionIOS();
-      }
+      sendTransactionToPaymentMachine();
     }
   }, [startProcessingPax]);
+
+  React.useEffect(() => {
+    if(isCreditPaymentToServer) {
+      handleCheckCreditCardFail();
+    }
+  }, [isCreditPaymentToServer]);
 
   /** CALL API */
   const [appointmentGet, getAppointment] = useGetAppointment();
@@ -329,52 +344,126 @@ export const useProps = ({
       });
   };
 
+  const sendTransactionToPaymentMachine = () => {
+    if (paymentMachineType == PaymentTerminalType.Clover) {
+      setIsGetResponsePaymentPax(false);
+      setVisibleProcessingCredit(true);
+      const moneyCreditCard = Number(
+        formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+      ).toFixed(2);
+      const port = _.get(cloverMachineInfo, "port")
+        ? _.get(cloverMachineInfo, "port")
+        : 80;
+      const url = `wss://${_.get(
+        cloverMachineInfo,
+        "ip"
+      )}:${port}/remote_pay`;
+
+      dispatch(actions.appointment.isProcessPaymentClover(true));
+
+      setVisibleProcessingCredit(true);
+
+      clover.sendTransaction({
+        url,
+        remoteAppId: REMOTE_APP_ID,
+        appName: APP_NAME,
+        posSerial: POS_SERIAL,
+        token: _.get(cloverMachineInfo, "token")
+          ? _.get(cloverMachineInfo, "token", "")
+          : "",
+        tipMode: isTipOnPaxMachine ? "ON_SCREEN_BEFORE_PAYMENT" : "NO_TIP",
+        amount: `${parseFloat(moneyCreditCard)}`,
+        externalId: `${payAppointmentId}`,
+      });
+    } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+      setVisibleProcessingCredit(true);
+
+      const tenderType =
+        paymentSelected === "Credit Card" ? "Credit" : "Debit";
+
+      const parameter = {
+        tenderType: tenderType,
+        transType: "Sale",
+        amount: Number(moneyUserGiveForStaff).toFixed(2),
+        RefId: isCreditPaymentToServer ? lastTransactionAppointmentId : payAppointmentId,
+        invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+      };
+      requestTransactionDejavoo(parameter).then((responses) => {
+        handleResponseCreditCardDejavoo(
+          responses,
+          true,
+          moneyUserGiveForStaff,
+          parameter
+        );
+      });
+    } else {
+      //send by Pax
+      sendTransactionIOS();
+    }
+  }
+
   const handleResponseCreditCardDejavoo = async (
     message,
     online,
     moneyUserGiveForStaff,
     parameter
   ) => {
-    setVisibleProcessingCredit(false);
-
     try {
       parseString(message, (err, result) => {
-        if (err || _.get(result, "xmp.response.0.ResultCode.0") != 0) {
-          let detailMessage = _.get(
-            result,
-            "xmp.response.0.RespMSG.0",
-            ""
-          ).replace(/%20/g, " ");
-          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
-            ? `: ${detailMessage}`
-            : detailMessage;
+        let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+        if (err || errorCode != 0 || _.get(result, "xmp.response.0.Message.0") != "Approved") {
+          if (errorCode == '999' && 
+            groupAppointment?.checkoutGroupId == lastGroupAppointmentPay?.checkoutGroupId) {
+            //time out
+            const param = {
+              RefId: payAppointmentId,
+            };
+            requestPreviousTransactionReportDejavoo(param).then((response) => {
+              handleResponseCreditCardDejavoo(response, 
+                                              online, 
+                                              moneyUserGiveForStaff,
+                                              parameter)
+            })
+          } else {
+            let detailMessage = _.get(result, "xmp.response.0.RespMSG.0", "")
+              .replace(/%20/g, " ");
+              detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
+              ? `: ${detailMessage}`
+              : detailMessage;
 
-          const resultTxt =
-            `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
-            "Transaction failed";
-          if (payAppointmentId) {
-            dispatch(
-              actions.appointment.cancelHarmonyPayment(
-                payAppointmentId,
-                "transaction fail",
-                resultTxt
-              )
-            );
+            const resultTxt =
+              `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
+              "Transaction failed";
+
+            if (payAppointmentId) {
+              dispatch(
+                actions.appointment.cancelHarmonyPayment(
+                  payAppointmentId,
+                  "transaction fail",
+                  resultTxt
+                )
+              );
+            }
+            setTimeout(()=>{
+              setVisibleProcessingCredit(false);
+              setVisibleErrorMessageFromPax(true);
+              setErrorMessageFromPax(`${resultTxt}`);
+            }, 400)
+            
           }
-          setTimeout(() => {
-            setVisibleErrorMessageFromPax(true);
-            setErrorMessageFromPax(`${resultTxt}`);
-          }, 300);
+          
         } else {
+          setVisibleProcessingCredit(false);
           const SN = _.get(result, "xmp.response.0.SN.0");
           if (!stringIsEmptyOrWhiteSpaces(SN)) {
             dispatch(actions.hardware.setDejavooMachineSN(SN));
           }
+          const payAppointmentIdTemp = isCreditPaymentToServer ? lastTransactionAppointmentId : payAppointmentId;
           dispatch(
             actions.appointment.submitPaymentWithCreditCard(
               profile?.merchantId || 0,
               message,
-              payAppointmentId,
+              payAppointmentIdTemp,
               moneyUserGiveForStaff,
               "dejavoo",
               parameter
