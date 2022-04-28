@@ -157,6 +157,7 @@ export const useProps = ({
   const [isDidNotPay, setDidNotPay] = React.useState(false);
 
   const handleCheckCreditCardFail = () => {
+    console.log("handleCheckCreditCardFail", lastTransactionAppointmentId)
     if (lastTransactionAppointmentId && paymentMachineType == PaymentTerminalType.Dejavoo) {
      
       setVisibleProcessingCredit(true);
@@ -164,6 +165,7 @@ export const useProps = ({
         RefId: lastTransactionAppointmentId,
       };
       requestPreviousTransactionReportDejavoo(param).then((response) => {
+        console.log("response", response)
         parseString(response, (err, result) => {
           if (_.get(result, "xmp.response.0.Message.0") == "Approved") {
             const invNum = _.get(result, "xmp.response.0.InvNum.0")
