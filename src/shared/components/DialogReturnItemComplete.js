@@ -191,6 +191,7 @@ export const DialogReturnItemComplete = React.forwardRef(
                 borderRadius={scaleWidth(3)}
                 onPress={onYesButtonPress}
                 loading={loading}
+                disable={loading}
               />
             </View>
           </View>

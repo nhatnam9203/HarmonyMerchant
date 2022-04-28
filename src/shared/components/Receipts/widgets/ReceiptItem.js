@@ -72,7 +72,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${qty}`}</TextItem>
-          {returnQuantity && <TextItem>{`- ${returnQuantity}`}</TextItem>}
+          {!!returnQuantity && <TextItem>{`- ${returnQuantity}`}</TextItem>}
         </View>
       );
 
@@ -85,7 +85,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${formatMoneyWithUnit(totalPrice)}`}</TextItem>
-          {returnAmount && (
+          {!!returnAmount && (
             <TextItem>{`- ${formatMoneyWithUnit(returnAmount)}`}</TextItem>
           )}
         </View>
@@ -283,7 +283,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "flex-start",
           }}
         >
-          <TextLabel>{`${staff?.displayName ?? ""}`}</TextLabel>
+          <TextLabel>{`${staff?.displayName ?? "  "}`}</TextLabel>
         </View>
       );
 
