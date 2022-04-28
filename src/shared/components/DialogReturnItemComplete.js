@@ -154,11 +154,13 @@ export const DialogReturnItemComplete = React.forwardRef(
           setItemReturn(temps[0]);
         }
       }
+    }, [appointmentGet]);
 
-      if (appointmentGet) {
+    React.useEffect(() => {
+      if (itemReturn) {
         setLoading(false);
       }
-    }, [appointmentGet]);
+    }, [itemReturn]);
 
     return (
       <>
