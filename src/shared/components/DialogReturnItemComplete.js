@@ -29,6 +29,7 @@ export const DialogReturnItemComplete = React.forwardRef(
     const [receiptBackground, setReceiptBackground] = React.useState("#fff");
     const [appointment, setAppointment] = React.useState(null);
     const [isSignature, setIsSignature] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
 
     const [appointmentGet, getAppointment] = useGetAppointment();
 
@@ -99,6 +100,7 @@ export const DialogReturnItemComplete = React.forwardRef(
       setAutoPrint(false);
       setItemReturn(null);
       setAppointment(null);
+      setLoading(false);
     };
 
     const hideModal = () => {
@@ -135,6 +137,7 @@ export const DialogReturnItemComplete = React.forwardRef(
 
     React.useEffect(() => {
       if (show_modal && groupAppointmentId) {
+        setLoading(true);
         getAppointment(groupAppointmentId);
       }
     }, [show_modal, groupAppointmentId]);
@@ -150,6 +153,10 @@ export const DialogReturnItemComplete = React.forwardRef(
           );
           setItemReturn(temps[0]);
         }
+      }
+
+      if (appointmentGet) {
+        setLoading(false);
       }
     }, [appointmentGet]);
 
@@ -183,6 +190,7 @@ export const DialogReturnItemComplete = React.forwardRef(
                 height={scaleHeight(45)}
                 borderRadius={scaleWidth(3)}
                 onPress={onYesButtonPress}
+                loading={loading}
               />
             </View>
           </View>

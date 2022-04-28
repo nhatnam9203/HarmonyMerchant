@@ -28,7 +28,8 @@ export const ReceiptItem = ({ item, index, type }) => {
     label = "",
     barCode,
     returnPrice = 0,
-    returnQuantity = 1,
+    returnQuantity,
+    returnAmount,
   } = data;
 
   const totalPrice = formatNumberFromCurrency(price) * qty;
@@ -66,11 +67,12 @@ export const ReceiptItem = ({ item, index, type }) => {
         <View
           style={{
             flex: 1,
-            alignItems: "center",
+            alignItems: "flex-end",
             justifyContent: "flex-start",
           }}
         >
           <TextItem>{`${qty}`}</TextItem>
+          {returnQuantity && <TextItem>{`- ${returnQuantity}`}</TextItem>}
         </View>
       );
 
@@ -83,6 +85,9 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${formatMoneyWithUnit(totalPrice)}`}</TextItem>
+          {returnAmount && (
+            <TextItem>{`- ${formatMoneyWithUnit(returnAmount)}`}</TextItem>
+          )}
         </View>
       );
 
@@ -216,7 +221,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           style={{
             flex: 1,
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "flex-start",
           }}
         >
           <TextItem>{`${returnQuantity}`}</TextItem>
@@ -326,12 +331,12 @@ export const ReceiptHeaderItem = ({ type }) => {
     </View>
   );
   const onRenderColumTwo = () => (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
       <TextHeader>{t("PRICE")}</TextHeader>
     </View>
   );
   const onRenderColumThree = () => (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
       <TextHeader>{t("QTY")}</TextHeader>
     </View>
   );
@@ -451,12 +456,12 @@ export const ReceiptTotalItem = ({ type, total }) => {
   );
   const onRenderColumTwo = () => (
     <View
-      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
+      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-end" }}
     />
   );
   const onRenderColumThree = () => (
     <View
-      style={{ flex: 1, alignItems: "center", justifyContent: "flex-start" }}
+      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
     >
       <TextItem>{`${total}`}</TextItem>
     </View>

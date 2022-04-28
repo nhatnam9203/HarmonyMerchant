@@ -33,7 +33,6 @@ export const useProps = ({
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
 
   const getItems = () => {
-    console.log(itemReturn);
     if (itemReturn) {
       let temps = [];
       const { products = [], giftcards = [] } = itemReturn?.returnData || {};
