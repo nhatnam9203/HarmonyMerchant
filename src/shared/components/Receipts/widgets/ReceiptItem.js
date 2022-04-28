@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { LineHeader, LineItem } from "./ReceiptLine";
 
 const SALON_COLUMN_WIDTH = [4, 3, 3];
-const RETAILER_RETURN_COLUMN_WIDTH = [3, 1, 2, 2, 2];
+const RETAILER_RETURN_COLUMN_WIDTH = [2.5, 1, 2.5, 1.5, 2.5];
 const RETAILER_COLUMN_WIDTH = [3, 2.5, 1.5, 3];
 
 export const ReceiptItemType = {
@@ -85,7 +85,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${formatMoneyWithUnit(totalPrice)}`}</TextItem>
-          {!!returnAmount && (
+          {!!returnQuantity && parseInt(returnQuantity) > 0 && (
             <TextItem>{`- ${formatMoneyWithUnit(returnAmount)}`}</TextItem>
           )}
         </View>
@@ -212,7 +212,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "flex-start",
           }}
         >
-          <TextItem>{`${price}`}</TextItem>
+          <TextItem>{`${formatMoneyWithUnit(price)}`}</TextItem>
         </View>
       );
 
@@ -236,7 +236,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "flex-start",
           }}
         >
-          <TextItem>{`${returnPrice}`}</TextItem>
+          <TextItem>{`${formatMoneyWithUnit(returnPrice)}`}</TextItem>
         </View>
       );
 
@@ -640,7 +640,7 @@ const styles = StyleSheet.create({
   textStyle: {
     // fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(20),
+    fontSize: scaleFont(18),
     fontWeight: "600",
   },
   textLabelStyle: {
