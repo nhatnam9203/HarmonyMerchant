@@ -118,7 +118,6 @@ export const useHarmonyPrinter = ({ profile, printerList, printerSelect }) => {
     ]);
     textFormat += "\n";
 
-    console.log(textFormat);
 
     return textFormat;
   };

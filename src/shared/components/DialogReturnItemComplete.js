@@ -60,6 +60,7 @@ export const DialogReturnItemComplete = React.forwardRef(
       promotionNotes,
       checkoutPaymentMethods,
       staffName,
+      returnTotal,
     } = useProps({
       appointment,
       printTemp: false,
@@ -99,6 +100,7 @@ export const DialogReturnItemComplete = React.forwardRef(
       setAutoPrint(false);
       setItemReturn(null);
       setAppointment(null);
+      setLoading(false);
     };
 
     const hideModal = () => {
@@ -135,6 +137,7 @@ export const DialogReturnItemComplete = React.forwardRef(
 
     React.useEffect(() => {
       if (show_modal && groupAppointmentId) {
+        setLoading(true);
         getAppointment(groupAppointmentId);
         setLoading(true);
       }
@@ -158,6 +161,12 @@ export const DialogReturnItemComplete = React.forwardRef(
         setLoading(false);
       }
     }, [appointmentGet]);
+
+    React.useEffect(() => {
+      if (itemReturn) {
+        setLoading(false);
+      }
+    }, [itemReturn]);
 
     return (
       <>
@@ -190,6 +199,7 @@ export const DialogReturnItemComplete = React.forwardRef(
                 borderRadius={scaleWidth(3)}
                 onPress={onYesButtonPress}
                 loading={loading}
+                disable={loading}
               />
             </View>
           </View>
@@ -227,6 +237,7 @@ export const DialogReturnItemComplete = React.forwardRef(
                 tip={tip}
                 tax={tax}
                 total={total}
+                returnTotal={returnTotal}
                 fee={fee}
                 cashDiscount={cashDiscount}
                 due={due}

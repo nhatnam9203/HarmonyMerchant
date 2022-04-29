@@ -10,12 +10,12 @@ export const ReceiptContent = ({ items, type, symbol }) => {
   const getTotalQty = () => {
     const totalQty = items?.reduce((prev, item, index) => {
       const qty = item.data?.qty ?? 1;
-      return prev + qty;
+      const returnQty = item.data?.returnQuantity ?? 0;
+      return prev + (qty - returnQty);
     }, 0);
 
     return totalQty ?? 0;
   };
-
 
   return (
     <>
