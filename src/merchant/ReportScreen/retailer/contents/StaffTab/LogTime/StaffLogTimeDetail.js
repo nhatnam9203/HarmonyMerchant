@@ -48,7 +48,6 @@ export const StaffLogTimeDetailTab = ({
         }
         return false;
       });
-      console.log(arr);
       setDetails(...arr);
     } else {
       setDetails([]);
@@ -84,7 +83,7 @@ export const StaffLogTimeDetailTab = ({
             Duration: t("Duration"),
           }}
           whiteListKeys={["Date", "LoginTime", "LogoutTime", "Duration"]}
-          primaryKey="StaffId"
+          primaryKey="Date"
           widthForKeys={{
             Date: scaleWidth(350),
             LoginTime: scaleWidth(200),

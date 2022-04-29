@@ -34,8 +34,8 @@ export const StaffLogTime = ({
   ] = harmonyApi.useLazyStaffLogTimeReportQuery();
 
   const callGetReportStaffLogTime = React.useCallback(() => {
-    getStaffLogTime();
-    // getStaffLogTime({ ...timeVal });
+    // getStaffLogTime();
+    getStaffLogTime({ ...timeVal });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal, sortStaffName]);
 
