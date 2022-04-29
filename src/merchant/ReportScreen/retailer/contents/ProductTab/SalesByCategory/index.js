@@ -1,28 +1,16 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import { colors } from '@shared/themes';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import SalesByCategory from './SalesByCategory';
-import SalesByCategoryDetail from './SalesByCategoryDetail';
-import {
-  ButtonCalendarFilter,
-  FormTitle,
-  ExportModal,
-} from '@shared/components';
-import {
-  useReportSaleCategory,
-  useExportSaleByCategory,
-} from '@shared/services/api/retailer';
 import { useFocusEffect } from "@react-navigation/native";
-import { getQuickFilterTimeRange } from '@utils';
+import { createStackNavigator } from "@react-navigation/stack";
 import {
-  dateToString,
-  DATE_SHOW_FORMAT_STRING,
-  statusSuccess,
-  getTimeTitleFile,
-  SORT_TYPE,
-} from '@shared/utils';
+  useExportSaleByCategory,
+  useReportSaleCategory,
+} from "@shared/services/api/retailer";
+import { colors } from "@shared/themes";
+import { getTimeTitleFile, SORT_TYPE, statusSuccess } from "@shared/utils";
+import { getQuickFilterTimeRange } from "@utils";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import SalesByCategory from "./SalesByCategory";
+import SalesByCategoryDetail from "./SalesByCategoryDetail";
 
 const { Screen, Navigator } = createStackNavigator();
 

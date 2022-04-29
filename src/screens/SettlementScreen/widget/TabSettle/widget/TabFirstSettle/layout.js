@@ -183,7 +183,6 @@ class Layout extends React.Component {
     const { staffSales, gitfCardSales, deposits = 0 } = this.props;
     let totalAmount = 0;
     let giftCardTotal = 0;
-    let depositTotal = 0;
     if (staffSales.length > 0) {
       staffSales.forEach((staff) => {
         totalAmount =
@@ -237,7 +236,11 @@ class Layout extends React.Component {
           />
         </View>
         <View style={{ height: scaleSize(10) }} />
-        <TotalItem total={formatMoney(totalAmount + giftCardTotal)} />
+        <TotalItem
+          total={formatMoney(
+            totalAmount + giftCardTotal + formatNumberFromCurrency(deposits)
+          )}
+        />
       </View>
     );
   }
@@ -263,7 +266,8 @@ class Layout extends React.Component {
         formatNumberFromCurrency(editPaymentByCash) +
         formatNumberFromCurrency(editOtherPayment) +
         formatNumberFromCurrency(discountSettlement) +
-        formatNumberFromCurrency(paymentByGiftcard)
+        formatNumberFromCurrency(paymentByGiftcard) +
+        formatNumberFromCurrency(depositedAmount)
     );
 
     return (

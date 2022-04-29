@@ -1,4 +1,4 @@
-import StaffTab from "./StaffTab";
+import { ReportStaffTab } from "./StaffTab";
 import GiftCardTab from "./GiftCardTab";
 import CustomerTab from "./CustomerTab";
 import ServiceTab from "./ServiceTab";
@@ -8,7 +8,7 @@ import SalesTab from "./SalesTab";
 import OrderTab from "./OrderTab";
 
 module.exports = {
-  StaffTab,
+  ReportStaffTab,
   CustomerTab,
   ProductTab,
   OverallTab,

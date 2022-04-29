@@ -38,4 +38,14 @@ export const staffBuilder = (builder) => ({
       data,
     }),
   }),
+
+  staffLogTimeReport: builder.query({
+    query: (params) => {
+      console.log(params);
+      return {
+        url: `MerchantStaffLogtime/logtime`,
+        params: params,
+      };
+    },
+  }),
 });

@@ -19,8 +19,9 @@ export const harmonyApi = createApi({
 });
 
 export const {
-  useGetAppointmentQuery,
   usePrefetch,
+  useGetAppointmentQuery,
   useStaffLoginMutation,
   useStaffLogTimeCreateMutation,
+  useStaffLogTimeReportQuery,
 } = harmonyApi;

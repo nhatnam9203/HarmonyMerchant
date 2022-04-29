@@ -142,7 +142,7 @@ class Layout extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1.3 }}>
+      <View style={{ flex: 4, height: "100%" }}>
         {/* ---------- Header --------- */}
         <View style={[styles.box_scale_by_staffs]}>
           <StaffsHeaderTable />
@@ -167,7 +167,13 @@ class Layout extends React.Component {
           />
         </View>
         <View style={{ height: scaleSize(10) }} />
-        <TotalItem total={formatMoney(totalAmount + giftCardTotal)} />
+        <TotalItem
+          total={formatMoney(
+            totalAmount +
+              giftCardTotal +
+              formatNumberFromCurrency(depositTotalBySettlementId)
+          )}
+        />
       </View>
     );
   }
@@ -189,67 +195,69 @@ class Layout extends React.Component {
     const depositedAmount = settlementDetail?.depositedAmount || 0.0;
 
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }}>
-          <HeaderPaymentsReport />
-          <ItemPaymentsReport
-            title="HarmonyPay"
-            backgroundColor="#054071"
-            value={paymentByHarmony}
-          />
-          <View style={{ height: 1 }} />
-          <ItemPaymentsReport
-            title={`Credit Card`}
-            backgroundColor="#075BA0"
-            value={paymentByCreditCard}
-            titStyle={{
-              textDecorationLine: "underline",
-            }}
-            activeOpacity={true}
-            onPress={this.gotoCreditPaymentDetail}
-          />
-          <View style={{ height: 1 }} />
-          <ItemPaymentsReport
-            ref={this.cashAmountRef}
-            title="Cash"
-            backgroundColor="#3480BE"
-            value={paymentByCash}
-            isChange={true}
-            amountStatistic={paymentByCashStatistic}
-          />
-          <View style={{ height: 1 }} />
-          <ItemPaymentsReport
-            title="Gift Card"
-            backgroundColor="#3C92D9"
-            value={paymentByGiftcard}
-          />
-          <View style={{ height: 1 }} />
-          <ItemPaymentsReport
-            title="Deposited amount"
-            backgroundColor="#3C92D9"
-            value={depositedAmount}
-          />
-          <View style={{ height: 1 }} />
-          <ItemPaymentsReport
-            title="Other"
-            backgroundColor="#BBD4E9"
-            value={otherPayment}
-            isChange={true}
-            amountStatistic={otherPaymentStatistic}
-          />
-          <ItemPaymentsReport
-            title="Discount"
-            backgroundColor="#F1F1F1"
-            txtStyle={{
-              color: "#404040",
-            }}
-            value={discount}
-          />
-        </View>
-        {this.renderNote()}
+      <View style={{ flex: 3, height: "100%" }}>
+        <ScrollView keyboardShouldPersistTaps="always">
+          <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }}>
+            <HeaderPaymentsReport />
+            <ItemPaymentsReport
+              title="HarmonyPay"
+              backgroundColor="#054071"
+              value={paymentByHarmony}
+            />
+            <View style={{ height: 1 }} />
+            <ItemPaymentsReport
+              title={`Credit Card`}
+              backgroundColor="#075BA0"
+              value={paymentByCreditCard}
+              titStyle={{
+                textDecorationLine: "underline",
+              }}
+              activeOpacity={true}
+              onPress={this.gotoCreditPaymentDetail}
+            />
+            <View style={{ height: 1 }} />
+            <ItemPaymentsReport
+              ref={this.cashAmountRef}
+              title="Cash"
+              backgroundColor="#3480BE"
+              value={paymentByCash}
+              isChange={true}
+              amountStatistic={paymentByCashStatistic}
+            />
+            <View style={{ height: 1 }} />
+            <ItemPaymentsReport
+              title="Gift Card"
+              backgroundColor="#3C92D9"
+              value={paymentByGiftcard}
+            />
+            <View style={{ height: 1 }} />
+            <ItemPaymentsReport
+              title="Deposited amount"
+              backgroundColor="#3C92D9"
+              value={depositedAmount}
+            />
+            <View style={{ height: 1 }} />
+            <ItemPaymentsReport
+              title="Other"
+              backgroundColor="#BBD4E9"
+              value={otherPayment}
+              isChange={true}
+              amountStatistic={otherPaymentStatistic}
+            />
+            <ItemPaymentsReport
+              title="Discount"
+              backgroundColor="#F1F1F1"
+              txtStyle={{
+                color: "#404040",
+              }}
+              value={discount}
+            />
+          </View>
+          {this.renderNote()}
+        </ScrollView>
 
         <View style={{ height: scaleSize(10) }} />
-        <TotalItem total={formatMoney(total)} />
+        <TotalItem total={formatMoney(formatNumberFromCurrency(total))} />
       </View>
     );
   }

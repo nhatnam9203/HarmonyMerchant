@@ -13,7 +13,7 @@ import {
   OverallTab,
   ProductTab,
   SalesTab,
-  StaffTab,
+  ReportStaffTab,
   GiftCardTab,
 } from "./contents";
 import { RTStaffCheckIn } from "../general";
@@ -55,8 +55,6 @@ export const RetailerReportScreen = React.forwardRef(
             overallRef.current?.goBack();
             break;
           case 5:
-            staffRef.current?.goBack();
-            break;
           case 0:
           case 1:
           case 2:
@@ -129,8 +127,8 @@ export const RetailerReportScreen = React.forwardRef(
 
           break;
         case 5:
-          staffRef.current?.goBack();
-          showBackButton(false);
+          // staffRef.current?.goBack();
+          // showBackButton(false);
 
           break;
         default:
@@ -263,7 +261,7 @@ export const RetailerReportScreen = React.forwardRef(
           >
             {(props) => <OverallTab {...props} ref={overallRef} />}
           </Screen>
-          <Screen
+          {/* <Screen
             name={"ReportStaffTab"}
             options={{
               title: t("Staff"),
@@ -273,8 +271,18 @@ export const RetailerReportScreen = React.forwardRef(
               showBackButton: showBackButton,
             }}
           >
-            {(props) => <StaffTab {...props} ref={staffRef} />}
-          </Screen>
+            {(props) => <ReportStaffTab {...props} ref={staffRef} />}
+          </Screen> */}
+
+          <Screen
+            name={"ReportStaffTab"}
+            component={ReportStaffTab}
+            options={{
+              title: t("Staff"),
+              tabBarIcon: IMAGE.Staff,
+            }}
+            initialParams={{ showBackButton: showBackButton }}
+          />
 
           <Screen
             name={"ReportGiftCardTab"}

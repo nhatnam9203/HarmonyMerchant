@@ -24,19 +24,19 @@ function ProductTab(
 ) {
   const { t } = useTranslation();
 
-  const salesByCategoryTabRef = useRef(null);
-  const salesByProductTabRef = useRef(null);
+  // const salesByCategoryTabRef = useRef(null);
+  // const salesByProductTabRef = useRef(null);
 
   // public func
   useImperativeHandle(ref, () => ({
     goBack: () => {},
     didBlur: () => {
-      salesByCategoryTabRef?.current?.didBlur();
-      salesByProductTabRef?.current?.didBlur();
+      // salesByCategoryTabRef?.current?.didBlur();
+      // salesByProductTabRef?.current?.didBlur();
     },
     didFocus: () => {
-      salesByCategoryTabRef?.current?.didFocus();
-      salesByProductTabRef?.current?.didFocus();
+      // salesByCategoryTabRef?.current?.didFocus();
+      // salesByProductTabRef?.current?.didFocus();
     },
   }));
 

@@ -1932,7 +1932,8 @@ export const proccessingSettlement = async (
         formatNumberFromCurrency(editPaymentByCash) +
         formatNumberFromCurrency(editOtherPayment) +
         formatNumberFromCurrency(discountSettlement) +
-        formatNumberFromCurrency(paymentByGiftcard)
+        formatNumberFromCurrency(paymentByGiftcard) +
+        formatNumberFromCurrency(depositedAmount)
     ),
     note: "",
     terminalID,

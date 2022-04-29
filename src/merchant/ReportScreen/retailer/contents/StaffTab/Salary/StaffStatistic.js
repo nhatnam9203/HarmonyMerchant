@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { ReportStatisticLayout, TableListExtended } from "../../../widget";
+import { ReportStatisticLayout, TableListExtended } from "../../../../widget";
 import { localize } from "@utils";
 
 export default function StaffStatistic(props, ref) {

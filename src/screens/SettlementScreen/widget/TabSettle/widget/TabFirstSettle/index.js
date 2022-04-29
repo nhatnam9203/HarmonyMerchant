@@ -372,13 +372,15 @@ class TabFirstSettle extends Layout {
           ? settleWaiting.otherPayment
           : 0.0,
         paymentByGiftcard: paymentByGiftcard,
+        depositedAmount: depositedAmount,
         total: roundFloatNumber(
           formatNumberFromCurrency(editPaymentByHarmony) +
             formatNumberFromCurrency(editPaymentByCreditCard) +
             formatNumberFromCurrency(editPaymentByCash) +
             formatNumberFromCurrency(editOtherPayment) +
             formatNumberFromCurrency(discountSettlement) +
-            formatNumberFromCurrency(paymentByGiftcard)
+            formatNumberFromCurrency(paymentByGiftcard) +
+            formatNumberFromCurrency(depositedAmount)
         ),
         note,
         terminalID,
