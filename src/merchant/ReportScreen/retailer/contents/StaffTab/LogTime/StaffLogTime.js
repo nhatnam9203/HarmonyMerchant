@@ -1,19 +1,10 @@
-import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import { ReportTabLayout, TableListExtended } from "../../../../widget";
-import { useSelector } from "react-redux";
-import { layouts } from "@shared/themes";
-import {
-  ButtonCalendarFilter,
-  FormTitle,
-  ExportModal,
-} from "@shared/components";
-import { DropdownMenu } from "@shared/components";
-import { useTranslation } from "react-i18next";
-import { Table } from "@shared/components/CustomTable";
-import { formatMoneyWithUnit } from "@utils";
 import NavigationServices from "@navigators/NavigatorServices";
-import { useDispatch } from "react-redux";
+import { ButtonCalendarFilter, ExportModal } from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
+import { layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
 
 const FILTER_NAME_DEFAULT = "All Staff";
 

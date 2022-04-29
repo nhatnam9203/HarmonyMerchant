@@ -1,14 +1,14 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { harmonyApi } from "@shared/services";
 import { colors } from "@shared/themes";
+import { SORT_TYPE, statusSuccess } from "@shared/utils";
+import { getQuickFilterTimeRange } from "@utils";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { StaffLogTimeTab } from "./StaffLogTime";
 import { StaffLogTimeDetailTab } from "./StaffLogTimeDetail";
-import { useFocusEffect } from "@react-navigation/native";
-import { harmonyApi } from "@shared/services";
-import { getTimeTitleFile, SORT_TYPE, statusSuccess } from "@shared/utils";
-import { getQuickFilterTimeRange } from "@utils";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
