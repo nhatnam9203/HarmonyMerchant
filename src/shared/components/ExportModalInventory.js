@@ -333,6 +333,7 @@ const styles = StyleSheet.create({
     height: 0,
     borderWidth: 0,
     paddingHorizontal: 0,
+    paddingVertical: 0,
   },
 
   dropDownContainerStyle: {

@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { LineHeader, LineItem } from "./ReceiptLine";
 
 const SALON_COLUMN_WIDTH = [4, 3, 3];
-const RETAILER_RETURN_COLUMN_WIDTH = [3, 1, 2, 2, 2];
+const RETAILER_RETURN_COLUMN_WIDTH = [2.5, 1, 2.5, 1.5, 2.5];
 const RETAILER_COLUMN_WIDTH = [3, 2.5, 1.5, 3];
 const SETTLEMENT_COLUMN_WIDTH = [2, 2, 2, 2, 2];
 const TWO_COLS = [1, 1];
@@ -32,7 +32,8 @@ export const ReceiptItem = ({ item, index, type }) => {
     label = "",
     barCode,
     returnPrice = 0,
-    returnQuantity = 1,
+    returnQuantity,
+    returnAmount,
   } = data;
 
   const totalPrice = formatNumberFromCurrency(price) * qty;
@@ -153,11 +154,12 @@ export const ReceiptItem = ({ item, index, type }) => {
         <View
           style={{
             flex: 1,
-            alignItems: "center",
+            alignItems: "flex-end",
             justifyContent: "flex-start",
           }}
         >
           <TextItem>{`${qty}`}</TextItem>
+          {!!returnQuantity && <TextItem>{`- ${returnQuantity}`}</TextItem>}
         </View>
       );
 
@@ -170,6 +172,9 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${formatMoneyWithUnit(totalPrice)}`}</TextItem>
+          {!!returnQuantity && parseInt(returnQuantity) > 0 && (
+            <TextItem>{`- ${formatMoneyWithUnit(returnAmount)}`}</TextItem>
+          )}
         </View>
       );
 
@@ -294,7 +299,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "flex-start",
           }}
         >
-          <TextItem>{`${price}`}</TextItem>
+          <TextItem>{`${formatMoneyWithUnit(price)}`}</TextItem>
         </View>
       );
 
@@ -303,7 +308,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           style={{
             flex: 1,
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "flex-start",
           }}
         >
           <TextItem>{`${returnQuantity}`}</TextItem>
@@ -318,7 +323,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "flex-start",
           }}
         >
-          <TextItem>{`${returnPrice}`}</TextItem>
+          <TextItem>{`${formatMoneyWithUnit(returnPrice)}`}</TextItem>
         </View>
       );
 
@@ -365,7 +370,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "flex-start",
           }}
         >
-          <TextLabel>{`${staff?.displayName ?? ""}`}</TextLabel>
+          <TextLabel>{`${staff?.displayName ?? "  "}`}</TextLabel>
         </View>
       );
 
@@ -413,12 +418,12 @@ export const ReceiptHeaderItem = ({ type, items }) => {
     </View>
   );
   const onRenderColumTwo = () => (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
       <TextHeader>{t("PRICE")}</TextHeader>
     </View>
   );
   const onRenderColumThree = () => (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }}>
       <TextHeader>{t("QTY")}</TextHeader>
     </View>
   );
@@ -599,12 +604,12 @@ export const ReceiptTotalItem = ({ type, total }) => {
   );
   const onRenderColumTwo = () => (
     <View
-      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
+      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-end" }}
     />
   );
   const onRenderColumThree = () => (
     <View
-      style={{ flex: 1, alignItems: "center", justifyContent: "flex-start" }}
+      style={{ flex: 1, alignItems: "flex-end", justifyContent: "flex-start" }}
     >
       <TextItem>{`${total}`}</TextItem>
     </View>
@@ -823,7 +828,7 @@ const styles = StyleSheet.create({
   textStyle: {
     // fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(20),
+    fontSize: scaleFont(18),
     fontWeight: "600",
   },
   textLabelStyle: {

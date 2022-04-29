@@ -35,12 +35,8 @@ export const useProps = ({
   const getItems = () => {
     if (itemReturn) {
       let temps = [];
-      const {
-        Products = [],
-        products = [],
-        Giftcards = [],
-      } = itemReturn?.returnData || {};
-      temps = [...Products, ...products]?.map((x, index) => ({
+      const { products = [], giftcards = [] } = itemReturn?.returnData || {};
+      temps = products.map((x, index) => ({
         type: "Return",
         id: `${index}_return`,
         data: {
@@ -325,6 +321,12 @@ export const useProps = ({
     return "";
   };
 
+  const getReturnTotal = () => {
+    if (groupAppointment) return groupAppointment?.returnAmount;
+    if (appointment) return appointment?.returnAmount;
+    return 0;
+  };
+
   return {
     portName,
     emulation,
@@ -352,5 +354,6 @@ export const useProps = ({
     promotionNotes: getPromotionNotes(),
     checkoutPaymentMethods: getCheckoutPaymentMethods(),
     staffName: getStaffName(),
+    returnTotal: getReturnTotal(),
   };
 };

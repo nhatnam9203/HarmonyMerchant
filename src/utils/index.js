@@ -350,6 +350,8 @@ export const getArrayProductsFromAppointment = (products = []) => {
         price: product.price,
         bookingProductId: product.bookingProductId,
         barCode: product.barCode,
+        returnQuantity: product.returnQuantity,
+        returnAmount: product.returnAmount,
       },
     };
   });

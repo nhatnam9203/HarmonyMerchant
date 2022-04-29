@@ -24,6 +24,7 @@ export const ReceiptTotal = ({
   fromAppointmentTab,
   checkoutPaymentMethods,
   isSignature,
+  returnTotal = 0,
 }) => {
   const { t } = useTranslation();
 
@@ -67,6 +68,13 @@ export const ReceiptTotal = ({
         <TextTotal label={"Change"}>{`${formatMoneyWithUnit(
           change
         )}`}</TextTotal>
+      )}
+      {returnTotal > 0 && (
+        <TextTotal
+          label={"Return total"}
+          fontWeight={"bold"}
+          fontSize={scaleFont(22)}
+        >{`${formatMoneyWithUnit(returnTotal)}`}</TextTotal>
       )}
       {printTemp && !fromAppointmentTab && (
         <>
@@ -140,6 +148,7 @@ export const ReceiptTotal = ({
           ))}
         </>
       )}
+
       <View style={styles.margin} />
       {((isSignature && !printTemp) || (printTemp && !fromAppointmentTab)) && (
         <TextFill label={`${_.padEnd("Signature", 10, " ")}`}>
