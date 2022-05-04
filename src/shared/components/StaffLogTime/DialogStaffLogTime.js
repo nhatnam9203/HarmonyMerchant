@@ -56,41 +56,51 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
       popupPinCodeRef.current?.hide();
       dispatch(actions.app.closeAllPopupPincode());
 
-      const { startTime, startDate, type } = merchantStaffLogtime;
-
-      setLogTimeType(type);
-
-      const lastDateStaffLog = `${formatWithMoment(
-        new Date(startDate),
-        DATE_FORMAT
-      )}T${formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))}:00`;
-
-      const lastDate = new Date(lastDateStaffLog);
-      const todayDate = new Date();
-
-      const delta = todayDate.getTime() - lastDate.getTime();
-
-      if (
-        lastDate.setHours(0, 0, 0, 0) == todayDate.setHours(0, 0, 0, 0) &&
-        type === STAFF_CHECK_IN_TYPE
-      ) {
-        setLogTimeType(STAFF_CHECK_OUT_TYPE);
-        setCheckInTime(
-          formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))
-        );
-
-        const h = Math.floor(delta / ONE_HOURS_IN_MILS);
-        const m = Math.floor((delta - h * ONE_HOURS_IN_MILS) / (1000 * 60));
-
-        setWorkingTime(`${h} h ${m} m`);
-      } else {
-        //
+      if (!merchantStaffLogtime) {
         setLogTimeType(STAFF_CHECK_IN_TYPE);
-      }
 
-      setTimeout(() => {
-        dialogRef.current?.show();
-      }, 750);
+        setTimeout(() => {
+          dialogRef.current?.show();
+        }, 750);
+      } else {
+        const {
+          startTime,
+          startDate,
+          type = STAFF_CHECK_OUT_TYPE,
+        } = merchantStaffLogtime;
+
+        const lastDateStaffLog = `${formatWithMoment(
+          new Date(startDate),
+          DATE_FORMAT
+        )}T${formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))}:00`;
+
+        const lastDate = new Date(lastDateStaffLog);
+        const todayDate = new Date();
+
+        const delta = todayDate.getTime() - lastDate.getTime();
+
+        if (
+          lastDate.setHours(0, 0, 0, 0) == todayDate.setHours(0, 0, 0, 0) &&
+          type === STAFF_CHECK_IN_TYPE
+        ) {
+          setLogTimeType(STAFF_CHECK_OUT_TYPE);
+          setCheckInTime(
+            formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))
+          );
+
+          const h = Math.floor(delta / ONE_HOURS_IN_MILS);
+          const m = Math.floor((delta - h * ONE_HOURS_IN_MILS) / (1000 * 60));
+
+          setWorkingTime(`${h} h ${m} m`);
+        } else {
+          //
+          setLogTimeType(STAFF_CHECK_IN_TYPE);
+        }
+
+        setTimeout(() => {
+          dialogRef.current?.show();
+        }, 750);
+      }
     },
     isActive: popupPinCodeRef.current?.isShow(),
   });
