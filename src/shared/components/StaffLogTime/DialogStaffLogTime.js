@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const HOURS_FORMAT = "hh:mm A";
 const DATE_FORMAT = "YYYY-MM-DD";
+const ONE_HOURS_IN_MILS = 60 * 60 * 1000;
 
 export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
@@ -46,6 +47,8 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const [amount, setAmount] = React.useState(0);
   const [startLogTime, setStartLogTime] = React.useState(false);
   const [logTimeType, setLogTimeType] = React.useState(STAFF_CHECK_IN_TYPE);
+  const [checkInTime, setCheckInTime] = React.useState(null);
+  const [workingTime, setWorkingTime] = React.useState(null);
 
   const { loginStaff } = useLockScreen({
     onSubmitSuccess: async () => {
@@ -65,11 +68,21 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
       const lastDate = new Date(lastDateStaffLog);
       const todayDate = new Date();
 
+      const delta = todayDate.getTime() - lastDate.getTime();
+
       if (
         lastDate.setHours(0, 0, 0, 0) == todayDate.setHours(0, 0, 0, 0) &&
         type === STAFF_CHECK_IN_TYPE
       ) {
         setLogTimeType(STAFF_CHECK_OUT_TYPE);
+        setCheckInTime(
+          formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))
+        );
+
+        const h = Math.floor(delta / ONE_HOURS_IN_MILS);
+        const m = Math.floor((delta - h * ONE_HOURS_IN_MILS) / (1000 * 60));
+
+        setWorkingTime(`${h} h ${m} m`);
       } else {
         //
         setLogTimeType(STAFF_CHECK_IN_TYPE);
@@ -146,6 +159,8 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
     setNote(null);
     setAmount(0);
     setLogTimeType(STAFF_CHECK_IN_TYPE);
+    setCheckInTime(null);
+    setWorkingTime(null);
   };
 
   React.useImperativeHandle(ref, () => ({
@@ -168,7 +183,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
 
       setTimeout(() => {
         dialogSuccessRef.current?.show();
-      }, 1000);
+      }, 250);
     }
   }, [staffLogTimeCreated]);
 
@@ -179,6 +194,9 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
         ref={dialogRef}
         style={styles.dialog}
         behavior={"none"}
+        onForceClose={() => {
+          setStartLogTime(false);
+        }}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
@@ -213,6 +231,27 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
                   `Press the ${getLogTimeTextForType()} button to start your shift`
                 )}
               </Text>
+              <View style={styles.marginVertical} />
+              {logTimeType === STAFF_CHECK_OUT_TYPE && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  {checkInTime && (
+                    <Text
+                      style={styles.textStyle}
+                    >{`Check-In at: ${checkInTime}`}</Text>
+                  )}
+                  {workingTime && (
+                    <Text
+                      style={styles.textStyle}
+                    >{`Working time : ${workingTime}`}</Text>
+                  )}
+                </View>
+              )}
               <View style={styles.marginVertical} />
 
               <View
