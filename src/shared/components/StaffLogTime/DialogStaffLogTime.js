@@ -90,7 +90,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
 
       setTimeout(() => {
         dialogRef.current?.show();
-      }, 2000);
+      }, 750);
     },
     isActive: popupPinCodeRef.current?.isShow(),
   });
@@ -183,7 +183,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
 
       setTimeout(() => {
         dialogSuccessRef.current?.show();
-      }, 250);
+      }, 550);
     }
   }, [staffLogTimeCreated]);
 
@@ -226,11 +226,13 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
                 {" !"}
               </Text>
               <View style={styles.margin} />
-              <Text style={styles.textStyle}>
-                {t(
-                  `Press the ${getLogTimeTextForType()} button to start your shift`
-                )}
-              </Text>
+              {logTimeType === STAFF_CHECK_IN_TYPE && (
+                <Text style={styles.textStyle}>
+                  {t(
+                    `Press the ${getLogTimeTextForType()} button to start your shift`
+                  )}
+                </Text>
+              )}
               <View style={styles.marginVertical} />
               {logTimeType === STAFF_CHECK_OUT_TYPE && (
                 <View
