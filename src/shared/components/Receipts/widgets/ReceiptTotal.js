@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
 
   textLabelContent: {
     width: "100%",
-    height: scaleHeight(26),
+    height: scaleHeight(32),
     paddingHorizontal: scaleWidth(10),
     paddingVertical: scaleHeight(1),
     alignContent: "center",

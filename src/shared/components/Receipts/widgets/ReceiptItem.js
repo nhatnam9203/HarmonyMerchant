@@ -87,7 +87,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             paddingVertical: scaleHeight(8),
           }}
         >
-          <TextItem fontSize={scaleFont(14)}>{`${item.name}`}</TextItem>
+          <TextItem fontSize={scaleFont(15)}>{`${item.name}`}</TextItem>
         </View>
       );
 
@@ -101,7 +101,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           {price && (
-            <TextItem fontSize={scaleFont(14)}>{`${formatMoneyWithUnit(
+            <TextItem fontSize={scaleFont(15)}>{`${formatMoneyWithUnit(
               price
             )}`}</TextItem>
           )}
@@ -131,10 +131,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "center",
           }}
         >
-          <TextItem>{`${index + 1}. ${name}`}</TextItem>
-          {!!label && <TextLabel>{`${label} `}</TextLabel>}
-          {!!barCode && <TextLabel>{`- Barcode: ${barCode} `}</TextLabel>}
-          {!!note && <TextLabel>{`${note}.`}</TextLabel>}
+          {/* <TextItem>{` `}</TextItem> */}
         </View>
       );
 
@@ -181,6 +178,9 @@ export const ReceiptItem = ({ item, index, type }) => {
       return (
         <View>
           {index > 0 && <LineItem />}
+          <TextItem>{`${index + 1}. ${name}`}</TextItem>
+          {!!label && <TextLabel>{`${label} `}</TextLabel>}
+          {!!barCode && <TextLabel>{`- Barcode: ${barCode} `}</TextLabel>}
           <LayoutFourColumn
             key="retailer-item"
             columnWidths={RETAILER_COLUMN_WIDTH}
@@ -189,6 +189,19 @@ export const ReceiptItem = ({ item, index, type }) => {
             ColumnThree={onRenderRetailerColumThree}
             ColumnFour={onRenderRetailerColumFour}
           />
+          {!!note && <TextLabel>{`${note}.`}</TextLabel>}
+
+          {discount > 0 && (
+            <TextLabel key="discount">{`${t(
+              "- Discount"
+            )}: $ ${discount}`}</TextLabel>
+          )}
+          {discountPercent > 0 && (
+            <TextLabel key="discountPercent">{`${t(
+              "- Discount"
+            )}: ${discountPercent}%`}</TextLabel>
+          )}
+
           {(discount > 0 || discountPercent > 0) && (
             <LayoutFourColumn
               key="retailer-item-discount"
@@ -201,7 +214,7 @@ export const ReceiptItem = ({ item, index, type }) => {
                     justifyContent: "center",
                   }}
                 >
-                  {discount > 0 && (
+                  {/* {discount > 0 && (
                     <TextLabel key="discount">{`${t(
                       "Discount"
                     )}: $ ${discount}`}</TextLabel>
@@ -210,7 +223,7 @@ export const ReceiptItem = ({ item, index, type }) => {
                     <TextLabel key="discountPercent">{`${t(
                       "Discount"
                     )}: ${discountPercent}%`}</TextLabel>
-                  )}
+                  )} */}
                 </View>
               )}
               ColumnTwo={() => (
