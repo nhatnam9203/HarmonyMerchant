@@ -45,9 +45,9 @@ const initialState = {
   invoiceDetail: {},
   creditBatchDetailById: {},
   isGetCreditBatchDetailById: false,
-
   isProcessAutoCloseBatch: false,
-  deposits: 0,
+
+  depositedAmount: 0,
   depositTotalBySettlementId: 0,
 };
 
@@ -256,13 +256,10 @@ function invoiceReducer(state = initialState, action) {
     case "GET_LIST_GIFT_CARD_SALES_SUCCESS":
       return {
         ...state,
-        gitfCardSales: action.payload,
+        gitfCardSales: action?.payload?.result,
+        depositedAmount: action?.payload?.depositAmount ?? 0,
       };
-    case "GET_LIST_DEPOSITS_SUCCESS":
-      return {
-        ...state,
-        deposits: action.payload,
-      };
+
     case "SETTLE_BATCH_SUCCESS":
       return {
         ...state,
@@ -303,13 +300,10 @@ function invoiceReducer(state = initialState, action) {
     case "GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID_SUCCESS":
       return {
         ...state,
-        gitfCardSalesBySettlementId: action.payload,
+        gitfCardSalesBySettlementId: action?.payload?.result,
+        depositTotalBySettlementId: action?.payload?.depositedAmount ?? 0,
       };
-    case "GET_DEPOSIT_TOTAL_BY_SETTLEMENT_ID_SUCCESS":
-      return {
-        ...state,
-        depositTotalBySettlementId: action.payload,
-      };
+
     case "GET_INVOICE_DETAIL_SUCCESS":
       return {
         ...state,

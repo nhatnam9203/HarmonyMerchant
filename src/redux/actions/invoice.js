@@ -279,15 +279,6 @@ export function getListGiftCardSales(terminalID) {
   };
 }
 
-export function getListDeposits(terminalID = null) {
-  return {
-    type: "GET_LIST_DEPOSITS",
-    method: "GET",
-    token: true,
-    api: `settlement/waiting/deposit?sn=${terminalID}`,
-  };
-}
-
 export function resetStateSettleBatch(keyword = "") {
   return {
     type: "RESET_STATE_SETTLE_BATCH",
@@ -316,15 +307,6 @@ export function getGiftCardSalesBySettlementId(settlementId = 0) {
     method: "GET",
     token: true,
     api: `settlement/giftCardSales/${settlementId}`,
-  };
-}
-
-export function getDepositTotalBySettlementId(settlementId = 0) {
-  return {
-    type: "GET_DEPOSIT_TOTAL_BY_SETTLEMENT_ID",
-    method: "GET",
-    token: true,
-    api: `settlement/deposit/${settlementId}`,
   };
 }
 

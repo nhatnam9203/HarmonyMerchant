@@ -451,33 +451,7 @@ function* getListGiftCardSales(action) {
   }
 }
 
-function* getListDeposits(action) {
-  try {
-    yield put({ type: "LOADING_ROOT" });
-    const responses = yield requestAPI(action);
-    yield put({ type: "STOP_LOADING_ROOT" });
-    const { codeNumber } = responses;
-    if (parseInt(codeNumber) == 200) {
-      yield put({
-        type: "GET_LIST_DEPOSITS_SUCCESS",
-        payload: responses?.data,
-      });
-    } else if (parseInt(codeNumber) === 401) {
-      yield put({
-        type: "UNAUTHORIZED",
-      });
-    } else {
-      yield put({
-        type: "SHOW_ERROR_MESSAGE",
-        message: responses?.message,
-      });
-    }
-  } catch (error) {
-    yield put({ type: error });
-  } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
-  }
-}
+
 
 function* getStaffSalesBySettlementId(action) {
   try {
@@ -535,33 +509,6 @@ function* getGiftCardSalesBySettlementId(action) {
   }
 }
 
-function* getDepositTotalBySettlementId(action) {
-  try {
-    yield put({ type: "LOADING_ROOT" });
-    const responses = yield requestAPI(action);
-    yield put({ type: "STOP_LOADING_ROOT" });
-    const { codeNumber } = responses;
-    if (parseInt(codeNumber) == 200) {
-      yield put({
-        type: "GET_DEPOSIT_TOTAL_BY_SETTLEMENT_ID_SUCCESS",
-        payload: responses?.data || 0,
-      });
-    } else if (parseInt(codeNumber) === 401) {
-      yield put({
-        type: "UNAUTHORIZED",
-      });
-    } else {
-      yield put({
-        type: "SHOW_ERROR_MESSAGE",
-        message: responses?.message,
-      });
-    }
-  } catch (error) {
-    yield put({ type: error });
-  } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
-  }
-}
 
 function* getInvoiceDetail(action) {
   try {
@@ -642,10 +589,6 @@ export default function* saga() {
     takeLatest("GET_INVOICE_DETAIL", getInvoiceDetail),
     takeLatest("GET_CREDIT_BATCH_DETAIL_BY_ID", getCreditBatchDetailById),
     takeLatest("VOID_REFUND_MULTI_PAYMENT_TRANSACTION", voidRefundMultiPayment),
-    takeLatest("GET_LIST_DEPOSITS", getListDeposits),
-    takeLatest(
-      "GET_DEPOSIT_TOTAL_BY_SETTLEMENT_ID",
-      getDepositTotalBySettlementId
-    ),
+
   ]);
 }

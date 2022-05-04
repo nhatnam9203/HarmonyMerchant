@@ -31,9 +31,6 @@ class BatchHistoryList extends Layout {
     this.props.actions.invoice.getGiftCardSalesBySettlementId(
       settlement.settlementId
     );
-    this.props.actions.invoice.getDepositTotalBySettlementId(
-      settlement.settlementId
-    );
     this.props.goToBatchHistoryDetail({ ...settlement });
     this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`0`);
   };

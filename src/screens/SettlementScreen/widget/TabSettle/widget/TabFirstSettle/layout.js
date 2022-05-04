@@ -180,7 +180,7 @@ class Layout extends React.Component {
   }
 
   renderStaffsTable() {
-    const { staffSales, gitfCardSales, deposits = 0 } = this.props;
+    const { staffSales, gitfCardSales, depositedAmount = 0 } = this.props;
     let totalAmount = 0;
     let giftCardTotal = 0;
     if (staffSales.length > 0) {
@@ -226,7 +226,10 @@ class Layout extends React.Component {
             keyExtractor={(item, index) => `${item.staffId}_${index}`}
             ListFooterComponent={() => (
               <>
-                <DepositItem total={formatMoney(deposits)} onPress={() => {}} />
+                <DepositItem
+                  total={formatMoney(depositedAmount)}
+                  onPress={() => {}}
+                />
                 <GiftCardItem
                   total={formatMoney(giftCardTotal)}
                   onPress={this.onPressGiftCardTotal}
@@ -238,7 +241,9 @@ class Layout extends React.Component {
         <View style={{ height: scaleSize(10) }} />
         <TotalItem
           total={formatMoney(
-            totalAmount + giftCardTotal + formatNumberFromCurrency(deposits)
+            totalAmount +
+              giftCardTotal +
+              formatNumberFromCurrency(depositedAmount)
           )}
         />
       </View>

@@ -531,7 +531,6 @@ class TabFirstSettle extends Layout {
     this.props.actions.invoice.getSettlementWating(terminalID, paymentTerminal);
     this.props.actions.invoice.getListStaffsSales(terminalID);
     this.props.actions.invoice.getListGiftCardSales(terminalID);
-    this.props.actions.invoice.getListDeposits(terminalID);
     if (terminalID && paymentTerminal == "pax") {
       this.props.actions.app.ConnectPaxMachineSuccess();
     }
@@ -618,7 +617,7 @@ const mapStateToProps = (state) => ({
   profileStaffLogin: state.dataLocal.profileStaffLogin,
   staffSales: state.invoice.staffSales,
   gitfCardSales: state.invoice.gitfCardSales,
-  deposits: state.invoice.deposits,
+  depositedAmount: state.invoice.depositedAmount,
   listStaffByMerchant: state.staff.listStaffByMerchant,
   isHandleInternalFirstSettlemetTab:
     state.invoice.isHandleInternalFirstSettlemetTab,
