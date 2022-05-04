@@ -1,7 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import { harmonyApi } from "@shared/services";
+import { statusSuccess } from "@shared/utils";
 import moment from "moment";
-import { useHarmonyQuery, getMerchantGeneral } from "@apis";
+import React from "react";
+import { useSelector } from "react-redux";
 
 const TIME_REMIND = 7 * 24 * 60 * 60 * 1000; // 7 ngay
 export const useMerchantExpired = () => {
@@ -10,17 +11,19 @@ export const useMerchantExpired = () => {
   const [expiredDate, setExpiredDate] = React.useState(null);
   const [isExpiredDate, setIsExpiredDate] = React.useState(null);
 
-  const [, requestMerchantGeneral] = useHarmonyQuery({
-    onSuccess: (response) => {
-      const { data } = response || {};
+  const [
+    getMerchant,
+    { currentData: merchantGeneral, isLoading: isGetMerchantGeneral },
+  ] = harmonyApi.useLazyGetMerchantGeneralQuery();
+
+  React.useEffect(() => {
+    const { codeStatus, data } = merchantGeneral || {};
+    if (statusSuccess(codeStatus)) {
       if (data?.expiredDate) {
         setExpiredDate(data?.expiredDate);
       }
-    },
-    onError: (e) => {
-      console.log(e);
-    },
-  });
+    }
+  }, [merchantGeneral]);
 
   React.useEffect(() => {
     if (expiredDate) {
@@ -33,8 +36,7 @@ export const useMerchantExpired = () => {
 
   React.useEffect(() => {
     if (merchantId) {
-      const args = getMerchantGeneral(merchantId);
-      requestMerchantGeneral(args);
+      getMerchant(merchantId);
     }
   }, [merchantId]);
 
