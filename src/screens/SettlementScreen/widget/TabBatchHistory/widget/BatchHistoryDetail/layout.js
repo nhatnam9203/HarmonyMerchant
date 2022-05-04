@@ -20,6 +20,7 @@ import ItemPaymentsReport, {
   DepositItem,
 } from "./widget/ItemsSettlement";
 import ICON from "@resources";
+import { PopupSettlementReceipt } from "@shared/components";
 
 class Layout extends React.Component {
   renderLastSettlement() {
@@ -73,6 +74,21 @@ class Layout extends React.Component {
         >
           {`$ ${total}`}
         </Text>
+
+        <Button
+          onPress={this.printBatchHistoryDetail}
+          style={{
+            position: "absolute",
+            top: scaleSize(10),
+            right: scaleSize(50),
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            source={ICON.print_batch_history}
+            style={{ width: scaleSize(30), height: scaleSize(30) }}
+          />
+        </Button>
 
         <Button
           onPress={this.shareBatchHistoryDetail}
@@ -300,6 +316,14 @@ class Layout extends React.Component {
   }
 
   render() {
+    const { settlementDetail } = this.state;
+
+    const {
+      gitfCardSalesBySettlementId,
+      staffSalesBySettlementId,
+      depositTotalBySettlementId,
+    } = this.props;
+
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ flex: 1 }}>
@@ -318,6 +342,14 @@ class Layout extends React.Component {
             {this.renderPaymentMethodsReport()}
           </View>
         </View>
+
+        <PopupSettlementReceipt
+          ref={this.receiptRef}
+          settlement={settlementDetail}
+          staffSales={staffSalesBySettlementId}
+          gitfCardSales={gitfCardSalesBySettlementId}
+          depositedAmount={depositTotalBySettlementId}
+        />
       </View>
     );
   }

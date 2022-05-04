@@ -414,7 +414,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { settleWaiting, language, staffSales, gitfCardSales } = this.props;
+    const { settleWaiting, language, staffSales, gitfCardSales, depositedAmount } = this.props;
 
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -446,6 +446,7 @@ class Layout extends React.Component {
           settlement={settleWaiting}
           staffSales={staffSales}
           gitfCardSales={gitfCardSales}
+          depositedAmount={depositedAmount}
         />
       </View>
     );
