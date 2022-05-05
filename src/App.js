@@ -122,7 +122,6 @@ const App: () => React$Node = () => {
           <AppStateProvider>
             <AxiosApiProvider>
               <RootNavigator />
-              {/* <Loading /> */}
               <PopupDisconnected />
               <PopupConnected />
               <FirebaseNotificationProvider />
