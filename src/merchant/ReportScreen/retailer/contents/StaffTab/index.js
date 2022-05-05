@@ -32,7 +32,8 @@ export const ReportStaffTab = React.forwardRef(
           lazy={true}
           optimizationsEnabled={true}
           swipeEnabled={false}
-          tabBar={(props) => <CustomTopTab {...props} />}
+          tabBar={(props) => <></>}
+          // tabBar={(props) => <CustomTopTab {...props} />}
         >
           <Screen
             name={"ReportStaffSalaryTab"}
