@@ -2,9 +2,9 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "baseUrl": ".", // Đặt base url là thư mục gốc
     "paths": {
-      "@src/*": ["src/*"] // Đặt alias cho thư mục src
+      "@src/*": ["./src/*"], // Đặt alias cho thư mục src
+      "@shared/*": ["./src/shared/*"]
     }
   },
   "exclude": [

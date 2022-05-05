@@ -8,36 +8,33 @@
  *  + TermScreen
  */
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 // import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
-import { SignInScreen } from '@src/merchant/SignInScreen';
-import { ForgotPassword } from '@src/merchant/ForgotPassword';
+import { SignInScreen } from "@src/merchant/SignInScreen";
+import { ForgotPassword } from "@src/merchant/ForgotPassword";
 const { Screen, Navigator } = createStackNavigator();
-import React from 'react';
+import React from "react";
 import {
   CardStyleInterpolators,
   TransitionPresets,
-} from '@react-navigation/stack';
-import { Animated } from 'react-native';
-import {
-  TermsScreen,
-  SignUpScreen
-} from '../screens';
+} from "@react-navigation/stack";
+import { Animated } from "react-native";
+import { TermsScreen, SignUpScreen } from "../screens";
 
 const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
   const progress = Animated.add(
     current.progress.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     }),
     next
       ? next.progress.interpolate({
           inputRange: [0, 1],
           outputRange: [0, 1],
-          extrapolate: 'clamp',
+          extrapolate: "clamp",
         })
-      : 0,
+      : 0
   );
 
   return {
@@ -52,9 +49,9 @@ const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
                 0, // Fully focused
                 screen.width * -0.3, // Fully unfocused
               ],
-              extrapolate: 'clamp',
+              extrapolate: "clamp",
             }),
-            inverted,
+            inverted
           ),
         },
       ],
@@ -65,7 +62,8 @@ const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
 export const AuthNavigator = () => {
   return (
     <Navigator
-      initialRouteName="merchant.signin"
+      // initialRouteName="merchant.signin"
+      initialRouteName="merchant.signup"
       headerMode="none"
       screenOptions={{
         cardStyleInterpolator: forSlide,
@@ -73,8 +71,8 @@ export const AuthNavigator = () => {
     >
       <Screen {...SignInScreen} />
       <Screen {...ForgotPassword} />
-      <Screen name='merchant.signup' component={SignUpScreen} />
-      <Screen name='merchant.terms' component={TermsScreen} />
+      <Screen name="merchant.signup" component={SignUpScreen} />
+      <Screen name="merchant.terms" component={TermsScreen} />
     </Navigator>
   );
 };
