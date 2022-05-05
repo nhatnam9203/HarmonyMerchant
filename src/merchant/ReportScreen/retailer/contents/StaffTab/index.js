@@ -42,14 +42,14 @@ export const ReportStaffTab = React.forwardRef(
             }}
             initialParams={{ showBackButton: showBackButton }}
           />
-          <Screen
+          {/* <Screen
             name={"ReportStaffLogTimeTab"}
             component={StaffLogTime}
             options={{
               title: t("Log Time"),
             }}
             initialParams={{ showBackButton: showBackButton }}
-          />
+          /> */}
         </Navigator>
       </View>
     );
