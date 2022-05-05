@@ -18,6 +18,8 @@ export const StaffLogTimeDetailTab = ({
   onChangeTimeValue,
   reportData,
   onRefresh,
+  exportRef,
+  onHandleExportFile,
 }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -83,7 +85,6 @@ export const StaffLogTimeDetailTab = ({
             Duration: t("Duration"),
           }}
           whiteListKeys={["Date", "LoginTime", "LogoutTime", "Duration"]}
-          primaryKey="Date"
           widthForKeys={{
             Date: scaleWidth(350),
             LoginTime: scaleWidth(200),
@@ -110,7 +111,11 @@ export const StaffLogTimeDetailTab = ({
 
       <View style={styles.rowContent}>
         <Text style={layouts.title}>{`${item?.staffName}`}</Text>
-        <ExportModal />
+        {/* <ExportModal
+          ref={exportRef}
+          onExportFile={onHandleExportFile}
+          exportFuncs={[{ value: "csv", label: "CSV" }]}
+        /> */}
       </View>
 
       <View style={styles.rowContent}>

@@ -57,26 +57,21 @@ export const StaffLogTimeTab = ({
             totalWorkingTime: scaleWidth(300),
           }}
           emptyDescription={t("No Report Data")}
-          formatFunctionKeys={
-            {
-              // totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
-              // totalCost: (value) => `${formatMoneyWithUnit(value)}`,
-              // totalTax: (value) => `${formatMoneyWithUnit(value)}`,
-              // totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
-            }
-          }
           renderCell={onRenderCell}
           onRowPress={onSelectRow}
           onRefresh={onRefresh}
-          sortedKeys={{ staffName: sortStaffName }}
-          sortKey="staffName"
-          onSortWithKey={onSortWithKey}
+          // sortedKeys={{ staffName: sortStaffName }}
+          // onSortWithKey={onSortWithKey}
         />
       </View>
 
       <View style={styles.rowContent}>
         <Text style={layouts.title}>{t("Staff Working Hour")}</Text>
-        <ExportModal ref={exportRef} onExportFile={onHandleExportFile} />
+        <ExportModal
+          ref={exportRef}
+          onExportFile={onHandleExportFile}
+          exportFuncs={[{ value: "csv", label: "CSV" }]}
+        />
       </View>
 
       <View style={styles.rowContent}>

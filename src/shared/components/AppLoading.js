@@ -33,7 +33,6 @@ export const AppLoading = ({
 
   React.useEffect(() => {
     if (isLoading) {
-      clearTimer();
       startTimer();
     } else {
       clearTimer();

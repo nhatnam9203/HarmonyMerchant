@@ -6,11 +6,11 @@ export const SORT_TYPE = {
   DESC: "desc",
 };
 
-export const getValueForColumnKey = (item, colKey) => {
+export const getValueForColumnKey = (item, colKey, index) => {
   if (!item) return "";
 
   if (!colKey || colKey.length <= 0) {
-    return item[0];
+    return `${item[0]}-${index}`;
   }
   return `${item[colKey]}`;
 };

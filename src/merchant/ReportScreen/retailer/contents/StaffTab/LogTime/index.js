@@ -1,14 +1,16 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { harmonyApi } from "@shared/services";
+import { AppLoading } from "@shared/components/AppLoading";
+import { harmonyApi, reportApi } from "@shared/services";
 import { colors } from "@shared/themes";
-import { SORT_TYPE, statusSuccess } from "@shared/utils";
+import { getTimeTitleFile, SORT_TYPE, statusSuccess } from "@shared/utils";
 import { getQuickFilterTimeRange } from "@utils";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { StaffLogTimeTab } from "./StaffLogTime";
 import { StaffLogTimeDetailTab } from "./StaffLogTimeDetail";
+import { appMerchant } from "@redux/slices";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -31,7 +33,7 @@ export const StaffLogTime = ({
   const [
     getStaffLogTime,
     { currentData: staffLogTimeData, isLoading: isGetStaffLogTime },
-  ] = harmonyApi.useLazyStaffLogTimeReportQuery();
+  ] = reportApi.useLazyStaffLogTimeReportQuery();
 
   const callGetReportStaffLogTime = React.useCallback(() => {
     // getStaffLogTime();
@@ -39,18 +41,51 @@ export const StaffLogTime = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal, sortStaffName]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      callGetReportStaffLogTime();
-    }, [timeVal, sortStaffName])
-  );
-
   React.useEffect(() => {
     const { codeStatus, data } = staffLogTimeData || {};
     if (statusSuccess(codeStatus)) {
       setReportData(data);
     }
   }, [staffLogTimeData]);
+
+  const [
+    exportStaffLogTimeReport,
+    {
+      currentData: exportStaffLogTimeReportData,
+      isLoading: isExportStaffLogTimeReport,
+    },
+  ] = reportApi.useLazyExportStaffLogTimeReportQuery();
+
+  React.useEffect(() => {
+    const { codeStatus, data } = exportStaffLogTimeReportData || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data?.path);
+    }
+    dispatch(appMerchant.hideExportLoading());
+  }, [exportStaffLogTimeReportData]);
+
+  React.useEffect(() => {
+    if (isExportStaffLogTimeReport) {
+      dispatch(appMerchant.showExportLoading());
+    }
+  }, [isExportStaffLogTimeReport]);
+
+  const callExportStaffLogTimeReport = (values = {}) => {
+    const params = Object.assign({}, values, {
+      ...timeVal,
+    });
+    exportRef.current?.onSetFileName(
+      getTimeTitleFile("StaffLogTimeReport", params)
+    );
+
+    exportStaffLogTimeReport(params);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      callGetReportStaffLogTime();
+    }, [timeVal, sortStaffName])
+  );
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === "Customize Date") {
@@ -82,45 +117,56 @@ export const StaffLogTime = ({
 
   const onRefresh = () => {};
 
-  return (
-    <View style={styles.container}>
-      <Navigator
-        headerMode="none"
-        screenOptions={{
-          cardStyle: {
-            backgroundColor: colors.WHITE_FA,
-          },
-        }}
-      >
-        <Screen name="ReportStaffLogTime">
-          {(props) => (
-            <StaffLogTimeTab
-              {...props}
-              showBackButton={showBackButton}
-              onChangeTimeValue={onChangeTimeValue}
-              timeValue={timeVal}
-              reportData={reportData}
-              onRefresh={onRefresh}
-              sortStaffName={sortStaffName}
-              onSortWithKey={onSortWithKey}
-            />
-          )}
-        </Screen>
+  const onHandleExportFile = () => {
+    callExportStaffLogTimeReport();
+  };
 
-        <Screen name="ReportStaffLogTime_Detail">
-          {(props) => (
-            <StaffLogTimeDetailTab
-              {...props}
-              showBackButton={showBackButton}
-              onChangeTimeValue={onChangeTimeValue}
-              timeValue={timeVal}
-              reportData={reportData}
-              onRefresh={onRefresh}
-            />
-          )}
-        </Screen>
-      </Navigator>
-    </View>
+  return (
+    <>
+      <View style={styles.container}>
+        <Navigator
+          headerMode="none"
+          screenOptions={{
+            cardStyle: {
+              backgroundColor: colors.WHITE_FA,
+            },
+          }}
+        >
+          <Screen name="ReportStaffLogTime">
+            {(props) => (
+              <StaffLogTimeTab
+                {...props}
+                showBackButton={showBackButton}
+                onChangeTimeValue={onChangeTimeValue}
+                timeValue={timeVal}
+                reportData={reportData}
+                onRefresh={onRefresh}
+                sortStaffName={sortStaffName}
+                onSortWithKey={onSortWithKey}
+                exportRef={exportRef}
+                onHandleExportFile={onHandleExportFile}
+              />
+            )}
+          </Screen>
+
+          <Screen name="ReportStaffLogTime_Detail">
+            {(props) => (
+              <StaffLogTimeDetailTab
+                {...props}
+                showBackButton={showBackButton}
+                onChangeTimeValue={onChangeTimeValue}
+                timeValue={timeVal}
+                reportData={reportData}
+                onRefresh={onRefresh}
+                exportRef={exportRef}
+                onHandleExportFile={onHandleExportFile}
+              />
+            )}
+          </Screen>
+        </Navigator>
+      </View>
+      <AppLoading loading={isGetStaffLogTime} />
+    </>
   );
 };
 
