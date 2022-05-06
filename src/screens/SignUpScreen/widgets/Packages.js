@@ -15,87 +15,41 @@ import i18n from "i18next";
 import { ButtonGradientGreen } from "@shared/components";
 import { formatMoneyWithUnit } from "@utils";
 import IMAGE from "@resources";
-
-const packageMocks = [
-  {
-    packageId: 6,
-    packageName: "Unlimited",
-    staffLimit: 10000,
-    isDisabled: 0,
-    pos: 1,
-    signinApp: 1,
-    staffApp: 1,
-    marketing: 1,
-    report: 1,
-    pricing: 199.95,
-    interactiveScheduling: 1,
-    additionStaff: false,
-    additionStaffPrice: 0.0,
-    annually: 10.0,
-  },
-  {
-    packageId: 3,
-    packageName: "The Quan",
-    staffLimit: 10000,
-    isDisabled: 0,
-    pos: 1,
-    signinApp: 1,
-    staffApp: 1,
-    marketing: 1,
-    report: 1,
-    pricing: 199.95,
-    interactiveScheduling: 1,
-    additionStaff: false,
-    additionStaffPrice: 0.0,
-    annually: 10.0,
-  },
-  {
-    packageId: 2,
-    packageName: "LIVE LOVE AND ENJOY",
-    staffLimit: 16,
-    isDisabled: 0,
-    pos: 1,
-    signinApp: 1,
-    staffApp: 1,
-    marketing: 1,
-    report: 1,
-    pricing: 199.95,
-    interactiveScheduling: 1,
-    additionStaff: false,
-    additionStaffPrice: 0.0,
-    annually: 10.0,
-  },
-  {
-    packageId: 1,
-    packageName: "Legend",
-    staffLimit: 8,
-    isDisabled: 0,
-    pos: 1,
-    signinApp: 1,
-    staffApp: 1,
-    marketing: 1,
-    report: 1,
-    pricing: 199.95,
-    interactiveScheduling: 1,
-    additionStaff: false,
-    additionStaffPrice: 0.0,
-    annually: 10.0,
-  },
-];
+import { useDispatch } from "react-redux";
+import actions from "@actions";
 
 const PADDING = 10;
 const NUM_OF_ITEMS_VISIBLE = 4;
 
 export const Packages = ({ goToPage }) => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const packageAndPricingData = useSelector(
-    (state) => state.app.packageAndPricingData
-  );
+  let packageAndPricingData =
+    useSelector((state) => state.app.packageAndPricingData) || [];
+  packageAndPricingData.sort((a, b) => a.staffLimit - b.staffLimit);
 
   const [isBilledAnnually, setBilledAnnually] = React.useState(false);
   const toggleSwitch = (val) => {
     setBilledAnnually(val);
   };
+
+  const startWithPackage = (it) => {
+    const pricingType = isBilledAnnually ? "annually" : "monthly";
+    const packagePricing = it?.packageId;
+
+    dispatch(
+      actions.app.setPackagePricing({
+        pricingType,
+        packagePricing,
+      })
+    );
+
+    goToPage(5);
+  };
+
+  React.useEffect(() => {
+    dispatch(actions.app.getPackageAndPricing());
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -128,18 +82,22 @@ export const Packages = ({ goToPage }) => {
 
       <View style={styles.content}>
         <FlatList
-          data={packageMocks}
+          data={packageAndPricingData?.filter((x) => x.isDisabled === 0)}
           renderItem={({ item, index }) => (
             <PackageItem
               item={item}
               index={index}
+              isSpecial={index !== 0}
               isAnnually={isBilledAnnually}
+              onStartWithPackage={startWithPackage}
             />
           )}
           contentContainerStyle={styles.packageList}
           horizontal={true}
           keyExtractor={(item) => item.packageId}
+          bounces={false}
           ItemSeparatorComponent={() => <View style={{ width: PADDING }} />}
+          showsHorizontalScrollIndicator={true}
         />
       </View>
       <View style={layouts.marginVertical} />
@@ -185,14 +143,43 @@ const Billed = ({ highlight = false, children }) => {
   );
 };
 
-const PackageItem = ({ item, index, isAnnually }) => {
+const PackageItem = ({
+  item,
+  index,
+  isAnnually,
+  isSpecial = true,
+  onStartWithPackage,
+}) => {
+  const onStartPackage = () => {
+    if (onStartWithPackage && typeof onStartWithPackage === "function") {
+      onStartWithPackage(item);
+    }
+  };
+
+  let bgColor = colors.CERULEAN;
+  switch (index) {
+    case 0:
+      bgColor = colors.CERULEAN;
+      break;
+    case 1:
+      bgColor = colors.OCEAN_BLUE;
+      break;
+    case 2:
+      bgColor = colors.PEACOCK_BLUE;
+      break;
+    case 3:
+    default:
+      bgColor = colors.DARKISH_BLUE;
+      break;
+  }
+
   return (
     <View key={item.packageId} style={styles.itemContent}>
       {/** HEADER */}
       <View
         style={{
           height: scaleHeight(120),
-          backgroundColor: colors.CERULEAN,
+          backgroundColor: bgColor,
           padding: scaleWidth(15),
           justifyContent: "space-between",
           overflow: "hidden",
@@ -219,29 +206,31 @@ const PackageItem = ({ item, index, isAnnually }) => {
           {`${item.staffLimit} Staffs`}
         </Text>
 
-        <View
-          style={{
-            height: scaleHeight(25),
-            width: scaleWidth(180),
-            backgroundColor: colors.MACARONI_AND_CHEESE,
-            position: "absolute",
-            top: 25,
-            right: -60,
-            transform: [{ rotate: "45deg" }],
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text
+        {isSpecial && (
+          <View
             style={{
-              fontSize: scaleFont(10),
-              fontFamily: fonts.BOLD,
-              color: colors.WHITE,
+              height: scaleHeight(32),
+              width: scaleWidth(180),
+              backgroundColor: "orange",
+              position: "absolute",
+              top: 25,
+              right: -60,
+              transform: [{ rotate: "45deg" }],
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            {i18n.t("SPECIAL PRICE")}
-          </Text>
-        </View>
+            <Text
+              style={{
+                fontSize: scaleFont(11),
+                fontFamily: fonts.BOLD,
+                color: colors.WHITE,
+              }}
+            >
+              {i18n.t("SPECIAL PRICE")}
+            </Text>
+          </View>
+        )}
       </View>
 
       {/** CONTENT */}
@@ -251,10 +240,30 @@ const PackageItem = ({ item, index, isAnnually }) => {
           borderLeftWidth: 1,
           borderRightWidth: 1,
           borderColor: colors.VERY_LIGHT_PINK_C_5,
+          justifyContent: "center",
         }}
       >
-        <PackageTickItem isCheck={item.pos} label={i18n.t("POS")} />
-        <PackageTickItem isCheck={item.pos} label={i18n.t("Sign in app")} />
+        <PackageTickItem key="pos" isCheck={item.pos} label={i18n.t("POS")} />
+        <PackageTickItem
+          key="sign-in"
+          isCheck={item.signinApp}
+          label={i18n.t("Sign in app")}
+        />
+        <PackageTickItem
+          key="app-for-staff"
+          isCheck={item.staffApp}
+          label={i18n.t("App for staff")}
+        />
+        <PackageTickItem
+          key="marketing"
+          isCheck={item.marketing}
+          label={i18n.t("Marketing")}
+        />
+        <PackageTickItem
+          key="report"
+          isCheck={item.report}
+          label={i18n.t("Report")}
+        />
       </View>
       {/** FOOTER */}
       <View
@@ -288,7 +297,7 @@ const PackageItem = ({ item, index, isAnnually }) => {
         <View style={layouts.marginVertical} />
         <View style={layouts.marginVertical} />
         <ButtonGradientGreen
-          onPress={() => {}}
+          onPress={onStartPackage}
           label={i18n.t("Start free trial")}
           width={scaleWidth(180)}
           height={scaleHeight(55)}
@@ -305,7 +314,7 @@ const PackageTickItem = ({ isCheck, label = " " }) => {
   return (
     <View
       style={{
-        height: scaleHeight(40),
+        height: scaleHeight(50),
         width: "100%",
         flexDirection: "row",
         alignItems: "center",
@@ -319,7 +328,7 @@ const PackageTickItem = ({ isCheck, label = " " }) => {
       <Text
         style={{
           fontSize: scaleFont(24),
-          fontFamily: fonts.MEDIUM,
+          fontFamily: fonts.REGULAR,
           color: colors.BROWNISH_GREY,
         }}
       >
@@ -342,7 +351,6 @@ const styles = StyleSheet.create({
   },
 
   packageList: {
-    flex: 1,
     paddingHorizontal: PADDING,
   },
 
@@ -351,5 +359,6 @@ const styles = StyleSheet.create({
       (metrics.screenWidth - PADDING * (NUM_OF_ITEMS_VISIBLE + 1)) / 4
     ),
     height: "100%",
+    borderRadius: scaleWidth(3),
   },
 });

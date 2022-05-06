@@ -62,8 +62,7 @@ const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
 export const AuthNavigator = () => {
   return (
     <Navigator
-      // initialRouteName="merchant.signin"
-      initialRouteName="merchant.signup"
+      initialRouteName="merchant.signin"
       headerMode="none"
       screenOptions={{
         cardStyleInterpolator: forSlide,
