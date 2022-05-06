@@ -9,17 +9,13 @@
  */
 
 import { createStackNavigator } from "@react-navigation/stack";
+import { ForgotPassword } from "@src/merchant/ForgotPassword";
 // import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 import { SignInScreen } from "@src/merchant/SignInScreen";
-import { ForgotPassword } from "@src/merchant/ForgotPassword";
-const { Screen, Navigator } = createStackNavigator();
 import React from "react";
-import {
-  CardStyleInterpolators,
-  TransitionPresets,
-} from "@react-navigation/stack";
 import { Animated } from "react-native";
-import { TermsScreen, SignUpScreen } from "../screens";
+import { SignUpScreen, TermsScreen } from "../screens";
+const { Screen, Navigator } = createStackNavigator();
 
 const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
   const progress = Animated.add(
