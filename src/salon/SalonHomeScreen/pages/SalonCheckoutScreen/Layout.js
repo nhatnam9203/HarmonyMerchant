@@ -27,12 +27,25 @@ export const Layout = ({
   paymentDetailInfo,
   blockAppointments,
   isBookingFromCalendar,
-  isShowColAmount,
-  isBlockBookingFromCalendar,
   displayCustomerInfoPopup,
   displayEnterUserPhonePopup,
   onChangeModePayment,
   addAppointmentCheckout,
+  staffListCurrentDate,
+  categoriesByMerchant,
+
+  isShowCategoriesColumn,
+  isShowColProduct,
+  selectedStaff,
+  isShowColAmount,
+  isBlockBookingFromCalendar,
+  displayCategoriesColumn,
+  categoryStaff,
+  isLoadingCategory,
+  onPressSelectCategory,
+  categorySelected,
+  onSelectGiftCard,
+
   isDonePayment,
   tabCurrent,
   basket,
@@ -67,7 +80,22 @@ export const Layout = ({
             renderTabBar={() => <View />}
             onChangeTab={onChangeModePayment}
           >
-            <Categories />
+            <Categories
+              staffListCurrentDate={staffListCurrentDate}
+              categoriesByMerchant={categoriesByMerchant}
+              groupAppointment={groupAppointment}
+              isShowCategoriesColumn={isShowCategoriesColumn}
+              isShowColProduct={isShowColProduct}
+              selectedStaff={selectedStaff}
+              isShowColAmount={isShowColAmount}
+              isBlockBookingFromCalendar={isBlockBookingFromCalendar}
+              displayCategoriesColumn={displayCategoriesColumn}
+              categoryStaff={categoryStaff}
+              isLoadingCategory={isLoadingCategory}
+              onPressSelectCategory={onPressSelectCategory}
+              categorySelected={categorySelected}
+              onSelectGiftCard={onSelectGiftCard}
+            />
             <Payment />
           </ScrollableTabView>
         </View>
