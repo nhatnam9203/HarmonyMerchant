@@ -23,6 +23,7 @@ import {
 } from "../screens";
 import { useSelector } from "react-redux";
 import { SalonHomeScreen } from "../salon/SalonHomeScreen";
+import { ScreenName } from "@src/ScreenName";
 
 import moment from "moment";
 
@@ -46,7 +47,8 @@ export const SalonNavigator = () => {
   return (
     <>
       <Navigator
-        initialRouteName="Home"
+        initialRouteName={ScreenName.SALON.HOME}
+        // initialRouteName="Home"
         drawerContent={CustomDrawerContent}
         drawerStyle={{
           width: scaleWidth(280),

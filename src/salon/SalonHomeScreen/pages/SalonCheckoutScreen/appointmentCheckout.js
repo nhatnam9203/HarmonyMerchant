@@ -4,10 +4,10 @@ import { useProps } from "./useProps";
 import { createScreenComponent } from "@shared/helpers/createScreenComponent";
 import { ScreenName } from "@src/ScreenName";
 
-export const HomeTopTabScreen = createScreenComponent(
-  ScreenName.SALON.HOME_TOP_TAB,
+export const SalonCheckoutScreen = createScreenComponent(
+  ScreenName.SALON.APPOINTMENT_CHECK_OUT,
   (props) => <Layout {...useProps(props)} />,
   {
-    title: "Customer List",
+    title: "CHECK-OUT",
   }
 );
