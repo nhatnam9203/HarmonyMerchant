@@ -361,3 +361,10 @@ export function editPaidAppointment(params, id) {
     api: `appointment/updateStaffAppointmentPaid/${id}`,
   };
 }
+
+export function saveSettleRefId(settleRefId) {
+  return {
+    type: "SAVE_SETTLE_REF_ID",
+    settleRefId,
+  };
+}

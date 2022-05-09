@@ -6,6 +6,7 @@ import {
 import _ from "lodash";
 import { parseString } from "react-native-xml2js";
 import configureStore from "../redux/store";
+import actions from "@actions";
 const { store } = configureStore();
 let headers = Object.assign(
   { Accept: "xml", "Content-Type": "xml" }
@@ -106,10 +107,12 @@ export const requestTransactionDejavoo = async (params) => {
   export const requestSettlementDejavoo = async () => {
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
+    const refId = Date.now();
+    store.dispatch(actions.invoice.saveSettleRefId(refId));
     const param = `<request>`+
                 `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
                 `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
-                `<RefId>${Date.now()}</RefId>`+
+                `<RefId>${refId}</RefId>`+
                 `<TransType>Settle</TransType>`+
                 `<Param>Close</Param>`+
                 `</request>`
@@ -176,6 +179,28 @@ export const requestTransactionDejavoo = async (params) => {
                 `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
                 `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
                 `<PrintReceipt>No</PrintReceipt>`+
+                `</request>`
+    
+   const configs = {
+    method: "get",
+    baseURL: api,
+    url: `?TerminalTransaction=${param}`,
+    headers: headers,
+    timeout: 90000,
+    };
+    const response = await handleRequest(configs)
+    return response
+  };
+
+  export const requestSettlementStatusDejavoo = async (params) => {
+    const { hardware } = store.getState();
+    const { dejavooMachineInfo } = hardware;
+    const param = `<request>`+
+                `<TransType>Settle</TransType>`+
+                `<RefId>${_.get(params, 'RefId', '1')}</RefId>`+
+                `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
+                `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
+                `<Param>Close</Param>`+
                 `</request>`
     
    const configs = {
