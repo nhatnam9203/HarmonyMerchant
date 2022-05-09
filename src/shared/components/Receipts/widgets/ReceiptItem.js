@@ -853,7 +853,7 @@ const styles = StyleSheet.create({
   },
   textHeaderStyle: {
     // fontFamily: fonts.MEDIUM,
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(16),
     fontWeight: "600",
     textAlign: "center",
     color: "#000",
