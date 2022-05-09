@@ -10,7 +10,8 @@ import {
   APP_NAME,
   POS_SERIAL,
   requestEditTipDejavoo,
-  handleResponseDejavoo
+  handleResponseDejavoo,
+  PaymentTerminalType,
 } from "@utils";
 import { isEmpty } from "lodash";
 import React from "react";
@@ -369,10 +370,17 @@ class TabAppointment extends Layout {
   }
 
   async handleEditTipCreditPayment(invoiceDetail) {
+    const { paymentMachineType } = this.props;
     this.setState({...this.state, isEditTipCreditCard: false})
-    if(_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
+    if (paymentMachineType != PaymentTerminalType.Dejavoo) {
+      if(this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) { 
+          alert("Tip amount does not match.")
+      } else {
+        this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses: null}, invoiceDetail?.appointmentId);
+      }
+    } else if (_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
       const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
-      const paymentData = paymentInformation?.paymentData;
+      const paymentData = paymentInformation?.paymentData;ß
       parseString(paymentInformation?.responseData, (err, result) => {
         if (err) {
           setTimeout(() => {
