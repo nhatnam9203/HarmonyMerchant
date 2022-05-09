@@ -12,6 +12,7 @@ export const ReceiptHeader = ({
   invoiceDate,
   invoiceNO = "Unknown",
   staffName,
+  returnCode,
 }) => {
   const { t } = useTranslation();
   return (
@@ -54,6 +55,9 @@ export const ReceiptHeader = ({
       <TextInvoice label="Invoice Date ">
         {`${formatWithMoment(invoiceDate, "MM/DD/YYYY hh:mm A")}`}
       </TextInvoice>
+      {returnCode && (
+        <TextInvoice label="Return Code">{`#${returnCode}`}</TextInvoice>
+      )}
       <View style={styles.margin} />
     </View>
   );

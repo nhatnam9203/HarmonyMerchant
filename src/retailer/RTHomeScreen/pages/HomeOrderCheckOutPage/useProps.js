@@ -3,6 +3,7 @@ import PrintManager from "@lib/PrintManager";
 import NavigationServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
 import { basketRetailer } from "@redux/slices";
+import { harmonyApi } from "@shared/services";
 import {
   useAddItemAppointmentTemp,
   useAppointmentAddGiftCard,
@@ -36,12 +37,6 @@ import { getInfoFromModelNameOfPrinter } from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
-import {
-  useHarmonyQuery,
-  getProductByBarcode,
-  applyCostPriceToAppointment,
-} from "@apis";
-import { useGetAppointmentQuery } from "@shared/services";
 
 export const useProps = ({
   params: { purchasePoint = PURCHASE_POINTS_STORE },
@@ -158,99 +153,87 @@ export const useProps = ({
   |--------------------------------------------------
   */
 
-  const [, requestGetProductByBarcode] = useHarmonyQuery({
-    onSuccess: (response) => {
-      const { codeStatus, data, message } = response || {};
-      // console.log(response);
+  const [getProductByBarcode, { currentData: productGetByBarCode }] =
+    harmonyApi.useLazyGetProductByBarcodeQuery();
 
-      // if (!data) return;
+  React.useEffect(() => {
+    if (!productGetByBarCode) return;
 
-      if (statusSuccess(codeStatus)) {
-        if (!scanCodeTemp) return;
+    const { codeStatus, data, message } = productGetByBarCode;
+    if (statusSuccess(codeStatus)) {
+      if (!scanCodeTemp) return;
 
-        const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
+      const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
-        if (tmp) {
-          const attributeIds = tmp.attributeIds;
+      if (tmp) {
+        const attributeIds = tmp.attributeIds;
 
-          const filterOptions = data?.options?.map((v) => {
-            let temp = v?.values.filter((i) =>
-              attributeIds.includes(i.attributeValueId)
+        const filterOptions = data?.options?.map((v) => {
+          let temp = v?.values.filter((i) =>
+            attributeIds.includes(i.attributeValueId)
+          );
+          const { values, ...pro } = v;
+          return Object.assign({}, pro, { values: temp });
+        });
+
+        if (!isCheckQty || tmp.quantity >= 1) {
+          setTimeout(() => {
+            addProductToBasket(
+              Object.assign({}, data, {
+                id: Date.now(),
+                quantity: 1,
+                options: filterOptions,
+                productQuantityId: tmp?.id,
+              })
             );
-            const { values, ...pro } = v;
-            return Object.assign({}, pro, { values: temp });
-          });
 
-          if (!isCheckQty || tmp.quantity >= 1) {
+            setScanCodeTemp(null);
+          }, 250);
+        } else {
+          alert("Product is out of stock!");
+          setScanCodeTemp(null);
+        }
+      } else {
+        inputBarcodeDialogRef.current?.hide();
+        if (data?.quantities?.length > 0) {
+          setTimeout(() => {
+            productDetailRef.current?.show(data);
+            setScanCodeTemp(null);
+          }, 550);
+        } else {
+          if (!isCheckQty || data?.quantity >= 1) {
             setTimeout(() => {
               addProductToBasket(
                 Object.assign({}, data, {
                   id: Date.now(),
                   quantity: 1,
-                  options: filterOptions,
-                  productQuantityId: tmp?.id,
                 })
               );
-
               setScanCodeTemp(null);
             }, 250);
           } else {
             alert("Product is out of stock!");
             setScanCodeTemp(null);
           }
-        } else {
-          inputBarcodeDialogRef.current?.hide();
-          if (data?.quantities?.length > 0) {
-            setTimeout(() => {
-              productDetailRef.current?.show(data);
-              setScanCodeTemp(null);
-            }, 550);
-          } else {
-            if (!isCheckQty || data?.quantity >= 1) {
-              setTimeout(() => {
-                addProductToBasket(
-                  Object.assign({}, data, {
-                    id: Date.now(),
-                    quantity: 1,
-                  })
-                );
-                setScanCodeTemp(null);
-              }, 250);
-            } else {
-              alert("Product is out of stock!");
-              setScanCodeTemp(null);
-            }
-          }
         }
-
-        // Hide dialog input barcode if it is showing
-      } else if (codeStatus) {
-        //  TODO: show input code here!
-        alert(message);
-        setScanCodeTemp(null);
-        inputBarcodeDialogRef.current?.autoFocus();
       }
-    },
-    onError: (e) => {
-      console.log(e);
-    },
-  });
+    } else {
+      //  TODO: show input code here!
+      alert(message);
+      setScanCodeTemp(null);
+      inputBarcodeDialogRef.current?.autoFocus();
+    }
+  }, [productGetByBarCode]);
 
-  const [, requestApplyToCostPrice] = useHarmonyQuery({
-    onSuccess: (response) => {
-      const { codeStatus } = response || {};
-      if (statusSuccess(codeStatus)) {
-        getAppointmentTemp(appointmentTempId);
-      }
-    },
-  });
+  const [requestApplyToCostPrice, { data: responseApplyToCostPrice }] =
+    harmonyApi.useApplyCostPriceToAppointmentMutation();
 
-  // const appointmentQuery = useGetAppointmentQuery(appointmentId, {
-  //   skip: true,
-  //   selectFromResult: (data) => {
-  //     console.log(data);
-  //   },
-  // });
+  React.useEffect(() => {
+    const { codeStatus } = responseApplyToCostPrice || {};
+    if (statusSuccess(codeStatus)) {
+      getAppointmentTemp(appointmentTempId);
+    }
+  }, [responseApplyToCostPrice]);
 
   const resetAll = async () => {
     setCategoryId(null);
@@ -747,8 +730,7 @@ export const useProps = ({
 
         setScanCodeTemp(code);
         setTimeout(() => {
-          const args = getProductByBarcode(code);
-          requestGetProductByBarcode(args);
+          getProductByBarcode(code);
         }, 350);
         // getProductsByBarcode(code);
       } else {
@@ -855,8 +837,7 @@ export const useProps = ({
     onChangeApplyCostPrice: (bl) => {
       setIsApplyCostPrice(bl);
       if (appointmentTempId && typeof bl !== "undefined") {
-        const args = applyCostPriceToAppointment(appointmentTempId, bl);
-        requestApplyToCostPrice(args);
+        requestApplyToCostPrice(appointmentTempId, bl);
       }
     },
   };

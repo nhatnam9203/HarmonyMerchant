@@ -294,7 +294,7 @@ export function Table({
 
     return (
       <Row
-        key={getValueForColumnKey(item, primaryKey)}
+        key={getValueForColumnKey(item, primaryKey, index)}
         onPress={() => onRowPress({ item, row: index })}
         disabled={!onRowPress}
         height={rowHeight}
@@ -460,7 +460,9 @@ export function Table({
           style={tableStyle}
           data={tableData}
           renderItem={renderItem}
-          keyExtractor={(item) => getValueForColumnKey(item, primaryKey)}
+          keyExtractor={(item, index) =>
+            getValueForColumnKey(item, primaryKey, index)
+          }
           ListHeaderComponent={onRenderHeaderComponent}
           ListFooterComponent={onRenderFooterSpace}
           ItemSeparatorComponent={renderSeparator}
@@ -482,7 +484,9 @@ export function Table({
           data={tableData}
           ref={flatListRef}
           renderItem={renderItem}
-          keyExtractor={(item) => getValueForColumnKey(item, primaryKey)}
+          keyExtractor={(item, index) =>
+            getValueForColumnKey(item, primaryKey, index)
+          }
           ListHeaderComponent={onRenderHeaderComponent}
           ListFooterComponent={onRenderFooterSpace}
           ItemSeparatorComponent={renderSeparator}

@@ -400,29 +400,27 @@ class TabAppointment extends Layout {
             amount =
               findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
           }
-
-          const params = {
-            amount,
-            refId,
-            invNum,
-            tip: this.tipSum.toFixed(2),
-            last4,
-          };
-          requestEditTipDejavoo(params).then(async (responses) => {
-            handleResponseDejavoo(responses).then(
-              (result) => {
-                this.props.actions.invoice.editPaidAppointment(
-                  { ...this.editTipParams, responses },
-                  invoiceDetail?.appointmentId
-                );
-              },
-              (error) => {
+          if(this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) {
+            const params = {
+              amount,
+              refId,
+              invNum,
+              tip: this.tipSum.toFixed(2),
+              last4,
+            }
+            requestEditTipDejavoo(params).then(async (responses) => {
+               handleResponseDejavoo(responses).then(result => {
+                  this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
+               },
+               error => {
                 setTimeout(() => {
-                  alert(error || "Error");
-                }, 300);
-              }
-            );
-          });
+                  alert(error || "Error")
+                }, 300)
+               })
+            });
+          } else {
+            this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses: null}, invoiceDetail?.appointmentId);
+          }
         }
       });
     }

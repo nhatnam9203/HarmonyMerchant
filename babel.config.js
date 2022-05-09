@@ -9,6 +9,10 @@ module.exports = {
             rootPathSuffix: "./src",
             rootPathPrefix: "@src",
           },
+          {
+            rootPathSuffix: "./src/shared",
+            rootPathPrefix: "@shared",
+          },
         ],
       },
     ],

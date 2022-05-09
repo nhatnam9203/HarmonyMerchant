@@ -33,7 +33,7 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: 420000,
+    timeout: 120000,
     };
     const response = await handleRequest(configs)
     return response
@@ -99,7 +99,6 @@ export const requestTransactionDejavoo = async (params) => {
     timeout: 90000,
     data: param,
     };
-    console.log('configs', configs)
     const response = await handleRequest(configs)
     return response
   };
@@ -166,3 +165,26 @@ export const requestTransactionDejavoo = async (params) => {
       }
     })
   }
+
+  export const requestPreviousTransactionReportDejavoo = async (params) => {
+    const { hardware } = store.getState();
+    const { dejavooMachineInfo } = hardware;
+    const param = `<request>`+
+                `<PaymentType>Credit</PaymentType>`+
+                `<TransType>Status</TransType>`+
+                `<RefId>${_.get(params, 'RefId', '1')}</RefId>`+
+                `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
+                `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
+                `<PrintReceipt>No</PrintReceipt>`+
+                `</request>`
+    
+   const configs = {
+    method: "get",
+    baseURL: api,
+    url: `?TerminalTransaction=${param}`,
+    headers: headers,
+    timeout: 90000,
+    };
+    const response = await handleRequest(configs)
+    return response
+  };

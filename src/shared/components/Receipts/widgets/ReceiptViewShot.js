@@ -38,6 +38,7 @@ export const ReceiptViewShot = React.forwardRef(
       itemReturn,
       staffName,
       widthPaper,
+      returnTotal,
     },
     ref
   ) => {
@@ -67,8 +68,8 @@ export const ReceiptViewShot = React.forwardRef(
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
-          format: "jpg",
-          quality: quality,
+          // format: "jpg",
+          // quality: quality,
         });
 
         return imageUri;
@@ -87,6 +88,7 @@ export const ReceiptViewShot = React.forwardRef(
           invoiceDate={invoiceDate}
           invoiceNO={invoiceNO}
           staffName={staffName}
+          returnCode={itemReturn?.code}
         />
         <ReceiptContent items={items} type={getReceiptType()} />
         <ReceiptTotal
@@ -99,6 +101,7 @@ export const ReceiptViewShot = React.forwardRef(
           cashDiscount={cashDiscount}
           fee={fee}
           total={total}
+          returnTotal={returnTotal}
           printTemp={printTemp}
           fromAppointmentTab={fromAppointmentTab}
           checkoutPaymentMethods={checkoutPaymentMethods}

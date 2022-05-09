@@ -1,11 +1,5 @@
 import actions from "@actions";
 import { FirebaseNotificationProvider } from "@firebase";
-import "@shared/services/api/axiosClient";
-import { AppStateProvider } from "@shared/providers/AppStateProvider";
-import { AxiosApiProvider } from "@shared/providers/AxiosApiProvider";
-import { CodePushProvider } from "@shared/providers/CodePushProvider";
-import "@shared/services/translation";
-import { isDevelopmentMode } from "@shared/utils/app";
 import { proccessingSettlement } from "@utils";
 import * as l from "lodash";
 import React from "react";
@@ -22,6 +16,12 @@ import {
 } from "./components";
 import { RootNavigator } from "./navigators/RootNavigator";
 import configureStore from "./redux/store";
+import { AppStateProvider } from "./shared/providers/AppStateProvider";
+import { AxiosApiProvider } from "./shared/providers/AxiosApiProvider";
+import { CodePushProvider } from "./shared/providers/CodePushProvider";
+import "./shared/services/api/axiosClient";
+import "./shared/services/translation";
+import { isDevelopmentMode } from "./shared/utils/app";
 
 const { clover } = NativeModules;
 const { persistor, store } = configureStore();
@@ -122,7 +122,6 @@ const App: () => React$Node = () => {
           <AppStateProvider>
             <AxiosApiProvider>
               <RootNavigator />
-              {/* <Loading /> */}
               <PopupDisconnected />
               <PopupConnected />
               <FirebaseNotificationProvider />

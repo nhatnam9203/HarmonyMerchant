@@ -45,6 +45,9 @@ export const useProps = (_params) => {
   React.useEffect(() => {
     if (finishedLoadCodePush && finishedLoadApp) {
       const { type } = merchant || {};
+
+
+
       if (merchant?.needSetting) {
         dispatch(loginStaff(merchant.merchantCode, "0000"));
         NavigationServices.replace("SetupStore");

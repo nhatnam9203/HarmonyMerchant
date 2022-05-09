@@ -4,13 +4,16 @@
  */
 import actions from "@actions";
 import { ParentContainer } from "@components";
+import NavigationServices from "@navigators/NavigatorServices";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useIsFocused } from "@react-navigation/native";
 import IMAGE from "@resources";
+import { PopupPinCode } from "@shared/components";
 import {
   CustomDrawerContent,
   CustomDrawerIcon,
 } from "@shared/components/CustomDrawerContent";
+import { useLockScreen } from "@shared/hooks";
 import { RTCustomerScreen } from "@src/retailer/RTCustomerScreen";
 import { RTHomeScreen } from "@src/retailer/RTHomeScreen";
 import { RTInventoryScreen } from "@src/retailer/RTInventoryScreen";
@@ -19,10 +22,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReportScreen } from "../merchant/ReportScreen";
 import { InvoiceScreen, SettlementScreen, SupportScreen } from "../screens";
-import NavigationServices from "@navigators/NavigatorServices";
-import { View } from "react-native";
-import { PopupPinCode } from "@shared/components";
-import { useLockScreen } from "@shared/hooks";
 
 const { Screen, Navigator } = createDrawerNavigator();
 

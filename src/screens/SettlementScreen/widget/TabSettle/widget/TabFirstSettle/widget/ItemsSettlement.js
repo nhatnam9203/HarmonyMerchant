@@ -137,6 +137,38 @@ export const GiftCardItem = ({ total, onPress }) => {
     );
 }
 
+export const DepositItem = ({ total, onPress }) => {
+
+    return (
+        <Button onPress={() => onPress()} style={{
+            height: scaleSize(32), borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
+            flexDirection: "row", backgroundColor: "#FAFAFA"
+        }} >
+            {/* ---------- Name -------- */}
+            <View style={[{ flex: 1, paddingLeft: scaleSize(13) }, styles.container]} >
+                <Text style={[styles.txt_item, { fontWeight: "500", color: "#0764B0" }]} >
+                    {`Deposited amount`}
+                </Text>
+            </View>
+            {/* ---------- Sales -------- */}
+            <View style={[{ flex: 0.6 }, styles.container]} />
+            {/* ---------- Tax -------- */}
+            <View style={[{ flex: 0.5 }, styles.container]} />
+            {/* ---------- Tip -------- */}
+            <View style={[{ flex: 0.5 }, styles.container]} />
+            {/* ---------- Total Sales -------- */}
+            <View style={[{ flex: 0.8, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }]} >
+                <Text style={[styles.txt_item, { fontWeight: "600", color: "#0764B0" }]} >
+                    {`$  ${total ? total : 0.00}`}
+                </Text>
+                <Image source={ICON.staff_invoice_blue} style={{ marginRight: scaleSize(8) }} />
+            </View>
+            {/* ---------- SMS -------- */}
+            <View style={{width:scaleSize(30)}} />
+        </Button>
+    );
+}
+
 export const TotalItem = ({ total }) => {
 
     return (

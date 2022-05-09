@@ -3,7 +3,7 @@ import { localize } from "@utils";
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
-import { ReportTabLayout, TableListExtended } from "../../../widget";
+import { ReportTabLayout, TableListExtended } from "../../../../widget";
 
 const FILTER_NAME_DEFAULT = "All Staff";
 

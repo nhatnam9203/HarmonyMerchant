@@ -171,3 +171,4 @@ export const layouts = StyleSheet.create({
     textAlign: "center",
   },
 });
+

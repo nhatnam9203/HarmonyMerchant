@@ -5,30 +5,31 @@ import {
   FormInputMask,
   PopupPinCode,
   SwitchLabel,
+  DialogWithOneButton,
 } from "@shared/components";
 import { useLockScreen } from "@shared/hooks";
 import { DialogLayout } from "@shared/layouts";
+import { harmonyApi } from "@shared/services";
 import { colors, fonts } from "@shared/themes";
 import {
   dateToString,
   STAFF_CHECK_IN_TYPE,
   STAFF_CHECK_OUT_TYPE,
 } from "@shared/utils";
+import {
+  formatHourMinute,
+  formatNumberFromCurrency,
+  formatWithMoment,
+} from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  formatWithMoment,
-  formatHourMinute,
-  formatNumberFromCurrency,
-} from "@utils";
-import moment from "moment";
-import { useStaffLogTimeCreateMutation } from "@shared/services";
 
 const HOURS_FORMAT = "hh:mm A";
 const DATE_FORMAT = "YYYY-MM-DD";
+const ONE_HOURS_IN_MILS = 60 * 60 * 1000;
 
 export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const dialogRef = React.useRef(null);
   const scrollRef = React.useRef(null);
   const popupPinCodeRef = React.useRef(null);
+  const dialogSuccessRef = React.useRef(null);
 
   const { merchantStaffLogtime, displayName } =
     useSelector((state) => state.dataLocal?.profileStaffLogin) || {};
@@ -45,6 +47,8 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const [amount, setAmount] = React.useState(0);
   const [startLogTime, setStartLogTime] = React.useState(false);
   const [logTimeType, setLogTimeType] = React.useState(STAFF_CHECK_IN_TYPE);
+  const [checkInTime, setCheckInTime] = React.useState(null);
+  const [workingTime, setWorkingTime] = React.useState(null);
 
   const { loginStaff } = useLockScreen({
     onSubmitSuccess: async () => {
@@ -52,31 +56,51 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
       popupPinCodeRef.current?.hide();
       dispatch(actions.app.closeAllPopupPincode());
 
-      const { startTime, startDate, type } = merchantStaffLogtime;
-
-      setLogTimeType(type);
-
-      const lastDateStaffLog = `${formatWithMoment(
-        new Date(startDate),
-        DATE_FORMAT
-      )}T${formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))}:00`;
-
-      const lastDate = new Date(lastDateStaffLog);
-      const todayDate = new Date();
-
-      if (
-        lastDate.setHours(0, 0, 0, 0) == todayDate.setHours(0, 0, 0, 0) &&
-        type === STAFF_CHECK_IN_TYPE
-      ) {
-        setLogTimeType(STAFF_CHECK_OUT_TYPE);
-      } else {
-        //
+      if (!merchantStaffLogtime) {
         setLogTimeType(STAFF_CHECK_IN_TYPE);
-      }
 
-      setTimeout(() => {
-        dialogRef.current?.show();
-      }, 2000);
+        setTimeout(() => {
+          dialogRef.current?.show();
+        }, 750);
+      } else {
+        const {
+          startTime,
+          startDate,
+          type = STAFF_CHECK_OUT_TYPE,
+        } = merchantStaffLogtime;
+
+        const lastDateStaffLog = `${formatWithMoment(
+          new Date(startDate),
+          DATE_FORMAT
+        )}T${formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))}:00`;
+
+        const lastDate = new Date(lastDateStaffLog);
+        const todayDate = new Date();
+
+        const delta = todayDate.getTime() - lastDate.getTime();
+
+        if (
+          lastDate.setHours(0, 0, 0, 0) == todayDate.setHours(0, 0, 0, 0) &&
+          type === STAFF_CHECK_IN_TYPE
+        ) {
+          setLogTimeType(STAFF_CHECK_OUT_TYPE);
+          setCheckInTime(
+            formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))
+          );
+
+          const h = Math.floor(delta / ONE_HOURS_IN_MILS);
+          const m = Math.floor((delta - h * ONE_HOURS_IN_MILS) / (1000 * 60));
+
+          setWorkingTime(`${h} h ${m} m`);
+        } else {
+          //
+          setLogTimeType(STAFF_CHECK_IN_TYPE);
+        }
+
+        setTimeout(() => {
+          dialogRef.current?.show();
+        }, 750);
+      }
     },
     isActive: popupPinCodeRef.current?.isShow(),
   });
@@ -84,19 +108,19 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const [
     createStaffLogTime,
     { isLoading: isStaffLogTime, data: staffLogTimeCreated },
-  ] = useStaffLogTimeCreateMutation();
-
-  const getStartTimeFormat = (startTime) => {
-    return dateToString(startTime, "LT");
-  };
-
-  const getStartDateFormat = (startDate) => {
-    return dateToString(startDate, "MM/DD/YYYY");
-  };
+  ] = harmonyApi.useStaffLogTimeCreateMutation();
 
   const getLogTimeTextForType = React.useCallback(
     () =>
       logTimeType === STAFF_CHECK_IN_TYPE ? t("Check-In") : t("Check-Out"),
+    [logTimeType]
+  );
+
+  const getTextForSuccessDialog = React.useCallback(
+    () =>
+      logTimeType === STAFF_CHECK_IN_TYPE
+        ? t("Successful start of the work shift!")
+        : t("End of shift successfully"),
     [logTimeType]
   );
 
@@ -140,9 +164,19 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
     setStartLogTime(false);
   };
 
+  const resetAll = () => {
+    setCashCheck(false);
+    setNote(null);
+    setAmount(0);
+    setLogTimeType(STAFF_CHECK_IN_TYPE);
+    setCheckInTime(null);
+    setWorkingTime(null);
+  };
+
   React.useImperativeHandle(ref, () => ({
     show: () => {
       //   dialogRef.current?.show();
+      resetAll();
       setStartLogTime(true);
       popupPinCodeRef.current?.show();
     },
@@ -156,6 +190,10 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
     if (staffLogTimeCreated) {
       setStartLogTime(false);
       dialogRef.current?.hide();
+
+      setTimeout(() => {
+        dialogSuccessRef.current?.show();
+      }, 550);
     }
   }, [staffLogTimeCreated]);
 
@@ -166,6 +204,9 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
         ref={dialogRef}
         style={styles.dialog}
         behavior={"none"}
+        onForceClose={() => {
+          setStartLogTime(false);
+        }}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
@@ -195,11 +236,34 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
                 {" !"}
               </Text>
               <View style={styles.margin} />
-              <Text style={styles.textStyle}>
-                {t(
-                  `Press the ${getLogTimeTextForType()} button to start your shift`
-                )}
-              </Text>
+              {logTimeType === STAFF_CHECK_IN_TYPE && (
+                <Text style={styles.textStyle}>
+                  {t(
+                    `Press the ${getLogTimeTextForType()} button to start your shift`
+                  )}
+                </Text>
+              )}
+              <View style={styles.marginVertical} />
+              {logTimeType === STAFF_CHECK_OUT_TYPE && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  {checkInTime && (
+                    <Text
+                      style={styles.textStyle}
+                    >{`Check-In at: ${checkInTime}`}</Text>
+                  )}
+                  {workingTime && (
+                    <Text
+                      style={styles.textStyle}
+                    >{`Working time : ${workingTime}`}</Text>
+                  )}
+                </View>
+              )}
               <View style={styles.marginVertical} />
 
               <View
@@ -261,6 +325,12 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
         title={t("Staff Log Time")}
         onSubmit={onLoginStaff}
         onForceClose={onForceClosePopupPinCode}
+      />
+
+      <DialogWithOneButton
+        ref={dialogSuccessRef}
+        title={t(`${getLogTimeTextForType()} Complete`)}
+        description={`${getTextForSuccessDialog()}`}
       />
     </View>
   );

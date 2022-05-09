@@ -1,33 +1,30 @@
-import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Alert,
-  ScrollView,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
-import { TextInputMask } from "react-native-masked-text";
-
 import {
   ButtonCustom,
-  PopupParent,
   Dropdown,
+  PopupParent,
   TextInputSuggestion,
-  Loading,
 } from "@components";
+import connectRedux from "@redux/ConnectRedux";
 import {
-  scaleSize,
-  localize,
+  checkIsTablet,
+  checkStateIsValid,
+  getCodeAreaPhone,
   getIdStateByName,
   getNameStateById,
   ListCodeAreaPhone,
-  getCodeAreaPhone,
-  checkStateIsValid,
-  checkIsTablet,
+  localize,
+  scaleSize,
 } from "@utils";
-import connectRedux from "@redux/ConnectRedux";
+import React from "react";
+import {
+  Alert,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { TextInputMask } from "react-native-masked-text";
 
 class PopupAddEditCustomer extends React.Component {
   constructor(props) {
@@ -714,7 +711,6 @@ class PopupAddEditCustomer extends React.Component {
             />
           </View>
         </View>
-        {/* <Loading /> */}
       </PopupParent>
     );
   }

@@ -6,6 +6,7 @@ import {
   formatWithMoment,
   getInfoFromModelNameOfPrinter,
   PaymentTerminalType,
+  formatMoney,
 } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +22,7 @@ import { captureRef, releaseCapture } from "react-native-view-shot";
 const DEFAULT_WIDTH = scaleWidth(410);
 
 export const PopupSettlementReceipt = React.forwardRef(
-  ({ settlement, staffSales, gitfCardSales }, ref) => {
+  ({ settlement, staffSales, gitfCardSales, depositedAmount = 0 }, ref) => {
     const { t } = useTranslation();
     const dialogRef = React.useRef(null);
     const viewShotRef = React.useRef(null);
@@ -57,6 +58,9 @@ export const PopupSettlementReceipt = React.forwardRef(
         });
       }
 
+      totalAmount += getGiftCardTotal();
+
+      totalAmount += formatNumberFromCurrency(depositedAmount);
       return totalAmount;
     };
 
@@ -114,8 +118,8 @@ export const PopupSettlementReceipt = React.forwardRef(
       await setLoading(true);
 
       const imageUrl = await captureRef(viewShotRef, {
-        format: "jpg",
-        quality: 1,
+        // format: "jpg",
+        // quality: 1,
       });
 
       if (imageUrl) {
@@ -267,6 +271,16 @@ export const PopupSettlementReceipt = React.forwardRef(
                     />
                   ))}
                   <ReceiptItem
+                    key={`receipt-deposited-amount`}
+                    item={{
+                      name: "Deposited amount",
+                      total: `${depositedAmount}`,
+                    }}
+                    index={1000}
+                    type="Settlement"
+                  />
+
+                  <ReceiptItem
                     key={`receipt-sett-gift-card`}
                     item={{
                       name: "Gift Card Sold",
@@ -275,6 +289,7 @@ export const PopupSettlementReceipt = React.forwardRef(
                     index={1000}
                     type="Settlement"
                   />
+
                   <View style={styles.line} />
                   <ReceiptItem
                     key={`receipt-sett-total`}
@@ -328,6 +343,16 @@ export const PopupSettlementReceipt = React.forwardRef(
                     item={{
                       name: "Gift card",
                       value: settlement.paymentByGiftcard,
+                    }}
+                    index={3}
+                    type="TwoCols"
+                  />
+
+                  <ReceiptItem
+                    key={`receipt-payment-deposit-amount`}
+                    item={{
+                      name: "Deposited amount",
+                      value: settlement.depositedAmount,
                     }}
                     index={3}
                     type="TwoCols"

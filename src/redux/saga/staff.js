@@ -22,6 +22,10 @@ function* addStaffByMerchant(action) {
         type: "EDIT_STAFF_BY_MERCHANT_SUCCESS",
       });
       yield put({
+        type: "SWICH_ADD_STAFF",
+        payload: false,
+      });
+      yield put({
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
@@ -447,9 +451,9 @@ function* loginStaffReportServer(action) {
       yield call(saveAuthTokenReport, responses.data?.token);
 
       yield put({
-            type: "UPDATE_PROFILE_STAFF_REPORT_SERVER_SUCCESS",
-            payload: responses.data,
-          });
+        type: "UPDATE_PROFILE_STAFF_REPORT_SERVER_SUCCESS",
+        payload: responses.data,
+      });
 
       yield put({
         type: "RESET_STATE_LOGIN_STAFF_REPORT_SERVER",

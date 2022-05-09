@@ -15,6 +15,7 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     staffSalesBySettlementId: state.invoice.staffSalesBySettlementId,
     creditBatchDetailById: state.invoice.creditBatchDetailById,
+    depositTotalBySettlementId: state.invoice.depositTotalBySettlementId,
 })
 
 export default connectRedux(mapStateToProps, CreditPaymentDetail);

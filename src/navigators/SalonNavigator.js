@@ -40,7 +40,7 @@ export const SalonNavigator = () => {
 
   React.useEffect(() => {
     // loadPax();
-    console.log("isExpired " + isExpiredDate);
+    // console.log("isExpired " + isExpiredDate);
   }, [isExpiredDate]);
 
   return (

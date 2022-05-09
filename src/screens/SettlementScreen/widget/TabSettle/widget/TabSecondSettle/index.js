@@ -38,6 +38,7 @@ const INIT_STATE = {
         paymentByCashStatistic: 0.00,
         otherPaymentStatistic: 0.00,
         paymentByGiftcard: 0.00,
+        depositedAmount: 0.00,
         terminalID: null
 
     },
@@ -67,7 +68,7 @@ class TabSecondSettle extends Layout {
                 this.props.actions.app.stopLoadingApp();
                 this.proccessingSettlement("[]");
             }
-           
+
           }),
           this.eventEmitter.addListener('closeoutFail', data => {
               if (this.isProcessCloseBatchClover) {
@@ -77,21 +78,21 @@ class TabSecondSettle extends Layout {
                     numberFooter: 1,
                     progress: 0,
                 })
-                
+
                 this.props.actions.app.connectPaxMachineError(
                     l.get(data, 'errorMessage')
                 );
-                
+
                 this.confirmSettleWithoutTerminalPayment()
               }
-           
+
            }),
           this.eventEmitter.addListener('pairingCode', data => {
             if(data){
               const text = `Pairing code: ${l.get(data, 'pairingCode')}`
               if(this.isProcessCloseBatchClover) {
                 this.props.actions.app.stopLoadingApp();
-                
+
               }
             }
           }),
@@ -103,7 +104,7 @@ class TabSecondSettle extends Layout {
                 this.props.actions.app.loadingApp();
             }
           }),
-          
+
           this.eventEmitter.addListener('deviceDisconnected', () => {
             if(this.isProcessCloseBatchClover) {
                 this.props.actions.app.stopLoadingApp();
@@ -121,17 +122,17 @@ class TabSecondSettle extends Layout {
           }),
         ]
       }
-    
+
       unregisterEvents () {
         this.subscriptions.forEach(e => e.remove())
         this.subscriptions = []
       }
 
       componentDidMount() {
-    
+
         this.registerEvents()
       }
-    
+
       componentWillUnmount() {
         this.unregisterEvents()
       }
@@ -206,15 +207,15 @@ class TabSecondSettle extends Layout {
     }
 
     settle = async () => {
-        const { paxMachineInfo, 
-                settleWaiting, 
-                cloverMachineInfo, 
+        const { paxMachineInfo,
+                settleWaiting,
+                cloverMachineInfo,
                 dejavooMachineInfo,
                 paymentMachineType } = this.props;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const { creditCount, settleTotal } = this.state;
 
-        if (paymentMachineType == PaymentTerminalType.Clover 
+        if (paymentMachineType == PaymentTerminalType.Clover
             && l.get(cloverMachineInfo, "isSetup")) {
             //Clover
             await this.setState({
@@ -238,8 +239,8 @@ class TabSecondSettle extends Layout {
                 posSerial: POS_SERIAL,
                 token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
               })
-        } else if(paymentMachineType == PaymentTerminalType.Dejavoo 
-            && l.get(dejavooMachineInfo, "isSetup")){ 
+        } else if(paymentMachineType == PaymentTerminalType.Dejavoo
+            && l.get(dejavooMachineInfo, "isSetup")){
             this.props.actions.app.loadingApp();
             const responses = await requestSettlementDejavoo();
             parseString(responses, (err, result) => {
@@ -251,12 +252,12 @@ class TabSecondSettle extends Layout {
                     numberFooter: 1,
                     progress: 0,
                     })
-                    
+
                   this.props.actions.app.connectPaxMachineError(resultTxt);
                   this.confirmSettleWithoutTerminalPayment()
-               
+
                 } else {
-                   
+
                     this.proccessingSettlement("[]");
                 }
             })
@@ -282,13 +283,13 @@ class TabSecondSettle extends Layout {
                         this.proccessingSettlement();
                     });
             } else {
-                
+
                     const tempIpPax = commType == "TCP" ? ip : "";
                     const tempPortPax = commType == "TCP" ? port : "";
                     const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
                     const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
                     const responseData = [];
-    
+
                     //Close check duplicate transactions when close batch
                     // if (creditCount != paymentTransaction) {
                     //     this.props.actions.app.loadingApp();
@@ -317,7 +318,7 @@ class TabSecondSettle extends Layout {
                     // };
                     this.props.actions.app.stopLoadingApp();
                     this.setState({errorMessage: "Begin close batch"})
-    
+
                     PosLink.batchTransaction({
                         transType: "BATCHCLOSE",
                         edcType: "ALL",
@@ -366,6 +367,7 @@ class TabSecondSettle extends Layout {
                                 const discountSettlement = settleWaiting?.discount || 0.0;
                                 const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0;
                                 const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0;
+                                const depositedAmount = settleWaiting?.depositedAmount || 0.0;
                                 const settleTotal = {
                                     paymentByHarmony: editPaymentByHarmony,
                                     paymentByCreditCard: editPaymentByCreditCard,
@@ -375,6 +377,7 @@ class TabSecondSettle extends Layout {
                                     paymentByCashStatistic: editPaymentByCash,
                                     otherPaymentStatistic: editOtherPayment,
                                     paymentByGiftcard: paymentByGiftcard,
+                                    depositedAmount: depositedAmount,
                                     total: roundFloatNumber(
                                     formatNumberFromCurrency(editPaymentByHarmony) +
                                         formatNumberFromCurrency(editPaymentByCreditCard) +
@@ -401,7 +404,7 @@ class TabSecondSettle extends Layout {
 
                                 this.props.actions.invoice.settleBatch(body);
                             }
-                            
+
                         });
                     } else {
                         //Pax
@@ -414,15 +417,15 @@ class TabSecondSettle extends Layout {
     }
 
     proccessingSettlement = async (responseData) => {
-        const { 
-            settleWaiting, 
-            connectPAXStatus, 
-            paymentMachineType 
+        const {
+            settleWaiting,
+            connectPAXStatus,
+            paymentMachineType
         } = this.props;
         const { settleTotal } = this.state;
         const { status, message } = connectPAXStatus;
         const isConnectPax = status && message && message == "( Payment terminal successfully connected! )" ? true : false;
-     
+
         const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax, responseData };
 
         this.setState({
@@ -440,7 +443,7 @@ class TabSecondSettle extends Layout {
     }
 
     async handleResponseBatchTransactions(message, responseData) {
-        
+
         try {
             const result = JSON.parse(message);
             this.setState({errorMessage: "Close batch response"})
