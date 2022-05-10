@@ -36,6 +36,8 @@ export const Layout = ({
   categoriesByMerchant,
   isOfflineMode,
   // local
+  isGetCategoriesByStaff,
+
   isShowCategoriesColumn,
   isShowColProduct,
   selectedStaff,
@@ -43,7 +45,6 @@ export const Layout = ({
   isBlockBookingFromCalendar,
   displayCategoriesColumn,
   categoryStaff,
-  isLoadingCategory,
   onPressSelectCategory,
   categorySelected,
   onSelectGiftCard,
@@ -88,21 +89,21 @@ export const Layout = ({
           >
             <Categories
               ref={categoriesRef}
-              staffListCurrentDate={staffListCurrentDate}
-              groupAppointment={groupAppointment}
+              staffListCurrentDate={staffListCurrentDate} // array staffs of merchant work by date
+              groupAppointment={groupAppointment} // groupAppointments
+              categoryStaff={categoryStaff} // array categories get by staff
+              isLoadingCategory={isGetCategoriesByStaff} // loading get categories
+              isOfflineMode={isOfflineMode} // network lost
+              selectedStaff={selectedStaff}
               categoriesByMerchant={categoriesByMerchant}
               isShowCategoriesColumn={isShowCategoriesColumn}
               isShowColProduct={isShowColProduct}
-              selectedStaff={selectedStaff}
               isShowColAmount={isShowColAmount}
               isBlockBookingFromCalendar={isBlockBookingFromCalendar}
               displayCategoriesColumn={displayCategoriesColumn}
-              categoryStaff={categoryStaff}
-              isLoadingCategory={isLoadingCategory}
               onPressSelectCategory={onPressSelectCategory}
               categorySelected={categorySelected}
               onSelectGiftCard={onSelectGiftCard}
-              isOfflineMode={isOfflineMode}
             />
             <Payment />
           </ScrollableTabView>

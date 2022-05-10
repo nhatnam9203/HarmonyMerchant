@@ -33,14 +33,13 @@ export const useProps = ({ props }) => {
   );
   // console.log(stateLocal);
 
-  const { apiLoading, getCategoriesByStaff } = useCallApis({
+  const { isGetCategoriesByStaff, getCategoriesByStaff } = useCallApis({
     dispatchLocal,
   });
 
   const setSelectStaffFromCalendar = (staffId, isFirstPressCheckout = null) => {
     if (!staffId) return;
     dispatchLocal(CheckoutState.setSelectStaffFromCalendar(staffId));
-    console.log(categoriesRef);
     categoriesRef.current?.scrollFlatListToStaffIndex(
       staffId,
       isFirstPressCheckout
@@ -61,6 +60,8 @@ export const useProps = ({ props }) => {
     categoriesRef,
 
     ...stateLocal,
+    isGetCategoriesByStaff,
+
     staffListCurrentDate,
     customerInfoBuyAppointment,
     groupAppointment,
@@ -83,6 +84,11 @@ export const useProps = ({ props }) => {
     checkBlockAppointment: () => {},
     onPressSelectCategory: () => {},
     onSelectGiftCard: () => {},
-    displayCategoriesColumn: (staff) => {},
+    displayCategoriesColumn: (staff) => {
+      if (!isOfflineMode) {
+        getCategoriesByStaff(staff.staffId);
+      }
+      dispatchLocal(CheckoutState.selectStaff(staff));
+    },
   };
 };

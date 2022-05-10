@@ -88,6 +88,7 @@ export const initState = {
 export const ACTION_TYPES = {
   SET_CATEGORIES: "SET_CATEGORIES",
   SELECT_STAFF_FROM_APPOINTMENT_TAB: "SELECT_STAFF_FROM_APPOINTMENT_TAB",
+  SELECT_STAFF: "SELECT_STAFF",
 };
 
 export const reducer = (state, action) => {
@@ -96,6 +97,27 @@ export const reducer = (state, action) => {
     case ACTION_TYPES.SELECT_STAFF_FROM_APPOINTMENT_TAB:
     default:
       return Object.assign({}, state, action.payload);
+
+    case ACTION_TYPES.SELECT_STAFF:
+      const { selectedStaff } = state;
+      const staff = action.payload;
+
+      const isExist = selectedStaff?.staffId === staff?.staffId ? true : false;
+
+      return Object.assign({}, state, {
+        selectedStaff: isExist ? {} : staff,
+        isShowCategoriesColumn: !isExist,
+        isShowColProduct: false,
+        isShowColAmount: false,
+        categorySelected: {
+          categoryId: -1,
+          categoryType: "",
+        },
+        productSeleted: null,
+        categoryTypeSelected: "",
+        arrSelectedExtra: [],
+        customServiceSelected: null,
+      });
   }
 };
 
@@ -117,5 +139,12 @@ export const setSelectStaffFromCalendar = (staffId) => {
       isShowCategoriesColumn: true,
       isBookingFromAppointmentTab: true, // book appointment from calendar
     },
+  };
+};
+
+export const selectStaff = (staff) => {
+  return {
+    type: ACTION_TYPES.SELECT_STAFF,
+    payload: staff,
   };
 };

@@ -73,6 +73,7 @@ export const Categories = React.forwardRef(
       categorySelected,
       onSelectGiftCard,
       isOfflineMode,
+      isGetCategoriesByStaff,
     },
     ref
   ) => {

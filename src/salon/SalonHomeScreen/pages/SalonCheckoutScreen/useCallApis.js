@@ -27,7 +27,7 @@ export const useCallApis = ({ dispatchLocal }) => {
   };
 
   return {
-    apiLoading: isGetCategoriesByStaff,
+    isGetCategoriesByStaff,
     getCategoriesByStaff,
   };
 };
