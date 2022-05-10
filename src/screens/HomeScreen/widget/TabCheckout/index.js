@@ -2133,7 +2133,7 @@ class TabCheckout extends Layout {
         customServiceSelected: null,
       });
     }
-  };
+  }; // !
 
   changeProductBasketLocal = async (productIdLocal, price, quantity) => {};
 
@@ -2854,7 +2854,7 @@ class TabCheckout extends Layout {
       customServiceSelected: null,
     });
     // this.scrollFlatListToStaffIndex(staff?.staffId);
-  };
+  }; // !
 
   getCategory = (staffId) => {
     this.setState({ isLoadingCategory: true });
@@ -2877,7 +2877,7 @@ class TabCheckout extends Layout {
       categoryId,
       this.callBackGetProduct
     );
-  };
+  }; // !
 
   getService = (categoryId, staffId) => {
     this.setState({ isLoadingService: true });
@@ -2886,21 +2886,21 @@ class TabCheckout extends Layout {
       staffId,
       this.callBackGetService
     );
-  };
+  }; // !
 
   callBackGetService = (data = []) => {
     this.setState({
       isLoadingService: false,
       serviceStaff: data,
     });
-  };
+  }; // !
 
   callBackGetProduct = (data = []) => {
     this.setState({
       isLoadingService: false,
       productStaff: data,
     });
-  };
+  }; // !
 
   displayEnterUserPhonePopup = () => {
     const { customerInfoBuyAppointment } = this.props;

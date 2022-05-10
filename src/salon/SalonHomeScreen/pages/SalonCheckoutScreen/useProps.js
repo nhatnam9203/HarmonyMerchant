@@ -21,11 +21,13 @@ export const useProps = ({ props }) => {
   const categoriesByMerchant = useSelector(
     (state) => state.category.categoriesByMerchant
   );
-
-  const profileStaffLogin = useSelector(
-    (state) => state.dataLocal?.profileStaffLogin
-  );
+  const { profileStaffLogin, profile } =
+    useSelector((state) => state.dataLocal) || {};
   const isOfflineMode = useSelector((state) => state.network?.isOfflineMode);
+  const extrasByMerchant = useSelector((state) => state.extra.extrasByMerchant);
+  const { customService, servicesByMerchant } =
+    useSelector((state) => state.service) || {};
+  const { productsByMerchantId } = useSelector((state) => state.product) || {};
 
   const [stateLocal, dispatchLocal] = React.useReducer(
     CheckoutState.reducer,
@@ -33,7 +35,14 @@ export const useProps = ({ props }) => {
   );
   // console.log(stateLocal);
 
-  const { isGetCategoriesByStaff, getCategoriesByStaff } = useCallApis({
+  const {
+    isGetCategoriesByStaff,
+    getCategoriesByStaff,
+    isGetServiceByStaff,
+    getServiceByStaff,
+    isGetProductByStaff,
+    getProductByStaff,
+  } = useCallApis({
     dispatchLocal,
   });
 
@@ -61,8 +70,8 @@ export const useProps = ({ props }) => {
 
     ...stateLocal,
     isGetCategoriesByStaff,
-
-    staffListCurrentDate,
+    isLoadingService: isGetServiceByStaff || isGetProductByStaff,
+    isCustomService: profile?.isCustomService,
     customerInfoBuyAppointment,
     groupAppointment,
     paymentDetailInfo,
@@ -71,6 +80,8 @@ export const useProps = ({ props }) => {
     isDonePayment,
     categoriesByMerchant,
     isOfflineMode,
+    customService,
+    staffListCurrentDate,
 
     displayCustomerInfoPopup: () => {},
     displayEnterUserPhonePopup: () => {},
@@ -82,13 +93,78 @@ export const useProps = ({ props }) => {
     selectPayment: () => {},
     bookBlockAppointment: () => {},
     checkBlockAppointment: () => {},
-    onPressSelectCategory: () => {},
     onSelectGiftCard: () => {},
+    showCustomServiceAmount: () => {},
+    showColAmount: () => {},
     displayCategoriesColumn: (staff) => {
       if (!isOfflineMode) {
         getCategoriesByStaff(staff.staffId);
       }
       dispatchLocal(CheckoutState.selectStaff(staff));
+    },
+
+    getDataColProduct: () => {
+      const {
+        categoryTypeSelected,
+        categorySelected,
+        isBlockBookingFromCalendar,
+        serviceStaff,
+        productStaff,
+      } = stateLocal || {};
+
+      if (categoryTypeSelected === "Extra") {
+        const dataExtra = extrasByMerchant?.filter(
+          (extra, index) => extra?.isDisabled === 0
+        );
+
+        return dataExtra;
+      } else {
+        const data =
+          categoryTypeSelected === "Service"
+            ? servicesByMerchant
+            : productsByMerchantId;
+
+        if (data?.length > 0) {
+          let temptData = data.filter((item) => {
+            return (
+              item?.categoryId === categorySelected?.categoryId &&
+              item?.isDisabled === 0
+            );
+          });
+
+          if (!isOfflineMode && !isBlockBookingFromCalendar) {
+            if (categoryTypeSelected === "Service") {
+              temptData = [...serviceStaff];
+            } else if (categoryTypeSelected === "Product") {
+              temptData = [...productStaff];
+            }
+          }
+
+          return temptData;
+        }
+
+        return [];
+      }
+    },
+
+    onPressSelectCategory: (category) => {
+      if (_.isNil(category) || _.isEmpty(category)) return;
+
+      const { categorySelected, isBlockBookingFromCalendar, selectedStaff } =
+        stateLocal;
+      const { categoryId, categoryType } = category;
+      if (categorySelected?.categoryId !== categoryId) {
+        if (!isOfflineMode && !isBlockBookingFromCalendar) {
+          if (categoryType?.toString().toLowerCase() === "service") {
+            getServiceByStaff({ categoryId, staffId: selectedStaff?.staffId });
+          } else if (categoryType?.toString().toLowerCase() === "product") {
+            getProductByStaff(categoryId);
+          }
+        }
+        dispatchLocal(CheckoutState.selectCategory(category));
+      } else {
+        dispatchLocal(CheckoutState.selectCategory(null));
+      }
     },
   };
 };

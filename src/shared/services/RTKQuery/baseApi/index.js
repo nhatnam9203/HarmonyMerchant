@@ -5,6 +5,8 @@ import { staffBuilder } from "./staff";
 import { merchantBuilder } from "./merchant";
 import { retailerBuilder } from "./retailer";
 import { categoryBuilder } from "./category";
+import { serviceBuilder } from "./service";
+import { productBuilder } from "./product";
 
 export const harmonyApi = createApi({
   baseQuery: axiosBaseQuery({
@@ -16,6 +18,8 @@ export const harmonyApi = createApi({
     const merchantBuilders = merchantBuilder(builder);
     const retailerBuilders = retailerBuilder(builder);
     const categoryBuilders = categoryBuilder(builder);
+    const serviceBuilders = serviceBuilder(builder);
+    const productBuilders = productBuilder(builder);
 
     return {
       ...appointmentBuilders,
@@ -23,6 +27,8 @@ export const harmonyApi = createApi({
       ...merchantBuilders,
       ...retailerBuilders,
       ...categoryBuilders,
+      ...serviceBuilders,
+      ...productBuilders,
     };
   },
 });

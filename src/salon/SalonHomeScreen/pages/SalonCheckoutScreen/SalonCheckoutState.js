@@ -89,12 +89,18 @@ export const ACTION_TYPES = {
   SET_CATEGORIES: "SET_CATEGORIES",
   SELECT_STAFF_FROM_APPOINTMENT_TAB: "SELECT_STAFF_FROM_APPOINTMENT_TAB",
   SELECT_STAFF: "SELECT_STAFF",
+  SELECT_CATEGORY: "SELECT_CATEGORY",
+  SET_SERVICE_BY_STAFF: "SET_SERVICE_BY_STAFF",
+  SET_PRODUCT_BY_STAFF: "SET_PRODUCT_BY_STAFF",
 };
 
 export const reducer = (state, action) => {
   switch (action.type) {
     case ACTION_TYPES.SET_CATEGORIES:
     case ACTION_TYPES.SELECT_STAFF_FROM_APPOINTMENT_TAB:
+    case ACTION_TYPES.SELECT_CATEGORY:
+    case ACTION_TYPES.SET_SERVICE_BY_STAFF:
+    case ACTION_TYPES.SET_PRODUCT_BY_STAFF:
     default:
       return Object.assign({}, state, action.payload);
 
@@ -146,5 +152,53 @@ export const selectStaff = (staff) => {
   return {
     type: ACTION_TYPES.SELECT_STAFF,
     payload: staff,
+  };
+};
+
+export const selectCategory = (category) => {
+  return {
+    type: ACTION_TYPES.SELECT_CATEGORY,
+    payload: category
+      ? {
+          categorySelected: category,
+          categoryTypeSelected: category?.categoryType,
+          isShowColProduct: true,
+          isShowColAmount: false,
+          productSeleted: null,
+          arrSelectedExtra: [],
+          customServiceSelected: null,
+        }
+      : {
+          isShowColProduct: false,
+          isShowColAmount: false,
+          categorySelected: {
+            categoryId: -1,
+            categoryType: "",
+          },
+          productSeleted: null,
+          categoryTypeSelected: "",
+          arrSelectedExtra: [],
+          customServiceSelected: null,
+        },
+  };
+};
+
+export const setServiceByStaff = (data) => {
+  return {
+    type: ACTION_TYPES.SET_SERVICE_BY_STAFF,
+    payload: {
+      isLoadingService: false,
+      serviceStaff: data,
+    },
+  };
+};
+
+export const setProductByStaff = (data) => {
+  return {
+    type: ACTION_TYPES.SET_PRODUCT_BY_STAFF,
+    payload: {
+      isLoadingService: false,
+      productStaff: data,
+    },
   };
 };

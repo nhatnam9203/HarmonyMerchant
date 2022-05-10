@@ -258,7 +258,7 @@ class Layout extends React.Component {
         )}
       </View>
     );
-  }
+  } // !
 
   renderCategoriesCheckout() {
     const { language, categoriesByMerchant, groupAppointment, isOfflineMode } =

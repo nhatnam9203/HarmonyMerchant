@@ -62,7 +62,6 @@ export const Categories = React.forwardRef(
       isShowCategoriesColumn,
       isShowColProduct,
       selectedStaff,
-      isShowColAmount,
       isBlockBookingFromCalendar,
       displayCategoriesColumn,
       categoriesByMerchant,
@@ -73,7 +72,18 @@ export const Categories = React.forwardRef(
       categorySelected,
       onSelectGiftCard,
       isOfflineMode,
-      isGetCategoriesByStaff,
+
+      getDataColProduct,
+      isCustomService = false,
+      isLoadingService = false,
+      isBookingFromCalendar,
+      categoryTypeSelected,
+      blockAppointments,
+      customService,
+      productSeleted,
+      isShowColAmount,
+      showCustomServiceAmount,
+      showColAmount,
     },
     ref
   ) => {
@@ -84,7 +94,7 @@ export const Categories = React.forwardRef(
     React.useImperativeHandle(ref, () => ({
       scrollFlatListToStaffIndex: (staffId, isFirstPressCheckout) => {
         let index = -1;
-        for (let i = 0; i < staffListCurrentDate.length; i++) {
+        for (let i = 0; i < staffListCurrentDate?.length; i++) {
           if (staffListCurrentDate[i]?.staffId === staffId) {
             index = i;
             break;
@@ -308,10 +318,94 @@ export const Categories = React.forwardRef(
       );
     };
 
+    const renderCategoryItemCheckout = () => {
+      let tempWidth = 200;
+      tempWidth = isShowColAmount ? 120 : tempWidth;
+      const temptColorHeader = isShowColAmount ? { color: "#6A6A6A" } : {};
+      const data = getDataColProduct();
+      const tempTitle =
+        categorySelected?.categoryType === "Service" ? "Services" : "Products";
+
+      return (
+        <View
+          style={[{ width: scaleSize(tempWidth) }, styles.product_column_box]}
+        >
+          {/* ----- Header ---- */}
+          <View style={[styles.categoriesHeader]}>
+            <Text
+              style={[
+                styles.textHeader,
+                temptColorHeader,
+                styles.txt_category_header_extra,
+              ]}
+            >
+              {t(tempTitle)}
+            </Text>
+          </View>
+          {/* --------- List ------- */}
+          <View style={{ flex: 1 }}>
+            {isLoadingService ? (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ActivityIndicator size="large" color="grey" />
+              </View>
+            ) : (
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="always"
+              >
+                {isCustomService &&
+                  !isBookingFromCalendar &&
+                  // !isBookingFromAppointmentTab &&
+                  categoryTypeSelected != "Product" &&
+                  blockAppointments.length == 0 &&
+                  customService && (
+                    <ItemProductService
+                      key="custom_service"
+                      index={-1}
+                      item={Object.assign({}, customService, {
+                        name: "Custom service",
+                        category: categorySelected,
+                      })}
+                      defaultThumb={ICON.custom_service_thumb}
+                      colorText={temptColorHeader}
+                      itemSelected={productSeleted}
+                      categoryTypeSelected={categoryTypeSelected}
+                      isShowColAmount={isShowColAmount}
+                      groupAppointment={groupAppointment}
+                      showColAmount={showCustomServiceAmount}
+                    />
+                  )}
+
+                {data.map((item, index) => (
+                  <ItemProductService
+                    key={index}
+                    item={item}
+                    showColAmount={showColAmount}
+                    colorText={temptColorHeader}
+                    itemSelected={productSeleted}
+                    categoryTypeSelected={categoryTypeSelected}
+                    isShowColAmount={isShowColAmount}
+                    groupAppointment={groupAppointment}
+                  />
+                ))}
+              </ScrollView>
+            )}
+          </View>
+        </View>
+      );
+    };
+
     return (
       <View style={{ flex: 1, flexDirection: "row" }}>
         {renderStaffColumn()}
         {isShowCategoriesColumn && renderCategoriesCheckout()}
+        {isShowColProduct && renderCategoryItemCheckout()}
       </View>
     );
   }

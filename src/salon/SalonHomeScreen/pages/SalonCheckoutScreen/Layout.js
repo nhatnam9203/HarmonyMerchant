@@ -37,7 +37,9 @@ export const Layout = ({
   isOfflineMode,
   // local
   isGetCategoriesByStaff,
-
+  isGetServiceByStaff,
+  isGetProductByStaff,
+  isCustomService = false,
   isShowCategoriesColumn,
   isShowColProduct,
   selectedStaff,
@@ -53,6 +55,10 @@ export const Layout = ({
   paymentSelected,
   changeButtonDone,
   isCancelHarmonyPay,
+  isLoadingService,
+  categoryTypeSelected,
+  customService,
+  productSeleted,
 
   // funcs
   displayCustomerInfoPopup,
@@ -66,6 +72,9 @@ export const Layout = ({
   selectPayment,
   bookBlockAppointment,
   checkBlockAppointment,
+  getDataColProduct,
+  showCustomServiceAmount,
+  showColAmount
 }) => {
   const { t } = useTranslation();
   return (
@@ -104,6 +113,16 @@ export const Layout = ({
               onPressSelectCategory={onPressSelectCategory}
               categorySelected={categorySelected}
               onSelectGiftCard={onSelectGiftCard}
+              getDataColProduct={getDataColProduct}
+              isCustomService={isCustomService}
+              isLoadingService={isLoadingService}
+              isBookingFromCalendar={isBookingFromCalendar}
+              categoryTypeSelected={categoryTypeSelected}
+              blockAppointments={blockAppointments}
+              customService={customService}
+              productSeleted={productSeleted}
+              showCustomServiceAmount={showCustomServiceAmount}
+              showColAmount={showColAmount}
             />
             <Payment />
           </ScrollableTabView>
