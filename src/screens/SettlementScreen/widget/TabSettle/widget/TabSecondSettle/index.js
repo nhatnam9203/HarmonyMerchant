@@ -332,11 +332,9 @@ class TabSecondSettle extends Layout {
             if (err || errorCode != 0) {
               if(errorCode == "999") {
                   console.log('error', errorCode)
-                const params = {
-                    RefId: invoice?.settleRefId
-                }
-                requestSettlementStatusDejavoo(params).then((responseSettle) => {
-                    this.handleResponseSettlementDejavoo(responseSettle)
+                
+                  requestSettlementDejavoo().then((responseSettle) => {
+                    this.handleResponseReportSettlement(responseSettle)
                 })
 
               } else {
@@ -354,6 +352,25 @@ class TabSecondSettle extends Layout {
             } else {
                 console.log('call settle on server')
                 this.proccessingSettlement("[]");
+            }
+        })
+    }
+
+    handleResponseReportSettlement = (responses) => {
+        parseString(responses, (err, result) => {
+            const errorCode = l.get(result, 'xmp.response.0.ResultCode.0')
+            const extraData = l.get(result, "xmp.response.0.ExtData.0").split(",");
+            let resultLastSettle = -1
+            if (extraData) {
+              const findIndex = l.findIndex(extraData, item => {
+                return item.includes("ResultCode")
+              })
+              resultLastSettle = findIndex > -1 ? extraData[findIndex].replace("ResultCode=", "") : -1;
+            }
+            if (errorCode == 0 && resultLastSettle == 0) {
+                this.proccessingSettlement("[]");
+            }else {
+                alert("Settlement Error")
             }
         })
     }
