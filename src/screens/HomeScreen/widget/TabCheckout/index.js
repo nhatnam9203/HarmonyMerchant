@@ -1647,13 +1647,13 @@ class TabCheckout extends Layout {
         externalId: `${payAppointmentId}`, //`${groupAppointment?.checkoutGroupId || 0}`,
       });
     } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-       setTimeout(() => {
+      setTimeout(() => {
         this.setState({
           visibleProcessingCredit: true,
           visibleErrorMessageFromPax: false,
         });
-       }, 200) 
-      
+      }, 200);
+
       const {
         isTipOnPaxMachine,
         paxAmount,
@@ -1668,7 +1668,9 @@ class TabCheckout extends Layout {
         tenderType: tenderType,
         transType: "Sale",
         amount: parseFloat(paxAmount / 100).toFixed(2),
-        RefId: isCreditPaymentToServer ? lastTransactionAppointmentId : payAppointmentId,
+        RefId: isCreditPaymentToServer
+          ? lastTransactionAppointmentId
+          : payAppointmentId,
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       };
 
@@ -1776,31 +1778,44 @@ class TabCheckout extends Layout {
     moneyUserGiveForStaff,
     parameter
   ) {
-    const { profile, payAppointmentId, 
-      groupAppointment, 
+    const {
+      profile,
+      payAppointmentId,
+      groupAppointment,
       isCreditPaymentToServer,
       lastTransactionAppointmentId,
-      lastGroupAppointmentPay } = this.props;
+      lastGroupAppointmentPay,
+    } = this.props;
 
     try {
       parseString(message, (err, result) => {
         let errorCode = l.get(result, "xmp.response.0.ResultCode.0");
 
-        if (err || errorCode != 0 || l.get(result, "xmp.response.0.Message.0") != "Approved") {
-          if (errorCode == '999' && 
-            groupAppointment?.checkoutGroupId == lastGroupAppointmentPay?.checkoutGroupId) {
+        if (
+          err ||
+          errorCode != 0 ||
+          l.get(result, "xmp.response.0.Message.0") != "Approved"
+        ) {
+          if (
+            errorCode == "999" &&
+            groupAppointment?.checkoutGroupId ==
+              lastGroupAppointmentPay?.checkoutGroupId
+          ) {
             //time out
             const param = {
               RefId: payAppointmentId,
             };
             requestPreviousTransactionReportDejavoo(param).then((response) => {
-              this.handleResponseCreditCardDejavoo(response, 
-                                              online, 
-                                              moneyUserGiveForStaff,
-                                              parameter)
-            })
+              this.handleResponseCreditCardDejavoo(
+                response,
+                online,
+                moneyUserGiveForStaff,
+                parameter
+              );
+            });
           } else {
-            let detailMessage = l.get(result, "xmp.response.0.RespMSG.0", "")
+            let detailMessage = l
+              .get(result, "xmp.response.0.RespMSG.0", "")
               .replace(/%20/g, " ");
             detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
               ? `: ${detailMessage}`
@@ -1824,18 +1839,17 @@ class TabCheckout extends Layout {
                 visibleErrorMessageFromPax: true,
                 errorMessageFromPax: resultTxt,
               });
-            }, 400)
-           
+            }, 400);
           }
-          
         } else {
-          this.setState({visibleProcessingCredit: false})
+          this.setState({ visibleProcessingCredit: false });
           const SN = l.get(result, "xmp.response.0.SN.0");
           if (!stringIsEmptyOrWhiteSpaces(SN)) {
             this.props.actions.hardware.setDejavooMachineSN(SN);
           }
-          const payAppointmentIdTemp = isCreditPaymentToServer ? 
-                                       lastTransactionAppointmentId : payAppointmentId;
+          const payAppointmentIdTemp = isCreditPaymentToServer
+            ? lastTransactionAppointmentId
+            : payAppointmentId;
           this.props.actions.appointment.submitPaymentWithCreditCard(
             profile?.merchantId || 0,
             message,
@@ -2815,7 +2829,7 @@ class TabCheckout extends Layout {
         }, 200);
       }
     }
-  };
+  }; // !
 
   displayCategoriesColumn = (staff) => async () => {
     const { isOfflineMode } = this.props;
@@ -2848,14 +2862,14 @@ class TabCheckout extends Layout {
       staffId,
       this.callBackGetCategory
     );
-  };
+  }; // !
 
   callBackGetCategory = (data = []) => {
     this.setState({
       isLoadingCategory: false,
       categoryStaff: data,
     });
-  };
+  }; // !
 
   getProduct = (categoryId) => {
     this.setState({ isLoadingService: true });
@@ -2932,7 +2946,7 @@ class TabCheckout extends Layout {
     });
 
     this.scrollFlatListToStaffIndex(staffId, isFirstPressCheckout);
-  };
+  }; // !
 
   setBlockStateFromCalendar = async (staffId) => {
     await this.setState({
@@ -2983,25 +2997,30 @@ class TabCheckout extends Layout {
       this.sendTransactionToPaymentMachine();
     }
 
-    if (isCreditPaymentToServer && 
-        prevProps.isCreditPaymentToServer !== isCreditPaymentToServer) {
-        //get fail check credit card payment to server
-        this.handleCheckCreditCardFail();
+    if (
+      isCreditPaymentToServer &&
+      prevProps.isCreditPaymentToServer !== isCreditPaymentToServer
+    ) {
+      //get fail check credit card payment to server
+      this.handleCheckCreditCardFail();
     }
   }
 
-  handleCheckCreditCardFail () {
+  handleCheckCreditCardFail() {
     const {
       lastTransactionAppointmentId,
       groupAppointment,
       amountCredtitForSubmitToServer,
       errorMessage,
       paymentMachineType,
-      lastGroupAppointmentPay
+      lastGroupAppointmentPay,
     } = this.props;
-    if (lastTransactionAppointmentId && paymentMachineType == PaymentTerminalType.Dejavoo) {
+    if (
+      lastTransactionAppointmentId &&
+      paymentMachineType == PaymentTerminalType.Dejavoo
+    ) {
       this.setState({
-      visibleProcessingCredit: true,
+        visibleProcessingCredit: true,
       });
       const param = {
         RefId: lastTransactionAppointmentId,
@@ -3009,15 +3028,17 @@ class TabCheckout extends Layout {
       requestPreviousTransactionReportDejavoo(param).then((response) => {
         parseString(response, (err, result) => {
           if (l.get(result, "xmp.response.0.Message.0") == "Approved") {
-            const invNum = l.get(result, "xmp.response.0.InvNum.0")
+            const invNum = l.get(result, "xmp.response.0.InvNum.0");
             //check if current groupAppointment is failed groupAppointment before.
             if (invNum == groupAppointment.checkoutGroupId) {
-              this.handleResponseCreditCardDejavoo(response, 
-                true, 
+              this.handleResponseCreditCardDejavoo(
+                response,
+                true,
                 amountCredtitForSubmitToServer,
-                null)
+                null
+              );
             } else {
-                this.setState({
+              this.setState({
                 visibleProcessingCredit: false,
                 visibleErrorMessageFromPax: true,
                 errorMessageFromPax: errorMessage,
@@ -3027,13 +3048,14 @@ class TabCheckout extends Layout {
             //if not found transaction on dejavoo
             //check previous group appointment is current group appointment
             //call payment on dejavoo again
-            if (groupAppointment?.checkoutGroupId 
-              == lastGroupAppointmentPay?.checkoutGroupId) {
-              
-                this.props.actions.appointment.resetStateCheckCreditPaymentToServer(
-                  false
-                );
-                this.sendTransactionToPaymentMachine();
+            if (
+              groupAppointment?.checkoutGroupId ==
+              lastGroupAppointmentPay?.checkoutGroupId
+            ) {
+              this.props.actions.appointment.resetStateCheckCreditPaymentToServer(
+                false
+              );
+              this.sendTransactionToPaymentMachine();
             } else {
               //If it's not previous group appointment that create
               // transaction payAppointmentId, show error
@@ -3044,11 +3066,10 @@ class TabCheckout extends Layout {
               });
             }
           }
-        })
-        
-      })
+        });
+      });
     } else {
-        this.setState({
+      this.setState({
         visibleProcessingCredit: false,
         visibleErrorMessageFromPax: true,
         errorMessageFromPax: errorMessage,

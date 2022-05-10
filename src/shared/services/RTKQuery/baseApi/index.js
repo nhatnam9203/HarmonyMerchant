@@ -4,6 +4,7 @@ import { appointmentBuilder } from "./appointment";
 import { staffBuilder } from "./staff";
 import { merchantBuilder } from "./merchant";
 import { retailerBuilder } from "./retailer";
+import { categoryBuilder } from "./category";
 
 export const harmonyApi = createApi({
   baseQuery: axiosBaseQuery({
@@ -14,20 +15,14 @@ export const harmonyApi = createApi({
     const staffBuilders = staffBuilder(builder);
     const merchantBuilders = merchantBuilder(builder);
     const retailerBuilders = retailerBuilder(builder);
+    const categoryBuilders = categoryBuilder(builder);
 
     return {
       ...appointmentBuilders,
       ...staffBuilders,
       ...merchantBuilders,
       ...retailerBuilders,
+      ...categoryBuilders,
     };
   },
 });
-
-export const {
-  usePrefetch,
-  useGetAppointmentQuery,
-  useStaffLoginMutation,
-  useStaffLogTimeCreateMutation,
-  useStaffLogTimeReportQuery,
-} = harmonyApi;

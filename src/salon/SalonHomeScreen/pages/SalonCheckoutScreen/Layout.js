@@ -22,18 +22,20 @@ import {
 } from "@components";
 
 export const Layout = ({
+  // refs
+  categoriesRef,
+
+  // store
+  staffListCurrentDate,
   customerInfoBuyAppointment,
   groupAppointment,
   paymentDetailInfo,
   blockAppointments,
   isBookingFromCalendar,
-  displayCustomerInfoPopup,
-  displayEnterUserPhonePopup,
-  onChangeModePayment,
-  addAppointmentCheckout,
-  staffListCurrentDate,
+  isDonePayment,
   categoriesByMerchant,
-
+  isOfflineMode,
+  // local
   isShowCategoriesColumn,
   isShowColProduct,
   selectedStaff,
@@ -45,13 +47,17 @@ export const Layout = ({
   onPressSelectCategory,
   categorySelected,
   onSelectGiftCard,
-
-  isDonePayment,
   tabCurrent,
   basket,
   paymentSelected,
   changeButtonDone,
   isCancelHarmonyPay,
+
+  // funcs
+  displayCustomerInfoPopup,
+  displayEnterUserPhonePopup,
+  onChangeModePayment,
+  addAppointmentCheckout,
   cancelHarmonyPayment,
   payBasket,
   confimPayOfflinemode,
@@ -81,9 +87,10 @@ export const Layout = ({
             onChangeTab={onChangeModePayment}
           >
             <Categories
+              ref={categoriesRef}
               staffListCurrentDate={staffListCurrentDate}
-              categoriesByMerchant={categoriesByMerchant}
               groupAppointment={groupAppointment}
+              categoriesByMerchant={categoriesByMerchant}
               isShowCategoriesColumn={isShowCategoriesColumn}
               isShowColProduct={isShowColProduct}
               selectedStaff={selectedStaff}
@@ -95,6 +102,7 @@ export const Layout = ({
               onPressSelectCategory={onPressSelectCategory}
               categorySelected={categorySelected}
               onSelectGiftCard={onSelectGiftCard}
+              isOfflineMode={isOfflineMode}
             />
             <Payment />
           </ScrollableTabView>

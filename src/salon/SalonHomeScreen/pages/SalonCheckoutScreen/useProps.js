@@ -1,7 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import * as CheckoutState from "./SalonCheckoutState";
+import { useCallApis } from "./useCallApis";
+import { useFocusEffect } from "@react-navigation/native";
+import _ from "lodash";
 
-export const useProps = (props) => {
+export const useProps = ({ props }) => {
+  const categoriesRef = React.useRef(null);
+
   const {
     customerInfoBuyAppointment,
     groupAppointment,
@@ -16,51 +22,54 @@ export const useProps = (props) => {
     (state) => state.category.categoriesByMerchant
   );
 
-  const [isShowColAmount, setIsShowColAmount] = React.useState(false);
-  const [isBlockBookingFromCalendar, setIsBlockBookingFromCalendar] =
-    React.useState(false);
-  const [isShowPayment, setIsShowPayment] = React.useState(false);
-  const [basket, setBasket] = React.useState([]);
-  const [paymentSelected, setPaymentSelected] = React.useState("");
-  const [changeButtonDone, setChangeButtonDone] = React.useState(false);
-  const [isCancelHarmonyPay, setIsCancelHarmonyPay] = React.useState(false);
-  const [isShowCategoriesColumn, setIsShowCategoriesColumn] =
-    React.useState(false);
-  const [isShowColProduct, setIsShowColProduct] = React.useState(false);
-  const [selectedStaff, setSelectedStaff] = React.useState(null);
+  const profileStaffLogin = useSelector(
+    (state) => state.dataLocal?.profileStaffLogin
+  );
+  const isOfflineMode = useSelector((state) => state.network?.isOfflineMode);
 
-  const [categorySelected, setCategorySelected] = React.useState({
-    categoryId: -1,
-    categoryType: "",
+  const [stateLocal, dispatchLocal] = React.useReducer(
+    CheckoutState.reducer,
+    CheckoutState.initState
+  );
+  // console.log(stateLocal);
+
+  const { apiLoading, getCategoriesByStaff } = useCallApis({
+    dispatchLocal,
   });
-  const [categoryStaff, setCategoryStaff] = React.useState(null);
+
+  const setSelectStaffFromCalendar = (staffId, isFirstPressCheckout = null) => {
+    if (!staffId) return;
+    dispatchLocal(CheckoutState.setSelectStaffFromCalendar(staffId));
+    console.log(categoriesRef);
+    categoriesRef.current?.scrollFlatListToStaffIndex(
+      staffId,
+      isFirstPressCheckout
+    );
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (profileStaffLogin?.staffId && _.isEmpty(groupAppointment)) {
+        if (!isOfflineMode)
+          getCategoriesByStaff(profileStaffLogin?.staffId, () => {});
+        setSelectStaffFromCalendar(profileStaffLogin?.staffId, true);
+      }
+    }, [profileStaffLogin?.staffId])
+  );
 
   return {
+    categoriesRef,
+
+    ...stateLocal,
+    staffListCurrentDate,
     customerInfoBuyAppointment,
     groupAppointment,
     paymentDetailInfo,
     blockAppointments,
     isBookingFromCalendar,
-    isShowColAmount,
-    isBlockBookingFromCalendar,
     isDonePayment,
-    tabCurrent: isShowPayment ? 1 : 0,
-    basket,
-    paymentSelected,
-    changeButtonDone,
-    isCancelHarmonyPay,
-    staffListCurrentDate,
     categoriesByMerchant,
-
-    isShowCategoriesColumn,
-    isShowColProduct,
-    selectedStaff,
-    isShowColAmount,
-    isBlockBookingFromCalendar,
-
-    categoryStaff,
-    isLoadingCategory: false,
-    categorySelected,
+    isOfflineMode,
 
     displayCustomerInfoPopup: () => {},
     displayEnterUserPhonePopup: () => {},
@@ -74,6 +83,6 @@ export const useProps = (props) => {
     checkBlockAppointment: () => {},
     onPressSelectCategory: () => {},
     onSelectGiftCard: () => {},
-    displayCategoriesColumn: (item) => {},
+    displayCategoriesColumn: (staff) => {},
   };
 };
