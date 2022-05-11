@@ -7,6 +7,7 @@ import _ from "lodash";
 
 export const useProps = ({ props }) => {
   const categoriesRef = React.useRef(null);
+  const amountRef = React.useRef(null);
 
   const {
     customerInfoBuyAppointment,
@@ -67,6 +68,7 @@ export const useProps = ({ props }) => {
 
   return {
     categoriesRef,
+    amountRef,
 
     ...stateLocal,
     isGetCategoriesByStaff,

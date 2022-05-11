@@ -84,6 +84,12 @@ export const Categories = React.forwardRef(
       isShowColAmount,
       showCustomServiceAmount,
       showColAmount,
+      amountRef,
+
+      getExtrasFromRedux,
+      onPressSelectExtra,
+      arrSelectedExtra,
+      groupAppointment,
     },
     ref
   ) => {
@@ -100,7 +106,6 @@ export const Categories = React.forwardRef(
             break;
           }
         }
-        console.log(index);
 
         if (index !== -1) {
           if (staffFlatListRef?.current) {
@@ -401,11 +406,60 @@ export const Categories = React.forwardRef(
       );
     };
 
+    const renderAmountCheckout = () => {
+      const temptHeader =
+        categorySelected.categoryType === "Service" ? "Extra" : "Amount";
+
+      return (
+        <View style={[{ flex: 1 }, styles.product_column_box]}>
+          <View
+            style={{
+              flex: 1,
+              borderLeftColor: "#DDDDDD",
+              borderLeftWidth: 1,
+              borderRightColor: "#DDDDDD",
+              borderRightWidth: 1,
+            }}
+          >
+            {/* ----- Header ---- */}
+            <View style={[styles.categoriesHeader]}>
+              <Text
+                style={[styles.textHeader, styles.txt_category_header_extra]}
+              >
+                {t(temptHeader)}
+              </Text>
+            </View>
+
+            {/* ------- Content ----- */}
+            <View style={{ flex: 1 }}>
+              {categoryTypeSelected === "Product" ? (
+                <ItemAmount ref={amountRef} price={productSeleted.price} />
+              ) : (
+                <ScrollView keyboardShouldPersistTaps="always">
+                  {getExtrasFromRedux(productSeleted).map((extra, index) => (
+                    <ItemExtra
+                      key={index}
+                      extra={extra}
+                      onPressSelectExtra={onPressSelectExtra}
+                      arrSelectedExtra={arrSelectedExtra}
+                      groupAppointment={groupAppointment}
+                    />
+                  ))}
+                </ScrollView>
+              )}
+            </View>
+          </View>
+        </View>
+      );
+    };
+
     return (
       <View style={{ flex: 1, flexDirection: "row" }}>
         {renderStaffColumn()}
         {isShowCategoriesColumn && renderCategoriesCheckout()}
         {isShowColProduct && renderCategoryItemCheckout()}
+        {isShowColAmount && renderAmountCheckout()}
+        <View style={{ width: scaleSize(4) }} />
       </View>
     );
   }

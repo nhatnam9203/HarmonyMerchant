@@ -24,6 +24,7 @@ import {
 export const Layout = ({
   // refs
   categoriesRef,
+  amountRef,
 
   // store
   staffListCurrentDate,
@@ -35,6 +36,7 @@ export const Layout = ({
   isDonePayment,
   categoriesByMerchant,
   isOfflineMode,
+
   // local
   isGetCategoriesByStaff,
   isGetServiceByStaff,

@@ -384,7 +384,7 @@ class Layout extends React.Component {
         )}
       </View>
     );
-  }
+  } // !
 
   renderProductCheckout() {
     const {
@@ -484,7 +484,7 @@ class Layout extends React.Component {
         </View>
       </View>
     );
-  }
+  } // !
 
   renderAmountCheckout() {
     const { language, groupAppointment } = this.props;
