@@ -45,7 +45,7 @@ export const ReceiptFooter = ({
           format="CODE39"
           value={`${invoiceCode}`}
           text={`${invoiceCode}`}
-          textStyle={styles.textBarcode}
+          // textStyle={styles.textBarcode}
           style={{ marginBottom: 10 }}
           maxWidth={widthPaper ? parseFloat(widthPaper) : scaleWidth(300)}
           height={scaleHeight(85)}
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     // fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(18),
+    fontSize: scaleFont(20),
     fontWeight: "600",
     textAlign: "center",
   },

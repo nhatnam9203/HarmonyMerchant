@@ -155,6 +155,14 @@ export const ReceiptTotal = ({
           <View style={styles.line} />
         </TextFill>
       )}
+      {!printTemp && (
+        <>
+          <View style={styles.margin} />
+          <TextFill label={`${_.padEnd("Tip", 4, " ")}`}>
+            <View style={styles.line} />
+          </TextFill>
+        </>
+      )}
       <View style={styles.margin} />
       <View style={styles.margin} />
     </View>

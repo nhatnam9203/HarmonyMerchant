@@ -289,7 +289,7 @@ class TabAppointment extends Layout {
               }
               break;
             case "updateAppointmentPaid":
-              console.log('updateAppointmentPaid', data)
+              // console.log('updateAppointmentPaid', data)
               if (data?.appointment?.checkoutId > 0) {
                 this.setState({...this.state, isEditTipCreditCard: true})
                 this.props.actions.invoice.getInvoiceDetail(data?.appointment?.checkoutId);
@@ -359,7 +359,7 @@ class TabAppointment extends Layout {
       // }, 1000);
     }
 
-    if (invoiceDetail && invoiceDetail != prevProps.invoiceDetail 
+    if (invoiceDetail && invoiceDetail != prevProps.invoiceDetail
       && this.state.isEditTipCreditCard) {
       this.handleEditTipCreditPayment(invoiceDetail);
     }
@@ -373,7 +373,7 @@ class TabAppointment extends Layout {
     const { paymentMachineType } = this.props;
     this.setState({...this.state, isEditTipCreditCard: false})
     if (paymentMachineType != PaymentTerminalType.Dejavoo) {
-      if(this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) { 
+      if(this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) {
           alert("Tip amount does not match.")
       } else {
         this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses: null}, invoiceDetail?.appointmentId);
@@ -431,7 +431,7 @@ class TabAppointment extends Layout {
           }
         }
       });
-      
+
     }
   }
 

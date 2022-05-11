@@ -156,16 +156,20 @@ export const useProps = ({
   };
 
   const getInvoiceCode = () => {
-    if (invoice) return invoice.code;
+    let code;
+    if (invoice) code = invoice.code;
     if (appointment) {
-      if (appointment.invoice?.code) return appointment.invoice?.code;
-      if (appointment?.code) return appointment?.code;
+      if (appointment.invoice?.code) code = appointment.invoice?.code;
+      if (appointment?.code) code = appointment?.code;
     }
     if (groupAppointment?.appointments?.length > 0) {
       const ap = groupAppointment?.appointments[0];
-      if (ap?.code) return ap?.code;
+      if (ap?.code) code = ap?.code;
     }
-    return null;
+    if (code?.indexOf("#") > -1) {
+      code = code.replace("#", "");
+    }
+    return code;
   };
 
   const getSubTotal = () => {

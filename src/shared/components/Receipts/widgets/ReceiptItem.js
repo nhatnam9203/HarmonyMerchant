@@ -48,7 +48,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "center",
           }}
         >
-          <TextItem fontSize={scaleFont(16)}>{`${item.name}`}</TextItem>
+          <TextItem fontSize={scaleFont(18)}>{`${item.name}`}</TextItem>
         </View>
       );
 
@@ -60,7 +60,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "center",
           }}
         >
-          <TextItem fontSize={scaleFont(16)}>{`${formatMoneyWithUnit(
+          <TextItem fontSize={scaleFont(20)}>{`${formatMoneyWithUnit(
             item.value
           )}`}</TextItem>
         </View>
@@ -87,7 +87,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             paddingVertical: scaleHeight(8),
           }}
         >
-          <TextItem fontSize={scaleFont(15)}>{`${item.name}`}</TextItem>
+          <TextItem fontSize={scaleFont(16)}>{`${item.name}`}</TextItem>
         </View>
       );
 
@@ -101,7 +101,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           {price && (
-            <TextItem fontSize={scaleFont(15)}>{`${formatMoneyWithUnit(
+            <TextItem fontSize={scaleFont(16)}>{`${formatMoneyWithUnit(
               price
             )}`}</TextItem>
           )}
@@ -853,7 +853,7 @@ const styles = StyleSheet.create({
   },
   textHeaderStyle: {
     // fontFamily: fonts.MEDIUM,
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(16),
     fontWeight: "600",
     textAlign: "center",
     color: "#000",
