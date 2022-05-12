@@ -181,6 +181,7 @@ export const PopupReceipt = React.forwardRef(
             : "#0000";
         setReceiptBackground(receiptContentBg);
       },
+
       share: (params) => {
         const { isPrintTempt, isAppointmentTab } = params ?? {};
         setIsShare(true);
