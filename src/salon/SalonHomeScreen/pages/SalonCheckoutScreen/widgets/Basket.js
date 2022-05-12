@@ -20,7 +20,6 @@ export const Basket = ({
   isBlockBookingFromCalendar,
 
   addAppointmentCheckout,
-
   isDonePayment,
   tabCurrent,
   basket,
@@ -35,6 +34,20 @@ export const Basket = ({
   bookBlockAppointment,
   checkBlockAppointment,
   addBlockAppointmentRef,
+  language,
+
+  subTotalLocal,
+  tipLocal,
+  discountTotalLocal,
+  taxLocal,
+  infoUser,
+
+  removeItemBasket,
+  changeStylist,
+  toggleCollapses,
+  changeProduct,
+  removeBlockAppointment,
+  createABlockAppointment,
 }) => {
   const { t } = useTranslation();
 
@@ -73,18 +86,19 @@ export const Basket = ({
               blockIndex={index}
               language={language}
               appointmentDetail={appointment}
-              //   subTotalLocal={subTotalLocal}
-              //   tipLocal={tipLocal}
-              //   discountTotalLocal={discountTotalLocal}
-              //   taxLocal={taxLocal}
-              //   removeItemBasket={this.removeItemBasket}
+              subTotalLocal={subTotalLocal}
+              tipLocal={tipLocal}
+              discountTotalLocal={discountTotalLocal}
+              taxLocal={taxLocal}
+              basketLocal={basket}
+              infoUser={infoUser}
+              removeItemBasket={removeItemBasket}
+              toggleCollaps={toggleCollapses}
+              removeBlockAppointment={removeBlockAppointment}
+              createABlockAppointment={createABlockAppointment}
+
               //   showModalDiscount={this.showModalDiscount}
-              //   basketLocal={basket}
-              //   infoUser={infoUser}
               //   showModalTipAppointment={this.showModalTipAppointment}
-              //   toggleCollaps={this.toggleCollaps}
-              //   removeBlockAppointment={this.removeBlockAppointment}
-              //   createABlockAppointment={this.createABlockAppointment}
               //   showModalCheckPermission={this.showModalCheckPermission}
             />
           ))}
@@ -92,19 +106,20 @@ export const Basket = ({
       );
     }
     if (_.isEmpty(groupAppointment)) {
-      return basket.length > 0 ? (
+      return basket?.length > 0 ? (
         <ItemCustomerBasket
           language={language}
-          //   subTotalLocal={subTotalLocal}
-          //   tipLocal={tipLocal}
-          //   discountTotalLocal={discountTotalLocal}
-          //   taxLocal={taxLocal}
-          //   removeItemBasket={this.removeItemBasket}
-          //   changeStylist={this.changeStylist}
-          //   changeProduct={this.changeProduct}
+          subTotalLocal={subTotalLocal}
+          tipLocal={tipLocal}
+          discountTotalLocal={discountTotalLocal}
+          taxLocal={taxLocal}
+          basketLocal={basket}
+          isOfflineMode={true}
+          removeItemBasket={removeItemBasket}
+          changeStylist={changeStylist}
+          changeProduct={changeProduct}
+
           //   showModalDiscount={this.showModalDiscount}
-          //   basketLocal={basket}
-          //   isOfflineMode={true}
           //   showModalTipAppointment={this.showModalTipAppointment}
           //   showModalCheckPermission={this.showModalCheckPermission}
         />
@@ -117,15 +132,16 @@ export const Basket = ({
           key={`${appointment.appointmentId}_${index}`}
           language={language}
           appointmentDetail={appointment}
-          //   subTotalLocal={subTotalLocal}
-          //   tipLocal={tipLocal}
-          //   discountTotalLocal={discountTotalLocal}
-          //   taxLocal={taxLocal}
-          //   removeItemBasket={this.removeItemBasket}
-          //   changeStylist={this.changeStylist}
-          //   changeProduct={this.changeProduct}
+          subTotalLocal={subTotalLocal}
+          tipLocal={tipLocal}
+          discountTotalLocal={discountTotalLocal}
+          taxLocal={taxLocal}
+          removeItemBasket={removeItemBasket}
+          changeStylist={changeStylist}
+          changeProduct={changeProduct}
+          basketLocal={basket}
+
           //   showModalDiscount={this.showModalDiscount}
-          //   basketLocal={basket}
           //   showModalTipAppointment={this.showModalTipAppointment}
           //   showModalCheckPermission={this.showModalCheckPermission}
         />

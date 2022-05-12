@@ -80,7 +80,7 @@ export const Categories = React.forwardRef(
       categoryTypeSelected,
       blockAppointments,
       customService,
-      productSeleted,
+      productSelected,
       isShowColAmount,
       showCustomServiceAmount,
       showColAmount,
@@ -89,7 +89,7 @@ export const Categories = React.forwardRef(
       getExtrasFromRedux,
       onPressSelectExtra,
       arrSelectedExtra,
-      groupAppointment,
+      addAmount,
     },
     ref
   ) => {
@@ -379,7 +379,7 @@ export const Categories = React.forwardRef(
                       })}
                       defaultThumb={ICON.custom_service_thumb}
                       colorText={temptColorHeader}
-                      itemSelected={productSeleted}
+                      itemSelected={productSelected}
                       categoryTypeSelected={categoryTypeSelected}
                       isShowColAmount={isShowColAmount}
                       groupAppointment={groupAppointment}
@@ -393,7 +393,7 @@ export const Categories = React.forwardRef(
                     item={item}
                     showColAmount={showColAmount}
                     colorText={temptColorHeader}
-                    itemSelected={productSeleted}
+                    itemSelected={productSelected}
                     categoryTypeSelected={categoryTypeSelected}
                     isShowColAmount={isShowColAmount}
                     groupAppointment={groupAppointment}
@@ -433,10 +433,10 @@ export const Categories = React.forwardRef(
             {/* ------- Content ----- */}
             <View style={{ flex: 1 }}>
               {categoryTypeSelected === "Product" ? (
-                <ItemAmount ref={amountRef} price={productSeleted.price} />
+                <ItemAmount ref={amountRef} price={productSelected.price} />
               ) : (
                 <ScrollView keyboardShouldPersistTaps="always">
-                  {getExtrasFromRedux(productSeleted).map((extra, index) => (
+                  {getExtrasFromRedux(productSelected).map((extra, index) => (
                     <ItemExtra
                       key={index}
                       extra={extra}
@@ -447,6 +447,35 @@ export const Categories = React.forwardRef(
                   ))}
                 </ScrollView>
               )}
+            </View>
+
+            {/* ------- Footer -------- */}
+            <View
+              style={{
+                height: scaleSize(52),
+                paddingHorizontal: scaleSize(6),
+                paddingBottom: scaleSize(8),
+              }}
+            >
+              <ButtonCustom
+                width={`100%`}
+                backgroundColor="#F1F1F1"
+                title={t("ADD")}
+                textColor="#6A6A6A"
+                onPress={addAmount}
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#C5C5C5",
+                  backgroundColor: "#0764B0",
+                  flex: 1,
+                  borderRadius: 4,
+                }}
+                styleText={{
+                  fontSize: scaleSize(19),
+                  fontWeight: "bold",
+                  color: "#fff",
+                }}
+              />
             </View>
           </View>
         </View>

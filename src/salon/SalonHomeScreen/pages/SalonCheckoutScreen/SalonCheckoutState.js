@@ -92,6 +92,10 @@ export const ACTION_TYPES = {
   SELECT_CATEGORY: "SELECT_CATEGORY",
   SET_SERVICE_BY_STAFF: "SET_SERVICE_BY_STAFF",
   SET_PRODUCT_BY_STAFF: "SET_PRODUCT_BY_STAFF",
+  SELECT_CATEGORY_ITEM: "SELECT_CATEGORY_ITEM",
+  SELECT_EXTRA: "SELECT_EXTRA",
+  SET_BASKET: "SET_BASKET",
+  VISIBLE_EDIT_PRODUCT_FORM: "VISIBLE_EDIT_PRODUCT_FORM",
 };
 
 export const reducer = (state, action) => {
@@ -101,6 +105,10 @@ export const reducer = (state, action) => {
     case ACTION_TYPES.SELECT_CATEGORY:
     case ACTION_TYPES.SET_SERVICE_BY_STAFF:
     case ACTION_TYPES.SET_PRODUCT_BY_STAFF:
+    case ACTION_TYPES.SELECT_CATEGORY_ITEM:
+    case ACTION_TYPES.SELECT_EXTRA:
+    case ACTION_TYPES.SET_BASKET:
+    case ACTION_TYPES.VISIBLE_EDIT_PRODUCT_FORM:
     default:
       return Object.assign({}, state, action.payload);
 
@@ -199,6 +207,48 @@ export const setProductByStaff = (data) => {
     payload: {
       isLoadingService: false,
       productStaff: data,
+    },
+  };
+};
+
+export const selectCategoryItem = (item, isExist) => {
+  return {
+    type: ACTION_TYPES.SELECT_CATEGORY_ITEM,
+    payload: isExist
+      ? {
+          productSeleted: null,
+          isShowColAmount: false,
+          arrSelectedExtra: [],
+          customServiceSelected: null,
+        }
+      : {
+          productSeleted: item,
+          isShowColAmount: true,
+          arrSelectedExtra: [],
+          customServiceSelected: null,
+        },
+  };
+};
+
+export const selectExtraItem = (arr) => {
+  return {
+    type: ACTION_TYPES.SELECT_EXTRA,
+    payload: { arrSelectedExtra: arr },
+  };
+};
+
+export const setBasket = (obj) => {
+  return {
+    type: ACTION_TYPES.SET_BASKET,
+    payload: obj,
+  };
+};
+
+export const visibleEditProductForm = (bl) => {
+  return {
+    type: ACTION_TYPES.VISIBLE_EDIT_PRODUCT_FORM,
+    payload: {
+      visibleChangePriceAmountProduct: bl,
     },
   };
 };

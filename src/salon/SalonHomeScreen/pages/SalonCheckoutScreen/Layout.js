@@ -38,6 +38,7 @@ export const Layout = ({
   isOfflineMode,
 
   // local
+  stateLocal,
   isGetCategoriesByStaff,
   isGetServiceByStaff,
   isGetProductByStaff,
@@ -76,7 +77,18 @@ export const Layout = ({
   checkBlockAppointment,
   getDataColProduct,
   showCustomServiceAmount,
-  showColAmount
+  showColAmount,
+
+  getExtrasFromRedux,
+  onPressSelectExtra,
+  arrSelectedExtra,
+  addAmount,
+  removeItemBasket,
+  changeStylist,
+  toggleCollapses,
+  changeProduct,
+  removeBlockAppointment,
+  createABlockAppointment,
 }) => {
   const { t } = useTranslation();
   return (
@@ -122,9 +134,14 @@ export const Layout = ({
               categoryTypeSelected={categoryTypeSelected}
               blockAppointments={blockAppointments}
               customService={customService}
-              productSeleted={productSeleted}
+              productSelected={productSeleted}
               showCustomServiceAmount={showCustomServiceAmount}
               showColAmount={showColAmount}
+              getExtrasFromRedux={getExtrasFromRedux}
+              onPressSelectExtra={onPressSelectExtra}
+              arrSelectedExtra={arrSelectedExtra}
+              addAmount={addAmount}
+              {...stateLocal}
             />
             <Payment />
           </ScrollableTabView>
@@ -151,6 +168,13 @@ export const Layout = ({
             selectPayment={selectPayment}
             bookBlockAppointment={bookBlockAppointment}
             checkBlockAppointment={checkBlockAppointment}
+            {...stateLocal}
+            removeItemBasket={removeItemBasket}
+            changeStylist={changeStylist}
+            toggleCollapses={toggleCollapses}
+            changeProduct={changeProduct}
+            removeBlockAppointment={removeBlockAppointment}
+            createABlockAppointment={createABlockAppointment}
           />
         </View>
       </View>

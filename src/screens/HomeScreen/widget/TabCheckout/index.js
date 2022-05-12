@@ -328,7 +328,7 @@ class TabCheckout extends Layout {
       arrSelectedExtra: [],
       customServiceSelected: null,
     });
-  };
+  }; // !
 
   createAnymousAppointment = async () => {
     const { profile, profileStaffLogin, customerInfoBuyAppointment } =
@@ -374,7 +374,7 @@ class TabCheckout extends Layout {
       customDiscountPercentLocal: 0,
       customDiscountFixedLocal: 0,
     });
-  };
+  }; // !
 
   getPriceOfline(basket) {
     let total = 0;
@@ -387,7 +387,7 @@ class TabCheckout extends Layout {
       }
     }
     return total;
-  }
+  } // !
 
   calculateTotalTaxLocal(basket) {
     const { profile } = this.props;
@@ -413,7 +413,7 @@ class TabCheckout extends Layout {
       }
     }
     return Number(taxTotal).toFixed(2);
-  }
+  } // !
 
   removeItemBasket = (item, appointmentId = -1, isGroup = false) => {
     const { blockAppointments } = this.props;
@@ -472,7 +472,7 @@ class TabCheckout extends Layout {
         taxLocal: this.calculateTotalTaxLocal(temptBasket),
       });
     }
-  };
+  }; // !
 
   selectedPayment = async (payment) => {
     const { paymentSelected, changeButtonDone } = this.state;
@@ -528,7 +528,7 @@ class TabCheckout extends Layout {
         customServiceSelected: null,
       });
     }
-  };
+  }; // !
 
   onPressSelectExtra = (extra) => {
     const { arrSelectedExtra } = this.state;
@@ -551,7 +551,7 @@ class TabCheckout extends Layout {
     this.setState({
       arrSelectedExtra: tempArrSelectedExtra,
     });
-  };
+  }; // !
 
   selectPayment = () => {
     this.scrollTabRef.current?.goToPage(1);
@@ -770,7 +770,7 @@ class TabCheckout extends Layout {
         method = "";
     }
     return method;
-  }
+  } // !
 
   getBasketOffline = () => {
     const { basket, selectedStaff } = this.state;
@@ -805,7 +805,7 @@ class TabCheckout extends Layout {
       arrayExtrasBuy,
       staffId: selectedStaff?.staffId,
     };
-  };
+  }; // !
 
   getBasketOnline = (appointments) => {
     const arrayProductBuy = [];
@@ -874,7 +874,7 @@ class TabCheckout extends Layout {
       arrayGiftCards,
       promotionNotes,
     };
-  };
+  }; // !
 
   pushAppointmentIdOfflineIntoWebview = () => {
     if (this.props.isOfflineMode) {
@@ -2029,14 +2029,14 @@ class TabCheckout extends Layout {
     } else {
       this.setState({ visibleChangeStylist: true });
     }
-  };
+  }; // !
 
   callBackGetStaffService = (data = []) => {
     this.setState({
       visibleChangeStylist: true,
       staffOfService: data,
     });
-  };
+  }; // !
 
   changeProduct = async (product, appointmentId) => {
     this.changePriceAmountProductRef.current?.setStateFromParent(
@@ -2046,7 +2046,7 @@ class TabCheckout extends Layout {
     this.setState({
       visibleChangePriceAmountProduct: true,
     });
-  };
+  }; // !
 
   closePopupActiveGiftCard = async () => {
     this.props.actions.appointment.handleVisibleActiveGiftCard(false);
@@ -2478,7 +2478,7 @@ class TabCheckout extends Layout {
     }
 
     return extrasBySort;
-  };
+  }; // !
 
   createABlockAppointment = () => {
     const {
@@ -2528,7 +2528,7 @@ class TabCheckout extends Layout {
         selectedStaff?.staffId ?? 0
       );
     }
-  };
+  }; // !
 
   addBlockAppointment = async () => {
     const { isOpenBlockAppointmentId } = this.props;
@@ -2631,7 +2631,7 @@ class TabCheckout extends Layout {
       true,
       false
     );
-  };
+  }; // !
 
   addGiftCardIntoBlockAppointment = (code) => {
     const { isOpenBlockAppointmentId } = this.props;
@@ -2673,7 +2673,7 @@ class TabCheckout extends Layout {
       false,
       true
     );
-  };
+  }; // !
 
   bookBlockAppointment = () => {
     this.props.gotoTabAppointment();
@@ -2699,7 +2699,7 @@ class TabCheckout extends Layout {
         this.blockAppointmentRef[i].setStateFromParent(true);
       }
     }
-  };
+  }; // !
 
   addBlockAppointmentRef = (ref) => {
     if (ref) {
