@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
 
   content: {
     position: "absolute",
-    top: 0,
-    // top: metrics.screenHeight,
+    // top: 0,
+    top: metrics.screenHeight,
   },
 });

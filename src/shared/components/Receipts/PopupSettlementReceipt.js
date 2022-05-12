@@ -118,8 +118,6 @@ export const PopupSettlementReceipt = React.forwardRef(
       await setLoading(true);
 
       const imageUrl = await captureRef(viewShotRef, {
-        // format: "jpg",
-        // quality: 1,
       });
 
       if (imageUrl) {

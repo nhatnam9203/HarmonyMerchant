@@ -190,8 +190,6 @@ export const PopupInvoice = React.forwardRef(
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
-          // format: "jpg",
-          // quality: 0.8,
         });
         await setIsProcessingPrint(false);
 
@@ -269,8 +267,6 @@ export const PopupInvoice = React.forwardRef(
       try {
         await setIsProcessingPrint(true);
         const imageUri = await captureRef(viewShotRef, {
-          // format: "jpg",
-          // quality: 0.8,
         });
         await setIsProcessingPrint(false);
         await setVisible(false);
