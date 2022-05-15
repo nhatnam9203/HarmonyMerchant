@@ -24,6 +24,7 @@ import {
   stringIsEmptyOrWhiteSpaces,
   handleResponseDejavoo,
 } from "@utils";
+import actions from "@actions";
 
 export const useProps = ({ props }) => {
   const dispatch = useDispatch();
@@ -265,7 +266,6 @@ export const useProps = ({ props }) => {
     return method;
   };
 
-  // Offline Create Appointment
   const createAnymousAppointment = async () => {
     const {
       paymentSelected,
@@ -506,6 +506,7 @@ export const useProps = ({ props }) => {
       dispatchLocal(CheckoutState.selectExtraItem(tempArrSelectedExtra));
     },
 
+    // !! func add service/product/extra items to basket
     addAmount: async () => {
       const {
         categoryTypeSelected,
@@ -585,6 +586,7 @@ export const useProps = ({ props }) => {
       }
       // ------------- Create  Group Appointment  ------------
       else {
+        // Handle add from tab check out
         // -------------  Add Product  ------------
         if (categoryTypeSelected === "Product") {
           const temptBasket = [];
@@ -606,6 +608,11 @@ export const useProps = ({ props }) => {
               taxLocal: calculateTotalTaxLocal(temptBasket),
             })
           );
+
+          if (!isOfflineMode) {
+            // ! cchưa set dc báket nên chưa tạo đc appointment
+            createAnymousAppointment();
+          }
         } else {
           //  -------------Add Extra , Service ---------
           const temptBasket = [];
@@ -653,6 +660,10 @@ export const useProps = ({ props }) => {
               taxLocal: calculateTotalTaxLocal(temptBasket),
             })
           );
+
+          if (!isOfflineMode) {
+            createAnymousAppointment();
+          }
         }
       }
 

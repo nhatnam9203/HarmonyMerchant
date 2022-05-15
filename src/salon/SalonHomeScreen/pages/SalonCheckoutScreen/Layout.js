@@ -61,7 +61,6 @@ export const Layout = ({
   isLoadingService,
   categoryTypeSelected,
   customService,
-  productSeleted,
 
   // funcs
   displayCustomerInfoPopup,
@@ -134,7 +133,6 @@ export const Layout = ({
               categoryTypeSelected={categoryTypeSelected}
               blockAppointments={blockAppointments}
               customService={customService}
-              productSelected={productSeleted}
               showCustomServiceAmount={showCustomServiceAmount}
               showColAmount={showColAmount}
               getExtrasFromRedux={getExtrasFromRedux}
@@ -154,7 +152,6 @@ export const Layout = ({
             isBookingFromCalendar={isBookingFromCalendar}
             isShowColAmount={isShowColAmount}
             isBlockBookingFromCalendar={isBlockBookingFromCalendar}
-            addAppointmentCheckout={addAppointmentCheckout}
             isDonePayment={isDonePayment}
             tabCurrent={tabCurrent}
             basket={basket}
@@ -175,6 +172,8 @@ export const Layout = ({
             changeProduct={changeProduct}
             removeBlockAppointment={removeBlockAppointment}
             createABlockAppointment={createABlockAppointment}
+            addAppointmentCheckout={addAppointmentCheckout}
+            isOfflineMode={isOfflineMode}
           />
         </View>
       </View>

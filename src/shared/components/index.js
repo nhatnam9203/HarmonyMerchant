@@ -56,3 +56,4 @@ export * from "./StaffLogTime";
 export * from "./CustomDrawer";
 export * from "./CustomTabBar";
 export * from "./DialogWithOneButton";
+export * from "./Base";

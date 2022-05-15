@@ -1,45 +1,42 @@
-import React from "react";
-import { NativeModules, Platform, NativeEventEmitter } from "react-native";
-import _ from "ramda";
-import { captureRef, releaseCapture } from "react-native-view-shot";
-import { StarPRNT } from "react-native-star-prnt";
-import RNFetchBlob from "rn-fetch-blob";
-import Share from "react-native-share";
-
-import Layout from "./layout";
+import PrintManager from "@lib/PrintManager";
 import connectRedux from "@redux/ConnectRedux";
 import {
+  APP_NAME,
+  checkStatusPrint,
+  formatMoney,
+  formatNumberFromCurrency,
+  formatWithMoment,
+  getArrayGiftCardsFromAppointment,
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
-  getArrayExtrasFromAppointment,
-  getArrayGiftCardsFromAppointment,
+  getCenterBoldStringArrayXml,
+  getCenterStringArrayXml,
+  getInfoFromModelNameOfPrinter,
+  getPaymentString,
   getPaymentStringInvoice,
   getQuickFilterStringInvoice,
-  checkStatusPrint,
-  getInfoFromModelNameOfPrinter,
-  REMOTE_APP_ID,
-  APP_NAME,
-  POS_SERIAL,
+  getTaxRateFromInvoice,
+  isPermissionToTab,
   localize,
+  menuTabs,
   PaymentTerminalType,
+  POS_SERIAL,
+  REMOTE_APP_ID,
+  requestPrintDejavoo,
   requestTransactionDejavoo,
   role,
-  menuTabs,
-  isPermissionToTab,
   stringIsEmptyOrWhiteSpaces,
-  requestPrintDejavoo,
-  formatMoney,
-  getPaymentString,
-  formatNumberFromCurrency,
-  getCenterStringArrayXml,
-  getCenterBoldStringArrayXml,
-  formatWithMoment,
-  requestGetProcessingStatus,
 } from "@utils";
-import PrintManager from "@lib/PrintManager";
 import * as l from "lodash";
+import _ from "ramda";
+import React from "react";
+import { NativeEventEmitter, NativeModules, Platform } from "react-native";
+import Share from "react-native-share";
+import { StarPRNT } from "react-native-star-prnt";
+import { releaseCapture } from "react-native-view-shot";
 import { parseString } from "react-native-xml2js";
-import { getTaxRateFromInvoice } from "@utils";
+import RNFetchBlob from "rn-fetch-blob";
+import Layout from "./layout";
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -426,7 +423,7 @@ class InvoiceScreen extends Layout {
     });
   };
 
-  handleVoidRefundClover = async() => {
+  handleVoidRefundClover = async () => {
     const {
       paxMachineInfo,
       invoiceDetail,
@@ -434,7 +431,7 @@ class InvoiceScreen extends Layout {
       paymentMachineType,
       language,
     } = this.props;
-  
+
     const paymentInformation =
       invoiceDetail?.paymentInformation[0]?.responseData || {};
     const method = l.get(
@@ -480,7 +477,7 @@ class InvoiceScreen extends Layout {
         clover.voidPayment(paymentInfo);
       }
     }
-  }
+  };
 
   confirmChangeInvoiceStatus = async () => {
     const {
@@ -490,9 +487,11 @@ class InvoiceScreen extends Layout {
       paymentMachineType,
       language,
     } = this.props;
-  
-    if (invoiceDetail?.paymentMethod === "credit_card" 
-      || invoiceDetail?.paymentMethod === "multiple") {
+
+    if (
+      invoiceDetail?.paymentMethod === "credit_card" ||
+      invoiceDetail?.paymentMethod === "multiple"
+    ) {
       if (paymentMachineType == "Clover") {
         if (invoiceDetail?.paymentMethod === "credit_card") {
           this.handleVoidRefundClover();
@@ -502,7 +501,6 @@ class InvoiceScreen extends Layout {
             alert("Can not void/refund for multiple payment on Clover");
           }, 300);
         }
-
       } else {
         await this.setState({
           visibleConfirmInvoiceStatus: false,
@@ -512,7 +510,7 @@ class InvoiceScreen extends Layout {
           const paymentInformation = invoiceDetail?.paymentInformation[i];
           if (paymentInformation?.checkoutPaymentStatus == "paid") {
             let status = true;
-  
+
             status = await this.handleVoidRefundTerminal(paymentInformation, i);
             if (!status) {
               await this.setState({
@@ -525,20 +523,19 @@ class InvoiceScreen extends Layout {
             }
           }
         }
-  
+
         this.props.actions.invoice.changeStatustransaction(
           invoiceDetail.checkoutId,
           this.getParamsSearch(),
           "",
           paymentMachineType.toLowerCase()
         );
-  
+
         await this.setState({
           visibleProcessingCredit: false,
           titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
         });
       }
-      
     } else {
       //payment method == cash , other, harmony pay
       await this.setState({
@@ -576,7 +573,7 @@ class InvoiceScreen extends Layout {
         alert(localize("Your transaction is invalid", language));
         return false;
       }
-      const transType = invoiceDetail?.status === "paid" ? "Return" : "Void"
+      const transType = invoiceDetail?.status === "paid" ? "Return" : "Void";
       const amount = l.get(paymentData, "amount");
 
       if (index > 0) {
@@ -601,10 +598,7 @@ class InvoiceScreen extends Layout {
 
             requestTransactionDejavoo(params).then((responses) => {
               parseString(responses, (err, result) => {
-                if (
-                  err ||
-                  l.get(result, "xmp.response.0.ResultCode.0") != 0
-                ) {
+                if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
                   status = false;
                 } else {
                   status = true;
@@ -649,8 +643,8 @@ class InvoiceScreen extends Layout {
       }
 
       const transType = invoiceDetail?.status === "paid" ? "RETURN" : "VOID";
-      const amountString = invoiceDetail?.status === "paid" 
-                        ? `${parseFloat(amount)}` : "";
+      const amountString =
+        invoiceDetail?.status === "paid" ? `${parseFloat(amount)}` : "";
       return new Promise((resolve, _) => {
         let status = true;
         PosLink.sendTransaction(

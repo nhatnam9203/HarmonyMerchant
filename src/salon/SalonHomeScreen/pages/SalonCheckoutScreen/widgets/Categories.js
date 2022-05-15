@@ -80,7 +80,7 @@ export const Categories = React.forwardRef(
       categoryTypeSelected,
       blockAppointments,
       customService,
-      productSelected,
+      productSeleted,
       isShowColAmount,
       showCustomServiceAmount,
       showColAmount,
@@ -379,7 +379,7 @@ export const Categories = React.forwardRef(
                       })}
                       defaultThumb={ICON.custom_service_thumb}
                       colorText={temptColorHeader}
-                      itemSelected={productSelected}
+                      itemSelected={productSeleted}
                       categoryTypeSelected={categoryTypeSelected}
                       isShowColAmount={isShowColAmount}
                       groupAppointment={groupAppointment}
@@ -393,7 +393,7 @@ export const Categories = React.forwardRef(
                     item={item}
                     showColAmount={showColAmount}
                     colorText={temptColorHeader}
-                    itemSelected={productSelected}
+                    itemSelected={productSeleted}
                     categoryTypeSelected={categoryTypeSelected}
                     isShowColAmount={isShowColAmount}
                     groupAppointment={groupAppointment}
@@ -433,10 +433,10 @@ export const Categories = React.forwardRef(
             {/* ------- Content ----- */}
             <View style={{ flex: 1 }}>
               {categoryTypeSelected === "Product" ? (
-                <ItemAmount ref={amountRef} price={productSelected.price} />
+                <ItemAmount ref={amountRef} price={productSeleted?.price} />
               ) : (
                 <ScrollView keyboardShouldPersistTaps="always">
-                  {getExtrasFromRedux(productSelected).map((extra, index) => (
+                  {getExtrasFromRedux(productSeleted).map((extra, index) => (
                     <ItemExtra
                       key={index}
                       extra={extra}

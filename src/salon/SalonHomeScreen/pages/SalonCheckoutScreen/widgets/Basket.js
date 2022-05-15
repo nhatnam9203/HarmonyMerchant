@@ -1,8 +1,25 @@
 import { Button, Text } from "@components";
 import ICON from "@resources";
 import {
+  EnterCustomerPhonePopup,
+  ErrorMessagePaxModal,
+  ItemAmount,
   ItemBlockBasket,
+  ItemCategory,
   ItemCustomerBasket,
+  ItemExtra,
+  ItemPaymentMethod,
+  ItemProductService,
+  PopupAddEditCustomer,
+  PopupAddItemIntoAppointments,
+  PopupBill,
+  PopupBlockDiscount,
+  PopupDiscount,
+  PopupDiscountLocal,
+  PopupEnterAmountCustomService,
+  PopupEnterAmountGiftCard,
+  PopupGiftCardDetail,
+  PopupPaymentDetails,
 } from "@src/screens/HomeScreen/widget/TabCheckout/widget";
 import { scaleSize } from "@utils";
 import _ from "ramda";
@@ -10,6 +27,16 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View, ScrollView } from "react-native";
 import { ButtonBasket } from "./ButtonBasket";
+import { layouts } from "@shared/themes";
+import { UI } from "@shared/components";
+import {
+  checkCategoryIsNotExist,
+  formatMoney,
+  formatNumberFromCurrency,
+  localize,
+  menuTabs,
+  roundFloatNumber,
+} from "@utils";
 
 export const Basket = ({
   groupAppointment,
@@ -48,6 +75,7 @@ export const Basket = ({
   changeProduct,
   removeBlockAppointment,
   createABlockAppointment,
+  isOfflineMode,
 }) => {
   const { t } = useTranslation();
 
@@ -75,79 +103,299 @@ export const Basket = ({
     ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
       (blockAppointments.length && isShowAddBlock) > 0);
 
-  const renderBasketItems = () => {
-    if (blockAppointments?.length > 0) {
-      return (
-        <>
-          {blockAppointments.map((appointment, index) => (
-            <ItemBlockBasket
-              ref={addBlockAppointmentRef}
+  const _renderBlockAppointment = () => {
+    let temptGrandTotal = 0;
+    for (let i = 0; i < blockAppointments.length; i++) {
+      temptGrandTotal =
+        temptGrandTotal + formatNumberFromCurrency(blockAppointments[i].total);
+    }
+
+    return (
+      <>
+        {blockAppointments.map((appointment, index) => (
+          <ItemBlockBasket
+            ref={addBlockAppointmentRef}
+            key={`${appointment.appointmentId}_${index}`}
+            blockIndex={index}
+            language={language}
+            appointmentDetail={appointment}
+            subTotalLocal={subTotalLocal}
+            tipLocal={tipLocal}
+            discountTotalLocal={discountTotalLocal}
+            taxLocal={taxLocal}
+            basketLocal={basket}
+            infoUser={infoUser}
+            removeItemBasket={removeItemBasket}
+            toggleCollaps={toggleCollapses}
+            removeBlockAppointment={removeBlockAppointment}
+            createABlockAppointment={createABlockAppointment}
+
+            //   showModalDiscount={showModalDiscount}
+            //   showModalTipAppointment={showModalTipAppointment}
+            //   showModalCheckPermission={showModalCheckPermission}
+          />
+        ))}
+
+        {/* ----------- Grand Total ----------- */}
+        <View
+          style={{
+            paddingHorizontal: scaleSize(10),
+            marginTop: scaleSize(15),
+          }}
+        >
+          <View
+            style={{
+              height: 2,
+              backgroundColor: "#0764B0",
+              marginTop: scaleSize(10),
+              marginBottom: scaleSize(15),
+            }}
+          />
+          {/* ---------- Tip ------ */}
+          <View style={styles.payNumberTextContainer}>
+            <Text
+              style={[
+                styles.textPay,
+                {
+                  fontSize: scaleSize(18),
+                  fontWeight: "600",
+                  color: "#0764B0",
+                },
+              ]}
+            >
+              {`${localize("Grand Total", language)}:`}
+            </Text>
+            <Text
+              style={[
+                styles.textPay,
+                {
+                  fontSize: scaleSize(18),
+                  fontWeight: "600",
+                  color: "rgb(65,184,85)",
+                },
+              ]}
+            >
+              {`$ ${formatMoney(temptGrandTotal)}`}
+            </Text>
+          </View>
+        </View>
+
+        <View style={{ height: scaleSize(70) }} />
+      </>
+    );
+  };
+
+  const _renderGroupAppointment = () => {
+    const appointments = groupAppointment?.appointments
+      ? groupAppointment.appointments
+      : [];
+
+    const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
+    const totalLocal = roundFloatNumber(
+      formatNumberFromCurrency(subTotalLocal) +
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
+    );
+    const paidAmounts = paymentDetailInfo.paidAmounts
+      ? paymentDetailInfo.paidAmounts.slice(0).reverse()
+      : [];
+    const tempTotal = isOfflineMode ? totalLocal : temptGrandTotal;
+
+    return (
+      <>
+        {_.isEmpty(groupAppointment) ? (
+          basket.length > 0 ? (
+            <ItemCustomerBasket
+              language={language}
+              subTotalLocal={subTotalLocal}
+              tipLocal={tipLocal}
+              discountTotalLocal={discountTotalLocal}
+              taxLocal={taxLocal}
+              removeItemBasket={removeItemBasket}
+              changeStylist={changeStylist}
+              changeProduct={changeProduct}
+              // showModalDiscount={showModalDiscount}
+              basketLocal={basket}
+              isOfflineMode={true}
+              // showModalTipAppointment={showModalTipAppointment}
+              // showModalCheckPermission={showModalCheckPermission}
+            />
+          ) : (
+            <View />
+          )
+        ) : (
+          appointments.map((appointment, index) => (
+            <ItemCustomerBasket
               key={`${appointment.appointmentId}_${index}`}
-              blockIndex={index}
               language={language}
               appointmentDetail={appointment}
               subTotalLocal={subTotalLocal}
               tipLocal={tipLocal}
               discountTotalLocal={discountTotalLocal}
               taxLocal={taxLocal}
-              basketLocal={basket}
-              infoUser={infoUser}
               removeItemBasket={removeItemBasket}
-              toggleCollaps={toggleCollapses}
-              removeBlockAppointment={removeBlockAppointment}
-              createABlockAppointment={createABlockAppointment}
-
-              //   showModalDiscount={this.showModalDiscount}
-              //   showModalTipAppointment={this.showModalTipAppointment}
-              //   showModalCheckPermission={this.showModalCheckPermission}
+              changeStylist={changeStylist}
+              changeProduct={changeProduct}
+              // showModalDiscount={showModalDiscount}
+              basketLocal={basket}
+              // showModalTipAppointment={showModalTipAppointment}
+              // showModalCheckPermission={showModalCheckPermission}
             />
-          ))}
-        </>
-      );
-    }
-    if (_.isEmpty(groupAppointment)) {
-      return basket?.length > 0 ? (
-        <ItemCustomerBasket
-          language={language}
-          subTotalLocal={subTotalLocal}
-          tipLocal={tipLocal}
-          discountTotalLocal={discountTotalLocal}
-          taxLocal={taxLocal}
-          basketLocal={basket}
-          isOfflineMode={true}
-          removeItemBasket={removeItemBasket}
-          changeStylist={changeStylist}
-          changeProduct={changeProduct}
+          ))
+        )}
+        {/* ----------- Grand Total ----------- */}
+        {parseFloat(tempTotal) > 0 ? (
+          <View style={{ paddingHorizontal: scaleSize(10) }}>
+            <View
+              style={{
+                height: 2,
+                backgroundColor: "#0764B0",
+                marginTop: scaleSize(10),
+                marginBottom: scaleSize(15),
+              }}
+            />
+            <View style={styles.payNumberTextContainer}>
+              <Text
+                style={[
+                  styles.textPay,
+                  {
+                    fontSize: scaleSize(18),
+                    fontWeight: "600",
+                    color: "#0764B0",
+                  },
+                ]}
+              >
+                {`${localize("Grand Total", language)}:`}
+              </Text>
+              <Text
+                style={[
+                  styles.textPay,
+                  {
+                    fontSize: scaleSize(18),
+                    fontWeight: "600",
+                    color: "rgb(65,184,85)",
+                  },
+                ]}
+              >
+                {`$ ${formatMoney(tempTotal)}`}
+              </Text>
+            </View>
+          </View>
+        ) : null}
 
-          //   showModalDiscount={this.showModalDiscount}
-          //   showModalTipAppointment={this.showModalTipAppointment}
-          //   showModalCheckPermission={this.showModalCheckPermission}
-        />
-      ) : (
-        <View />
-      );
-    } else {
-      return appointments.map((appointment, index) => (
-        <ItemCustomerBasket
-          key={`${appointment.appointmentId}_${index}`}
-          language={language}
-          appointmentDetail={appointment}
-          subTotalLocal={subTotalLocal}
-          tipLocal={tipLocal}
-          discountTotalLocal={discountTotalLocal}
-          taxLocal={taxLocal}
-          removeItemBasket={removeItemBasket}
-          changeStylist={changeStylist}
-          changeProduct={changeProduct}
-          basketLocal={basket}
+        {/* ----------- Paid Amount ----------- */}
+        {!isBookingFromCalendar && !_.isEmpty(paymentDetailInfo) ? (
+          <View
+            style={{
+              paddingHorizontal: scaleSize(10),
+              marginBottom: scaleSize(8),
+            }}
+          >
+            <View
+              style={{
+                height: 2,
+                backgroundColor: "#DDDDDD",
+                marginTop: scaleSize(10),
+                marginBottom: scaleSize(15),
+              }}
+            />
+            {/* ---------- Paid amount ------ */}
+            {paidAmounts.map((paidAmountInfo, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.payNumberTextContainer,
+                  {
+                    justifyContent: "space-between",
+                    marginBottom: scaleSize(8),
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.textPay,
+                    {
+                      fontSize: scaleSize(18),
+                      fontWeight: "600",
+                      color: "#404040",
+                    },
+                  ]}
+                >
+                  {`${localize("Paid ", language)}`}
+                  <Text
+                    style={[
+                      styles.textPay,
+                      {
+                        fontSize: scaleSize(18),
+                        fontWeight: "300",
+                        color: "#404040",
+                      },
+                    ]}
+                  >
+                    {` (${paidAmountInfo.paymentMethod})`}
+                  </Text>
+                </Text>
+                <Text
+                  style={[
+                    styles.textPay,
+                    {
+                      fontSize: scaleSize(18),
+                      fontWeight: "600",
+                      color: "#404040",
+                    },
+                  ]}
+                >
+                  {`  $ ${formatMoney(paidAmountInfo.amount)}`}
+                </Text>
+              </View>
+            ))}
 
-          //   showModalDiscount={this.showModalDiscount}
-          //   showModalTipAppointment={this.showModalTipAppointment}
-          //   showModalCheckPermission={this.showModalCheckPermission}
-        />
-      ));
-    }
+            {/* ---------- Due amount ------ */}
+            {!isBookingFromCalendar && paymentDetailInfo.dueAmount ? (
+              <View
+                style={[
+                  styles.payNumberTextContainer,
+                  { justifyContent: "space-between" },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.textPay,
+                    {
+                      fontSize: scaleSize(18),
+                      fontWeight: "600",
+                      color: "#FF3B30",
+                    },
+                  ]}
+                >
+                  {`${localize("Amount Due", language)}:`}
+                </Text>
+                <Text
+                  style={[
+                    styles.textPay,
+                    {
+                      fontSize: scaleSize(18),
+                      fontWeight: "600",
+                      color: "#FF3B30",
+                    },
+                  ]}
+                >
+                  {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
+                </Text>
+              </View>
+            ) : (
+              <View />
+            )}
+          </View>
+        ) : (
+          <View />
+        )}
+        <View style={{ height: scaleSize(50) }} />
+      </>
+    );
   };
+
   return (
     <View style={[styles.basket_box, tempStyle]}>
       {/* -------- Header Basket -------- */}
@@ -190,7 +438,9 @@ export const Basket = ({
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="always"
         >
-          {renderBasketItems()}
+          {blockAppointments?.length > 0
+            ? _renderBlockAppointment()
+            : _renderGroupAppointment()}
         </ScrollView>
       </View>
 

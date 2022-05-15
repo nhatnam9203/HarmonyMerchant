@@ -16,7 +16,6 @@ import {
   Text,
 } from "@components";
 import { DialogPayCompleted } from "@components/DialogPayCompleted";
-
 import { QRCodePay } from "@components/PaymentButtons";
 import ICON from "@resources";
 import { PopupReceipt } from "@shared/components";
@@ -63,6 +62,7 @@ import {
   PopupPaymentDetails,
 } from "./widget";
 import { StaffItem } from "./widget/NewCheckoutComponent";
+import { Base } from "@shared/components";
 
 class Layout extends React.Component {
   renderHeader() {
