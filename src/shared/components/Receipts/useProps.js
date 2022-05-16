@@ -1,13 +1,14 @@
+import { useAppType } from "@shared/hooks";
 import {
+  formatNumberFromCurrency,
   getInfoFromModelNameOfPrinter,
   getReceiptItems,
   getReceiptSymbol,
-  getTaxRateFromGroupAppointment,
+  getStaffNameForInvoice,
   getTaxRateFromAppointment,
+  getTaxRateFromGroupAppointment,
 } from "@utils";
 import { useSelector } from "react-redux";
-import { getStaffNameForInvoice } from "@utils";
-import { useAppType } from "@shared/hooks";
 
 export const useProps = ({
   appointment,
@@ -40,12 +41,12 @@ export const useProps = ({
         type: "Return",
         id: `${index}_return`,
         data: {
-          name: x.ProductName,
-          qty: x.SaleQuantity,
+          name: x.productName,
+          qty: x.saleQuantity,
           productId: `${index}_return`,
-          price: x.SalePrice,
-          returnPrice: x.ReturnPrice,
-          returnQuantity: x.ReturnQuantity,
+          price: x.salePrice,
+          returnPrice: x.returnPrice,
+          returnQuantity: x.returnQuantity,
         },
       }));
       return temps;
@@ -326,7 +327,17 @@ export const useProps = ({
   };
 
   const getReturnTotal = () => {
+    if (itemReturn) {
+      const { products = [], giftcards = [] } = itemReturn?.returnData || {};
+      const tempTotalReturn = products?.reduce((sum, x) => {
+        return sum + formatNumberFromCurrency(x.returnPrice ?? 0);
+      }, 0);
+
+      return tempTotalReturn;
+    }
+
     if (groupAppointment) return groupAppointment?.returnAmount;
+
     if (appointment) return appointment?.returnAmount;
     return 0;
   };

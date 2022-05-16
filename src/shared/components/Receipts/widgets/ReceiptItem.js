@@ -156,7 +156,7 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${qty}`}</TextItem>
-          {!!returnQuantity && <TextItem>{`- ${returnQuantity}`}</TextItem>}
+          {/* {!!returnQuantity && <TextItem>{`- ${returnQuantity}`}</TextItem>} */}
         </View>
       );
 
@@ -169,9 +169,9 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${formatMoneyWithUnit(totalPrice)}`}</TextItem>
-          {!!returnQuantity && parseInt(returnQuantity) > 0 && (
+          {/* {!!returnQuantity && parseInt(returnQuantity) > 0 && (
             <TextItem>{`- ${formatMoneyWithUnit(returnAmount)}`}</TextItem>
-          )}
+          )} */}
         </View>
       );
 
@@ -191,15 +191,69 @@ export const ReceiptItem = ({ item, index, type }) => {
           />
           {!!note && <TextLabel>{`${note}.`}</TextLabel>}
 
+          {!!returnQuantity && parseInt(returnQuantity) > 0 && (
+            <>
+              {/* <TextLabel key="return">{`${t("- Return")}`}</TextLabel> */}
+              <LayoutFourColumn
+                key="retailer-item-discount"
+                columnWidths={RETAILER_COLUMN_WIDTH}
+                ColumnOne={() => (
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "flex-start",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <TextItem>{`  Return `}</TextItem>
+                  </View>
+                )}
+                ColumnTwo={() => (
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "flex-end",
+                      justifyContent: "flex-start",
+                    }}
+                  ></View>
+                )}
+                ColumnThree={() => (
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "flex-end",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <TextItem>{`- ${returnQuantity}`}</TextItem>
+                  </View>
+                )}
+                ColumnFour={() => (
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "flex-end",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <TextItem>{`- ${formatMoneyWithUnit(
+                      returnAmount
+                    )}`}</TextItem>
+                  </View>
+                )}
+              />
+            </>
+          )}
+
           {discount > 0 && (
             <TextLabel key="discount">{`${t(
-              "- Discount"
-            )}: $ ${discount}`}</TextLabel>
+              "Discount"
+            )} $ ${discount}`}</TextLabel>
           )}
           {discountPercent > 0 && (
             <TextLabel key="discountPercent">{`${t(
-              "- Discount"
-            )}: ${discountPercent}%`}</TextLabel>
+              "Discount"
+            )} ${discountPercent}%`}</TextLabel>
           )}
 
           {(discount > 0 || discountPercent > 0) && (
@@ -213,18 +267,7 @@ export const ReceiptItem = ({ item, index, type }) => {
                     alignItems: "flex-start",
                     justifyContent: "center",
                   }}
-                >
-                  {/* {discount > 0 && (
-                    <TextLabel key="discount">{`${t(
-                      "Discount"
-                    )}: $ ${discount}`}</TextLabel>
-                  )}
-                  {discountPercent > 0 && (
-                    <TextLabel key="discountPercent">{`${t(
-                      "Discount"
-                    )}: ${discountPercent}%`}</TextLabel>
-                  )} */}
-                </View>
+                ></View>
               )}
               ColumnTwo={() => (
                 <View
