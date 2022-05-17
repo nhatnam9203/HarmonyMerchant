@@ -103,23 +103,6 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
       },
     });
 
-  /**
-  |--------------------------------------------------
-  | useEffect
-  |--------------------------------------------------
-  */
-  // React.useEffect(() => {
-  //   if (!staffLogin) {
-  //     return;
-  //   }
-
-  //   const { codeStatus, message, data } = staffLogin || {};
-  //   if (statusSuccess(codeStatus)) {
-  //     dispatch(authMerchant.staffSignIn(data));
-  //     dialogRef.current?.hide();
-  //   }
-  // }, [staffLogin]);
-
   React.useEffect(() => {
     if (isLoginStaffReportServer) {
       requestCheckPermission();
@@ -192,18 +175,8 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
           <View style={styles.marginVertical} />
           <Text style={styles.title}>{t("Enter your PIN code")}</Text>
           <View style={styles.marginVertical} />
-          {/* <CustomInput
-            style={styles.input}
-            textInputStyle={styles.textInput}
-            textInputProps={{
-              secureTextEntry: true,
-              blurOnSubmit: false,
-              defaultValue: value,
-            }}
-          /> */}
           <View style={styles.input}>
             <TextInput
-              // onChangeText={onHandleChangeText}
               ref={textInputRef}
               value={value}
               secureTextEntry={true}

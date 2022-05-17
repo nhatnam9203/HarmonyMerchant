@@ -20,13 +20,6 @@ export const CustomSwitch = ({
     }
   };
 
-  // React.useEffect(() => {
-  //   if (onValueChange && typeof onValueChange === "function") {
-  //     onValueChange(isEnabled);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isEnabled]);
-
   React.useEffect(() => {
     setIsEnabled(defaultValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps

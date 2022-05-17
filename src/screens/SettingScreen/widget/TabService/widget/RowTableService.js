@@ -14,23 +14,6 @@ import IMAGE from '@resources';
 
 const RowTableService = ({ service, index, archiveService, editService, restoreService, categoryName, move, moveEnd }) => {
 
-    // const [source, setSource] = useState({
-    //     uri: service?.imageUrl,
-    //     priority: FastImage.priority.low,
-    //     cache: FastImage.cacheControl.immutable
-    // });
-
-    // useEffect(() => {
-    //     if (source?.uri && source?.uri !== service?.imageUrl) {
-    //         setSource({
-    //             uri: service?.imageUrl,
-    //             priority: FastImage.priority.low,
-    //             cache: FastImage.cacheControl.immutable
-    //         })
-    //     }
-    // }, [service?.imageUrl])
-
-
     return (
         <TouchableOpacity
             onLongPress={move}

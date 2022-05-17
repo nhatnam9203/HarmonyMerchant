@@ -428,13 +428,11 @@ class Layout extends React.Component {
           {/* ---- Address ---- */}
           <ItemAdminInfo
             title={localize("Driver License", language)}
-            // placeholder="0000-0000-0000"
             value={driverlicense}
             onChangeText={(value) =>
               this.updateUserInfo("driverlicense", value)
             }
             type={true}
-            // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
           />
 
@@ -450,8 +448,6 @@ class Layout extends React.Component {
                 <View style={{ width: scaleSize(150), justifyContent: 'center' }} >
                   <Text style={[{
                     color: '#404040',
-                    // fontSize: scaleSize(14),
-                    // fontWeight: '600',
                     fontSize: scaleSize(12),
                     fontWeight: "bold",
 
@@ -490,13 +486,11 @@ class Layout extends React.Component {
 
           <ItemAdminInfo
             title={localize("Professional License", language)}
-            // placeholder="0000-0000-0000"
             value={professionalLicense}
             onChangeText={(value) =>
               this.updateUserInfo("professionalLicense", value)
             }
             type={true}
-            // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
             onFocus={() => this.scrollStaffTo(100000)}
           />
           <View

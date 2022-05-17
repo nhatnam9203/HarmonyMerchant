@@ -268,13 +268,7 @@ class SetupHardware extends React.Component {
             }
         });
 
-        // this.props.actions.app.loadingApp();
-        // this.bluetoothScannerRef.current?.startScan();
-
         setTimeout(() => {
-            // this.props.actions.app.stopLoadingApp();
-            // this.manager.stopDeviceScan();
-            // this.props.actions.app.stopLoadingApp();
             this.setState({
                 scanLoading: false
             });
@@ -589,11 +583,6 @@ class SetupHardware extends React.Component {
                         />
                     </View>
                 </View>
-
-                {/* <BluetoothScanner
-                    ref={this.bluetoothScannerRef}
-                    handleStopScan={this.handleStopScan}
-                /> */}
             </View>
         );
 

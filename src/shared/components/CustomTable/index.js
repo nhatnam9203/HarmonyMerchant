@@ -53,14 +53,6 @@ const avgPropertiesKey = (array, key) => {
   return sum / array.length;
 };
 
-// const strCompare = (a, b) => {
-//   // check valid date -> sort date
-//   if (moment(a).isValid() && moment(b).isValid()) {
-//     return moment(a, DATE_FORMAT) <= moment(b, DATE_FORMAT);
-//   }
-//   return a.toString().localeCompare(b.toString());
-// };
-
 const SORT_STATE = {
   desc: "DESC",
   asc: "ASC",
@@ -135,10 +127,6 @@ export function Table({
   };
 
   const changeSortData = () => {
-    // if (!sortKey) {
-    //   setSortState(SORT_STATE.none);
-    //   return;
-    // }
 
     let sort = sortState;
     if (sortState === SORT_STATE.desc) {
@@ -148,7 +136,6 @@ export function Table({
     }
 
     setSortState(sort);
-    // setListData(sort);
   };
 
   const getCellValue = (item, key) => {

@@ -165,15 +165,6 @@ class TabAppointment extends Layout {
                 arrayExtras,
                 arrayGiftCards
               );
-              // if (temptBasket.length > 0) {
-              //     this.props.checkoutAppointment(appointmentId, data?.appointment || {});
-              //     this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
-              //     this.setState({
-              //         appointmentIdOffline: appointmentId
-              //     })
-              // } else {
-              //     this.props.bookAppointment(appointmentId, data?.staffId ? data?.staffId : (data?.appointment?.staffId || 0));
-              // }
 
               this.props.checkoutAppointment(
                 appointmentId,
@@ -253,19 +244,6 @@ class TabAppointment extends Layout {
               break;
             case "printFromCalendar":
               const appointment = data?.appointment;
-              // const isTemp = appointment?.status !== "paid";
-              //
-              // this.invoiceRef.current?.showAppointmentReceipt({
-              //   appointmentId: appointment?.id,
-              //   checkoutId: appointment?.checkoutId,
-              //   isPrintTempt: true,
-              //   isSalon: true,
-              //   machineType: this.props.paymentMachineType,
-              //   isAppointmentTab: true,
-              // });
-              // TODO: print with checkoutId
-
-              // console.log(appointment);
 
               this.setState({ appointment });
 

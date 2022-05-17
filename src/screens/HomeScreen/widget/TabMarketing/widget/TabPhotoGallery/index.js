@@ -44,8 +44,6 @@ class TabPhotoGallery extends Layout {
     const resultArr = oldArr.map((item) => ({
       url: item.imageUrl,
       id: item.merchantBannerId,
-      // width: Image.getSize(item.imageUrl, (width)),
-      // height: Image.getSize(item.imageUrl, (height)),
     }));
     return resultArr;
   };

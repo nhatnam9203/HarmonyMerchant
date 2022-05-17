@@ -574,14 +574,12 @@ function TableListExtended({
         onSizeChange={({ width }) => {
           setVisibleScrollPartWidth(width);
         }}
-        // onLayout={(e) => setVisibleScrollPartWidth(e.nativeEvent.layout.width)}
         data={dataFactory}
         heightForSection={() => TABLE_ROW_HEIGHT}
         heightForIndexPath={() => TABLE_ROW_HEIGHT}
         renderHeader={renderHeader}
         renderSection={renderSection}
         renderIndexPath={renderItem}
-        // bounces={false}
         alwaysBounceHorizontal={false}
         showsHorizontalScrollIndicator={isContentSmallerThanScrollView}
         showsVerticalScrollIndicator={true}

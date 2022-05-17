@@ -28,9 +28,6 @@ class HeaderTableCustomer extends React.Component {
                         {localize('ID', language)}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{flex:1.2, flexDirection: 'row'}} >
@@ -40,9 +37,6 @@ class HeaderTableCustomer extends React.Component {
                         {localize('Serial', language)}
                             </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{flex:1, flexDirection: 'row' }} >
@@ -52,9 +46,6 @@ class HeaderTableCustomer extends React.Component {
                         {localize('Created On', language)}
                             </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
 
                 {/* ----- 4 ------ */}
@@ -65,9 +56,6 @@ class HeaderTableCustomer extends React.Component {
                         {localize('Value', language)}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
             </View>
 
@@ -82,8 +70,6 @@ const styles = StyleSheet.create({
     tableHeader: {
         height: scaleSize(40),
         backgroundColor: '#F1F1F1',
-        // borderWidth: 0.5,
-        // borderColor: '#C5C5C5',
         flexDirection: 'row'
     },
     textTableHeader: {

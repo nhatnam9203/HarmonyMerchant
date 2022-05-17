@@ -153,14 +153,6 @@ export const Layout = ({ ...props }) => {
 
       <View style={styles.container}>
         <View style={styles.content}>
-          {/* <FormLabelSwitch
-            label={t('Required value')}
-            style={[layouts.vertical, layouts.verticalCenterLeft]}
-            textStyle={styles.textStyle}
-            onValueChange={form?.handleChange('required')}
-            defaultValue={form?.values?.required}
-          /> */}
-
           <FormInput
             label={t("Attribute Label")}
             placeholder={t("Enter attribute label")}
@@ -170,16 +162,6 @@ export const Layout = ({ ...props }) => {
           />
         </View>
         <View style={styles.content}>
-          {/* <FormLabelSwitch
-            label={t("Update product image")}
-            style={[layouts.vertical, layouts.verticalCenterLeft]}
-            textStyle={styles.textStyle}
-            onValueChange={(val) =>
-              form?.setFieldValue("updateProductImage", val)
-            }
-            defaultValue={item?.updateProductImage}
-          /> */}
-
           <FormSelect
             label={t("Input type")}
             filterItems={AttributesInputTypes}

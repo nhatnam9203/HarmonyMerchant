@@ -143,21 +143,6 @@ export const useProps = ({ params: { reload } }) => {
     }
   }, [productItemGet?.data]);
 
-  // React.useEffect(() => {
-  //   const { codeStatus, data } = product || {};
-  //   if (statusSuccess(codeStatus)) {
-  //     NavigationServices.navigate("retailer.inventory.product.edit", {
-  //       isEdit: true,
-  //       item: data ?? productSelected,
-  //     });
-  //   } else {
-  //     NavigationServices.navigate("retailer.inventory.product.edit", {
-  //       isEdit: true,
-  //       item: productSelected,
-  //     });
-  //   }
-  // }, [product]);
-
   useFocusEffect(
     React.useCallback(() => {
       callGetProductList();
@@ -183,21 +168,8 @@ export const useProps = ({ params: { reload } }) => {
   };
 
   const onResultScanCode = (data) => {
-    // NavigationServices.navigate("retailer.inventory.product.edit", {
-    //   isNew: true,
-    //   productBarcode: data,
-    // });
 
     if (data) {
-      // getInventoryList({
-      //   key: searchVal ?? "",
-      //   page: page,
-      //   filters: {
-      //     ...(category >= 0 && { categoryId: category }),
-      //     ...(needToOrder && { needToOrder }),
-      //     barCode: "1111111",
-      //   },
-      // });
       getProductsByBarcode(data);
     }
   };
@@ -211,9 +183,6 @@ export const useProps = ({ params: { reload } }) => {
       });
     },
     onEditProduct: (item) => {
-      // Hay lam :))
-      // setProductSelected(item);
-      // getProducts(item?.productId);
       NavigationServices.navigate("retailer.inventory.product.edit", {
         isEdit: true,
         item,

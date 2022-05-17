@@ -61,8 +61,6 @@ export const useProps = ({ params: { item } }) => {
   React.useEffect(() => {
     const productId = item?.productId;
     if (productId) {
-      // getProducts(productId);
-      // getAdjustHistoryList(productId);
       setPage(1);
       getAdjustPendingList(productId);
     }

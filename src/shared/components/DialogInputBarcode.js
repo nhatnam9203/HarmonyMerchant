@@ -4,9 +4,7 @@ import { colors, fonts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
-/**
- * Không có còn sử dụng
- */
+
 export const DialogInputBarcode = React.forwardRef(
   ({ onInputBarcode, loading }, ref) => {
     const { t } = useTranslation();

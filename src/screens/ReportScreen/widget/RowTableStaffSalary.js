@@ -82,27 +82,8 @@ class RowTableStaffSalary extends React.Component {
                     <ScrollView
                         scrollEnabled={false}
                         contentContainerStyle={{ flex: 1 }}
-                        // keyExtractor={(item, index) => index + ''}
                         horizontal
                         keyboardShouldPersistTaps="always"
-                    // showsHorizontalScrollIndicator={false}
-                    // data={staff.salariesByDate}
-                    // renderItem={({ item }) => {
-                    //     return (
-                    //         <View style={{
-                    //             width: scaleSize(100), flexDirection: 'row',
-                    //         }} >
-                    //             <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
-                    //                 <Text style={styles.textTableHeader} >
-                    //                     {`$ ${item.salary}`}
-                    //                 </Text>
-                    //             </View>
-                    //             <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                    //                 <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    //             </View>
-                    //         </View>
-                    //     )
-                    // }}
                     >
                         {staff.salariesByDate.map((item, index) => {
 

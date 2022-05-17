@@ -153,7 +153,6 @@ export default function StaffDurationTab({
           formatKeys={{ differenceDurationMinute: "hhmm" }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
-          // onRowPress={onRowPress}
           onRefresh={onRefresh}
           isRefreshing={isRefreshing}
           onLoadMore={onLoadMore}
@@ -162,7 +161,6 @@ export default function StaffDurationTab({
       </ReportTabLayout>
 
       <PopupStaffInvoicePrint
-        // ref={this.invoicePrintRef}
         visiblePrintInvoice={showStaffInvoicePrint}
         onRequestClose={cancelStaffInvoicePrint}
         staff={currentStaff}

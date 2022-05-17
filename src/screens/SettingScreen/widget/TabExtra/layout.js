@@ -103,19 +103,6 @@ class Layout extends React.Component {
                         </View>
                     </View>
                     <View style={{ width: scaleSize(170), alignItems: 'flex-end' }} >
-                        {/* <ButtonCustom
-                            width={'90%'}
-                            height={40}
-                            backgroundColor="#F1F1F1"
-                            title={localize('Add New', language)}
-                            textColor="#6A6A6A"
-                            onPress={this.showModalAddExtra}
-                            style={{
-                                borderWidth: 1, borderColor: '#C5C5C5',
-                                backgroundColor: '#0764B0'
-                            }}
-                            styleText={{ fontSize: scaleSize(15), fontWeight: '500', color: '#fff' }}
-                        /> */}
                     </View>
                 </View>
             </View>

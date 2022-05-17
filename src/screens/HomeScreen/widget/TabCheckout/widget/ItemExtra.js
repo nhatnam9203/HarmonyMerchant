@@ -11,22 +11,6 @@ import ICON from "@resources";
 
 const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointment, appointmentDetail }) => {
 
-    // const [source, setSource] = useState({
-    //     uri: extra.imageUrl,
-    //     priority: FastImage.priority.low,
-    //     cache: FastImage.cacheControl.immutable
-    // });
-
-    // useEffect(() => {
-    //     if (source?.uri && source?.uri !== extra.imageUrl) {
-    //         setSource({
-    //             uri: extra.imageUrl,
-    //             priority: FastImage.priority.low,
-    //             cache: FastImage.cacheControl.immutable
-    //         })
-    //     }
-    // }, [extra?.imageUrl])
-
     let isSelect = false;
     if (arrSelectedExtra && arrSelectedExtra.length > 0) {
         for (let i = 0; i < arrSelectedExtra.length; i++) {

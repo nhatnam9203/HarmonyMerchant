@@ -90,18 +90,6 @@ class PopupInvoice extends React.Component {
       checkoutPayments: checkoutPayments,
       promotionNotes,
     });
-    // const { paymentMachineType, printerSelect } = this.props;
-    // setTimeout(() => {
-    //   if (paymentMachineType == "Clover") {
-    //     if (printerSelect) {
-    //       this.doPrint();
-    //     } else {
-    //       this.doPrintClover();
-    //     }
-    //   } else {
-    //     this.doPrint();
-    //   }
-    // }, 1000);
   };
 
   doPrint = async () => {

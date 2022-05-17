@@ -78,9 +78,6 @@ class Layout extends React.Component {
                         marginBottom: scaleSize(50),
                       }}
                     >
-                      {/* {isLoadMoreMarketList ? (
-                    <ActivityIndicator size="large" color="#0764B0" />
-                  ) : null} */}
                     </View>
                   )}
                 />

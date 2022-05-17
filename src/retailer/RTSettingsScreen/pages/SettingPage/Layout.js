@@ -51,11 +51,6 @@ export const Layout = ({
             active={active}
             onPress={setActive}
           />
-          {/* <ItemDrawer
-            {...SettingPaymentPage}
-            active={active}
-            onPress={setActive}
-          /> */}
           <ItemDrawer {...SettingTaxPage} active={active} onPress={setActive} />
           <ItemDrawer
             {...SettingHardwarePage}

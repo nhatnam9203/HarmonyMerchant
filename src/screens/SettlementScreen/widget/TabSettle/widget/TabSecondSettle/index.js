@@ -277,32 +277,6 @@ class TabSecondSettle extends Layout {
                     const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
                     const responseData = [];
 
-                    //Close check duplicate transactions when close batch
-                    // if (creditCount != paymentTransaction) {
-                    //     this.props.actions.app.loadingApp();
-                    //     try {
-                    //         for (let i = 1; i <= creditCount; i++) {
-                    //             let data = await PosLinkReport.reportTransaction({
-                    //                 transType: "LOCALDETAILREPORT",
-                    //                 edcType: "ALL",
-                    //                 cardType: "",
-                    //                 paymentType: "",
-                    //                 commType: commType,
-                    //                 destIp: tempIpPax,
-                    //                 portDevice: tempPortPax,
-                    //                 timeoutConnect: "90000",
-                    //                 bluetoothAddr: idBluetooth,
-                    //                 refNum: `${i}`
-                    //             });
-                    //             let result = JSON.parse(data);
-                    //             responseData.push(result);
-                    //         }
-                    //     } catch (error) {
-                    //         this.setState({errorMessage: "Get report error"})
-                    //         this.props.actions.app.stopLoadingApp();
-                    //         // console.log("---- error: ", error);
-                    //     }
-                    // };
                     this.props.actions.app.stopLoadingApp();
                     this.setState({errorMessage: "Begin close batch"})
 

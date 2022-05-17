@@ -257,20 +257,10 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
       setAppointmentInfo(appointment);
       setPaymentMachineType(machineType);
 
-      //   await setIsProcessingPrint(true);
-
       // show modal
       await setVisible(true);
     },
   }));
-
-  //   React.useEffect(() => {
-  //     const { codeStatus, data } = groupAppointmentData || {};
-  //     if (statusSuccess(codeStatus)) {
-  //       setGroupAppointment(data);
-  //       setIsProcessingPrint(false);
-  //     }
-  //   }, [groupAppointmentData]);
 
   return (
     <Modal visible={visible} onRequestClose={() => {}} transparent={true}>

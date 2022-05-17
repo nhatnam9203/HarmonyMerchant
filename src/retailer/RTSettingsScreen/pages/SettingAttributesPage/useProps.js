@@ -43,11 +43,6 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // React.useEffect(() => {
-  //   if (reload || reloadPage) callGetAttributesList();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [reload, reloadPage]);
-
   useFocusEffect(
     React.useCallback(() => {
       if (reload || reloadPage) callGetAttributesList();

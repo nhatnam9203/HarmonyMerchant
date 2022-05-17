@@ -797,22 +797,6 @@ const PromotiomDetail = forwardRef(
       noEndDate,
     ]);
 
-    // React.useEffect(() => {
-    //   if (isHandleEdit) setIsChangePromotion(true);
-    // }, [
-    //   title,
-    //   endDate,
-    //   endTime,
-    //   actionTags,
-    //   condition,
-    //   merchant,
-    //   promotionType,
-    //   promotionValue,
-    //   useDefaultContent,
-    //   conditionServiceProductTags,
-    //   noEndDate,
-    // ]);
-
     return (
       <View
         style={{
@@ -894,18 +878,6 @@ const PromotiomDetail = forwardRef(
                 />
                 <View style={{ width: scaleSize(25) }} />
                 {/* ---------  Start Time ------ */}
-                {/* <Dropdown
-                    label={"h:mm"}
-                    data={WorkingTime}
-                    value={startTime}
-                    onChangeText={setStartTime}
-                    containerStyle={{
-                      borderWidth: 1,
-                      borderColor: "#DDDDDD",
-                      flex: 1,
-                    }}
-                    itemCount={WorkingTime.length}
-                  /> */}
                 <CustomTimePicker
                   editable={true}
                   defaultValue={startTime}
@@ -927,10 +899,6 @@ const PromotiomDetail = forwardRef(
                         editable={false}
                         placeholder="--:--"
                         value={getWorkingTime(startTime)}
-                        // editable={false}
-                        // onChangeText={(txt) => {
-                        //   setStartTime(txt);
-                        // }}
                         style={{
                           flex: 1,
                           fontSize: scaleSize(14),
@@ -1133,23 +1101,6 @@ const PromotiomDetail = forwardRef(
                 </View>
               </View>
 
-              {/* ---------  Promotion type ------ */}
-              {/* <Text
-                style={[
-                  styles.txt_tit,
-                  { marginBottom: scaleSize(10), marginTop: scaleSize(20) },
-                ]}
-              >
-                {`Active`}
-              </Text>
-
-              <Switch
-                trackColor={{ false: "#767577", true: "#0764B0" }}
-                ios_backgroundColor="#E5E5E5"
-                value={isDisabled}
-                onValueChange={setIsDisabled}
-              /> */}
-
               {/* ---------  Promotion Manual ------ */}
               <Text
                 style={[
@@ -1183,7 +1134,6 @@ const PromotiomDetail = forwardRef(
                     styles.txt_date,
                     {
                       marginLeft: scaleSize(18),
-                      // marginBottom: scaleSize(10),
                     },
                   ]}
                 >
@@ -1208,17 +1158,6 @@ const PromotiomDetail = forwardRef(
                 />
                 <View style={{ width: scaleSize(25) }} />
                 {/* ---------  End Time ------ */}
-                {/* <Dropdown
-                    label={"h:mm"}
-                    data={WorkingTime}
-                    value={endTime}
-                    onChangeText={setEndTime}
-                    containerStyle={{
-                      borderWidth: 1,
-                      borderColor: "#DDDDDD",
-                      flex: 1,
-                    }}
-                  /> */}
                 <CustomTimePicker
                   editable={true}
                   defaultValue={endTime}
@@ -1575,11 +1514,6 @@ const PromotiomDetail = forwardRef(
                 <Slider
                   value={value}
                   onValueChange={hanldeSliderValue}
-                  // onSlidingStart={() => {
-                  //   alert(
-                  //     "List filters customers will change!, Do you want do it."
-                  //   );
-                  // }}
                   onSlidingComplete={onHandleSlideComplete}
                   trackStyle={{
                     height: scaleSize(10),
@@ -1671,7 +1605,6 @@ const PromotiomDetail = forwardRef(
         {/* --------------- Footer ---------------- */}
         <View
           style={{
-            // width: scaleSize(250),
             height: scaleSize(50),
             position: "absolute",
             bottom: scaleSize(0),

@@ -88,16 +88,12 @@ const getDateRange = (title, timeUrl) => {
       return {
         since: currentDate.valueOf(),
         valueFormatter: [currentDate.clone().format(DATE_FORMAT)],
-        // start: currentDate.format("MM/DD/YYYY"),
-        // end: currentDate.format("MM/DD/YYYY"),
       };
     case "Yesterday":
       const yesterday = currentDate.clone().subtract(1, "days");
       return {
         since: yesterday.valueOf(),
         valueFormatter: [yesterday.format(DATE_FORMAT)],
-        // start: yesterday.format("MM/DD/YYYY"),
-        // end: currentDate.format("MM/DD/YYYY"),
       };
     case "This Week":
       const weekStart = currentDate.clone().startOf("isoweek");
@@ -358,15 +354,6 @@ export default function GiftCardBarGroupChart({
             legend={legend}
             entryLabelTextSize={14}
             touchEnabled={false}
-            // dragEnabled={true}
-            // scaleEnabled={true}
-            // scaleXEnabled={true}
-            // scaleYEnabled={true}
-            // pinchZoom={true}
-            // doubleTapToZoomEnabled={false}
-            // dragDecelerationEnabled={false}
-            // dragDecelerationFrictionCoef={0.99}
-            // zoom={{ scaleX: 1, scaleY: 1, xValue: 0, yValue: 0 }}
             highlightFullBarEnabled={false}
           />
         )}
@@ -382,7 +369,6 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
-    // paddingHorizontal: 20,
   },
   amountContent: {
     position: "absolute",

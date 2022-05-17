@@ -43,7 +43,6 @@ export const AppLoading = ({
   return isLoading ? (
     <View style={styles.container}>
       <View style={styles.loadingBg}>
-        {/* <ActivityIndicator color="#fff" size="large" /> */}
         <Spinner
           style={styles.spinner}
           type={"FadingCircle"}

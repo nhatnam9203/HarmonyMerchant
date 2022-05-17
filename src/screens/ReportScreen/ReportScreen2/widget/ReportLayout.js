@@ -92,7 +92,6 @@ function ReportLayout(
     } else {
       const filter = quickFilter === false ? "This Week" : quickFilter;
       url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-      // console.log("getFilterTimeParams > url", url);
     }
 
     return url;
@@ -102,7 +101,6 @@ function ReportLayout(
   const getTimeTitle = () => {
     const { isCustomizeDate, startDate, endDate, quickFilter } =
       modalCalendarRef.current?.state;
-    // console.log("getFilterTimeParams > getTimeTitle", quickFilter);
 
     const filter = quickFilter === false ? "This Week" : quickFilter;
     let title = `${filter}`;
@@ -218,7 +216,6 @@ function ReportLayout(
         onRequestClose={() => setVisiblePopupLoadingExport(false)}
         language={language}
         typeFile={fileExportType === "excel" ? "EXCEL" : "CSV"}
-        // typeFile={typeFile === "pdf" ? "PDF" : "Excel"}
       />
     </View>
   );

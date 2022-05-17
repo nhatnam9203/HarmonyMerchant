@@ -64,18 +64,12 @@ class HeaderTableService extends React.Component {
                     <View style={{
                         width: scaleSize(160), flexDirection: 'row',
                     }} >
-                        {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
                             <Text style={styles.textTableHeader} >
 
                             {localize('Service Name', language)}
                             </Text>
                         </View>
-                        {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                     </View>
                     {/* ----- 3 ------ */}
                     <View style={{
@@ -87,9 +81,6 @@ class HeaderTableService extends React.Component {
                             {localize('Categories', language)}
                             </Text>
                         </View>
-                        {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                     </View>
                     {/* ----- 4 ----- */}
                     <View style={{
@@ -101,9 +92,6 @@ class HeaderTableService extends React.Component {
                                 {localize('Status', language)}
                             </Text>
                         </View>
-                        {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                     </View>
                     {/* ----- 5 ------ */}
                     <View style={[{

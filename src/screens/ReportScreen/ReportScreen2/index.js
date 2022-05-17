@@ -84,8 +84,6 @@ function ReportScreen2({ showBackButton }, ref) {
 
           break;
       }
-      // scrollTabRef?.current?.goToFirstTab();
-      // setTabIndex(0);
     },
     didFocus: () => {
       switch (tabIndex) {

@@ -175,12 +175,6 @@ export const useProps = ({
     reloadCategory();
   }, [categories]);
 
-  // React.useEffect(() => {
-  //   if (item?.productId) {
-  //     getProducts(item?.productId);
-  //   }
-  // }, [item?.productId]);
-
   return {
     isEdit,
     isNew,

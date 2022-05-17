@@ -55,10 +55,7 @@ export const Layout = ({
   }) => {
     if (columnKey === "isChecked") {
       const onChangeSettingPermission = (val) => {
-        // console.log(cellItem);
-        // if (val === cellItem.isChecked) {
-        //   return;
-        // }
+        
         onChangePermissionRole(Object.assign({}, cellItem, { isChecked: val }));
       };
 

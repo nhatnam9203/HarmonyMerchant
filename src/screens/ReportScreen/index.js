@@ -90,11 +90,7 @@ class ReportScreen extends Layout {
 
   changeTitleTimeRange = async (title) => {
     return;
-    // await this.setState({
-    //   titleRangeTime: title !== "Time Range" ? title : "All time",
-    //   visibleCalendar: false,
-    // });
-    // this.searchStaff();
+  
   };
   setPosition = (dx) => {
     this.props.actions.staff.setPositionHeader(dx);

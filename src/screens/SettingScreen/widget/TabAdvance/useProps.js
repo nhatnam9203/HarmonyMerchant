@@ -22,26 +22,6 @@ export const useProps = (props) => {
 
   const [isCashDiscount, setIsCashDiscount] = React.useState(null);
 
-  // const [, getAdvance] = useAxiosQuery({
-  //   ...getAdvanceSetting(),
-  //   enabled: false,
-  //   onSuccess: (data, response) => {
-  //     if (data) {
-  //       setData(data);
-  //       setDataLocal(data);
-  //       setCashStarRate(data?.CashStarRate);
-  //       setCreditCardStarRate(data?.CreditCardStarRate);
-  //       setHarmonyPayStarRate(data?.HarmonyPayStarRate);
-  //       setOtherStarRate(data?.OtherStarRate);
-
-  //       setIsCashDiscount(data?.IsCashDiscount);
-  //     }
-  //   },
-  //   onError: (e) => {
-  //     console.log(e);
-  //   },
-  // });
-
   const [, editAdvance] = useAxiosMutation({
     ...editAdvanceSetting(advanceSetting),
     onSuccess: (data, response) => {

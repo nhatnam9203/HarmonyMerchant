@@ -130,14 +130,11 @@ function StaffTab(
   useImperativeHandle(ref, () => ({
     goBack: () => {
       layoutRef.current?.goBack();
-      // dispatch(actions.staff.resetDownloadExportFiles());
     },
     getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
     didBlur: async () => {
-      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
     },
     didFocus: async () => {
-      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
@@ -151,10 +148,6 @@ function StaffTab(
   const loadMoreData = () => {
     getListStaffsSalaryTop(nextPage);
   };
-
-  // React.useEffect(() => {
-  //   getListStaffsSalaryTop();
-  // }, []);
 
   useFocusEffect(
     React.useCallback(() => {

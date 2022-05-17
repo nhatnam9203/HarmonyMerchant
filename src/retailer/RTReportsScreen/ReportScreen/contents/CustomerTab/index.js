@@ -74,11 +74,6 @@ export const CustomerTab = React.forwardRef(
   |--------------------------------------------------
   */
 
-    // React.useEffect(() => {
-    //   callGetReportCustomer();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [timeVal, sortName]);
-
     useFocusEffect(
       React.useCallback(() => {
         callGetReportCustomer();

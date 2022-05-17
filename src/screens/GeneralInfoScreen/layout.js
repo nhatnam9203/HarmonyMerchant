@@ -122,7 +122,6 @@ export default class Layout extends React.Component {
             {/**Merchant Type  */}
             <View style={{ width: scaleWidth(300) }}>
               <FormSelect
-                // filterRef={visibilitySelectRef}
                 required={false}
                 label={`${localize("Merchant type", language)}* `}
                 filterItems={MERCHANT_TYPES}
@@ -252,9 +251,6 @@ export default class Layout extends React.Component {
                   onChangeText={(value) =>
                     this.updateGeneralInfo("zip", value, "businessAddress")
                   }
-                  // keyboardType="numeric"
-                  // maxLength={10}
-                  //isOnlyNumber={true}
                   onFocus={() => this.scrollGeneralTo(310)}
                 />
               </View>
@@ -356,8 +352,6 @@ export default class Layout extends React.Component {
                     this.updateGeneralInfo("zip", value, "dbaAddress")
                   }
                   maxLength={10}
-                  // keyboardType="numeric"
-                  //isOnlyNumber={true}
                   onFocus={() => this.scrollGeneralTo(425)}
                   editable={!isDBAAddress}
                 />

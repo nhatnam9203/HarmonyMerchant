@@ -132,9 +132,6 @@ export const Layout = ({
               ]}
             >
               {cellItem?.barCode}
-              {/* {!!cellItem?.barCode && (
-                <ButtonPrintBarcode barCode={cellItem?.barCode} />
-              )} */}
             </Text>
           </View>
         );
@@ -166,11 +163,9 @@ export const Layout = ({
             width={scaleWidth(120)}
             height={scaleHeight(40)}
             fontSize={scaleFont(17)}
-            // textColor={colors.WHITE}
             textWeight="normal"
             onPress={onHandleQuantity}
           >
-            {/* <Image source={IMAGE.back} /> */}
           </ButtonGradientWhite>
           <View style={layouts.marginHorizontal} />
 
@@ -227,13 +222,8 @@ export const Layout = ({
               >
                 <ButtonPrintBarcode
                   product={productItem}
-                  // barCode={productItem?.barCode}
                 />
               </ProductInfoLine>
-              {/* <ProductInfoLine
-                label={t("Price")}
-                infoValue={`${formatMoneyWithUnit(productItem?.price)}`}
-              /> */}
 
               {productItem?.quantities?.length > 0 ? (
                 <ProductInfoLine
@@ -320,54 +310,6 @@ export const Layout = ({
               onRowPress={() => {}}
             />
           )}
-
-          {/* <FormTitle label={t("Restock History")}>
-            <View style={styles.headLabelButton}>
-              <RestockButton
-                label={t("Restock")}
-                width={scaleWidth(100)}
-                height={scaleHeight(32)}
-                textColor={colors.BROWNISH_GREY}
-                fontSize={scaleFont(15)}
-                onPress={onSubmitRestock}
-              />
-            </View>
-          </FormTitle>
-          {productItem?.restockHistory && (
-            <Table
-              key={"table-restock"}
-              tableStyle={styles.tableProductVersion}
-              items={productItem?.restockHistory}
-              headerKeyLabels={{
-                createdDate: t("Date time"),
-                staffName: t("Staff"),
-                reason: t("Reason"),
-                adjustQuantity: t("Adjusted qty"),
-                quantity: t("Items in stock"),
-              }}
-              whiteListKeys={[
-                "createdDate",
-                "staffName",
-                "reason",
-                "adjustQuantity",
-                "quantity",
-              ]}
-              widthForKeys={{
-                createdDate: scaleWidth(250),
-                staffName: scaleWidth(150),
-                reason: scaleWidth(250),
-                adjustQuantity: scaleWidth(150),
-                quantity: scaleWidth(150),
-              }}
-              primaryKey="id"
-              emptyDescription={t("No Restock History")}
-              formatFunctionKeys={{
-                createdDate: (value) =>
-                  dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
-              }}
-              onRowPress={() => {}}
-            />
-          )} */}
         </View>
       </KeyboardAwareScrollView>
     </View>

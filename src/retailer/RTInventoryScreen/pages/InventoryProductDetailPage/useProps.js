@@ -34,12 +34,6 @@ export const useProps = ({ params: { item } }) => {
   | USE EFFECT
   |--------------------------------------------------
   */
-  // React.useEffect(() => {
-  //   console.log(item);
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [item?.productId]);
-
   useFocusEffect(
     React.useCallback(() => {
       if (item?.productId) getProducts(item?.productId);

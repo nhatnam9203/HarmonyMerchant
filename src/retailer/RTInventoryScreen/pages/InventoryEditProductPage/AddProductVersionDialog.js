@@ -67,22 +67,6 @@ export const AddProductVersionDialog = ({
   | CALL API
   |--------------------------------------------------
   */
-  // const [attributesList, getAttributesList] = useGetAttributesList();
-
-  // // chỗ này parent sẽ gọi
-  // React.useEffect(() => {
-  //   const { codeStatus, data } = attributesList || {};
-  //   if (statusSuccess(codeStatus)) {
-  //     setOptions(
-  //       attributesList?.data
-  //         ?.filter(
-  //           (v) =>
-  //             defaultOptionsId?.findIndex((x) => x.attributeId === v.id) < 0
-  //         )
-  //         .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 })) // cái này lấy từ attribute list về
-  //     );
-  //   }
-  // }, [attributesList]);
 
   const onShowDialog = () => {
     setSelectedItems([]);
@@ -178,11 +162,6 @@ export const AddProductVersionDialog = ({
             ListFooterComponent={onRenderFooterComponent}
             ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
             ListEmptyComponent={() => <View></View>}
-            // refreshControl={
-            //   <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-            // }
-            // onEndReachedThreshold={0.1}
-            // onEndReached={onHandleLoadMore}
           />
           {isExistItem && (
             <Text
@@ -226,7 +205,6 @@ const styles = StyleSheet.create({
   },
 
   list: {
-    // height: scaleHeight(400),
     maxHeight: scaleHeight(400),
     minHeight: scaleHeight(100),
     width: "100%",
@@ -235,13 +213,11 @@ const styles = StyleSheet.create({
 
   item: {
     width: scaleWidth(440),
-    // height: scaleHeight(48),
     backgroundColor: colors.WHITE,
     paddingHorizontal: scaleWidth(30),
   },
 
   itemSeparator: {
-    // backgroundColor: "#dddddd",
     height: scaleHeight(8),
   },
 

@@ -17,7 +17,6 @@ class Layout extends React.Component {
       <View style={{ height: scaleSize(130), padding: scaleSize(10) }}>
         <View style={{ alignItems: "center" }}>
           <Text style={{ color: "#DB7D2A", fontSize: scaleSize(16) }}>
-            {/* {progress === 1 ? 'Batch Settlement Successful' : ''} */}
             {`Batch Settlement is in progressing`}
           </Text>
         </View>
@@ -235,19 +234,6 @@ class Layout extends React.Component {
           }}
           value={discount}
         />
-        {/* {
-                    returnAmount != 0 &&
-                    <ItemPaymentsReport
-                        title="Return Amount"
-                        backgroundColor="#F1F1F1"
-                        txtStyle={{
-                            color: "#404040",
-
-                        }}
-                        value={` ${-returnAmount}`}
-                    />
-                } */}
-
         <View style={{ height: 1 }} />
         <ItemPaymentsReport
           title="Total"

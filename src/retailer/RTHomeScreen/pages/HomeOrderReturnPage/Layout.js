@@ -51,7 +51,6 @@ export const Layout = ({
           style={[layouts.horizontal, { width: cellWidth }, styles.cellStyle]}
         >
           <CustomTableCheckBox
-            //  value={defaultValue}
             onValueChange={handleCheckRow}
           />
           <FastImage
@@ -212,7 +211,6 @@ export const Layout = ({
           <View style={styles.container}>
             <FormTitle label={t("Items To Return")} />
             <Table
-              // items={item?.products?.filter((x) => !x.isReturn) || []}
               items={
                 [
                   ...(item?.products?.map((x) =>
@@ -261,8 +259,6 @@ export const Layout = ({
                 total: (value) => `${formatMoneyWithUnit(value)}`,
               }}
               renderCell={onRenderCell}
-              // onRowPress={onSelectRow}
-              // draggable={true}
               renderFooterComponent={() => (
                 <View style={{ height: scaleHeight(10) }} />
               )}
@@ -321,17 +317,7 @@ export const Layout = ({
               <View style={layouts.marginHorizontal} />
 
               <InfoContent label={t("Return Comments")}>
-                {/* <CustomCheckBox
-                label={t("Return shipping and tip")}
-                onValueChange={setToggleReturnShipping}
-                selectedColor={colors.OCEAN_BLUE}
-                onCheckColor="#fff"
-                textStyle={[styles.textStyle, { color: colors.OCEAN_BLUE }]}
-                style={{ height: scaleHeight(40) }}
-              /> */}
                 <FormEditNotes
-                  // defaultValue={item?.note}
-                  // onSubmitNotes={onSubmitNotes}
                   isShowButtonSubmit={false}
                   onChangeValue={setNotes}
                 />
@@ -340,15 +326,6 @@ export const Layout = ({
           </View>
         </KeyboardAwareScrollView>
         <View style={styles.buttonContent}>
-          {/* <ButtonGradientWhite
-          // onPress={buttonCancelPress}
-          label={t("return").toUpperCase()}
-          width={scaleWidth(400)}
-          height={scaleHeight(60)}
-          textColor={colors.GREYISH_BROWN}
-          fontSize={scaleFont(25)}
-          fontWeight="500"
-        /> */}
           <ButtonGradient
             label={t("return").toUpperCase()}
             width={scaleWidth(400)}
@@ -461,7 +438,6 @@ const styles = StyleSheet.create({
 
   infoLineContent: {
     flexDirection: "row",
-    // justifyContent: 'space-between',
     alignItems: "center",
     paddingVertical: scaleHeight(7),
   },

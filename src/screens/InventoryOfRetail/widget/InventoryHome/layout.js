@@ -105,7 +105,6 @@ class Layout extends React.Component {
                         </View>
                         <View style={{ width: scaleSize(35), alignItems: 'center', justifyContent: 'center' }} >
                             <Image source={ICON.filter}
-                            // style={{width:scaleSize(22),hieght:scaleSize(22)}}
                             />
                         </View>
                     </Button>
@@ -191,13 +190,6 @@ class Layout extends React.Component {
                         title={"Image"}
                         style={{ flex: 1 }}
                     />
-                    {/* <View style={{ flex: 1, backgroundColor: "red" }} >
-                        <Text
-                            style={styles.txt_tbl_header_col}
-                        >
-                            {`Image`}
-                        </Text>
-                    </View> */}
                     <TableHeaderColumn
                         title={"Product Name"}
                         style={{ flex: 2 }}
@@ -229,7 +221,6 @@ class Layout extends React.Component {
                 </View>
 
                 <Button
-                    //  onPress={this.goToOrderRetailDetail(item)}
                     style={styles.order_item} >
                     {/* -------------- Image's Inventor ----------- */}
                     <View style={{ flex: 1 }} >
@@ -256,7 +247,6 @@ class Layout extends React.Component {
                         value={'77'}
                     />
                     <OrderItemColumn
-                        // value={item?.status}
                         style={{ flex: 1.1, }}
                         value={'26'}
                     />

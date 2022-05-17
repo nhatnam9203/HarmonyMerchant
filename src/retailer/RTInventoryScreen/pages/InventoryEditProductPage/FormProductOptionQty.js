@@ -100,7 +100,6 @@ export const FormProductOptionQty = ({
               width={scaleWidth(40)}
               fontSize={scaleWidth(9)}
               iconSize={scaleWidth(18)}
-              // label={cellItem?.label}
               onSetFileId={onChangeFile}
               defaultValue={cellItem?.imageUrl}
             />
@@ -174,7 +173,6 @@ export const FormProductOptionQty = ({
               }}
               formatText={(txt) => {
                 const temp = txt.replace(/[^0-9]/g, "") ?? "";
-                // console.log(temp);
                 return temp;
               }}
             />
@@ -241,18 +239,6 @@ export const FormProductOptionQty = ({
             style={{ width: cellWidth }}
             key={getUniqueId(columnKey, rowIndex, "cell-value-cost")}
           >
-            {/* <CustomInputMoney
-              style={[styles.customInput, { width: scaleWidth(110) }]}
-              textInputProps={{
-                placeholder: "Price",
-                fontSize: scaleFont(15),
-                textAlign: "left",
-                defaultValue: cellItem?.costPrice || 0,
-                onChangeText: onHandleChangeCostPrice,
-                keyboardType: "numeric",
-              }}
-            /> */}
-
             <InputMoney
               width={scaleWidth(110)}
               height={scaleHeight(40)}
@@ -260,7 +246,6 @@ export const FormProductOptionQty = ({
               textAlign="center"
               value={`${cellItem?.costPrice}`}
               onChangeText={onHandleChangeCostPrice}
-              // editable={!applyToCost}
             />
           </View>
         );
@@ -280,18 +265,6 @@ export const FormProductOptionQty = ({
             style={{ width: cellWidth }}
             key={getUniqueId(columnKey, rowIndex, "cell-value-addition")}
           >
-            {/* <CustomInputMoney
-              style={[styles.customInput, { width: scaleWidth(110) }]}
-              textInputProps={{
-                placeholder: "Price",
-                fontSize: scaleFont(15),
-                textAlign: "left",
-                defaultValue: cellItem?.price || 0,
-                onChangeText: onHandleChangeAdditionalPrice,
-                keyboardType: "numeric",
-              }}
-            /> */}
-
             <InputMoney
               width={scaleWidth(110)}
               height={scaleHeight(40)}
@@ -299,7 +272,6 @@ export const FormProductOptionQty = ({
               textAlign="center"
               value={`${cellItem?.price}`}
               onChangeText={onHandleChangeAdditionalPrice}
-              // editable={!applyToCost}
             />
           </View>
         );
@@ -518,7 +490,6 @@ const styles = StyleSheet.create({
   flatListContainer: {
     justifyContent: "flex-start",
     flexDirection: "row",
-    // flexWrap: 'wrap',
   },
 
   itemSeparator: {
@@ -526,7 +497,6 @@ const styles = StyleSheet.create({
   },
 
   optionImage: {
-    // marginHorizontal: scaleWidth(15),
   },
 
   imageStyle: {

@@ -30,7 +30,6 @@ function HeaderTabLayout(
   ref
 ) {
   /**process */
-  // const [tabCurrent, changeTabCurrent] = useState(SCROLL_PAGE_DEFAULT);
 
   const scrollableTabRef = useRef(null);
 
@@ -43,7 +42,6 @@ function HeaderTabLayout(
 
   /**render */
   const renderHeaderTab = (args) => {
-    // return <View />;
     return <CustomTabBar {...args} tabIcons={tabIcons} />;
   };
 

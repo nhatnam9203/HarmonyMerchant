@@ -51,12 +51,6 @@ export const Layout = ({ openDrawer }) => {
         <Screen {...SettingNewCategoriesPage} />
         <Screen {...SettingNewStaffsPage} />
       </Navigator>
-      {/* <PermissionChecker
-        navigation={navigation}
-        tabName={menuTabs.MENU_SETTING}
-        tabPermission={tabPermission}
-        togglePopupPermission={togglePopupPermission}
-      /> */}
     </View>
   );
 };

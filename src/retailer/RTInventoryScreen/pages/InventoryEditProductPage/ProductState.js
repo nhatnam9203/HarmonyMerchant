@@ -127,7 +127,6 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, {
         options: mergeOptions,
-        // quantities: createQuantitiesItem(state, mergeOptions),
       });
 
     case PRODUCT_REMOVE_OPTION:
@@ -136,7 +135,6 @@ export const productReducer = (state = initState, action) => {
       );
       return Object.assign({}, state, {
         options: filterOptions,
-        // quantities: createQuantitiesItem(state, filterOptions),
       });
 
     case PRODUCT_CHANGE_OPTIONS:
@@ -335,8 +333,6 @@ export const productReducer = (state = initState, action) => {
       let newQuantityList =
         state?.quantities?.length > 0 ? [...state?.quantities] : [];
       let temp = createVersionFromItems(state, action.payload);
-      // console.log("====> temp");
-      // console.log(temp);
       const isExistIndex = newQuantityList?.findIndex((f) =>
         arrayIsEqual(f?.attributeIds, temp?.attributeIds)
       );
@@ -347,10 +343,8 @@ export const productReducer = (state = initState, action) => {
           needToOrder: 0,
           quantity: 0,
           tempQuantity: 0,
-          // description: isExistItem.description,
           costPrice: 0,
           price: 0,
-          // sku: isExistItem.sku,
           imageUrl: null,
           fileId: 0,
           position: isExistItem.position ?? 0,

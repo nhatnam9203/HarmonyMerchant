@@ -32,9 +32,6 @@ class RowTableCustomer extends React.Component {
                             {`${number}`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
 
                 {/* ----- 1 ------ */}
@@ -49,9 +46,6 @@ class RowTableCustomer extends React.Component {
                             {`${customer?.firstName || ""} ${customer?.lastName || ""}`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
 
                 {/* ----- 2 ----- */}
@@ -61,9 +55,6 @@ class RowTableCustomer extends React.Component {
                             {customer?.phone || ""}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
 
                 {/* ----- 3 ----- */}
@@ -73,9 +64,6 @@ class RowTableCustomer extends React.Component {
                             {customer?.email || ""}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
 
                 {/* ----- 4 ----- */}
@@ -85,9 +73,6 @@ class RowTableCustomer extends React.Component {
                             {customer?.referrerBy || ""}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
 
                 {/* ----- 5 ----- */}
@@ -97,9 +82,6 @@ class RowTableCustomer extends React.Component {
                             {customer?.referrerPhone || ""}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
             </Button>
         );

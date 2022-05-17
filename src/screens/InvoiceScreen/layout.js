@@ -137,28 +137,6 @@ export default class Layout extends React.Component {
               styleText={{ fontSize: scaleSize(15), fontWeight: "500" }}
             />
           </View>
-          {/* <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: "#C5C5C5",
-              height: scaleHeight(50),
-              width: scaleWidth(100),
-              alignItems: "center",
-              justifyContent: "center",
-              marginLeft: scaleWidth(10),
-              borderRadius: scaleSize(6),
-            }}
-            onPress={this.scanSearchInvoice}
-          >
-            <Image
-              source={IMAGE.scancode}
-              style={{
-                width: scaleWidth(30),
-                height: scaleHeight(30),
-                marginHorizontal: scaleWidth(12),
-              }}
-            />
-          </TouchableOpacity> */}
           <ScanQRButton
             width={scaleWidth(110)}
             height={scaleHeight(50)}
@@ -339,17 +317,6 @@ export default class Layout extends React.Component {
 
     let invoiceName = "";
     let isSalonApp = true;
-    // if (profile && profile?.type === "SalonPos") {
-    //   const { firstName = " ", lastName = " " } = invoiceDetail?.user || {};
-    //   invoiceName = firstName + " " + lastName;
-    //   isSalonApp = true;
-    // } else {
-    //   invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
-    //   if (!invoiceName && invoiceDetail?.user?.userId) {
-    //     invoiceName = getFullName(invoiceDetail?.user);
-    //   }
-    //   isSalonApp = false;
-    // }
 
     const checkoutPayments =
       invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
@@ -739,8 +706,6 @@ export default class Layout extends React.Component {
         <PopupReceipt
           ref={this.invoiceRef}
           invoice={invoiceDetail}
-          // doPrintClover={this.doPrintClover}
-          // cancelInvoicePrint={this.cancelInvoicePrint}
         />
       </ParentContainer>
     );

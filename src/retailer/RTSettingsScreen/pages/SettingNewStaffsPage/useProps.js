@@ -168,7 +168,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (item) {
-        // console.log(item);
         setCurrentStaff(null);
         setStaffId(item?.staffId);
         dispatch(actions.staff.getDetailStaffByMerchantId(item?.staffId));
@@ -178,8 +177,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
 
   React.useEffect(() => {
     if (staffDetail && staffId && staffId === staffDetail.staffId) {
-      // console.log(staffDetail);
-
       setCurrentStaff(staffDetail);
 
       if (staffDetail.productSalaries?.commission?.isCheck) {
@@ -228,8 +225,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     setSalary,
     SALARY_TYPE,
     onChangeStaffPermissions: (val) => {
-      // console.log(val);
-
       setStaffPermission(val);
       form.setFieldValue("roleName", val);
       if (val === "Manager") {

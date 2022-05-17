@@ -18,7 +18,6 @@ export const BottomToastMessage = ({ message }) => {
     <View style={styles.container}>
       {!!message && (
         <View style={styles.content}>
-          {/* <Icon name="warning-outline" color="red" size={scaleWidth(22)} /> */}
           <Text style={styles.text}>{message}</Text>
         </View>
       )}

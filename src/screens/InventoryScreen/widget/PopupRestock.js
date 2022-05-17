@@ -50,9 +50,6 @@ class PopupRestock extends React.Component {
     }
 
     clearNumber = async () => {
-        // this.setState(prevState => ({
-        //     quality: `${prevState.quality}`.slice(0, (`${prevState.quality}`.length) - 1)
-        // }))
         if (this.state.quality !== 0) {
             if (this.state.quality.length == 1) {
                 await this.setState({

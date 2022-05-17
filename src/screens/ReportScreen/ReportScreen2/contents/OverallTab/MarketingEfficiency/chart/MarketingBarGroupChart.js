@@ -25,7 +25,6 @@ const yAxis = {
     drawAxisLine: true,
     drawGridLines: true,
     axisMinimum: 0,
-    // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#0764B0"),
@@ -39,7 +38,6 @@ const yAxis = {
     drawAxisLine: true,
     drawGridLines: false,
     axisMinimum: 0,
-    // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#E5B960"),
@@ -105,7 +103,6 @@ export default function MarketingBarGroupChart({ data }) {
           },
         ],
         config: {
-          // BarData
           barWidth: 0.4,
           group: {
             fromX: 0,
