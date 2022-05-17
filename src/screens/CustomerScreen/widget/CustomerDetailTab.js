@@ -98,10 +98,6 @@ class CustomerDetailTab extends React.Component {
     this.props.deleteCustomer(this.state.customer);
   };
 
-  //   optionEditCustomer = () => {
-  //     this.props.optionEditCustomer(this.state.customer);
-  //   };
-
   renderHeaderFlatlist() {
     const { customerHistory, pastAppointments } = this.props;
     const upcomings = customerHistory?.upcomings || [];

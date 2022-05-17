@@ -910,9 +910,6 @@ class Layout extends React.Component {
       (!isBlockBookingFromCalendar || !isBookingFromCalendar) &&
       ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
         (blockAppointments.length && isShowAddBlock) > 0);
-    // const isShowAddButton =
-    //   (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
-    //   (blockAppointments.length && isShowAddBlock) > 0;
 
     return (
       <View style={[styles.basket_box, tempStyle]}>

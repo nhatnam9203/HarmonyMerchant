@@ -11,24 +11,6 @@ import ICON from "@resources";
 
 const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSelected, groupAppointment, appointmentDetail, isShowColAmount }) => {
 
-    // const [source, setSource] = useState({
-    //     uri: item.imageUrl,
-    //     priority: FastImage.priority.low,
-    //     cache: FastImage.cacheControl.immutable
-    // });
-
-    // useEffect(() => {
-    //     if (source?.uri && source?.uri !== item.imageUrl) {
-    //         setSource({
-    //             uri: item.imageUrl,
-    //             priority: FastImage.priority.low,
-    //             cache: FastImage.cacheControl.immutable
-    //         });
-    //     }
-
-    // }, [item?.imageUrl])
-
-
     const temptKeyId = categoryTypeSelected === 'Service' ? 'serviceId' : 'productId';
     const placeHolder = categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder;
 

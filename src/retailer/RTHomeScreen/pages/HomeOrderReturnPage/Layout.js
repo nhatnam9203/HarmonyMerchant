@@ -51,7 +51,6 @@ export const Layout = ({
           style={[layouts.horizontal, { width: cellWidth }, styles.cellStyle]}
         >
           <CustomTableCheckBox
-            //  value={defaultValue}
             onValueChange={handleCheckRow}
           />
           <FastImage
@@ -212,7 +211,6 @@ export const Layout = ({
           <View style={styles.container}>
             <FormTitle label={t("Items To Return")} />
             <Table
-              // items={item?.products?.filter((x) => !x.isReturn) || []}
               items={
                 [
                   ...(item?.products?.map((x) =>
@@ -261,8 +259,6 @@ export const Layout = ({
                 total: (value) => `${formatMoneyWithUnit(value)}`,
               }}
               renderCell={onRenderCell}
-              // onRowPress={onSelectRow}
-              // draggable={true}
               renderFooterComponent={() => (
                 <View style={{ height: scaleHeight(10) }} />
               )}
@@ -322,8 +318,6 @@ export const Layout = ({
 
               <InfoContent label={t("Return Comments")}>
                 <FormEditNotes
-                  // defaultValue={item?.note}
-                  // onSubmitNotes={onSubmitNotes}
                   isShowButtonSubmit={false}
                   onChangeValue={setNotes}
                 />
@@ -444,7 +438,6 @@ const styles = StyleSheet.create({
 
   infoLineContent: {
     flexDirection: "row",
-    // justifyContent: 'space-between',
     alignItems: "center",
     paddingVertical: scaleHeight(7),
   },

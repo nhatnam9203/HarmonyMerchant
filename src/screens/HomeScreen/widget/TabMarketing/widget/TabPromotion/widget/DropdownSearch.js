@@ -60,13 +60,6 @@ class DropdownSearch extends React.PureComponent {
     }
 
     onBlur = () => {
-        // setTimeout(() => {
-        //     this.setState({
-        //         data: []
-        //     });
-
-        //     this.props.resetMarginState && this.props.resetMarginState();
-        // }, 800);
 
     }
 
@@ -130,11 +123,5 @@ class DropdownSearch extends React.PureComponent {
         );
     }
 }
-
-// const mapStateToProps = state => {
-//     return {
-//         stateCity: state.dataLocal.stateCity
-//     };
-// };
 
 export default DropdownSearch;

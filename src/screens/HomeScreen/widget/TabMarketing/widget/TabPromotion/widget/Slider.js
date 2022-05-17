@@ -44,10 +44,6 @@ var DEFAULT_ANIMATION_CONFIGS = {
     easing: Easing.inOut(Easing.ease),
     delay: 0,
   },
-  // decay : { // This has a serious bug
-  //   velocity     : 1,
-  //   deceleration : 0.997
-  // }
 };
 
 export default class Slider extends PureComponent {

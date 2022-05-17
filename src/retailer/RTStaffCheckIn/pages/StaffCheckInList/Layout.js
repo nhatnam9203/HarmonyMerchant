@@ -156,7 +156,6 @@ export const Layout = ({
             "note",
             "actions",
           ]}
-          // sortedKeys={{ startDate: sortDate }}
           primaryKey="merchantStaffLogtimeId"
           widthForKeys={{
             merchantStaffLogtimeId: scaleWidth(50),
@@ -168,15 +167,12 @@ export const Layout = ({
             note: scaleWidth(230),
           }}
           emptyDescription={t("No sessions")}
-          // styleTextKeys={{ customerName: styles.textName }}
-          // onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             startDate: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             startTime: (value) => dateToString(value, "LT"),
             amount: (value) => `${formatMoneyWithUnit(value)}`,
           }}
           renderCell={onRenderCell}
-          // onRowPress={onSelectRow}
           onRefresh={onRefresh}
         />
       </View>

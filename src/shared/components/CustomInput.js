@@ -173,9 +173,6 @@ export const CustomInputMoney = ({
       onChangeText(value);
     }
 
-    // if (onEndEditing && typeof onEndEditing === "function") {
-    //   onEndEditing(value);
-    // }
   };
 
   React.useEffect(() => {

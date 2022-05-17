@@ -13,14 +13,6 @@ export const useGetInvoiceDetail = () => {
     }
   );
 
-  // React.useEffect(() => {
-  //   if (loading) {
-  //     dispatch(appMerchant.showLoading());
-  //   }
-  //   if (!loading && response) {
-  //     dispatch(appMerchant.hideLoading());
-  //   }
-  // }, [dispatch, loading, response]);
 
   const getInvoiceDetail = (checkoutId) => {
     execute({

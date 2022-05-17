@@ -40,10 +40,6 @@ export const CustomRadioSelect = React.forwardRef(
       }
     }, [data, required]);
 
-    // React.useEffect(() => {
-    //   setValue(defaultValue);
-    // }, [defaultValue]);
-
     React.useImperativeHandle(ref, () => ({
       reset: () => {
         setValue(null);

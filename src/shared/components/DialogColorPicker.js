@@ -86,8 +86,6 @@ export const DialogColorPicker = React.forwardRef(
                 sliderSize={scaleHeight(20)}
                 noSnap={true}
                 row={false}
-                // swatchesLast={this.state.swatchesLast}
-                // swatches={this.state.swatchesEnabled}
                 discrete={true}
               />
               <View style={layouts.marginVertical} />

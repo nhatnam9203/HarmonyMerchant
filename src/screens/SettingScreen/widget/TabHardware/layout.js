@@ -19,9 +19,6 @@ class Layout extends React.Component {
                     initialPage={0}
                     locked={true}
                     renderTabBar={() => <View />}
-                    // onChangeTab={(index) => {
-                    //     this.setState({ tabCurrent: index.i })
-                    // }}
                     onChangeTab={this.onChangeTab}
                 >
                     <HomeHardware

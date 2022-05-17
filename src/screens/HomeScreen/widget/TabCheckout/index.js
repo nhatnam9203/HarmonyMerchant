@@ -732,12 +732,6 @@ class TabCheckout extends Layout {
       }
     }
 
-    // if (temptBlockAppointments && temptBlockAppointments.length > 0) {
-    //     for (let i = 0; i < temptBlockAppointments.length; i++) {
-    //         this.props.actions.appointment.cancleAppointment(temptBlockAppointments[i].appointmentId, profile.merchantId, 0, true, true);
-    //     }
-    // }
-
     this.blockAppointmentRef = [];
   };
 
@@ -1269,14 +1263,6 @@ class TabCheckout extends Layout {
       await this.setState({
         visibleBillOfPayment: true,
       });
-      // if (method === 'harmony' || method === 'credit_card') {
-      //     const dueAmount = parseFloat(formatNumberFromCurrency(paymentDetailInfo?.dueAmount || 0));
-      //     this.doneBill(dueAmount);
-      // } else {
-      //     await this.setState({
-      //         visibleBillOfPayment: true
-      //     });
-      // }
     }
   };
 
@@ -1434,23 +1420,7 @@ class TabCheckout extends Layout {
           this.setState({
             visibleSendLinkPopup: true,
           });
-        } else {
-          // const dataAnymousAppoitment = this.getBasketOffline();
-          // const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
-          // this.props.actions.appointment.createAnymousAppointment(
-          //     profile.merchantId,
-          //     customerInfoBuyAppointment?.userId || 0,
-          //     customerInfoBuyAppointment?.customerId || 0,
-          //     // profileStaffLogin.staffId,
-          //     this.state.selectedStaff?.staffId,
-          //     arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-          //     customDiscountFixedLocal, customDiscountPercentLocal,
-          //     customerInfoBuyAppointment?.firstName || "",
-          //     customerInfoBuyAppointment?.lastName || "",
-          //     customerInfoBuyAppointment?.phone || "",
-          //     moneyUserGiveForStaff
-          // );
-        }
+        } 
       }
     }
   };
@@ -1533,16 +1503,7 @@ class TabCheckout extends Layout {
           "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
 
         if (result?.ResultCode && result?.ResultCode == "000000") {
-          // if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
-          //   setTimeout(() => {
-          //     alert("You're running your Pax on DEMO MODE!");
-          //   }, 500);
-
-          //   return {}
-          // } else {
           return result;
-
-          // }
         } else {
           return {};
         }
@@ -1903,22 +1864,6 @@ class TabCheckout extends Layout {
             "pax",
             parameter
           );
-
-          // const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
-          // let method = this.getPaymentString(paymentSelected);
-
-          // if (online) {
-          //     // ------ Payment with credit online card success ----
-          //     this.props.actions.appointment.submitPaymentWithCreditCard(
-          //         profile?.merchantId || 0,
-          //         message,
-          //         payAppointmentId,
-          //         moneyUserGiveForStaff
-          //     )
-
-          // } else {
-          //     // ------ Payment with credit offline card success ----
-          // }
         }
       } else {
         const resultTxt = result?.ResultTxt || "Transaction failed:";

@@ -162,11 +162,6 @@ export const AddProductVersionDialog = ({
             ListFooterComponent={onRenderFooterComponent}
             ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
             ListEmptyComponent={() => <View></View>}
-            // refreshControl={
-            //   <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-            // }
-            // onEndReachedThreshold={0.1}
-            // onEndReached={onHandleLoadMore}
           />
           {isExistItem && (
             <Text
@@ -210,7 +205,6 @@ const styles = StyleSheet.create({
   },
 
   list: {
-    // height: scaleHeight(400),
     maxHeight: scaleHeight(400),
     minHeight: scaleHeight(100),
     width: "100%",
@@ -219,13 +213,11 @@ const styles = StyleSheet.create({
 
   item: {
     width: scaleWidth(440),
-    // height: scaleHeight(48),
     backgroundColor: colors.WHITE,
     paddingHorizontal: scaleWidth(30),
   },
 
   itemSeparator: {
-    // backgroundColor: "#dddddd",
     height: scaleHeight(8),
   },
 

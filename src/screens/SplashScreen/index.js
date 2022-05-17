@@ -23,31 +23,7 @@ class SplashScreen extends Layout {
       const latestVersion = await VersionCheck.getLatestVersion({
         provider: "appStore",
       });
-      // const tempLatestVersion = latestVersion ? latestVersion : configs.APPSTORE_VERSION;
-      // const res = await VersionCheck.needUpdate({
-      //     currentVersion: version,
-      //     latestVersion: tempLatestVersion,
-      //     forceUpdate: true
-      // });
-      // if (res && res.isNeeded) {
-      //     Alert.alert(
-      //         'Notification!',
-      //         `The HarmonyPay Salon POS had a new version on Apple Store. Press OK to update!`,
-      //         [
-      //             {
-      //                 text: 'OK', onPress: () => {
-      //                     Linking.openURL(res.storeUrl);
-      //                     setTimeout(() => {
-      //                         CodePush.restartApp();
-      //                     }, 3000)
-
-      //                 }
-      //             },
-      //         ],
-      //         { cancelable: false },
-      //     );
-
-      // } else {
+     
       const { deviceId, versionApp, deviceName } = this.props;
       if (!deviceId) {
         const uniqueId = await DeviceInfo.getUniqueId();

@@ -317,17 +317,6 @@ export default class Layout extends React.Component {
 
     let invoiceName = "";
     let isSalonApp = true;
-    // if (profile && profile?.type === "SalonPos") {
-    //   const { firstName = " ", lastName = " " } = invoiceDetail?.user || {};
-    //   invoiceName = firstName + " " + lastName;
-    //   isSalonApp = true;
-    // } else {
-    //   invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
-    //   if (!invoiceName && invoiceDetail?.user?.userId) {
-    //     invoiceName = getFullName(invoiceDetail?.user);
-    //   }
-    //   isSalonApp = false;
-    // }
 
     const checkoutPayments =
       invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
@@ -717,8 +706,6 @@ export default class Layout extends React.Component {
         <PopupReceipt
           ref={this.invoiceRef}
           invoice={invoiceDetail}
-          // doPrintClover={this.doPrintClover}
-          // cancelInvoicePrint={this.cancelInvoicePrint}
         />
       </ParentContainer>
     );

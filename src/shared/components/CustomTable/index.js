@@ -127,10 +127,6 @@ export function Table({
   };
 
   const changeSortData = () => {
-    // if (!sortKey) {
-    //   setSortState(SORT_STATE.none);
-    //   return;
-    // }
 
     let sort = sortState;
     if (sortState === SORT_STATE.desc) {
@@ -140,7 +136,6 @@ export function Table({
     }
 
     setSortState(sort);
-    // setListData(sort);
   };
 
   const getCellValue = (item, key) => {

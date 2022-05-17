@@ -106,17 +106,6 @@ export const FormProductOption = React.forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [item?.attributeId]);
 
-    // const onUpdate = React.useCallback(() => {
-    //   if (onUpdateOptionValues && typeof onUpdateOptionValues === "function") {
-    //     onUpdateOptionValues(item);
-    //   }
-    // }, [item]);
-
-    // React.useEffect(() => {
-    //   onUpdate();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [item]);
-
     const updateAttributes = (attributes) => {
       // update lai thu tu options
     };
@@ -131,12 +120,10 @@ export const FormProductOption = React.forwardRef(
             active: t("Active"),
             value: t("Swatch"),
             label: t("Value Label"),
-            // valueAdd: t("Additional Price"),
           }
         : {
             active: t("Active"),
             label: t("Value Label"),
-            // valueAdd: t("Additional Price"),
           };
     };
 
@@ -315,7 +302,6 @@ export const FormProductOption = React.forwardRef(
               headerKeyLabels={getHeaderKeys()}
               whiteListKeys={getTableKeys()}
               primaryKey="attributeValueId"
-              // unitKeys={{ totalDuration: "hrs" }}
               widthForKeys={{
                 active: scaleWidth(100),
                 value: "10%",

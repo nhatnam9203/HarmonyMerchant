@@ -1013,23 +1013,6 @@ export const useProps = ({
       await connectSignalR.current?.stop();
     }
 
-    // if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
-    //   alert("Please connect to your printer!");
-    // } else {
-    //   if (
-    //     paymentSelected === "Cash" ||
-    //     (paymentSelected === "Other" && profile?.isOpenCashier)
-    //   ) {
-    //     if (paymentMachineType === PaymentTerminalType.Clover && !portName) {
-    //       openCashDrawerClover();
-    //     } else {
-    //       openCashDrawer(portName);
-    //     }
-    //   }
-
-    //   showInvoicePrint(false);
-    // }
-
     dispatch(actions.appointment.closeModalPaymentCompleted());
   };
 
@@ -1530,9 +1513,6 @@ export const useProps = ({
       return "";
     },
     didNotPayComplete: () => {
-      // dispatch(actions.appointment.resetBasketEmpty());
-      // dispatch(actions.appointment.resetPayment());
-      // dispatch(actions.appointment.changeFlagSigninAppointment(false));
       dispatch(actions.appointment.resetGroupAppointment());
 
       onCompleteBack();

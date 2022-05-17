@@ -158,7 +158,6 @@ export default function SalesByProductDetail({
             onSortWithKey={onSortWithKey}
             sortKey="totalProfit"
             primaryKey="date"
-            //   unitKeys={{ totalDuration: "hrs" }}
             widthForKeys={{
               date: scaleWidth(200),
               quantity: scaleWidth(120),
@@ -167,8 +166,6 @@ export default function SalesByProductDetail({
               totalTax: scaleWidth(180),
             }}
             emptyDescription={t('No Report Data')}
-            //   styleTextKeys={{ customerName: styles.textName }}
-            //   onSortWithKey={onSortWithKey}
             formatFunctionKeys={{
               date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
               totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
@@ -178,7 +175,6 @@ export default function SalesByProductDetail({
             }}
             renderCell={onRenderCell}
             onRefresh={onRefresh}
-            //   onRowPress={onSelectRow}
           />
         )}
 

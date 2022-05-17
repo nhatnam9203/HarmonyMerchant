@@ -163,7 +163,6 @@ export const Layout = ({
             width={scaleWidth(120)}
             height={scaleHeight(40)}
             fontSize={scaleFont(17)}
-            // textColor={colors.WHITE}
             textWeight="normal"
             onPress={onHandleQuantity}
           >

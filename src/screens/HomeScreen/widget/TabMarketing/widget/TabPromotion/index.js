@@ -52,9 +52,6 @@ class TabPromotion extends Layout {
       campaign?.id,
       campaign?.conditionId
     );
-    // setTimeout(() => {
-    //   this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
-    // }, 500)
   };
 
   getSMSInformation = (conditionId) => {
@@ -75,21 +72,6 @@ class TabPromotion extends Layout {
       ...propCamp
     } = campaign || {};
 
-    // this.props.actions.marketing.updatePromotionById(
-    //   id,
-    //   Object.assign({}, propCamp, {
-    //     isSchedule: false,
-    //     // conditionDetail: conditionDetail ?? {
-    //     //   service: [],
-    //     //   product: [],
-    //     // },
-    //     // applyToDetail: applyToDetail ?? {
-    //     //   service: [],
-    //     //   product: [],
-    //     //   category: [],
-    //     // },
-    //   })
-    // );
     setTimeout(() => {
       this.props.actions.marketing.disablePromotionById(id || 0);
     }, 500);

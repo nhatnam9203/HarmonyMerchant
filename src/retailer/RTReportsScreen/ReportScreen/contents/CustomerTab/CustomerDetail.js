@@ -72,7 +72,6 @@ export default function CustomerDetail({
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(105)}
             paddingTop={scaleHeight(170)}
-            // defaultValue={timeValue}
           />
         </View>
       </View>
@@ -101,9 +100,7 @@ export default function CustomerDetail({
             'status',
             'total',
           ]}
-          //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
           primaryKey="code"
-          //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
             code: scaleWidth(120),
             purchasePoint: scaleWidth(150),
@@ -114,8 +111,6 @@ export default function CustomerDetail({
             total: scaleWidth(150),
           }}
           emptyDescription={t('No Report Data')}
-          //   styleTextKeys={{ customerName: styles.textName }}
-          //   onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             total: (value) => `${formatMoneyWithUnit(value)}`,

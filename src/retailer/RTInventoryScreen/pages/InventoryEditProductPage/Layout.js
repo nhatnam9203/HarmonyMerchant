@@ -127,7 +127,6 @@ export const Layout = ({
             <FormInput
               label={t("Barcode")}
               placeholder={t("Enter or scan barcode")}
-              //required={true}
               onChangeValue={form.handleChange("barCode")}
               defaultValue={productItem?.barCode}
             >
@@ -161,7 +160,6 @@ export const Layout = ({
             />
 
             <FormSelect
-              //isDropdown={false}
               filterRef={filterCategoryRef}
               filterItems={categoriesFilter}
               label={t("Subcategory")}
@@ -185,7 +183,6 @@ export const Layout = ({
             <FormInput
               label={t("Product Description")}
               placeholder={t("Enter product description")}
-              // required={true}
               onChangeValue={onHandleChangeProductDescription}
               defaultValue={productItem?.description}
               multiline={true}
@@ -213,7 +210,6 @@ export const Layout = ({
                 label={t("Low threshold")}
                 placeholder={t("10")}
                 type={"only-numbers"}
-                //required={true}
                 style={layouts.fill}
                 onChangeValue={(value) => {
                   form.setFieldValue("minThreshold", value);
@@ -226,7 +222,6 @@ export const Layout = ({
                 label={t("High threshold")}
                 placeholder={t("20")}
                 type={"only-numbers"}
-                //required={true}
                 style={layouts.fill}
                 onChangeValue={(value) => {
                   form.setFieldValue("maxThreshold", value);
@@ -321,7 +316,6 @@ export const Layout = ({
           textColor={colors.WHITE}
           fontWeight="500"
           disable={!form.isValid}
-          // disable={!form.isValid || !form.dirty} //loi  doi option no ko tinh
           onPress={form?.handleSubmit}
         />
       </View>
@@ -333,7 +327,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: scaleWidth(16),
-    // paddingVertical: scaleHeight(16),
     flexDirection: "row",
     alignItems: "flex-start",
   },
@@ -368,7 +361,6 @@ const styles = StyleSheet.create({
   },
 
   bottomContent: {
-    // flexDirection: 'column-reverse',
   },
 
   headTitle: {

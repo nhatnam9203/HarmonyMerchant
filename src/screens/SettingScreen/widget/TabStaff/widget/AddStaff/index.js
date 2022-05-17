@@ -513,11 +513,6 @@ class AddStaff extends Layout {
         tempSalary.commission.value
       );
 
-      // this.setState({
-      //   salary: tempSalary,
-      // });
-      // console.log(this.state.workingTime);
-
       const temptStaff = Object.assign({}, user, {
         cellphone:
           user.cellphone === ""
@@ -651,20 +646,6 @@ class AddStaff extends Layout {
   handlePerHourCheckBox = () => {
     const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     const isCheck = tempSalary?.perHour?.isCheck;
-    // if (isCheck) {
-    //   tempSalary.perHour.value = "0.00";
-    // } else {
-    //   tempSalary.commission = {
-    //     value: [
-    //       {
-    //         from: 0,
-    //         to: 0,
-    //         commission: 0,
-    //       },
-    //     ],
-    //     isCheck: false,
-    //   };
-    // }
 
     tempSalary.perHour.isCheck = !isCheck;
 
@@ -686,20 +667,6 @@ class AddStaff extends Layout {
     const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     const isCheck = tempSalary?.commission?.isCheck;
 
-    // if (isCheck) {
-    //   tempSalary.commission.value = [
-    //     {
-    //       from: 0,
-    //       to: 0,
-    //       commission: 0,
-    //     },
-    //   ];
-    // } else {
-    //   tempSalary.perHour = {
-    //     value: "0.00",
-    //     isCheck: false,
-    //   };
-    // }
     tempSalary.commission.isCheck = !isCheck;
 
     this.setState({

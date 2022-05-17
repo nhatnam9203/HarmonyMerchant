@@ -62,8 +62,6 @@ const xAxisDefault = {
   textSize: scaleFont(12),
   textColor: processColor(colors.GREYISH_BROWN),
   granularityEnabled: true,
-  // centerAxisLabels: true,
-  // axisMaximum: 5,
   axisMinimum: 0,
   color: colors.WHITE_TWO,
   axisLineWidth: 1,

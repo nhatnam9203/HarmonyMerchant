@@ -92,7 +92,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct, appointment
     if (optionsSelected) {
       if (index === 0) {
         const filterArr = product?.quantities; // not check qty
-        // const filterArr = product?.quantities?.filter((x) => x.quantity > 0);
         for (const x of filterArr) {
           if (x.attributeIds?.includes(value)) {
             return true;
@@ -166,35 +165,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct, appointment
   React.useEffect(() => {
     const { codeStatus, data } = productsGet || {};
     if (statusSuccess(codeStatus)) {
-      // data?.options?.map((item) => {
-      //   const defaultOptionId = options[item?.id];
-      //   if (!defaultOptionId && item?.values?.length > 0) {
-      //     setOptions((prev) =>
-      //       Object.assign({}, prev, {
-      //         [item?.id]: item?.values[0].id,
-      //       })
-      //     );
-      //   }
-      // });
-
-      // const quantities = data?.quantities;
-      // if (quantities?.length > 0) {
-      //   const defaultSelectOption = quantities?.find((x) => x.quantity > 0);
-      //   // setOptionsSelected  // cbi set default
-      //   const options = data?.options;
-      //   let defaultOptionsQty = {};
-      //   options?.forEach((opt) => {
-      //     const findItem = opt?.values?.find((v) =>
-      //       defaultSelectOption?.attributeIds?.includes(v.attributeValueId)
-      //     );
-      //     if (findItem) {
-      //       defaultOptionsQty[opt?.id] = findItem?.attributeValueId;
-      //     }
-      //   });
-
-      //   updateOptionsValue(data, defaultOptionsQty);
-      // }
-
       setProduct(data);
       setImageUrl(data?.imageUrl);
 
@@ -237,26 +207,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct, appointment
           return true;
         })
       );
-
-    // if (optionsSelected) {
-    //   // tính lại listFiltersOptionsQty
-    //   const arrOptionsValueSelected = Object.values(optionsSelected);
-    //   else {
-    //     setListFiltersOptionsQty(
-    //       product?.quantities?.filter((x) => {
-    //         if (x.quantity <= 0) return false;
-    //         return true;
-    //       })
-    //     );
-    //   }
-
-    //   // set option selected lai
-    //   setOptionsQty(
-    //     product?.quantities?.find((x) =>
-    //       arrayIsEqual(x.attributeIds, arrOptionsValueSelected)
-    //     )
-    //   );
-    // }
   }, [product]);
 
   React.useEffect(() => {

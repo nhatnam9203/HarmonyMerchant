@@ -239,13 +239,9 @@ const DetailChart = ({ label = '1', desc = '...' }) => (
   <View style={{ ...styles.chartDetailItem, paddingLeft: 0 }}>
     <View
       style={{
-        // width: scaleWidth(35),
-        // height: scaleWidth(35),
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10,
-        // borderRadius: scaleWidth(20),
-        // backgroundColor: '#0764B0',
       }}
     >
       <Text

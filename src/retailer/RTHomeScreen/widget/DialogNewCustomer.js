@@ -86,21 +86,18 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
   const onHandleFirstNameChange = (text) => {
     form?.setFieldValue("firstName", text);
     if (!form.values.addressPost?.firstName) {
-      // form?.setFieldValue("addressPost.firstName", text);
       setFirstName(text);
     }
   };
   const onHandleLastNameChange = (text) => {
     form?.setFieldValue("lastName", text);
     if (!form.values.addressPost?.lastName)
-      // form?.setFieldValue("addressPost.lastName", text);
       setLastName(text);
   };
 
   const onHandlePhoneChange = (phone) => {
     form.setFieldValue("phone", phone);
     if (!form.values.addressPost?.phone) {
-      // form?.setFieldValue("addressPost.phone", phone);
       setPhone(phone);
     }
   };
@@ -212,7 +209,6 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
-              // disable={!form.isValid}
               onPress={form.handleSubmit}
             />
           </View>
@@ -222,41 +218,6 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
         <KeyboardAwareScrollView>
           <View style={styles.container}>
             <View style={layouts.marginHorizontal} />
-            {/* <View>
-              <FormTitle label={t('Shipping address')} />
-              <View style={layouts.marginHorizontal} />
-              <View style={styles.row}>
-                <CustomCheckBox
-                  label={t('Same as billing address')}
-                  value={true}
-                  textStyle={styles.textStyle}
-                  // onValueChange={setToggleCheckBox}
-                />
-              </View>
-              <View style={layouts.marginHorizontal} />
-              <FormFullName
-                title={t('Name')}
-                firstName={currentCustomer?.defaultAddress?.firstName}
-                lastName={currentCustomer?.defaultAddress?.lastName}
-                onChangeFirstName={form.handleChange('addressPost.firstName')}
-                onChangeLastName={form.handleChange('addressPost.lastName')}
-              />
-
-              <FormAddress
-                reverse={true}
-                onChangeCityValue={form.handleChange('addressPost.city')}
-                onChangeStateValue={(value) =>
-                  form.setFieldValue('addressPost.state', value)
-                }
-                onChangeZipCodeValue={form.handleChange('addressPost.zip')}
-                onChangeStreetValue={form.handleChange('addressPost.street')}
-                defaultStateValue={currentCustomer?.defaultAddress?.state}
-                defaultStreetValue={currentCustomer?.defaultAddress?.street}
-                defaultCityValue={currentCustomer?.defaultAddress?.city}
-                defaultZipCodeValue={currentCustomer?.defaultAddress?.zip}
-              />
-            </View> */}
-
             <FormFullName
               firstName={currentCustomer?.addressPost?.firstName ?? firstName}
               lastName={currentCustomer?.addressPost?.lastName ?? lastName}

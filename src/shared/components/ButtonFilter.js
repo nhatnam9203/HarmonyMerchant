@@ -44,27 +44,6 @@ export const ButtonFilter = React.forwardRef(
       },
     }));
 
-    // React.useEffect(() => {
-    //   if (filterItems?.length) {
-    //     setItems(filterItems?.map((x) => ({ ...x, label: t(x.label) })));
-    //   } else {
-    //     setItems([]);
-    //   }
-    // }, [filterItems]);
-
-    // React.useEffect(() => {
-    //   setItems(filterItems);
-    // }, [filterItems]);
-
-    // const reloadItem = React.useMemo(() => {
-    //   setItem(defaultValue);
-    // }, [defaultValue]);
-
-    // React.useEffect(() => {
-    //   reloadItem();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [defaultValue]);
-
     return (
       <View
         style={[

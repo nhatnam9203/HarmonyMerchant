@@ -21,10 +21,7 @@ export const useGetAppointment = () => {
     }
     if (!loading && response) {
       dispatch(appMerchant.hideLoading());
-      // !! chua xu li truong hop get loi
-      // dispatch({
-      //   type: "GET_APPOINTMENT_BY_ID_FAIL",
-      // });
+     
       dispatch({
         type: "GET_APPOINTMENT_BY_ID_SUCCESS",
         payload: appointmentGet?.data,

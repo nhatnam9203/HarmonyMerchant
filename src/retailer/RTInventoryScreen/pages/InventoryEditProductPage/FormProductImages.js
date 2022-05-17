@@ -248,7 +248,6 @@ const styles = StyleSheet.create({
   imageDefault: {
     width: scaleWidth(26),
     height: scaleHeight(26),
-    // tintColor: colors.OCEAN_BLUE,
     position: "absolute",
     bottom: scaleHeight(1),
     left: scaleWidth(1),

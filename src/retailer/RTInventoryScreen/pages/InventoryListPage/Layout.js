@@ -107,7 +107,6 @@ export const Layout = ({
             height={scaleHeight(30)}
             borderRadius={scaleWidth(3)}
             fontSize={scaleFont(14)}
-            // textColor={colors.WHITE}
             fontWeight="normal"
             onPress={onHandleQty}
           />
