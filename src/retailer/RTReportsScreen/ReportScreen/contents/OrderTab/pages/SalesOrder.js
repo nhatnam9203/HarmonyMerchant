@@ -76,10 +76,6 @@ export const SalesOrder = () => {
   |--------------------------------------------------
   */
 
-  // React.useEffect(() => {
-  //   callGetReportSalesOrder();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timeVal]);
   useFocusEffect(
     React.useCallback(() => {
       callGetReportSalesOrder();

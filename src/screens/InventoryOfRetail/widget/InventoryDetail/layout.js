@@ -156,8 +156,6 @@ class Layout extends React.Component {
                                         <Dropdown
                                             label={''}
                                             data={[{ value: 'Active' }, { value: 'Disable' }]}
-                                            // value={this.state.codeAreaPhone}
-                                            // onChangeText={this.onChangePhoneCode}
                                             containerStyle={{
                                                 flex: 1
                                             }}

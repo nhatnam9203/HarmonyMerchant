@@ -37,30 +37,7 @@ export const DialogAddNewPaymentMethod = React.forwardRef((props, ref) => {
 
   const onHandleSubmit = () => {
     dialogRef.current?.hide();
-    // dispatch(actions.staff.loginStaff(merchantID, value));
   };
-
-  /**
-  |--------------------------------------------------
-  | useEffect
-  |--------------------------------------------------
-  */
-  // React.useEffect(() => {
-  //   if (!staffLogin) {
-  //     return;
-  //   }
-
-  //   const { codeStatus, message, data } = staffLogin || {};
-  //   if (statusSuccess(codeStatus)) {
-  //     dispatch(authMerchant.staffSignIn(data));
-  //     dialogRef.current?.hide();
-  //   }
-  // }, [staffLogin]);
-
-  // React.useEffect(() => {
-  //   dialogRef.current?.hide();
-  // }, [isLoginStaff]);
-
 
   return (
     <View>

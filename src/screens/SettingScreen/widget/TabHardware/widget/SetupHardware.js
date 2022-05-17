@@ -589,11 +589,6 @@ class SetupHardware extends React.Component {
                         />
                     </View>
                 </View>
-
-                {/* <BluetoothScanner
-                    ref={this.bluetoothScannerRef}
-                    handleStopScan={this.handleStopScan}
-                /> */}
             </View>
         );
 

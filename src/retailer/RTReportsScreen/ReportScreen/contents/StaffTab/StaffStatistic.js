@@ -25,10 +25,6 @@ export default function StaffStatistic(props, ref) {
         tableData: item?.salariesByDate || [],
         tableHead: {
           dateString: localize("Date", language),
-          // serviceSales: localize("Service Sales", language),
-          // surcharge: localize("Surcharge", language),
-          // netServiceSales: localize("Net Service Sale", language),
-          // serviceSplit: localize("Service Split", language),
           productSales: localize("Product Sales", language),
           productSplit: localize("Product Split", language),
           workingHour: localize("Working Hour", language),
@@ -41,10 +37,6 @@ export default function StaffStatistic(props, ref) {
         },
         whiteKeys: [
           "dateString",
-          // "serviceSales",
-          // "surcharge",
-          // "netServiceSales",
-          // "serviceSplit",
           "productSales",
           "productSplit",
           "workingHour",
@@ -58,10 +50,6 @@ export default function StaffStatistic(props, ref) {
         primaryId: "date",
         sumTotalKey: "dateString",
         calcSumKeys: [
-          // "serviceSales",
-          // "surcharge",
-          // "netServiceSales",
-          // "serviceSplit",
           "productSales",
           "productSplit",
           "workingHour",
@@ -71,10 +59,6 @@ export default function StaffStatistic(props, ref) {
           "salary",
         ],
         priceKeys: [
-          // "serviceSales",
-          // "surcharge",
-          // "netServiceSales",
-          // "serviceSplit",
           "productSales",
           "productSplit",
           "workingHour",

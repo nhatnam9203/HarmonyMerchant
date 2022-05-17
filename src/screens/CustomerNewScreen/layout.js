@@ -83,7 +83,6 @@ export default class Layout extends React.Component {
                   placeholder={localize('Search', language)}
                   value={keySearch}
                   onChangeText={this.onChangeKeySearch}
-                  //onSubmitEditing={() => this.searchCustomer(1, true, false)}
                 />
               </Block>
 
@@ -186,32 +185,6 @@ export default class Layout extends React.Component {
         style={{ paddingHorizontal: scaleSize(12), marginTop: scaleSize(20) }}
       >
         <Block flex row space="space-between" middle>
-          {/* <Block row flex center>
-            <Text style={txtPageStyle}>Page: </Text>
-            <Pagination />
-
-            <Block style={{ paddingLeft: scaleSize(20) }}>
-              <Text style={txtPageStyle}>
-                Items 1 - 10 of 543 | Items per page
-              </Text>
-            </Block>
-
-            <Block
-              height={scaleSize(32)}
-              width={scaleSize(64)}
-              style={{ paddingLeft: scaleSize(10) }}
-            >
-              <Dropdown
-                label={localize('10', language)}
-                data={[{ value: '10' }, { value: '20' }, { value: '50' }]}
-                containerStyle={[
-                  styles.btnBorderStyle,
-                  { justifyContent: 'space-evenly' },
-                ]}
-              />
-            </Block>
-          </Block> */}
-
           {/* ----------- Export DropDown Button ------------ */}
 
           <Block right>
@@ -328,13 +301,6 @@ export default class Layout extends React.Component {
                 onClose={this.onToggleFilterCustomer}
               />
             </View>
-
-            {/* --------- Customer Detail Tab -------- */}
-            {/* <CustomerDetailTab
-              ref={this.customerDetailTabRef}
-              showAppointmentDetail={this.showAppointmentDetail}
-              editCustomer={this.editCustomer}
-            /> */}
 
             {/* --------- Edit or Create Customer -------- */}
             <EditOrCreateCustomerTab

@@ -139,11 +139,6 @@ export default function StaffReportTab({
             workingHour: localize("Working hour", language),
             salaryWage: localize("Salary wage", language),
             refundAmount: localize("Refund amount", language),
-
-            // surcharge: localize("Surcharge", language),
-            // netServiceSales: localize("Net Service Sale", language),
-            // productSales: localize("Product Sales", language),
-            // productSplit: localize("Product Split", language),
             tip: localize("Tip Amount", language),
             discountByStaff: localize("Discount By Staff", language),
             salary: localize("Salary", language),
@@ -154,10 +149,6 @@ export default function StaffReportTab({
             "productSplit",
             "workingHour",
             "salaryWage",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
             "refundAmount",
             "tip",
             "discountByStaff",
@@ -171,10 +162,6 @@ export default function StaffReportTab({
             "productSplit",
             "workingHour",
             "salaryWage",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
             "tip",
             "refundAmount",
             "discountByStaff",
@@ -183,12 +170,7 @@ export default function StaffReportTab({
           priceKeys={[
             "productSales",
             "productSplit",
-            // "workingHour",
             "salaryWage",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
             "tip",
             "refundAmount",
             "discountByStaff",
@@ -207,13 +189,6 @@ export default function StaffReportTab({
           endLoadMore={endLoadMore}
         />
       </ReportTabLayout>
-
-      {/* <PopupStaffInvoicePrint
-        // ref={this.invoicePrintRef}
-        visiblePrintInvoice={showStaffInvoicePrint}
-        onRequestClose={cancelStaffInvoicePrint}
-        staff={currentStaff}
-      /> */}
     </View>
   );
 }

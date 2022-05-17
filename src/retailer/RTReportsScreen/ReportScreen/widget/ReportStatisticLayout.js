@@ -103,12 +103,6 @@ export default function ReportStatisticLayout({
           </>
         }
       >
-        {/* <PopupButton
-          text={titleRangeTime}
-          imageSrc={IMAGE.calendar}
-          onPress={showCalendar}
-          style={{ marginRight: 20 }}
-        /> */}
         {dataFilters && (
           <Dropdown
             data={dataFilters}

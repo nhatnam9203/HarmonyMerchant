@@ -21,7 +21,6 @@ const yAxis = {
     drawAxisLine: true,
     drawGridLines: true,
     axisMinimum: 0,
-    // axisMaximum: 1500,
     textSize: 14,
     formSize: 14,
     textColor: processColor("#0764B0"),

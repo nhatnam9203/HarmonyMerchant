@@ -114,7 +114,6 @@ class EnterCustomerPhonePopup extends React.Component {
                 style={customStyle}
             >
                 <View style={{
-                    // height: scaleSize(320),
                     backgroundColor: '#FAFAFA',
                     borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
                     paddingHorizontal: scaleSize(22),

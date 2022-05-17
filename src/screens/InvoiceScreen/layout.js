@@ -137,28 +137,6 @@ export default class Layout extends React.Component {
               styleText={{ fontSize: scaleSize(15), fontWeight: "500" }}
             />
           </View>
-          {/* <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: "#C5C5C5",
-              height: scaleHeight(50),
-              width: scaleWidth(100),
-              alignItems: "center",
-              justifyContent: "center",
-              marginLeft: scaleWidth(10),
-              borderRadius: scaleSize(6),
-            }}
-            onPress={this.scanSearchInvoice}
-          >
-            <Image
-              source={IMAGE.scancode}
-              style={{
-                width: scaleWidth(30),
-                height: scaleHeight(30),
-                marginHorizontal: scaleWidth(12),
-              }}
-            />
-          </TouchableOpacity> */}
           <ScanQRButton
             width={scaleWidth(110)}
             height={scaleHeight(50)}

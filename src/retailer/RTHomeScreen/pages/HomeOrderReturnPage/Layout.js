@@ -321,14 +321,6 @@ export const Layout = ({
               <View style={layouts.marginHorizontal} />
 
               <InfoContent label={t("Return Comments")}>
-                {/* <CustomCheckBox
-                label={t("Return shipping and tip")}
-                onValueChange={setToggleReturnShipping}
-                selectedColor={colors.OCEAN_BLUE}
-                onCheckColor="#fff"
-                textStyle={[styles.textStyle, { color: colors.OCEAN_BLUE }]}
-                style={{ height: scaleHeight(40) }}
-              /> */}
                 <FormEditNotes
                   // defaultValue={item?.note}
                   // onSubmitNotes={onSubmitNotes}
@@ -340,15 +332,6 @@ export const Layout = ({
           </View>
         </KeyboardAwareScrollView>
         <View style={styles.buttonContent}>
-          {/* <ButtonGradientWhite
-          // onPress={buttonCancelPress}
-          label={t("return").toUpperCase()}
-          width={scaleWidth(400)}
-          height={scaleHeight(60)}
-          textColor={colors.GREYISH_BROWN}
-          fontSize={scaleFont(25)}
-          fontWeight="500"
-        /> */}
           <ButtonGradient
             label={t("return").toUpperCase()}
             width={scaleWidth(400)}

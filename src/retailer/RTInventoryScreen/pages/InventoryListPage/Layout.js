@@ -288,16 +288,6 @@ export const Layout = ({
             length={items?.length}
           />
           <View style={layouts.marginHorizontal} />
-          {/* <RestockButton
-            disable={!isPermission()}
-            label={t("Restock")}
-            width={scaleWidth(100)}
-            height={scaleHeight(32)}
-            textColor={colors.BROWNISH_GREY}
-            fontSize={scaleFont(15)}
-            onPress={onSubmitRestock}
-          />
-          <View style={layouts.marginHorizontal} /> */}
           <ExportModalInventory
             disable={!isPermission()}
             ref={exportRef}

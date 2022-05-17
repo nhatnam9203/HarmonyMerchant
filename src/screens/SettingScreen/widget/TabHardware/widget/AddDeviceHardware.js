@@ -300,17 +300,8 @@ class AddDeviceHardware extends React.Component {
                         />
                     </View>
                 </View>
-
-                {/* <BluetoothScanner
-                    ref={this.bluetoothScannerRef}
-                    handleStopScan={this.handleStopScan}
-                /> */}
             </View>
         );
-    }
-
-    componentWillUnmount() {
-        // subscription.remove();
     }
 }
 

@@ -34,7 +34,6 @@ export default class Layout extends React.Component {
                     {localize('Batch Settlements', language)}
                     
                         <Text numberOflines={1} style={{ fontSize: scaleSize(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
-                            {/* {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`} */}
                             {`  ${connectPAXStatus.message}`}
                         </Text>
                     

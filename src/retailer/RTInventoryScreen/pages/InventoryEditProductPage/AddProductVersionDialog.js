@@ -67,22 +67,6 @@ export const AddProductVersionDialog = ({
   | CALL API
   |--------------------------------------------------
   */
-  // const [attributesList, getAttributesList] = useGetAttributesList();
-
-  // // chỗ này parent sẽ gọi
-  // React.useEffect(() => {
-  //   const { codeStatus, data } = attributesList || {};
-  //   if (statusSuccess(codeStatus)) {
-  //     setOptions(
-  //       attributesList?.data
-  //         ?.filter(
-  //           (v) =>
-  //             defaultOptionsId?.findIndex((x) => x.attributeId === v.id) < 0
-  //         )
-  //         .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 })) // cái này lấy từ attribute list về
-  //     );
-  //   }
-  // }, [attributesList]);
 
   const onShowDialog = () => {
     setSelectedItems([]);

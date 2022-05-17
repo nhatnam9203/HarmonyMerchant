@@ -329,33 +329,6 @@ export const FormProductOption = React.forwardRef(
             />
           )}
         </View>
-        {/* {item?.updateProductImage && (
-          <View>
-            <InfoHeading label={t("Option Image")} fontSize={scaleWidth(17)} />
-
-            <View style={styles.content}>
-              <FlatList
-                style={styles.flatList}
-                numColumns={10}
-                data={item?.values}
-                renderItem={onRenderOptionsImage}
-                keyExtractor={(v) => v?.id}
-                contentContainerStyle={styles.flatListContainer}
-                // ListHeaderComponent={() => <View style={styles.itemSeparator} />}
-                // ListFooterComponent={() => <View style={styles.itemSeparator} />}
-                ItemSeparatorComponent={() => (
-                  <View style={styles.itemSeparator} />
-                )}
-                // ListEmptyComponent={() => (
-                //   <EmptyList description={emptyDescription} />
-                // )}
-                // refreshControl={
-                //   <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-                // }
-              />
-            </View>
-          </View>
-        )} */}
       </View>
     );
   }

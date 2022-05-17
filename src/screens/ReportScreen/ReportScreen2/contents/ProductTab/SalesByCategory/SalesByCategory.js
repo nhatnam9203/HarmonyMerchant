@@ -147,7 +147,6 @@ export default function SalesByCategory({
           primaryId="categoryId"
           sumTotalKey="categoryName"
           calcSumKeys={["quantity", "totalSales"]}
-          // calcAvgKeys={["avgPrice"]}
           priceKeys={["avgPrice", "totalSales"]}
           tableCellWidth={{
             categoryName: 180,

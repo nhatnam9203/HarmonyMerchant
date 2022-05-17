@@ -361,27 +361,6 @@ class Layout extends React.Component {
             </View>
           </View>
 
-          {/* ------- Gift for new customer  ------ */}
-          {/* <View style={{ flexDirection: 'row', marginTop: scaleSize(8) }} >
-                        <View style={{ width: scaleSize(180), justifyContent: 'center' }} >
-                            <Text style={{
-                                color: '#404040',
-                                fontSize: scaleSize(16),
-                                fontWeight: '600',
-                            }}  >
-                                {`Gift For New Customer:`}
-                            </Text>
-                        </View>
-                        <View style={{ height: scaleSize(40), width: scaleSize(140), justifyContent: "center" }} >
-                            <Switch
-                                trackColor={{ false: "#767577", true: "#0764B0" }}
-                                ios_backgroundColor="#E5E5E5"
-                                onValueChange={(giftForNewEnabled) => this.setState({ giftForNewEnabled })}
-                                value={giftForNewEnabled}
-                            />
-                        </View>
-                    </View> */}
-
           {/* ------------ Item Auto lock ------------- */}
           <View style={{ flexDirection: "row", marginVertical: scaleSize(15) }}>
             <View style={{ width: scaleSize(180) }}>
@@ -449,34 +428,6 @@ class Layout extends React.Component {
               />
             </View>
           </View>
-          {/* -------- Time Zone --------- */}
-          {/* <View style={{ flexDirection: 'row', marginTop: scaleSize(8) }} >
-                        <View style={{ width: scaleSize(180), justifyContent: 'center' }} >
-                            <Text style={{
-                                color: '#404040',
-                                fontSize: scaleSize(16),
-                                fontWeight: '600',
-                            }}  >
-                                {`${localize('Time Zone', language)}:`}
-                            </Text>
-                        </View>
-                        <View style={{
-                            height: scaleSize(40), flex: 1,
-                        }} >
-                            <Dropdown
-                                label={"Time Zone"}
-                                data={TimeZones}
-                                value={timezone}
-                                onChangeText={(timezone) => this.setState({ timezone })}
-                                containerStyle={{
-                                    backgroundColor: '#F1F1F1',
-                                    borderWidth: 1,
-                                    borderColor: '#C5C5C5',
-                                    flex: 1
-                                }}
-                            />
-                        </View>
-                    </View> */}
 
           {/* -------- Sign in app display in --------- */}
           <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
@@ -804,16 +755,6 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
         marginTop: scaleSize(25),
       }}
     >
-      {/* <Text
-        style={{
-          color: "#404040",
-          fontSize: scaleSize(16),
-          fontWeight: "600",
-          width: scaleSize(150),
-        }}
-      >
-        {` `}
-      </Text> */}
       <View
         style={{
           flex: 1,

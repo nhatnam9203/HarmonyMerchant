@@ -133,7 +133,6 @@ export default function SalesProductLineChart({ data }) {
             values: revenueValues,
             label: "revenue",
             config: {
-              // mode: "CUBIC_BEZIER",
               drawValues: false,
               lineWidth: scaleWidth(3),
               drawCircles: true,
@@ -142,14 +141,6 @@ export default function SalesProductLineChart({ data }) {
               circleRadius: scaleWidth(7),
               highlightColor: processColor("transparent"),
               color: processColor("red"),
-              // drawFilled: true,
-              // fillGradient: {
-              //   colors: [processColor("red"), processColor("yellow")],
-              //   positions: [0, 0.5],
-              //   angle: 90,
-              //   orientation: "TOP_BOTTOM",
-              // },
-              // fillAlpha: 1000,
               valueTextSize: 15,
             },
           },
@@ -157,7 +148,6 @@ export default function SalesProductLineChart({ data }) {
             values: profitValues,
             label: "profit",
             config: {
-              // mode: "CUBIC_BEZIER",
               drawValues: false,
               lineWidth: scaleWidth(3),
               drawCircles: true,
@@ -172,13 +162,6 @@ export default function SalesProductLineChart({ data }) {
         ],
         backgroundColor: "transparent",
         config: {
-          // BarData
-          // barWidth: 0.4,
-          // group: {
-          //   fromX: 0,
-          //   groupSpace: 0.2,
-          //   barSpace: 0,
-          // },
         },
       };
       setDataChart(createDataSet);
@@ -196,8 +179,6 @@ export default function SalesProductLineChart({ data }) {
 
   return (
     <View style={styles.container}>
-      {/* <Button onPress={() => {}} title="Press to load more" /> */}
-
       <LineChart
         style={styles.chart}
         data={dataChart}
@@ -206,10 +187,6 @@ export default function SalesProductLineChart({ data }) {
         marker={marker}
         xAxis={xAxis}
         yAxis={yAxis}
-        // drawGridBackground={false}
-        //   borderColor={processColor("teal")}
-        // borderWidth={1}
-        // drawBorders={true}
         touchEnabled={true}
         dragEnabled={true}
         scaleEnabled={true}
@@ -220,13 +197,9 @@ export default function SalesProductLineChart({ data }) {
         doubleTapToZoomEnabled={false}
         highlightPerTapEnabled={true}
         highlightPerDragEnabled={false}
-        // visibleRange={this.state.visibleRange}
         dragDecelerationEnabled={true}
         dragDecelerationFrictionCoef={0.99}
-        //   ref="chart"
         keepPositionOnRotation={false}
-        //   onSelect={this.handleSelect.bind(this)}
-        //   onChange={(event) => console.log(event.nativeEvent)}
       />
     </View>
   );

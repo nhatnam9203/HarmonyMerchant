@@ -696,9 +696,6 @@ class HomeScreen extends Layout {
     this.didBlurSubscription();
     this.didFocusSubscription();
 
-    // this.watcherNetwork?.pipe(finalize(() => {}));
-    // this.unsubscribeNetInfo();
-
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     AppState.removeEventListener("change", this.handleAppStateChange);
     this.clearIntervalById();

@@ -117,14 +117,11 @@ function SalesTab({ style, showBackButton }, ref) {
   useImperativeHandle(ref, () => ({
     goBack: () => {
       layoutRef.current?.goBack();
-      // dispatch(actions.staff.resetDownloadExportFiles());
     },
     getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
     didBlur: async () => {
-      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
     },
     didFocus: async () => {
-      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));

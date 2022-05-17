@@ -52,12 +52,6 @@ export const Layout = ({
         <HeaderToolBarTitle label={t("Reports")} />
       </HeaderToolBar>
       <ReportScreen ref={screenReportRef} showBackButton={onShowBackButton} />
-      {/* <PermissionChecker
-        navigation={navigation}
-        tabName={menuTabs.MENU_REPORT}
-        tabPermission={tabPermission}
-        togglePopupPermission={togglePopupPermission}
-      /> */}
       <PopupCheckPermission
         ref={popupCheckPermissionRef}
         onForceClosePopup={onForceClosePopupPermission}

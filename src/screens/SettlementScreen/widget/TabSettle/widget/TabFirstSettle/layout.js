@@ -201,14 +201,6 @@ class Layout extends React.Component {
       });
     }
 
-    // if (deposits.length > 0) {
-    //   deposits.forEach((x) => {
-    //     depositTotal =
-    //       parseFloat(depositTotal) +
-    //       parseFloat(formatNumberFromCurrency(x.total ? x.total : 0.0));
-    //   });
-    // }
-
     return (
       <View style={{ flex: 1.3 }}>
         {/* ---------- Header --------- */}
@@ -345,16 +337,6 @@ class Layout extends React.Component {
               }}
               value={discountSettlement}
             />
-            {/* {formatNumberFromCurrency(returnAmount) != 0 &&
-                            <ItemPaymentsReport
-                                title="Return Amount"
-                                backgroundColor="#F1F1F1"
-                                txtStyle={{
-                                    color: "#404040"
-                                }}
-                                value={` ${-returnAmount}`}
-                            />
-                        } */}
           </View>
           {this.renderNote()}
           <View style={{ height: scaleSize(180) }} />

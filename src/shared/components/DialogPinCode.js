@@ -142,18 +142,8 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
           <View style={styles.marginVertical} />
           <Text style={styles.title}>{t("Enter your PIN code")}</Text>
           <View style={styles.marginVertical} />
-          {/* <CustomInput
-            style={styles.input}
-            textInputStyle={styles.textInput}
-            textInputProps={{
-              secureTextEntry: true,
-              blurOnSubmit: false,
-              defaultValue: value,
-            }}
-          /> */}
           <View style={styles.input}>
             <TextInput
-              // onChangeText={onHandleChangeText}
               value={value}
               secureTextEntry={true}
               blurOnSubmit={false}

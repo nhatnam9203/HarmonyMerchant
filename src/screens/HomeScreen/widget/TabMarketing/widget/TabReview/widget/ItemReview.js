@@ -99,9 +99,6 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
           <Text style={[styles.text, { color: "#0764B0", fontWeight: "500" }]}>
             {user?.name || ""}
           </Text>
-          {/* <Text style={[styles.text, { color: "#0764B0", fontWeight: "500" }]}>
-            {customer}
-          </Text> */}
         </View>
 
         <View style={{ width: "45%" }}>

@@ -64,26 +64,17 @@ class HeaderTableStaffSalary extends React.Component {
                             {`${localize('No', language)}.`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
                     width: scaleSize(120), flexDirection: 'row'
                 }} >
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
 
                             {localize('Name', language)}
                         </Text>
                     </View>
-                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortStaffName} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>

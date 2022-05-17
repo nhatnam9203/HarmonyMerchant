@@ -62,17 +62,11 @@ class HeaderTableStaff extends React.Component {
                 <View style={{
                     width: scaleSize(200), flexDirection: 'row',
                 }} >
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
                         <Text style={styles.textTableHeader} >
                             Staff Name
                             </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
@@ -83,9 +77,6 @@ class HeaderTableStaff extends React.Component {
                             Role
                             </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                 </View>
                 {/* ----- 4 ----- */}
                 <View style={{
@@ -96,9 +87,6 @@ class HeaderTableStaff extends React.Component {
                             Status
                             </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                            <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                        </View> */}
                 </View>
                 {/* ----- 5 ------ */}
                 <View style={[{

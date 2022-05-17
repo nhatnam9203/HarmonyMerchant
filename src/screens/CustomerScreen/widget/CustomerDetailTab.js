@@ -498,7 +498,6 @@ class CustomerDetailTab extends React.Component {
                 }
                 renderBase={() => (
                   <View>
-                    {/* <Image source={ICON.edit_customer_icon} style={{ width: scaleSize(20), height: scaleSize(20) }} /> */}
                     <Text
                       style={{
                         fontSize: scaleSize(25),

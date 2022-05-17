@@ -72,13 +72,6 @@ export const ButtonRightPanelFilter = ({ children, onReset, onApply }) => {
               onPress={onResetButtonPressed}
               borderRadius={scaleWidth(3)}
             />
-            {/* <ButtonGradient
-              label={t("Apply")}
-              width={scaleWidth(100)}
-              height={scaleHeight(35)}
-              onPress={onApplyButtonPressed}
-              borderRadius={scaleWidth(3)}
-            /> */}
           </View>
         </View>
       </Modal>

@@ -45,7 +45,6 @@ class PopupChangeCustomerStatus extends React.Component {
                                 width: scaleSize(85), height: scaleSize(28), backgroundColor: "#0764B0", borderRadius: scaleSize(20),
                                 justifyContent: "center", alignItems: "center", flexDirection: "row"
                             }} >
-                            {/* <Image source={ICON.vip_icon} style={{ width: scaleSize(18), height: scaleSize(18) }} /> */}
                             <Text style={{ color: "#fff", fontSize: scaleSize(13), marginLeft: scaleSize(6) }} >
                                 {`Normal`}
                             </Text>

@@ -150,22 +150,17 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
       getListStaffsServiceDurationTop(staffId);
     },
     didBlur: async () => {
-      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
     },
     didFocus: async () => {
-      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
 
   /**effect */
   const refreshData = () => {
-    // setRefreshing(true);
-    // getListStaffsServiceDurationTop();
   };
 
   const loadMoreData = () => {
-    // getListStaffsSalaryTop(nextPage);
   };
 
   React.useEffect(() => {

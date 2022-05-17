@@ -57,23 +57,6 @@ class HomeHardware extends React.Component {
                     // justifyContent: 'space-around',
                     paddingHorizontal: scaleSize(10)
                 }} >
-                    {/* ------------- Box 1 ----------- */}
-                    {/* <Button onPress={() => this.onPressBox('Barcode')} style={styles.box} >
-                        <View style={styles.containerIconBox} >
-                            <Image source={IMAGE.Barcode} style={{
-                                width: scaleSize(33),
-                                height: scaleSize(35)
-                            }} />
-                        </View>
-                        <View style={styles.containerTextBox} >
-                            <Text style={styles.textBox} >
-                                Barcode scanner
-                        </Text>
-                            <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSize(11), marginTop: scaleSize(10) }]} >
-                                No device
-                        </Text>
-                        </View>
-                    </Button> */}
                     {/* ------------- Box 2 ----------- */}
                     <Button onPress={() => this.onPressBox('Pax')} style={styles.box} >
                         <View style={styles.containerIconBox} >

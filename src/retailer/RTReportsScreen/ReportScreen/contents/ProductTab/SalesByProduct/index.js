@@ -68,11 +68,6 @@ function SalesByProductTab({
   |--------------------------------------------------
   */
 
-  // React.useEffect(() => {
-  //   callGetReportSaleProduct();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timeVal, filterProduct]);
-
   useFocusEffect(
     React.useCallback(() => {
       callGetReportSaleProduct();

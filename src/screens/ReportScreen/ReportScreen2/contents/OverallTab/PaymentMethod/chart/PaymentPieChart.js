@@ -13,7 +13,6 @@ const legend = {
     wordWrapEnabled: true,
     maxSizePercent: 1.0,
   },
-  // highlights = [{ x: 2 }],
   description = {
     text: "",
     textSize: 14,
@@ -85,8 +84,6 @@ export default function PaymentBarChart({ data }) {
               valueTextColor: processColor("transparent"),
               sliceSpace: 0,
               selectionShift: 0,
-              // xValuePosition: "OUTSIDE_SLICE",
-              // yValuePosition: "OUTSIDE_SLICE",
               valueFormatter: "#'%'",
               valueLineColor: processColor("white"),
               valueLinePart1Length: 0.5,

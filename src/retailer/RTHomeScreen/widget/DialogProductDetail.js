@@ -47,20 +47,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct, appointment
     const productPrice = product?.price ?? 0;
 
     let price = parseFloat(productPrice);
-    // if (options?.length > 0) {
-    //   price += product?.options?.reduce((accumulator, currentItem) => {
-    //     if (!options[currentItem?.id]) return accumulator;
-
-    //     const findItem = currentItem?.values?.find(
-    //       (v) => v.id === options[currentItem?.id]
-    //     );
-    //     if (findItem) {
-    //       return accumulator + parseFloat(findItem?.valueAdd ?? 0);
-    //     }
-
-    //     return accumulator;
-    //   }, 0);
-    // }
 
     if (optionsQty) {
       price = parseFloat(optionsQty?.price);

@@ -44,9 +44,6 @@ function ReportScreen({ showBackButton }, ref) {
   /**refs */
   const scrollTabRef = useRef(null);
 
-  // const giftCardRef = useRef(null);
-  // const serviceRef = useRef(null);
-
   const salesRef = useRef(null);
   const orderRef = useRef(null);
   const productRef = useRef(null);
@@ -59,22 +56,18 @@ function ReportScreen({ showBackButton }, ref) {
     goBack: () => {
       switch (tabIndex) {
         case 0:
-          // salesRef.current?.goBack();
           NavigationServices.goBack();
 
           break;
         case 1:
-          // orderRef.current?.goBack();
           NavigationServices.goBack();
 
           break;
         case 2:
-          // productRef.current?.goBack();
           NavigationServices.goBack();
 
           break;
         case 3:
-          // customerRef.current?.goBack();
           NavigationServices.goBack();
 
           break;
@@ -133,16 +126,12 @@ function ReportScreen({ showBackButton }, ref) {
   const onChangeTab = (index) => {
     switch (tabIndex) {
       case 0:
-        // salesRef.current?.goBack();
         break;
       case 1:
-        // orderRef.current?.goBack();
         break;
       case 2:
-        // productRef.current?.goBack();
         break;
       case 3:
-        // customerRef.current?.goBack();
         break;
       case 4:
         overallRef.current?.goBack();
@@ -202,16 +191,12 @@ function ReportScreen({ showBackButton }, ref) {
   handleOnChangeTab = (i) => {
     switch (i) {
       case 0:
-        // staffRef?.current?.getListStaffsSalaryTop();
         break;
       case 1:
-        // giftCardRef?.current?.getGiftCardReportSales();
         break;
       case 2:
-        // customerRef?.current?.getCustomerReportSales();
         break;
       case 5:
-        // overallRef?.current?.callAPIForTwoTabs();
         break;
 
       default:
