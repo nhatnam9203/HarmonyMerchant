@@ -37,16 +37,6 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
             </Text>
 
             {label ? <Text style={styles.textStyle}>{`${label}`}</Text> : null}
-            {/* {discount > 0 ? (
-            <Text
-              style={styles.textStyle}
-            >{`  (Discount: $ ${discount})`}</Text>
-          ) : null}
-          {discountPercent > 0 ? (
-            <Text
-              style={styles.textStyle}
-            >{`  (Discount: ${discountPercent}%)`}</Text>
-          ) : null} */}
             {note ? (
               <Text style={styles.textStyle}>{`(Note: ${note})`}</Text>
             ) : null}
@@ -153,7 +143,6 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
                 },
               ]}
             >
-              {/* <Text style={[styles.textStyle, textStyle]}>{quanlitySet}</Text> */}
             </View>
             <View
               style={[

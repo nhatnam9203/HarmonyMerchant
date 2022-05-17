@@ -131,7 +131,6 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "center",
           }}
         >
-          {/* <TextItem>{` `}</TextItem> */}
         </View>
       );
 
@@ -156,7 +155,6 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${qty}`}</TextItem>
-          {/* {!!returnQuantity && <TextItem>{`- ${returnQuantity}`}</TextItem>} */}
         </View>
       );
 
@@ -169,9 +167,6 @@ export const ReceiptItem = ({ item, index, type }) => {
           }}
         >
           <TextItem>{`${formatMoneyWithUnit(totalPrice)}`}</TextItem>
-          {/* {!!returnQuantity && parseInt(returnQuantity) > 0 && (
-            <TextItem>{`- ${formatMoneyWithUnit(returnAmount)}`}</TextItem>
-          )} */}
         </View>
       );
 
@@ -193,7 +188,6 @@ export const ReceiptItem = ({ item, index, type }) => {
 
           {!!returnQuantity && parseInt(returnQuantity) > 0 && (
             <>
-              {/* <TextLabel key="return">{`${t("- Return")}`}</TextLabel> */}
               <LayoutFourColumn
                 key="retailer-item-discount"
                 columnWidths={RETAILER_COLUMN_WIDTH}
@@ -882,20 +876,17 @@ const styles = StyleSheet.create({
   },
 
   textStyle: {
-    // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(18),
     fontWeight: "500",
   },
   textLabelStyle: {
-    // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(18),
     fontWeight: "500",
     marginLeft: scaleWidth(10),
   },
   textHeaderStyle: {
-    // fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(16),
     fontWeight: "500",
     textAlign: "center",

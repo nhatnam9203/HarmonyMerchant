@@ -32,7 +32,6 @@ export const ReceiptTotal = ({
   return (
     <View style={styles.container}>
       <View style={styles.margin} />
-      {/* <View style={styles.line} /> */}
       <LineFill width={"100%"} />
 
       <View style={styles.margin} />
@@ -160,14 +159,6 @@ export const ReceiptTotal = ({
           <LineFill width={"60%"} />
         </TextFill>
       )}
-      {/* {!printTemp && (
-        <>
-          <View style={styles.margin} />
-          <TextFill label={`${_.padEnd("Tip", 4, " ")}`}>
-            <View style={styles.line} />
-          </TextFill>
-        </>
-      )} */}
       <View style={styles.margin} />
       <View style={styles.margin} />
     </View>

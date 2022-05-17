@@ -70,7 +70,6 @@ export const PopupInvoice = React.forwardRef(
   |--------------------------------------------------
   */
     const [visible, setVisible] = React.useState(false);
-    // const [titleInvoice, setTitleInvoice] = React.useState("TICKET");
 
     const [groupAppointment, setGroupAppointment] = React.useState(null);
     const [invoiceDetail, setInvoiceDetail] = React.useState(null);
@@ -108,7 +107,6 @@ export const PopupInvoice = React.forwardRef(
       setAutoPrint(false);
       setGroupAppointment(null);
       setInvoiceDetail(null);
-      // setTitleInvoice("TICKET");
       setIsShare(false);
       setPrintTempt(false);
       setIsSignature(true);
@@ -328,8 +326,6 @@ export const PopupInvoice = React.forwardRef(
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
-        // setTitleInvoice(isAppointmentTab ? "TICKET" : "");
-        // setIsSalonApp(isSalon);
         setFromAppointmentTab(isAppointmentTab);
         if (isAppointmentTab) {
           setIsSignature(false);
@@ -376,7 +372,6 @@ export const PopupInvoice = React.forwardRef(
         await setAutoPrint(true);
         setPrintTempt(isPrintTempt);
         setPaymentMachineType(machineType);
-        // setIsSalonApp(isSalon);
         setFromAppointmentTab(isAppointmentTab);
         await setIsProcessingPrint(true);
 
