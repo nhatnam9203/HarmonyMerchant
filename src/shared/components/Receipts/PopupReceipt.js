@@ -9,7 +9,7 @@ import { ReceiptViewShot } from "./widgets";
 import { usePrinter } from "./usePrinter";
 import { useDejavooReceiptXml } from "./useDejavooReceiptXml";
 
-const DEFAULT_WIDTH = scaleWidth(410);
+const DEFAULT_WIDTH = scaleWidth(350);
 
 export const PopupReceipt = React.forwardRef(
   (
@@ -256,18 +256,13 @@ export const PopupReceipt = React.forwardRef(
         animationOutTiming={1}
         onModalWillHide={onModalWillHide}
       >
-        <View
-          style={[
-            styles.container,
-            { width: widthPaper ? parseFloat(widthPaper) : DEFAULT_WIDTH },
-          ]}
-        >
+        <View style={[styles.container, { width: DEFAULT_WIDTH }]}>
           <View
             style={[
               styles.content,
               {
                 height: tempHeight,
-                width: widthPaper ? parseFloat(widthPaper) : DEFAULT_WIDTH,
+                // width: widthPaper ? parseFloat(widthPaper) : DEFAULT_WIDTH,
               },
             ]}
           >

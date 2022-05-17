@@ -885,7 +885,7 @@ const styles = StyleSheet.create({
     // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(18),
-    fontWeight: "600",
+    fontWeight: "500",
   },
   textLabelStyle: {
     // fontFamily: fonts.MEDIUM,
@@ -897,7 +897,7 @@ const styles = StyleSheet.create({
   textHeaderStyle: {
     // fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(16),
-    fontWeight: "600",
+    fontWeight: "500",
     textAlign: "center",
     color: "#000",
   },

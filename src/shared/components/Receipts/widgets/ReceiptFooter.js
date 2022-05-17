@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(20),
-    fontWeight: "600",
+    fontWeight: "500",
     textAlign: "center",
   },
   textBarcode: {

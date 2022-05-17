@@ -19,7 +19,7 @@ import { ReceiptHeaderItem, ReceiptItem } from "./widgets/ReceiptItem";
 import { LineHeader } from "./widgets/ReceiptLine";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 
-const DEFAULT_WIDTH = scaleWidth(410);
+const DEFAULT_WIDTH = scaleWidth(350);
 
 export const PopupSettlementReceipt = React.forwardRef(
   ({ settlement, staffSales, gitfCardSales, depositedAmount = 0 }, ref) => {
