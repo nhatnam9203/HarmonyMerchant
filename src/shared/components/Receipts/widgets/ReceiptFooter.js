@@ -46,11 +46,10 @@ export const ReceiptFooter = ({
           value={`${invoiceCode}`}
           text={`${invoiceCode}`}
           // textStyle={styles.textBarcode}
-          style={{ marginBottom: 100 }}
+          style={{ marginBottom: 10 }}
           maxWidth={widthPaper ? parseFloat(widthPaper) : scaleWidth(300)}
           height={scaleHeight(85)}
           textStyle={styles.textBarcodeStyle}
-          background="transparent"
         />
       )}
       <View style={styles.margin} />
@@ -72,8 +71,8 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     // fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(18),
-    fontWeight: "600",
+    fontSize: scaleFont(20),
+    fontWeight: "500",
     textAlign: "center",
   },
   textBarcode: {
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
   textBarcodeStyle: {
     // fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(20),
+    fontSize: scaleFont(16),
     fontWeight: "500",
     textAlign: "center",
   },

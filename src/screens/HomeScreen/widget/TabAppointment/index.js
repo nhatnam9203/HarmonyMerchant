@@ -10,7 +10,8 @@ import {
   APP_NAME,
   POS_SERIAL,
   requestEditTipDejavoo,
-  handleResponseDejavoo
+  handleResponseDejavoo,
+  PaymentTerminalType,
 } from "@utils";
 import { isEmpty } from "lodash";
 import React from "react";
@@ -288,7 +289,7 @@ class TabAppointment extends Layout {
               }
               break;
             case "updateAppointmentPaid":
-              console.log('updateAppointmentPaid', data)
+              // console.log('updateAppointmentPaid', data)
               if (data?.appointment?.checkoutId > 0) {
                 this.setState({...this.state, isEditTipCreditCard: true})
                 this.props.actions.invoice.getInvoiceDetail(data?.appointment?.checkoutId);
@@ -358,7 +359,7 @@ class TabAppointment extends Layout {
       // }, 1000);
     }
 
-    if (invoiceDetail && invoiceDetail != prevProps.invoiceDetail 
+    if (invoiceDetail && invoiceDetail != prevProps.invoiceDetail
       && this.state.isEditTipCreditCard) {
       this.handleEditTipCreditPayment(invoiceDetail);
     }
@@ -369,8 +370,15 @@ class TabAppointment extends Layout {
   }
 
   async handleEditTipCreditPayment(invoiceDetail) {
+    const { paymentMachineType } = this.props;
     this.setState({...this.state, isEditTipCreditCard: false})
-    if(_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
+    if (paymentMachineType != PaymentTerminalType.Dejavoo) {
+      if(this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) {
+          alert("Tip amount does not match.")
+      } else {
+        this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses: null}, invoiceDetail?.appointmentId);
+      }
+    } else if (_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
       const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
       const paymentData = paymentInformation?.paymentData;
       parseString(paymentInformation?.responseData, (err, result) => {
@@ -383,37 +391,47 @@ class TabAppointment extends Layout {
           const invNum = _.get(result, "xmp.response.0.InvNum.0");
           const last4 = _.get(paymentData, 'card_number');
           const extraData = _.get(result, "xmp.response.0.ExtData.0").split(",");
-          let amount = 0
+          let amount = 0;
+          let tipOnDejavoo = 0;
           if (extraData) {
             const findIndex = _.findIndex(extraData, item => {
               return item.includes("Amount")
             })
             amount = findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
+
+            const findIndexTip = _.findIndex(extraData, item => {
+              return item.includes("Tip")
+            })
+            tipOnDejavoo = findIndexTip > -1 ? extraData[findIndexTip].replace("Tip=", "") : 0;
           }
-          if(this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) {
-            const params = {
-              amount,
-              refId,
-              invNum,
-              tip: this.tipSum.toFixed(2),
-              last4,
+          if (this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) {
+            if (tipOnDejavoo != invoiceDetail?.tipAmount && invoiceDetail?.responses.length == 0) {
+              alert("Can not change tip for appointment that have added tip on POS app before.")
+            } else {
+              const params = {
+                amount,
+                refId,
+                invNum,
+                tip: this.tipSum.toFixed(2),
+                last4,
+              }
+              requestEditTipDejavoo(params).then(async (responses) => {
+                 handleResponseDejavoo(responses).then(result => {
+                    this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
+                 },
+                 error => {
+                  setTimeout(() => {
+                    alert(error || "Error")
+                  }, 300)
+                 })
+              });
             }
-            requestEditTipDejavoo(params).then(async (responses) => {
-               handleResponseDejavoo(responses).then(result => {
-                  this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
-               },
-               error => {
-                setTimeout(() => {
-                  alert(error || "Error")
-                }, 300)
-               })
-            });
           } else {
             this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses: null}, invoiceDetail?.appointmentId);
           }
         }
       });
-      
+
     }
   }
 

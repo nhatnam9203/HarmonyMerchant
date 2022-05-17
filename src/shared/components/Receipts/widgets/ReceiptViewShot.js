@@ -68,8 +68,6 @@ export const ReceiptViewShot = React.forwardRef(
         const imageUri = await captureRef(viewShotRef, {
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
-          // format: "jpg",
-          // quality: quality,
         });
 
         return imageUri;

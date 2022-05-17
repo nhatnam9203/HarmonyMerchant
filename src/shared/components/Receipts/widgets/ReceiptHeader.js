@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(19),
     textAlign: "center",
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   textTimeStyle: {
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(18),
     textAlign: "center",
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   textSymbolStyle: {
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(22),
     textAlign: "center",
-    fontWeight: "bold",
+    fontWeight: "500",
   },
 
   textInvoiceLabelStyle: {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(18),
     textAlign: "left",
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   margin: {

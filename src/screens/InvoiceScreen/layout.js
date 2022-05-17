@@ -629,7 +629,7 @@ export default class Layout extends React.Component {
               />
             </Button>
           ) : null}
-
+          {/** Print receipt  */}
           {invoiceDetail?.checkoutId ? (
             <Button
               onPress={this.printCustomerInvoice}

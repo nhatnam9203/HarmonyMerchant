@@ -1,13 +1,14 @@
+import { useAppType } from "@shared/hooks";
 import {
+  formatNumberFromCurrency,
   getInfoFromModelNameOfPrinter,
   getReceiptItems,
   getReceiptSymbol,
-  getTaxRateFromGroupAppointment,
+  getStaffNameForInvoice,
   getTaxRateFromAppointment,
+  getTaxRateFromGroupAppointment,
 } from "@utils";
 import { useSelector } from "react-redux";
-import { getStaffNameForInvoice } from "@utils";
-import { useAppType } from "@shared/hooks";
 
 export const useProps = ({
   appointment,
@@ -40,12 +41,12 @@ export const useProps = ({
         type: "Return",
         id: `${index}_return`,
         data: {
-          name: x.ProductName,
-          qty: x.SaleQuantity,
+          name: x.productName,
+          qty: x.saleQuantity,
           productId: `${index}_return`,
-          price: x.SalePrice,
-          returnPrice: x.ReturnPrice,
-          returnQuantity: x.ReturnQuantity,
+          price: x.salePrice,
+          returnPrice: x.returnPrice,
+          returnQuantity: x.returnQuantity,
         },
       }));
       return temps;
@@ -156,16 +157,20 @@ export const useProps = ({
   };
 
   const getInvoiceCode = () => {
-    if (invoice) return invoice.code;
+    let code;
+    if (invoice) code = invoice.code;
     if (appointment) {
-      if (appointment.invoice?.code) return appointment.invoice?.code;
-      if (appointment?.code) return appointment?.code;
+      if (appointment.invoice?.code) code = appointment.invoice?.code;
+      if (appointment?.code) code = appointment?.code;
     }
     if (groupAppointment?.appointments?.length > 0) {
       const ap = groupAppointment?.appointments[0];
-      if (ap?.code) return ap?.code;
+      if (ap?.code) code = ap?.code;
     }
-    return null;
+    if (code?.indexOf("#") > -1) {
+      code = code.replace("#", "");
+    }
+    return code;
   };
 
   const getSubTotal = () => {
@@ -322,7 +327,17 @@ export const useProps = ({
   };
 
   const getReturnTotal = () => {
+    if (itemReturn) {
+      const { products = [], giftcards = [] } = itemReturn?.returnData || {};
+      const tempTotalReturn = products?.reduce((sum, x) => {
+        return sum + formatNumberFromCurrency(x.returnPrice ?? 0);
+      }, 0);
+
+      return tempTotalReturn;
+    }
+
     if (groupAppointment) return groupAppointment?.returnAmount;
+
     if (appointment) return appointment?.returnAmount;
     return 0;
   };

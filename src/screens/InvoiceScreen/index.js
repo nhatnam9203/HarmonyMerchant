@@ -426,7 +426,7 @@ class InvoiceScreen extends Layout {
     });
   };
 
-  handleVoidRefundClover = async() => {
+  handleVoidRefundClover = async () => {
     const {
       paxMachineInfo,
       invoiceDetail,
@@ -434,7 +434,7 @@ class InvoiceScreen extends Layout {
       paymentMachineType,
       language,
     } = this.props;
-  
+
     const paymentInformation =
       invoiceDetail?.paymentInformation[0]?.responseData || {};
     const method = l.get(
@@ -480,7 +480,7 @@ class InvoiceScreen extends Layout {
         clover.voidPayment(paymentInfo);
       }
     }
-  }
+  };
 
   confirmChangeInvoiceStatus = async () => {
     const {
@@ -490,9 +490,11 @@ class InvoiceScreen extends Layout {
       paymentMachineType,
       language,
     } = this.props;
-  
-    if (invoiceDetail?.paymentMethod === "credit_card" 
-      || invoiceDetail?.paymentMethod === "multiple") {
+
+    if (
+      invoiceDetail?.paymentMethod === "credit_card" ||
+      invoiceDetail?.paymentMethod === "multiple"
+    ) {
       if (paymentMachineType == "Clover") {
         if (invoiceDetail?.paymentMethod === "credit_card") {
           this.handleVoidRefundClover();
@@ -502,7 +504,6 @@ class InvoiceScreen extends Layout {
             alert("Can not void/refund for multiple payment on Clover");
           }, 300);
         }
-
       } else {
         await this.setState({
           visibleConfirmInvoiceStatus: false,
@@ -512,7 +513,7 @@ class InvoiceScreen extends Layout {
           const paymentInformation = invoiceDetail?.paymentInformation[i];
           if (paymentInformation?.checkoutPaymentStatus == "paid") {
             let status = true;
-  
+
             status = await this.handleVoidRefundTerminal(paymentInformation, i);
             if (!status) {
               await this.setState({
@@ -525,20 +526,19 @@ class InvoiceScreen extends Layout {
             }
           }
         }
-  
+
         this.props.actions.invoice.changeStatustransaction(
           invoiceDetail.checkoutId,
           this.getParamsSearch(),
           "",
           paymentMachineType.toLowerCase()
         );
-  
+
         await this.setState({
           visibleProcessingCredit: false,
           titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
         });
       }
-      
     } else {
       //payment method == cash , other, harmony pay
       await this.setState({
@@ -576,7 +576,7 @@ class InvoiceScreen extends Layout {
         alert(localize("Your transaction is invalid", language));
         return false;
       }
-      const transType = invoiceDetail?.status === "paid" ? "Return" : "Void"
+      const transType = invoiceDetail?.status === "paid" ? "Return" : "Void";
       const amount = l.get(paymentData, "amount");
 
       if (index > 0) {
@@ -601,10 +601,7 @@ class InvoiceScreen extends Layout {
 
             requestTransactionDejavoo(params).then((responses) => {
               parseString(responses, (err, result) => {
-                if (
-                  err ||
-                  l.get(result, "xmp.response.0.ResultCode.0") != 0
-                ) {
+                if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
                   status = false;
                 } else {
                   status = true;
@@ -649,8 +646,8 @@ class InvoiceScreen extends Layout {
       }
 
       const transType = invoiceDetail?.status === "paid" ? "RETURN" : "VOID";
-      const amountString = invoiceDetail?.status === "paid" 
-                        ? `${parseFloat(amount)}` : "";
+      const amountString =
+        invoiceDetail?.status === "paid" ? `${parseFloat(amount)}` : "";
       return new Promise((resolve, _) => {
         let status = true;
         PosLink.sendTransaction(
@@ -1321,6 +1318,7 @@ class InvoiceScreen extends Layout {
       printerList,
       printerSelect
     );
+
     const receiptContentBg =
       paymentMachineType == PaymentTerminalType.Clover && !portName
         ? "#fff"
@@ -1330,7 +1328,7 @@ class InvoiceScreen extends Layout {
     const { isSetup } = cloverMachineInfo;
 
     if (
-      (printMachine && printMachine.length > 0) ||
+      (portName && paymentMachineType != PaymentTerminalType.Clover) ||
       (paymentMachineType == PaymentTerminalType.Clover && isSetup) ||
       (paymentMachineType == PaymentTerminalType.Dejavoo &&
         l.get(dejavooMachineInfo, "isSetup"))

@@ -30,3 +30,18 @@ export const LineItem = () => (
     // dashColor="#000"
   />
 );
+
+export const LineFill = ({ width }) => (
+  <Dash
+    style={{
+      height: 1,
+      width: width ?? "100%",
+      marginTop: scaleHeight(20),
+      marginHorizontal: scaleWidth(0),
+    }}
+    dashGap={0}
+    dashLength={1}
+    dashThickness={1}
+    // dashColor="#000"
+  />
+);

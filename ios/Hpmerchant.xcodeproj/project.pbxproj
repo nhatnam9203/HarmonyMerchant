@@ -12,6 +12,7 @@
 		036D902D09E44656805B1CFA /* SF Pro Text Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05323F5903C24B98BC228C5F /* SF Pro Text Heavy.ttf */; };
 		06AC1BF5504042249692A011 /* SF Pro Text Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EC6A6822A1A4FA59936BBD9 /* SF Pro Text Bold.ttf */; };
 		0A39DF09B77B4D16A2A3FB04 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8364A4F07BA646178C6DD608 /* Roboto-BlackItalic.ttf */; };
+		0FCB1D2FE06BCE69D2958858 /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4FE970E52185CF37A19BFB6 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
 		0FCB3F52281F4EDCBB64B9D9 /* SF Pro Text Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 683EBFCCDFFA4D6CAFD97E27 /* SF Pro Text Medium.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -63,7 +64,6 @@
 		23FEDCEF25C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
 		23FEDCF025C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
 		23FEDCF125C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
-		24C2CAD9F3BF8AA296515C10 /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F4D5BDD2C5E48DDC1270FB /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
 		257B7F4878C8449BBA59493D /* segoeui.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3AFB331EC65948FCA438DE7F /* segoeui.ttf */; };
 		3692CEF726EB4190005BBBD3 /* logPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 3692CEF626EB4190005BBBD3 /* logPax.m */; };
 		3692CEF826EB4190005BBBD3 /* logPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 3692CEF626EB4190005BBBD3 /* logPax.m */; };
@@ -145,11 +145,9 @@
 		36F6619B266001C10001187E /* SF Pro Text RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 96B85D4951E94FB6950419E4 /* SF Pro Text RegularItalic.ttf */; };
 		36F6619C266001C10001187E /* SF Pro Text SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 42EE8BA7A3BB492BBD8DFAEB /* SF Pro Text SemiBold.ttf */; };
 		36F6619D266001C10001187E /* SF Pro Text SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B96A141A529B474BA192C166 /* SF Pro Text SemiBoldItalic.ttf */; };
-		37FE5D50B024E541007110C6 /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7306E1F7574108819CC7C4CF /* libPods-Hpmerchant-Hpmerchant_Staging.a */; };
 		381349C769FB40C5948117E7 /* seguibl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B82BCDCB91D64C92AEE3A248 /* seguibl.ttf */; };
 		3AE584DCC2F0435081034147 /* segoeuil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48583430E3074AED91AE7D36 /* segoeuil.ttf */; };
 		3CA3C7A0BC364CF1AA654D88 /* seguisb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 987E7386BB3C48DDAC6C3935 /* seguisb.ttf */; };
-		4D6F61A73CE93AF4BDE00E78 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BF8EEDD8468DF9FF4A6CAC0 /* libPods-Hpmerchant-Hpmerchant_Dev.a */; };
 		521EB0F5577B4ABB9FD6A20F /* segoeuisl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83105186BCD34C48B536BCF3 /* segoeuisl.ttf */; };
 		532EFBB526C61ABD00CF43EA /* clover.m in Sources */ = {isa = PBXBuildFile; fileRef = 532EFBB426C61AB800CF43EA /* clover.m */; };
 		532EFBB626C61ABE00CF43EA /* clover.m in Sources */ = {isa = PBXBuildFile; fileRef = 532EFBB426C61AB800CF43EA /* clover.m */; };
@@ -823,6 +821,7 @@
 		5E3073ED11B145C2B5DDF125 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A41C25138F34A16945F3546 /* Roboto-Italic.ttf */; };
 		652D7AABC2704D70AA175A7A /* SF Pro Text Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 61F25A5AB1D649C8948AF758 /* SF Pro Text Italic.ttf */; };
 		79DC4200AD2F4D56AADCDC32 /* segoeuiz.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B9C36BA235E4FF7A216DF02 /* segoeuiz.ttf */; };
+		8148B9A68BDEFB56A10E6FB9 /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0226C8B2348DAA7CB876DC /* libPods-Hpmerchant-Hpmerchant_Staging.a */; };
 		85CA7B9FD42947E087117548 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D29A847164784954C0962 /* Roboto-Black.ttf */; };
 		987ECCC10D1B4CB3BA7BBAC6 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E6A315D738247029CC067DF /* Roboto-ThinItalic.ttf */; };
 		9BB9771DC5714ADB94890FD8 /* SF Pro Text HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 872B43B1F9A1480AB9457F3A /* SF Pro Text HeavyItalic.ttf */; };
@@ -835,6 +834,7 @@
 		CC8B8BC8E5DE41FD8282CECE /* seguibli.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 640E74BEC09F4290AEF3FC29 /* seguibli.ttf */; };
 		D319F4330CC44C3094D5C310 /* SF Pro Text Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FB1BBE3831F42D9ACB63CFB /* SF Pro Text Regular.ttf */; };
 		D4CAF19C6786417F99242361 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 435DEA95A9F94CB6A89E1CFE /* Roboto-Medium.ttf */; };
+		DA9A7BE25AECB70136F8D74B /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 144CDA7131B337A4C88BFF3E /* libPods-Hpmerchant-Hpmerchant_Dev.a */; };
 		E30B33B49D6845C5A9397143 /* SF Pro Text LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81BF114813B64C2BBECC1808 /* SF Pro Text LightItalic.ttf */; };
 		EB15CF78550049C8AB240D70 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDFE1D10E5B148E8B22BCF35 /* Roboto-BoldItalic.ttf */; };
 		EC9BF273334E4CB0B1381BD6 /* segoeuib.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 624D308F89AB4580B3EF390B /* segoeuib.ttf */; };
@@ -846,8 +846,8 @@
 /* Begin PBXFileReference section */
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* HpmerchantTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HpmerchantTests.m; sourceTree = "<group>"; };
-		04F4D5BDD2C5E48DDC1270FB /* libPods-Hpmerchant-Hpmerchant_Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		05323F5903C24B98BC228C5F /* SF Pro Text Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text Heavy.ttf"; path = "../src/assets/fonts/SF Pro Text Heavy.ttf"; sourceTree = "<group>"; };
+		0613E816558E6D725571A126 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* HPMerchant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HPMerchant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Hpmerchant/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Hpmerchant/AppDelegate.m; sourceTree = "<group>"; };
@@ -855,6 +855,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Hpmerchant/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Hpmerchant/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Hpmerchant/main.m; sourceTree = "<group>"; };
+		144CDA7131B337A4C88BFF3E /* libPods-Hpmerchant-Hpmerchant_Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B9C36BA235E4FF7A216DF02 /* segoeuiz.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = segoeuiz.ttf; path = ../src/assets/fonts/segoeuiz.ttf; sourceTree = "<group>"; };
 		230F1DDB24D3DA2200A95898 /* Staing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Staing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2342065F22DD7C1700E0EA35 /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO.framework"; sourceTree = "<group>"; };
@@ -918,10 +919,12 @@
 		3AFB331EC65948FCA438DE7F /* segoeui.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = segoeui.ttf; path = ../src/assets/fonts/segoeui.ttf; sourceTree = "<group>"; };
 		3BC406F4D447480A9E4FAACA /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-MediumItalic.ttf"; path = "../src/assets/fonts/Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
 		3EC6A6822A1A4FA59936BBD9 /* SF Pro Text Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text Bold.ttf"; path = "../src/assets/fonts/SF Pro Text Bold.ttf"; sourceTree = "<group>"; };
+		404110C3085304F57299B39B /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		42EE8BA7A3BB492BBD8DFAEB /* SF Pro Text SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text SemiBold.ttf"; path = "../src/assets/fonts/SF Pro Text SemiBold.ttf"; sourceTree = "<group>"; };
 		435DEA95A9F94CB6A89E1CFE /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		48583430E3074AED91AE7D36 /* segoeuil.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = segoeuil.ttf; path = ../src/assets/fonts/segoeuil.ttf; sourceTree = "<group>"; };
 		48E11EA2A21E4D618311D512 /* SF Pro Text Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text Light.ttf"; path = "../src/assets/fonts/SF Pro Text Light.ttf"; sourceTree = "<group>"; };
+		4B3D2119004497517C895103 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig"; sourceTree = "<group>"; };
 		4B71325A24CF4948BE37E3A8 /* segoeuii.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = segoeuii.ttf; path = ../src/assets/fonts/segoeuii.ttf; sourceTree = "<group>"; };
 		532EFBB326C61AA700CF43EA /* clover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = clover.h; sourceTree = "<group>"; };
 		532EFBB426C61AB800CF43EA /* clover.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = clover.m; sourceTree = "<group>"; };
@@ -1148,23 +1151,19 @@
 		532EFE4526C6404400CF43EA /* TxStateMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TxStateMessage.swift; sourceTree = "<group>"; };
 		532EFE4626C6404400CF43EA /* RetrievePendingPaymentsRequestMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievePendingPaymentsRequestMessage.swift; sourceTree = "<group>"; };
 		532EFE4726C6404400CF43EA /* VaultCardMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultCardMessage.swift; sourceTree = "<group>"; };
-		559E7E7B61D830320DF47DC1 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; sourceTree = "<group>"; };
 		5A6D29A847164784954C0962 /* Roboto-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Black.ttf"; path = "../src/assets/fonts/Roboto-Black.ttf"; sourceTree = "<group>"; };
 		61F25A5AB1D649C8948AF758 /* SF Pro Text Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text Italic.ttf"; path = "../src/assets/fonts/SF Pro Text Italic.ttf"; sourceTree = "<group>"; };
 		624D308F89AB4580B3EF390B /* segoeuib.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = segoeuib.ttf; path = ../src/assets/fonts/segoeuib.ttf; sourceTree = "<group>"; };
 		640E74BEC09F4290AEF3FC29 /* seguibli.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = seguibli.ttf; path = ../src/assets/fonts/seguibli.ttf; sourceTree = "<group>"; };
 		683EBFCCDFFA4D6CAFD97E27 /* SF Pro Text Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text Medium.ttf"; path = "../src/assets/fonts/SF Pro Text Medium.ttf"; sourceTree = "<group>"; };
+		6A0226C8B2348DAA7CB876DC /* libPods-Hpmerchant-Hpmerchant_Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9DC34FE5904CC280DD286C /* SF Pro Text BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text BoldItalic.ttf"; path = "../src/assets/fonts/SF Pro Text BoldItalic.ttf"; sourceTree = "<group>"; };
-		70828B019784E864B6DD5A42 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
-		7306E1F7574108819CC7C4CF /* libPods-Hpmerchant-Hpmerchant_Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BF8EEDD8468DF9FF4A6CAC0 /* libPods-Hpmerchant-Hpmerchant_Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7CA605EF2ED5EEC16F345D01 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig"; sourceTree = "<group>"; };
 		81BF114813B64C2BBECC1808 /* SF Pro Text LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text LightItalic.ttf"; path = "../src/assets/fonts/SF Pro Text LightItalic.ttf"; sourceTree = "<group>"; };
 		83105186BCD34C48B536BCF3 /* segoeuisl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = segoeuisl.ttf; path = ../src/assets/fonts/segoeuisl.ttf; sourceTree = "<group>"; };
 		8364A4F07BA646178C6DD608 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../src/assets/fonts/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		86C363916FA580C030D568BB /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig"; sourceTree = "<group>"; };
 		872B43B1F9A1480AB9457F3A /* SF Pro Text HeavyItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text HeavyItalic.ttf"; path = "../src/assets/fonts/SF Pro Text HeavyItalic.ttf"; sourceTree = "<group>"; };
 		87565DC9447C44AA901028B2 /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-LightItalic.ttf"; path = "../src/assets/fonts/Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
-		8987E1DEAADFA34B41F5E741 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig"; sourceTree = "<group>"; };
 		8E75CE6F270F4982BF625EC0 /* libRNBluetoothEscposPrinter.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBluetoothEscposPrinter.a; sourceTree = "<group>"; };
 		9139ACE9E6AA406088AC85F7 /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../src/assets/fonts/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		96B85D4951E94FB6950419E4 /* SF Pro Text RegularItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text RegularItalic.ttf"; path = "../src/assets/fonts/SF Pro Text RegularItalic.ttf"; sourceTree = "<group>"; };
@@ -1174,13 +1173,14 @@
 		9FB1BBE3831F42D9ACB63CFB /* SF Pro Text Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text Regular.ttf"; path = "../src/assets/fonts/SF Pro Text Regular.ttf"; sourceTree = "<group>"; };
 		A2668A69F3D04D53BC17BAC2 /* SF Pro Text MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text MediumItalic.ttf"; path = "../src/assets/fonts/SF Pro Text MediumItalic.ttf"; sourceTree = "<group>"; };
 		A3C5E934BAA94D62913B65FB /* seguili.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = seguili.ttf; path = ../src/assets/fonts/seguili.ttf; sourceTree = "<group>"; };
+		AB66A13B26C622FC9FACCE33 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig"; sourceTree = "<group>"; };
 		B82BCDCB91D64C92AEE3A248 /* seguibl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = seguibl.ttf; path = ../src/assets/fonts/seguibl.ttf; sourceTree = "<group>"; };
 		B96A141A529B474BA192C166 /* SF Pro Text SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF Pro Text SemiBoldItalic.ttf"; path = "../src/assets/fonts/SF Pro Text SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		C6BA45BB16629D4A3D412F25 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig"; sourceTree = "<group>"; };
+		C3F5812895B93FFABB58656F /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig"; sourceTree = "<group>"; };
 		CDFE1D10E5B148E8B22BCF35 /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BoldItalic.ttf"; path = "../src/assets/fonts/Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F1A53772D95E428C8B28399B /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../src/assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
-		F5B938AA67A3DCEE4E8D7977 /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig"; sourceTree = "<group>"; };
+		F4FE970E52185CF37A19BFB6 /* libPods-Hpmerchant-Hpmerchant_Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hpmerchant-Hpmerchant_Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1194,7 +1194,7 @@
 				2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */,
 				2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */,
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
-				24C2CAD9F3BF8AA296515C10 /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */,
+				0FCB1D2FE06BCE69D2958858 /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1208,7 +1208,7 @@
 				230F1DC024D3DA2200A95898 /* StarIO.framework in Frameworks */,
 				230F1DC124D3DA2200A95898 /* StarIO_Extension.framework in Frameworks */,
 				230F1DC224D3DA2200A95898 /* JavaScriptCore.framework in Frameworks */,
-				37FE5D50B024E541007110C6 /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */,
+				8148B9A68BDEFB56A10E6FB9 /* libPods-Hpmerchant-Hpmerchant_Staging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,7 +1222,7 @@
 				2388BF3C253FEC34007B4A7A /* StarIO.framework in Frameworks */,
 				2388BF3D253FEC34007B4A7A /* StarIO_Extension.framework in Frameworks */,
 				2388BF3E253FEC34007B4A7A /* JavaScriptCore.framework in Frameworks */,
-				4D6F61A73CE93AF4BDE00E78 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */,
+				DA9A7BE25AECB70136F8D74B /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1414,9 +1414,9 @@
 				2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */,
 				2342065F22DD7C1700E0EA35 /* StarIO.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				7BF8EEDD8468DF9FF4A6CAC0 /* libPods-Hpmerchant-Hpmerchant_Dev.a */,
-				04F4D5BDD2C5E48DDC1270FB /* libPods-Hpmerchant-Hpmerchant_Production.a */,
-				7306E1F7574108819CC7C4CF /* libPods-Hpmerchant-Hpmerchant_Staging.a */,
+				144CDA7131B337A4C88BFF3E /* libPods-Hpmerchant-Hpmerchant_Dev.a */,
+				F4FE970E52185CF37A19BFB6 /* libPods-Hpmerchant-Hpmerchant_Production.a */,
+				6A0226C8B2348DAA7CB876DC /* libPods-Hpmerchant-Hpmerchant_Staging.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1457,12 +1457,12 @@
 		51A61F587B2C0002B60C1005 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				70828B019784E864B6DD5A42 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */,
-				559E7E7B61D830320DF47DC1 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */,
-				8987E1DEAADFA34B41F5E741 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */,
-				C6BA45BB16629D4A3D412F25 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */,
-				7CA605EF2ED5EEC16F345D01 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */,
-				F5B938AA67A3DCEE4E8D7977 /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */,
+				404110C3085304F57299B39B /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */,
+				86C363916FA580C030D568BB /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */,
+				0613E816558E6D725571A126 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */,
+				AB66A13B26C622FC9FACCE33 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */,
+				4B3D2119004497517C895103 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */,
+				C3F5812895B93FFABB58656F /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1838,14 +1838,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hpmerchant_Production" */;
 			buildPhases = (
-				21E2C84702376E3304C6F92D /* [CP] Check Pods Manifest.lock */,
+				FC36F746918098262D961074 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				23A6A60C22ACDBDF00739B1A /* ShellScript */,
-				ED75EBB1A57E6BB7064BB161 /* [CP] Embed Pods Frameworks */,
-				77E9F6B8918B760278E3AF5D /* [CP] Copy Pods Resources */,
+				AB5C95BABAA22CF4ED06E25A /* [CP] Embed Pods Frameworks */,
+				6D3E4B49C3C679FF5E1405A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1860,14 +1860,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 230F1DD824D3DA2200A95898 /* Build configuration list for PBXNativeTarget "Hpmerchant_Staging" */;
 			buildPhases = (
-				DDA9EDE89AAEBCEA3C0FE634 /* [CP] Check Pods Manifest.lock */,
+				468F430EC8BD2CDB4E3E7622 /* [CP] Check Pods Manifest.lock */,
 				230F1DB524D3DA2200A95898 /* Sources */,
 				230F1DBB24D3DA2200A95898 /* Frameworks */,
 				230F1DD224D3DA2200A95898 /* Resources */,
 				230F1DD524D3DA2200A95898 /* Bundle React Native code and images */,
 				230F1DD624D3DA2200A95898 /* ShellScript */,
-				E82ADC166C3226B2E924402F /* [CP] Embed Pods Frameworks */,
-				43F732D6B6EF0A8A7D8D0CDC /* [CP] Copy Pods Resources */,
+				74A9FCD7B687B9DCC08D3F7C /* [CP] Embed Pods Frameworks */,
+				A5D8AE5117DC3DC5C963833A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1882,14 +1882,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2388BF58253FEC34007B4A7A /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */;
 			buildPhases = (
-				8439D83755B2CAF597BC4F86 /* [CP] Check Pods Manifest.lock */,
+				56EA18CC4914BB131EB82D3E /* [CP] Check Pods Manifest.lock */,
 				2388BEFD253FEC34007B4A7A /* Sources */,
 				2388BF37253FEC34007B4A7A /* Frameworks */,
 				2388BF51253FEC34007B4A7A /* Resources */,
 				2388BF55253FEC34007B4A7A /* Bundle React Native code and images */,
 				2388BF56253FEC34007B4A7A /* ShellScript */,
-				480D6681E7EFB1F4F76C3905 /* [CP] Embed Pods Frameworks */,
-				47A2287ABFDF3CDB9DEE052A /* [CP] Copy Pods Resources */,
+				E444E509650F598CD4CEFB46 /* [CP] Embed Pods Frameworks */,
+				B172E6167DACD7E33D9E21C6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2104,28 +2104,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=$(which node)\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		21E2C84702376E3304C6F92D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Production-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		230F1DD524D3DA2200A95898 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2208,107 +2186,7 @@
 			shellScript = "
 ";
 		};
-		43F732D6B6EF0A8A7D8D0CDC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		47A2287ABFDF3CDB9DEE052A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		480D6681E7EFB1F4F76C3905 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		77E9F6B8918B760278E3AF5D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8439D83755B2CAF597BC4F86 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Dev-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DDA9EDE89AAEBCEA3C0FE634 /* [CP] Check Pods Manifest.lock */ = {
+		468F430EC8BD2CDB4E3E7622 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2330,7 +2208,49 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E82ADC166C3226B2E924402F /* [CP] Embed Pods Frameworks */ = {
+		56EA18CC4914BB131EB82D3E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Dev-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6D3E4B49C3C679FF5E1405A6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		74A9FCD7B687B9DCC08D3F7C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2348,7 +2268,27 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ED75EBB1A57E6BB7064BB161 /* [CP] Embed Pods Frameworks */ = {
+		A5D8AE5117DC3DC5C963833A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB5C95BABAA22CF4ED06E25A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2364,6 +2304,66 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B172E6167DACD7E33D9E21C6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E444E509650F598CD4CEFB46 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC36F746918098262D961074 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Production-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3100,7 +3100,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8987E1DEAADFA34B41F5E741 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */;
+			baseConfigurationReference = 0613E816558E6D725571A126 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3108,7 +3108,7 @@
 				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
@@ -3155,7 +3155,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C6BA45BB16629D4A3D412F25 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */;
+			baseConfigurationReference = AB66A13B26C622FC9FACCE33 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3163,7 +3163,7 @@
 				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3208,7 +3208,7 @@
 		};
 		230F1DD924D3DA2200A95898 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7CA605EF2ED5EEC16F345D01 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */;
+			baseConfigurationReference = 4B3D2119004497517C895103 /* Pods-Hpmerchant-Hpmerchant_Staging.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = StaingIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -3219,6 +3219,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
 					"\"${PODS_ROOT}/../../node_modules/react-native-star-prnt/ios/Frameworks\"/**",
@@ -3262,7 +3263,7 @@
 		};
 		230F1DDA24D3DA2200A95898 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5B938AA67A3DCEE4E8D7977 /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */;
+			baseConfigurationReference = C3F5812895B93FFABB58656F /* Pods-Hpmerchant-Hpmerchant_Staging.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = StaingIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -3272,6 +3273,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
 					"\"${PODS_ROOT}/../../node_modules/react-native-star-prnt/ios/Frameworks\"/**",
@@ -3314,7 +3316,7 @@
 		};
 		2388BF59253FEC34007B4A7A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70828B019784E864B6DD5A42 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */;
+			baseConfigurationReference = 404110C3085304F57299B39B /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -3369,7 +3371,7 @@
 		};
 		2388BF5A253FEC34007B4A7A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 559E7E7B61D830320DF47DC1 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */;
+			baseConfigurationReference = 86C363916FA580C030D568BB /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
