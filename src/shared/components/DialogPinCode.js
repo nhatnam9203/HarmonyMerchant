@@ -62,23 +62,6 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
     dispatch(actions.staff.loginStaff(merchantID, value));
   };
 
-  /**
-  |--------------------------------------------------
-  | useEffect
-  |--------------------------------------------------
-  */
-  // React.useEffect(() => {
-  //   if (!staffLogin) {
-  //     return;
-  //   }
-
-  //   const { codeStatus, message, data } = staffLogin || {};
-  //   if (statusSuccess(codeStatus)) {
-  //     dispatch(authMerchant.staffSignIn(data));
-  //     dialogRef.current?.hide();
-  //   }
-  // }, [staffLogin]);
-
   const onLoadApps = React.useCallback(() => {
     if (isLoginStaff) {
       getCategoriesList();

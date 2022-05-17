@@ -268,43 +268,14 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
             </View>
             <View style={styles.marginVertical} />
 
-            {/* <FormInput
-              label={t("Cash amount (The money on the Box)")}
-              placeholder={t("Enter the amount")}
-              onChangeValue={setAmount}
-              defaultValue={amount}
-              keyboardType="numeric"
-              onFocus={(event: Event) => {
-                // `bind` the function if you're using ES6 classes
-                _scrollToInput(ReactNative.findNodeHandle(event.target));
-              }}
-            /> */}
-
             <Text style={styles.textStyle}>
               {t("Cash amount (The money on the Box)")}
             </Text>
             <View style={styles.marginVertical} />
 
-            {/* <CustomInputMoney
-              style={styles.textInputContainer}
-              textInputProps={{
-                placeholder: "Price",
-                fontSize: scaleFont(15),
-                textAlign: "left",
-                defaultValue: amount || 0,
-                onChangeText: setAmount,
-                keyboardType: "numeric",
-                onFocus: (event: Event) => {
-                  // `bind` the function if you're using ES6 classes
-                  _scrollToInput(ReactNative.findNodeHandle(event.target));
-                },
-              }}
-            /> */}
-
             <FormInputMask
               label={t("Price ($)")}
               placeholder={"Price"}
-              // required={true}
               onChangeValue={setAmount}
               defaultValue={amount || 0}
               keyboardType="numeric"

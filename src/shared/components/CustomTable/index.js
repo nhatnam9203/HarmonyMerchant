@@ -53,14 +53,6 @@ const avgPropertiesKey = (array, key) => {
   return sum / array.length;
 };
 
-// const strCompare = (a, b) => {
-//   // check valid date -> sort date
-//   if (moment(a).isValid() && moment(b).isValid()) {
-//     return moment(a, DATE_FORMAT) <= moment(b, DATE_FORMAT);
-//   }
-//   return a.toString().localeCompare(b.toString());
-// };
-
 const SORT_STATE = {
   desc: "DESC",
   asc: "ASC",

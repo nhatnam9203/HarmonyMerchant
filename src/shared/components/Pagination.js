@@ -118,13 +118,6 @@ export const Pagination = ({
             width={scaleWidth(80)}
             height={scaleHeight(32)}
           />
-          {/* <ButtonFilter
-        filterItems={ITEMS_COUNTER}
-        defaultValue={10}
-        onChangeValue={(item) => {}}
-        width={scaleWidth(80)}
-        height={scaleHeight(32)}
-      /> */}
         </>
       )}
     </View>

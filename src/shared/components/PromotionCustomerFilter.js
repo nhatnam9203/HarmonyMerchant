@@ -134,7 +134,6 @@ export const PromotionCustomerFilter = React.forwardRef(
             >
               <CustomTableCheckBox
                 defaultValue={cellItem?.checked}
-                // onValueChange={handleCheckRow}
                 editable={false}
               />
               <Text
@@ -160,7 +159,6 @@ export const PromotionCustomerFilter = React.forwardRef(
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
-                // disable={!form.isValid}
                 onPress={onHandleApply}
               />
             </View>
@@ -175,32 +173,19 @@ export const PromotionCustomerFilter = React.forwardRef(
                 phone: t("Phone Number"),
               }}
               whiteListKeys={["customerName", "phone"]}
-              // sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
               primaryKey="customerId"
-              // unitKeys={{ totalDuration: "hrs" }}
               widthForKeys={{
                 customerName: "60%",
                 phone: scaleWidth(300),
               }}
               emptyDescription={t("No Customers")}
-              // styleTextKeys={{ customerName: styles.textName }}
-              // onSortWithKey={onSortWithKey}
               formatFunctionKeys={{
                 phone: (value) => formatPhoneNumber(value),
               }}
               renderCell={onRenderTableCell}
               onRowPress={handleSelectRow}
-              // onRefresh={onRefresh}
             />
             <View style={layouts.marginVertical} />
-            {/* <Pagination
-              onChangePage={setPage}
-              onChangeItemsPerPage={() => {}}
-              visibleItemsPerPage={false}
-              defaultPage={DEFAULT_PAGE}
-              {...pagination}
-              length={customerList?.length}
-            /> */}
           </View>
         </DialogLayout>
       </View>
