@@ -12,7 +12,7 @@ const ACTIVE_TEXT_COLOR = "#fff";
 const INACTIVE_TEXT_COLOR = "#0764B0";
 
 const FONT_TEXT_SIZE = 15;
-const TAB_DEFAULT_HEIGHT = 44;
+const TAB_DEFAULT_HEIGHT = 42;
 
 //================================
 //Header Tab Layout
@@ -100,19 +100,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    flex: 0,
     height: "100%",
     paddingVertical: scaleWidth(5),
     paddingHorizontal: scaleWidth(20),
   },
   tabs: {
-    height: TAB_DEFAULT_HEIGHT,
+    height: scaleHeight(TAB_DEFAULT_HEIGHT),
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: scaleHeight(2),
+    borderWidth: scaleHeight(1),
     borderColor: "#0764B0",
-    borderRadius: scaleWidth(9),
+    borderRadius: scaleWidth(6),
     overflow: "hidden",
     alignSelf: "center",
   },
