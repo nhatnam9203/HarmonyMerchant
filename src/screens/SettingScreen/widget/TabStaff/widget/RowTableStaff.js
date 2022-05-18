@@ -16,22 +16,6 @@ import connectRedux from '@redux/ConnectRedux';
 
 const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, moveEnd, toggleStaffActive }) => {
 
-    // const [source, setSource] = useState({
-    //     uri: staff?.imageUrl,
-    //     priority: FastImage.priority.low,
-    //     cache: FastImage.cacheControl.immutable
-    // });
-
-    // useEffect(() => {
-    //     if (source?.uri && source?.uri !== staff?.imageUrl) {
-    //         setSource({
-    //             uri: staff?.imageUrl,
-    //             priority: FastImage.priority.low,
-    //             cache: FastImage.cacheControl.immutable
-    //         })
-    //     }
-    // }, [staff?.imageUrl])
-
     function toggleIsActive(isActive) {
         toggleStaffActive(staff, isActive);
     }

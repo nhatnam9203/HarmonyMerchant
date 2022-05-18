@@ -69,9 +69,6 @@ class HeaderTableProducts extends React.Component {
                             {localize('Product', language)}
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortStaffName} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -86,9 +83,6 @@ class HeaderTableProducts extends React.Component {
                         {localize('SKU Number', language)}
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortRole} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -103,9 +97,6 @@ class HeaderTableProducts extends React.Component {
                             {localize('Categories', language)}
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortRole} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -120,9 +111,6 @@ class HeaderTableProducts extends React.Component {
                             {localize('Quantity', language)}
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortRole} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
@@ -137,9 +125,6 @@ class HeaderTableProducts extends React.Component {
                         {localize('Need To Order', language)}
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortRole} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                        <Image source={iconSortRole} style={styles.iconSort} />
-                    </Button> */}
                     <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>

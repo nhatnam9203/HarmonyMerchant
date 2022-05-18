@@ -447,7 +447,6 @@ class Layout extends React.Component {
             >
               {isCustomService &&
                 !isBookingFromCalendar &&
-                // !isBookingFromAppointmentTab &&
                 categoryTypeSelected != "Product" &&
                 blockAppointments.length == 0 &&
                 customService && (
@@ -911,9 +910,6 @@ class Layout extends React.Component {
       (!isBlockBookingFromCalendar || !isBookingFromCalendar) &&
       ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
         (blockAppointments.length && isShowAddBlock) > 0);
-    // const isShowAddButton =
-    //   (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
-    //   (blockAppointments.length && isShowAddBlock) > 0;
 
     return (
       <View style={[styles.basket_box, tempStyle]}>
@@ -1009,23 +1005,6 @@ class Layout extends React.Component {
             />
           ))}
         </View>
-        {/* <View style={styles.box_payment_container}>
-           {["Gift Card"].map((title, index) => (
-            <ItemPaymentMethod
-              key={index}
-              title={title}
-              selectedPayment={this.selectedPayment}
-              paymentSelected={this.state.paymentSelected}
-            />
-          ))}
-        <QRCodePay
-          key="QRCodePay"
-          appointment={groupAppointment}
-          onPaidAppointment={this.onCodePayPaidAppointment}
-        />
-        <View style={{ flex: 1 }} />
-      </View> * /}
-
         {/* ------ Footer ----- */}
         <View
           style={{
@@ -1603,10 +1582,7 @@ class Layout extends React.Component {
 
         <PopupEnterAmountCustomService
           ref={this.popupEnterAmountCustomServiceRef}
-          // onRequestClose={this.onRequestCloseBillModal}
           language={language}
-          // extractBill={this.extractBill}
-          // doneBill={this.doneBill}
           submitAddCustomService={this.submitAddCustomService}
         />
       </View>

@@ -1,7 +1,9 @@
 import IMAGE from "@resources";
+import { PopupStaffSalaryReceipt } from "@shared/components";
+import { layouts } from "@shared/themes";
 import { localize } from "@utils";
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import {
   PopupStaffInvoicePrint,
@@ -26,8 +28,9 @@ export default function StaffReportTab({
   onLoadMore,
   endLoadMore,
 }) {
-  const language = useSelector((state) => state.dataLocal.language);
+  const popupStaffSalaryRef = React.useRef(null);
 
+  const language = useSelector((state) => state.dataLocal.language);
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
 
   /**state */
@@ -98,6 +101,10 @@ export default function StaffReportTab({
     bindFilterName();
   }, [listStaffsSalary]);
 
+  const showPopupReceipts = () => {
+    popupStaffSalaryRef.current?.show();
+  };
+
   /**render */
   //callback render action cell
   const renderActionCell = ({ item }) => {
@@ -116,6 +123,35 @@ export default function StaffReportTab({
     return null;
   };
 
+  const buttonPrintAllStaffSalary = () => {
+    return (
+      <TouchableOpacity
+        style={{
+          width: scaleWidth(120),
+          height: scaleHeight(40),
+          justifyContent: "center",
+          alignItems: "center",
+          borderColor: "#CCCCCC",
+          borderWidth: 1,
+          flexDirection: "row",
+          borderRadius: scaleWidth(3),
+        }}
+        onPress={showPopupReceipts}
+      >
+        <Text style={layouts.tableName}>{"Print all"}</Text>
+        <View style={{ width: scaleWidth(10) }} />
+        <Image
+          source={IMAGE.print_btn}
+          style={{
+            width: scaleWidth(24),
+            height: scaleHeight(24),
+            tintColor: "#6A6A6A",
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={style}>
       <ReportTabLayout
@@ -131,7 +167,12 @@ export default function StaffReportTab({
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
         filterNameDefault={FILTER_NAME_DEFAULT}
-        rightTooltip={<></>}
+        rightTooltip={
+          <>
+            <View style={layouts.marginHorizontal} />
+            {buttonPrintAllStaffSalary()}
+          </>
+        }
         title={localize("Staff Salary", language)}
       >
         <TableListExtended
@@ -216,6 +257,11 @@ export default function StaffReportTab({
         visiblePrintInvoice={showStaffInvoicePrint}
         onRequestClose={cancelStaffInvoicePrint}
         staff={currentStaff}
+      />
+
+      <PopupStaffSalaryReceipt
+        ref={popupStaffSalaryRef}
+        staffs={listStaffsSalary}
       />
     </View>
   );

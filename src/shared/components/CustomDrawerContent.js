@@ -46,19 +46,6 @@ export const CustomDrawerContent = (props) => {
         inactiveTintColor="#FFFFFF"
 
       />
-      {/* <DrawerItem
-        label="Log Time"
-        icon={() => <CustomDrawerIcon source={IMAGE["Timekeeping"]} />}
-        onShowed={() => {
-          navigation?.closeDrawer();
-        }}
-        style={styles.itemStyle}
-        labelStyle={styles.labelStyle}
-        activeBackgroundColor="#0764B0"
-        inActiveBackgroundColor="#0764B0"
-        inactiveTintColor="#FFFFFF"
-        onPress={startLogTime}
-      /> */}
 
       <AgencyLogo />
     </DrawerContentScrollView>

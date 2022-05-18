@@ -91,13 +91,6 @@ export const usePrinter = ({
             alignment: "Center",
           });
 
-          // var endTime = performance.now();
-          // commands.push({
-          //   appendBitmapText: `Call to printProcess took ${
-          //     endTime - startTime
-          //   } milliseconds`,
-          // });
-
           commands.push({
             appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
           });

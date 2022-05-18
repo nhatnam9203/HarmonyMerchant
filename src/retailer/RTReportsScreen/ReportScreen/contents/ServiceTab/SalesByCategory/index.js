@@ -158,7 +158,6 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
       layoutRef.current?.goBack();
     },
     didBlur: () => {
-      // setTitleRangeTime("This week");
     },
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);

@@ -56,7 +56,6 @@ export const useProps = (props) => {
       page: page,
       ...(type && { type: type.value }),
       ...timeVal,
-      // sort: { startDate: sortDate },
     });
   }, [type, page, searchVal, timeVal]);
 

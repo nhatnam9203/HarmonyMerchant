@@ -63,7 +63,6 @@ class ItemBasket extends React.Component {
                     {/* ------------ */}
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: '#6A6A6A', fontSize: scaleSize(13), }} numberOfLines={1} >
-                            {/* {item.type === 'Product' ? item.quanlitySet : item.data.name} */}
                             {item.type === 'Product' ||  item.type ==="GiftCards" ? item.quanlitySet : item.data.name}
                         </Text>
                     </View>

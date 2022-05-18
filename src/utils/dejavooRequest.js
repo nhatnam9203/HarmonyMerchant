@@ -6,6 +6,7 @@ import {
 import _ from "lodash";
 import { parseString } from "react-native-xml2js";
 import configureStore from "../redux/store";
+import actions from "@actions";
 const { store } = configureStore();
 let headers = Object.assign(
   { Accept: "xml", "Content-Type": "xml" }
@@ -106,10 +107,12 @@ export const requestTransactionDejavoo = async (params) => {
   export const requestSettlementDejavoo = async () => {
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
+    const refId = Date.now();
+    // store.dispatch(actions.invoice.saveSettleRefId(refId));
     const param = `<request>`+
                 `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
                 `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
-                `<RefId>${Date.now()}</RefId>`+
+                `<RefId>${refId}</RefId>`+
                 `<TransType>Settle</TransType>`+
                 `<Param>Close</Param>`+
                 `</request>`
@@ -119,7 +122,7 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: 420000,
+    timeout: 180000,
     };
     const response = await handleRequest(configs)
     return response

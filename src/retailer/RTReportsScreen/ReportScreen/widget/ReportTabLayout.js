@@ -28,16 +28,6 @@ function ReportTabLayout({
 }) {
   const language = useSelector((state) => state.dataLocal.language);
 
-  /**state */
-
-  /**refs */
-
-  /**function */
-
-  /**effect */
-
-  /**render */
-
   return (
     <View style={style}>
       {title && <HeaderTitle title={title} />}

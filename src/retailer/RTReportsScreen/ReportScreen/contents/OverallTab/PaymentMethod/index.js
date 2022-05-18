@@ -145,9 +145,6 @@ function PaymentMethodTab(
   }));
 
   /**effect */
-  // useEffect(() => {
-  //   getOverallPaymentMethod();
-  // }, []);
   useFocusEffect(
     React.useCallback(() => {
       getOverallPaymentMethod();

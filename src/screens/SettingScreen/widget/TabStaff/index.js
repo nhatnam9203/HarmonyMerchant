@@ -113,9 +113,6 @@ class TabStaff extends Layout {
   };
 
   addStaff = async () => {
-    // await this.setState({
-    //   isEditStaff: false,
-    // });
     this.props.actions.staff.switchAddStaff(true);
 
     if (this.addStaffRef?.current) {
@@ -244,10 +241,6 @@ class TabStaff extends Layout {
       searchFilter
     );
   };
-
-  // componentDidMount() {
-  //   this.props.actions.staff.getStaffByMerchantId('', '', '', false, false);
-  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { isEditStaffByIdSuccess } = this.props;

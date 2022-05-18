@@ -53,7 +53,6 @@ function ServiceTab({ style, showBackButton }, ref) {
   useImperativeHandle(ref, () => ({
     goBack: onGoBack,
     didBlur: () => {
-      // setTitleRangeTime("This week");
       salesByCategoryTabRef?.current?.didBlur();
       salesByServiceTabRef?.current?.didBlur();
     },

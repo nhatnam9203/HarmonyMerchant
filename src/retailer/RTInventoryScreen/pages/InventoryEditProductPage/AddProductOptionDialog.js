@@ -162,9 +162,6 @@ export const AddProductOptionDialog = ({
             ListFooterComponent={onRenderFooterComponent}
             ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
             ListEmptyComponent={() => <View></View>}
-            // refreshControl={
-            //   <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-            // }
             onEndReachedThreshold={0.1}
             onEndReached={onHandleLoadMore}
           />

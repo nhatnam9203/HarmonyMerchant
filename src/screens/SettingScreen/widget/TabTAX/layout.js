@@ -86,27 +86,6 @@ class Layout extends React.Component {
         >
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             {
-              // isSubmitTax ? <ButtonCustom
-              //     width={scaleSize(130)}
-              //     height={50}
-              //     backgroundColor="#0764B0"
-              //     title="SAVE"
-              //     textColor="#fff"
-              //     onPress={this.setupTAX}
-              //     style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-              //     styleText={{ fontSize: scaleSize(20), fontWeight: '500' }}
-              // /> :
-              //     <ButtonCustom
-              //         width={scaleSize(130)}
-              //         height={50}
-              //         backgroundColor="#F1F1F1"
-              //         title="SAVE"
-              //         textColor="#6A6A6A"
-              //         onPress={() => { }}
-              //         style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-              //         styleText={{ fontSize: scaleSize(20), fontWeight: '500' }}
-              //         activeOpacity={1}
-              //     />
               <ButtonGradient
                 label={'Save'.toUpperCase()}
                 width={scaleWidth(400)}

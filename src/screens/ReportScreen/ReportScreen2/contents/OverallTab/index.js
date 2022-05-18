@@ -54,7 +54,6 @@ function OverallTab({ style, showBackButton }, ref) {
   useImperativeHandle(ref, () => ({
     goBack: onGoBack,
     didBlur: () => {
-      // setTitleRangeTime("This week");
       paymentTabRef?.current?.didBlur();
       efficiencyTabRef?.current?.didBlur();
     },

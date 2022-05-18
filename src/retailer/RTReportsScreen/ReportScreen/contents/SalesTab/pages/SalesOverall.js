@@ -54,16 +54,6 @@ export const SalesOverall = () => {
   | useEffect
   |--------------------------------------------------
   */
-
-  //   React.useEffect(() => {
-  //     callGetReportSalesOverall();
-  //   }, []);
-
-  // React.useEffect(() => {
-  //   callGetReportSalesOverall();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timeVal]);
-
   useFocusEffect(
     React.useCallback(() => {
       callGetReportSalesOverall();

@@ -62,23 +62,6 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
     dispatch(actions.staff.loginStaff(merchantID, value));
   };
 
-  /**
-  |--------------------------------------------------
-  | useEffect
-  |--------------------------------------------------
-  */
-  // React.useEffect(() => {
-  //   if (!staffLogin) {
-  //     return;
-  //   }
-
-  //   const { codeStatus, message, data } = staffLogin || {};
-  //   if (statusSuccess(codeStatus)) {
-  //     dispatch(authMerchant.staffSignIn(data));
-  //     dialogRef.current?.hide();
-  //   }
-  // }, [staffLogin]);
-
   const onLoadApps = React.useCallback(() => {
     if (isLoginStaff) {
       getCategoriesList();
@@ -142,18 +125,8 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
           <View style={styles.marginVertical} />
           <Text style={styles.title}>{t("Enter your PIN code")}</Text>
           <View style={styles.marginVertical} />
-          {/* <CustomInput
-            style={styles.input}
-            textInputStyle={styles.textInput}
-            textInputProps={{
-              secureTextEntry: true,
-              blurOnSubmit: false,
-              defaultValue: value,
-            }}
-          /> */}
           <View style={styles.input}>
             <TextInput
-              // onChangeText={onHandleChangeText}
               value={value}
               secureTextEntry={true}
               blurOnSubmit={false}

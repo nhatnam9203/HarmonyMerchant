@@ -32,7 +32,8 @@ export const ReportStaffTab = React.forwardRef(
           lazy={true}
           optimizationsEnabled={true}
           swipeEnabled={false}
-          tabBar={(props) => <CustomTopTab {...props} />}
+          tabBar={(props) => <></>}
+          // tabBar={(props) => <CustomTopTab {...props} />}
         >
           <Screen
             name={"ReportStaffSalaryTab"}
@@ -42,14 +43,14 @@ export const ReportStaffTab = React.forwardRef(
             }}
             initialParams={{ showBackButton: showBackButton }}
           />
-          <Screen
+          {/* <Screen
             name={"ReportStaffLogTimeTab"}
             component={StaffLogTime}
             options={{
               title: t("Log Time"),
             }}
             initialParams={{ showBackButton: showBackButton }}
-          />
+          /> */}
         </Navigator>
       </View>
     );

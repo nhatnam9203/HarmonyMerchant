@@ -62,7 +62,6 @@ export const DialogEditProductOrder = React.forwardRef(
         onEditProductItem(productItem, {
           quantity: quantity ?? 1,
           price: formatNumberFromCurrency(amount),
-          // changeToCost: true,
         });
       }
       dialogRef.current?.hide();
@@ -182,7 +181,6 @@ export const DialogEditProductOrder = React.forwardRef(
             <Text style={styles.textStyle}>{t("Quantity")}</Text>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <FormInputAmount
-                // label={t("Quantity")}
                 defaultValue={quantity}
                 onChangeValue={(value) => {
                   onHandleChangeText(value);

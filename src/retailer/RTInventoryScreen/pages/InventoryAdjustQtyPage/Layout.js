@@ -160,17 +160,6 @@ export const Layout = ({
         </Text>
         <View style={styles.headerRightContent}>
           <View style={layouts.marginHorizontal} />
-
-          {/* <ButtonGradient
-            label={t("Edit")}
-            width={scaleWidth(120)}
-            height={scaleHeight(40)}
-            fontSize={scaleFont(17)}
-            textColor={colors.WHITE}
-            textWeight="normal"
-            // onPress={onEditProduct}
-          />
-          <View style={layouts.marginHorizontal} /> */}
           <ButtonGradientWhite
             width={scaleWidth(40)}
             height={scaleHeight(40)}

@@ -56,16 +56,6 @@ export const FormEditNotes = ({
 
   return (
     <View style={styles.container}>
-      {/* {orderStatus === ORDERED_STATUS.PENDING && (
-        <CustomCheckBox
-          label={t("Did not pay")}
-          onValueChange={setToggleCheckBox}
-          selectedColor={colors.OCEAN_BLUE}
-          onCheckColor="#fff"
-          textStyle={styles.textStyle}
-          style={{ height: scaleHeight(40) }}
-        />
-      )} */}
       <Text>{t("Comment Text")}</Text>
       <View style={layouts.marginVertical} />
       <TextInput

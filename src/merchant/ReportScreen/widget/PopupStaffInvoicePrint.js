@@ -1,32 +1,24 @@
+import { ButtonCustom } from "@components";
+import PrintManager from "@lib/PrintManager";
+import connectRedux from "@redux/ConnectRedux";
+import {
+  formatWithMoment,
+  getInfoFromModelNameOfPrinter,
+  localize,
+  scaleSize,
+} from "@utils";
+import _ from "ramda";
 import React from "react";
 import {
-  View,
-  Text,
-  Keyboard,
   ActivityIndicator,
-  DeviceEventEmitter,
-  Platform,
+  Modal,
   ScrollView,
   StyleSheet,
-  Modal,
-  Image,
+  Text,
+  View,
 } from "react-native";
 import { StarPRNT } from "react-native-star-prnt";
 import { captureRef, releaseCapture } from "react-native-view-shot";
-import _ from "ramda";
-
-import { Button, ButtonCustom } from "@components";
-import {
-  scaleSize,
-  localize,
-  PRINTER_MACHINE,
-  formatWithMoment,
-  checkStatusPrint,
-  getInfoFromModelNameOfPrinter,
-} from "@utils";
-import connectRedux from "@redux/ConnectRedux";
-import PrintManager from "@lib/PrintManager";
-import ICON from "@resources";
 
 const initalState = {
   basket: [],

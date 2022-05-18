@@ -139,10 +139,6 @@ export default function StaffReportTab({
             surcharge: localize("Surcharge", language),
             netServiceSales: localize("Net Service Sale", language),
             serviceSplit: localize("Service Split", language),
-            // productSales: localize("Product Sales", language),
-            // productSplit: localize("Product Split", language),
-            // workingHour: localize("Working Hour", language),
-            // salaryWage: localize("Salary Wage", language),
             tip: localize("Tip Amount", language),
             discountByStaff: localize("Discount By Staff", language),
             refundAmount: localize("Refund amount", language),
@@ -154,10 +150,6 @@ export default function StaffReportTab({
             "surcharge",
             "netServiceSales",
             "serviceSplit",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
             "tip",
             "discountByStaff",
             "refundAmount",
@@ -171,10 +163,6 @@ export default function StaffReportTab({
             "surcharge",
             "netServiceSales",
             "serviceSplit",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
             "tip",
             "discountByStaff",
             "refundAmount",
@@ -185,10 +173,6 @@ export default function StaffReportTab({
             "surcharge",
             "netServiceSales",
             "serviceSplit",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
             "tip",
             "discountByStaff",
             "refundAmount",
@@ -209,7 +193,6 @@ export default function StaffReportTab({
       </ReportTabLayout>
 
       <PopupStaffInvoicePrint
-        // ref={this.invoicePrintRef}
         visiblePrintInvoice={showStaffInvoicePrint}
         onRequestClose={cancelStaffInvoicePrint}
         staff={currentStaff}

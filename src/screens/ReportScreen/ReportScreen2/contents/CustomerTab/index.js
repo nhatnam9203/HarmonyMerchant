@@ -24,10 +24,6 @@ function CustomerTab({ style, showBackButton }, ref) {
 
   const exportFilePath = useSelector((state) => state.report.exportFilePath);
 
-  // const statisticExportFilePath = useSelector(
-  //   (state) => state.report.statisticExportFilePath
-  // );
-
   const customerReportList = useSelector(
     (state) => state.report.customerReportList
   );
@@ -93,21 +89,6 @@ function CustomerTab({ style, showBackButton }, ref) {
           )
         );
         break;
-      case 1:
-        // const filterItem = customerReportList.find(
-        //   (item) => item.type === filterNameItem
-        // );
-        // if (!filterItem) return;
-        // dispatch(
-        //   actions.report.exportGiftCardReportSalesStatistics(
-        //     filterItem.giftCardGeneralId,
-        //     layoutRef?.current?.getTimeUrl(),
-        //     true,
-        //     "excel",
-        //     titleExportFile
-        //   )
-        // );
-        break;
       default:
         break;
     }
@@ -123,7 +104,6 @@ function CustomerTab({ style, showBackButton }, ref) {
       layoutRef.current?.goBack();
     },
     didBlur: () => {
-      // getCustomerReportSales();
     },
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
@@ -179,7 +159,6 @@ function CustomerTab({ style, showBackButton }, ref) {
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() => onShowPopupExport("CustomerStatistic")}
-          // pathFileExport={statisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onRefresh={refreshData}
           isRefreshing={refreshing}

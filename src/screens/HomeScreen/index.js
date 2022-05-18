@@ -36,8 +36,6 @@ class HomeScreen extends Layout {
     this.tabAppointmentRef = React.createRef();
     this.tabCheckoutRef = React.createRef();
     this.popupEnterPinRef = React.createRef();
-    // this.unsubscribeNetInfo = null;
-    // this.watcherNetwork = new Subject();
     this.checkMarketingPermissionRef = React.createRef();
 
     this.onEndReachedCalledDuringMomentum = true;
@@ -77,13 +75,6 @@ class HomeScreen extends Layout {
         }
       }
     );
-
-    // this.initWatcherNetwork();
-
-    // this.unsubscribeNetInfo = NetInfo.addEventListener((state) => {
-    //   const isConnected = state.isConnected ? state.isConnected : false;
-    //   this.watcherNetwork.next(isConnected);
-    // });
 
     AppState.addEventListener("change", this.handleAppStateChange);
   }
@@ -150,32 +141,6 @@ class HomeScreen extends Layout {
       return false;
     }
   };
-
-  // initWatcherNetwork = () => {
-  //   this.watcherNetwork
-  //     .pipe(distinctUntilChanged())
-  //     .subscribe((isConnected) => {
-  //       console.log(isConnected);
-  //       this.checkIsOfflineMode(isConnected);
-  //     });
-  // };
-
-  // checkIsOfflineMode = (isConnected) => {
-  //   const { isOfflineMode } = this.props;
-  //   if (!isConnected && !isOfflineMode) {
-  //     this.props.actions.app.showPopupDisconneted();
-  //   } else {
-  //     this.props.actions.app.showPopupDisconneted(false);
-
-  //     if (isConnected && isOfflineMode) {
-  //       this.props.actions.app.showPopupConneted(true);
-  //     }
-
-  //     if (isOfflineMode) {
-  //       this.props.actions.app.toogleOfflineMode(false);
-  //     }
-  //   }
-  // };
 
   async getCurrentLocation() {
     const { profile } = this.props;
@@ -379,13 +344,10 @@ class HomeScreen extends Layout {
           this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
         }, 200);
       }
-      //gọi hàm load category ở đây , lưu ý trường hợp checkout group appointment
     }
   };
 
   bookAppointment = async (appointmentId, staffId = 0) => {
-    // this.props.actions.appointment.getAppointmentById(appointmentId);
-    // console.log("====> bookAppointmentFromCalendar");
 
     this.props.actions.appointment.getGroupAppointmentById(
       appointmentId,
@@ -695,9 +657,6 @@ class HomeScreen extends Layout {
   componentWillUnmount() {
     this.didBlurSubscription();
     this.didFocusSubscription();
-
-    // this.watcherNetwork?.pipe(finalize(() => {}));
-    // this.unsubscribeNetInfo();
 
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     AppState.removeEventListener("change", this.handleAppStateChange);

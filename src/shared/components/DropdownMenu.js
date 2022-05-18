@@ -186,12 +186,8 @@ const styles = StyleSheet.create({
     borderRadius: scaleWidth(3),
     backgroundColor: colors.WHITE,
     borderWidth: scaleWidth(1),
-    // borderLeftWidth: scaleWidth(1),
-    // borderRightWidth: scaleWidth(1),
-    // borderBottomWidth: scaleWidth(1),
     borderStyle: "solid",
     borderColor: "#fff",
-    // flex: 1,
     shadowColor: "#0006",
     shadowOffset: {
       width: 1,

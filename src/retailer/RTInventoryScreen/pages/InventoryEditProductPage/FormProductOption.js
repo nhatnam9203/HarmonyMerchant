@@ -106,17 +106,6 @@ export const FormProductOption = React.forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [item?.attributeId]);
 
-    // const onUpdate = React.useCallback(() => {
-    //   if (onUpdateOptionValues && typeof onUpdateOptionValues === "function") {
-    //     onUpdateOptionValues(item);
-    //   }
-    // }, [item]);
-
-    // React.useEffect(() => {
-    //   onUpdate();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [item]);
-
     const updateAttributes = (attributes) => {
       // update lai thu tu options
     };
@@ -131,12 +120,10 @@ export const FormProductOption = React.forwardRef(
             active: t("Active"),
             value: t("Swatch"),
             label: t("Value Label"),
-            // valueAdd: t("Additional Price"),
           }
         : {
             active: t("Active"),
             label: t("Value Label"),
-            // valueAdd: t("Additional Price"),
           };
     };
 
@@ -315,7 +302,6 @@ export const FormProductOption = React.forwardRef(
               headerKeyLabels={getHeaderKeys()}
               whiteListKeys={getTableKeys()}
               primaryKey="attributeValueId"
-              // unitKeys={{ totalDuration: "hrs" }}
               widthForKeys={{
                 active: scaleWidth(100),
                 value: "10%",
@@ -329,33 +315,6 @@ export const FormProductOption = React.forwardRef(
             />
           )}
         </View>
-        {/* {item?.updateProductImage && (
-          <View>
-            <InfoHeading label={t("Option Image")} fontSize={scaleWidth(17)} />
-
-            <View style={styles.content}>
-              <FlatList
-                style={styles.flatList}
-                numColumns={10}
-                data={item?.values}
-                renderItem={onRenderOptionsImage}
-                keyExtractor={(v) => v?.id}
-                contentContainerStyle={styles.flatListContainer}
-                // ListHeaderComponent={() => <View style={styles.itemSeparator} />}
-                // ListFooterComponent={() => <View style={styles.itemSeparator} />}
-                ItemSeparatorComponent={() => (
-                  <View style={styles.itemSeparator} />
-                )}
-                // ListEmptyComponent={() => (
-                //   <EmptyList description={emptyDescription} />
-                // )}
-                // refreshControl={
-                //   <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-                // }
-              />
-            </View>
-          </View>
-        )} */}
       </View>
     );
   }

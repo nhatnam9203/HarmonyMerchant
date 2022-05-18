@@ -15,7 +15,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Modal from "react-native-modal";
 import { useSelector } from "react-redux";
 
-const DEFAULT_WIDTH = scaleWidth(391);
+const DEFAULT_WIDTH = scaleWidth(350);
 
 export const DialogReturnItemComplete = React.forwardRef(
   ({ groupAppointmentId, cancelPrint }, ref) => {
@@ -210,7 +210,7 @@ export const DialogReturnItemComplete = React.forwardRef(
               styles.content,
               {
                 height: scaleHeight(450),
-                width: widthPaper ? parseFloat(widthPaper) : DEFAULT_WIDTH,
+                width: DEFAULT_WIDTH,
               },
             ]}
           >
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
 
   content: {
     position: "absolute",
-    top: 0,
-    // top: metrics.screenHeight,
+    // top: 0,
+    top: metrics.screenHeight,
   },
 });

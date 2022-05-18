@@ -8,6 +8,7 @@ import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { LineFill } from "./ReceiptLine";
 
 export const ReceiptTotal = ({
   subtotal = 0,
@@ -31,7 +32,8 @@ export const ReceiptTotal = ({
   return (
     <View style={styles.container}>
       <View style={styles.margin} />
-      <View style={styles.line} />
+      <LineFill width={"100%"} />
+
       <View style={styles.margin} />
 
       <TextTotal
@@ -76,15 +78,17 @@ export const ReceiptTotal = ({
           fontSize={scaleFont(22)}
         >{`${formatMoneyWithUnit(returnTotal)}`}</TextTotal>
       )}
+      <>
+        <View style={styles.margin} />
+        <TextFill label={`${_.padEnd("Tip", 15, " ")}`}>
+          <LineFill width={"60%"} />
+        </TextFill>
+      </>
       {printTemp && !fromAppointmentTab && (
         <>
           <View style={styles.margin} />
-          <TextFill label={`${_.padEnd("Tip", 15, " ")}`}>
-            <View style={styles.line} />
-          </TextFill>
-          <View style={styles.margin} />
           <TextFill label={`${_.padEnd("Total", 14, " ")}`}>
-            <View style={styles.line} />
+            <LineFill width={"60%"} />
           </TextFill>
         </>
       )}
@@ -152,7 +156,7 @@ export const ReceiptTotal = ({
       <View style={styles.margin} />
       {((isSignature && !printTemp) || (printTemp && !fromAppointmentTab)) && (
         <TextFill label={`${_.padEnd("Signature", 10, " ")}`}>
-          <View style={styles.line} />
+          <LineFill width={"60%"} />
         </TextFill>
       )}
       <View style={styles.margin} />
@@ -208,7 +212,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(20),
     textAlign: "left",
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   textStyle: {
@@ -216,7 +220,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: scaleFont(20),
     textAlign: "right",
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   margin: {
@@ -236,8 +240,9 @@ const styles = StyleSheet.create({
 
   line: {
     flex: 1,
+    height: scaleHeight(20),
     borderBottomColor: "#000",
-    borderBottomWidth: 1,
+    borderBottomWidth: scaleHeight(1),
   },
 
   rowSignature: {

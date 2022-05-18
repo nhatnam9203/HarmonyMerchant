@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import Spinner from "react-native-spinkit";
 
-const LOADING_TIME_OUT = 30000;
+const LOADING_TIME_OUT = 240000;
 export const AppLoading = ({
   loading = false,
   onCancelLoading,
@@ -43,7 +43,6 @@ export const AppLoading = ({
   return isLoading ? (
     <View style={styles.container}>
       <View style={styles.loadingBg}>
-        {/* <ActivityIndicator color="#fff" size="large" /> */}
         <Spinner
           style={styles.spinner}
           type={"FadingCircle"}

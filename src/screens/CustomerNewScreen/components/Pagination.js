@@ -8,35 +8,8 @@ import ICON from '@resources';
 export const Pagination = ({
   currentPage = 2,
   pages = 55,
-  //   width,
-  //   height,
-  //   imgWidth,
-  //   imgHeight,
-  //   borderRadius,
-  //   borderWidth,
-  //   source,
-  //   borderColor,
-  //   imgStyle,
-  //   resizeMode,
-  //   style,
   ...rest
 }) => {
-  //   const styleButtonIcon = [
-  //     styles.container,
-  //     height && { height },
-  //     width && { width },
-  //     borderColor && { borderColor },
-  //     borderWidth && { borderWidth },
-  //     borderRadius && width && height && { borderRadius: width / 2 },
-  //     style,
-  //   ];
-
-  //   const styleImage = [
-  //     height && { height: imgHeight ?? height / 2 },
-  //     width && { width: imgWidth ?? width / 2 },
-  //     imgStyle,
-  //   ];
-
   return (
     <Block row middle width={scaleSize(140)} space="space-between">
       <ButtonIcon
@@ -78,17 +51,3 @@ const styles = StyleSheet.create({
     color: '#404040',
   },
 });
-
-// Pagination.defaultProps = {
-//   width: null,
-//   height: null,
-//   imgWidth: null,
-//   imgHeight: null,
-//   borderRadius: false,
-//   borderWidth: null,
-//   source: null,
-//   borderColor: null,
-//   imgStyle: {},
-//   resizeMode: 'contain',
-//   style: {},
-// };

@@ -349,7 +349,6 @@ export default function GiftCardBarGroupChart({
         </View>
         {!_.isEmpty(xAxis) && !_.isEmpty(dataChart) && (
           <BarChart
-            // dragEnabled={true}
             style={styles.chart}
             data={dataChart}
             xAxis={xAxis}
@@ -358,15 +357,6 @@ export default function GiftCardBarGroupChart({
             legend={legend}
             entryLabelTextSize={14}
             touchEnabled={false}
-            // dragEnabled={true}
-            // scaleEnabled={true}
-            // scaleXEnabled={true}
-            // scaleYEnabled={true}
-            // pinchZoom={true}
-            // doubleTapToZoomEnabled={false}
-            // dragDecelerationEnabled={false}
-            // dragDecelerationFrictionCoef={0.99}
-            // zoom={{ scaleX: 1, scaleY: 1, xValue: 0, yValue: 0 }}
             highlightFullBarEnabled={false}
           />
         )}
@@ -382,7 +372,6 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
-    // paddingHorizontal: 20,
   },
   amountContent: {
     position: "absolute",

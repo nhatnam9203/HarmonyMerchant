@@ -387,7 +387,6 @@ class ItemFirstPricing extends React.Component {
                     </View>
                     <Switch
                         trackColor={{ false: "#767577", true: "#4CD964" }}
-                        // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
                         ios_backgroundColor="#E5E5E5"
                         onValueChange={(toogle) => this.setState({ toogle })}
                         value={toogle}

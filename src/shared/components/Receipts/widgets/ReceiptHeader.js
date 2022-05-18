@@ -33,12 +33,9 @@ export const ReceiptHeader = ({
       )}
       <View style={styles.margin} />
       <TextSymbol>{` ${symbol} `}</TextSymbol>
-      {/* <View style={styles.margin} /> */}
       <TextTime>
         {` ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} `}
       </TextTime>
-      {/* <LineHeader />
-       */}
       <View style={styles.margin} />
       <View style={styles.margin} />
       {!!staffName && (
@@ -96,7 +93,6 @@ const styles = StyleSheet.create({
   },
 
   textNameStyle: {
-    // fontFamily: fonts.BOLD,
     color: "#000",
     fontSize: scaleFont(22),
     textAlign: "center",
@@ -104,31 +100,27 @@ const styles = StyleSheet.create({
   },
 
   textLabelStyle: {
-    // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(19),
     textAlign: "center",
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   textTimeStyle: {
-    // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(18),
     textAlign: "center",
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   textSymbolStyle: {
-    // fontFamily: fonts.BOLD,
     color: "#000",
     fontSize: scaleFont(22),
     textAlign: "center",
-    fontWeight: "bold",
+    fontWeight: "500",
   },
 
   textInvoiceLabelStyle: {
-    // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(18),
     textAlign: "left",
@@ -136,11 +128,10 @@ const styles = StyleSheet.create({
   },
 
   textInvoiceStyle: {
-    // fontFamily: fonts.MEDIUM,
     color: "#000",
     fontSize: scaleFont(18),
     textAlign: "left",
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   margin: {

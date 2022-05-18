@@ -160,42 +160,6 @@ export const BasketPaymentContent = React.forwardRef(
 
     React.useEffect(() => {
       if (orderItem?.products?.length > 0 || orderItem?.giftCards?.length > 0) {
-        // const temps = orderItem.products?.reduce((previous, x) => {
-        //   let groups = previous ?? [];
-        //   const keyUnique = x.productName + " + " + x.value;
-
-        //   const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
-
-        //   if (isExitIdx >= 0) {
-        //     const existItem = groups[isExitIdx];
-        //     groups[isExitIdx] = Object.assign({}, existItem, {
-        //       value: [...existItem.value, x],
-        //     });
-        //   } else {
-        //     groups.push({ key: keyUnique, value: [x] });
-        //   }
-
-        //   return groups;
-        // }, []);
-
-        // const giftCardTemps = orderItem.giftCards?.reduce((previous, x) => {
-        //   let groups = previous ?? [];
-        //   const keyUnique = x.giftCardId + "";
-
-        //   const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
-
-        //   if (isExitIdx >= 0) {
-        //     const existItem = groups[isExitIdx];
-        //     groups[isExitIdx] = Object.assign({}, existItem, {
-        //       value: [...existItem.value, x],
-        //     });
-        //   } else {
-        //     groups.push({ key: keyUnique, value: [x] });
-        //   }
-
-        //   return groups;
-        // }, []);
-
         setItems([
           ...(orderItem?.products?.map((x) =>
             Object.assign({}, x, { key: x.bookingProductId })
@@ -209,13 +173,7 @@ export const BasketPaymentContent = React.forwardRef(
       }
     }, [orderItem]);
 
-    // React.useImperativeHandle(ref, () => ({
-    //   canCreateOrder: () => {},
-    // }));
-
     const renderItem = ({ item }) => {
-      // const firstItem = item.value[0];
-      // const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
 
       const onHandleAddDiscount = () => {
         if (!item.bookingProductId) return;
@@ -322,7 +280,6 @@ export const BasketPaymentContent = React.forwardRef(
                 style={{ marginLeft: scaleWidth(15) }}
                 trackColor={{ false: "#767577", true: "#0764B0" }}
                 ios_backgroundColor="#E5E5E5"
-                // onValueChange={switchTax}
                 value={isTax ? true : false}
                 tabName={menuTabs.CHECKOUT_DISCOUNT}
                 onPermission={switchTax}

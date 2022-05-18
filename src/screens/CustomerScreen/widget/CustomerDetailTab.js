@@ -98,10 +98,6 @@ class CustomerDetailTab extends React.Component {
     this.props.deleteCustomer(this.state.customer);
   };
 
-  //   optionEditCustomer = () => {
-  //     this.props.optionEditCustomer(this.state.customer);
-  //   };
-
   renderHeaderFlatlist() {
     const { customerHistory, pastAppointments } = this.props;
     const upcomings = customerHistory?.upcomings || [];
@@ -498,7 +494,6 @@ class CustomerDetailTab extends React.Component {
                 }
                 renderBase={() => (
                   <View>
-                    {/* <Image source={ICON.edit_customer_icon} style={{ width: scaleSize(20), height: scaleSize(20) }} /> */}
                     <Text
                       style={{
                         fontSize: scaleSize(25),

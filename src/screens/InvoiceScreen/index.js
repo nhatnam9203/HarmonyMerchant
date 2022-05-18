@@ -775,12 +775,6 @@ class InvoiceScreen extends Layout {
       }
     } else {
       if (data.ResultCode === "000000") {
-        // this.props.actions.invoice.voidRefundPaymentTransaction(
-        //   paymentData?.paymentTransactionId,
-        //   true,
-        //   result,
-        //   "pax"
-        // );
         this.props.actions.invoice.changeStatustransaction(
           invoiceDetail?.checkoutId,
           this.getParamsSearch(),
@@ -791,12 +785,6 @@ class InvoiceScreen extends Layout {
           titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
         });
       } else {
-        // this.props.actions.invoice.voidRefundPaymentTransaction(
-        //   paymentData?.paymentTransactionId,
-        //   false,
-        //   result,
-        //   "pax"
-        // );
         PosLink.cancelTransaction();
         setTimeout(() => {
           alert(data.message);
@@ -928,17 +916,6 @@ class InvoiceScreen extends Layout {
         quanlitySet: product.quantity ? product.quantity : "",
       });
     });
-
-    // ------ Push Product -------
-    // appointment?.extras.forEach((extra) => {
-    //   arrayExtrasBuy.push({
-    //     type: "Extra",
-    //     data: {
-    //       name: extra.extraName ? extra.extraName : "",
-    //       price: extra.price ? extra.price : "",
-    //     },
-    //   });
-    // });
 
     const extraServiceItems = appointment?.extras || [];
     if (extraServiceItems?.length > 0) {
@@ -1315,6 +1292,7 @@ class InvoiceScreen extends Layout {
       printerList,
       printerSelect
     );
+
     const receiptContentBg =
       paymentMachineType == PaymentTerminalType.Clover && !portName
         ? "#fff"
@@ -1324,7 +1302,7 @@ class InvoiceScreen extends Layout {
     const { isSetup } = cloverMachineInfo;
 
     if (
-      (printMachine && printMachine.length > 0) ||
+      (portName && paymentMachineType != PaymentTerminalType.Clover) ||
       (paymentMachineType == PaymentTerminalType.Clover && isSetup) ||
       (paymentMachineType == PaymentTerminalType.Dejavoo &&
         l.get(dejavooMachineInfo, "isSetup"))

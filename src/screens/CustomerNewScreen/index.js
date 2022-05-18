@@ -269,13 +269,6 @@ class CustomerNewScreen extends Layout {
   };
 
   addNewCustomer = () => {
-    // if (this.editCustomerRef?.current) {
-    //   this.editCustomerRef.current?.setStateFromListCusomterTab();
-    // } else {
-    //   setTimeout(() => {
-    //     this.editCustomerRef.current?.setStateFromListCusomterTab();
-    //   }, 250);
-    // }
     this.scrollTabRef.current?.goToPage(2);
   };
 

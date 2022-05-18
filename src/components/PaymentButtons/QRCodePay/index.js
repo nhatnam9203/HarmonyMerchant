@@ -18,6 +18,7 @@ export const QRCodePay = ({ appointment, onPaidAppointment }) => {
   };
 
   const onResultScanCode = (data) => {
+    // setCode("1012012720125122");
     setCode(data);
     // show loading
   };

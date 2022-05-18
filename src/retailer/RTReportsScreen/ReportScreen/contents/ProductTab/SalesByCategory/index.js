@@ -81,10 +81,6 @@ function SalesByCategoryTab({
   |--------------------------------------------------
   */
 
-  // React.useEffect(() => {
-  //   callGetReportSaleCategory();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timeVal, filterCategory]);
   useFocusEffect(
     React.useCallback(() => {
       callGetReportSaleCategory();

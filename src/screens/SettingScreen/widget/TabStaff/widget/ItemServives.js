@@ -386,8 +386,6 @@ class ItemServives extends React.Component {
             <Text style={styles.text}>{`Select All`}</Text>
           </View>
         </View>
-
-        {/* <Test /> */}
       </View>
     );
   }

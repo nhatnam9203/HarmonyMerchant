@@ -98,7 +98,6 @@ export const StaffsItem = ({ staff, onPress ,sendTotalViaSMS}) => {
             {/* ---------- SMS -------- */}
             <Button onPress={() => sendTotalViaSMS(staff)} style={{width:scaleSize(30),justifyContent:"center",alignItems:"center"}} >
                 <Image source={ICON.sms_logo}
-                // style={{height:scaleSize(15),width:scaleSize(15)}}
                 />
             </Button>
         </Button>

@@ -49,6 +49,7 @@ const initialState = {
 
   depositedAmount: 0,
   depositTotalBySettlementId: 0,
+  settleRefId: null, //use for get settle status dejavoo
 };
 
 function invoiceReducer(state = initialState, action) {
@@ -67,6 +68,11 @@ function invoiceReducer(state = initialState, action) {
       return {
         ...state,
         settleWaiting: action.settleWaiting,
+      };
+    case "SAVE_SETTLE_REF_ID":
+      return {
+        ...state,
+        settleRefId: action.settleRefId,
       };
     case "GET_LIST_INVOICE_BY_MERCHANT":
       return {

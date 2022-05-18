@@ -39,62 +39,6 @@ export default function SalesByCategory({
   const { t } = useTranslation();
   const calendarRef = React.useRef(null);
 
-  // create filter name data
-  // const bindFilterName = () => {
-  //   if (!productSaleByCategoryList) return [];
-
-  //   let array = [];
-
-  //   const arrMap = productSaleByCategoryList.map((item) => ({
-  //     value: item.categoryName,
-  //     ...item,
-  //   }));
-  //   array.push(...arrMap);
-
-  //   setFilterNames(array);
-
-  //   if (onChangeFilterNames) {
-  //     onChangeFilterNames(array);
-  //   }
-  // };
-
-  // binding data list for name filter
-  // const filterDataTable = () => {
-  //   return filterNameItem &&
-  //     !defaultFilterList?.find((x) => x.value === filterNameItem)
-  //     ? productSaleByCategoryList.filter(
-  //         (item) => item.categoryName === filterNameItem
-  //       )
-  //     : productSaleByCategoryList;
-  // };
-
-  // callback
-  // const onChangeFilterName = (filterName) => {
-  //   setFilterNameItem(filterName);
-  //   if (onChangeFilterId) {
-  //     onChangeFilterId(filterName);
-  //   }
-  // };
-
-  // const goStatistics = async (item) => {
-  //   if (!item) return;
-  //   // change to statistic tab
-
-  //   await onGoStatistics(item);
-  // };
-  // React.useEffect(() => {
-  //   const unsubscribeFocus = navigation.addListener("focus", (props) => {
-  //     if (timeValue) calendarRef.current?.setTimeValue(timeValue);
-  //   });
-
-  //   const unsubscribeBlur = navigation.addListener("blur", () => {});
-
-  //   return () => {
-  //     unsubscribeFocus();
-  //     unsubscribeBlur();
-  //   };
-  // }, [navigation]);
-
   React.useEffect(() => {
     if (timeValue) {
       calendarRef.current?.updateTimeValue(timeValue);

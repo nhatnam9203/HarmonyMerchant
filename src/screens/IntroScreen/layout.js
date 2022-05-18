@@ -145,10 +145,6 @@ const ItemSlideLast = props => {
                     resizeMode="contain"
                 />
             </View>
-            {/* <View style={styles.slideText} >
-                <Text style={styles.slideTextTitle} >{title}</Text>
-                <Text style={styles.slideTextDesc} >{desc}</Text>
-            </View> */}
         </View>
     );
 }

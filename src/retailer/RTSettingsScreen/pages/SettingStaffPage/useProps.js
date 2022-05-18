@@ -43,15 +43,7 @@ export const useProps = (props) => {
       const temptUpdate = { ...searchFilter, [key]: value };
       await setSearchFilter(temptUpdate);
     }
-    // if (key !== 'keySearch') {
-    //   setTimeout(() => {
-    //     searchStaff();
-    //   }, 100);
-    // } else {
-    //   if (value === '') {
-    //     searchStaff();
-    //   }
-    // }
+   
   };
 
   const onResponse = (key, data) => {

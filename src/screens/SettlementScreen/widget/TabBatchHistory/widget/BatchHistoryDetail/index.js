@@ -31,16 +31,6 @@ class BatchHistoryDetail extends Layout {
     }
   };
 
-  // shareBatchHistoryDetail = () => {
-  //     const { settlementDetail } = this.state;
-  //     const settlementId = settlementDetail.settlementId ? settlementDetail.settlementId : 0;
-  //     this.props.actions.upload.exportBatchDetail(settlementId);
-  // }
-
-  // printBatchHistoryDetail = () => {
-
-  // }
-
   printBatchHistoryDetail = async () => {
     this.receiptRef.current?.print();
   };
@@ -52,8 +42,6 @@ class BatchHistoryDetail extends Layout {
   gotoCreditPaymentDetail = () => {
     const batchId = this.state.settlementDetail?.settlementId || "";
     this.props.actions.invoice.getCreditBatchDetailById(batchId);
-    // this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
-    // this.props.gotoCreditPaymentDetail({ ...this.state.settlementDetail });
   };
 }
 

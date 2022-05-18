@@ -133,21 +133,8 @@ const PromotionHome = ({
             sendStartCampaign={onSendStartCampaign}
           />
         )}
-        // ListHeaderComponent={() => <CampaignTableHeader />}
         ListFooterComponent={() => (
           <>
-            {/* <Text style={{
-                        color: "#404040", fontSize: scaleSize(16), fontWeight: "600",
-                        marginLeft: scaleSize(14), marginTop: scaleSize(28), marginBottom: scaleSize(8)
-                    }} >
-                        {`Rules`}
-                    </Text>
-                    <RuleTableHeader />
-                    <RuleRow
-                        viewRule={viewRule}
-                        disableRule={disableRule}
-                    /> */}
-
             {/* ------------  Gift For New Customer ------------ */}
 
             <View style={{ flexDirection: "row", marginTop: scaleSize(25) }}>

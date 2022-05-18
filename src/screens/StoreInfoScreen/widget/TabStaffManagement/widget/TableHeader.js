@@ -74,9 +74,6 @@ class TableHeader extends React.Component {
                                 Staff Name
                             </Text>
                         </View>
-                        {/* <Button onPress={this.sortStaffName} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortStaffName} style={styles.iconSort} />
-                        </Button> */}
                         <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View>
@@ -90,9 +87,6 @@ class TableHeader extends React.Component {
                                 ID
                             </Text>
                         </View>
-                        {/* <Button onPress={this.sortId} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortId}  style={styles.iconSort} />
-                        </Button> */}
                         <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View>
@@ -106,9 +100,6 @@ class TableHeader extends React.Component {
                                 Role
                             </Text>
                         </View>
-                        {/* <Button onPress={this.sortRole} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortRole}  style={styles.iconSort} />
-                        </Button> */}
                         <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View>
@@ -122,9 +113,6 @@ class TableHeader extends React.Component {
                                 Status
                             </Text>
                         </View>
-                        {/* <Button onPress={this.sortStatus} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
-                            <Image source={iconSortStatus}  style={styles.iconSort} />
-                        </Button> */}
                         <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View>

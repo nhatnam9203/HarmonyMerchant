@@ -15,15 +15,6 @@ export const useGetGroupAppointment = () => {
       }
     );
 
-  // React.useEffect(() => {
-  //   if (loading) {
-  //     dispatch(appMerchant.showLoading());
-  //   }
-  //   if (!loading && response) {
-  //     dispatch(appMerchant.hideLoading());
-  //   }
-  // }, [dispatch, loading, response]);
-
   const getGroupAppointment = (appointmentId) => {
     execute({
       url: `appointment/getGroupById/${appointmentId}`,

@@ -457,11 +457,9 @@ function TableList({
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => getCellKey(item, primaryId)}
-        // ListHeaderComponent={renderHeader}
         ListFooterComponent={onRenderFooterSpace}
         ItemSeparatorComponent={renderSeparator}
         ListEmptyComponent={renderListEmpty}
-        // extraData={selectedItem}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
@@ -506,7 +504,6 @@ const styles = StyleSheet.create({
   },
   row: {
     backgroundColor: "#FFFFFF",
-    // height: TABLE_ROW_HEIGHT,
     flexDirection: "row",
     justifyContent: "space-evenly",
   },

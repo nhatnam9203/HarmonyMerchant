@@ -67,7 +67,6 @@ export default function CustomerOverall({
           ]}
           sortedKeys={{ name: sortName }}
           primaryKey="customerId"
-          //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
             name: scaleWidth(300),
             appointmentCount: scaleWidth(150),
@@ -76,7 +75,6 @@ export default function CustomerOverall({
             total: scaleWidth(180),
           }}
           emptyDescription={t('No Report Data')}
-          //   styleTextKeys={{ customerName: styles.textName }}
           onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             lastVisitDate: (value) =>

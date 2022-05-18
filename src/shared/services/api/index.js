@@ -55,11 +55,7 @@ const request = async (action, header = {}) => {
   try {
     let result = await axios(options);
     response = ErrorHandler(result, null);
-
-    // const codeNumber = response.status ? response.status : 0;
-    // if (codeNumber === 401) {
-    //   return { codeNumber: codeNumber };
-    // }
+    
   } catch (error) {
     response = ErrorHandler(null, error);
   }

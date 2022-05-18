@@ -220,21 +220,6 @@ export const Layout = ({
               style={[layouts.fill, isDidNotPay && styles.disableStyle]}
               pointerEvents={isDidNotPay ? "none" : "auto"}
             >
-              {/* <View style={styles.rowContent}>
-                <ButtonPaymentMethod
-                  key={"HarmonyPay"}
-                  title={"HarmonyPay"}
-                  selectedPayment={selectedPayment}
-                  paymentSelected={paymentSelected}
-                />
-
-                <ButtonPaymentMethod
-                  key={"Cash"}
-                  title={"Cash"}
-                  selectedPayment={selectedPayment}
-                  paymentSelected={paymentSelected}
-                />
-              </View> */}
               <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"Cash"}

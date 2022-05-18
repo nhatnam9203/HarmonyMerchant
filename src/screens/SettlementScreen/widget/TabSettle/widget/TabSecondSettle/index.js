@@ -12,6 +12,7 @@ import {
     roundFloatNumber,
     requestAPI,
     formatNumberFromCurrency,
+    requestSettlementStatusDejavoo,
   } from '@utils';
   import Configs from "@configs";
 import * as l from "lodash";
@@ -211,7 +212,9 @@ class TabSecondSettle extends Layout {
                 settleWaiting,
                 cloverMachineInfo,
                 dejavooMachineInfo,
-                paymentMachineType } = this.props;
+                paymentMachineType,
+                invoice,
+             } = this.props;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const { creditCount, settleTotal } = this.state;
 
@@ -243,24 +246,8 @@ class TabSecondSettle extends Layout {
             && l.get(dejavooMachineInfo, "isSetup")){
             this.props.actions.app.loadingApp();
             const responses = await requestSettlementDejavoo();
-            parseString(responses, (err, result) => {
-                if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
-                  const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}`
-                                    || "Error";
-                  this.props.actions.app.stopLoadingApp();
-                  this.setState({
-                    numberFooter: 1,
-                    progress: 0,
-                    })
 
-                  this.props.actions.app.connectPaxMachineError(resultTxt);
-                  this.confirmSettleWithoutTerminalPayment()
-
-                } else {
-
-                    this.proccessingSettlement("[]");
-                }
-            })
+            this.handleResponseSettlementDejavoo(responses);
 
         } else if (isSetup && settleTotal?.terminalID) {
             //Pax
@@ -290,32 +277,6 @@ class TabSecondSettle extends Layout {
                     const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
                     const responseData = [];
 
-                    //Close check duplicate transactions when close batch
-                    // if (creditCount != paymentTransaction) {
-                    //     this.props.actions.app.loadingApp();
-                    //     try {
-                    //         for (let i = 1; i <= creditCount; i++) {
-                    //             let data = await PosLinkReport.reportTransaction({
-                    //                 transType: "LOCALDETAILREPORT",
-                    //                 edcType: "ALL",
-                    //                 cardType: "",
-                    //                 paymentType: "",
-                    //                 commType: commType,
-                    //                 destIp: tempIpPax,
-                    //                 portDevice: tempPortPax,
-                    //                 timeoutConnect: "90000",
-                    //                 bluetoothAddr: idBluetooth,
-                    //                 refNum: `${i}`
-                    //             });
-                    //             let result = JSON.parse(data);
-                    //             responseData.push(result);
-                    //         }
-                    //     } catch (error) {
-                    //         this.setState({errorMessage: "Get report error"})
-                    //         this.props.actions.app.stopLoadingApp();
-                    //         // console.log("---- error: ", error);
-                    //     }
-                    // };
                     this.props.actions.app.stopLoadingApp();
                     this.setState({errorMessage: "Begin close batch"})
 
@@ -334,6 +295,57 @@ class TabSecondSettle extends Layout {
         } else {
             this.confirmSettleWithoutTerminalPayment()
         }
+    }
+
+    handleResponseSettlementDejavoo = (responses) => {
+        const { invoice } = this.props;
+        parseString(responses, (err, result) => {
+            const errorCode = l.get(result, 'xmp.response.0.ResultCode.0')
+            if (err || errorCode != 0) {
+              if(errorCode == "999") {
+                
+                  requestSettlementDejavoo().then((responseSettle) => {
+                    this.handleResponseReportSettlement(responseSettle)
+                })
+              } else {
+                const resultTxt = l.get(result, 'xmp.response.0.Message.0')
+                                    || "Error";
+                this.props.actions.app.stopLoadingApp();
+                this.setState({
+                    numberFooter: 1,
+                    progress: 0,
+                    })
+
+                this.props.actions.app.connectPaxMachineError(resultTxt);
+                this.confirmSettleWithoutTerminalPayment()
+              }
+            } else {
+                this.proccessingSettlement("[]");
+            }
+        })
+    }
+
+    handleResponseReportSettlement = (responses) => {
+        parseString(responses, (err, result) => {
+            const errorCode = l.get(result, 'xmp.response.0.ResultCode.0')
+            const extraData = l.get(result, "xmp.response.0.ExtData.0").split(",");
+            let resultLastSettle = -1
+            if (extraData) {
+              const findIndex = l.findIndex(extraData, item => {
+                return item.includes("ResultCode")
+              })
+              resultLastSettle = findIndex > -1 
+                                ? extraData[findIndex].replace("ResultCode=", "") 
+                                : -1;
+            }
+            if (errorCode == 0 && resultLastSettle == 0) {
+                this.proccessingSettlement("[]");
+            }else {
+                const resultTxt = l.get(result, 'xmp.response.0.Message.0') || "Error";
+                this.props.actions.app.connectPaxMachineError(resultTxt);
+                this.confirmSettleWithoutTerminalPayment()
+            }
+        })
     }
 
     confirmSettleWithoutTerminalPayment = () => {
@@ -368,41 +380,42 @@ class TabSecondSettle extends Layout {
                                 const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0;
                                 const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0;
                                 const depositedAmount = settleWaiting?.depositedAmount || 0.0;
-                                const settleTotal = {
-                                    paymentByHarmony: editPaymentByHarmony,
-                                    paymentByCreditCard: editPaymentByCreditCard,
-                                    paymentByCash: editPaymentByCash,
-                                    otherPayment: editOtherPayment,
-                                    discount: discountSettlement,
-                                    paymentByCashStatistic: editPaymentByCash,
-                                    otherPaymentStatistic: editOtherPayment,
-                                    paymentByGiftcard: paymentByGiftcard,
-                                    depositedAmount: depositedAmount,
-                                    total: roundFloatNumber(
-                                    formatNumberFromCurrency(editPaymentByHarmony) +
-                                        formatNumberFromCurrency(editPaymentByCreditCard) +
-                                        formatNumberFromCurrency(editPaymentByCash) +
-                                        formatNumberFromCurrency(editOtherPayment) +
-                                        formatNumberFromCurrency(discountSettlement) +
-                                        formatNumberFromCurrency(paymentByGiftcard)
-                                    ),
-                                    note: "",
-                                    terminalID: null,
-                                };
-                                const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax: false, responseData: '[]' };
-
-                                this.setState({
-                                    numberFooter: 2,
-                                    errorMessage: '',
-                                    paxErrorMessage: ''
-                                });
-                                setTimeout(() => {
+                                const total =  formatNumberFromCurrency(editPaymentByHarmony) +
+                                            formatNumberFromCurrency(editPaymentByCreditCard) +
+                                            formatNumberFromCurrency(editPaymentByCash) +
+                                            formatNumberFromCurrency(editOtherPayment) +
+                                            formatNumberFromCurrency(discountSettlement) +
+                                            formatNumberFromCurrency(paymentByGiftcard);
+                                if (total > 0) {
+                                    const settleTotal = {
+                                        paymentByHarmony: editPaymentByHarmony,
+                                        paymentByCreditCard: editPaymentByCreditCard,
+                                        paymentByCash: editPaymentByCash,
+                                        otherPayment: editOtherPayment,
+                                        discount: discountSettlement,
+                                        paymentByCashStatistic: editPaymentByCash,
+                                        otherPaymentStatistic: editOtherPayment,
+                                        paymentByGiftcard: paymentByGiftcard,
+                                        depositedAmount: depositedAmount,
+                                        total: roundFloatNumber(total),
+                                        note: "",
+                                        terminalID: null,
+                                    };
+                                    const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax: false, responseData: '[]' };
+    
                                     this.setState({
-                                        progress: 0.5,
+                                        numberFooter: 2,
+                                        errorMessage: '',
+                                        paxErrorMessage: ''
                                     });
-                                }, 100);
-
-                                this.props.actions.invoice.settleBatch(body);
+                                    setTimeout(() => {
+                                        this.setState({
+                                            progress: 0.5,
+                                        });
+                                    }, 100);
+    
+                                    this.props.actions.invoice.settleBatch(body);
+                                }
                             }
 
                         });
@@ -506,6 +519,7 @@ const mapStateToProps = state => ({
     cloverMachineInfo: state.hardware.cloverMachineInfo,
     dejavooMachineInfo: state.hardware.dejavooMachineInfo,
     paymentMachineType: state.hardware.paymentMachineType,
+    invoice: state.invoice,
 })
 
 

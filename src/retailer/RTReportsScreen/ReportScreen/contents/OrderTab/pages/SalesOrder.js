@@ -76,10 +76,6 @@ export const SalesOrder = () => {
   |--------------------------------------------------
   */
 
-  // React.useEffect(() => {
-  //   callGetReportSalesOrder();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timeVal]);
   useFocusEffect(
     React.useCallback(() => {
       callGetReportSalesOrder();
@@ -123,27 +119,6 @@ export const SalesOrder = () => {
   };
 
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
-    // if (columnKey === "actions") {
-    //   const onHandleEditCustomer = () => {
-    //     onEditCustomer(item);
-    //   };
-    //   return (
-    //     <View
-    //       style={layouts.fill}
-    //       key={getUniqueId(columnKey, rowIndex, "cell-action")}
-    //     >
-    //       <ButtonGradient
-    //         label={t("Edit")}
-    //         width={scaleWidth(72)}
-    //         height={scaleHeight(28)}
-    //         fontSize={scaleFont(15)}
-    //         textColor={colors.WHITE}
-    //         fontWeight="normal"
-    //         onPress={onHandleEditCustomer}
-    //       />
-    //     </View>
-    //   );
-    // }
     return null;
   };
 
@@ -181,7 +156,6 @@ export const SalesOrder = () => {
             returned: scaleWidth(180),
           }}
           emptyDescription={t("No Report Data")}
-          //   styleTextKeys={{ customerName: styles.textName }}
           onSortWithKey={onSortWithKey}
           sortKey="date"
           formatFunctionKeys={{
@@ -191,11 +165,8 @@ export const SalesOrder = () => {
             canceled: (value) => (value ? `${value}` : "0"),
             returned: (value) => (value ? `${value}` : "0"),
             total: (value) => (value ? `${value}` : "0"),
-            // total: (value) => `${formatMoneyWithUnit(value)}`,
           }}
-          // renderCell={onRenderCell}
           onRefresh={onRefresh}
-          //   onRowPress={onSelectRow}
         />
       </View>
 

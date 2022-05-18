@@ -71,45 +71,6 @@ export const BasketContentView = React.forwardRef(
         appointmentItem?.products?.length > 0 ||
         appointmentItem?.giftCards?.length > 0
       ) {
-        // const temps = appointmentItem.products?.reduce((previous, x) => {
-        //   let groups = previous ?? [];
-        //   const keyUnique = x.productName + " + " + x.value;
-
-        //   const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
-
-        //   if (isExitIdx >= 0) {
-        //     const existItem = groups[isExitIdx];
-        //     groups[isExitIdx] = Object.assign({}, existItem, {
-        //       value: [...existItem.value, x],
-        //     });
-        //   } else {
-        //     groups.push({ key: keyUnique, value: [x] });
-        //   }
-
-        //   return groups;
-        // }, []);
-
-        // const giftCardTemps = appointmentItem.giftCards?.reduce(
-        //   (previous, x) => {
-        //     let groups = previous ?? [];
-        //     const keyUnique = x.giftCardId + "";
-
-        //     const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
-
-        //     if (isExitIdx >= 0) {
-        //       const existItem = groups[isExitIdx];
-        //       groups[isExitIdx] = Object.assign({}, existItem, {
-        //         value: [...existItem.value, x],
-        //       });
-        //     } else {
-        //       groups.push({ key: keyUnique, value: [x] });
-        //     }
-
-        //     return groups;
-        //   },
-        //   []
-        // );
-
         setItems([
           ...(appointmentItem?.products?.map((x) =>
             Object.assign({}, x, { key: x.bookingProductId })

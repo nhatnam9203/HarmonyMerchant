@@ -167,12 +167,6 @@ class PopupAddEditCustomer extends React.Component {
       } else {
         this.props.addCustomerInfo(temptCustomerInfo);
       }
-
-      // if (this.props.isSave) {
-      //     this.props.editCustomer(this.state.customerId, temptCustomerInfo);
-      // } else {
-      //     this.props.addCustomer(temptCustomerInfo);
-      // }
     }
   };
 

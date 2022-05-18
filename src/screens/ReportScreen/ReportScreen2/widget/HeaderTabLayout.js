@@ -34,7 +34,6 @@ function HeaderTabLayout({ children, tabIcons, onHeaderTabChanged, handleOnChang
 
   /**render */
   const renderHeaderTab = (args) => {
-    // return <View />;
     return <CustomTabBar {...args} tabIcons={tabIcons} />;
   };
 

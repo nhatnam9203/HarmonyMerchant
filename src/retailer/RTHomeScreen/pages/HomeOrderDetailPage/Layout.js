@@ -266,17 +266,7 @@ export const Layout = ({
       case ORDERED_STATUS.RETURN:
       default:
         return (
-          <>
-            {/* <ButtonGradient
-              label={t("Reorder")}
-              width={scaleWidth(120)}
-              height={scaleHeight(40)}
-              fontSize={scaleFont(17)}
-              textColor={colors.WHITE}
-              textWeight="normal"
-              // onPress={onEditProduct}
-            /> */}
-          </>
+          <></>
         );
     }
   };

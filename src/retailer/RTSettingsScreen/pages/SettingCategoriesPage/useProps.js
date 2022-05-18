@@ -60,11 +60,6 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
     }
   }, [categoriesList]);
 
-  // React.useEffect(() => {
-  //   if (reload || reloadPage) callGetCategoriesList();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [reload, reloadPage]);
-
   useFocusEffect(
     React.useCallback(() => {
       if (reload || reloadPage) callGetCategoriesList();

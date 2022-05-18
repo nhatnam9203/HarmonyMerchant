@@ -50,7 +50,6 @@ export default function ReportStatisticLayout({
 
   /**render */
   const onCellPress = ({ key, row, column, item }) => {
-    // console.log(item);
   };
 
   const renderCell = ({ key, row, column, item }) => {
@@ -105,12 +104,6 @@ export default function ReportStatisticLayout({
           </>
         }
       >
-        {/* <PopupButton
-          text={titleRangeTime}
-          imageSrc={IMAGE.calendar}
-          onPress={showCalendar}
-          style={{ marginRight: 20 }}
-        /> */}
         {dataFilters && (
           <Dropdown
             data={dataFilters}
@@ -133,7 +126,6 @@ export default function ReportStatisticLayout({
             renderTable()
           ) : (
             <TableList
-              // showSumOnBottom={true}
               tableData={tableData}
               tableHead={tableHead}
               whiteKeys={whiteKeys}

@@ -38,7 +38,7 @@ import { getFullName, statusSuccess } from "@shared/utils";
 
 const { clover } = NativeModules;
 
-const DEFAULT_WIDTH = scaleWidth(391);
+const DEFAULT_WIDTH = scaleWidth(350);
 
 export const DialogPayCompleted = ({
   donotPrintBill,
@@ -57,7 +57,7 @@ export const DialogPayCompleted = ({
   const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
   const [printTemp, setPrintTemp] = React.useState(false);
   const [isSignature, setIsSignature] = React.useState(true);
-  const [receiptBackground, setReceiptBackground] = React.useState("#fff");
+  const [receiptBackground, setReceiptBackground] = React.useState("#0000");
   const [autoPrint, setAutoPrint] = React.useState(false);
   const [groupAppointment, setGroupAppointment] = React.useState(null);
   // const [invoice, setInvoice] = React.useState(null);
@@ -449,7 +449,7 @@ export const DialogPayCompleted = ({
             styles.content,
             {
               height: tempHeight,
-              width: widthPaper ? parseFloat(widthPaper) : DEFAULT_WIDTH,
+              width: DEFAULT_WIDTH,
             },
           ]}
         >

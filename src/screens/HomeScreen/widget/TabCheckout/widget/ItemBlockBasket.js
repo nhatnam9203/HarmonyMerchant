@@ -30,9 +30,6 @@ class ItemBlockBasket extends React.Component {
             animating: false,
             contentHeight: 0,
         };
-        if (Platform.OS === 'android') {
-            // UIManager.setLayoutAnimationEnabledExperimental(true);
-        }
     }
 
     componentDidMount() {

@@ -11,6 +11,7 @@ import {
   POS_SERIAL,
   requestEditTipDejavoo,
   handleResponseDejavoo,
+  PaymentTerminalType,
 } from "@utils";
 import { isEmpty } from "lodash";
 import React from "react";
@@ -45,8 +46,8 @@ class TabAppointment extends Layout {
     this.popupCheckDiscountPermissionRef = React.createRef();
     this.invoicePrintRef = React.createRef();
     this.invoiceRef = React.createRef();
-    this.tipSum = 0.0;
-    this.editTipParams = {};
+    this.tipSum = 0.0
+    this.editTipParams = {}
   }
 
   componentDidMount() {
@@ -164,15 +165,6 @@ class TabAppointment extends Layout {
                 arrayExtras,
                 arrayGiftCards
               );
-              // if (temptBasket.length > 0) {
-              //     this.props.checkoutAppointment(appointmentId, data?.appointment || {});
-              //     this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
-              //     this.setState({
-              //         appointmentIdOffline: appointmentId
-              //     })
-              // } else {
-              //     this.props.bookAppointment(appointmentId, data?.staffId ? data?.staffId : (data?.appointment?.staffId || 0));
-              // }
 
               this.props.checkoutAppointment(
                 appointmentId,
@@ -252,19 +244,6 @@ class TabAppointment extends Layout {
               break;
             case "printFromCalendar":
               const appointment = data?.appointment;
-              // const isTemp = appointment?.status !== "paid";
-              //
-              // this.invoiceRef.current?.showAppointmentReceipt({
-              //   appointmentId: appointment?.id,
-              //   checkoutId: appointment?.checkoutId,
-              //   isPrintTempt: true,
-              //   isSalon: true,
-              //   machineType: this.props.paymentMachineType,
-              //   isAppointmentTab: true,
-              // });
-              // TODO: print with checkoutId
-
-              // console.log(appointment);
 
               this.setState({ appointment });
 
@@ -279,7 +258,6 @@ class TabAppointment extends Layout {
               }
 
               break;
-
             case "goToInvoice":
               if (data?.appointment?.checkoutId > 0) {
                 NavigationServices.navigate("Invoice", {
@@ -288,23 +266,20 @@ class TabAppointment extends Layout {
                 });
               }
               break;
-
             case "updateAppointmentPaid":
-              console.log("updateAppointmentPaid", data);
+              // console.log('updateAppointmentPaid', data)
               if (data?.appointment?.checkoutId > 0) {
-                this.setState({ ...this.state, isEditTipCreditCard: true });
-                this.props.actions.invoice.getInvoiceDetail(
-                  data?.appointment?.checkoutId
-                );
+                this.setState({...this.state, isEditTipCreditCard: true})
+                this.props.actions.invoice.getInvoiceDetail(data?.appointment?.checkoutId);
 
-                const services = data?.body?.services;
+                const services = data?.body?.services
                 let tipSum = 0;
                 if (services) {
-                  tipSum = _.sumBy(services, (item) => {
-                    return parseFloat(item.tipAmount);
+                  tipSum = _.sumBy(services, item =>{
+                    return parseFloat(item.tipAmount)
                   });
                   this.tipSum = tipSum;
-                  this.editTipParams = data?.body;
+                  this.editTipParams = data?.body
                 }
               }
               break;
@@ -362,11 +337,8 @@ class TabAppointment extends Layout {
       // }, 1000);
     }
 
-    if (
-      invoiceDetail &&
-      invoiceDetail != prevProps.invoiceDetail &&
-      this.state.isEditTipCreditCard
-    ) {
+    if (invoiceDetail && invoiceDetail != prevProps.invoiceDetail
+      && this.state.isEditTipCreditCard) {
       this.handleEditTipCreditPayment(invoiceDetail);
     }
   }
@@ -376,53 +348,68 @@ class TabAppointment extends Layout {
   }
 
   async handleEditTipCreditPayment(invoiceDetail) {
-    this.setState({ ...this.state, isEditTipCreditCard: false });
-    if (_.get(invoiceDetail, "paymentInformation", []).length > 0) {
-      const paymentInformation = _.get(invoiceDetail, "paymentInformation.0");
+    const { paymentMachineType } = this.props;
+    this.setState({...this.state, isEditTipCreditCard: false})
+    if (paymentMachineType != PaymentTerminalType.Dejavoo) {
+      if(this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) {
+          alert("Tip amount does not match.")
+      } else {
+        this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses: null}, invoiceDetail?.appointmentId);
+      }
+    } else if (_.get(invoiceDetail, 'paymentInformation', []).length > 0) {
+      const paymentInformation = _.get(invoiceDetail, 'paymentInformation.0');
       const paymentData = paymentInformation?.paymentData;
       parseString(paymentInformation?.responseData, (err, result) => {
         if (err) {
           setTimeout(() => {
-            alert(err);
-          }, 300);
+            alert(err)
+          }, 300)
         } else {
           const refId = _.get(result, "xmp.response.0.RefId.0");
           const invNum = _.get(result, "xmp.response.0.InvNum.0");
-          const last4 = _.get(paymentData, "card_number");
-          const extraData = _.get(result, "xmp.response.0.ExtData.0").split(
-            ","
-          );
+          const last4 = _.get(paymentData, 'card_number');
+          const extraData = _.get(result, "xmp.response.0.ExtData.0").split(",");
           let amount = 0;
+          let tipOnDejavoo = 0;
           if (extraData) {
-            const findIndex = _.findIndex(extraData, (item) => {
-              return item.includes("Amount");
-            });
-            amount =
-              findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
+            const findIndex = _.findIndex(extraData, item => {
+              return item.includes("Amount")
+            })
+            amount = findIndex > -1 ? extraData[findIndex].replace("Amount=", "") : 0;
+
+            const findIndexTip = _.findIndex(extraData, item => {
+              return item.includes("Tip")
+            })
+            tipOnDejavoo = findIndexTip > -1 ? extraData[findIndexTip].replace("Tip=", "") : 0;
           }
-          if(this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) {
-            const params = {
-              amount,
-              refId,
-              invNum,
-              tip: this.tipSum.toFixed(2),
-              last4,
+          if (this.tipSum.toFixed(2) != invoiceDetail?.tipAmount) {
+            if (tipOnDejavoo != invoiceDetail?.tipAmount && invoiceDetail?.responses.length == 0) {
+              alert("Can not change tip for appointment that have added tip on POS app before.")
+            } else {
+              const params = {
+                amount,
+                refId,
+                invNum,
+                tip: this.tipSum.toFixed(2),
+                last4,
+              }
+              requestEditTipDejavoo(params).then(async (responses) => {
+                 handleResponseDejavoo(responses).then(result => {
+                    this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
+                 },
+                 error => {
+                  setTimeout(() => {
+                    alert(error || "Error")
+                  }, 300)
+                 })
+              });
             }
-            requestEditTipDejavoo(params).then(async (responses) => {
-               handleResponseDejavoo(responses).then(result => {
-                  this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses}, invoiceDetail?.appointmentId);
-               },
-               error => {
-                setTimeout(() => {
-                  alert(error || "Error")
-                }, 300)
-               })
-            });
           } else {
             this.props.actions.invoice.editPaidAppointment({...this.editTipParams, responses: null}, invoiceDetail?.appointmentId);
           }
         }
       });
+
     }
   }
 

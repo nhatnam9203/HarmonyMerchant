@@ -157,11 +157,6 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
     getMarketingEfficiencyMethod: () => getMarketingEfficiencyMethod(),
   }));
 
-  /**effect */
-  // useEffect(() => {
-  //   getMarketingEfficiencyMethod();
-  // }, []);
-
   useFocusEffect(
     React.useCallback(() => {
       getMarketingEfficiencyMethod();

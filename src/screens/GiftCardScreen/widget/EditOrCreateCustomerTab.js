@@ -633,7 +633,6 @@ class EditOrCreateCustomerTab extends React.Component {
                   }}
                 >
                   <TextInput
-                    //type="only-numbers"
                     style={{
                       flex: 1,
                       fontSize: scaleSize(14),
@@ -645,8 +644,6 @@ class EditOrCreateCustomerTab extends React.Component {
                       this.updateCustomerInfo("zip", value, "addressPost")
                     }
                     onFocus={() => this.scrollRightContentTo(120)}
-                    //keyboardType={"numeric"}
-                    // maxLength={10}
                   />
                   {zip ? (
                     <Button
@@ -683,7 +680,6 @@ class EditOrCreateCustomerTab extends React.Component {
                     resetMarginState={() =>
                       this.setState({ dynamicMarginBottomState: 24 })
                     }
-                    // onFocus={() => this.scrollCustomerTo(280)}
                     onFocus={() => this.scrollRightContentTo(200)}
                   />
                 </View>
