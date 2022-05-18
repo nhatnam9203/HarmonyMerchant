@@ -298,19 +298,15 @@ class TabSecondSettle extends Layout {
     }
 
     handleResponseSettlementDejavoo = (responses) => {
-        console.log('handleResponseSettlementDejavoo', responses)
         const { invoice } = this.props;
         parseString(responses, (err, result) => {
             const errorCode = l.get(result, 'xmp.response.0.ResultCode.0')
-            console.log('errorCode', errorCode)
             if (err || errorCode != 0) {
               if(errorCode == "999") {
-                  console.log('error', errorCode)
                 
                   requestSettlementDejavoo().then((responseSettle) => {
                     this.handleResponseReportSettlement(responseSettle)
                 })
-
               } else {
                 const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}`
                                 || "Error";
@@ -324,7 +320,6 @@ class TabSecondSettle extends Layout {
                 this.confirmSettleWithoutTerminalPayment()
               }
             } else {
-                console.log('call settle on server')
                 this.proccessingSettlement("[]");
             }
         })
