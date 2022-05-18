@@ -308,8 +308,8 @@ class TabSecondSettle extends Layout {
                     this.handleResponseReportSettlement(responseSettle)
                 })
               } else {
-                const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}`
-                                || "Error";
+                const resultTxt = l.get(result, 'xmp.response.0.Message.0')
+                                    || "Error";
                 this.props.actions.app.stopLoadingApp();
                 this.setState({
                     numberFooter: 1,
@@ -334,12 +334,16 @@ class TabSecondSettle extends Layout {
               const findIndex = l.findIndex(extraData, item => {
                 return item.includes("ResultCode")
               })
-              resultLastSettle = findIndex > -1 ? extraData[findIndex].replace("ResultCode=", "") : -1;
+              resultLastSettle = findIndex > -1 
+                                ? extraData[findIndex].replace("ResultCode=", "") 
+                                : -1;
             }
             if (errorCode == 0 && resultLastSettle == 0) {
                 this.proccessingSettlement("[]");
             }else {
-                alert("Settlement Error")
+                const resultTxt = l.get(result, 'xmp.response.0.Message.0') || "Error";
+                this.props.actions.app.connectPaxMachineError(resultTxt);
+                this.confirmSettleWithoutTerminalPayment()
             }
         })
     }
@@ -376,41 +380,42 @@ class TabSecondSettle extends Layout {
                                 const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0;
                                 const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0;
                                 const depositedAmount = settleWaiting?.depositedAmount || 0.0;
-                                const settleTotal = {
-                                    paymentByHarmony: editPaymentByHarmony,
-                                    paymentByCreditCard: editPaymentByCreditCard,
-                                    paymentByCash: editPaymentByCash,
-                                    otherPayment: editOtherPayment,
-                                    discount: discountSettlement,
-                                    paymentByCashStatistic: editPaymentByCash,
-                                    otherPaymentStatistic: editOtherPayment,
-                                    paymentByGiftcard: paymentByGiftcard,
-                                    depositedAmount: depositedAmount,
-                                    total: roundFloatNumber(
-                                    formatNumberFromCurrency(editPaymentByHarmony) +
-                                        formatNumberFromCurrency(editPaymentByCreditCard) +
-                                        formatNumberFromCurrency(editPaymentByCash) +
-                                        formatNumberFromCurrency(editOtherPayment) +
-                                        formatNumberFromCurrency(discountSettlement) +
-                                        formatNumberFromCurrency(paymentByGiftcard)
-                                    ),
-                                    note: "",
-                                    terminalID: null,
-                                };
-                                const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax: false, responseData: '[]' };
-
-                                this.setState({
-                                    numberFooter: 2,
-                                    errorMessage: '',
-                                    paxErrorMessage: ''
-                                });
-                                setTimeout(() => {
+                                const total =  formatNumberFromCurrency(editPaymentByHarmony) +
+                                            formatNumberFromCurrency(editPaymentByCreditCard) +
+                                            formatNumberFromCurrency(editPaymentByCash) +
+                                            formatNumberFromCurrency(editOtherPayment) +
+                                            formatNumberFromCurrency(discountSettlement) +
+                                            formatNumberFromCurrency(paymentByGiftcard);
+                                if (total > 0) {
+                                    const settleTotal = {
+                                        paymentByHarmony: editPaymentByHarmony,
+                                        paymentByCreditCard: editPaymentByCreditCard,
+                                        paymentByCash: editPaymentByCash,
+                                        otherPayment: editOtherPayment,
+                                        discount: discountSettlement,
+                                        paymentByCashStatistic: editPaymentByCash,
+                                        otherPaymentStatistic: editOtherPayment,
+                                        paymentByGiftcard: paymentByGiftcard,
+                                        depositedAmount: depositedAmount,
+                                        total: roundFloatNumber(total),
+                                        note: "",
+                                        terminalID: null,
+                                    };
+                                    const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax: false, responseData: '[]' };
+    
                                     this.setState({
-                                        progress: 0.5,
+                                        numberFooter: 2,
+                                        errorMessage: '',
+                                        paxErrorMessage: ''
                                     });
-                                }, 100);
-
-                                this.props.actions.invoice.settleBatch(body);
+                                    setTimeout(() => {
+                                        this.setState({
+                                            progress: 0.5,
+                                        });
+                                    }, 100);
+    
+                                    this.props.actions.invoice.settleBatch(body);
+                                }
                             }
 
                         });
