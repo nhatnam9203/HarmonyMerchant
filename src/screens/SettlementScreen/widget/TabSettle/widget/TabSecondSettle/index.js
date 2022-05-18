@@ -211,7 +211,9 @@ class TabSecondSettle extends Layout {
                 settleWaiting,
                 cloverMachineInfo,
                 dejavooMachineInfo,
-                paymentMachineType } = this.props;
+                paymentMachineType,
+                invoice,
+             } = this.props;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const { creditCount, settleTotal } = this.state;
 
@@ -243,24 +245,8 @@ class TabSecondSettle extends Layout {
             && l.get(dejavooMachineInfo, "isSetup")){
             this.props.actions.app.loadingApp();
             const responses = await requestSettlementDejavoo();
-            parseString(responses, (err, result) => {
-                if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
-                  const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}`
-                                    || "Error";
-                  this.props.actions.app.stopLoadingApp();
-                  this.setState({
-                    numberFooter: 1,
-                    progress: 0,
-                    })
 
-                  this.props.actions.app.connectPaxMachineError(resultTxt);
-                  this.confirmSettleWithoutTerminalPayment()
-
-                } else {
-
-                    this.proccessingSettlement("[]");
-                }
-            })
+            this.handleResponseSettlementDejavoo(responses);
 
         } else if (isSetup && settleTotal?.terminalID) {
             //Pax
@@ -334,6 +320,54 @@ class TabSecondSettle extends Layout {
         } else {
             this.confirmSettleWithoutTerminalPayment()
         }
+    }
+
+    handleResponseSettlementDejavoo = (responses) => {
+        const { invoice } = this.props;
+        parseString(responses, (err, result) => {
+            const errorCode = l.get(result, 'xmp.response.0.ResultCode.0')
+            if (err || errorCode != 0) {
+              if(errorCode == "999") {
+                
+                  requestSettlementDejavoo().then((responseSettle) => {
+                    this.handleResponseReportSettlement(responseSettle)
+                })
+
+              } else {
+                const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}`
+                                || "Error";
+                this.props.actions.app.stopLoadingApp();
+                this.setState({
+                    numberFooter: 1,
+                    progress: 0,
+                    })
+
+                this.props.actions.app.connectPaxMachineError(resultTxt);
+                this.confirmSettleWithoutTerminalPayment()
+              }
+            } else {
+                this.proccessingSettlement("[]");
+            }
+        })
+    }
+
+    handleResponseReportSettlement = (responses) => {
+        parseString(responses, (err, result) => {
+            const errorCode = l.get(result, 'xmp.response.0.ResultCode.0')
+            const extraData = l.get(result, "xmp.response.0.ExtData.0").split(",");
+            let resultLastSettle = -1
+            if (extraData) {
+              const findIndex = l.findIndex(extraData, item => {
+                return item.includes("ResultCode")
+              })
+              resultLastSettle = findIndex > -1 ? extraData[findIndex].replace("ResultCode=", "") : -1;
+            }
+            if (errorCode == 0 && resultLastSettle == 0) {
+                this.proccessingSettlement("[]");
+            }else {
+                alert("Settlement Error")
+            }
+        })
     }
 
     confirmSettleWithoutTerminalPayment = () => {
@@ -506,6 +540,7 @@ const mapStateToProps = state => ({
     cloverMachineInfo: state.hardware.cloverMachineInfo,
     dejavooMachineInfo: state.hardware.dejavooMachineInfo,
     paymentMachineType: state.hardware.paymentMachineType,
+    invoice: state.invoice,
 })
 
 
