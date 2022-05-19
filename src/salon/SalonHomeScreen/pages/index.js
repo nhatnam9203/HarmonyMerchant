@@ -1,1 +1,1 @@
-export * from "./HomeTopTabScreen";
+export * from "./LayoutPages";

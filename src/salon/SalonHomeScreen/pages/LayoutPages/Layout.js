@@ -10,8 +10,8 @@ import {
   TabAppointment,
 } from "@src/screens/HomeScreen/widget";
 import { useDispatch, useSelector } from "react-redux";
-import { SalonAppointmentScreen } from "../SalonAppointmentScreen";
-import { SalonCheckoutScreen } from "../SalonCheckoutScreen";
+import { SalonAppointmentTab } from "../SalonAppointmentTab";
+import { SalonCheckoutTab } from "../SalonCheckoutTab";
 import { ScreenName } from "@src/ScreenName";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
@@ -39,8 +39,8 @@ export const Layout = ({ openDrawer, navigation }) => {
       >
         <Screen name={t("MARKETING")} component={TabMarketing} />
         {/* <Screen name={t("APPOINTMENT")} component={TabAppointment} /> */}
-        <Screen {...SalonAppointmentScreen} />
-        <Screen {...SalonCheckoutScreen} />
+        <Screen {...SalonAppointmentTab} />
+        <Screen {...SalonCheckoutTab} />
         {/* <Screen name={t("CHECK-OUT")} component={TabCheckout} /> */}
       </Navigator>
     </View>

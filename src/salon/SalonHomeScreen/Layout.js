@@ -10,7 +10,7 @@ import {
   StatusBarHeader,
 } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
-import { HomeTopTabScreen } from "./pages";
+import { LayoutPages } from "./pages";
 import { colors } from "@shared/themes";
 
 const { Screen, Navigator } = createStackNavigator();
@@ -38,7 +38,7 @@ export const Layout = ({
             },
           }}
         >
-          <Screen {...HomeTopTabScreen} />
+          <Screen {...LayoutPages} />
         </Navigator>
       </View>
     </ParentContainer>
