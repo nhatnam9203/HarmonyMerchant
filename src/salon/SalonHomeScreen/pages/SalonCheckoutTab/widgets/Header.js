@@ -22,11 +22,11 @@ import ICON from "@resources";
 import { scaleSize, checkIsTablet } from "@utils";
 import _ from "ramda";
 import { useTranslation } from "react-i18next";
+import { ButtonGradient } from "@shared/components";
 
 export const Header = ({
   customerInfoBuyAppointment,
   groupAppointment,
-
   displayCustomerInfoPopup,
   displayEnterUserPhonePopup,
   checkStatusCashier,
@@ -100,59 +100,75 @@ export const Header = ({
       >
         {!_.isEmpty(groupAppointment) ? (
           <View style={{ flexDirection: "row" }}>
-            <Button
+            <ButtonGradient
+              // disable={loading}
+              // loading={loading}
+              label={t("Share receipt")}
+              width={scaleWidth(120)}
+              height={scaleHeight(34)}
+              borderRadius={scaleWidth(3)}
+              fontSize={scaleFont(14)}
+              textColor={colors.WHITE}
               onPress={shareTemptInvoice}
-              style={[styles.btnCashier, { marginRight: scaleSize(8) }]}
-            >
-              <Image
-                source={ICON.share_icon}
-                style={{ width: scaleSize(14), height: scaleSize(16) }}
-              />
-              <Text
-                style={[
-                  styles.textBtnCashier,
-                  { fontSize: scaleSize(9), fontWeight: "500" },
-                ]}
-              >
-                {t("Share Receipt")}
-              </Text>
-            </Button>
-            <Button
+              leftChildren={() => (
+                <>
+                  <Image
+                    source={ICON.share_icon}
+                    style={{ width: scaleSize(14), height: scaleSize(16) }}
+                  />
+                  <View style={{ width: scaleWidth(10) }} />
+                </>
+              )}
+            />
+            <View style={{ width: scaleWidth(10) }} />
+
+            <ButtonGradient
+              // disable={loading}
+              // loading={loading}
+              label={t("Print receipt")}
+              width={scaleWidth(120)}
+              height={scaleHeight(34)}
+              borderRadius={scaleWidth(3)}
+              fontSize={scaleFont(14)}
+              textColor={colors.WHITE}
               onPress={printTemptInvoice}
-              style={[styles.btnCashier, { marginRight: scaleSize(8) }]}
-            >
-              <Image
-                source={ICON.print_btn}
-                style={{ width: scaleSize(14), height: scaleSize(16) }}
-              />
-              <Text
-                style={[
-                  styles.textBtnCashier,
-                  { fontSize: scaleSize(9), fontWeight: "500" },
-                ]}
-              >
-                {t("Print Receipt")}
-              </Text>
-            </Button>
+              leftChildren={() => (
+                <>
+                  <Image
+                    source={ICON.print_btn}
+                    style={{ width: scaleSize(14), height: scaleSize(16) }}
+                  />
+                  <View style={{ width: scaleWidth(10) }} />
+                </>
+              )}
+            />
           </View>
         ) : (
           <View />
         )}
 
-        <Button onPress={checkStatusCashier} style={styles.btnCashier}>
-          <Image
-            source={ICON.cashier_btn}
-            style={{ width: scaleSize(16), height: scaleSize(13) }}
-          />
-          <Text
-            style={[
-              styles.textBtnCashier,
-              { fontSize: scaleSize(9), fontWeight: "500" },
-            ]}
-          >
-            {t("Open Cashier")}
-          </Text>
-        </Button>
+        <View style={{ width: scaleWidth(10) }} />
+
+        <ButtonGradient
+          // disable={loading}
+          // loading={loading}
+          label={t("Open cashier")}
+          width={scaleWidth(120)}
+          height={scaleHeight(34)}
+          borderRadius={scaleWidth(3)}
+          fontSize={scaleFont(14)}
+          textColor={colors.WHITE}
+          onPress={checkStatusCashier}
+          leftChildren={() => (
+            <>
+              <Image
+                source={ICON.cashier_btn}
+                style={{ width: scaleSize(14), height: scaleSize(16) }}
+              />
+              <View style={{ width: scaleWidth(10) }} />
+            </>
+          )}
+        />
       </View>
     </View>
   );
@@ -160,12 +176,14 @@ export const Header = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: scaleHeight(100),
+    height: scaleHeight(72),
+    backgroundColor: colors.WHITE,
+
     flexDirection: "row",
     borderColor: "rgb(197,197,197)",
-    borderTopColor: colors.OCEAN_BLUE,
+    borderTopColor: colors.VERY_LIGHT_PINK_1,
     borderWidth: 1,
-    paddingHorizontal: scaleWidth(14),
+    paddingHorizontal: scaleWidth(10),
   },
 
   avatar_box: {
