@@ -35,7 +35,6 @@ import {
   ErrorMessagePaxModal,
   ItemAmount,
   ItemBlockBasket,
-  ItemCategory,
   ItemCustomerBasket,
   ItemExtra,
   ItemPaymentMethod,
@@ -51,6 +50,9 @@ import {
   PopupGiftCardDetail,
   PopupPaymentDetails,
 } from "@src/screens/HomeScreen/widget/TabCheckout/widget";
+import { fonts } from "@shared/themes";
+import { ItemCategory } from "../ItemCategory";
+import { Header, StaffColumn, ColumnContainer } from "./components";
 
 const TXT_COLOR = "#404040";
 const BULE_SKY = "#0764B0";
@@ -58,12 +60,13 @@ const BULE_SKY = "#0764B0";
 export const Categories = React.forwardRef(
   (
     {
-      staffListCurrentDate,
-      isShowCategoriesColumn,
-      isShowColProduct,
-      selectedStaff,
       isBlockBookingFromCalendar,
+      isShowCategoriesColumn,
+      staffListCurrentDate,
+      selectedStaff,
       displayCategoriesColumn,
+
+      isShowColProduct,
       categoriesByMerchant,
       groupAppointment,
       categoryStaff,
@@ -132,70 +135,15 @@ export const Categories = React.forwardRef(
     }));
 
     const renderStaffColumn = () => {
-      const tempWidth = isShowCategoriesColumn ? 70 : 180;
-      const tempStyleBox = isShowCategoriesColumn
-        ? styles.staff_column_box_small
-        : {};
-
       return (
-        <View
-          style={[
-            { width: scaleSize(tempWidth) },
-            styles.staff_column_box,
-            tempStyleBox,
-          ]}
-        >
-          {/* ----------  StaffColumn Header ----------  */}
-          <View style={styles.staff_column_header}>
-            <Text
-              style={
-                (styles.txt_staff_column_header,
-                styles.txt_category_header_extra)
-              }
-            >
-              {t("Staff")}
-            </Text>
-          </View>
-
-          {/* ----------  StaffColumn Header ----------  */}
-          <View style={{ flex: 1, backgroundColor: "white" }}>
-            <FlatList
-              ref={staffFlatListRef}
-              data={staffListCurrentDate}
-              renderItem={({ item, index }) => {
-                const onHandleDisplayCategoriesColumn = () => {
-                  displayCategoriesColumn(item);
-                };
-
-                return (
-                  <StaffItem
-                    staff={item}
-                    displayCategoriesColumn={onHandleDisplayCategoriesColumn}
-                    selectedStaff={selectedStaff}
-                  />
-                );
-              }}
-              extraData={selectedStaff}
-              keyExtractor={(item, index) => `${item?.staffId}_${index}`}
-              showsVerticalScrollIndicator={false}
-              onScrollToIndexFailed={() => {}}
-            />
-          </View>
-
-          {isBlockBookingFromCalendar && (
-            <View
-              style={{
-                flex: 1,
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(255,255,255,0.5)",
-              }}
-            />
-          )}
-        </View>
+        <StaffColumn
+          isHighlight={isShowCategoriesColumn}
+          disable={isBlockBookingFromCalendar}
+          flatListRef={staffFlatListRef}
+          items={staffListCurrentDate}
+          selectedStaff={selectedStaff}
+          displayCategoriesColumn={displayCategoriesColumn}
+        />
       );
     };
 
@@ -261,24 +209,10 @@ export const Categories = React.forwardRef(
       }
 
       return (
-        <View
-          style={[
-            { width: scaleSize(tempWidth) },
-            styles.categories_column_box,
-          ]}
-        >
+        <ColumnContainer style={[{ width: scaleSize(tempWidth) }]}>
           {/* ------- Header ----- */}
-          <View style={[styles.categoriesHeader]}>
-            <Text
-              style={[
-                styles.textHeader,
-                temptColorHeader,
-                styles.txt_category_header_extra,
-              ]}
-            >
-              {t("Categories")}
-            </Text>
-          </View>
+          <Header label={t("Categories")} />
+
           {/* ------- Body ----- */}
           {isLoadingCategory ? (
             <View
@@ -319,7 +253,7 @@ export const Categories = React.forwardRef(
               </ScrollView>
             </View>
           )}
-        </View>
+        </ColumnContainer>
       );
     };
 
@@ -332,21 +266,12 @@ export const Categories = React.forwardRef(
         categorySelected?.categoryType === "Service" ? "Services" : "Products";
 
       return (
-        <View
+        <ColumnContainer
           style={[{ width: scaleSize(tempWidth) }, styles.product_column_box]}
         >
           {/* ----- Header ---- */}
-          <View style={[styles.categoriesHeader]}>
-            <Text
-              style={[
-                styles.textHeader,
-                temptColorHeader,
-                styles.txt_category_header_extra,
-              ]}
-            >
-              {t(tempTitle)}
-            </Text>
-          </View>
+          <Header label={t(tempTitle)} />
+
           {/* --------- List ------- */}
           <View style={{ flex: 1 }}>
             {isLoadingService ? (
@@ -402,7 +327,7 @@ export const Categories = React.forwardRef(
               </ScrollView>
             )}
           </View>
-        </View>
+        </ColumnContainer>
       );
     };
 
@@ -411,7 +336,7 @@ export const Categories = React.forwardRef(
         categorySelected.categoryType === "Service" ? "Extra" : "Amount";
 
       return (
-        <View style={[{ flex: 1 }, styles.product_column_box]}>
+        <ColumnContainer>
           <View
             style={{
               flex: 1,
@@ -422,13 +347,7 @@ export const Categories = React.forwardRef(
             }}
           >
             {/* ----- Header ---- */}
-            <View style={[styles.categoriesHeader]}>
-              <Text
-                style={[styles.textHeader, styles.txt_category_header_extra]}
-              >
-                {t(temptHeader)}
-              </Text>
-            </View>
+            <Header label={t(temptHeader)} />
 
             {/* ------- Content ----- */}
             <View style={{ flex: 1 }}>
@@ -478,12 +397,14 @@ export const Categories = React.forwardRef(
               />
             </View>
           </View>
-        </View>
+        </ColumnContainer>
       );
     };
 
     return (
-      <View style={{ flex: 1, flexDirection: "row" }}>
+      <View
+        style={{ flex: 1, flexDirection: "row", backgroundColor: colors.WHITE }}
+      >
         {renderStaffColumn()}
         {isShowCategoriesColumn && renderCategoriesCheckout()}
         {isShowColProduct && renderCategoryItemCheckout()}
@@ -495,19 +416,6 @@ export const Categories = React.forwardRef(
 );
 
 const styles = StyleSheet.create({
-  staff_column_box_small: {
-    borderRightWidth: 0,
-  },
-
-  staff_column_header: {
-    height: scaleSize(38),
-    backgroundColor: "#F1F1F1",
-    borderBottomColor: "#EEEEEE",
-    borderBottomWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   txt_category_header_extra: {
     color: "#404040",
     fontSize: scaleSize(15),
@@ -542,18 +450,16 @@ const styles = StyleSheet.create({
     }),
   },
   // ------------- Product Column Style -------------
-  product_column_box: {
-    backgroundColor: "#fff",
-    borderRightColor: "#EEEEEE",
-    borderRightWidth: 1,
-    borderLeftColor: "#EEEEEE",
-    borderLeftWidth: 1,
+  columnShadow: {
     ...Platform.select({
       ios: {
-        shadowRadius: 5,
-        shadowColor: "#000000",
-        shadowOpacity: 0.5,
-        shadowOffset: { width: 0, height: 3 },
+        shadowColor: colors.GREYISH_BROWN_25,
+        shadowOffset: {
+          width: 0,
+          height: 10,
+        },
+        shadowRadius: 10,
+        shadowOpacity: 1,
       },
 
       android: {

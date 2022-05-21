@@ -33,6 +33,8 @@ export const colors = {
   WHITE_FA: "#fafafa",
   WHITE_TWO: "#eeeeee",
   LIGHT_GREY: "#F8F8F8",
+  AZURE: "#19a9ec",
+  DARKISH_GREEN: "#2e8d44",
 };
 
 export const fonts = {
@@ -171,4 +173,3 @@ export const layouts = StyleSheet.create({
     textAlign: "center",
   },
 });
-

@@ -100,47 +100,16 @@ export const Header = ({
       >
         {!_.isEmpty(groupAppointment) ? (
           <View style={{ flexDirection: "row" }}>
-            <ButtonGradient
-              // disable={loading}
-              // loading={loading}
+            <RightButton
               label={t("Share receipt")}
-              width={scaleWidth(120)}
-              height={scaleHeight(34)}
-              borderRadius={scaleWidth(3)}
-              fontSize={scaleFont(14)}
-              textColor={colors.WHITE}
               onPress={shareTemptInvoice}
-              leftChildren={() => (
-                <>
-                  <Image
-                    source={ICON.share_icon}
-                    style={{ width: scaleSize(14), height: scaleSize(16) }}
-                  />
-                  <View style={{ width: scaleWidth(10) }} />
-                </>
-              )}
+              icon={ICON.share_icon}
             />
             <View style={{ width: scaleWidth(10) }} />
-
-            <ButtonGradient
-              // disable={loading}
-              // loading={loading}
+            <RightButton
               label={t("Print receipt")}
-              width={scaleWidth(120)}
-              height={scaleHeight(34)}
-              borderRadius={scaleWidth(3)}
-              fontSize={scaleFont(14)}
-              textColor={colors.WHITE}
               onPress={printTemptInvoice}
-              leftChildren={() => (
-                <>
-                  <Image
-                    source={ICON.print_btn}
-                    style={{ width: scaleSize(14), height: scaleSize(16) }}
-                  />
-                  <View style={{ width: scaleWidth(10) }} />
-                </>
-              )}
+              icon={ICON.print_btn}
             />
           </View>
         ) : (
@@ -149,28 +118,39 @@ export const Header = ({
 
         <View style={{ width: scaleWidth(10) }} />
 
-        <ButtonGradient
-          // disable={loading}
-          // loading={loading}
+        <RightButton
           label={t("Open cashier")}
-          width={scaleWidth(120)}
-          height={scaleHeight(34)}
-          borderRadius={scaleWidth(3)}
-          fontSize={scaleFont(14)}
-          textColor={colors.WHITE}
           onPress={checkStatusCashier}
-          leftChildren={() => (
-            <>
-              <Image
-                source={ICON.cashier_btn}
-                style={{ width: scaleSize(14), height: scaleSize(16) }}
-              />
-              <View style={{ width: scaleWidth(10) }} />
-            </>
-          )}
+          icon={ICON.cashier_btn}
         />
       </View>
     </View>
+  );
+};
+
+const RightButton = ({ loading = false, label = "", icon, onPress }) => {
+  return (
+    <ButtonGradient
+      disable={loading}
+      loading={loading}
+      label={` ${label} `}
+      width={scaleWidth(120)}
+      height={scaleHeight(34)}
+      borderRadius={scaleWidth(3)}
+      fontSize={scaleFont(12)}
+      textColor={colors.WHITE}
+      onPress={onPress}
+      leftChildren={() => (
+        <>
+          <View style={{ width: scaleWidth(6) }} />
+          <Image
+            source={icon}
+            style={{ width: scaleSize(14), height: scaleSize(16) }}
+          />
+          <View style={{ width: scaleWidth(6) }} />
+        </>
+      )}
+    />
   );
 };
 
@@ -178,7 +158,6 @@ const styles = StyleSheet.create({
   container: {
     height: scaleHeight(72),
     backgroundColor: colors.WHITE,
-
     flexDirection: "row",
     borderColor: "rgb(197,197,197)",
     borderTopColor: colors.VERY_LIGHT_PINK_1,
