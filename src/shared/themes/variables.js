@@ -35,6 +35,8 @@ export const colors = {
   LIGHT_GREY: "#F8F8F8",
   AZURE: "#19a9ec",
   DARKISH_GREEN: "#2e8d44",
+  GREYISH_BROWN_50: "#40404080",
+  VERY_LIGHT_PINK: "#e5e5e5",
 };
 
 export const fonts = {

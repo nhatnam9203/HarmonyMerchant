@@ -8,7 +8,7 @@ export const Header = ({ label }) => {
       style={{
         height: scaleHeight(48),
         backgroundColor: colors.VERY_LIGHT_PINK_1,
-        borderBottomColor: colors.VERY_LIGHT_PINK_E_5,
+        borderBottomColor: colors.VERY_LIGHT_PINK_C_5,
         borderBottomWidth: 1,
         justifyContent: "center",
         alignItems: "center",

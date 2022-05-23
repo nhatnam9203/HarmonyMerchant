@@ -15,7 +15,6 @@ import ICON from "@resources";
 
 export const StaffColumn = ({
   style,
-  isHighlight = false,
   disable = false,
   flatListRef,
   items,
@@ -25,7 +24,7 @@ export const StaffColumn = ({
 }) => {
   const { t } = useTranslation();
 
-  const onSelectStaff = () => {};
+  const _onSelectStaff = () => {};
 
   const _renderStaffItem = ({ item, index }) => {
     const onHandleDisplayCategoriesColumn = () => {
@@ -59,6 +58,8 @@ export const StaffColumn = ({
         width: scaleWidth(80),
         height: "100%",
       }}
+      highlight={false}
+      border={false}
     >
       <Header label={t("Staff")} />
       <FlatList
