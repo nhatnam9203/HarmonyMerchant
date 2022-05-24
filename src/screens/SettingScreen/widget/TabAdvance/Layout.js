@@ -55,12 +55,12 @@ export const Layout = ({
           />
 
           {/* ------- Deposit ------ */}
-          {/* <DepositProgram
+          <DepositProgram
             advanceSetting={advanceSetting}
             setDepositMiniumAmount={setDepositMiniumAmount}
             setDepositPercent={setDepositPercent}
             setIsDepositProgram={setIsDepositProgram}
-          /> */}
+          />
         </View>
       </KeyboardAwareScrollView>
 
