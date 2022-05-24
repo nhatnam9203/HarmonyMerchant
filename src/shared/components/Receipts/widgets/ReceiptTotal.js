@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   textLabelStyle: {
     // fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(20),
+    fontSize: scaleFont(18),
     textAlign: "left",
     fontWeight: "500",
   },
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   textStyle: {
     // fontFamily: fonts.MEDIUM,
     color: "#000",
-    fontSize: scaleFont(20),
+    fontSize: scaleFont(18),
     textAlign: "right",
     fontWeight: "500",
   },
