@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
 
   margin: {
     width: scaleWidth(10),
-    height: scaleHeight(15),
+    height: scaleHeight(10),
   },
 
   textLabelContent: {
