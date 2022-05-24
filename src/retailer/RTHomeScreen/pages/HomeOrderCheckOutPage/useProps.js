@@ -97,6 +97,7 @@ export const useProps = ({
   const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
   const [isApplyCostPrice, setIsApplyCostPrice] = React.useState(false);
+  const [oldResultGetProduct, setOldResultGetProduct] = React.useState(null);
 
   /**
   |--------------------------------------------------
@@ -157,10 +158,18 @@ export const useProps = ({
     harmonyApi.useLazyGetProductByBarcodeQuery();
 
   React.useEffect(() => {
+    console.log('productGetByBarCode', productGetByBarCode)
+    setOldResultGetProduct(productGetByBarCode)
     if (!productGetByBarCode) return;
 
     const { codeStatus, data, message } = productGetByBarCode;
+    setScanCodeTemp(null);
+    
+    if(oldResultGetProduct == productGetByBarCode) return
+
     if (statusSuccess(codeStatus)) {
+      console.log('statusSuccess')
+      console.log('scanCodeTemp return', scanCodeTemp)
       if (!scanCodeTemp) return;
 
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
@@ -186,19 +195,15 @@ export const useProps = ({
                 productQuantityId: tmp?.id,
               })
             );
-
-            setScanCodeTemp(null);
           }, 250);
         } else {
           alert("Product is out of stock!");
-          setScanCodeTemp(null);
         }
       } else {
         inputBarcodeDialogRef.current?.hide();
         if (data?.quantities?.length > 0) {
           setTimeout(() => {
             productDetailRef.current?.show(data);
-            setScanCodeTemp(null);
           }, 550);
         } else {
           if (!isCheckQty || data?.quantity >= 1) {
@@ -209,21 +214,19 @@ export const useProps = ({
                   quantity: 1,
                 })
               );
-              setScanCodeTemp(null);
             }, 250);
           } else {
             alert("Product is out of stock!");
-            setScanCodeTemp(null);
           }
         }
       }
     } else {
       //  TODO: show input code here!
+      console.log('alert', message)
       alert(message);
-      setScanCodeTemp(null);
       inputBarcodeDialogRef.current?.autoFocus();
     }
-  }, [productGetByBarCode]);
+  }, [productGetByBarCode, scanCodeTemp]);
 
   const [requestApplyToCostPrice, { data: responseApplyToCostPrice }] =
     harmonyApi.useApplyCostPriceToAppointmentMutation();
@@ -726,10 +729,12 @@ export const useProps = ({
     onResultScanCode: async (data) => {
       if (data?.trim()) {
         const code = data?.trim();
+        console.log('onResultScanCode', code, scanCodeTemp)
         if (scanCodeTemp) return;
-
         setScanCodeTemp(code);
+
         setTimeout(() => {
+          console.log('getProductByBarcode', code)
           getProductByBarcode(code);
         }, 350);
         // getProductsByBarcode(code);
