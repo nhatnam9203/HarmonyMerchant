@@ -351,7 +351,7 @@ export const ReceiptItem = ({ item, index, type }) => {
         <View
           style={{
             flex: 1,
-            alignItems: "flex-end",
+            alignItems: "center",
             justifyContent: "flex-start",
           }}
         >
@@ -896,7 +896,7 @@ const styles = StyleSheet.create({
   },
   textHeaderStyle: {
     // fontFamily: fonts.MEDIUM,
-    fontSize: scaleFont(15),
+    fontSize: scaleFont(14),
     fontWeight: "500",
     textAlign: "center",
     color: "#000",

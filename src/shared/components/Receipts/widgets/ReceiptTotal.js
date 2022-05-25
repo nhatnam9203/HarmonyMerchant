@@ -44,7 +44,6 @@ export const ReceiptTotal = ({
       <TextTotal label={"Discount"}>{`${formatMoneyWithUnit(
         discount
       )}`}</TextTotal>
-      <TextTotal label={"Tip"}>{`${formatMoneyWithUnit(tip)}`}</TextTotal>
       <TextTotal
         label={`Tax${taxRate > 0 ? "(" + taxRate + "%)" : ""}`}
       >{`${formatMoneyWithUnit(tax)}`}</TextTotal>
@@ -61,12 +60,42 @@ export const ReceiptTotal = ({
             )}`}</TextTotal>
           )}
           <TextTotal
+            label={"Total Amount Due"}
+            fontWeight={"bold"}
+            fontSize={scaleFont(22)}
+          >
+            {`${formatMoneyWithUnit(total - tip)}`}
+          </TextTotal>
+        </>
+      )}
+      {
+        tip > 0 ? 
+        <TextTotal label={"Tip"}>{`${formatMoneyWithUnit(tip)}`}</TextTotal>
+        : <>
+            <View style={styles.margin} />
+            <TextFill label={`${_.padEnd("Tip", 15, " ")}`}>
+              <LineFill width={"60%"} />
+            </TextFill>
+          </>
+      }  
+      {
+        tip > 0 ?
+        <TextTotal
             label={"Total"}
             fontWeight={"bold"}
             fontSize={scaleFont(22)}
-          >{`${formatMoneyWithUnit(total)}`}</TextTotal>
-        </>
-      )}
+          >
+            {`${formatMoneyWithUnit(total)}`}
+          </TextTotal>
+          :
+          <>
+            <View style={styles.margin} />
+            <TextFill label={`${_.padEnd("Total", 15, " ")}`}>
+              <LineFill width={"60%"} />
+            </TextFill>
+          </>
+      }
+
       {change > 0 && (
         <TextTotal label={"Change"}>{`${formatMoneyWithUnit(
           change
@@ -79,12 +108,6 @@ export const ReceiptTotal = ({
           fontSize={scaleFont(22)}
         >{`${formatMoneyWithUnit(returnTotal)}`}</TextTotal>
       )}
-      <>
-        <View style={styles.margin} />
-        <TextFill label={`${_.padEnd("Tip", 15, " ")}`}>
-          <LineFill width={"60%"} />
-        </TextFill>
-      </>
       {printTemp && !fromAppointmentTab && (
         <>
           <View style={styles.margin} />
@@ -160,14 +183,6 @@ export const ReceiptTotal = ({
           <LineFill width={"60%"} />
         </TextFill>
       )}
-      {/* {!printTemp && (
-        <>
-          <View style={styles.margin} />
-          <TextFill label={`${_.padEnd("Tip", 4, " ")}`}>
-            <View style={styles.line} />
-          </TextFill>
-        </>
-      )} */}
       <View style={styles.margin} />
       <View style={styles.margin} />
     </View>
