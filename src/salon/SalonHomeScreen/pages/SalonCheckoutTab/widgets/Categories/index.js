@@ -52,12 +52,10 @@ import {
 } from "@src/screens/HomeScreen/widget/TabCheckout/widget";
 import { fonts } from "@shared/themes";
 import { ItemCategory } from "../ItemCategory";
-import {
-  Header,
-  StaffColumn,
-  ColumnContainer,
-  CategoriesColumn,
-} from "./components";
+import { Header, ColumnContainer } from "./components";
+import { StaffColumn } from "./StaffColumn";
+import { CategoriesColumn } from "./CategoriesColumn";
+import { ItemsColumn } from "./ItemsColumn";
 import { SalonHomeContext } from "../../SalonHomeContext";
 
 const TXT_COLOR = "#404040";
@@ -151,125 +149,7 @@ export const Categories = React.forwardRef((props, ref) => {
     );
   };
 
-  const renderCategoriesCheckoutOld = () => {
-    let tempWidth = 180;
-    tempWidth = isShowColProduct ? 100 : tempWidth;
-
-    const temptColorHeader = isShowColProduct ? { color: "#6A6A6A" } : {};
-    const categoriesFilter = categoriesByMerchant?.filter(
-      (category, index) => category.isDisabled === 0
-    );
-
-    const appointments = groupAppointment?.appointments || [];
-    let tempIdCategoriesList = [];
-    for (let appointment of appointments) {
-      let categories = appointment?.categories || [];
-      for (let category of categories) {
-        tempIdCategoriesList.push(category?.categoryId || 0);
-      }
-    }
-
-    const IdCategoriesList = [...new Set(tempIdCategoriesList)];
-    let selectCategories = [];
-    let notSelectCategories = [];
-    let tempCategories = [];
-
-    if (IdCategoriesList.length > 0) {
-      for (let i = 0; i < IdCategoriesList.length; i++) {
-        for (let j = 0; j < categoriesFilter.length; j++) {
-          if (IdCategoriesList[i] === categoriesFilter[j].categoryId) {
-            selectCategories.push({
-              ...categoriesFilter[j],
-              isSelect: true,
-            });
-            break;
-          }
-        }
-      }
-      if (isOfflineMode || isBlockBookingFromCalendar) {
-        notSelectCategories = categoriesFilter.filter((category, index) =>
-          checkCategoryIsNotExist(category, IdCategoriesList)
-        );
-        tempCategories = [...selectCategories, ...notSelectCategories];
-      } else {
-        let categoriesStaffFilter = [];
-
-        for (let i = 0; i < categoryStaff.length; i++) {
-          const findItem = l.find(selectCategories, (item) => {
-            return item.categoryId == categoryStaff[i].categoryId;
-          });
-          if (!findItem) {
-            categoriesStaffFilter.push(categoryStaff[i]);
-          }
-        }
-        tempCategories = [...selectCategories, ...categoriesStaffFilter];
-      }
-    } else {
-      if (isOfflineMode || isBlockBookingFromCalendar) {
-        tempCategories = [...categoriesFilter];
-      } else {
-        tempCategories = [...categoryStaff];
-      }
-    }
-
-    return (
-      <ColumnContainer
-        style={[{ width: scaleSize(tempWidth) }]}
-        isHighlight={!isShowColProduct}
-      >
-        {/* ------- Header ----- */}
-        <Header label={t("Categories")} />
-
-        {/* ------- Body ----- */}
-
-        {isLoadingCategory ? (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <ActivityIndicator size="large" color="grey" />
-          </View>
-        ) : (
-          <View style={styles.categoriesBody}>
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="always"
-            >
-              {tempCategories.map((category, index) => (
-                <ItemCategory
-                  key={index}
-                  category={category}
-                  onPressSelectCategory={onPressSelectCategory}
-                  colorText={temptColorHeader}
-                  categorySelected={categorySelected}
-                />
-              ))}
-
-              {/* --------- Gift Card --------  */}
-              <ItemCategory
-                category={{
-                  name: "Gift Card",
-                  categoryId: 1,
-                }}
-                onPressSelectCategory={onSelectGiftCard}
-                colorText={temptColorHeader}
-                categorySelected={categorySelected}
-              />
-            </ScrollView>
-          </View>
-        )}
-      </ColumnContainer>
-    );
-  };
-
   const renderCategoriesCheckout = () => {
-    let tempWidth = 180;
-    tempWidth = isShowColProduct ? 100 : tempWidth;
-
-    const temptColorHeader = isShowColProduct ? { color: "#6A6A6A" } : {};
     const categoriesFilter = categoriesByMerchant?.filter(
       (category, index) => category.isDisabled === 0
     );
@@ -338,76 +218,26 @@ export const Categories = React.forwardRef((props, ref) => {
   };
 
   const renderCategoryItemCheckout = () => {
-    let tempWidth = 200;
-    tempWidth = isShowColAmount ? 120 : tempWidth;
-    const temptColorHeader = isShowColAmount ? { color: "#6A6A6A" } : {};
     const data = getDataColProduct();
-    const tempTitle =
-      categorySelected?.categoryType === "Service" ? "Services" : "Products";
-
     return (
-      <ColumnContainer
-        style={[{ width: scaleSize(tempWidth) }, styles.product_column_box]}
-      >
-        {/* ----- Header ---- */}
-        <Header label={t(tempTitle)} />
-
-        {/* --------- List ------- */}
-        <View style={{ flex: 1 }}>
-          {isLoadingService ? (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <ActivityIndicator size="large" color="grey" />
-            </View>
-          ) : (
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="always"
-            >
-              {isCustomService &&
-                !isBookingFromCalendar &&
-                // !isBookingFromAppointmentTab &&
-                categoryTypeSelected != "Product" &&
-                blockAppointments.length == 0 &&
-                customService && (
-                  <ItemProductService
-                    key="custom_service"
-                    index={-1}
-                    item={Object.assign({}, customService, {
-                      name: "Custom service",
-                      category: categorySelected,
-                    })}
-                    defaultThumb={ICON.custom_service_thumb}
-                    colorText={temptColorHeader}
-                    itemSelected={productSeleted}
-                    categoryTypeSelected={categoryTypeSelected}
-                    isShowColAmount={isShowColAmount}
-                    groupAppointment={groupAppointment}
-                    showColAmount={showCustomServiceAmount}
-                  />
-                )}
-
-              {data.map((item, index) => (
-                <ItemProductService
-                  key={index}
-                  item={item}
-                  showColAmount={showColAmount}
-                  colorText={temptColorHeader}
-                  itemSelected={productSeleted}
-                  categoryTypeSelected={categoryTypeSelected}
-                  isShowColAmount={isShowColAmount}
-                  groupAppointment={groupAppointment}
-                />
-              ))}
-            </ScrollView>
-          )}
-        </View>
-      </ColumnContainer>
+      <ItemsColumn
+        items={data}
+        isShowCustomService={
+          isCustomService &&
+          !isBookingFromCalendar &&
+          categoryTypeSelected != "Product" &&
+          blockAppointments.length == 0 &&
+          customService
+        }
+        isShowColAmount={isShowColAmount}
+        productSeleted={productSeleted}
+        categoryTypeSelected={categoryTypeSelected}
+        categorySelected={categorySelected}
+        groupAppointment={groupAppointment}
+        showCustomServiceAmount={showCustomServiceAmount}
+        showColAmount={showColAmount}
+        customService={customService}
+      />
     );
   };
 

@@ -7,8 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { colors, fonts, layouts } from "@shared/themes";
-import { ColumnContainer } from "./ColumnContainer";
-import { Header } from "./Header";
+import { ColumnContainer, Header } from "./components";
 import { useTranslation } from "react-i18next";
 import FastImage from "react-native-fast-image";
 import ICON from "@resources";
@@ -65,7 +64,11 @@ export const CategoriesColumn = ({
   };
 
   return (
-    <ColumnContainer highlight={highlight} border={!highlight}>
+    <ColumnContainer
+      style={{ width: highlight ? scaleWidth(260) : scaleWidth(120) }}
+      highlight={highlight}
+      border={!highlight}
+    >
       <Header label={t("Categories")} />
       <FlatList
         style={{ flex: 1 }}
@@ -105,10 +108,7 @@ const ItemCategory = ({
       onPress={() => onPressSelectCategory(category)}
       style={{
         minHeight: scaleHeight(80),
-        backgroundColor: colors.WHITE_FA,
         justifyContent: "center",
-        borderBottomWidth: 1,
-        borderBottomColor: colors.VERY_LIGHT_PINK_C_5,
         backgroundColor: backgroundColor,
         paddingLeft: scaleWidth(8),
       }}

@@ -7,8 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { colors, fonts, layouts } from "@shared/themes";
-import { ColumnContainer } from "./ColumnContainer";
-import { Header } from "./Header";
+import { ColumnContainer, Header } from "./components";
 import { useTranslation } from "react-i18next";
 import FastImage from "react-native-fast-image";
 import ICON from "@resources";
@@ -35,7 +34,7 @@ export const StaffColumn = ({
       <StaffItem
         key={`${index}`}
         staff={item}
-        displayCategoriesColumn={onHandleDisplayCategoriesColumn}
+        onSelectStaff={onHandleDisplayCategoriesColumn}
         selectedStaff={selectedStaff}
         loginStaff={loginStaff}
       />

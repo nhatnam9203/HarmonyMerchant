@@ -368,6 +368,7 @@ export const useProps = ({ props }) => {
     checkBlockAppointment: () => {},
     onSelectGiftCard: () => {},
     displayCategoriesColumn: (staff) => {
+      console.log(staff);
       if (!isOfflineMode) {
         getCategoriesByStaff(staff.staffId);
       }
