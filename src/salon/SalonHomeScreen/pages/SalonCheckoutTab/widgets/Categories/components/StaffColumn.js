@@ -26,7 +26,7 @@ export const StaffColumn = ({
 
   const _onSelectStaff = () => {};
 
-  const _renderStaffItem = ({ item, index }) => {
+  const _renderStaff = ({ item, index }) => {
     const onHandleDisplayCategoriesColumn = () => {
       displayCategoriesColumn(item);
     };
@@ -42,7 +42,7 @@ export const StaffColumn = ({
     );
   };
 
-  const _renderItemSeparator = () => (
+  const _renderSeparator = () => (
     <View
       style={{
         height: 1,
@@ -66,12 +66,12 @@ export const StaffColumn = ({
         ref={flatListRef}
         style={{ flex: 1 }}
         data={items}
-        renderItem={_renderStaffItem}
+        renderItem={_renderStaff}
         extraData={(item, index) => `${index}`}
         keyExtractor={(item, index) => `${item?.staffId}_${index}`}
         showsVerticalScrollIndicator={false}
         onScrollToIndexFailed={() => {}}
-        ItemSeparatorComponent={_renderItemSeparator}
+        ItemSeparatorComponent={_renderSeparator}
       />
       {disable && (
         <View

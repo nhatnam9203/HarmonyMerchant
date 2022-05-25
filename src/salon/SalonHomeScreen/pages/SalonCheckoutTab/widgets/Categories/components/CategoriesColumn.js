@@ -28,7 +28,7 @@ export const CategoriesColumn = ({
 }) => {
   const { t } = useTranslation();
 
-  const _renderCategoryItem = ({ item, index }) => {
+  const _renderCategory = ({ item, index }) => {
     return (
       <ItemCategory
         category={item}
@@ -38,7 +38,7 @@ export const CategoriesColumn = ({
     );
   };
 
-  const _renderGiftCardItem = () => {
+  const _renderGiftCard = () => {
     return (
       <ItemCategory
         category={{
@@ -52,7 +52,7 @@ export const CategoriesColumn = ({
     );
   };
 
-  const _renderItemSeparator = () => {
+  const _renderSeparator = () => {
     return (
       <View
         style={{
@@ -70,13 +70,13 @@ export const CategoriesColumn = ({
       <FlatList
         style={{ flex: 1 }}
         data={items}
-        renderItem={_renderCategoryItem}
+        renderItem={_renderCategory}
         extraData={(item, index) => `${index}`}
         keyExtractor={(item, index) => `${item?.staffId}_${index}`}
         showsVerticalScrollIndicator={false}
         onScrollToIndexFailed={() => {}}
-        ItemSeparatorComponent={_renderItemSeparator}
-        ListFooterComponent={_renderGiftCardItem}
+        ItemSeparatorComponent={_renderSeparator}
+        ListFooterComponent={_renderGiftCard}
       />
     </ColumnContainer>
   );

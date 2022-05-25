@@ -20,163 +20,49 @@ import {
   ScrollableTabView,
   Text,
 } from "@components";
+import { SalonHomeContextProvider } from "./SalonHomeContext";
 
-export const Layout = ({
-  // refs
-  categoriesRef,
-  amountRef,
+const SALON_FLEX = 4;
+const BASKET_FLEX = 3;
 
-  // store
-  staffListCurrentDate,
-  customerInfoBuyAppointment,
-  groupAppointment,
-  paymentDetailInfo,
-  blockAppointments,
-  isBookingFromCalendar,
-  isDonePayment,
-  categoriesByMerchant,
-  isOfflineMode,
-
-  // local
-  stateLocal,
-  isGetCategoriesByStaff,
-  isGetServiceByStaff,
-  isGetProductByStaff,
-  isCustomService = false,
-  isShowCategoriesColumn,
-  isShowColProduct,
-  selectedStaff,
-  isShowColAmount,
-  isBlockBookingFromCalendar,
-  displayCategoriesColumn,
-  categoryStaff,
-  onPressSelectCategory,
-  categorySelected,
-  onSelectGiftCard,
-  tabCurrent,
-  basket,
-  paymentSelected,
-  changeButtonDone,
-  isCancelHarmonyPay,
-  isLoadingService,
-  categoryTypeSelected,
-  customService,
-
-  // funcs
-  displayCustomerInfoPopup,
-  displayEnterUserPhonePopup,
-  onChangeModePayment,
-  addAppointmentCheckout,
-  cancelHarmonyPayment,
-  payBasket,
-  confimPayOfflinemode,
-  bookAppointmentFromCalendar,
-  selectPayment,
-  bookBlockAppointment,
-  checkBlockAppointment,
-  getDataColProduct,
-  showCustomServiceAmount,
-  showColAmount,
-
-  getExtrasFromRedux,
-  onPressSelectExtra,
-  arrSelectedExtra,
-  addAmount,
-  removeItemBasket,
-  changeStylist,
-  toggleCollapses,
-  changeProduct,
-  removeBlockAppointment,
-  createABlockAppointment,
-}) => {
-  const { t } = useTranslation();
+export const Layout = ({ onChangeModePayment, categoriesRef, ...props }) => {
   return (
     <View style={styles.container}>
-      <Header
-        customerInfoBuyAppointment={customerInfoBuyAppointment}
-        groupAppointment={groupAppointment}
-        displayCustomerInfoPopup={displayCustomerInfoPopup}
-        displayEnterUserPhonePopup={displayEnterUserPhonePopup}
-      />
-      <View style={[layouts.horizontal, layouts.fill]}>
-        <View style={{ flex: 4 }}>
-          <ScrollableTabView
-            style={{
-              flex: 1,
-            }}
-            initialPage={0}
-            locked={true}
-            renderTabBar={() => <View />}
+      <SalonHomeContextProvider value={props}>
+        <Header />
+        <View style={[layouts.horizontal, layouts.fill]}>
+          <SalonContent
             onChangeTab={onChangeModePayment}
-          >
-            <Categories
-              ref={categoriesRef}
-              staffListCurrentDate={staffListCurrentDate} // array staffs of merchant work by date
-              groupAppointment={groupAppointment} // groupAppointments
-              categoryStaff={categoryStaff} // array categories get by staff
-              isLoadingCategory={isGetCategoriesByStaff} // loading get categories
-              isOfflineMode={isOfflineMode} // network lost
-              selectedStaff={selectedStaff}
-              categoriesByMerchant={categoriesByMerchant}
-              isShowCategoriesColumn={isShowCategoriesColumn}
-              isShowColProduct={isShowColProduct}
-              isShowColAmount={isShowColAmount}
-              isBlockBookingFromCalendar={isBlockBookingFromCalendar}
-              displayCategoriesColumn={displayCategoriesColumn}
-              onPressSelectCategory={onPressSelectCategory}
-              categorySelected={categorySelected}
-              onSelectGiftCard={onSelectGiftCard}
-              getDataColProduct={getDataColProduct}
-              isCustomService={isCustomService}
-              isLoadingService={isLoadingService}
-              isBookingFromCalendar={isBookingFromCalendar}
-              categoryTypeSelected={categoryTypeSelected}
-              blockAppointments={blockAppointments}
-              customService={customService}
-              showCustomServiceAmount={showCustomServiceAmount}
-              showColAmount={showColAmount}
-              getExtrasFromRedux={getExtrasFromRedux}
-              onPressSelectExtra={onPressSelectExtra}
-              arrSelectedExtra={arrSelectedExtra}
-              addAmount={addAmount}
-              {...stateLocal}
-            />
-            <Payment />
-          </ScrollableTabView>
-        </View>
-        <View style={{ flex: 3 }}>
-          <Basket
-            groupAppointment={groupAppointment}
-            paymentDetailInfo={paymentDetailInfo}
-            blockAppointments={blockAppointments}
-            isBookingFromCalendar={isBookingFromCalendar}
-            isShowColAmount={isShowColAmount}
-            isBlockBookingFromCalendar={isBlockBookingFromCalendar}
-            isDonePayment={isDonePayment}
-            tabCurrent={tabCurrent}
-            basket={basket}
-            paymentSelected={paymentSelected}
-            changeButtonDone={changeButtonDone}
-            isCancelHarmonyPay={isCancelHarmonyPay}
-            cancelHarmonyPayment={cancelHarmonyPayment}
-            payBasket={payBasket}
-            confimPayOfflinemode={confimPayOfflinemode}
-            bookAppointmentFromCalendar={bookAppointmentFromCalendar}
-            selectPayment={selectPayment}
-            bookBlockAppointment={bookBlockAppointment}
-            checkBlockAppointment={checkBlockAppointment}
-            {...stateLocal}
-            removeItemBasket={removeItemBasket}
-            changeStylist={changeStylist}
-            toggleCollapses={toggleCollapses}
-            changeProduct={changeProduct}
-            removeBlockAppointment={removeBlockAppointment}
-            createABlockAppointment={createABlockAppointment}
-            addAppointmentCheckout={addAppointmentCheckout}
-            isOfflineMode={isOfflineMode}
+            categoriesRef={categoriesRef}
           />
+          <BasketContent />
         </View>
-      </View>
+      </SalonHomeContextProvider>
+    </View>
+  );
+};
+
+const SalonContent = ({ onChangeTab, categoriesRef }) => {
+  return (
+    <View style={{ flex: SALON_FLEX }}>
+      <ScrollableTabView
+        style={layouts.fill}
+        initialPage={0}
+        locked={true}
+        renderTabBar={() => <View />}
+        onChangeTab={onChangeTab}
+      >
+        <Categories ref={categoriesRef} />
+        <Payment />
+      </ScrollableTabView>
+    </View>
+  );
+};
+
+const BasketContent = () => {
+  return (
+    <View style={{ flex: BASKET_FLEX }}>
+      <Basket />
     </View>
   );
 };

@@ -64,7 +64,6 @@ export const useProps = ({ props }) => {
     CheckoutState.reducer,
     CheckoutState.initState
   );
-  // console.log(stateLocal);
 
   const {
     isGetCategoriesByStaff,
@@ -99,7 +98,7 @@ export const useProps = ({ props }) => {
   const addBlockAppointment = () => {};
   const getPriceOfline = (basket) => {
     let total = 0;
-    for (let i = 0; i < basket.length; i++) {
+    for (let i = 0; i < basket?.length; i++) {
       if (basket[i].type === "Product") {
         total =
           total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
@@ -118,7 +117,7 @@ export const useProps = ({ props }) => {
       ? formatNumberFromCurrency(profile.taxProduct)
       : 0;
     let taxTotal = 0;
-    for (let i = 0; i < basket.length; i++) {
+    for (let i = 0; i < basket?.length; i++) {
       if (basket[i].type === "Product") {
         taxTotal =
           taxTotal +
@@ -141,7 +140,7 @@ export const useProps = ({ props }) => {
     const arrayProductBuy = [];
     const arryaServicesBuy = [];
     const arrayExtrasBuy = [];
-    for (let i = 0; i < basket.length; i++) {
+    for (let i = 0; i < basket?.length; i++) {
       if (basket[i].type === "Product") {
         arrayProductBuy.push({
           ...basket[i],
@@ -342,8 +341,6 @@ export const useProps = ({ props }) => {
   return {
     categoriesRef,
     amountRef,
-
-    stateLocal,
     isGetCategoriesByStaff,
     isLoadingService: isGetServiceByStaff || isGetProductByStaff,
     isCustomService: profile?.isCustomService,
@@ -357,6 +354,7 @@ export const useProps = ({ props }) => {
     isOfflineMode,
     customService,
     staffListCurrentDate,
+    ...stateLocal,
 
     displayCustomerInfoPopup: () => {},
     displayEnterUserPhonePopup: () => {},
@@ -375,7 +373,6 @@ export const useProps = ({ props }) => {
       }
       dispatchLocal(CheckoutState.selectStaff(staff));
     },
-
     getDataColProduct: () => {
       const {
         categoryTypeSelected,
@@ -419,7 +416,6 @@ export const useProps = ({ props }) => {
         return [];
       }
     },
-
     onPressSelectCategory: (category) => {
       if (_.isNil(category) || _.isEmpty(category)) return;
 
@@ -439,11 +435,9 @@ export const useProps = ({ props }) => {
         dispatchLocal(CheckoutState.selectCategory(null));
       }
     },
-
     showCustomServiceAmount: (item) => {
       const { selectedStaff } = stateLocal || {};
     },
-
     showColAmount: (item) => {
       const { categorySelected, productSeleted } = stateLocal || {};
       const categoryType = categorySelected?.categoryType;
@@ -462,7 +456,6 @@ export const useProps = ({ props }) => {
 
       dispatchLocal(CheckoutState.selectCategoryItem(item));
     },
-
     getExtrasFromRedux: (product) => {
       const extrasBySort = [];
 
@@ -482,7 +475,6 @@ export const useProps = ({ props }) => {
 
       return extrasBySort;
     },
-
     onPressSelectExtra: (extra) => {
       const { arrSelectedExtra } = stateLocal || {};
 
@@ -505,7 +497,6 @@ export const useProps = ({ props }) => {
 
       dispatchLocal(CheckoutState.selectExtraItem(tempArrSelectedExtra));
     },
-
     // !! func add service/product/extra items to basket
     addAmount: async () => {
       const {
@@ -669,7 +660,6 @@ export const useProps = ({ props }) => {
 
       dispatchLocal(CheckoutState.selectCategory(null)); // reset
     },
-
     removeItemBasket: (item, appointmentId = -1, isGroup = false) => {
       const { basket } = stateLocal || {};
 
@@ -733,7 +723,6 @@ export const useProps = ({ props }) => {
         );
       }
     },
-
     changeStylist: async (service, appointmentId) => {
       const { fromTime = new Date() } =
         groupAppointment?.appointments?.find(
@@ -754,7 +743,6 @@ export const useProps = ({ props }) => {
         // this.setState({ visibleChangeStylist: true });
       }
     },
-
     toggleCollapses: (appointmentIdSelection) => {
       for (let i = 0; i < blockAppointmentRef.length; i++) {
         const appointmentDetail =
@@ -774,7 +762,6 @@ export const useProps = ({ props }) => {
         }
       }
     },
-
     changeProduct: (product, appointmentId) => {
       changePriceAmountProductRef.current?.setStateFromParent(
         product,
@@ -783,7 +770,6 @@ export const useProps = ({ props }) => {
 
       dispatchLocal(CheckoutState.visibleEditProductForm(true));
     },
-
     removeBlockAppointment: () => {
       const customerId = customerInfoBuyAppointment.customerId
         ? customerInfoBuyAppointment.customerId
@@ -845,7 +831,6 @@ export const useProps = ({ props }) => {
         );
       }
     },
-
     addBlockAppointment: async () => {
       const {
         categoryTypeSelected,

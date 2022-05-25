@@ -55,7 +55,7 @@ export const ButtonBasket = ({
     ? groupAppointment.total && parseFloat(groupAppointment.total) > 0
       ? true
       : false
-    : basket.length > 0
+    : basket?.length > 0
     ? true
     : false;
   isAcceptPay = paymentSelected === "Cash" ? true : isAcceptPay;
@@ -198,7 +198,7 @@ export const ButtonBasket = ({
           />
         );
       }
-    } else if (basket.length > 0 || !_.isEmpty(groupAppointment)) {
+    } else if (basket?.length > 0 || !_.isEmpty(groupAppointment)) {
       return (
         <ButtonCustom
           width={`100%`}

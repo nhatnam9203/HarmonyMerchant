@@ -37,47 +37,50 @@ import {
   menuTabs,
   roundFloatNumber,
 } from "@utils";
+import { SalonHomeContext } from "../SalonHomeContext";
 
-export const Basket = ({
-  groupAppointment,
-  paymentDetailInfo,
-  blockAppointments,
-  isBookingFromCalendar,
-  isShowColAmount,
-  isBlockBookingFromCalendar,
-
-  addAppointmentCheckout,
-  isDonePayment,
-  tabCurrent,
-  basket,
-  paymentSelected,
-  changeButtonDone,
-  isCancelHarmonyPay,
-  cancelHarmonyPayment,
-  payBasket,
-  confimPayOfflinemode,
-  bookAppointmentFromCalendar,
-  selectPayment,
-  bookBlockAppointment,
-  checkBlockAppointment,
-  addBlockAppointmentRef,
-  language,
-
-  subTotalLocal,
-  tipLocal,
-  discountTotalLocal,
-  taxLocal,
-  infoUser,
-
-  removeItemBasket,
-  changeStylist,
-  toggleCollapses,
-  changeProduct,
-  removeBlockAppointment,
-  createABlockAppointment,
-  isOfflineMode,
-}) => {
+export const Basket = () => {
   const { t } = useTranslation();
+  const ctx = React.useContext(SalonHomeContext);
+  const {
+    groupAppointment,
+    paymentDetailInfo,
+    blockAppointments,
+    isBookingFromCalendar,
+    isShowColAmount,
+    isBlockBookingFromCalendar,
+
+    addAppointmentCheckout,
+    isDonePayment,
+    tabCurrent,
+    basket,
+    paymentSelected,
+    changeButtonDone,
+    isCancelHarmonyPay,
+    cancelHarmonyPayment,
+    payBasket,
+    confimPayOfflinemode,
+    bookAppointmentFromCalendar,
+    selectPayment,
+    bookBlockAppointment,
+    checkBlockAppointment,
+    addBlockAppointmentRef,
+    language,
+
+    subTotalLocal,
+    tipLocal,
+    discountTotalLocal,
+    taxLocal,
+    infoUser,
+
+    removeItemBasket,
+    changeStylist,
+    toggleCollapses,
+    changeProduct,
+    removeBlockAppointment,
+    createABlockAppointment,
+    isOfflineMode,
+  } = ctx || {};
 
   const checkoutPayments =
     !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments
@@ -205,7 +208,7 @@ export const Basket = ({
     return (
       <>
         {_.isEmpty(groupAppointment) ? (
-          basket.length > 0 ? (
+          basket?.length > 0 ? (
             <ItemCustomerBasket
               language={language}
               subTotalLocal={subTotalLocal}

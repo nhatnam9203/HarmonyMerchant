@@ -24,7 +24,7 @@ import _ from "ramda";
 import { useTranslation } from "react-i18next";
 
 export const Payment = () => {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
   return <View></View>;
 };

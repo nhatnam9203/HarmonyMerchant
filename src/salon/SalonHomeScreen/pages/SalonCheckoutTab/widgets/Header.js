@@ -1,39 +1,25 @@
-import React from "react";
-import { StyleSheet, View, Image } from "react-native";
-import { colors } from "@shared/themes";
-import {
-  Button,
-  ButtonCustom,
-  PopupActiveGiftCard,
-  PopupChangeMoney,
-  PopupChangePriceAmountProduct,
-  PopupChangeStylist,
-  PopupChangeTip,
-  PopupCheckStaffPermission,
-  PopupConfirm,
-  PopupInvoicePrint,
-  PopupProcessingCredit,
-  PopupScanCode,
-  PopupSendLinkInstall,
-  ScrollableTabView,
-  Text,
-} from "@components";
+import { Button, Text } from "@components";
 import ICON from "@resources";
-import { scaleSize, checkIsTablet } from "@utils";
-import _ from "ramda";
-import { useTranslation } from "react-i18next";
 import { ButtonGradient } from "@shared/components";
+import { colors } from "@shared/themes";
+import { scaleSize } from "@utils";
+import _ from "ramda";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, View } from "react-native";
+import { SalonHomeContext } from "../SalonHomeContext";
 
-export const Header = ({
-  customerInfoBuyAppointment,
-  groupAppointment,
-  displayCustomerInfoPopup,
-  displayEnterUserPhonePopup,
-  checkStatusCashier,
-  shareTemptInvoice,
-  printTemptInvoice,
-}) => {
+export const Header = () => {
   const { t } = useTranslation();
+  const {
+    customerInfoBuyAppointment,
+    groupAppointment,
+    displayCustomerInfoPopup,
+    displayEnterUserPhonePopup,
+    checkStatusCashier,
+    shareTemptInvoice,
+    printTemptInvoice,
+  } = React.useContext(SalonHomeContext);
 
   const { customerId, firstName, lastName, phone } =
     customerInfoBuyAppointment || {};

@@ -378,7 +378,7 @@ class TabCheckout extends Layout {
 
   getPriceOfline(basket) {
     let total = 0;
-    for (let i = 0; i < basket.length; i++) {
+    for (let i = 0; i < basket?.length; i++) {
       if (basket[i].type === "Product") {
         total =
           total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
@@ -398,7 +398,7 @@ class TabCheckout extends Layout {
       ? formatNumberFromCurrency(profile.taxProduct)
       : 0;
     let taxTotal = 0;
-    for (let i = 0; i < basket.length; i++) {
+    for (let i = 0; i < basket?.length; i++) {
       if (basket[i].type === "Product") {
         taxTotal =
           taxTotal +
@@ -772,7 +772,7 @@ class TabCheckout extends Layout {
     const arrayProductBuy = [];
     const arryaServicesBuy = [];
     const arrayExtrasBuy = [];
-    for (let i = 0; i < basket.length; i++) {
+    for (let i = 0; i < basket?.length; i++) {
       if (basket[i].type === "Product") {
         arrayProductBuy.push({
           ...basket[i],
@@ -1420,7 +1420,7 @@ class TabCheckout extends Layout {
           this.setState({
             visibleSendLinkPopup: true,
           });
-        } 
+        }
       }
     }
   };
