@@ -95,6 +95,7 @@ export const useProps = ({
   const [searchData, setSearchData] = React.useState(null);
   const [searchVal, setSearchVal] = React.useState();
   const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
+  const [oldScanCodeTemp, setOldScanCodeTemp] = React.useState(null);
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
   const [isApplyCostPrice, setIsApplyCostPrice] = React.useState(false);
   const [oldResultGetProduct, setOldResultGetProduct] = React.useState(null);
@@ -158,23 +159,29 @@ export const useProps = ({
     harmonyApi.useLazyGetProductByBarcodeQuery();
 
   React.useEffect(() => {
+    console.log("useEffect")
+    console.log('scanCodeTemp', scanCodeTemp)
     console.log('productGetByBarCode', productGetByBarCode)
-    setOldResultGetProduct(productGetByBarCode)
     if (!productGetByBarCode) return;
+    if (!scanCodeTemp) return;
+    
+
+    
 
     const { codeStatus, data, message } = productGetByBarCode;
-    setScanCodeTemp(null);
     
-    if(oldResultGetProduct == productGetByBarCode) return
-
+    console.log('statusSuccess(codeStatus)', statusSuccess(codeStatus))
     if (statusSuccess(codeStatus)) {
       console.log('statusSuccess')
-      console.log('scanCodeTemp return', scanCodeTemp)
-      if (!scanCodeTemp) return;
-
+      console.log('check scanCodeTemp return', scanCodeTemp)
+      // console.log('data?.barcode != scanCodeTemp', data,  data?.barCode != scanCodeTemp)
+      if (scanCodeTemp != oldScanCodeTemp && oldResultGetProduct == productGetByBarCode) return
+      setOldResultGetProduct(productGetByBarCode)
+      setOldScanCodeTemp(scanCodeTemp)
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
       if (tmp) {
+        console.log('tmp', tmp)
         const attributeIds = tmp.attributeIds;
 
         const filterOptions = data?.options?.map((v) => {
@@ -186,6 +193,7 @@ export const useProps = ({
         });
 
         if (!isCheckQty || tmp.quantity >= 1) {
+          console.log("addProductToBasket")
           setTimeout(() => {
             addProductToBasket(
               Object.assign({}, data, {
@@ -200,6 +208,7 @@ export const useProps = ({
           alert("Product is out of stock!");
         }
       } else {
+        console.log("show dialog product")
         inputBarcodeDialogRef.current?.hide();
         if (data?.quantities?.length > 0) {
           setTimeout(() => {
@@ -222,10 +231,12 @@ export const useProps = ({
       }
     } else {
       //  TODO: show input code here!
-      console.log('alert', message)
-      alert(message);
-      inputBarcodeDialogRef.current?.autoFocus();
+        console.log('alert', message)
+        alert(message);
+        inputBarcodeDialogRef.current?.autoFocus();
     }
+    setScanCodeTemp(null);
+
   }, [productGetByBarCode, scanCodeTemp]);
 
   const [requestApplyToCostPrice, { data: responseApplyToCostPrice }] =
@@ -730,14 +741,14 @@ export const useProps = ({
       if (data?.trim()) {
         const code = data?.trim();
         console.log('onResultScanCode', code, scanCodeTemp)
-        if (scanCodeTemp) return;
+        // if (scanCodeTemp) return;
+        console.log('setScanCodeTemp(code)', code)
         setScanCodeTemp(code);
 
         setTimeout(() => {
           console.log('getProductByBarcode', code)
           getProductByBarcode(code);
         }, 350);
-        // getProductsByBarcode(code);
       } else {
         setTimeout(() => {
           alert(`Code input invalid ${data}`);
