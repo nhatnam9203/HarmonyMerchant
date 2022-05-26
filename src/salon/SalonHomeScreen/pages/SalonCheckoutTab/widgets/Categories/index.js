@@ -52,10 +52,13 @@ import {
 } from "@src/screens/HomeScreen/widget/TabCheckout/widget";
 import { fonts } from "@shared/themes";
 import { ItemCategory } from "../ItemCategory";
-import { Header, ColumnContainer } from "./components";
-import { StaffColumn } from "./StaffColumn";
-import { CategoriesColumn } from "./CategoriesColumn";
-import { ItemsColumn } from "./ItemsColumn";
+import { Header, ColumnContainer } from "../components";
+import {
+  CategoriesColumn,
+  ItemsColumn,
+  StaffColumn,
+  ExtraAmountColumn,
+} from "./columns";
 import { SalonHomeContext } from "../../SalonHomeContext";
 
 const TXT_COLOR = "#404040";
@@ -242,79 +245,22 @@ export const Categories = React.forwardRef((props, ref) => {
   };
 
   const renderAmountCheckout = () => {
-    const temptHeader =
-      categorySelected.categoryType === "Service" ? "Extra" : "Amount";
-
     return (
-      <ColumnContainer>
-        <View
-          style={{
-            flex: 1,
-            borderLeftColor: "#DDDDDD",
-            borderLeftWidth: 1,
-            borderRightColor: "#DDDDDD",
-            borderRightWidth: 1,
-          }}
-        >
-          {/* ----- Header ---- */}
-          <Header label={t(temptHeader)} />
-
-          {/* ------- Content ----- */}
-          <View style={{ flex: 1 }}>
-            {categoryTypeSelected === "Product" ? (
-              <ItemAmount ref={amountRef} price={productSeleted?.price} />
-            ) : (
-              <ScrollView keyboardShouldPersistTaps="always">
-                {getExtrasFromRedux(productSeleted).map((extra, index) => (
-                  <ItemExtra
-                    key={index}
-                    extra={extra}
-                    onPressSelectExtra={onPressSelectExtra}
-                    arrSelectedExtra={arrSelectedExtra}
-                    groupAppointment={groupAppointment}
-                  />
-                ))}
-              </ScrollView>
-            )}
-          </View>
-
-          {/* ------- Footer -------- */}
-          <View
-            style={{
-              height: scaleSize(52),
-              paddingHorizontal: scaleSize(6),
-              paddingBottom: scaleSize(8),
-            }}
-          >
-            <ButtonCustom
-              width={`100%`}
-              backgroundColor="#F1F1F1"
-              title={t("ADD")}
-              textColor="#6A6A6A"
-              onPress={addAmount}
-              style={{
-                borderWidth: 1,
-                borderColor: "#C5C5C5",
-                backgroundColor: "#0764B0",
-                flex: 1,
-                borderRadius: 4,
-              }}
-              styleText={{
-                fontSize: scaleSize(19),
-                fontWeight: "bold",
-                color: "#fff",
-              }}
-            />
-          </View>
-        </View>
-      </ColumnContainer>
+      <ExtraAmountColumn
+        productSeleted={productSeleted}
+        isShowColAmount={isShowColAmount}
+        categoryTypeSelected={categoryTypeSelected}
+        categorySelected={categorySelected}
+        groupAppointment={groupAppointment}
+        getExtrasFromRedux={getExtrasFromRedux}
+        onPressSelectExtra={onPressSelectExtra}
+        arrSelectedExtra={arrSelectedExtra}
+      />
     );
   };
 
   return (
-    <View
-      style={{ flex: 1, flexDirection: "row", backgroundColor: colors.WHITE }}
-    >
+    <View style={{ flex: 1, flexDirection: "row", zIndex: 100 }}>
       {renderStaffColumn()}
       {isShowCategoriesColumn && renderCategoriesCheckout()}
       {isShowColProduct && renderCategoryItemCheckout()}

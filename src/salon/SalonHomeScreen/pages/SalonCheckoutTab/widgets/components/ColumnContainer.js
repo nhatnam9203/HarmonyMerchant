@@ -62,7 +62,9 @@ const styles = StyleSheet.create({
 
   border: {
     borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: colors.VERY_LIGHT_PINK,
+    borderLeftWidth: 1,
+    borderLeftColor: colors.VERY_LIGHT_PINK,
+    borderRightWidth: 1,
+    borderRightColor: colors.VERY_LIGHT_PINK,
   },
 });

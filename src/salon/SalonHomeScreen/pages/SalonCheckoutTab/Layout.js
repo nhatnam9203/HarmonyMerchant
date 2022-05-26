@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
-import { Header, Categories, Basket, Payment } from "./widgets";
-import { layouts } from "@shared/themes";
+import { CustomerPanel, Categories, Basket, Payment } from "./widgets";
+import { layouts, colors } from "@shared/themes";
 import {
   Button,
   ButtonCustom,
@@ -22,15 +22,21 @@ import {
 } from "@components";
 import { SalonHomeContextProvider } from "./SalonHomeContext";
 
-const SALON_FLEX = 4;
-const BASKET_FLEX = 3;
+const SALON_FLEX = 6.1;
+const BASKET_FLEX = 3.9;
 
 export const Layout = ({ onChangeModePayment, categoriesRef, ...props }) => {
   return (
     <View style={styles.container}>
       <SalonHomeContextProvider value={props}>
-        <Header />
-        <View style={[layouts.horizontal, layouts.fill]}>
+        <CustomerPanel />
+        <View
+          style={[
+            layouts.horizontal,
+            layouts.fill,
+            // { flexDirection: "row-reverse" },
+          ]}
+        >
           <SalonContent
             onChangeTab={onChangeModePayment}
             categoriesRef={categoriesRef}
@@ -44,9 +50,11 @@ export const Layout = ({ onChangeModePayment, categoriesRef, ...props }) => {
 
 const SalonContent = ({ onChangeTab, categoriesRef }) => {
   return (
-    <View style={{ flex: SALON_FLEX }}>
-      <ScrollableTabView
-        style={layouts.fill}
+    <View style={{ flex: SALON_FLEX, zIndex: 100 }}>
+      <Categories ref={categoriesRef} />
+
+      {/* <ScrollableTabView
+        style={[layouts.fill, { zIndex: 100 }]}
         initialPage={0}
         locked={true}
         renderTabBar={() => <View />}
@@ -54,14 +62,14 @@ const SalonContent = ({ onChangeTab, categoriesRef }) => {
       >
         <Categories ref={categoriesRef} />
         <Payment />
-      </ScrollableTabView>
+      </ScrollableTabView> */}
     </View>
   );
 };
 
 const BasketContent = () => {
   return (
-    <View style={{ flex: BASKET_FLEX }}>
+    <View style={[{ flex: BASKET_FLEX }, styles.border]}>
       <Basket />
     </View>
   );
@@ -70,5 +78,13 @@ const BasketContent = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  border: {
+    borderStyle: "solid",
+    borderLeftWidth: 1,
+    borderLeftColor: colors.VERY_LIGHT_PINK,
+    borderRightWidth: 1,
+    borderRightColor: colors.VERY_LIGHT_PINK,
   },
 });

@@ -2,16 +2,18 @@ import React from "react";
 import { View, Text } from "react-native";
 import { fonts, colors } from "@shared/themes";
 
-export const Header = ({ label }) => {
+export const Header = ({ label, alignment = "left" }) => {
   return (
     <View
       style={{
         height: scaleHeight(48),
         backgroundColor: colors.VERY_LIGHT_PINK_1,
-        borderBottomColor: colors.VERY_LIGHT_PINK_C_5,
+        borderStyle: "solid",
         borderBottomWidth: 1,
+        borderBottomColor: colors.VERY_LIGHT_PINK,
         justifyContent: "center",
         alignItems: "center",
+        paddingHorizontal: scaleWidth(10),
       }}
     >
       <Text
@@ -19,6 +21,8 @@ export const Header = ({ label }) => {
           fontFamily: fonts.MEDIUM,
           fontSize: scaleFont(20),
           color: colors.GREYISH_BROWN,
+          textAlign: alignment,
+          width: "100%",
         }}
       >
         {label}

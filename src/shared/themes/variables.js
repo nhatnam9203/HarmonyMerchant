@@ -37,6 +37,7 @@ export const colors = {
   DARKISH_GREEN: "#2e8d44",
   GREYISH_BROWN_50: "#40404080",
   VERY_LIGHT_PINK: "#e5e5e5",
+  VERY_LIGHT_PINK_D: "#ddd",
 };
 
 export const fonts = {

@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { colors, fonts, layouts } from "@shared/themes";
-import { ColumnContainer, Header } from "./components";
+import { ColumnContainer, Header } from "../../components";
 import { useTranslation } from "react-i18next";
 import FastImage from "react-native-fast-image";
 import ICON from "@resources";

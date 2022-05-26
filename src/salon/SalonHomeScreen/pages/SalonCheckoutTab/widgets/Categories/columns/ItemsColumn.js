@@ -7,11 +7,11 @@ import {
   StyleSheet,
 } from "react-native";
 import { colors, fonts, layouts } from "@shared/themes";
-import { ColumnContainer, Header } from "./components";
+import { ColumnContainer, Header } from "../../components";
 import { useTranslation } from "react-i18next";
 import FastImage from "react-native-fast-image";
 import ICON from "@resources";
-import ItemProductService from "./components/ItemProductService";
+import ItemProductService from "../../components/ItemProductService";
 
 export const ItemsColumn = ({
   items,
@@ -86,9 +86,9 @@ export const ItemsColumn = ({
 
   return (
     <ColumnContainer
-      style={{ width: scaleWidth(260) }}
+      style={{ width: !isShowColAmount ? scaleWidth(260) : scaleWidth(164) }}
       highlight={!isShowColAmount}
-      border={isShowColAmount}
+      border={false}
     >
       <Header label={t(tempTitle)} />
       <FlatList

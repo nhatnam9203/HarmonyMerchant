@@ -38,6 +38,8 @@ import {
   roundFloatNumber,
 } from "@utils";
 import { SalonHomeContext } from "../SalonHomeContext";
+import { Header } from "./components";
+import { colors } from "@shared/themes";
 
 export const Basket = () => {
   const { t } = useTranslation();
@@ -400,9 +402,9 @@ export const Basket = () => {
   };
 
   return (
-    <View style={[styles.basket_box, tempStyle]}>
+    <View style={styles.container}>
       {/* -------- Header Basket -------- */}
-      <View
+      {/* <View
         style={[
           styles.headerBasket,
           {
@@ -433,7 +435,8 @@ export const Basket = () => {
             <View />
           )}
         </View>
-      </View>
+      </View> */}
+      <Header label={t("Basket")} alignment="center" />
 
       {/* -------- Content Basket -------- */}
       <View style={{ flex: 1 }}>
@@ -479,11 +482,11 @@ export const Basket = () => {
 };
 
 const styles = StyleSheet.create({
-  basket_box: {
+  container: {
     flex: 1,
-    zIndex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.WHITE,
   },
+
   headerBasket: {
     height: scaleSize(38),
     justifyContent: "center",

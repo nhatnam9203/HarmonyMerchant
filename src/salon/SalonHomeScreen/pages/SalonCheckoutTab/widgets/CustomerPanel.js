@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { SalonHomeContext } from "../SalonHomeContext";
 
-export const Header = () => {
+export const CustomerPanel = () => {
   const { t } = useTranslation();
   const {
     customerInfoBuyAppointment,
@@ -145,9 +145,9 @@ const styles = StyleSheet.create({
     height: scaleHeight(72),
     backgroundColor: colors.WHITE,
     flexDirection: "row",
-    borderColor: "rgb(197,197,197)",
-    borderTopColor: colors.VERY_LIGHT_PINK_1,
-    borderWidth: 1,
+    // borderColor: "rgb(197,197,197)",
+    borderBottomColor: colors.VERY_LIGHT_PINK_D,
+    borderBottomWidth: 1,
     paddingHorizontal: scaleWidth(10),
   },
 
