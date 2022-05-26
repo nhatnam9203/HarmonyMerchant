@@ -59,7 +59,7 @@ const ItemExtra = ({
       onPress={() => onPressSelectExtra(extra)}
       style={[
         {
-          height: scaleSize(70),
+          height: scaleHeight(80),
           justifyContent: "center",
           alignItems: "center",
           borderBottomWidth: 1,
@@ -107,7 +107,7 @@ const ItemExtra = ({
       </View>
 
       <View style={{ flex: 1, paddingLeft: scaleSize(8) }}>
-        <View style={{ height: scaleSize(40) }}>
+        <View style={{ flex: 1 }}>
           <Text
             numberOflines={2}
             style={[

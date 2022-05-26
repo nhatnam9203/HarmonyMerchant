@@ -6,6 +6,7 @@ import _ from "ramda";
 import { scaleSize, msToTime } from "@utils";
 import { Text, Button } from "@components";
 import ICON from "@resources";
+import { colors } from "@shared/themes";
 
 const ItemProductService = ({
   item = {},
@@ -85,18 +86,16 @@ const ItemProductService = ({
   const temptTextColor =
     item[temptKeyId] === itemSelected?.[temptKeyId] ? { color: "#fff" } : {};
   const temptTextPriceColor =
-    item[temptKeyId] === itemSelected?.temptKeyId ? { color: "#fff" } : {};
+    item[temptKeyId] === itemSelected?.[temptKeyId] ? { color: "#fff" } : {};
 
   return (
     <Button
       onPress={() => showColAmount(item)}
       style={[
         {
-          height: scaleSize(70),
-          //   borderBottomWidth: 1,
-          //   borderBottomColor: "#DDDDDD",
-          backgroundColor: "#fff",
-          padding: scaleSize(8),
+          height: scaleHeight(80),
+          backgroundColor: colors.WHITE,
+          padding: scaleWidth(10),
           flexDirection: "row",
         },
         temtemptBackgrounColorSelectOnServer,
@@ -112,15 +111,15 @@ const ItemProductService = ({
       >
         <View
           style={{
-            width: scaleSize(50),
-            height: scaleSize(50),
+            width: scaleWidth(60),
+            height: scaleHeight(60),
             borderRadius: scaleSize(3),
             overflow: "hidden",
           }}
         >
           {item?.imageUrl ? (
             <FastImage
-              style={{ width: scaleSize(50), height: scaleSize(50) }}
+              style={{ width: scaleWidth(60), height: scaleHeight(60) }}
               source={{
                 uri: item?.imageUrl,
                 priority: FastImage.priority.low,
@@ -129,7 +128,7 @@ const ItemProductService = ({
             />
           ) : (
             <FastImage
-              style={{ width: scaleSize(50), height: scaleSize(50) }}
+              style={{ width: scaleWidth(60), height: scaleHeight(60) }}
               source={defaultThumb ?? placeHolder}
               resizeMode="contain"
             />
@@ -138,11 +137,12 @@ const ItemProductService = ({
       </View>
 
       <View style={{ flex: 1, paddingLeft: scaleSize(8) }}>
-        <View style={{ height: scaleSize(40) }}>
+        <View style={{ flex: 1 }}>
           <Text
             numberOflines={2}
             style={[
               {
+                flex: 1,
                 fontSize: scaleSize(12),
                 color: "#0764B0",
                 fontWeight: "600",
@@ -155,7 +155,6 @@ const ItemProductService = ({
         </View>
         <View
           style={{
-            flex: 1,
             flexDirection: "row",
             alignItems: "flex-end",
             justifyContent: "space-between",
