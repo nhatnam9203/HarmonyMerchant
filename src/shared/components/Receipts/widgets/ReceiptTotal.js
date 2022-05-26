@@ -29,6 +29,8 @@ export const ReceiptTotal = ({
 }) => {
   const { t } = useTranslation();
 
+  const isExistSignature = checkoutPaymentMethods?.find((data) => data?.paymentInformation?.signData)
+
   return (
     <View style={styles.container}>
       <View style={styles.margin} />
@@ -59,15 +61,17 @@ export const ReceiptTotal = ({
               cashDiscount
             )}`}</TextTotal>
           )}
-          <TextTotal
-            label={"Total Amount Due"}
-            fontWeight={"bold"}
-            fontSize={scaleFont(22)}
-          >
-            {`${formatMoneyWithUnit(total - tip)}`}
-          </TextTotal>
         </>
       )}
+      {
+        <TextTotal
+        label={"Total Amount Due"}
+        fontWeight={"bold"}
+        fontSize={scaleFont(22)}
+        >
+         {`${formatMoneyWithUnit(total - tip)}`}
+        </TextTotal>
+      }
       {
         tip > 0 ? 
         <TextTotal label={"Tip"}>{`${formatMoneyWithUnit(tip)}`}</TextTotal>
@@ -95,7 +99,6 @@ export const ReceiptTotal = ({
             </TextFill>
           </>
       }
-
       {change > 0 && (
         <TextTotal label={"Change"}>{`${formatMoneyWithUnit(
           change
@@ -108,14 +111,14 @@ export const ReceiptTotal = ({
           fontSize={scaleFont(22)}
         >{`${formatMoneyWithUnit(returnTotal)}`}</TextTotal>
       )}
-      {printTemp && !fromAppointmentTab && (
+      {/* {printTemp && !fromAppointmentTab && (
         <>
           <View style={styles.margin} />
           <TextFill label={`${_.padEnd("Total", 14, " ")}`}>
             <LineFill width={"60%"} />
           </TextFill>
         </>
-      )}
+      )} */}
       {!printTemp && (
         <>
           {checkoutPaymentMethods?.map((data, index) => (
@@ -178,7 +181,7 @@ export const ReceiptTotal = ({
       )}
 
       <View style={styles.margin} />
-      {((isSignature && !printTemp) || (printTemp && !fromAppointmentTab)) && (
+      {((isSignature && !printTemp && !isExistSignature) || (printTemp && !fromAppointmentTab)) && (
         <TextFill label={`${_.padEnd("Signature", 10, " ")}`}>
           <LineFill width={"60%"} />
         </TextFill>
