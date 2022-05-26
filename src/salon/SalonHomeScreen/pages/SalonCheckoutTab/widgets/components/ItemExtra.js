@@ -83,7 +83,7 @@ const ItemExtra = ({
           style={{
             width: scaleSize(50),
             height: scaleSize(50),
-            borderRadius: scaleSize(3),
+            borderRadius: scaleWidth(3),
             overflow: "hidden",
           }}
         >

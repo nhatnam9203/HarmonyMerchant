@@ -354,6 +354,7 @@ export const useProps = ({ props }) => {
     isOfflineMode,
     customService,
     staffListCurrentDate,
+    loginStaff: profileStaffLogin,
     ...stateLocal,
 
     displayCustomerInfoPopup: () => {},
@@ -443,25 +444,26 @@ export const useProps = ({ props }) => {
       const { categorySelected, productSeleted } = stateLocal || {};
       const categoryType = categorySelected?.categoryType;
       let isExist = false;
+
       if (
         categoryType === "Service" &&
-        productSeleted?.serviceId === item?.serviceId
+        productSeleted?.serviceId == item?.serviceId
       ) {
         isExist = true;
       } else if (
         categoryType === "Product" &&
-        productSeleted?.productId === item?.productId
+        productSeleted?.productId == item?.productId
       ) {
         isExist = true;
       }
 
-      dispatchLocal(CheckoutState.selectCategoryItem(item));
+      dispatchLocal(CheckoutState.selectCategoryItem(item, isExist));
     },
     getExtrasFromRedux: (product) => {
       const extrasBySort = [];
 
       for (let i = 0; i < extrasByMerchant.length; i++) {
-        for (let j = 0; j < product?.extras.length; j++) {
+        for (let j = 0; j < product?.extras?.length; j++) {
           const extraLocal = product?.extras[j];
           const extralGlobal = extrasByMerchant[i];
           if (

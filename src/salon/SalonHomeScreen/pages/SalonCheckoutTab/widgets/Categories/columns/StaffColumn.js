@@ -11,17 +11,19 @@ import { ColumnContainer, Header } from "../../components";
 import { useTranslation } from "react-i18next";
 import FastImage from "react-native-fast-image";
 import ICON from "@resources";
+import { SalonHomeContext } from "../../../SalonHomeContext";
 
-export const StaffColumn = ({
-  style,
-  disable = false,
-  flatListRef,
-  items,
-  selectedStaff,
-  displayCategoriesColumn,
-  loginStaff,
-}) => {
+export const StaffColumn = ({}) => {
   const { t } = useTranslation();
+  const ctx = React.useContext(SalonHomeContext);
+  const {
+    isBlockBookingFromCalendar,
+    staffFlatListRef,
+    staffListCurrentDate,
+    selectedStaff,
+    displayCategoriesColumn,
+    loginStaff,
+  } = ctx || {};
 
   const _onSelectStaff = () => {};
 
@@ -62,9 +64,9 @@ export const StaffColumn = ({
     >
       <Header label={t("Staff")} />
       <FlatList
-        ref={flatListRef}
+        ref={staffFlatListRef}
         style={{ flex: 1 }}
-        data={items}
+        data={staffListCurrentDate}
         renderItem={_renderStaff}
         extraData={(item, index) => `${index}`}
         keyExtractor={(item, index) => `${item?.staffId}_${index}`}
@@ -72,7 +74,7 @@ export const StaffColumn = ({
         onScrollToIndexFailed={() => {}}
         ItemSeparatorComponent={_renderSeparator}
       />
-      {disable && (
+      {isBlockBookingFromCalendar && (
         <View
           style={{
             flex: 1,

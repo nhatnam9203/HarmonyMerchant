@@ -209,15 +209,7 @@ export const Categories = React.forwardRef((props, ref) => {
       }
     }
 
-    return (
-      <CategoriesColumn
-        items={tempCategories}
-        categorySelected={categorySelected}
-        onPressSelectCategory={onPressSelectCategory}
-        onSelectGiftCard={onSelectGiftCard}
-        highlight={!isShowColProduct}
-      />
-    );
+    return <CategoriesColumn items={tempCategories} />;
   };
 
   const renderCategoryItemCheckout = () => {
@@ -255,6 +247,7 @@ export const Categories = React.forwardRef((props, ref) => {
         getExtrasFromRedux={getExtrasFromRedux}
         onPressSelectExtra={onPressSelectExtra}
         arrSelectedExtra={arrSelectedExtra}
+        addAmount={addAmount}
       />
     );
   };

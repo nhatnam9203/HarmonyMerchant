@@ -113,7 +113,7 @@ const ItemProductService = ({
           style={{
             width: scaleWidth(60),
             height: scaleHeight(60),
-            borderRadius: scaleSize(3),
+            borderRadius: scaleWidth(3),
             overflow: "hidden",
           }}
         >

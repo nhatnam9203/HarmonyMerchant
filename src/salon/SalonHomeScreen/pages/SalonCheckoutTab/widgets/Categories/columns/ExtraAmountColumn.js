@@ -24,6 +24,7 @@ export const ExtraAmountColumn = ({
   getExtrasFromRedux,
   onPressSelectExtra,
   arrSelectedExtra,
+  addAmount
 }) => {
   const { t } = useTranslation();
   const amountRef = React.useRef(null);
@@ -90,7 +91,7 @@ export const ExtraAmountColumn = ({
         backgroundColor="#F1F1F1"
         title={t("ADD")}
         textColor="#6A6A6A"
-        //   onPress={addAmount}
+          onPress={addAmount}
       >
         <Text style={styles.buttonText}>{t("ADD")}</Text>
       </TouchableOpacity>

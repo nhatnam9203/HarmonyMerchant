@@ -11,21 +11,17 @@ import { ColumnContainer, Header } from "../../components";
 import { useTranslation } from "react-i18next";
 import FastImage from "react-native-fast-image";
 import ICON from "@resources";
+import { SalonHomeContext } from "../../../SalonHomeContext";
 
-export const CategoriesColumn = ({
-  style,
-  disable = false,
-  flatListRef,
-  items,
-  selectedStaff,
-  displayCategoriesColumn,
-  loginStaff,
-  categorySelected,
-  onSelectGiftCard,
-  onPressSelectCategory,
-  highlight,
-}) => {
+export const CategoriesColumn = ({ items }) => {
   const { t } = useTranslation();
+  const ctx = React.useContext(SalonHomeContext);
+  const {
+    categorySelected,
+    onPressSelectCategory,
+    onSelectGiftCard,
+    isShowColProduct,
+  } = ctx || {};
 
   const _renderCategory = ({ item, index }) => {
     return (
@@ -65,9 +61,9 @@ export const CategoriesColumn = ({
 
   return (
     <ColumnContainer
-      style={{ width: highlight ? scaleWidth(260) : scaleWidth(120) }}
-      highlight={highlight}
-      border={!highlight}
+      style={{ width: !isShowColProduct ? scaleWidth(260) : scaleWidth(120) }}
+      highlight={!isShowColProduct}
+      border={!isShowColProduct}
     >
       <Header label={t("Categories")} />
       <FlatList
