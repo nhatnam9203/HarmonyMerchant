@@ -44,7 +44,7 @@ import {
   roundFloatNumber,
 } from "@utils";
 import { SalonHomeContext } from "../SalonHomeContext";
-import { Header } from "./components";
+import { Header } from "./Header";
 import { colors } from "@shared/themes";
 
 export const Basket = () => {
@@ -410,38 +410,6 @@ export const Basket = () => {
   return (
     <View style={styles.container}>
       {/* -------- Header Basket -------- */}
-      {/* <View
-        style={[
-          styles.headerBasket,
-          {
-            flexDirection: "row",
-            paddingHorizontal: scaleSize(8),
-            backgroundColor: "#F1F1F1",
-          },
-        ]}
-      >
-        <View style={{ flex: 1 }} />
-        <Text
-          style={[
-            styles.textHeader,
-            { fontWeight: "600", fontSize: scaleSize(16) },
-          ]}
-        >
-          {t("Basket")}
-        </Text>
-        <View style={{ flex: 1, alignItems: "flex-end" }}>
-          {isShowAddButton ? (
-            <Button onPress={addAppointmentCheckout}>
-              <Image
-                source={ICON.add_appointment_checkout}
-                style={{ width: scaleSize(25), height: scaleSize(25) }}
-              />
-            </Button>
-          ) : (
-            <View />
-          )}
-        </View>
-      </View> */}
       <Header label={t("Basket")} alignment="center" style={{ width: "100%" }}>
         {isShowAddButton && (
           <TouchableOpacity

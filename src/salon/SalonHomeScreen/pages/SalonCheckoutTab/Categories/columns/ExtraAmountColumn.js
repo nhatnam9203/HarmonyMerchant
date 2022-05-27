@@ -1,19 +1,16 @@
-import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
 import { colors, fonts, layouts } from "@shared/themes";
-import { ColumnContainer, Header } from "../../components";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import FastImage from "react-native-fast-image";
-import ICON from "@resources";
-import ItemExtra from "../../components/ItemExtra";
-import ItemAmount from "../../components/ItemAmount";
-import { ButtonGradient } from "@shared/components";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { ColumnContainer, Header } from "../../widgets";
+import ItemAmount from "../../widgets/ItemAmount";
+import ItemExtra from "../../widgets/ItemExtra";
 
 export const ExtraAmountColumn = ({
   isShowColAmount = false,
@@ -24,7 +21,7 @@ export const ExtraAmountColumn = ({
   getExtrasFromRedux,
   onPressSelectExtra,
   arrSelectedExtra,
-  addAmount
+  addAmount,
 }) => {
   const { t } = useTranslation();
   const amountRef = React.useRef(null);
@@ -91,7 +88,7 @@ export const ExtraAmountColumn = ({
         backgroundColor="#F1F1F1"
         title={t("ADD")}
         textColor="#6A6A6A"
-          onPress={addAmount}
+        onPress={addAmount}
       >
         <Text style={styles.buttonText}>{t("ADD")}</Text>
       </TouchableOpacity>

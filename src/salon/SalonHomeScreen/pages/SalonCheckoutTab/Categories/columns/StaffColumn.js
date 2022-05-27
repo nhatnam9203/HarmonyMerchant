@@ -1,17 +1,16 @@
-import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
 import { colors, fonts, layouts } from "@shared/themes";
-import { ColumnContainer, Header } from "../../components";
+import React from "react";
 import { useTranslation } from "react-i18next";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import FastImage from "react-native-fast-image";
-import ICON from "@resources";
-import { SalonHomeContext } from "../../../SalonHomeContext";
+import { SalonHomeContext } from "../../SalonHomeContext";
+import { ColumnContainer, Header } from "../../widgets";
 
 export const StaffColumn = ({}) => {
   const { t } = useTranslation();

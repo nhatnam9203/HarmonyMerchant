@@ -1,26 +1,9 @@
+import { colors, layouts } from "@shared/themes";
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { useTranslation } from "react-i18next";
-import { CustomerPanel, Categories, Basket, Payment } from "./widgets";
-import { layouts, colors } from "@shared/themes";
-import {
-  Button,
-  ButtonCustom,
-  PopupActiveGiftCard,
-  PopupChangeMoney,
-  PopupChangePriceAmountProduct,
-  PopupChangeStylist,
-  PopupChangeTip,
-  PopupCheckStaffPermission,
-  PopupConfirm,
-  PopupInvoicePrint,
-  PopupProcessingCredit,
-  PopupScanCode,
-  PopupSendLinkInstall,
-  ScrollableTabView,
-  Text,
-} from "@components";
+import { StyleSheet, View } from "react-native";
+import { Categories } from "./Categories";
 import { SalonHomeContextProvider } from "./SalonHomeContext";
+import { Basket, CustomerPanel } from "./widgets";
 
 const SALON_FLEX = 6.1;
 const BASKET_FLEX = 3.9;

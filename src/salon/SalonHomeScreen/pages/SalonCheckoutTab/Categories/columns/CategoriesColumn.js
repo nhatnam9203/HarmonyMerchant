@@ -1,17 +1,9 @@
+import { colors, fonts } from "@shared/themes";
 import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import { colors, fonts, layouts } from "@shared/themes";
-import { ColumnContainer, Header } from "../../components";
 import { useTranslation } from "react-i18next";
-import FastImage from "react-native-fast-image";
-import ICON from "@resources";
-import { SalonHomeContext } from "../../../SalonHomeContext";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { SalonHomeContext } from "../../SalonHomeContext";
+import { ColumnContainer, Header } from "../../widgets";
 
 export const CategoriesColumn = ({ items }) => {
   const { t } = useTranslation();

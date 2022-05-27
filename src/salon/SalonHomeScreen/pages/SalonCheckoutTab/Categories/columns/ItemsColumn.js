@@ -1,17 +1,10 @@
-import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import { colors, fonts, layouts } from "@shared/themes";
-import { ColumnContainer, Header } from "../../components";
-import { useTranslation } from "react-i18next";
-import FastImage from "react-native-fast-image";
 import ICON from "@resources";
-import ItemProductService from "../../components/ItemProductService";
+import { colors } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { FlatList, View } from "react-native";
+import { ColumnContainer, Header } from "../../widgets";
+import ItemProductService from "../../widgets/ItemProductService";
 
 export const ItemsColumn = ({
   items,

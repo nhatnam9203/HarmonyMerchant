@@ -1,65 +1,15 @@
-import React from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  FlatList,
-  ActivityIndicator,
-  ScrollView,
-} from "react-native";
 import { colors } from "@shared/themes";
-import {
-  Button,
-  ButtonCustom,
-  PopupActiveGiftCard,
-  PopupChangeMoney,
-  PopupChangePriceAmountProduct,
-  PopupChangeStylist,
-  PopupChangeTip,
-  PopupCheckStaffPermission,
-  PopupConfirm,
-  PopupInvoicePrint,
-  PopupProcessingCredit,
-  PopupScanCode,
-  PopupSendLinkInstall,
-  ScrollableTabView,
-  Text,
-} from "@components";
-import ICON from "@resources";
-import { scaleSize, checkIsTablet } from "@utils";
-import _ from "ramda";
+import { scaleSize } from "@utils";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { StaffItem } from "@src/screens/HomeScreen/widget/TabCheckout/widget/NewCheckoutComponent";
-import {
-  EnterCustomerPhonePopup,
-  ErrorMessagePaxModal,
-  ItemAmount,
-  ItemBlockBasket,
-  ItemCustomerBasket,
-  ItemExtra,
-  ItemPaymentMethod,
-  ItemProductService,
-  PopupAddEditCustomer,
-  PopupAddItemIntoAppointments,
-  PopupBill,
-  PopupBlockDiscount,
-  PopupDiscount,
-  PopupDiscountLocal,
-  PopupEnterAmountCustomService,
-  PopupEnterAmountGiftCard,
-  PopupGiftCardDetail,
-  PopupPaymentDetails,
-} from "@src/screens/HomeScreen/widget/TabCheckout/widget";
-import { fonts } from "@shared/themes";
-import { ItemCategory } from "../ItemCategory";
-import { Header, ColumnContainer } from "../components";
+import { StyleSheet, View } from "react-native";
+import { SalonHomeContext } from "../SalonHomeContext";
 import {
   CategoriesColumn,
+  ExtraAmountColumn,
   ItemsColumn,
   StaffColumn,
-  ExtraAmountColumn,
 } from "./columns";
-import { SalonHomeContext } from "../../SalonHomeContext";
 
 const TXT_COLOR = "#404040";
 const BULE_SKY = "#0764B0";
