@@ -12,12 +12,11 @@ import FastImage from "react-native-fast-image";
 import { SalonHomeContext } from "../../SalonHomeContext";
 import { ColumnContainer, Header } from "../../widgets";
 
-export const StaffColumn = ({}) => {
+export const StaffColumn = ({ staffFlatListRef }) => {
   const { t } = useTranslation();
   const ctx = React.useContext(SalonHomeContext);
   const {
     isBlockBookingFromCalendar,
-    staffFlatListRef,
     staffListCurrentDate,
     selectedStaff,
     displayCategoriesColumn,

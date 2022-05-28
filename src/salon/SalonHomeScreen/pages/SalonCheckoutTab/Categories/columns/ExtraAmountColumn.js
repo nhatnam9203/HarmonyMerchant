@@ -11,19 +11,23 @@ import {
 import { ColumnContainer, Header } from "../../widgets";
 import ItemAmount from "../../widgets/ItemAmount";
 import ItemExtra from "../../widgets/ItemExtra";
+import { SalonHomeContext } from "../../SalonHomeContext";
 
-export const ExtraAmountColumn = ({
-  isShowColAmount = false,
-  productSeleted,
-  categoryTypeSelected,
-  groupAppointment,
-  categorySelected,
-  getExtrasFromRedux,
-  onPressSelectExtra,
-  arrSelectedExtra,
-  addAmount,
-}) => {
+export const ExtraAmountColumn = ({}) => {
   const { t } = useTranslation();
+  const ctx = React.useContext(SalonHomeContext);
+  const {
+    isShowColAmount = false,
+    productSeleted,
+    categoryTypeSelected,
+    groupAppointment,
+    categorySelected,
+    getExtrasFromRedux,
+    onPressSelectExtra,
+    arrSelectedExtra,
+    addAmount,
+  } = ctx || {};
+
   const amountRef = React.useRef(null);
 
   const temptHeader =
@@ -98,13 +102,15 @@ export const ExtraAmountColumn = ({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 3,
+    borderRadius: scaleWidth(4),
     backgroundColor: colors.OCEAN_BLUE,
     width: scaleWidth(240),
     height: scaleHeight(60),
     ...layouts.center,
     marginVertical: scaleHeight(10),
     alignSelf: "center",
+    borderColor: colors.CERULEAN,
+    borderWidth: 1,
   },
 
   buttonText: {

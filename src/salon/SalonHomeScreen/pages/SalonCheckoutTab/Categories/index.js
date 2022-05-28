@@ -94,10 +94,10 @@ export const Categories = React.forwardRef((props, ref) => {
     return (
       <StaffColumn
         disable={isBlockBookingFromCalendar}
-        flatListRef={staffFlatListRef}
         items={staffListCurrentDate}
         selectedStaff={selectedStaff}
         displayCategoriesColumn={displayCategoriesColumn}
+        staffFlatListRef={staffFlatListRef}
       />
     );
   };
@@ -186,28 +186,12 @@ export const Categories = React.forwardRef((props, ref) => {
     );
   };
 
-  const renderAmountCheckout = () => {
-    return (
-      <ExtraAmountColumn
-        productSeleted={productSeleted}
-        isShowColAmount={isShowColAmount}
-        categoryTypeSelected={categoryTypeSelected}
-        categorySelected={categorySelected}
-        groupAppointment={groupAppointment}
-        getExtrasFromRedux={getExtrasFromRedux}
-        onPressSelectExtra={onPressSelectExtra}
-        arrSelectedExtra={arrSelectedExtra}
-        addAmount={addAmount}
-      />
-    );
-  };
-
   return (
     <View style={{ flex: 1, flexDirection: "row", zIndex: 100 }}>
       {renderStaffColumn()}
       {isShowCategoriesColumn && renderCategoriesCheckout()}
       {isShowColProduct && renderCategoryItemCheckout()}
-      {isShowColAmount && renderAmountCheckout()}
+      {isShowColAmount && <ExtraAmountColumn />}
       <View style={{ width: scaleSize(4) }} />
     </View>
   );

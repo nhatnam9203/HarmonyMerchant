@@ -6,7 +6,7 @@ import * as CheckoutState from "./SalonCheckoutState";
 export const useCallApis = ({ dispatchLocal }) => {
   //   const getCategoriesByStaffCallback = React.useRef(null);
 
-  // categories
+  // get categories
   const [
     categoriesByStaffRequest,
     {
@@ -27,7 +27,7 @@ export const useCallApis = ({ dispatchLocal }) => {
     categoriesByStaffRequest(staffId);
   };
 
-  // services
+  // get services
   const [
     servicesByStaffRequest,
     { currentData: servicesByStaffResponse, isLoading: isGetServiceByStaff },
@@ -43,6 +43,7 @@ export const useCallApis = ({ dispatchLocal }) => {
     }
   }, [servicesByStaffResponse]);
 
+  // get product
   const [
     productByStaffRequest,
     { currentData: productByStaffResponse, isLoading: isGetProductByStaff },

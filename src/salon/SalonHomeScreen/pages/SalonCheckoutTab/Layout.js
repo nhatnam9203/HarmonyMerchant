@@ -2,8 +2,9 @@ import { colors, layouts } from "@shared/themes";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Categories } from "./Categories";
+import { Basket } from "./Basket";
 import { SalonHomeContextProvider } from "./SalonHomeContext";
-import { Basket, CustomerPanel } from "./widgets";
+import { CustomerPanel } from "./widgets";
 
 const SALON_FLEX = 6.1;
 const BASKET_FLEX = 3.9;

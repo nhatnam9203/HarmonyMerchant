@@ -134,8 +134,8 @@ export const useProps = ({ props }) => {
     return Number(taxTotal).toFixed(2);
   };
 
-  const getBasketOffline = () => {
-    const { basket, selectedStaff } = stateLocal || {};
+  const createItemsAddBasket = (basket) => {
+    const { selectedStaff } = stateLocal || {};
 
     const arrayProductBuy = [];
     const arryaServicesBuy = [];
@@ -265,7 +265,57 @@ export const useProps = ({ props }) => {
     return method;
   };
 
-  const createAnymousAppointment = async () => {
+  // const createAnymousAppointment = async () => {
+  //   const {
+  //     paymentSelected,
+  //     customDiscountPercentLocal,
+  //     customDiscountFixedLocal,
+  //     selectedStaff,
+  //   } = stateLocal || {};
+
+  //   const dataAnymousAppoitment = getBasketOffline();
+
+  //   const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
+  //     dataAnymousAppoitment;
+
+  //   const moneyUserGiveForStaff = parseFloat(
+  //     formatNumberFromCurrency(modalBillRef.current?.state.quality)
+  //   );
+
+  //   const method = getPaymentString(paymentSelected);
+  //   dispatch(
+  //     actions.appointment.createAnymousAppointment(
+  //       profile.merchantId,
+  //       customerInfoBuyAppointment?.userId || 0,
+  //       customerInfoBuyAppointment?.customerId || 0,
+  //       // profileStaffLogin.staffId,
+  //       selectedStaff?.staffId,
+  //       arrayProductBuy,
+  //       arryaServicesBuy,
+  //       arrayExtrasBuy,
+  //       method,
+  //       true,
+  //       customDiscountFixedLocal,
+  //       customDiscountPercentLocal,
+  //       customerInfoBuyAppointment?.firstName || "",
+  //       customerInfoBuyAppointment?.lastName || "",
+  //       customerInfoBuyAppointment?.phone || "",
+  //       moneyUserGiveForStaff,
+  //       false,
+  //       false
+  //     )
+  //   );
+
+  //   dispatchLocal(
+  //     CheckoutState.setBasket({
+  //       basket: [],
+  //       customDiscountPercentLocal: 0,
+  //       customDiscountFixedLocal: 0,
+  //     })
+  //   );
+  // };
+
+  const createNewAppointment = async (basket) => {
     const {
       paymentSelected,
       customDiscountPercentLocal,
@@ -273,16 +323,15 @@ export const useProps = ({ props }) => {
       selectedStaff,
     } = stateLocal || {};
 
-    const dataAnymousAppoitment = getBasketOffline();
-
     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
-      dataAnymousAppoitment;
+      createItemsAddBasket(basket);
 
     const moneyUserGiveForStaff = parseFloat(
       formatNumberFromCurrency(modalBillRef.current?.state.quality)
     );
 
     const method = getPaymentString(paymentSelected);
+
     dispatch(
       actions.appointment.createAnymousAppointment(
         profile.merchantId,
@@ -604,8 +653,7 @@ export const useProps = ({ props }) => {
           );
 
           if (!isOfflineMode) {
-            // ! cchưa set dc báket nên chưa tạo đc appointment
-            createAnymousAppointment();
+            createNewAppointment(temptBasket);
           }
         } else {
           //  -------------Add Extra , Service ---------
@@ -656,7 +704,7 @@ export const useProps = ({ props }) => {
           );
 
           if (!isOfflineMode) {
-            createAnymousAppointment();
+            createNewAppointment(temptBasket);
           }
         }
       }

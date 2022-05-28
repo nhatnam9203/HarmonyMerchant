@@ -4,9 +4,7 @@ import {
   EnterCustomerPhonePopup,
   ErrorMessagePaxModal,
   ItemAmount,
-  ItemBlockBasket,
   ItemCategory,
-  ItemCustomerBasket,
   ItemExtra,
   ItemPaymentMethod,
   ItemProductService,
@@ -32,7 +30,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { ButtonBasket } from "./ButtonBasket";
+import { Header, ButtonBasket } from "../widgets";
 import { layouts } from "@shared/themes";
 import { UI } from "@shared/components";
 import {
@@ -44,11 +42,14 @@ import {
   roundFloatNumber,
 } from "@utils";
 import { SalonHomeContext } from "../SalonHomeContext";
-import { Header } from "./Header";
 import { colors } from "@shared/themes";
+import { BasketHeader, BasketButtonConfirm } from "./components";
+import ItemAppointmentBasket from "./components/ItemAppointmentBasket";
+import ItemCustomerBasket from "./components/ItemCustomerBasket";
 
 export const Basket = () => {
   const { t } = useTranslation();
+
   const ctx = React.useContext(SalonHomeContext);
   const {
     groupAppointment,
@@ -57,7 +58,6 @@ export const Basket = () => {
     isBookingFromCalendar,
     isShowColAmount,
     isBlockBookingFromCalendar,
-
     addAppointmentCheckout,
     isDonePayment,
     tabCurrent,
@@ -74,13 +74,11 @@ export const Basket = () => {
     checkBlockAppointment,
     addBlockAppointmentRef,
     language,
-
     subTotalLocal,
     tipLocal,
     discountTotalLocal,
     taxLocal,
     infoUser,
-
     removeItemBasket,
     changeStylist,
     toggleCollapses,
@@ -124,7 +122,7 @@ export const Basket = () => {
     return (
       <>
         {blockAppointments.map((appointment, index) => (
-          <ItemBlockBasket
+          <ItemAppointmentBasket
             ref={addBlockAppointmentRef}
             key={`${appointment.appointmentId}_${index}`}
             blockIndex={index}
@@ -409,29 +407,10 @@ export const Basket = () => {
 
   return (
     <View style={styles.container}>
-      {/* -------- Header Basket -------- */}
-      <Header label={t("Basket")} alignment="center" style={{ width: "100%" }}>
-        {isShowAddButton && (
-          <TouchableOpacity
-            style={{
-              width: scaleWidth(50),
-              position: "absolute",
-              right: 0,
-              top: 0,
-              bottom: 0,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            // onPress={addAppointmentCheckout}
-          >
-            <Image
-              source={ICON.add_appointment_checkout}
-              style={{ width: scaleWidth(30), height: scaleHeight(30) }}
-            />
-          </TouchableOpacity>
-        )}
-      </Header>
-
+      <BasketHeader
+        isShowAddButton={isShowAddButton}
+        addAppointmentCheckout={addAppointmentCheckout}
+      />
       {/* -------- Content Basket -------- */}
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -445,32 +424,7 @@ export const Basket = () => {
       </View>
 
       {/* -------- Footer Basket -------- */}
-      <View
-        style={{
-          height: scaleSize(52),
-          paddingHorizontal: scaleSize(8),
-          paddingBottom: scaleSize(8),
-        }}
-      >
-        <ButtonBasket
-          isDonePayment={isDonePayment}
-          groupAppointment={groupAppointment}
-          blockAppointments={blockAppointments}
-          isBookingFromCalendar={isBookingFromCalendar}
-          tabCurrent={tabCurrent}
-          basket={basket}
-          paymentSelected={paymentSelected}
-          changeButtonDone={changeButtonDone}
-          isCancelHarmonyPay={isCancelHarmonyPay}
-          cancelHarmonyPayment={cancelHarmonyPayment}
-          payBasket={payBasket}
-          confimPayOfflinemode={confimPayOfflinemode}
-          bookAppointmentFromCalendar={bookAppointmentFromCalendar}
-          selectPayment={selectPayment}
-          bookBlockAppointment={bookBlockAppointment}
-          checkBlockAppointment={checkBlockAppointment}
-        />
-      </View>
+      <BasketButtonConfirm />
     </View>
   );
 };

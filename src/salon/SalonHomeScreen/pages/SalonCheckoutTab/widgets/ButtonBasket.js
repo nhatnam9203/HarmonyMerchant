@@ -1,35 +1,9 @@
-import React from "react";
-import { StyleSheet, View, Image } from "react-native";
-import { colors } from "@shared/themes";
-import {
-  Button,
-  ButtonCustom,
-  PopupActiveGiftCard,
-  PopupChangeMoney,
-  PopupChangePriceAmountProduct,
-  PopupChangeStylist,
-  PopupChangeTip,
-  PopupCheckStaffPermission,
-  PopupConfirm,
-  PopupInvoicePrint,
-  PopupProcessingCredit,
-  PopupScanCode,
-  PopupSendLinkInstall,
-  ScrollableTabView,
-  Text,
-} from "@components";
-import ICON from "@resources";
-import { scaleSize, checkIsTablet } from "@utils";
+import { ButtonCustom } from "@components";
+import { formatNumberFromCurrency, scaleSize } from "@utils";
 import _ from "ramda";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  checkCategoryIsNotExist,
-  formatMoney,
-  formatNumberFromCurrency,
-  localize,
-  menuTabs,
-  roundFloatNumber,
-} from "@utils";
+import { StyleSheet } from "react-native";
 
 export const ButtonBasket = ({
   isDonePayment,
