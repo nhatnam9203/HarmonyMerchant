@@ -1,49 +1,15 @@
-import { Button, Text } from "@components";
-import ICON from "@resources";
-import {
-  EnterCustomerPhonePopup,
-  ErrorMessagePaxModal,
-  ItemAmount,
-  ItemCategory,
-  ItemExtra,
-  ItemPaymentMethod,
-  ItemProductService,
-  PopupAddEditCustomer,
-  PopupAddItemIntoAppointments,
-  PopupBill,
-  PopupBlockDiscount,
-  PopupDiscount,
-  PopupDiscountLocal,
-  PopupEnterAmountCustomService,
-  PopupEnterAmountGiftCard,
-  PopupGiftCardDetail,
-  PopupPaymentDetails,
-} from "@src/screens/HomeScreen/widget/TabCheckout/widget";
-import { scaleSize } from "@utils";
+import { colors } from "@shared/themes";
+import { formatNumberFromCurrency, roundFloatNumber, scaleSize } from "@utils";
 import _ from "ramda";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { Header, ButtonBasket } from "../widgets";
-import { layouts } from "@shared/themes";
-import { UI } from "@shared/components";
-import {
-  checkCategoryIsNotExist,
-  formatMoney,
-  formatNumberFromCurrency,
-  localize,
-  menuTabs,
-  roundFloatNumber,
-} from "@utils";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { SalonHomeContext } from "../SalonHomeContext";
-import { colors } from "@shared/themes";
-import { BasketHeader, BasketButtonConfirm } from "./components";
+import {
+  BasketButtonConfirm,
+  BasketGrandTotal,
+  BasketHeader,
+} from "./components";
 import ItemAppointmentBasket from "./components/ItemAppointmentBasket";
 import ItemCustomerBasket from "./components/ItemCustomerBasket";
 
@@ -88,6 +54,29 @@ export const Basket = () => {
     isOfflineMode,
   } = ctx || {};
 
+  const getGrandTotal = React.useMemo(() => {
+    let result = 0;
+
+    if (blockAppointments?.length > 0) {
+      result = blockAppointments.reduce(
+        (sum, current) => sum + formatNumberFromCurrency(current.total),
+        0
+      );
+    } else if (groupAppointment?.appointments?.length > 0) {
+      if (isOfflineMode) {
+        result = roundFloatNumber(
+          formatNumberFromCurrency(subTotalLocal) +
+            formatNumberFromCurrency(tipLocal) +
+            formatNumberFromCurrency(taxLocal) -
+            formatNumberFromCurrency(discountTotalLocal)
+        );
+      } else {
+        result = groupAppointment?.total ?? 0;
+      }
+    }
+    return result;
+  }, [blockAppointments, groupAppointment?.appointments, isOfflineMode]);
+
   const checkoutPayments =
     !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments
       ? paymentDetailInfo.checkoutPayments
@@ -111,6 +100,10 @@ export const Basket = () => {
     (!isBlockBookingFromCalendar || !isBookingFromCalendar) &&
     ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
       (blockAppointments.length && isShowAddBlock) > 0);
+
+  const paidAmounts = paymentDetailInfo.paidAmounts
+    ? paymentDetailInfo.paidAmounts.slice(0).reverse()
+    : [];
 
   const _renderBlockAppointment = () => {
     let temptGrandTotal = 0;
@@ -144,52 +137,6 @@ export const Basket = () => {
             //   showModalCheckPermission={showModalCheckPermission}
           />
         ))}
-
-        {/* ----------- Grand Total ----------- */}
-        <View
-          style={{
-            paddingHorizontal: scaleSize(10),
-            marginTop: scaleSize(15),
-          }}
-        >
-          <View
-            style={{
-              height: 2,
-              backgroundColor: "#0764B0",
-              marginTop: scaleSize(10),
-              marginBottom: scaleSize(15),
-            }}
-          />
-          {/* ---------- Tip ------ */}
-          <View style={styles.payNumberTextContainer}>
-            <Text
-              style={[
-                styles.textPay,
-                {
-                  fontSize: scaleSize(18),
-                  fontWeight: "600",
-                  color: "#0764B0",
-                },
-              ]}
-            >
-              {`${localize("Grand Total", language)}:`}
-            </Text>
-            <Text
-              style={[
-                styles.textPay,
-                {
-                  fontSize: scaleSize(18),
-                  fontWeight: "600",
-                  color: "rgb(65,184,85)",
-                },
-              ]}
-            >
-              {`$ ${formatMoney(temptGrandTotal)}`}
-            </Text>
-          </View>
-        </View>
-
-        <View style={{ height: scaleSize(70) }} />
       </>
     );
   };
@@ -253,154 +200,6 @@ export const Basket = () => {
             />
           ))
         )}
-        {/* ----------- Grand Total ----------- */}
-        {parseFloat(tempTotal) > 0 ? (
-          <View style={{ paddingHorizontal: scaleSize(10) }}>
-            <View
-              style={{
-                height: 2,
-                backgroundColor: "#0764B0",
-                marginTop: scaleSize(10),
-                marginBottom: scaleSize(15),
-              }}
-            />
-            <View style={styles.payNumberTextContainer}>
-              <Text
-                style={[
-                  styles.textPay,
-                  {
-                    fontSize: scaleSize(18),
-                    fontWeight: "600",
-                    color: "#0764B0",
-                  },
-                ]}
-              >
-                {`${localize("Grand Total", language)}:`}
-              </Text>
-              <Text
-                style={[
-                  styles.textPay,
-                  {
-                    fontSize: scaleSize(18),
-                    fontWeight: "600",
-                    color: "rgb(65,184,85)",
-                  },
-                ]}
-              >
-                {`$ ${formatMoney(tempTotal)}`}
-              </Text>
-            </View>
-          </View>
-        ) : null}
-
-        {/* ----------- Paid Amount ----------- */}
-        {!isBookingFromCalendar && !_.isEmpty(paymentDetailInfo) ? (
-          <View
-            style={{
-              paddingHorizontal: scaleSize(10),
-              marginBottom: scaleSize(8),
-            }}
-          >
-            <View
-              style={{
-                height: 2,
-                backgroundColor: "#DDDDDD",
-                marginTop: scaleSize(10),
-                marginBottom: scaleSize(15),
-              }}
-            />
-            {/* ---------- Paid amount ------ */}
-            {paidAmounts.map((paidAmountInfo, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.payNumberTextContainer,
-                  {
-                    justifyContent: "space-between",
-                    marginBottom: scaleSize(8),
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.textPay,
-                    {
-                      fontSize: scaleSize(18),
-                      fontWeight: "600",
-                      color: "#404040",
-                    },
-                  ]}
-                >
-                  {`${localize("Paid ", language)}`}
-                  <Text
-                    style={[
-                      styles.textPay,
-                      {
-                        fontSize: scaleSize(18),
-                        fontWeight: "300",
-                        color: "#404040",
-                      },
-                    ]}
-                  >
-                    {` (${paidAmountInfo.paymentMethod})`}
-                  </Text>
-                </Text>
-                <Text
-                  style={[
-                    styles.textPay,
-                    {
-                      fontSize: scaleSize(18),
-                      fontWeight: "600",
-                      color: "#404040",
-                    },
-                  ]}
-                >
-                  {`  $ ${formatMoney(paidAmountInfo.amount)}`}
-                </Text>
-              </View>
-            ))}
-
-            {/* ---------- Due amount ------ */}
-            {!isBookingFromCalendar && paymentDetailInfo.dueAmount ? (
-              <View
-                style={[
-                  styles.payNumberTextContainer,
-                  { justifyContent: "space-between" },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.textPay,
-                    {
-                      fontSize: scaleSize(18),
-                      fontWeight: "600",
-                      color: "#FF3B30",
-                    },
-                  ]}
-                >
-                  {`${localize("Amount Due", language)}:`}
-                </Text>
-                <Text
-                  style={[
-                    styles.textPay,
-                    {
-                      fontSize: scaleSize(18),
-                      fontWeight: "600",
-                      color: "#FF3B30",
-                    },
-                  ]}
-                >
-                  {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
-                </Text>
-              </View>
-            ) : (
-              <View />
-            )}
-          </View>
-        ) : (
-          <View />
-        )}
-        <View style={{ height: scaleSize(50) }} />
       </>
     );
   };
@@ -420,6 +219,15 @@ export const Basket = () => {
           {blockAppointments?.length > 0
             ? _renderBlockAppointment()
             : _renderGroupAppointment()}
+
+          <BasketGrandTotal
+            grandTotal={getGrandTotal}
+            paidAmounts={paidAmounts}
+            dueAmount={paymentDetailInfo.dueAmount}
+            isShowPaidAmount={
+              !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo)
+            }
+          />
         </ScrollView>
       </View>
 

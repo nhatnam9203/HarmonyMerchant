@@ -75,6 +75,7 @@ export const layouts = StyleSheet.create({
   horizontalSpaceBetween: {
     alignItems: "center",
     justifyContent: "space-between",
+    flexDirection: "row",
   },
   verticalCenterLeft: {
     alignItems: "flex-start",
