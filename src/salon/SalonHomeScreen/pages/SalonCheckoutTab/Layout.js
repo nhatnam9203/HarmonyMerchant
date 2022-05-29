@@ -5,11 +5,26 @@ import { Categories } from "./Categories";
 import { Basket } from "./Basket";
 import { SalonHomeContextProvider } from "./SalonHomeContext";
 import { CustomerPanel } from "./widgets";
+import {
+  PopupDiscount,
+  PopupBlockDiscount,
+  PopupDiscountLocal,
+} from "./Dialogs";
+import { i18n } from "@shared/services";
 
 const SALON_FLEX = 6.1;
 const BASKET_FLEX = 3.9;
 
-export const Layout = ({ onChangeModePayment, categoriesRef, ...props }) => {
+export const Layout = ({
+  onChangeModePayment,
+  categoriesRef,
+  popupDiscountRef,
+  popupDiscountLocalRef,
+  visiblePopupDiscountLocal,
+  onRequestClosePopupDiscountLocal,
+  callbackDiscountToParent,
+  ...props
+}) => {
   return (
     <View style={styles.container}>
       <SalonHomeContextProvider value={props}>
@@ -27,6 +42,26 @@ export const Layout = ({ onChangeModePayment, categoriesRef, ...props }) => {
           />
           <BasketContent />
         </View>
+
+        <PopupDiscount ref={popupDiscountRef} title={i18n.t("Discount")} />
+        <PopupBlockDiscount title={i18n.t("Discount")} />
+        <PopupDiscountLocal
+          ref={popupDiscountLocalRef}
+          visible={visiblePopupDiscountLocal}
+          title={i18n.t("Discount")}
+          onRequestClose={onRequestClosePopupDiscountLocal}
+          callbackDiscountToParent={(
+            customDiscountPercentLocal,
+            customDiscountFixedLocal,
+            discountTotalLocal
+          ) =>
+            callbackDiscountToParent(
+              customDiscountPercentLocal,
+              customDiscountFixedLocal,
+              discountTotalLocal
+            )
+          }
+        />
       </SalonHomeContextProvider>
     </View>
   );

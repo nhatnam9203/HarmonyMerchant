@@ -2727,7 +2727,7 @@ class TabCheckout extends Layout {
     this.setState({
       paymentSelected: "",
     });
-  };
+  }; // !
 
   showModalCheckPermission = (appointmentId, isBlock = false) => {
     this.popupCheckDiscountPermissionRef?.current?.setStateFromParent(
@@ -2736,11 +2736,11 @@ class TabCheckout extends Layout {
       isBlock
     );
     this.props.actions.marketing.switchPopupCheckDiscountPermission(true);
-  };
+  }; // !
 
   closePopupCheckDiscountPermission = () => {
     this.props.actions.marketing.switchPopupCheckDiscountPermission(false);
-  };
+  }; // !
 
   // ------------ New Code ----------
 

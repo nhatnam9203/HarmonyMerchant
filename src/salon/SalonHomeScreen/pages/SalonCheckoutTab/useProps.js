@@ -35,6 +35,10 @@ export const useProps = ({ props }) => {
   const modalBillRef = React.useRef(null);
   const blockAppointmentRef = React.useRef(null);
   const changePriceAmountProductRef = React.useRef(null);
+  const popupDiscountRef = React.useRef(null);
+  const popupDiscountLocalRef = React.useRef(null);
+  const popupCheckDiscountPermissionRef = React.useRef(null);
+  const changeTipRef = React.useRef(null);
 
   const {
     customerInfoBuyAppointment,
@@ -59,6 +63,7 @@ export const useProps = ({ props }) => {
   const { customService, servicesByMerchant } =
     useSelector((state) => state.service) || {};
   const { productsByMerchantId } = useSelector((state) => state.product) || {};
+  const { connectionSignalR } = useSelector((state) => state.appointment) || {};
 
   const [stateLocal, dispatchLocal] = React.useReducer(
     CheckoutState.reducer,
@@ -390,6 +395,11 @@ export const useProps = ({ props }) => {
   return {
     categoriesRef,
     amountRef,
+    popupDiscountRef,
+    popupDiscountLocalRef,
+    changeTipRef,
+    popupCheckDiscountPermissionRef,
+
     isGetCategoriesByStaff,
     isLoadingService: isGetServiceByStaff || isGetProductByStaff,
     isCustomService: profile?.isCustomService,
@@ -960,6 +970,77 @@ export const useProps = ({ props }) => {
       }
 
       dispatchLocal(CheckoutState.selectCategory(null)); // reset
+    },
+    onRequestClosePopupDiscountLocal: async () => {
+      dispatchLocal(CheckoutState.visiblePopupDiscountLocal(false)); // reset
+    },
+
+    showModalDiscount: (appointmentId) => {
+      if (_.isEmpty(connectionSignalR)) {
+        const {
+          subTotalLocal,
+          discountTotalLocal,
+          customDiscountPercentLocal,
+          customDiscountFixedLocal,
+        } = stateLocal || {};
+
+        if (appointmentId !== -1) {
+          const appointment = groupAppointment?.appointments?.find(
+            (appointment) => appointment.appointmentId === appointmentId
+          );
+          const { services, products, extras, giftCards } = appointment;
+          const arrayProducts = getArrayProductsFromAppointment(products);
+          const arryaServices = getArrayServicesFromAppointment(services);
+          const arrayExtras = getArrayExtrasFromAppointment(extras);
+          const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+          const temptBasket = arrayProducts.concat(
+            arryaServices,
+            arrayExtras,
+            arrayGiftCards
+          );
+
+          if (temptBasket.length > 0) {
+            dispatch(
+              actions.marketing.getPromotionByAppointment(appointmentId)
+            );
+          }
+        } else {
+          popupDiscountLocalRef.current?.setStateFromParent(
+            subTotalLocal,
+            discountTotalLocal,
+            customDiscountPercentLocal,
+            customDiscountFixedLocal
+          );
+
+          dispatchLocal(CheckoutState.visiblePopupDiscountLocal(true)); // reset
+        }
+      } else {
+        alert("You are paying by Harmony Payment!");
+      }
+    },
+    showModalTipAppointment: (appointmentId, tip, subTotal, tipPercent) => {
+      if (_.isEmpty(connectionSignalR)) {
+        changeTipRef.current?.setStateFromParent(
+          appointmentId,
+          tip,
+          subTotal,
+          tipPercent
+        );
+        dispatchLocal(CheckoutState.visibleChangeTip(true)); // reset
+      } else {
+        alert("You are paying by Harmony Payment!");
+      }
+    },
+    showModalCheckPermission: () => {
+      popupCheckDiscountPermissionRef?.current?.setStateFromParent(
+        "",
+        appointmentId,
+        isBlock
+      );
+      dispatch(actions.marketing.switchPopupCheckDiscountPermission(true));
+    },
+    closePopupCheckDiscountPermission: () => {
+      dispatch(actions.marketing.switchPopupCheckDiscountPermission(false));
     },
   };
 };

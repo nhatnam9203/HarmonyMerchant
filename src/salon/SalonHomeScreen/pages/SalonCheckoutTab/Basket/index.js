@@ -52,6 +52,9 @@ export const Basket = () => {
     removeBlockAppointment,
     createABlockAppointment,
     isOfflineMode,
+    showModalDiscount,
+    showModalTipAppointment,
+    showModalCheckPermission,
   } = ctx || {};
 
   const getGrandTotal = React.useMemo(() => {
@@ -131,10 +134,9 @@ export const Basket = () => {
             toggleCollaps={toggleCollapses}
             removeBlockAppointment={removeBlockAppointment}
             createABlockAppointment={createABlockAppointment}
-
-            //   showModalDiscount={showModalDiscount}
-            //   showModalTipAppointment={showModalTipAppointment}
-            //   showModalCheckPermission={showModalCheckPermission}
+            showModalDiscount={showModalDiscount}
+            showModalTipAppointment={showModalTipAppointment}
+            showModalCheckPermission={showModalCheckPermission}
           />
         ))}
       </>
@@ -171,11 +173,11 @@ export const Basket = () => {
               removeItemBasket={removeItemBasket}
               changeStylist={changeStylist}
               changeProduct={changeProduct}
-              // showModalDiscount={showModalDiscount}
+              showModalDiscount={showModalDiscount}
               basketLocal={basket}
               isOfflineMode={true}
-              // showModalTipAppointment={showModalTipAppointment}
-              // showModalCheckPermission={showModalCheckPermission}
+              showModalTipAppointment={showModalTipAppointment}
+              showModalCheckPermission={showModalCheckPermission}
             />
           ) : (
             <View />
@@ -193,10 +195,10 @@ export const Basket = () => {
               removeItemBasket={removeItemBasket}
               changeStylist={changeStylist}
               changeProduct={changeProduct}
-              // showModalDiscount={showModalDiscount}
+              showModalDiscount={showModalDiscount}
               basketLocal={basket}
-              // showModalTipAppointment={showModalTipAppointment}
-              // showModalCheckPermission={showModalCheckPermission}
+              showModalTipAppointment={showModalTipAppointment}
+              showModalCheckPermission={showModalCheckPermission}
             />
           ))
         )}
@@ -220,14 +222,16 @@ export const Basket = () => {
             ? _renderBlockAppointment()
             : _renderGroupAppointment()}
 
-          <BasketGrandTotal
-            grandTotal={getGrandTotal}
-            paidAmounts={paidAmounts}
-            dueAmount={paymentDetailInfo.dueAmount}
-            isShowPaidAmount={
-              !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo)
-            }
-          />
+          {(blockAppointments?.length > 0 || getGrandTotal > 0) && (
+            <BasketGrandTotal
+              grandTotal={getGrandTotal}
+              paidAmounts={paidAmounts}
+              dueAmount={paymentDetailInfo?.dueAmount}
+              isShowPaidAmount={
+                !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo)
+              }
+            />
+          )}
         </ScrollView>
       </View>
 

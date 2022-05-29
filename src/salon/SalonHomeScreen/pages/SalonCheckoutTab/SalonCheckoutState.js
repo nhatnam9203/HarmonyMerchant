@@ -96,6 +96,8 @@ export const ACTION_TYPES = {
   SELECT_EXTRA: "SELECT_EXTRA",
   SET_BASKET: "SET_BASKET",
   VISIBLE_EDIT_PRODUCT_FORM: "VISIBLE_EDIT_PRODUCT_FORM",
+  VISIBLE_POPUP_DISCOUNt_LOCAL: "VISIBLE_POPUP_DISCOUNt_LOCAL",
+  VISIBLE_POPUP_CHANGE_TIP: "VISIBLE_POPUP_CHANGE_TIP",
 };
 
 export const reducer = (state, action) => {
@@ -109,6 +111,8 @@ export const reducer = (state, action) => {
     case ACTION_TYPES.SELECT_EXTRA:
     case ACTION_TYPES.SET_BASKET:
     case ACTION_TYPES.VISIBLE_EDIT_PRODUCT_FORM:
+    case ACTION_TYPES.VISIBLE_POPUP_DISCOUNt_LOCAL:
+    case ACTION_TYPES.VISIBLE_POPUP_CHANGE_TIP:
     default:
       return Object.assign({}, state, action.payload);
 
@@ -249,6 +253,24 @@ export const visibleEditProductForm = (bl) => {
     type: ACTION_TYPES.VISIBLE_EDIT_PRODUCT_FORM,
     payload: {
       visibleChangePriceAmountProduct: bl,
+    },
+  };
+};
+
+export const visiblePopupDiscountLocal = (bl) => {
+  return {
+    type: ACTION_TYPES.VISIBLE_POPUP_DISCOUNt_LOCAL,
+    payload: {
+      visiblePopupDiscountLocal: bl,
+    },
+  };
+};
+
+export const visibleChangeTip = (bl) => {
+  return {
+    type: ACTION_TYPES.VISIBLE_POPUP_DISCOUNt_LOCAL,
+    payload: {
+      visibleChangeTip: bl,
     },
   };
 };
