@@ -161,12 +161,11 @@ export const useProps = ({
     console.log("useEffect")
     console.log('scanCodeTemp', scanCodeTemp)
     console.log('productGetByBarCode', productGetByBarCode)
-    if (!productGetByBarCode) return;
-    if (!scanCodeTemp) return;
+    if (!productGetByBarCode || !scanCodeTemp) return;
     const { codeStatus, data, message } = productGetByBarCode;
     console.log('data?.barcode != scanCodeTemp',scanCodeTemp, oldScanCodeTemp, oldResultGetProduct, productGetByBarCode)
 
-    if (scanCodeTemp && scanCodeTemp != oldScanCodeTemp && oldResultGetProduct == productGetByBarCode) return
+    if (scanCodeTemp != oldScanCodeTemp && oldResultGetProduct == productGetByBarCode) return
     setOldResultGetProduct(productGetByBarCode)
     setOldScanCodeTemp(scanCodeTemp)
     console.log('statusSuccess(codeStatus)', statusSuccess(codeStatus))
