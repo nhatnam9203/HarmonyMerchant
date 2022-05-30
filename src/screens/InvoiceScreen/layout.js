@@ -405,7 +405,7 @@ export default class Layout extends React.Component {
               taxRate={getTaxRateFromInvoice(invoiceDetail)}
               promotionNotes={invoiceDetail.promotionNotes?.note ?? ""}
               checkoutPaymentMethods={checkoutPayments}
-              isSignature={false}
+              isSignature={true}
               staffName={getStaffName()}
             />
           </ScrollView>
