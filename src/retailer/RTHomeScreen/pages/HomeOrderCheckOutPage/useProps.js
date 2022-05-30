@@ -157,27 +157,23 @@ export const useProps = ({
 
   const [getProductByBarcode, { currentData: productGetByBarCode }] =
     harmonyApi.useLazyGetProductByBarcodeQuery();
-
   React.useEffect(() => {
     console.log("useEffect")
     console.log('scanCodeTemp', scanCodeTemp)
     console.log('productGetByBarCode', productGetByBarCode)
     if (!productGetByBarCode) return;
     if (!scanCodeTemp) return;
-    
-
-    
-
     const { codeStatus, data, message } = productGetByBarCode;
-    
+    console.log('data?.barcode != scanCodeTemp',scanCodeTemp, oldScanCodeTemp, oldResultGetProduct, productGetByBarCode)
+
+    if (scanCodeTemp && scanCodeTemp != oldScanCodeTemp && oldResultGetProduct == productGetByBarCode) return
+    setOldResultGetProduct(productGetByBarCode)
+    setOldScanCodeTemp(scanCodeTemp)
     console.log('statusSuccess(codeStatus)', statusSuccess(codeStatus))
     if (statusSuccess(codeStatus)) {
       console.log('statusSuccess')
       console.log('check scanCodeTemp return', scanCodeTemp)
-      // console.log('data?.barcode != scanCodeTemp', data,  data?.barCode != scanCodeTemp)
-      if (scanCodeTemp != oldScanCodeTemp && oldResultGetProduct == productGetByBarCode) return
-      setOldResultGetProduct(productGetByBarCode)
-      setOldScanCodeTemp(scanCodeTemp)
+      
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
       if (tmp) {
