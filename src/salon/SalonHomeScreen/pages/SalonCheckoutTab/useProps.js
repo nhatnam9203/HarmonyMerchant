@@ -1,34 +1,16 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import * as CheckoutState from "./SalonCheckoutState";
-import { useCallApis } from "./useCallApis";
+import actions from "@actions";
 import { useFocusEffect } from "@react-navigation/native";
 import _ from "lodash";
-import {
-  getArrayProductsFromAppointment,
-  getArrayServicesFromAppointment,
-  getArrayExtrasFromAppointment,
-  formatNumberFromCurrency,
-  getStaffInfoById,
-  formatWithMoment,
-  getInfoFromModelNameOfPrinter,
-  getArrayGiftCardsFromAppointment,
-  requestAPI,
-  localize,
-  REMOTE_APP_ID,
-  APP_NAME,
-  POS_SERIAL,
-  PaymentTerminalType,
-  requestTransactionDejavoo,
-  requestPreviousTransactionReportDejavoo,
-  stringIsEmptyOrWhiteSpaces,
-  handleResponseDejavoo,
-} from "@utils";
-import actions from "@actions";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as CheckoutState from "./SalonCheckoutState";
+import { useCallApis } from "./useCallApis";
+import * as AppUtils from "@utils";
 
 export const useProps = ({ props }) => {
   const dispatch = useDispatch();
 
+  // References
   const categoriesRef = React.useRef(null);
   const amountRef = React.useRef(null);
   const popupAddItemIntoAppointmentsRef = React.useRef(null);
@@ -39,7 +21,18 @@ export const useProps = ({ props }) => {
   const popupDiscountLocalRef = React.useRef(null);
   const popupCheckDiscountPermissionRef = React.useRef(null);
   const changeTipRef = React.useRef(null);
+  const cashBackRef = React.useRef(null);
+  const changeStylistRef = React.useRef(null);
+  const popupEnterAmountGiftCardRef = React.useRef(null);
+  const popupSendLinkInstallRef = React.useRef(null);
+  const activeGiftCardRef = React.useRef(null);
+  const invoicePrintRef = React.useRef(null);
+  const popupCustomerInfoRef = React.useRef(null);
+  const addEditCustomerInfoRef = React.useRef(null);
+  const invoiceRef = React.useRef(null);
+  const popupEnterAmountCustomServiceRef = React.useRef(null);
 
+  // Redux state
   const {
     customerInfoBuyAppointment,
     groupAppointment,
@@ -64,12 +57,16 @@ export const useProps = ({ props }) => {
     useSelector((state) => state.service) || {};
   const { productsByMerchantId } = useSelector((state) => state.product) || {};
   const { connectionSignalR } = useSelector((state) => state.appointment) || {};
+  const { listStaffByMerchant } =
+    useSelector((state) => state.staff.listStaffByMerchant) || {};
 
+  // Local state
   const [stateLocal, dispatchLocal] = React.useReducer(
     CheckoutState.reducer,
     CheckoutState.initState
   );
 
+  // Api call
   const {
     isGetCategoriesByStaff,
     getCategoriesByStaff,
@@ -81,6 +78,34 @@ export const useProps = ({ props }) => {
     dispatchLocal,
   });
 
+  // State
+  const [visibleConfirmPayment, setVisibleConfirmPayment] =
+    React.useState(false);
+  const [visibleConfirm, setVisibleConfirm] = React.useState(false);
+  const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
+    React.useState(false);
+  const [visibleChangeMoney, setVisibleChangeMoney] = React.useState(false);
+  const [visibleChangeStylist, setVisibleChangeStylist] = React.useState(false);
+  const [visibleChangePriceAmountProduct, setVisibleChangePriceAmountProduct] =
+    React.useState(false);
+  const [visibleChangeTip, setVisibleChangeTip] = React.useState(false);
+  const [visibleProcessingCredit, setVisibleProcessingCredit] =
+    React.useState(false);
+  const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
+  const [visibleSendLinkPopup, setVisibleSendLinkPopup] = React.useState(false);
+  const [visiblePopupPaymentDetails, setVisiblePopupPaymentDetails] =
+    React.useState(false);
+  const [visibleScanCode, setVisibleScanCode] = React.useState(false);
+  const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
+  const [visiblePopupAddItemIntoBasket, setVisiblePopupAddItemIntoBasket] =
+    React.useState(false);
+  const [
+    visiblePopupCheckDiscountPermission,
+    setVisiblePopupCheckDiscountPermission,
+  ] = React.useState(false);
+  const [visibleAddEditCustomerPopup, setVisibleAddEditCustomerPopup] =
+    React.useState(false);
+
   const setSelectStaffFromCalendar = (staffId, isFirstPressCheckout = null) => {
     if (!staffId) return;
     dispatchLocal(CheckoutState.setSelectStaffFromCalendar(staffId));
@@ -90,6 +115,7 @@ export const useProps = ({ props }) => {
     );
   };
 
+  // Effects
   useFocusEffect(
     React.useCallback(() => {
       if (profileStaffLogin?.staffId && _.isEmpty(groupAppointment)) {
@@ -100,6 +126,7 @@ export const useProps = ({ props }) => {
     }, [profileStaffLogin?.staffId])
   );
 
+  // Functions
   const addBlockAppointment = () => {};
   const getPriceOfline = (basket) => {
     let total = 0;
@@ -108,7 +135,7 @@ export const useProps = ({ props }) => {
         total =
           total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
       } else {
-        total = total + formatNumberFromCurrency(basket[i].data.price);
+        total = total + AppUtils.formatNumberFromCurrency(basket[i].data.price);
       }
     }
     return total;
@@ -116,10 +143,10 @@ export const useProps = ({ props }) => {
 
   const calculateTotalTaxLocal = (basket) => {
     const taxService = profile.taxService
-      ? formatNumberFromCurrency(profile.taxService)
+      ? AppUtils.formatNumberFromCurrency(profile.taxService)
       : 0;
     const taxProduct = profile.taxProduct
-      ? formatNumberFromCurrency(profile.taxProduct)
+      ? AppUtils.formatNumberFromCurrency(profile.taxProduct)
       : 0;
     let taxTotal = 0;
     for (let i = 0; i < basket?.length; i++) {
@@ -133,7 +160,9 @@ export const useProps = ({ props }) => {
       } else if (basket[i].type === "Service") {
         taxTotal =
           taxTotal +
-          (formatNumberFromCurrency(basket[i].data.price) * taxService) / 100;
+          (AppUtils.formatNumberFromCurrency(basket[i].data.price) *
+            taxService) /
+            100;
       }
     }
     return Number(taxTotal).toFixed(2);
@@ -284,7 +313,7 @@ export const useProps = ({ props }) => {
   //     dataAnymousAppoitment;
 
   //   const moneyUserGiveForStaff = parseFloat(
-  //     formatNumberFromCurrency(modalBillRef.current?.state.quality)
+  //     AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
   //   );
 
   //   const method = getPaymentString(paymentSelected);
@@ -332,7 +361,7 @@ export const useProps = ({ props }) => {
       createItemsAddBasket(basket);
 
     const moneyUserGiveForStaff = parseFloat(
-      formatNumberFromCurrency(modalBillRef.current?.state.quality)
+      AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
     );
 
     const method = getPaymentString(paymentSelected);
@@ -392,6 +421,56 @@ export const useProps = ({ props }) => {
     );
   };
 
+  const _handleDoneBill = () => {};
+
+  const _changeStylistBasketLocal = (serviceId, staffId, tip, price) => {
+    const { basket } = stateLocal;
+    // listStaffByMerchant
+    if (staffId) {
+      const temptStaff = AppUtils.getStaffInfoById(
+        listStaffByMerchant,
+        staffId
+      );
+
+      const temptBasket = basket.map((item, index) => {
+        if (item.type === "Service" && item.data.serviceId === serviceId) {
+          return {
+            ...item,
+            data: {
+              ...item.data,
+              price: price,
+            },
+            staff: {
+              staffId: staffId,
+              imageUrl: temptStaff?.imageUrl || "",
+              displayName: temptStaff?.displayName || "",
+              tip: tip,
+            },
+          };
+        }
+        return item;
+      });
+
+      let temptTip = 0;
+      for (let i = 0; i < temptBasket.length; i++) {
+        if (temptBasket[i].type === "Service") {
+          if (temptBasket[i].staff && temptBasket[i].staff.tip) {
+            temptTip =
+              temptTip +
+              AppUtils.formatNumberFromCurrency(temptBasket[i].staff.tip);
+          }
+        }
+      }
+
+      dispatchLocal(
+        CheckoutState.updateBasket({
+          basket: temptBasket,
+          tipLocal: temptTip,
+        })
+      );
+    }
+  };
+
   return {
     categoriesRef,
     amountRef,
@@ -399,7 +478,6 @@ export const useProps = ({ props }) => {
     popupDiscountLocalRef,
     changeTipRef,
     popupCheckDiscountPermissionRef,
-
     isGetCategoriesByStaff,
     isLoadingService: isGetServiceByStaff || isGetProductByStaff,
     isCustomService: profile?.isCustomService,
@@ -796,7 +874,7 @@ export const useProps = ({ props }) => {
         dispatch(
           actions.staff.getStaffService(
             service?.data?.serviceId,
-            formatWithMoment(fromTime, "MM/DD/YYYY"), // Fix for case custom service not contains by staff, so get staff no data here!
+            AppUtils.formatWithMoment(fromTime, "MM/DD/YYYY"), // Fix for case custom service not contains by staff, so get staff no data here!
             this.callBackGetStaffService
           )
         );
@@ -974,7 +1052,6 @@ export const useProps = ({ props }) => {
     onRequestClosePopupDiscountLocal: async () => {
       dispatchLocal(CheckoutState.visiblePopupDiscountLocal(false)); // reset
     },
-
     showModalDiscount: (appointmentId) => {
       if (_.isEmpty(connectionSignalR)) {
         const {
@@ -989,10 +1066,13 @@ export const useProps = ({ props }) => {
             (appointment) => appointment.appointmentId === appointmentId
           );
           const { services, products, extras, giftCards } = appointment;
-          const arrayProducts = getArrayProductsFromAppointment(products);
-          const arryaServices = getArrayServicesFromAppointment(services);
-          const arrayExtras = getArrayExtrasFromAppointment(extras);
-          const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+          const arrayProducts =
+            AppUtils.getArrayProductsFromAppointment(products);
+          const arryaServices =
+            AppUtils.getArrayServicesFromAppointment(services);
+          const arrayExtras = AppUtils.getArrayExtrasFromAppointment(extras);
+          const arrayGiftCards =
+            AppUtils.getArrayGiftCardsFromAppointment(giftCards);
           const temptBasket = arrayProducts.concat(
             arryaServices,
             arrayExtras,
@@ -1039,8 +1119,144 @@ export const useProps = ({ props }) => {
       );
       dispatch(actions.marketing.switchPopupCheckDiscountPermission(true));
     },
+
+    // Popup
+    changeStylistBasketLocal: _changeStylistBasketLocal,
+
+    // PopupConfirm
+    visibleConfirm,
     closePopupCheckDiscountPermission: () => {
       dispatch(actions.marketing.switchPopupCheckDiscountPermission(false));
     },
+    closePopupConfirm: () => {
+      setVisibleConfirm(false);
+    },
+    clearDataConfirm: () => {},
+
+    //Popup Payment   Confirm
+    visibleConfirmPayment,
+    closePopupPaymentConfirm: () => {
+      setVisibleConfirmPayment(false);
+    },
+    confirmPaymentClover: () => {},
+    rejectPaymentClover: () => {},
+
+    // Popup Error Message
+    visibleErrorMessageFromPax,
+    closePopupErrorMessageFromPax: () => {
+      setVisibleErrorMessageFromPax(false);
+    },
+
+    // PopupChangeMoney
+    cashBackRef,
+    visibleChangeMoney,
+    closePopupChangeMoney: () => {
+      setVisibleChangeMoney(false);
+    },
+    doneBillByCash: () => {},
+
+    // PopupChangeStylist
+    changeStylistRef,
+    visibleChangeStylist,
+    closePopupChangeStylist: () => {
+      setVisibleChangeStylist(false);
+    },
+
+    // PopupChangePriceAmountProduct
+    changePriceAmountProductRef,
+    visibleChangePriceAmountProduct,
+    closePopupChangePriceAmountProduct: () => {},
+    changeProductBasketLocal: () => {},
+
+    // PopupChangeTip
+    changeTipRef,
+    visibleChangeTip,
+    closePopupChangeTip: () => {},
+
+    // DialogPayCompleted
+    printBill: () => {},
+    donotPrintBill: () => {},
+    cancelInvoicePrint: () => {},
+    doPrintClover: () => {},
+    mainAppointmentId: groupAppointment?.mainAppointmentId || 0,
+
+    // PopupProcessingCredit
+    visibleProcessingCredit,
+    cancelTransaction: () => {},
+
+    // PopupBill
+    modalBillRef,
+    visibleBillOfPayment,
+    onRequestCloseBillModal: () => {},
+    extractBill: () => {},
+    doneBill: _handleDoneBill,
+
+    // PopupEnterAmountGiftCard
+    popupEnterAmountGiftCardRef,
+    onRequestCloseBillModal: () => {},
+    extractBill: () => {},
+    doneBill: _handleDoneBill,
+
+    // PopupSendLinkInstall
+    popupSendLinkInstallRef,
+    visibleSendLinkPopup,
+    closePopupSendLinkInstall: () => {},
+    sendLinkInstallApp: () => {},
+
+    // PopupActiveGiftCard
+    activeGiftCardRef,
+    closePopupActiveGiftCard: () => {},
+    submitSerialCode: () => {},
+
+    // PopupPaymentDetails
+    visiblePopupPaymentDetails,
+    closePopupProductPaymentDetails: () => {},
+    nextPayment: () => {},
+
+    // PopupScanCode
+    visibleScanCode,
+    onRequestCloseScanCode: () => {},
+    resultScanCode: () => {},
+
+    // PopupInvoicePrint
+    invoicePrintRef,
+    visiblePrintInvoice,
+    cancelInvoicePrint: () => {},
+    doPrintClover: () => {},
+
+    // EnterCustomerPhonePopup
+    popupCustomerInfoRef,
+    closePopupEnterCustomerPhone: () => {},
+
+    // PopupAddItemIntoAppointments
+    popupAddItemIntoAppointmentsRef,
+    visiblePopupAddItemIntoBasket,
+    closePopupAddItemIntoAppointments: () => {},
+
+    // PopupGiftCardDetail
+    closePopupProductPaymentDetails: () => {},
+    nextPayment: () => {},
+    cancelGiftCardPayment: () => {},
+
+    // PopupCheckStaffPermission
+    popupCheckDiscountPermissionRef,
+    visiblePopupCheckDiscountPermission,
+    closePopupCheckDiscountPermission: () => {},
+
+    // PopupAddEditCustomer
+    addEditCustomerInfoRef,
+    visibleAddEditCustomerPopup,
+    closePopupAddEditCustomer: () => {},
+    editCustomerInfo: () => {},
+    addCustomerInfo: () => {},
+
+    // PopupReceipt
+    invoiceRef,
+    doPrintClover: () => {},
+    cancelInvoicePrint: () => {},
+
+    // PopupEnterAmountCustomService
+    popupEnterAmountCustomServiceRef,
+    submitAddCustomService: () => {},
   };
 };

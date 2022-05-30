@@ -2119,7 +2119,7 @@ class TabCheckout extends Layout {
         tipLocal: temptTip,
       });
     }
-  };
+  }; // !
 
   showModalDiscount = async (appointmentId) => {
     const { connectionSignalR } = this.props;

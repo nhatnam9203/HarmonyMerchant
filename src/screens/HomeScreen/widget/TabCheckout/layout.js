@@ -62,7 +62,6 @@ import {
   PopupPaymentDetails,
 } from "./widget";
 import { StaffItem } from "./widget/NewCheckoutComponent";
-import { Base } from "@shared/components";
 
 class Layout extends React.Component {
   renderHeader() {

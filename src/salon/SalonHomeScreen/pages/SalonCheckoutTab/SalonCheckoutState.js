@@ -98,6 +98,7 @@ export const ACTION_TYPES = {
   VISIBLE_EDIT_PRODUCT_FORM: "VISIBLE_EDIT_PRODUCT_FORM",
   VISIBLE_POPUP_DISCOUNt_LOCAL: "VISIBLE_POPUP_DISCOUNt_LOCAL",
   VISIBLE_POPUP_CHANGE_TIP: "VISIBLE_POPUP_CHANGE_TIP",
+  UPDATE_BASKET: "UPDATE_BASKET",
 };
 
 export const reducer = (state, action) => {
@@ -113,6 +114,7 @@ export const reducer = (state, action) => {
     case ACTION_TYPES.VISIBLE_EDIT_PRODUCT_FORM:
     case ACTION_TYPES.VISIBLE_POPUP_DISCOUNt_LOCAL:
     case ACTION_TYPES.VISIBLE_POPUP_CHANGE_TIP:
+    case ACTION_TYPES.UPDATE_BASKET:
     default:
       return Object.assign({}, state, action.payload);
 
@@ -272,5 +274,12 @@ export const visibleChangeTip = (bl) => {
     payload: {
       visibleChangeTip: bl,
     },
+  };
+};
+
+export const updateBasket = (args) => {
+  return {
+    type: ACTION_TYPES.UPDATE_BASKET,
+    payload: args,
   };
 };

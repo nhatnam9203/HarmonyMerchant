@@ -4,7 +4,8 @@
     "module": "commonjs",
     "paths": {
       "@src/*": ["./src/*"], // Đặt alias cho thư mục src
-      "@shared/*": ["./src/shared/*"]
+      "@shared/*": ["./src/shared/*"],
+      "@utils": ["./src/utils"]
     }
   },
   "exclude": [
