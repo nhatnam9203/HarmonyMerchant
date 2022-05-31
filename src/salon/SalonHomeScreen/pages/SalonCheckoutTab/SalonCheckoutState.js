@@ -46,7 +46,7 @@ export const initState = {
   visibleCustomerName: false,
   visibleCustomerPhone: false,
   appointmentIdChangeStylist: -1,
-  visiblePopupPaymentDetails: false,
+  // visiblePopupPaymentDetails: false, // useState
   isCancelHarmonyPay: false,
   customerInfoByPhone: {
     userId: 0,
@@ -99,6 +99,11 @@ export const ACTION_TYPES = {
   VISIBLE_POPUP_DISCOUNt_LOCAL: "VISIBLE_POPUP_DISCOUNt_LOCAL",
   VISIBLE_POPUP_CHANGE_TIP: "VISIBLE_POPUP_CHANGE_TIP",
   UPDATE_BASKET: "UPDATE_BASKET",
+  RESET_PAYMENT: "RESET_PAYMENT",
+  RESET_STATE: "RESET_STATE",
+  SELECT_GIFT_CARD: "SELECT_GIFT_CARD",
+  CLOSE_BILL_PAYMENT: "CLOSE_BILL_PAYMENT",
+  SET_CUSTOM_SERVICE: "SET_CUSTOM_SERVICE",
 };
 
 export const reducer = (state, action) => {
@@ -115,6 +120,10 @@ export const reducer = (state, action) => {
     case ACTION_TYPES.VISIBLE_POPUP_DISCOUNt_LOCAL:
     case ACTION_TYPES.VISIBLE_POPUP_CHANGE_TIP:
     case ACTION_TYPES.UPDATE_BASKET:
+    case ACTION_TYPES.RESET_PAYMENT:
+    case ACTION_TYPES.SELECT_GIFT_CARD:
+    case ACTION_TYPES.CLOSE_BILL_PAYMENT:
+    case ACTION_TYPES.SET_CUSTOM_SERVICE:
     default:
       return Object.assign({}, state, action.payload);
 
@@ -138,6 +147,10 @@ export const reducer = (state, action) => {
         arrSelectedExtra: [],
         customServiceSelected: null,
       });
+
+    case ACTION_TYPES.RESET_STATE: {
+      return initState;
+    }
   }
 };
 
@@ -281,5 +294,57 @@ export const updateBasket = (args) => {
   return {
     type: ACTION_TYPES.UPDATE_BASKET,
     payload: args,
+  };
+};
+
+export const resetPayment = () => {
+  return {
+    type: ACTION_TYPES.RESET_PAYMENT,
+    payload: {
+      changeButtonDone: false,
+      isCancelHarmonyPay: false,
+      paymentSelected: "",
+    },
+  };
+};
+
+export const resetState = () => {
+  return {
+    type: ACTION_TYPES.RESET_STATE,
+  };
+};
+
+export const selectGiftCard = (category) => {
+  return {
+    type: ACTION_TYPES.SELECT_GIFT_CARD,
+    payload: {
+      categorySelected: category,
+      categoryTypeSelected: category?.categoryType,
+      productSeleted: null,
+      isShowColProduct: false,
+      isShowColAmount: false,
+      arrSelectedExtra: [],
+      customServiceSelected: null,
+    },
+  };
+};
+
+export const closeBillOfPayment = () => {
+  return {
+    type: ACTION_TYPES.CLOSE_BILL_PAYMENT,
+    payload: {
+      changeButtonDone: false,
+      paymentSelected: "",
+      visibleBillOfPayment: false,
+    },
+  };
+};
+
+export const setCustomService = (params) => {
+  return {
+    type: ACTION_TYPES.SET_CUSTOM_SERVICE,
+    payload: {
+      customServiceSelected: params,
+    },
   };
 };

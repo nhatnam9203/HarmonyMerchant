@@ -6,11 +6,25 @@ import { useDispatch, useSelector } from "react-redux";
 import * as CheckoutState from "./SalonCheckoutState";
 import { useCallApis } from "./useCallApis";
 import * as AppUtils from "@utils";
+import { NativeModules, Platform, NativeEventEmitter } from "react-native";
+const signalR = require("@microsoft/signalr");
+import { parseString } from "react-native-xml2js";
+import moment from "moment";
+
+const PosLinkReport = NativeModules.report;
+const PosLink = NativeModules.payment;
+const PoslinkAndroid = NativeModules.PoslinkModule;
+const { clover } = NativeModules;
 
 export const useProps = ({ props }) => {
   const dispatch = useDispatch();
 
   // References
+  const subscriptions = React.useRef([]);
+  const isProcessPrintClover = React.useRef(false);
+  const isProcessPaymentClover = React.useRef(false);
+  const eventEmitter = React.useRef(new NativeEventEmitter(clover));
+
   const categoriesRef = React.useRef(null);
   const amountRef = React.useRef(null);
   const popupAddItemIntoAppointmentsRef = React.useRef(null);
@@ -44,21 +58,52 @@ export const useProps = ({ props }) => {
     bookingGroupId,
     fromTimeBlockAppointment,
     isOpenBlockAppointmentId,
+    payAppointmentId,
+    appointmentDetail,
+    isGetAppointmentSucces,
+    connectionSignalR,
+    flagSignInAppointment,
+    isCancelAppointment,
+    webviewRef,
+    appointmentIdOffline,
+    isLoadingGetBlockAppointment,
+    isLoadingRemoveBlockAppointment,
+    idNextToAppointmentRemove,
+    startProcessingPax,
+    paxAmount,
+    amountCredtitForSubmitToServer,
+    isCancelPayment,
+    isCreditPaymentToServer,
+    lastTransactionAppointmentId,
+    lastGroupAppointmentPay,
+    errorMessage,
+    appointmentIdBookingFromCalendar,
   } = useSelector((state) => state.appointment);
 
   const categoriesByMerchant = useSelector(
     (state) => state.category.categoriesByMerchant
   );
-  const { profileStaffLogin, profile } =
-    useSelector((state) => state.dataLocal) || {};
+  const {
+    profileStaffLogin,
+    profile,
+    language,
+    token,
+    deviceId,
+    versionApp,
+    printerSelect,
+    printerList,
+    isTipOnPaxMachine,
+    bluetoothPaxInfo,
+  } = useSelector((state) => state.dataLocal) || {};
   const isOfflineMode = useSelector((state) => state.network?.isOfflineMode);
   const extrasByMerchant = useSelector((state) => state.extra.extrasByMerchant);
   const { customService, servicesByMerchant } =
     useSelector((state) => state.service) || {};
   const { productsByMerchantId } = useSelector((state) => state.product) || {};
-  const { connectionSignalR } = useSelector((state) => state.appointment) || {};
   const { listStaffByMerchant } =
     useSelector((state) => state.staff.listStaffByMerchant) || {};
+  const { dejavooMachineInfo, paymentMachineType, cloverMachineInfo } =
+    useSelector((state) => state.hardware) || {};
 
   // Local state
   const [stateLocal, dispatchLocal] = React.useReducer(
@@ -105,6 +150,7 @@ export const useProps = ({ props }) => {
   ] = React.useState(false);
   const [visibleAddEditCustomerPopup, setVisibleAddEditCustomerPopup] =
     React.useState(false);
+  const [isPayment, setIsPayment] = React.useState(false);
 
   const setSelectStaffFromCalendar = (staffId, isFirstPressCheckout = null) => {
     if (!staffId) return;
@@ -125,6 +171,64 @@ export const useProps = ({ props }) => {
       }
     }, [profileStaffLogin?.staffId])
   );
+
+  const _handleResponseCreditCardForCloverSuccess = () => {};
+
+  React.useEffect(() => {
+    clover.changeListenerStatus(true);
+    subscriptions.current = [
+      eventEmitter.current.addListener("paymentSuccess", (data) => {
+        // console.log("paymentSuccess");
+        isProcessPaymentClover = false;
+        handleResponseCreditCardForCloverSuccess(data);
+      }),
+      eventEmitter.current.addListener("paymentFail", (data) => {
+        // console.log("paymentSuccess");
+        isProcessPaymentClover = false;
+        handleResponseCreditCardForCloverFailed(_.get(data, "errorMessage"));
+      }),
+      eventEmitter.current.addListener("pairingCode", (data) => {
+        if (data) {
+          const text = `Pairing code: ${_.get(data, "pairingCode")}`;
+          if (isProcessPaymentClover.current) {
+            setVisibleProcessingCredit(false);
+          }
+          if (isProcessPrintClover.current) {
+            setVisiblePrintInvoice(false);
+          }
+        }
+      }),
+      eventEmitter.current.addListener("pairingSuccess", (data) => {
+        if (isProcessPaymentClover.current) {
+          setVisibleProcessingCredit(true);
+        }
+      }),
+      eventEmitter.current.addListener("confirmPayment", () => {
+        setVisibleProcessingCredit(false);
+        setVisibleConfirmPayment(true);
+      }),
+      eventEmitter.current.addListener("printInProcess", () => {}),
+
+      eventEmitter.current.addListener("deviceDisconnected", () => {
+        if (isProcessPaymentClover.current) {
+          isProcessPaymentClover.current = false;
+          handleResponseCreditCardForCloverFailed("No connected device");
+          clover.cancelTransaction();
+        }
+        if (isProcessPrintClover.current) {
+          isProcessPrintClover.current = false;
+          setVisiblePrintInvoice(false);
+        }
+      }),
+    ];
+
+    return () => {
+      if (subscriptions.current?.length > 0) {
+        subscriptions.current.forEach((e) => e.remove());
+      }
+      subscriptions.current = [];
+    };
+  }, []);
 
   // Functions
   const addBlockAppointment = () => {};
@@ -299,56 +403,6 @@ export const useProps = ({ props }) => {
     return method;
   };
 
-  // const createAnymousAppointment = async () => {
-  //   const {
-  //     paymentSelected,
-  //     customDiscountPercentLocal,
-  //     customDiscountFixedLocal,
-  //     selectedStaff,
-  //   } = stateLocal || {};
-
-  //   const dataAnymousAppoitment = getBasketOffline();
-
-  //   const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
-  //     dataAnymousAppoitment;
-
-  //   const moneyUserGiveForStaff = parseFloat(
-  //     AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
-  //   );
-
-  //   const method = getPaymentString(paymentSelected);
-  //   dispatch(
-  //     actions.appointment.createAnymousAppointment(
-  //       profile.merchantId,
-  //       customerInfoBuyAppointment?.userId || 0,
-  //       customerInfoBuyAppointment?.customerId || 0,
-  //       // profileStaffLogin.staffId,
-  //       selectedStaff?.staffId,
-  //       arrayProductBuy,
-  //       arryaServicesBuy,
-  //       arrayExtrasBuy,
-  //       method,
-  //       true,
-  //       customDiscountFixedLocal,
-  //       customDiscountPercentLocal,
-  //       customerInfoBuyAppointment?.firstName || "",
-  //       customerInfoBuyAppointment?.lastName || "",
-  //       customerInfoBuyAppointment?.phone || "",
-  //       moneyUserGiveForStaff,
-  //       false,
-  //       false
-  //     )
-  //   );
-
-  //   dispatchLocal(
-  //     CheckoutState.setBasket({
-  //       basket: [],
-  //       customDiscountPercentLocal: 0,
-  //       customDiscountFixedLocal: 0,
-  //     })
-  //   );
-  // };
-
   const createNewAppointment = async (basket) => {
     const {
       paymentSelected,
@@ -471,6 +525,347 @@ export const useProps = ({ props }) => {
     }
   };
 
+  const getBasketOffline = () => {
+    const { basket, selectedStaff } = stateLocal;
+    const arrayProductBuy = [];
+    const arryaServicesBuy = [];
+    const arrayExtrasBuy = [];
+    for (let i = 0; i < basket?.length; i++) {
+      if (basket[i].type === "Product") {
+        arrayProductBuy.push({
+          ...basket[i],
+          productId: basket[i].data.productId,
+          quantity: basket[i].quanlitySet,
+        });
+      } else if (basket[i].type === "Service") {
+        arryaServicesBuy.push({
+          ...basket[i],
+          serviceId: basket[i].data.serviceId,
+          staffId: selectedStaff?.staffId,
+          tipAmount: 0,
+        });
+      } else if (basket[i].type === "Extra") {
+        arrayExtrasBuy.push({
+          ...basket[i],
+          extraId: basket[i].data.extraId,
+        });
+      }
+    }
+    return {
+      arrayProductBuy,
+      arryaServicesBuy,
+      arrayExtrasBuy,
+      staffId: selectedStaff?.staffId,
+    };
+  };
+
+  const addAppointmentOfflineMode = (isHarmonyOffline = false) => {
+    const {
+      paymentSelected,
+      customDiscountPercentLocal,
+      customDiscountFixedLocal,
+      infoUser,
+      tipLocal,
+      subTotalLocal,
+      taxLocal,
+      discountTotalLocal,
+      staffIdOfline,
+      fromTime,
+    } = stateLocal || {};
+
+    let method = getPaymentString(paymentSelected);
+    const dataAnymousAppoitment = getBasketOffline();
+    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
+      dataAnymousAppoitment;
+
+    const appointmentOfflineMode = {
+      appointmentId: appointmentIdOffline,
+      firstName: infoUser.firstName,
+      lastName: infoUser.lastName,
+      phoneNumber: infoUser.phoneNumber,
+      subTotal: subTotalLocal ? parseFloat(subTotalLocal) : 0,
+      tax: taxLocal ? parseFloat(taxLocal) : 0,
+      tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
+      discount: discountTotalLocal ? parseFloat(discountTotalLocal) : 0,
+      merchantId: profile.merchantId,
+      services: arryaServicesBuy,
+      extras: arrayExtrasBuy,
+      products: arrayProductBuy,
+      fromTime:
+        fromTime !== ""
+          ? fromTime
+          : formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
+      staffId: staffIdOfline !== 0 ? staffIdOfline : profileStaffLogin.staffId,
+      customDiscountFixed: customDiscountPercentLocal,
+      customDiscountPercent: customDiscountFixedLocal,
+      paymentMethod: method,
+      paymentTransactionId: 0,
+    };
+
+    if (isHarmonyOffline) {
+      // this.setState({
+      //   appointmentOfflineMode: appointmentOfflineMode,
+      // });
+    } else {
+      dispatch(
+        actions.dataLocal.addAppointmentOfflineMode(appointmentOfflineMode)
+      );
+    }
+  };
+
+  const _onRequestCloseBillModal = () => {
+    dispatchLocal(CheckoutState.closeBillOfPayment());
+    dispatch(actions.appointment.resetPayment());
+  };
+
+  const _addGiftCardIntoBlockAppointment = (code) => {
+    let isAppointmentIdOpen = "";
+    for (let i = 0; i < blockAppointmentRef.length; i++) {
+      if (!blockAppointmentRef[i].state.isCollapsed) {
+        isAppointmentIdOpen =
+          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+        break;
+      }
+    }
+
+    const appointmentId = isAppointmentIdOpen
+      ? isAppointmentIdOpen
+      : isOpenBlockAppointmentId;
+
+    dispatch(
+      actions.appointment.addGiftCardIntoBlockAppointment(code, appointmentId)
+    );
+  };
+
+  const _addAmount = async () => {
+    const {
+      categoryTypeSelected,
+      productSeleted,
+      arrSelectedExtra,
+      selectedStaff,
+      customServiceSelected,
+    } = stateLocal || {};
+
+    // ------------ Block Booking -------------
+    if (blockAppointments.length > 0) {
+      addBlockAppointment();
+      return;
+    }
+
+    // -------------  Group Appointment  ------------
+    if (!_.isEmpty(groupAppointment)) {
+      const appointments = groupAppointment?.appointments || [];
+      const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
+      let body = {};
+      // -------------  Add Product  ------------
+      if (categoryTypeSelected === "Product") {
+        body = {
+          services: [],
+          extras: [],
+          products: [
+            {
+              productId: productSeleted?.productId,
+              quantity: this.amountRef.current?.state.quanlity,
+            },
+          ],
+          giftCards: [],
+        };
+      } else {
+        //  -------------Add Extra , Service ---------
+        const mainAppointment = appointments.find(
+          (appointment) => appointment.appointmentId === mainAppointmentId
+        );
+        const temptExtra = [];
+        for (let i = 0; i < arrSelectedExtra.length; i++) {
+          temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
+        }
+
+        body = {
+          services: [
+            {
+              serviceId:
+                productSeleted?.serviceId ?? customServiceSelected.serviceId,
+              // staffId: mainAppointment?.staff?.staffId || profileStaffLogin.staffId,
+              staffId: selectedStaff?.staffId,
+              ...(customServiceSelected && {
+                categoryId: customServiceSelected?.categoryId,
+                price: customServiceSelected?.price,
+              }),
+            },
+          ],
+          extras: temptExtra,
+          products: [],
+          giftCards: [],
+        };
+      }
+
+      if (appointments.length > 1) {
+        popupAddItemIntoAppointmentsRef.current?.setStateFromParent(
+          body,
+          mainAppointmentId
+        );
+      } else {
+        dispatch(
+          actions.appointment.addItemIntoAppointment(
+            body,
+            mainAppointmentId,
+            true
+          )
+        );
+      }
+    }
+    // ------------- Create  Group Appointment  ------------
+    else {
+      // Handle add from tab check out
+      // -------------  Add Product  ------------
+      if (categoryTypeSelected === "Product") {
+        const temptBasket = [];
+        temptBasket.unshift({
+          type: "Product",
+          id: `${productSeleted?.productId}_pro`,
+          data: {
+            name: productSeleted?.name || "",
+            productId: productSeleted?.productId || 0,
+            price: productSeleted?.price || 0,
+          },
+          quanlitySet: amountRef?.current?.state.quanlity || 1,
+        });
+
+        dispatchLocal(
+          CheckoutState.setBasket({
+            basket: temptBasket,
+            subTotalLocal: getPriceOfline(temptBasket),
+            taxLocal: calculateTotalTaxLocal(temptBasket),
+          })
+        );
+
+        if (!isOfflineMode) {
+          createNewAppointment(temptBasket);
+        }
+      } else {
+        //  -------------Add Extra , Service ---------
+        const temptBasket = [];
+        temptBasket.unshift({
+          type: "Service",
+          id: `${
+            productSeleted?.serviceId ?? customServiceSelected?.serviceId
+          }_ser`,
+          data: {
+            name: productSeleted?.name ?? "Custom Service",
+            serviceId:
+              productSeleted?.serviceId ?? customServiceSelected?.serviceId,
+            price: productSeleted?.price ?? customServiceSelected?.price,
+          },
+          serviceName: productSeleted?.name ?? "Custom Service",
+          staff: {
+            staffId: profileStaffLogin.staffId,
+            imageUrl: profileStaffLogin.imageUrl,
+            displayName: profileStaffLogin.displayName,
+            tip: 0.0,
+          },
+          ...(customServiceSelected && {
+            categoryId: customServiceSelected?.categoryId,
+            price: customServiceSelected?.price,
+          }),
+        });
+
+        for (let i = 0; i < arrSelectedExtra.length; i++) {
+          temptBasket.unshift({
+            type: "Extra",
+            id: `${arrSelectedExtra[i]?.extraId}_extra`,
+            data: {
+              name: arrSelectedExtra[i]?.name,
+              extraId: arrSelectedExtra[i]?.extraId,
+              price: arrSelectedExtra[i]?.price,
+            },
+            serviceName: productSeleted?.name,
+          });
+        }
+
+        dispatchLocal(
+          CheckoutState.setBasket({
+            basket: temptBasket,
+            subTotalLocal: getPriceOfline(temptBasket),
+            taxLocal: calculateTotalTaxLocal(temptBasket),
+          })
+        );
+
+        if (!isOfflineMode) {
+          createNewAppointment(temptBasket);
+        }
+      }
+    }
+
+    dispatchLocal(CheckoutState.selectCategory(null)); // reset
+  };
+
+  const _doPrintClover = (imageUri) => {
+    isProcessPrintClover.current = true;
+    const port = _.get(cloverMachineInfo, "port")
+      ? _.get(cloverMachineInfo, "port")
+      : 80;
+    const url = `wss://${_.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
+    const printInfo = {
+      imageUri,
+      url,
+      remoteAppId: AppUtils.REMOTE_APP_ID,
+      appName: AppUtils.APP_NAME,
+      posSerial: AppUtils.POS_SERIAL,
+      token: _.get(cloverMachineInfo, "token")
+        ? _.get(cloverMachineInfo, "token", "")
+        : "",
+    };
+    clover.doPrintWithConnect(printInfo);
+    isProcessPrintClover.current = false;
+  };
+
+  const _cancelInvoicePrint = (isPrintTempt) => {
+    setVisiblePrintInvoice(false);
+    if (!isPrintTempt) {
+      // this.scrollTabRef.current?.goToPage(0);
+      // this.props.gotoAppoitmentScreen();
+      dispatch(actions.appointment.resetBasketEmpty());
+      dispatchLocal(CheckoutState.resetState());
+      dispatch();
+    }
+  };
+
+  const _checkStatusCashier = () => {
+    const { portName } = AppUtils.getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
+
+    if (portName) {
+      _openCashDrawer(portName);
+    } else {
+      if (paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
+        _openCashDrawerClover();
+      } else {
+        alert("Please connect to your cash drawer.");
+      }
+    }
+  };
+
+  const _openCashDrawerClover = () => {
+    const port = _.get(cloverMachineInfo, "port")
+      ? _.get(cloverMachineInfo, "port")
+      : 80;
+    const url = `wss://${_.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
+
+    clover.openCashDrawer({
+      url,
+      remoteAppId: AppUtils.REMOTE_APP_ID,
+      appName: AppUtils.APP_NAME,
+      posSerial: AppUtils.POS_SERIAL,
+      token: _.get(cloverMachineInfo, "token")
+        ? _.get(cloverMachineInfo, "token", "")
+        : "",
+    });
+  };
+
+  const _openCashDrawer = () => {};
+
   return {
     categoriesRef,
     amountRef,
@@ -489,24 +884,107 @@ export const useProps = ({ props }) => {
     isDonePayment,
     categoriesByMerchant,
     isOfflineMode,
-    customService,
-    staffListCurrentDate,
+    customService, // custom service info of merchant
+    staffListCurrentDate, // list staffs working by date
     loginStaff: profileStaffLogin,
+    isPayment, // show categories or payment
     ...stateLocal,
 
-    displayCustomerInfoPopup: () => {},
-    displayEnterUserPhonePopup: () => {},
-    addAppointmentCheckout: () => {},
-    cancelHarmonyPayment: () => {},
-    payBasket: () => {},
-    confimPayOfflinemode: () => {},
-    bookAppointmentFromCalendar: () => {},
-    selectPayment: () => {},
-    bookBlockAppointment: () => {},
+    // Customer
+    displayCustomerInfoPopup: () => {
+      const customerId = customerInfoBuyAppointment?.customerId || 0;
+      dispatch(actions.customer.getCustomerInfoById(customerId, true));
+    },
+
+    displayEnterUserPhonePopup: () => {
+      const { firstName, lastName, phone } = customerInfoBuyAppointment || {};
+      popupCustomerInfoRef.current?.setStateFromParent(
+        firstName,
+        lastName,
+        phone
+      );
+      dispatch(actions.appointment.switchVisibleEnterCustomerPhonePopup(true));
+    },
+
+    addAppointmentCheckout: () => {
+      if (blockAppointments?.length > 0) {
+        createABlockAppointment();
+      }
+
+      // TODO: link to tab appointment
+      // this.props.gotoAppointmentTabToGroup();
+    },
+
+    cancelHarmonyPayment: () => {
+      dispatchLocal(CheckoutState.resetPayment());
+      if (payAppointmentId) {
+        dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+      }
+
+      if (!_.isEmpty(connectionSignalR)) {
+        connectionSignalR.stop();
+      }
+    },
+    payBasket: () => {
+      const { paymentSelected } = stateLocal || {};
+      const method = getPaymentString(paymentSelected);
+      if (isOfflineMode && method === "harmony") {
+        // TODO: link to payment tab
+        // this.scrollTabRef.current?.goToPage(2);
+        setIsPayment(true);
+        addAppointmentOfflineMode(true);
+      } else if (
+        isOfflineMode &&
+        (method === "credit_card" || method === "debit_card")
+      ) {
+        alert("Not Support Offline Mode");
+      } else if (method === "harmony" && _.isEmpty(groupAppointment)) {
+        popupSendLinkInstallRef.current?.setStateFromParent("");
+        setVisibleSendLinkPopup(true);
+      } else {
+        if (method === "harmony" || method === "credit_card") {
+          const dueAmount = paymentDetailInfo?.dueAmount || 0;
+          modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
+        }
+
+        setVisibleBillOfPayment(true);
+      }
+    },
+    confimPayOfflinemode: () => {
+      setVisibleScanCode(true);
+    },
+    bookAppointmentFromCalendar: () => {
+      //    this.props.gotoTabAppointment();
+      // this.setState(
+      //   Object.assign(initState, {
+      //     isBookingFromAppointmentTab: true, // book appointment from calendar
+      //   })
+      // );
+      // this.props.actions.appointment.resetGroupAppointment();
+    },
+    selectPayment: () => {
+      setIsPayment(true);
+    },
+    bookBlockAppointment: () => {
+      // this.props.gotoTabAppointment();
+      dispatch(actions.appointment.bookBlockAppointment());
+      dispatchLocal(CheckoutState.resetState());
+      blockAppointmentRef.current = [];
+      dispatch(actions.appointment.resetGroupAppointment());
+    },
     checkBlockAppointment: () => {},
-    onSelectGiftCard: () => {},
+    onSelectGiftCard: (category) => {
+      const { categorySelected } = stateLocal;
+      if (categorySelected?.categoryId !== category?.categoryId) {
+        dispatchLocal(CheckoutState.selectGiftCard(category));
+        activeGiftCardRef.current?.setStateFromParent();
+        dispatch(actions.appointment.handleVisibleActiveGiftCard());
+      } else {
+        // reset về categories column
+        dispatchLocal(CheckoutState.selectCategory(null));
+      }
+    },
     displayCategoriesColumn: (staff) => {
-      console.log(staff);
       if (!isOfflineMode) {
         getCategoriesByStaff(staff.staffId);
       }
@@ -574,8 +1052,15 @@ export const useProps = ({ props }) => {
         dispatchLocal(CheckoutState.selectCategory(null));
       }
     },
-    showCustomServiceAmount: (item) => {
+    showCustomServiceAmount: (itemService) => {
       const { selectedStaff } = stateLocal || {};
+      // reset to select categories
+      dispatchLocal(CheckoutState.selectCategoryItem(null, false));
+
+      popupEnterAmountCustomServiceRef.current?.showPopup(
+        selectedStaff,
+        itemService
+      );
     },
     showColAmount: (item) => {
       const { categorySelected, productSeleted } = stateLocal || {};
@@ -637,168 +1122,8 @@ export const useProps = ({ props }) => {
 
       dispatchLocal(CheckoutState.selectExtraItem(tempArrSelectedExtra));
     },
-    // !! func add service/product/extra items to basket
-    addAmount: async () => {
-      const {
-        categoryTypeSelected,
-        productSeleted,
-        arrSelectedExtra,
-        selectedStaff,
-        customServiceSelected,
-      } = stateLocal || {};
-
-      // ------------ Block Booking -------------
-      if (blockAppointments.length > 0) {
-        addBlockAppointment();
-        return;
-      }
-
-      // -------------  Group Appointment  ------------
-      if (!_.isEmpty(groupAppointment)) {
-        const appointments = groupAppointment?.appointments || [];
-        const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
-        let body = {};
-        // -------------  Add Product  ------------
-        if (categoryTypeSelected === "Product") {
-          body = {
-            services: [],
-            extras: [],
-            products: [
-              {
-                productId: productSeleted?.productId,
-                quantity: this.amountRef.current?.state.quanlity,
-              },
-            ],
-            giftCards: [],
-          };
-        } else {
-          //  -------------Add Extra , Service ---------
-          const mainAppointment = appointments.find(
-            (appointment) => appointment.appointmentId === mainAppointmentId
-          );
-          const temptExtra = [];
-          for (let i = 0; i < arrSelectedExtra.length; i++) {
-            temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
-          }
-
-          body = {
-            services: [
-              {
-                serviceId:
-                  productSeleted?.serviceId ?? customServiceSelected.serviceId,
-                // staffId: mainAppointment?.staff?.staffId || profileStaffLogin.staffId,
-                staffId: selectedStaff?.staffId,
-                ...(customServiceSelected && {
-                  categoryId: customServiceSelected?.categoryId,
-                  price: customServiceSelected?.price,
-                }),
-              },
-            ],
-            extras: temptExtra,
-            products: [],
-            giftCards: [],
-          };
-        }
-
-        if (appointments.length > 1) {
-          popupAddItemIntoAppointmentsRef.current?.setStateFromParent(
-            body,
-            mainAppointmentId
-          );
-        } else {
-          dispatch(
-            actions.appointment.addItemIntoAppointment(
-              body,
-              mainAppointmentId,
-              true
-            )
-          );
-        }
-      }
-      // ------------- Create  Group Appointment  ------------
-      else {
-        // Handle add from tab check out
-        // -------------  Add Product  ------------
-        if (categoryTypeSelected === "Product") {
-          const temptBasket = [];
-          temptBasket.unshift({
-            type: "Product",
-            id: `${productSeleted?.productId}_pro`,
-            data: {
-              name: productSeleted?.name || "",
-              productId: productSeleted?.productId || 0,
-              price: productSeleted?.price || 0,
-            },
-            quanlitySet: amountRef?.current?.state.quanlity || 1,
-          });
-
-          dispatchLocal(
-            CheckoutState.setBasket({
-              basket: temptBasket,
-              subTotalLocal: getPriceOfline(temptBasket),
-              taxLocal: calculateTotalTaxLocal(temptBasket),
-            })
-          );
-
-          if (!isOfflineMode) {
-            createNewAppointment(temptBasket);
-          }
-        } else {
-          //  -------------Add Extra , Service ---------
-          const temptBasket = [];
-          temptBasket.unshift({
-            type: "Service",
-            id: `${
-              productSeleted?.serviceId ?? customServiceSelected?.serviceId
-            }_ser`,
-            data: {
-              name: productSeleted?.name ?? "Custom Service",
-              serviceId:
-                productSeleted?.serviceId ?? customServiceSelected?.serviceId,
-              price: productSeleted?.price ?? customServiceSelected?.price,
-            },
-            serviceName: productSeleted?.name ?? "Custom Service",
-            staff: {
-              staffId: profileStaffLogin.staffId,
-              imageUrl: profileStaffLogin.imageUrl,
-              displayName: profileStaffLogin.displayName,
-              tip: 0.0,
-            },
-            ...(customServiceSelected && {
-              categoryId: customServiceSelected?.categoryId,
-              price: customServiceSelected?.price,
-            }),
-          });
-
-          for (let i = 0; i < arrSelectedExtra.length; i++) {
-            temptBasket.unshift({
-              type: "Extra",
-              id: `${arrSelectedExtra[i]?.extraId}_extra`,
-              data: {
-                name: arrSelectedExtra[i]?.name,
-                extraId: arrSelectedExtra[i]?.extraId,
-                price: arrSelectedExtra[i]?.price,
-              },
-              serviceName: productSeleted?.name,
-            });
-          }
-
-          dispatchLocal(
-            CheckoutState.setBasket({
-              basket: temptBasket,
-              subTotalLocal: getPriceOfline(temptBasket),
-              taxLocal: calculateTotalTaxLocal(temptBasket),
-            })
-          );
-
-          if (!isOfflineMode) {
-            createNewAppointment(temptBasket);
-          }
-        }
-      }
-
-      dispatchLocal(CheckoutState.selectCategory(null)); // reset
-    },
+    //  func add service/product/extra items to basket
+    addAmount: _addAmount,
     removeItemBasket: (item, appointmentId = -1, isGroup = false) => {
       const { basket } = stateLocal || {};
 
@@ -929,8 +1254,8 @@ export const useProps = ({ props }) => {
 
       let fromTime = fromTimeBlockAppointment;
       if (blockAppointments && blockAppointments.length > 0) {
-        fromTime = l.get(blockAppointments, "0.fromTime")
-          ? moment(l.get(blockAppointments, "0.fromTime")).local().format()
+        fromTime = _.get(blockAppointments, "0.fromTime")
+          ? moment(_.get(blockAppointments, "0.fromTime")).local().format()
           : new Date();
       }
 
@@ -1131,7 +1456,193 @@ export const useProps = ({ props }) => {
     closePopupConfirm: () => {
       setVisibleConfirm(false);
     },
-    clearDataConfirm: () => {},
+    clearDataConfirm: () => {
+      const { isDrawer } = stateLocal;
+      if (!_.isEmpty(connectionSignalR)) {
+        connectionSignalR.stop();
+      }
+
+      if (payAppointmentId) {
+        dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+      }
+
+      // reset về page appointment,  // !
+      // this.props.gotoPageCurentParent(isDrawer); //!
+
+      // reset local state
+      dispatchLocal(CheckoutState.resetState());
+
+      // reset page
+      setIsPayment(false);
+
+      // reset basket
+      dispatch(props.actions.appointment.resetBasketEmpty());
+      dispatch(actions.appointment.resetPayment());
+      dispatch(actions.appointment.changeFlagSigninAppointment());
+      dispatch(actions.appointment.resetGroupAppointment());
+
+      if (isCancelAppointment) {
+        const app =
+          groupAppointment?.appointments?.length > 0
+            ? groupAppointment.appointments[0]
+            : null;
+
+        // Cancel appointment
+        if (
+          app &&
+          groupAppointment?.appointments &&
+          groupAppointment?.appointments.length === 1
+        ) {
+          if (
+            app.services.length + app.products.length + app.giftCards.length ===
+            0
+          ) {
+            const mainAppointmentId = groupAppointment?.mainAppointmentId
+              ? groupAppointment.mainAppointmentId
+              : 0;
+            const customerId = customerInfoBuyAppointment.customerId
+              ? customerInfoBuyAppointment.customerId
+              : 0;
+            dispatch(
+              actions.appointment.cancleAppointment(
+                mainAppointmentId,
+                profile.merchantId,
+                customerId
+              )
+            );
+          }
+        }
+
+        // Book from calendar
+        if (isBookingFromCalendar) {
+          if (blockAppointments?.length > 0) {
+            const app =
+              blockAppointments?.length > 0 ? blockAppointments[0] : null;
+            if (app && blockAppointments && blockAppointments?.length === 1) {
+              if (
+                app.services.length +
+                  app.products.length +
+                  app.giftCards.length ===
+                0
+              ) {
+                const customerId = customerInfoBuyAppointment.customerId
+                  ? customerInfoBuyAppointment.customerId
+                  : 0;
+                dispatch(
+                  actions.appointment.cancleAppointment(
+                    isOpenBlockAppointmentId,
+                    profile.merchantId,
+                    customerId
+                  )
+                );
+              }
+            }
+          }
+
+          if (
+            groupAppointment?.appointments?.length > 0 &&
+            appointmentIdBookingFromCalendar
+          ) {
+            const app =
+              groupAppointment?.appointments?.length > 0
+                ? groupAppointment.appointments[0]
+                : null;
+
+            const mainAppointmentId = groupAppointment?.mainAppointmentId
+              ? groupAppointment.mainAppointmentId
+              : 0;
+
+            if (
+              app &&
+              groupAppointment?.appointments &&
+              groupAppointment?.appointments.length === 1
+            ) {
+              if (
+                app.services.length +
+                  app.products.length +
+                  app.giftCards.length ===
+                0
+              ) {
+                const customerId = customerInfoBuyAppointment.customerId
+                  ? customerInfoBuyAppointment.customerId
+                  : 0;
+
+                dispatch(
+                  actions.appointment.cancleAppointment(
+                    appointmentIdBookingFromCalendar,
+                    profile.merchantId,
+                    customerId
+                  )
+                );
+              }
+            }
+          }
+        }
+
+        if (!isBookingFromCalendar && appointmentIdBookingFromCalendar == 0) {
+          const app =
+            groupAppointment?.appointments?.length > 0
+              ? groupAppointment.appointments[0]
+              : null;
+
+          if (
+            app &&
+            groupAppointment?.appointments &&
+            groupAppointment?.appointments.length === 1
+          ) {
+            if (
+              app.services.length +
+                app.products.length +
+                app.giftCards.length ===
+              0
+            ) {
+              const mainAppointmentId = groupAppointment?.mainAppointmentId
+                ? groupAppointment.mainAppointmentId
+                : 0;
+              const customerId = customerInfoBuyAppointment.customerId
+                ? customerInfoBuyAppointment.customerId
+                : 0;
+
+              dispatch(
+                actions.appointment.cancleAppointment(
+                  mainAppointmentId,
+                  profile.merchantId,
+                  customerId
+                )
+              );
+            }
+          }
+        }
+
+        if (isOpenBlockAppointmentId) {
+          const app =
+            blockAppointments?.length > 0 ? blockAppointments[0] : null;
+
+          if (app && blockAppointments && blockAppointments?.length === 1) {
+            if (
+              app.services.length +
+                app.products.length +
+                app.giftCards.length ===
+              0
+            ) {
+              const customerId = customerInfoBuyAppointment.customerId
+                ? customerInfoBuyAppointment.customerId
+                : 0;
+
+              dispatch(
+                actions.appointment.cancleAppointment(
+                  isOpenBlockAppointmentId,
+                  profile.merchantId,
+                  customerId
+                )
+              );
+            }
+          }
+        }
+
+        blockAppointmentRef.current = [];
+      }
+    },
 
     //Popup Payment   Confirm
     visibleConfirmPayment,
@@ -1174,10 +1685,79 @@ export const useProps = ({ props }) => {
     closePopupChangeTip: () => {},
 
     // DialogPayCompleted
-    printBill: () => {},
-    donotPrintBill: () => {},
-    cancelInvoicePrint: () => {},
-    doPrintClover: () => {},
+    printBill: () => {
+      // this.pushAppointmentIdOfflineIntoWebview();
+
+      const { portName } = getInfoFromModelNameOfPrinter(
+        printerList,
+        printerSelect
+      );
+      const { paymentSelected } = stateLocal;
+      if (!_.isEmpty(connectionSignalR)) {
+        connectionSignalR.stop();
+      }
+
+      dispatch(actions.appointment.closeModalPaymentCompleted());
+    },
+    donotPrintBill: async () => {
+      // this.props.pushAppointmentIdOfflineIntoWebview();
+      const { paymentSelected } = stateLocal;
+
+      if (!_.isEmpty(connectionSignalR)) {
+        connectionSignalR.stop();
+      }
+
+      if (paymentSelected === "Cash" || paymentSelected === "Other") {
+        const { portName } = AppUtils.getInfoFromModelNameOfPrinter(
+          printerList,
+          printerSelect
+        );
+
+        if (portName) {
+          if (
+            (paymentSelected === "Other" && profile?.isOpenCashier) ||
+            paymentSelected === "Cash"
+          ) {
+            openCashDrawer(portName);
+          }
+          // this.scrollTabRef.current?.goToPage(0);
+          dispatch(actions.appointment.closeModalPaymentCompleted());
+          // this.props.gotoAppoitmentScreen();
+          dispatch(actions.appointment.resetBasketEmpty());
+          dispatchLocal(CheckoutState.resetState());
+          dispatch(actions.appointment.resetPayment());
+        } else {
+          if (
+            (paymentSelected === "Other" && profile?.isOpenCashier) ||
+            paymentSelected === "Cash"
+          ) {
+            if (paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
+              _openCashDrawerClover();
+            } else {
+              setTimeout(() => {
+                alert("Please connect to your cash drawer.");
+              }, 700);
+            }
+          }
+
+          // this.scrollTabRef.current?.goToPage(0);
+          dispatch(actions.appointment.closeModalPaymentCompleted());
+          // this.props.gotoAppoitmentScreen();
+          dispatch(actions.appointment.resetBasketEmpty());
+          dispatchLocal(CheckoutState.resetState());
+          dispatch(actions.appointment.resetPayment());
+        }
+      } else {
+        // this.scrollTabRef.current?.goToPage(0);
+        dispatch(actions.appointment.closeModalPaymentCompleted());
+        // this.props.gotoAppoitmentScreen();
+        dispatch(actions.appointment.resetBasketEmpty());
+        dispatchLocal(CheckoutState.resetState());
+        dispatch(actions.appointment.resetPayment());
+      }
+    },
+    cancelInvoicePrint: _cancelInvoicePrint,
+    doPrintClover: _doPrintClover,
     mainAppointmentId: groupAppointment?.mainAppointmentId || 0,
 
     // PopupProcessingCredit
@@ -1187,41 +1767,132 @@ export const useProps = ({ props }) => {
     // PopupBill
     modalBillRef,
     visibleBillOfPayment,
-    onRequestCloseBillModal: () => {},
+    onRequestCloseBillModal: _onRequestCloseBillModal,
     extractBill: () => {},
     doneBill: _handleDoneBill,
 
     // PopupEnterAmountGiftCard
     popupEnterAmountGiftCardRef,
-    onRequestCloseBillModal: () => {},
+    onRequestCloseBillModal: _onRequestCloseBillModal,
     extractBill: () => {},
     doneBill: _handleDoneBill,
 
     // PopupSendLinkInstall
     popupSendLinkInstallRef,
     visibleSendLinkPopup,
-    closePopupSendLinkInstall: () => {},
-    sendLinkInstallApp: () => {},
+    closePopupSendLinkInstall: () => {
+      setVisibleSendLinkPopup(false);
+    },
+    sendLinkInstallApp: () => {
+      const phone = popupSendLinkInstallRef.current?.state.value;
+      const codeAreaPhone =
+        popupSendLinkInstallRef.current?.state.codeAreaPhone;
+      if (phone.length > 6) {
+        setVisibleSendLinkPopup(false);
+        dispatch(actions.app.sendLinkInstallApp(`${codeAreaPhone}${phone}`));
+      } else {
+        alert("Phone is invalid !");
+      }
+    },
 
     // PopupActiveGiftCard
     activeGiftCardRef,
-    closePopupActiveGiftCard: () => {},
-    submitSerialCode: () => {},
+    closePopupActiveGiftCard: () => {
+      dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      dispatchLocal(CheckoutState.selectCategory(null));
+    },
+    submitSerialCode: (code) => {
+      const {
+        paymentSelected,
+        customDiscountPercentLocal,
+        customDiscountFixedLocal,
+      } = stateLocal;
+
+      if (blockAppointments?.length > 0) {
+        _addGiftCardIntoBlockAppointment(code);
+        return;
+      }
+
+      if (!_.isEmpty(groupAppointment)) {
+        if (paymentSelected === "Gift Card") {
+          dispatch(
+            actions.appointment.checkSerialNumber(code, false, false, true)
+          );
+        } else {
+          dispatch(actions.appointment.checkSerialNumber(code));
+        }
+      } else {
+        const moneyUserGiveForStaff = parseFloat(
+          utils.formatNumberFromCurrency(
+            this.modalBillRef.current?.state.quality
+          )
+        );
+        const method = getPaymentString(paymentSelected);
+        const bodyAction = {
+          merchantId: profile.merchantId,
+          userId: customerInfoBuyAppointment?.userId || 0,
+          status: "checkin",
+          services: [],
+          extras: [],
+          products: [],
+          fromTime: formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
+          staffId: profileStaffLogin?.staffId || 0,
+          customDiscountFixed: customDiscountFixedLocal,
+          customDiscountPercent: customDiscountPercentLocal,
+          firstName: customerInfoBuyAppointment?.firstName || "",
+          lastName: customerInfoBuyAppointment?.lastName || "",
+          phoneNumber: customerInfoBuyAppointment?.phone || "",
+          customerId: customerInfoBuyAppointment?.customerId || 0,
+        };
+        const optionAction = {
+          method: "POST",
+          token: true,
+          api: `${Configs.API_URL}appointment`,
+          paymentMethod: method,
+          isLoading: true,
+          paidAmount: moneyUserGiveForStaff,
+          creditCardInfo: false,
+          merchantId: profile.merchantId,
+          isPayment: false,
+        };
+
+        dispatch(
+          actions.appointment.checkSerialNumber(code, bodyAction, optionAction)
+        );
+
+        dispatchLocal(CheckoutState.selectCategory(null));
+      }
+    },
 
     // PopupPaymentDetails
     visiblePopupPaymentDetails,
-    closePopupProductPaymentDetails: () => {},
-    nextPayment: () => {},
+    closePopupProductPaymentDetails: () => {
+      setVisiblePopupPaymentDetails(false);
+    },
+    nextPayment: () => {
+      setVisiblePopupPaymentDetails(false);
+    },
 
     // PopupScanCode
     visibleScanCode,
-    onRequestCloseScanCode: () => {},
-    resultScanCode: () => {},
+    onRequestCloseScanCode: () => {
+      setVisibleScanCode(false);
+    },
+    resultScanCode: (e) => {
+      setVisibleScanCode(false);
+      const { appointmentOfflineMode } = stateLocal;
+      const tempDate = {
+        ...appointmentOfflineMode,
+        paymentTransactionId: e.data,
+      };
+      dispatch(actions.dataLocal.addAppointmentOfflineMode(tempDate));
+      dispatch(actions.appointment.showModalPrintReceipt());
+    },
 
     // PopupInvoicePrint
     invoicePrintRef,
     visiblePrintInvoice,
-    cancelInvoicePrint: () => {},
+
     doPrintClover: () => {},
 
     // EnterCustomerPhonePopup
@@ -1247,16 +1918,21 @@ export const useProps = ({ props }) => {
     addEditCustomerInfoRef,
     visibleAddEditCustomerPopup,
     closePopupAddEditCustomer: () => {},
-    editCustomerInfo: () => {},
-    addCustomerInfo: () => {},
+    editCustomerInfo: (customerId, customer) => {
+      dispatch(actions.customer.editCustomer(customerId, customer, true));
+    },
+    addCustomerInfo: (customer) => {
+      dispatch(actions.customer.addCustomer(customer, true));
+    },
 
     // PopupReceipt
     invoiceRef,
-    doPrintClover: () => {},
-    cancelInvoicePrint: () => {},
 
     // PopupEnterAmountCustomService
     popupEnterAmountCustomServiceRef,
-    submitAddCustomService: () => {},
+    submitAddCustomService: async (params) => {
+      await dispatchLocal(CheckoutState.setCustomService(params));
+      setTimeout(_addAmount, 1000);
+    },
   };
 };

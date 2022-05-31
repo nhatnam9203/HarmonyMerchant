@@ -65,7 +65,7 @@ export const Layout = ({
           <SalonContent
             onChangeTab={onChangeModePayment}
             categoriesRef={categoriesRef}
-            isPayment={false} // ! ????
+            isPayment={props.isPayment}
           />
           <BasketContent />
         </View>

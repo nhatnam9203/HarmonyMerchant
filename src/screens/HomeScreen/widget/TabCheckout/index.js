@@ -124,7 +124,7 @@ class TabCheckout extends Layout {
         return [];
       }
     }
-  }
+  } // !
 
   setBasketOfflineModeFromParent = async (appointment) => {
     const { services, products, extras } = appointment;
@@ -555,7 +555,7 @@ class TabCheckout extends Layout {
 
   selectPayment = () => {
     this.scrollTabRef.current?.goToPage(1);
-  };
+  }; // !
 
   closeModalDiscount = () => {
     this.setState({
@@ -589,7 +589,6 @@ class TabCheckout extends Layout {
     if (payAppointmentId) {
       this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
     }
-
     this.props.gotoPageCurentParent(isDrawer);
     await this.setState({ ...initState, isInitBasket: true });
     this.scrollTabRef.current?.goToPage(0);
@@ -733,7 +732,7 @@ class TabCheckout extends Layout {
     }
 
     this.blockAppointmentRef = [];
-  };
+  }; // !
 
   setStateFromParent = () => {
     this.setState(initState);
@@ -932,7 +931,7 @@ class TabCheckout extends Layout {
       this.setState(initState);
       this.props.actions.appointment.resetPayment();
     }
-  };
+  }; // !
 
   cancelInvoicePrint = async (isPrintTempt) => {
     await this.setState({ visiblePrintInvoice: false });
@@ -943,7 +942,7 @@ class TabCheckout extends Layout {
       this.setState(initState);
       this.props.actions.appointment.resetPayment();
     }
-  };
+  }; // !
 
   printBill = async () => {
     this.pushAppointmentIdOfflineIntoWebview();
@@ -969,7 +968,7 @@ class TabCheckout extends Layout {
     }
 
     this.props.actions.appointment.closeModalPaymentCompleted();
-  };
+  }; // !
 
   checkStatusCashier = async () => {
     const { printerSelect, printerList, paymentMachineType } = this.props;
@@ -1004,7 +1003,7 @@ class TabCheckout extends Layout {
         ? l.get(cloverMachineInfo, "token", "")
         : "",
     });
-  }
+  } // !
 
   openCashDrawer = async () => {
     const { printerSelect, printerList } = this.props;
@@ -1264,7 +1263,7 @@ class TabCheckout extends Layout {
         visibleBillOfPayment: true,
       });
     }
-  };
+  }; // !
 
   cancelHarmonyPayment = async () => {
     await this.setState({
@@ -1280,7 +1279,7 @@ class TabCheckout extends Layout {
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
     }
-  };
+  }; // !
 
   backAddBasket = async () => {
     this.cancelHarmonyPayment();
@@ -2008,7 +2007,7 @@ class TabCheckout extends Layout {
       paymentSelected: "",
       customServiceSelected: null,
     });
-  };
+  }; // !
 
   onSelectGiftCard = async (category) => {
     const { categorySelected } = this.state;
@@ -2038,7 +2037,7 @@ class TabCheckout extends Layout {
         customServiceSelected: null,
       });
     }
-  };
+  }; // !
 
   onPressSelectCategory = async (category) => {
     const { categorySelected, isBlockBookingFromCalendar, selectedStaff } =
@@ -2164,7 +2163,7 @@ class TabCheckout extends Layout {
     } else {
       alert("You are paying by Harmony Payment!");
     }
-  };
+  }; // !
 
   showModalTipAppointment = async (
     appointmentId,
@@ -2186,7 +2185,7 @@ class TabCheckout extends Layout {
     } else {
       alert("You are paying by Harmony Payment!");
     }
-  };
+  }; // !
 
   async callbackDiscountToParent(
     customDiscountPercentLocal,
@@ -2213,13 +2212,13 @@ class TabCheckout extends Layout {
     } else {
       alert("Phone is invalid !");
     }
-  };
+  }; // !
 
   onRequestClosePopupDiscountLocal = async () => {
     await this.setState({
       visiblePopupDiscountLocal: false,
     });
-  };
+  }; // !
 
   onRequestCloseBillModal = async () => {
     await this.setState({
@@ -2228,7 +2227,7 @@ class TabCheckout extends Layout {
       visibleBillOfPayment: false,
     });
     this.props.actions.appointment.resetPayment();
-  };
+  }; // !
 
   // ----------- Change Flow Checkout ------------
   getTypesOfMoneyAppointmenr = (appointmentDetail) => {
@@ -2285,13 +2284,13 @@ class TabCheckout extends Layout {
     this.setState({
       visiblePopupPaymentDetails: false,
     });
-  };
+  }; // !
 
   nextPayment = async () => {
     await this.setState({
       visiblePopupPaymentDetails: false,
     });
-  };
+  }; // !
 
   submitSerialCode = async (code) => {
     const {
@@ -2377,19 +2376,19 @@ class TabCheckout extends Layout {
       arrSelectedExtra: [],
       customServiceSelected: null,
     });
-  };
+  }; // !
 
   confimPayOfflinemode = () => {
     this.setState({
       visibleScanCode: true,
     });
-  };
+  }; // !
 
   onRequestCloseScanCode = () => {
     this.setState({
       visibleScanCode: false,
     });
-  };
+  }; // !
 
   resultScanCode = async (e) => {
     await this.setState({
@@ -2402,7 +2401,7 @@ class TabCheckout extends Layout {
     };
     this.props.actions.dataLocal.addAppointmentOfflineMode(tempDate);
     this.props.actions.appointment.showModalPrintReceipt();
-  };
+  }; // !
 
   getExtrasFromRedux = (productSeleted) => {
     const { extrasByMerchant } = this.props;
@@ -2560,7 +2559,7 @@ class TabCheckout extends Layout {
       arrSelectedExtra: [],
       customServiceSelected: null,
     });
-  };
+  }; // !
 
   removeBlockAppointment = (appointmentId) => {
     const { customerInfoBuyAppointment, profile } = this.props;
@@ -2597,7 +2596,7 @@ class TabCheckout extends Layout {
       code,
       appointmentId
     );
-  };
+  }; // !
 
   removeItemInBlockAppointment = (dataRemove) => {
     const { blockAppointments } = this.props;
@@ -2626,7 +2625,7 @@ class TabCheckout extends Layout {
     this.setState(initState);
     this.blockAppointmentRef = [];
     this.props.actions.appointment.resetGroupAppointment();
-  };
+  }; // !
 
   toggleCollaps = (appointmentIdSelection) => {
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
@@ -2858,20 +2857,20 @@ class TabCheckout extends Layout {
       phone
     );
     this.props.actions.appointment.switchVisibleEnterCustomerPhonePopup(true);
-  };
+  }; // !
 
   displayCustomerInfoPopup = async () => {
     const customerId = this.props?.customerInfoBuyAppointment?.customerId || 0;
     this.props.actions.customer.getCustomerInfoById(customerId, true);
-  };
+  }; // !
 
   editCustomerInfo = (customerId, customer) => {
     this.props.actions.customer.editCustomer(customerId, customer, true);
-  };
+  }; // !
 
   addCustomerInfo = (customer) => {
     this.props.actions.customer.addCustomer(customer, true);
-  };
+  }; // !
 
   bookAppointmentFromCalendar = () => {
     this.props.gotoTabAppointment();
@@ -2881,7 +2880,7 @@ class TabCheckout extends Layout {
       })
     );
     this.props.actions.appointment.resetGroupAppointment();
-  };
+  }; // !
 
   setSelectStaffFromCalendar = async (staffId, isFirstPressCheckout = null) => {
     await this.setState({
@@ -3186,13 +3185,13 @@ class TabCheckout extends Layout {
         }
       }),
     ];
-  }
+  } // !
 
   unregisterEvents() {
     // clover.changeListenerStatus(false);
     this.subscriptions.forEach((e) => e.remove());
     this.subscriptions = [];
-  }
+  } // !
 
   printTemptInvoice = async () => {
     await this.invoiceRef.current?.show({
@@ -3226,7 +3225,7 @@ class TabCheckout extends Layout {
       selectedStaff,
       itemService
     );
-  };
+  }; // !
 
   submitAddCustomService = (params) => {
     this.setState(
@@ -3240,7 +3239,7 @@ class TabCheckout extends Layout {
   };
 
   onCodePayPaidAppointment = () => {};
-}
+} // !
 
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
