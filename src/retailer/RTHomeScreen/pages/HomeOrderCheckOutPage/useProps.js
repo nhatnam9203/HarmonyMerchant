@@ -158,25 +158,17 @@ export const useProps = ({
   const [getProductByBarcode, { currentData: productGetByBarCode }] =
     harmonyApi.useLazyGetProductByBarcodeQuery();
   React.useEffect(() => {
-    console.log("useEffect")
-    console.log('scanCodeTemp', scanCodeTemp)
-    console.log('productGetByBarCode', productGetByBarCode)
     if (!productGetByBarCode || !scanCodeTemp) return;
     const { codeStatus, data, message } = productGetByBarCode;
-    console.log('data?.barcode != scanCodeTemp',scanCodeTemp, oldScanCodeTemp, oldResultGetProduct, productGetByBarCode)
 
     if (scanCodeTemp != oldScanCodeTemp && oldResultGetProduct == productGetByBarCode) return
     setOldResultGetProduct(productGetByBarCode)
     setOldScanCodeTemp(scanCodeTemp)
-    console.log('statusSuccess(codeStatus)', statusSuccess(codeStatus))
     if (statusSuccess(codeStatus)) {
-      console.log('statusSuccess')
-      console.log('check scanCodeTemp return', scanCodeTemp)
       
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
       if (tmp) {
-        console.log('tmp', tmp)
         const attributeIds = tmp.attributeIds;
 
         const filterOptions = data?.options?.map((v) => {
@@ -188,7 +180,6 @@ export const useProps = ({
         });
 
         if (!isCheckQty || tmp.quantity >= 1) {
-          console.log("addProductToBasket")
           setTimeout(() => {
             addProductToBasket(
               Object.assign({}, data, {
@@ -203,7 +194,6 @@ export const useProps = ({
           alert("Product is out of stock!");
         }
       } else {
-        console.log("show dialog product")
         inputBarcodeDialogRef.current?.hide();
         if (data?.quantities?.length > 0) {
           setTimeout(() => {
@@ -226,7 +216,6 @@ export const useProps = ({
       }
     } else {
       //  TODO: show input code here!
-        console.log('alert', message)
         alert(message);
         inputBarcodeDialogRef.current?.autoFocus();
     }
@@ -735,13 +724,10 @@ export const useProps = ({
     onResultScanCode: async (data) => {
       if (data?.trim()) {
         const code = data?.trim();
-        console.log('onResultScanCode', code, scanCodeTemp)
         // if (scanCodeTemp) return;
-        console.log('setScanCodeTemp(code)', code)
         setScanCodeTemp(code);
 
         setTimeout(() => {
-          console.log('getProductByBarcode', code)
           getProductByBarcode(code);
         }, 350);
       } else {
