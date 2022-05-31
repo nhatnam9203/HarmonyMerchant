@@ -95,8 +95,10 @@ export const useProps = ({
   const [searchData, setSearchData] = React.useState(null);
   const [searchVal, setSearchVal] = React.useState();
   const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
+  const [oldScanCodeTemp, setOldScanCodeTemp] = React.useState(null);
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
   const [isApplyCostPrice, setIsApplyCostPrice] = React.useState(false);
+  const [oldResultGetProduct, setOldResultGetProduct] = React.useState(null);
 
   /**
   |--------------------------------------------------
@@ -155,14 +157,15 @@ export const useProps = ({
 
   const [getProductByBarcode, { currentData: productGetByBarCode }] =
     harmonyApi.useLazyGetProductByBarcodeQuery();
-
   React.useEffect(() => {
-    if (!productGetByBarCode) return;
-
+    if (!productGetByBarCode || !scanCodeTemp) return;
     const { codeStatus, data, message } = productGetByBarCode;
-    if (statusSuccess(codeStatus)) {
-      if (!scanCodeTemp) return;
 
+    if (scanCodeTemp != oldScanCodeTemp && oldResultGetProduct == productGetByBarCode) return
+    setOldResultGetProduct(productGetByBarCode)
+    setOldScanCodeTemp(scanCodeTemp)
+    if (statusSuccess(codeStatus)) {
+      
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
       if (tmp) {
@@ -186,19 +189,15 @@ export const useProps = ({
                 productQuantityId: tmp?.id,
               })
             );
-
-            setScanCodeTemp(null);
           }, 250);
         } else {
           alert("Product is out of stock!");
-          setScanCodeTemp(null);
         }
       } else {
         inputBarcodeDialogRef.current?.hide();
         if (data?.quantities?.length > 0) {
           setTimeout(() => {
             productDetailRef.current?.show(data);
-            setScanCodeTemp(null);
           }, 550);
         } else {
           if (!isCheckQty || data?.quantity >= 1) {
@@ -209,21 +208,20 @@ export const useProps = ({
                   quantity: 1,
                 })
               );
-              setScanCodeTemp(null);
             }, 250);
           } else {
             alert("Product is out of stock!");
-            setScanCodeTemp(null);
           }
         }
       }
     } else {
       //  TODO: show input code here!
-      alert(message);
-      setScanCodeTemp(null);
-      inputBarcodeDialogRef.current?.autoFocus();
+        alert(message);
+        inputBarcodeDialogRef.current?.autoFocus();
     }
-  }, [productGetByBarCode]);
+    setScanCodeTemp(null);
+
+  }, [productGetByBarCode, scanCodeTemp]);
 
   const [requestApplyToCostPrice, { data: responseApplyToCostPrice }] =
     harmonyApi.useApplyCostPriceToAppointmentMutation();
@@ -726,13 +724,12 @@ export const useProps = ({
     onResultScanCode: async (data) => {
       if (data?.trim()) {
         const code = data?.trim();
-        if (scanCodeTemp) return;
-
+        // if (scanCodeTemp) return;
         setScanCodeTemp(code);
+
         setTimeout(() => {
           getProductByBarcode(code);
         }, 350);
-        // getProductsByBarcode(code);
       } else {
         setTimeout(() => {
           alert(`Code input invalid ${data}`);

@@ -36,7 +36,9 @@ export const ReceiptFooter = ({
         </>
       ) : null}
 
-      <TextLabel>{`********* ${typeReceipt ?? "Receipt"} *********`}</TextLabel>
+      <TextLabel style={{fontSize: scaleFont(16)}}>
+        {`********* ${typeReceipt ?? "Receipt"} *********`}
+      </TextLabel>
       <View style={styles.margin} />
       <View style={styles.margin} />
 
@@ -57,8 +59,8 @@ export const ReceiptFooter = ({
   );
 };
 
-const TextLabel = ({ children, numberOfLines = 0 }) => (
-  <Text style={styles.textLabelStyle} numberOfLines={numberOfLines}>
+const TextLabel = ({ children, numberOfLines = 0, style = {} }) => (
+  <Text style={[styles.textLabelStyle, style && style]} numberOfLines={numberOfLines}>
     {children}
   </Text>
 );
