@@ -34,7 +34,7 @@ import {
   PopupGiftCardDetail,
   PopupPaymentDetails,
 } from "./Dialogs";
-import { Payment } from "./Payment";
+import { Payments } from "./Payments";
 import { SalonHomeContextProvider } from "./SalonHomeContext";
 import { CustomerPanel } from "./widgets";
 
@@ -259,7 +259,7 @@ export const Layout = ({
 const SalonContent = ({ onChangeTab, categoriesRef, isPayment = false }) => {
   return (
     <View style={{ flex: SALON_FLEX, zIndex: 100 }}>
-      {isPayment ? <Payment /> : <Categories ref={categoriesRef} />}
+      {isPayment ? <Payments /> : <Categories ref={categoriesRef} />}
     </View>
   );
 };

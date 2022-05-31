@@ -7,24 +7,6 @@ import { scaleSize } from "@utils";
 
 export const BasketButtonConfirm = () => {
   const ctx = React.useContext(SalonHomeContext);
-  const {
-    isDonePayment,
-    groupAppointment,
-    blockAppointments,
-    isBookingFromCalendar,
-    tabCurrent,
-    basket,
-    paymentSelected,
-    changeButtonDone,
-    isCancelHarmonyPay,
-    cancelHarmonyPayment,
-    payBasket,
-    confimPayOfflinemode,
-    bookAppointmentFromCalendar,
-    selectPayment,
-    bookBlockAppointment,
-    checkBlockAppointment,
-  } = ctx || {};
 
   return (
     <View
@@ -35,22 +17,22 @@ export const BasketButtonConfirm = () => {
       }}
     >
       <ButtonBasket
-        isDonePayment={isDonePayment}
-        groupAppointment={groupAppointment}
-        blockAppointments={blockAppointments}
-        isBookingFromCalendar={isBookingFromCalendar}
-        tabCurrent={tabCurrent}
-        basket={basket}
-        paymentSelected={paymentSelected}
-        changeButtonDone={changeButtonDone}
-        isCancelHarmonyPay={isCancelHarmonyPay}
-        cancelHarmonyPayment={cancelHarmonyPayment}
-        payBasket={payBasket}
-        confimPayOfflinemode={confimPayOfflinemode}
-        bookAppointmentFromCalendar={bookAppointmentFromCalendar}
-        selectPayment={selectPayment}
-        bookBlockAppointment={bookBlockAppointment}
-        checkBlockAppointment={checkBlockAppointment}
+        isDonePayment={ctx.isDonePayment}
+        groupAppointment={ctx.groupAppointment}
+        blockAppointments={ctx.blockAppointments}
+        isBookingFromCalendar={ctx.isBookingFromCalendar}
+        tabCurrent={ctx.isPayment}
+        basket={ctx.basket}
+        paymentSelected={ctx.paymentSelected}
+        changeButtonDone={ctx.changeButtonDone}
+        isCancelHarmonyPay={ctx.isCancelHarmonyPay}
+        cancelHarmonyPayment={ctx.cancelHarmonyPayment}
+        payBasket={ctx.payBasket}
+        confimPayOfflinemode={ctx.confimPayOfflinemode}
+        bookAppointmentFromCalendar={ctx.bookAppointmentFromCalendar}
+        selectPayment={ctx.selectPayment}
+        bookBlockAppointment={ctx.bookBlockAppointment}
+        checkBlockAppointment={ctx.checkBlockAppointment}
       />
     </View>
   );

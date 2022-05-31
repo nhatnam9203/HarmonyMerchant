@@ -104,6 +104,7 @@ export const ACTION_TYPES = {
   SELECT_GIFT_CARD: "SELECT_GIFT_CARD",
   CLOSE_BILL_PAYMENT: "CLOSE_BILL_PAYMENT",
   SET_CUSTOM_SERVICE: "SET_CUSTOM_SERVICE",
+  SET_PAYMENT: "SET_PAYMENT",
 };
 
 export const reducer = (state, action) => {
@@ -150,6 +151,15 @@ export const reducer = (state, action) => {
 
     case ACTION_TYPES.RESET_STATE: {
       return initState;
+    }
+
+    case ACTION_TYPES.SET_PAYMENT: {
+      const { paymentSelected } = state;
+      if (paymentSelected === action.payload) {
+        return Object.assign({}, state, { paymentSelected: "" });
+      } else {
+        return Object.assign({}, state, { paymentSelected: action.payload });
+      }
     }
   }
 };
@@ -346,5 +356,12 @@ export const setCustomService = (params) => {
     payload: {
       customServiceSelected: params,
     },
+  };
+};
+
+export const setPayment = (payment) => {
+  return {
+    type: ACTION_TYPES.SET_PAYMENT,
+    payload: payment,
   };
 };

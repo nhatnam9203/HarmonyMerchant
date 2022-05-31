@@ -294,7 +294,7 @@ function* getCustomServiceByMerchantId(action) {
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       yield put({
-        type: "GET_CUSTOM_SERVICE_BY_MERCHANT_ID",
+        type: "GET_CUSTOM_SERVICE_BY_MERCHANT_ID_SUCCESS",
         payload: responses.data,
       });
     } else if (parseInt(codeNumber) === 401) {

@@ -71,7 +71,7 @@ function serviceReducer(state = initialState, action) {
       return {
         ...initialState,
       };
-    case "GET_CUSTOM_SERVICE_BY_MERCHANT_ID":
+    case "GET_CUSTOM_SERVICE_BY_MERCHANT_ID_SUCCESS":
       return {
         ...state,
         customService: action.payload,

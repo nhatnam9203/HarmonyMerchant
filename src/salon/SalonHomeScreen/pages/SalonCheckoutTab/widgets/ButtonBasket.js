@@ -34,7 +34,8 @@ export const ButtonBasket = ({
     : false;
   isAcceptPay = paymentSelected === "Cash" ? true : isAcceptPay;
 
-  if (tabCurrent === 1) {
+  if (tabCurrent) {
+    // payment page
     if (changeButtonDone && isCancelHarmonyPay) {
       if (paymentSelected === "HarmonyPay") {
         return (
@@ -102,7 +103,8 @@ export const ButtonBasket = ({
         styleText={styles.txt_btn_basket}
       />
     );
-  } else if (tabCurrent === 2) {
+  } else if (false) {
+    // is Offline page
     return (
       <ButtonCustom
         width={`100%`}

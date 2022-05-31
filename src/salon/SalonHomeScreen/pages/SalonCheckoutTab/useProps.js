@@ -965,6 +965,21 @@ export const useProps = ({ props }) => {
     selectPayment: () => {
       setIsPayment(true);
     },
+    selectedPayment: async (payment) => {
+      const { paymentSelected, changeButtonDone } = stateLocal;
+      if (
+        changeButtonDone &&
+        !isDonePayment &&
+        paymentSelected === "HarmonyPay"
+      ) {
+      } else {
+        await dispatchLocal(CheckoutState.setPayment(payment));
+        if (paymentSelected === "Gift Card") {
+          activeGiftCardRef.current?.setStateFromParent();
+          dispatch(actions.appointment.handleVisibleActiveGiftCard());
+        }
+      }
+    },
     bookBlockAppointment: () => {
       // this.props.gotoTabAppointment();
       dispatch(actions.appointment.bookBlockAppointment());

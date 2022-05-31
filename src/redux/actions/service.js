@@ -34,7 +34,7 @@ export function getCustomServiceByMerchantId(merchantId, isShowLoading = true) {
     type: "GET_CUSTOM_SERVICE_BY_MERCHANT_ID",
     method: "GET",
     token: true,
-    api: `Service/getcustomservice/${merchantId}`,
+    api: `service/getcustomservice/${merchantId}`,
     isShowLoading,
   };
 }
