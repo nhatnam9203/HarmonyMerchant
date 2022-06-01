@@ -8,6 +8,8 @@ import { NativeEventEmitter, NativeModules } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as CheckoutState from "./SalonCheckoutState";
 import { useCallApis } from "./useCallApis";
+import NavigatorServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 
 const signalR = require("@microsoft/signalr");
 
@@ -1167,6 +1169,8 @@ export const useProps = ({ props }) => {
     setVisiblePrintInvoice(false);
     if (!isPrintTempt) {
       // this.scrollTabRef.current?.goToPage(0);
+      setIsPayment(false);
+      NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
       // this.props.gotoAppoitmentScreen();
       dispatch(actions.appointment.resetBasketEmpty());
       dispatchLocal(CheckoutState.resetState());
@@ -1206,6 +1210,17 @@ export const useProps = ({ props }) => {
         ? _.get(cloverMachineInfo, "token", "")
         : "",
     });
+  };
+
+  const _cancelHarmonyPayment = () => {
+    dispatchLocal(CheckoutState.resetPayment());
+    if (payAppointmentId) {
+      dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+    }
+
+    if (!_.isEmpty(connectionSignalR)) {
+      connectionSignalR.stop();
+    }
   };
 
   const _openCashDrawer = () => {};
@@ -1259,16 +1274,7 @@ export const useProps = ({ props }) => {
       // this.props.gotoAppointmentTabToGroup();
     },
 
-    cancelHarmonyPayment: () => {
-      dispatchLocal(CheckoutState.resetPayment());
-      if (payAppointmentId) {
-        dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
-      }
-
-      if (!_.isEmpty(connectionSignalR)) {
-        connectionSignalR.stop();
-      }
-    },
+    cancelHarmonyPayment: _cancelHarmonyPayment,
     payBasket: () => {
       const { paymentSelected } = stateLocal || {};
       const method = getPaymentString(paymentSelected);
@@ -1790,7 +1796,8 @@ export const useProps = ({ props }) => {
           subTotal,
           tipPercent
         );
-        dispatchLocal(CheckoutState.visibleChangeTip(true)); // reset
+        // dispatchLocal(CheckoutState.visibleChangeTip(true));
+        setVisibleChangeTip(true);
       } else {
         alert("You are paying by Harmony Payment!");
       }
@@ -2035,13 +2042,17 @@ export const useProps = ({ props }) => {
     // PopupChangePriceAmountProduct
     changePriceAmountProductRef,
     visibleChangePriceAmountProduct,
-    closePopupChangePriceAmountProduct: () => {},
-    changeProductBasketLocal: () => {},
+    closePopupChangePriceAmountProduct: () => {
+      setVisibleChangePriceAmountProduct(false);
+    },
+    changeProductBasketLocal: (productIdLocal, price, quantity) => {},
 
     // PopupChangeTip
     changeTipRef,
     visibleChangeTip,
-    closePopupChangeTip: () => {},
+    closePopupChangeTip: () => {
+      setVisibleChangeTip(false);
+    },
 
     // DialogPayCompleted
     printBill: () => {
@@ -2080,8 +2091,10 @@ export const useProps = ({ props }) => {
             openCashDrawer(portName);
           }
           // this.scrollTabRef.current?.goToPage(0);
+          setIsPayment(false);
           dispatch(actions.appointment.closeModalPaymentCompleted());
           // this.props.gotoAppoitmentScreen();
+          NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
           dispatch(actions.appointment.resetBasketEmpty());
           dispatchLocal(CheckoutState.resetState());
           dispatch(actions.appointment.resetPayment());
@@ -2100,16 +2113,20 @@ export const useProps = ({ props }) => {
           }
 
           // this.scrollTabRef.current?.goToPage(0);
+          setIsPayment(false);
           dispatch(actions.appointment.closeModalPaymentCompleted());
           // this.props.gotoAppoitmentScreen();
+          NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
           dispatch(actions.appointment.resetBasketEmpty());
           dispatchLocal(CheckoutState.resetState());
           dispatch(actions.appointment.resetPayment());
         }
       } else {
         // this.scrollTabRef.current?.goToPage(0);
+        setIsPayment(false);
         dispatch(actions.appointment.closeModalPaymentCompleted());
         // this.props.gotoAppoitmentScreen();
+        NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
         dispatch(actions.appointment.resetBasketEmpty());
         dispatchLocal(CheckoutState.resetState());
         dispatch(actions.appointment.resetPayment());
@@ -2121,7 +2138,34 @@ export const useProps = ({ props }) => {
 
     // PopupProcessingCredit
     visibleProcessingCredit,
-    cancelTransaction: () => {},
+    cancelTransaction: () => {
+      if (Platform.OS === "android") {
+        PoslinkAndroid.cancelTransaction((data) => {});
+      } else {
+        if (paymentMachineType == "Clover") {
+          if (isProcessPrintClover.current) {
+            alert(i18n.t("PleaseWait"));
+            return;
+          }
+        } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+          //Dejavoo can not cancel transaction by api
+          alert(i18n.t("PleaseWait"));
+          return;
+        } else {
+          if (!isGetResponsePaymentPax.current) {
+            alert(i18n.t("PleaseWait", language));
+            return;
+          }
+          PosLink.cancelTransaction();
+        }
+
+        if (payAppointmentId) {
+          dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+        }
+        setVisibleProcessingCredit(false);
+        dispatchLocal(CheckoutState.changeButtonDone(false));
+      }
+    },
 
     // PopupBill
     modalBillRef,
@@ -2275,7 +2319,9 @@ export const useProps = ({ props }) => {
     // PopupAddEditCustomer
     addEditCustomerInfoRef,
     visibleAddEditCustomerPopup,
-    closePopupAddEditCustomer: () => {},
+    closePopupAddEditCustomer: () => {
+      setVisibleAddEditCustomerPopup(false);
+    },
     editCustomerInfo: (customerId, customer) => {
       dispatch(actions.customer.editCustomer(customerId, customer, true));
     },
@@ -2291,6 +2337,12 @@ export const useProps = ({ props }) => {
     submitAddCustomService: async (params) => {
       await dispatchLocal(CheckoutState.setCustomService(params));
       setTimeout(_addAmount, 1000);
+    },
+
+    backAddBasket: () => {
+      _cancelHarmonyPayment();
+      // link to tab appointment
+      NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
     },
   };
 };

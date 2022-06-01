@@ -304,7 +304,7 @@ export const visibleChangeTip = (bl) => {
       visibleChangeTip: bl,
     },
   };
-};
+}; // bo dung useState
 
 export const updateBasket = (args) => {
   return {

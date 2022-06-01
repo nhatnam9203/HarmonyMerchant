@@ -1285,7 +1285,7 @@ class TabCheckout extends Layout {
   backAddBasket = async () => {
     this.cancelHarmonyPayment();
     this.scrollTabRef.current?.goToPage(0);
-  };
+  }; // !
 
   handlePaymentOffLineMode = async () => {
     const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } =
