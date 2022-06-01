@@ -25,3 +25,4 @@ const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 const { clover } = NativeModules;
+

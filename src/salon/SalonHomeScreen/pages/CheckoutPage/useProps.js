@@ -174,7 +174,55 @@ export const useProps = ({ props }) => {
     }, [profileStaffLogin?.staffId])
   );
 
-  const _handleResponseCreditCardForCloverSuccess = () => {};
+  const _handleResponseCreditCardForCloverSuccess = (message) => {
+    setVisibleProcessingCredit(false);
+    let messageUpdate = {
+      ...message,
+      sn: _.get(cloverMachineInfo, "serialNumber"),
+    };
+
+    try {
+      dispatch(
+        actions.appointment.submitPaymentWithCreditCard(
+          profile?.merchantId || 0,
+          JSON.stringify(messageUpdate),
+          payAppointmentId,
+          amountCredtitForSubmitToServer,
+          "clover"
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const _handleResponseCreditCardForCloverFailed = (errorMessage) => {
+    setVisibleProcessingCredit(false);
+
+    try {
+      if (payAppointmentId) {
+        dispatch(
+          actions.appointment.cancelHarmonyPayment(
+            payAppointmentId,
+            "transaction fail",
+            errorMessage
+          )
+        );
+      }
+
+      setTimeout(() => {
+        setVisibleErrorMessageFromPax(true);
+        dispatchLocal(
+          CheckoutState.updateCreditCardPay({
+            visibleErrorMessageFromPax: true,
+            errorMessageFromPax: `${result.message}`,
+          })
+        );
+      }, 300);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   React.useEffect(() => {
     clover.changeListenerStatus(true);
@@ -2090,10 +2138,8 @@ export const useProps = ({ props }) => {
           ) {
             openCashDrawer(portName);
           }
-          // this.scrollTabRef.current?.goToPage(0);
           setIsPayment(false);
           dispatch(actions.appointment.closeModalPaymentCompleted());
-          // this.props.gotoAppoitmentScreen();
           NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
           dispatch(actions.appointment.resetBasketEmpty());
           dispatchLocal(CheckoutState.resetState());
@@ -2112,20 +2158,16 @@ export const useProps = ({ props }) => {
             }
           }
 
-          // this.scrollTabRef.current?.goToPage(0);
           setIsPayment(false);
           dispatch(actions.appointment.closeModalPaymentCompleted());
-          // this.props.gotoAppoitmentScreen();
           NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
           dispatch(actions.appointment.resetBasketEmpty());
           dispatchLocal(CheckoutState.resetState());
           dispatch(actions.appointment.resetPayment());
         }
       } else {
-        // this.scrollTabRef.current?.goToPage(0);
         setIsPayment(false);
         dispatch(actions.appointment.closeModalPaymentCompleted());
-        // this.props.gotoAppoitmentScreen();
         NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
         dispatch(actions.appointment.resetBasketEmpty());
         dispatchLocal(CheckoutState.resetState());

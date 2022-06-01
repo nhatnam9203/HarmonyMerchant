@@ -3085,7 +3085,7 @@ class TabCheckout extends Layout {
         "clover"
       );
     } catch (error) {}
-  }
+  } // !
 
   async handleResponseCreditCardForCloverFailed(errorMessage) {
     const { profile, payAppointmentId } = this.props;
@@ -3108,7 +3108,7 @@ class TabCheckout extends Layout {
         });
       }, 300);
     } catch (error) {}
-  }
+  } // !
 
   confirmPaymentClover = () => {
     clover.confirmPayment();
@@ -3240,7 +3240,7 @@ class TabCheckout extends Layout {
   };
 
   onCodePayPaidAppointment = () => {};
-} // !
+}
 
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,

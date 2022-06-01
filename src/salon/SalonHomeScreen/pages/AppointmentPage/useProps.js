@@ -30,9 +30,17 @@ export const useProps = (props) => {
 
   const { cloverMachineInfo, paymentMachineType } =
     useSelector((state) => state.hardware) || {};
-  const { profile, profileStaffLogin, deviceId } =
-    useSelector((state) => state.dataLocal) || {};
+  const {
+    profile,
+    profileStaffLogin,
+    deviceId,
+    language,
+    token,
+    isLoginStaff,
+  } = useSelector((state) => state.dataLocal) || {};
   const { invoiceDetail } = useSelector((state) => state.invoice) || {};
+  const { appointmentDetail, isGetAppointmentSucces, groupAppointment } =
+    useSelector((state) => state.appointment) || {};
 
   const { isReloadWebview } = useSelector(
     (state) => state.app.isReloadWebview
@@ -40,6 +48,7 @@ export const useProps = (props) => {
 
   const [loadAppointment, setLoadAppointment] = React.useState(null);
   const [editTipCreditCard, setEditCreditCard] = React.useState(false);
+  const [appointmentIdOffline, setAppointmentIdOffline] = React.useState(null);
 
   const getLinkForCalendar = React.useCallback(() => {
     const staffColumn = profile?.staffColumn || 8;
@@ -143,6 +152,11 @@ export const useProps = (props) => {
     }
   }, [invoiceDetail, editTipCreditCard]);
 
+
+  _checkOutAppointment = () => {
+
+  }
+
   return {
     webviewRef,
     invoiceRef,
@@ -160,6 +174,35 @@ export const useProps = (props) => {
 
             switch (action) {
               case "checkout":
+                // if (!isOfflineMode && isEmpty(groupAppointment)) {
+                //   getCategoryStaff(data?.appointment?.staffId || data?.staffId);
+                // }
+
+                const arrayProducts = getArrayProductsFromAppointment(
+                  data?.appointment?.products || []
+                );
+
+                const arryaServices = getArrayServicesFromAppointment(
+                  data?.appointment?.services || []
+                );
+                const arrayExtras = getArrayExtrasFromAppointment(
+                  data?.appointment?.extras || []
+                );
+                const arrayGiftCards = getArrayGiftCardsFromAppointment(
+                  data?.appointment?.giftCards || []
+                );
+                const temptBasket = arrayProducts.concat(
+                  arryaServices,
+                  arrayExtras,
+                  arrayGiftCards
+                );
+
+                _checkOutAppointment(appointmentId, data?.appointment || {});
+                dispatch(
+                  actions.appointment.checkoutAppointmentOffline(appointmentId)
+                );
+                setAppointmentIdOffline(appointmentId);
+
                 break;
               case "signinAppointment":
                 break;

@@ -4,10 +4,10 @@ import { useProps } from "./useProps";
 import { createScreenComponent } from "@shared/helpers/createScreenComponent";
 import { ScreenName } from "@src/ScreenName";
 
-export const LayoutPages = createScreenComponent(
-  ScreenName.SALON.HOME_TOP_TAB,
+export const AppointmentPage = createScreenComponent(
+  ScreenName.SALON.APPOINTMENT,
   (props) => <Layout {...useProps(props)} />,
   {
-    title: "Customer List",
+    title: "APPOINTMENT",
   }
 );

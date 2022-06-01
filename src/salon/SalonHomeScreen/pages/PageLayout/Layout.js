@@ -1,18 +1,14 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { useTranslation } from "react-i18next";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { colors } from "@shared/themes";
 import { HomeTopTabBar } from "@shared/components";
-import {
-  TabMarketing,
-  TabCheckout,
-  TabAppointment,
-} from "@src/screens/HomeScreen/widget";
-import { useDispatch, useSelector } from "react-redux";
-import { SalonAppointmentTab } from "../SalonAppointmentTab";
-import { SalonCheckoutTab } from "../SalonCheckoutTab";
+import { colors } from "@shared/themes";
 import { ScreenName } from "@src/ScreenName";
+import { TabMarketing } from "@src/screens/HomeScreen/widget";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { AppointmentLayout } from "../AppointmentLayout";
+import { CheckoutPage } from "../CheckoutPage";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -24,7 +20,7 @@ export const Layout = ({ openDrawer, navigation }) => {
     <View style={styles.container}>
       <Navigator
         headerMode="none"
-        initialRouteName={ScreenName.SALON.APPOINTMENT}
+        initialRouteName={ScreenName.SALON.APPOINTMENT_LAYOUT}
         screenOptions={{
           cardStyle: {
             backgroundColor: colors.WHITE_FA,
@@ -39,8 +35,8 @@ export const Layout = ({ openDrawer, navigation }) => {
       >
         <Screen name={t("MARKETING")} component={TabMarketing} />
         {/* <Screen name={t("APPOINTMENT")} component={TabAppointment} /> */}
-        <Screen {...SalonAppointmentTab} />
-        <Screen {...SalonCheckoutTab} />
+        <Screen {...AppointmentLayout} />
+        <Screen {...CheckoutPage} />
         {/* <Screen name={t("CHECK-OUT")} component={TabCheckout} /> */}
       </Navigator>
     </View>

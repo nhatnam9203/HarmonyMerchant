@@ -1,17 +1,9 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import {
-  Button,
-  HomeTabBar,
-  ParentContainer,
-  PopupCheckStaffPermission,
-  PopupEnterPin,
-  ScrollableTabView,
-  StatusBarHeader,
-} from "@components";
+import { ParentContainer, StatusBarHeader } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
-import { LayoutPages } from "./pages";
 import { colors } from "@shared/themes";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { PageLayout } from "./pages";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -38,7 +30,7 @@ export const Layout = ({
             },
           }}
         >
-          <Screen {...LayoutPages} />
+          <Screen {...PageLayout} />
         </Navigator>
       </View>
     </ParentContainer>
