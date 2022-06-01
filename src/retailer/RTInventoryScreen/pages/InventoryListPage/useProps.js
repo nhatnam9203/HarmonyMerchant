@@ -141,7 +141,9 @@ export const useProps = ({ params: { reload } }) => {
         item: data,
       });
     } else {
-      alert(message)
+      if(message) {
+        alert(message)
+      }
     }
   }, [productItemGet?.data]);
 
