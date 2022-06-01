@@ -18,6 +18,7 @@ import {
   productReducer,
   setProduct,
 } from "./ProductState";
+import _ from "lodash";
 
 const log = (obj, message = "") => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
@@ -86,6 +87,24 @@ export const useProps = ({
             };
           }),
       }));
+      //check product list has attribute does not existed.
+      if (productItem?.quantities && productItem?.quantities.length > 0) {
+        let listOptionId = formatOptions?.map(option => {
+          return option.values?.map(value => value.attributeValueId)
+        })
+        listOptionId = _.concat(...listOptionId)
+        const findAttributeHide = productItem?.quantities?.find(item => {
+          const itemAttributes = item?.attributeIds
+          const containsAll = itemAttributes.every(element => {
+            return listOptionId.includes(element);
+          });
+          return !containsAll
+        })
+        if(findAttributeHide) {
+          alert(t("Please delete product versions that have attribute want to inactive!"))
+          return
+        }
+      }
 
       values.options = formatOptions;
       values.quantities = productItem?.quantities;
