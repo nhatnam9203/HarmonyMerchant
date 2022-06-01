@@ -1148,6 +1148,7 @@ class TabCheckout extends Layout {
     const { groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
     const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } =
       this.state;
+
     if (_.isEmpty(paymentDetailInfo)) {
       if (isOfflineMode) {
         const temptTotal = Number(
@@ -1422,7 +1423,7 @@ class TabCheckout extends Layout {
         }
       }
     }
-  };
+  }; // !
 
   async hanleCreditCardProcess(online = true, moneyUserGiveForStaff) {
     const { paxMachineInfo, isTipOnPaxMachine } = this.props;
@@ -1469,7 +1470,7 @@ class TabCheckout extends Layout {
         moneyCreditCard
       );
     }
-  }
+  } // !
 
   getPAXReport = async (paxMachineInfo, isLastTransaction) => {
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
@@ -1896,7 +1897,7 @@ class TabCheckout extends Layout {
         }, 300);
       }
     } catch (error) {}
-  }
+  } // !
 
   cancelTransaction = async () => {
     const { payAppointmentId, language, paymentMachineType } = this.props;

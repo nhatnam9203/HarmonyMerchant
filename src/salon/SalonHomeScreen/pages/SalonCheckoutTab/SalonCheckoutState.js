@@ -105,6 +105,9 @@ export const ACTION_TYPES = {
   CLOSE_BILL_PAYMENT: "CLOSE_BILL_PAYMENT",
   SET_CUSTOM_SERVICE: "SET_CUSTOM_SERVICE",
   SET_PAYMENT: "SET_PAYMENT",
+  SIGNAL_PAYMENT: "SIGNAL_PAYMENT",
+  CHANGE_BUTTON_DONE: "CHANGE_BUTTON_DONE",
+  UPDATE_CREDIT_CARD: "UPDATE_CREDIT_CARD",
 };
 
 export const reducer = (state, action) => {
@@ -125,6 +128,9 @@ export const reducer = (state, action) => {
     case ACTION_TYPES.SELECT_GIFT_CARD:
     case ACTION_TYPES.CLOSE_BILL_PAYMENT:
     case ACTION_TYPES.SET_CUSTOM_SERVICE:
+    case ACTION_TYPES.SIGNAL_PAYMENT:
+    case ACTION_TYPES.CHANGE_BUTTON_DONE:
+    case ACTION_TYPES.UPDATE_CREDIT_CARD:
     default:
       return Object.assign({}, state, action.payload);
 
@@ -318,6 +324,16 @@ export const resetPayment = () => {
   };
 };
 
+export const signalPayment = () => {
+  return {
+    type: ACTION_TYPES.SIGNAL_PAYMENT,
+    payload: {
+      isCancelHarmonyPay: true,
+      changeButtonDone: true,
+    },
+  };
+};
+
 export const resetState = () => {
   return {
     type: ACTION_TYPES.RESET_STATE,
@@ -363,5 +379,21 @@ export const setPayment = (payment) => {
   return {
     type: ACTION_TYPES.SET_PAYMENT,
     payload: payment,
+  };
+};
+
+export const changeButtonDone = (bl) => {
+  return {
+    type: ACTION_TYPES.CHANGE_BUTTON_DONE,
+    payload: {
+      changeButtonDone: false,
+    },
+  };
+};
+
+export const updateCreditCardPay = (params) => {
+  return {
+    type: ACTION_TYPES.UPDATE_CREDIT_CARD,
+    payload: params,
   };
 };

@@ -1,15 +1,15 @@
 import actions from "@actions";
 import { useFocusEffect } from "@react-navigation/native";
+import * as AppUtils from "@utils";
 import _ from "lodash";
+import moment from "moment";
 import React from "react";
+import { NativeEventEmitter, NativeModules } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as CheckoutState from "./SalonCheckoutState";
 import { useCallApis } from "./useCallApis";
-import * as AppUtils from "@utils";
-import { NativeModules, Platform, NativeEventEmitter } from "react-native";
+
 const signalR = require("@microsoft/signalr");
-import { parseString } from "react-native-xml2js";
-import moment from "moment";
 
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
@@ -475,7 +475,351 @@ export const useProps = ({ props }) => {
     );
   };
 
-  const _handleDoneBill = () => {};
+  const _handlePaymentOffLineMode = () => {};
+  const _setupSignalR = (
+    profile,
+    token,
+    checkoutGroupId,
+    deviceId,
+    method,
+    moneyUserGiveForStaff
+  ) => {
+    try {
+      const connection = new signalR.HubConnectionBuilder()
+        .withUrl(
+          `${Configs.SOCKET_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
+          {
+            transport:
+              signalR.HttpTransportType.LongPolling |
+              signalR.HttpTransportType.WebSockets,
+          }
+        )
+        .withAutomaticReconnect([0, 2000, 10000, 30000])
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+      connection.on("ListWaNotification", (data) => {
+        const temptData = JSON.parse(data);
+        if (
+          temptData.data &&
+          !_.isEmpty(temptData.data) &&
+          temptData.data.isPaymentHarmony &&
+          temptData.data.checkoutGroupId == checkoutGroupId
+        ) {
+          this.handleHarmonyPayment(temptData.data.checkoutPayment);
+          connection.stop();
+        }
+        // ---------- Handle reload Tip in Customer App ---------
+        if (
+          temptData.data &&
+          !_.isEmpty(temptData.data) &&
+          temptData.data.isTipAppointment
+        ) {
+          dispatch(
+            actions.appointment.getGroupAppointmentById(
+              temptData.data.appointmentId,
+              false,
+              false,
+              true
+            )
+          );
+        }
+      });
+
+      connection.onclose(async (error) => {
+        dispatch(actions.appointment.resetConnectSignalR());
+      });
+
+      connection
+        .start()
+        .then(() => {
+          dispatch(actions.app.stopLoadingApp());
+          dispatch(actions.appointment.referenceConnectionSignalR(connection));
+          dispatchLocal(CheckoutState.signalPayment());
+
+          dispatch(
+            actions.appointment.paymentAppointment(
+              checkoutGroupId,
+              method,
+              moneyUserGiveForStaff
+            )
+          );
+        })
+        .catch((error) => {
+          dispatch(actions.app.stopLoadingApp());
+          setTimeout(() => {
+            alert(error);
+          }, 1000);
+        });
+    } catch (error) {
+      dispatch(actions.app.stopLoadingApp());
+      setTimeout(() => {
+        alert(error);
+      }, 1000);
+    }
+  };
+
+  const _handleCreditCardProcess = (online = true, moneyUserGiveForStaff) => {
+    const { paymentSelected, isCancelAppointment } = stateLocal;
+    const { ip, port, timeout } = paxMachineInfo;
+    const moneyCreditCard = Number(
+      AppUtils.formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+    ).toFixed(2);
+    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
+
+    if (Platform.OS === "android") {
+      // 1. Show modal processing
+
+      setVisibleProcessingCredit(true);
+      setTimeout(() => {
+        PoslinkAndroid.sendTransaction(
+          ip,
+          port,
+          "",
+          tenderType,
+          `${parseInt(moneyCreditCard)}`,
+          "SALE",
+          (err) => {
+            const errorTrans = JSON.parse(err);
+            setVisibleProcessingCredit(false);
+            dispatchLocal(CheckoutState.changeButtonDone(false));
+            setTimeout(() => {
+              alert(errorTrans.Code);
+            }, 500);
+          },
+          (data) => {
+            _handleResponseCreditCard(data, online, moneyUserGiveForStaff);
+          }
+        );
+      }, 100);
+    } else {
+      dispatch(
+        actions.appointment.checkCreditPaymentToServer(
+          groupAppointment?.checkoutGroupId || 0,
+          moneyUserGiveForStaff,
+          moneyCreditCard
+        )
+      );
+    }
+  };
+
+  const _handleResponseCreditCard = (
+    message,
+    online,
+    moneyUserGiveForStaff,
+    parameter
+  ) => {
+    setVisibleProcessingCredit(false);
+    try {
+      const result = JSON.parse(message);
+      const tempEnv = env.IS_PRODUCTION;
+
+      if (_.get(result, "status", 0) == 0) {
+        // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
+        if (payAppointmentId) {
+          dispatch(
+            actions.appointment.cancelHarmonyPayment(
+              payAppointmentId,
+              "transaction fail",
+              result?.message
+            )
+          );
+        }
+        if (result?.message === "ABORTED") {
+          return;
+        }
+        setTimeout(() => {
+          setVisibleErrorMessageFromPax(true);
+          dispatchLocal(
+            CheckoutState.updateCreditCardPay({
+              visibleErrorMessageFromPax: true,
+              errorMessageFromPax: `${result.message}`,
+            })
+          );
+        }, 300);
+      } else if (result.ResultCode && result.ResultCode == "000000") {
+        if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+          if (payAppointmentId) {
+            dispatch(
+              actions.appointment.cancelHarmonyPayment(payAppointmentId)
+            );
+          }
+
+          setVisibleProcessingCredit(false);
+          setTimeout(() => {
+            alert("You're running your Pax on DEMO MODE!");
+          }, 1000);
+        } else {
+          dispatch(
+            actions.appointment.submitPaymentWithCreditCard(
+              profile?.merchantId || 0,
+              message,
+              payAppointmentId,
+              moneyUserGiveForStaff,
+              "pax",
+              parameter
+            )
+          );
+        }
+      } else {
+        const resultTxt = result?.ResultTxt || "Transaction failed:";
+        if (payAppointmentId) {
+          dispatch(
+            actions.appointment.cancelHarmonyPayment(
+              payAppointmentId,
+              "transaction fail",
+              resultTxt
+            )
+          );
+        }
+        setTimeout(() => {
+          // alert(resultTxt);
+          setVisibleErrorMessageFromPax(true);
+          dispatchLocal(
+            CheckoutState.updateCreditCardPay({
+              visibleErrorMessageFromPax: true,
+              errorMessageFromPax: `${resultTxt}`,
+            })
+          );
+        }, 300);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const _handleDoneBill = (amountPayment = false) => {
+    const {
+      paymentSelected,
+      customDiscountPercentLocal,
+      customDiscountFixedLocal,
+      customerInfoByPhone,
+    } = stateLocal;
+
+    const moneyUserGiveForStaff =
+      amountPayment !== false
+        ? amountPayment
+        : parseFloat(
+            AppUtils.formatNumberFromCurrency(
+              modalBillRef.current?.state.quality
+            )
+          );
+
+    const method = getPaymentString(paymentSelected);
+    const total = groupAppointment?.total
+      ? parseFloat(AppUtils.formatNumberFromCurrency(groupAppointment.total))
+      : 0;
+
+    const dueAmount = paymentDetailInfo.dueAmount
+      ? parseFloat(
+          AppUtils.formatNumberFromCurrency(paymentDetailInfo.dueAmount)
+        )
+      : 0;
+    if (isOfflineMode) {
+      _handlePaymentOffLineMode();
+      return;
+    }
+
+    if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
+      alert("Enter amount!");
+    } else if (
+      (method === "harmony" ||
+        method === "credit_card" ||
+        method === "debit_card") &&
+      moneyUserGiveForStaff > dueAmount
+    ) {
+      alert("The change not bigger than total money!");
+    } else {
+      setVisibleBillOfPayment(false);
+
+      modalBillRef.current?.setStateFromParent(`0`);
+      if (!_.isEmpty(groupAppointment)) {
+        if (method === "harmony") {
+          dispatch(actions.app.loadingApp());
+          _setupSignalR(
+            profile,
+            token,
+            groupAppointment?.checkoutGroupId,
+            deviceId,
+            method,
+            moneyUserGiveForStaff
+          );
+        } else if (method === "credit_card" || method === "debit_card") {
+          let isSetup = false;
+          if (paymentMachineType == PaymentTerminalType.Pax) {
+            isSetup = _.get(paxMachineInfo, "isSetup");
+          } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+            isSetup = _.get(dejavooMachineInfo, "isSetup");
+          } else {
+            isSetup = _.get(cloverMachineInfo, "isSetup");
+          }
+          if (isSetup) {
+            if (moneyUserGiveForStaff == 0) {
+              alert("Enter amount!");
+            } else {
+              _handleCreditCardProcess(true, moneyUserGiveForStaff);
+            }
+          } else {
+            setTimeout(() => {
+              alert("Please connect your Payment terminal to take payment.");
+            }, 300);
+          }
+        } else if (method === "giftcard") {
+          setTimeout(() => {
+            alert("giftcard");
+          }, 500);
+        } else {
+          dispatch(
+            actions.appointment.paymentAppointment(
+              groupAppointment?.checkoutGroupId,
+              method,
+              moneyUserGiveForStaff
+            )
+          );
+        }
+      } else {
+        // ------ Handle Buy at store -------
+        if (method === "credit_card" || method === "debit_card") {
+          _handleCreditCardProcess(false, moneyUserGiveForStaff);
+        } else if (method === "harmony") {
+          popupSendLinkInstallRef.current?.setStateFromParent("");
+          setVisibleSendLinkPopup(true);
+        }
+      }
+    }
+  };
+
+  const _extractBill = () => {
+    const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } =
+      stateLocal;
+
+    if (_.isEmpty(paymentDetailInfo)) {
+      if (isOfflineMode) {
+        const temptTotal = Number(
+          AppUtils.formatNumberFromCurrency(subTotalLocal) +
+            AppUtils.formatNumberFromCurrency(tipLocal) +
+            AppUtils.formatNumberFromCurrency(taxLocal) -
+            AppUtils.formatNumberFromCurrency(discountTotalLocal)
+        ).toFixed(2);
+        modalBillRef.current?.setStateFromParent(`${temptTotal}`);
+      } else {
+        const temptTotal = _.isEmpty(groupAppointment)
+          ? Number(
+              AppUtils.formatNumberFromCurrency(subTotalLocal) +
+                AppUtils.formatNumberFromCurrency(tipLocal) +
+                AppUtils.formatNumberFromCurrency(taxLocal) -
+                AppUtils.formatNumberFromCurrency(discountTotalLocal)
+            ).toFixed(2)
+          : groupAppointment?.total;
+        modalBillRef.current?.setStateFromParent(`${temptTotal}`);
+      }
+    } else {
+      const totalExact = paymentDetailInfo.dueAmount
+        ? paymentDetailInfo.dueAmount
+        : 0;
+      modalBillRef.current?.setStateFromParent(`${totalExact}`);
+    }
+  };
 
   const _changeStylistBasketLocal = (serviceId, staffId, tip, price) => {
     const { basket } = stateLocal;
@@ -1783,13 +2127,12 @@ export const useProps = ({ props }) => {
     modalBillRef,
     visibleBillOfPayment,
     onRequestCloseBillModal: _onRequestCloseBillModal,
-    extractBill: () => {},
-    doneBill: _handleDoneBill,
 
     // PopupEnterAmountGiftCard
     popupEnterAmountGiftCardRef,
     onRequestCloseBillModal: _onRequestCloseBillModal,
-    extractBill: () => {},
+
+    extractBill: _extractBill,
     doneBill: _handleDoneBill,
 
     // PopupSendLinkInstall
