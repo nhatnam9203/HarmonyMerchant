@@ -19,7 +19,7 @@ import {
 import { isEmpty } from "lodash";
 import _ from "lodash";
 import { parseString } from "react-native-xml2js";
-
+import { ScreenName } from "@src/ScreenName";
 const { clover } = NativeModules;
 
 export const useProps = (props) => {
@@ -41,6 +41,8 @@ export const useProps = (props) => {
   const { invoiceDetail } = useSelector((state) => state.invoice) || {};
   const { appointmentDetail, isGetAppointmentSucces, groupAppointment } =
     useSelector((state) => state.appointment) || {};
+
+  const isOfflineMode = useSelector((state) => state.network.isOfflineMode);
 
   const { isReloadWebview } = useSelector(
     (state) => state.app.isReloadWebview
@@ -152,10 +154,22 @@ export const useProps = (props) => {
     }
   }, [invoiceDetail, editTipCreditCard]);
 
+  _checkOutAppointment = async (appointmentId, appointment = {}) => {
+    const staffId = appointment?.staffId;
 
-  _checkOutAppointment = () => {
+    // go to booking page
+    NavigationServices.navigate(ScreenName.SALON.BOOKING, {
+      bookingStaffId: staffId,
+    });
 
-  }
+    if (isOfflineMode) {
+    } else {
+      const checkoutGroupId = groupAppointment?.checkoutGroupId || 0;
+      dispatch(
+        actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId)
+      );
+    }
+  };
 
   return {
     webviewRef,

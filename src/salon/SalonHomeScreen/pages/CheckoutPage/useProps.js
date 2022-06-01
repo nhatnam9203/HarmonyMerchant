@@ -18,8 +18,10 @@ const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 const { clover } = NativeModules;
 
-export const useProps = ({ props }) => {
+export const useProps = ({ params }) => {
   const dispatch = useDispatch();
+
+  const { bookingStaffId } = params || {};
 
   // References
   const subscriptions = React.useRef([]);
@@ -166,14 +168,21 @@ export const useProps = ({ props }) => {
   // Effects
   useFocusEffect(
     React.useCallback(() => {
-      if (profileStaffLogin?.staffId && _.isEmpty(groupAppointment)) {
+      if (bookingStaffId) {
         if (!isOfflineMode)
           getCategoriesByStaff(profileStaffLogin?.staffId, () => {});
+
+        setSelectStaffFromCalendar(bookingStaffId, false);
+      } else if (profileStaffLogin?.staffId && _.isEmpty(groupAppointment)) {
+        if (!isOfflineMode)
+          getCategoriesByStaff(profileStaffLogin?.staffId, () => {});
+
         setSelectStaffFromCalendar(profileStaffLogin?.staffId, true);
       }
-    }, [profileStaffLogin?.staffId])
+    }, [profileStaffLogin?.staffId, bookingStaffId])
   );
 
+  // Functions
   const _handleResponseCreditCardForCloverSuccess = (message) => {
     setVisibleProcessingCredit(false);
     let messageUpdate = {
@@ -280,7 +289,6 @@ export const useProps = ({ props }) => {
     };
   }, []);
 
-  // Functions
   const addBlockAppointment = () => {};
   const getPriceOfline = (basket) => {
     let total = 0;
