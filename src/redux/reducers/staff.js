@@ -146,30 +146,40 @@ function staffReducer(state = initialState, action) {
       };
     case "GET_LIST_STAFFS_SALARY_TOP_SUCCESS":
       const { data, pages, count, page } = action.payload;
-      if (page === 1) {
-        return {
-          ...state,
-          listStaffsSalary: data,
-          listStaffsSalaryCount: count,
-          listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
-          refreshListStaffsSalary: false,
-        };
-      }
+      // if (page === 1) {
+      //   return {
+      //     ...state,
+      //     listStaffsSalary: data,
+      //     listStaffsSalaryCount: count,
+      //     listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
+      //     refreshListStaffsSalary: false,
+      //     listStaffsPages: pages,
+      //   };
+      // }
 
-      if (data.length > 0) {
-        return {
-          ...state,
-          listStaffsSalary: [...state.listStaffsSalary, ...data],
-          listStaffsSalaryCount: count,
-          listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
-          refreshListStaffsSalary: false,
-        };
-      }
+      // if (data.length > 0) {
+      //   return {
+      //     ...state,
+      //     listStaffsSalary: [...state.listStaffsSalary, ...data],
+      //     listStaffsSalaryCount: count,
+      //     listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
+      //     refreshListStaffsSalary: false,
+      //     listStaffsPages: pages,
+      //   };
+      // }
+
+      // return {
+      //   ...state,
+      //   listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
+      //   refreshListStaffsSalary: false,
+      //   listStaffsPages: pages,
+      // };
 
       return {
         ...state,
-        listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
-        refreshListStaffsSalary: false,
+        listStaffsPages: pages,
+        listStaffsSalaryCount: count,
+        listStaffsSalary: [...data],
       };
     case "GET_LIST_STAFFS_SALARY_TOP_FAIL":
       return {

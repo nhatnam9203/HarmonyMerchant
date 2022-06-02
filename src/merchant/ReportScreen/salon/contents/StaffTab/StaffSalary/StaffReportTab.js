@@ -1,5 +1,5 @@
 import IMAGE from "@resources";
-import { PopupStaffSalaryReceipt } from "@shared/components";
+import { Pagination, PopupStaffSalaryReceipt } from "@shared/components";
 import { layouts } from "@shared/themes";
 import { localize } from "@utils";
 import React, { useEffect, useState } from "react";
@@ -31,13 +31,24 @@ export default function StaffReportTab({
   const popupStaffSalaryRef = React.useRef(null);
 
   const language = useSelector((state) => state.dataLocal.language);
-  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+  const {
+    listStaffsSalary,
+    listStaffsSalaryCount,
+    listStaffsSalaryNextPage,
+    listStaffsPages,
+  } = useSelector((state) => state.staff);
 
   /**state */
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
   const [filterNames, setFilterNames] = useState([]);
   const [showStaffInvoicePrint, setShowStaffInvoicePrint] = useState(false);
   const [currentStaff, setCurrentStaff] = useState({});
+
+  const [pagination, setPagination] = React.useState({
+    pages: 0,
+    count: 0,
+  });
+  const [page, setPage] = React.useState(1);
 
   /**function */
 
@@ -61,11 +72,11 @@ export default function StaffReportTab({
   };
 
   // binding data list for name filter
-  const filterDataTable = () => {
+  const filterDataTable = React.useMemo(() => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
       ? listStaffsSalary.filter((item) => item.name === filterNameItem)
       : listStaffsSalary;
-  };
+  }, [listStaffsSalary]);
 
   // callback
   const onChangeFilterName = (filterName) => {
@@ -100,6 +111,18 @@ export default function StaffReportTab({
   useEffect(() => {
     bindFilterName();
   }, [listStaffsSalary]);
+
+  React.useEffect(() => {
+    setPagination({
+      pages: listStaffsPages,
+      count: listStaffsSalaryCount,
+    });
+  }, [listStaffsSalaryCount, listStaffsPages]);
+
+  React.useEffect(() => {
+    console.log(page);
+    onLoadMore(page);
+  }, [page]);
 
   const showPopupReceipts = () => {
     popupStaffSalaryRef.current?.show();
@@ -138,7 +161,7 @@ export default function StaffReportTab({
         }}
         onPress={showPopupReceipts}
       >
-        <Text style={layouts.tableName}>{"Print all"}</Text>
+        <Text style={layouts.fontLabel}>{"Print all"}</Text>
         <View style={{ width: scaleWidth(10) }} />
         <Image
           source={IMAGE.print_btn}
@@ -167,6 +190,18 @@ export default function StaffReportTab({
         pathFileExport={pathFileExport}
         handleTheDownloadedFile={handleTheDownloadedFile}
         filterNameDefault={FILTER_NAME_DEFAULT}
+        leftTooltip={
+          <>
+            <Pagination
+              onChangePage={setPage}
+              onChangeItemsPerPage={() => {}}
+              visibleItemsPerPage={false}
+              defaultPage={1}
+              {...pagination}
+              length={filterDataTable.length}
+            />
+          </>
+        }
         rightTooltip={
           <>
             <View style={layouts.marginHorizontal} />
@@ -176,7 +211,7 @@ export default function StaffReportTab({
         title={localize("Staff Salary", language)}
       >
         <TableListExtended
-          tableData={filterDataTable()}
+          tableData={filterDataTable}
           tableHead={{
             name: localize("Name ", language),
             serviceSales: localize("Service Sales", language),
@@ -246,9 +281,10 @@ export default function StaffReportTab({
           renderActionCell={renderActionCell}
           onRowPress={onRowPress}
           onRefresh={onRefresh}
-          isRefreshing={isRefreshing}
-          onLoadMore={onLoadMore}
-          endLoadMore={endLoadMore}
+          isRefreshing={false}
+          isLoadMore={false}
+          // onLoadMore={onLoadMore}
+          // endLoadMore={endLoadMore}
         />
       </ReportTabLayout>
 

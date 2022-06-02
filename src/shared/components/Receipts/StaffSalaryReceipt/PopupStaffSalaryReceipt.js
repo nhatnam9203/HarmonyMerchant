@@ -92,7 +92,6 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
         setPrintProcessing(true);
         let commands = [];
         commands.push({ appendLineFeed: 0 });
-        alert(receiptRefs.current?.length);
         for (var i = 0; i < receiptRefs.current?.length; i++) {
           const viewRef = receiptRefs.current[i];
           const imageUrl = await captureRef(viewRef, {});
