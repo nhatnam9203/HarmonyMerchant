@@ -9,7 +9,7 @@ import { ReceiptViewShot } from "./widgets";
 import { usePrinter } from "./usePrinter";
 import { useDejavooReceiptXml } from "./useDejavooReceiptXml";
 
-const DEFAULT_WIDTH = scaleWidth(350);
+const DEFAULT_WIDTH = scaleWidth(400);
 
 export const PopupReceipt = React.forwardRef(
   (

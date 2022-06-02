@@ -15,7 +15,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Modal from "react-native-modal";
 import { useSelector } from "react-redux";
 
-const DEFAULT_WIDTH = scaleWidth(350);
+const DEFAULT_WIDTH = scaleWidth(400);
 
 export const DialogReturnItemComplete = React.forwardRef(
   ({ groupAppointmentId, cancelPrint }, ref) => {

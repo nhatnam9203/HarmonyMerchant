@@ -38,7 +38,7 @@ import { getFullName, statusSuccess } from "@shared/utils";
 
 const { clover } = NativeModules;
 
-const DEFAULT_WIDTH = scaleWidth(350);
+const DEFAULT_WIDTH = scaleWidth(400);
 
 export const DialogPayCompleted = ({
   donotPrintBill,
