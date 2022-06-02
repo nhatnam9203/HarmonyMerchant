@@ -14,7 +14,7 @@ export const InputSearch = React.forwardRef(
         if (onSearch && typeof onSearch === "function") {
           onSearch(_prop);
         }
-      }, 2000),
+      }, 800),
       [onSearch]
     );
 
