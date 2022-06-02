@@ -194,8 +194,8 @@ export const useProps = ({
           alert("Product is out of stock!");
         }
       } else {
-        inputBarcodeDialogRef.current?.hide();
         if (data?.quantities?.length > 0) {
+          inputBarcodeDialogRef.current?.hide();
           setTimeout(() => {
             productDetailRef.current?.show(data);
           }, 550);
