@@ -34,17 +34,22 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   };
 
   const onHandleChangeText = (text) => {
+    console.log("onHandleChangeText", text)
     setValue(text);
     if (timeOutRef.current) clearTimeout(timeOutRef.current);
     timeOutRef.current = setTimeout(() => {
       if (typeof onSuccess === "function" && onSuccess) {
         onSuccess(text);
+        setTimeout(() => {
+          textInputRef.current?.focus();
+        }, 100);
       }
       setValue("");
     }, 2500);
   };
 
   const onEditing = () => {
+    console.log('onEditing')
     showSoftInputOnFocus((prev) => !prev);
   };
 
@@ -56,8 +61,10 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
 
   React.useEffect(() => {
     if (softInputOnFocus) {
+      console.log("use effect blur")
       textInputRef.current?.blur();
     } else {
+      console.log("use effect focus")
       Keyboard.dismiss();
       textInputRef.current?.focus();
     }
@@ -65,6 +72,7 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
+      console.log("show")
       setValue("");
       dialogRef.current?.show();
       setTimeout(() => {
@@ -78,6 +86,7 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
       return dialogRef.current?.isShow();
     },
     autoFocus: () => {
+      console.log("autoFocus")
       showSoftInputOnFocus(true);
       setTimeout(() => {
         textInputRef.current?.focus();
