@@ -348,7 +348,6 @@ class HomeScreen extends Layout {
   };
 
   bookAppointment = async (appointmentId, staffId = 0) => {
-
     this.props.actions.appointment.getGroupAppointmentById(
       appointmentId,
       true,
@@ -451,7 +450,7 @@ class HomeScreen extends Layout {
         }
       }, 200);
     }
-  };
+  }; // !
 
   submitPincode = () => {
     const password = this.popupEnterPinRef.current.state.value;

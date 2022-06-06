@@ -181,6 +181,7 @@ export const useProps = (props) => {
     NavigationServices.navigate(ScreenName.SALON.BOOKING, {
       bookingStaffId: staffId ?? 0,
       bookingFromTime: fromTime ?? new Date(),
+      bookingAppointmentId: appointmentId
     });
   };
 
