@@ -21,19 +21,26 @@ const { clover } = NativeModules;
 
 export const useCheckoutProps = (args) => {
   const dispatch = useDispatch();
+  const { params } = args || {};
+  const { checkoutStaffId, appointmentId, checkoutGroupId } = params || {};
   const props = useProps(args);
 
-  const { profileStaffLogin, isOfflineMode } = props || {};
+  const { profileStaffLogin, isOfflineMode, groupAppointment } = props || {};
 
   // Effects
   useFocusEffect(
     React.useCallback(() => {
-      if (!isOfflineMode) {
-        props.getCategoriesByStaff(profileStaffLogin?.staffId, () => {});
-        if (profileStaffLogin?.staffId >= 0)
-          props.setSelectStaffFromCalendar(profileStaffLogin?.staffId, true);
+      if (_.isEmpty(groupAppointment)) {
+        props.getCategoriesByStaff(
+          checkoutStaffId ?? profileStaffLogin?.staffId,
+          () => {}
+        );
       }
-    }, [profileStaffLogin?.staffId, isOfflineMode])
+      props.setSelectStaffFromCalendar(
+        checkoutStaffId ?? profileStaffLogin?.staffId,
+        true
+      );
+    }, [profileStaffLogin?.staffId, checkoutStaffId])
   );
 
   return {

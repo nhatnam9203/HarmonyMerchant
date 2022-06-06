@@ -156,19 +156,18 @@ export const useProps = (props) => {
 
   const _checkOutAppointment = async (appointmentId, appointment = {}) => {
     const staffId = appointment?.staffId;
+    const checkoutGroupId = groupAppointment?.checkoutGroupId || 0;
 
     // go to booking page
-    NavigationServices.navigate(ScreenName.SALON.BOOKING, {
-      bookingStaffId: staffId,
+    NavigationServices.navigate(ScreenName.SALON.CHECK_OUT, {
+      checkoutStaffId: staffId,
+      appointmentId: appointmentId,
+      checkoutGroupId: checkoutGroupId,
     });
 
-    if (isOfflineMode) {
-    } else {
-      const checkoutGroupId = groupAppointment?.checkoutGroupId || 0;
-      dispatch(
-        actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId)
-      );
-    }
+    dispatch(
+      actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId)
+    );
   };
 
   const _createBlockAppointment = async (appointmentId, fromTime, staffId) => {
@@ -181,7 +180,7 @@ export const useProps = (props) => {
     NavigationServices.navigate(ScreenName.SALON.BOOKING, {
       bookingStaffId: staffId ?? 0,
       bookingFromTime: fromTime ?? new Date(),
-      bookingAppointmentId: appointmentId
+      bookingAppointmentId: appointmentId,
     });
   };
 
@@ -198,34 +197,11 @@ export const useProps = (props) => {
           if (validateIsNumber(data) && data < -150) {
             this.onLoadStartWebview();
           } else {
-            const { action, appointmentId, appointment } = data;
+            const { action, appointmentId, appointment, staffId } = data;
             console.log("onMessageFromWebview => " + action);
             switch (action) {
               case "checkout":
-                // if (!isOfflineMode && isEmpty(groupAppointment)) {
-                //   getCategoryStaff(data?.appointment?.staffId || data?.staffId);
-                // }
-
-                const arrayProducts = getArrayProductsFromAppointment(
-                  data?.appointment?.products || []
-                );
-
-                const arryaServices = getArrayServicesFromAppointment(
-                  data?.appointment?.services || []
-                );
-                const arrayExtras = getArrayExtrasFromAppointment(
-                  data?.appointment?.extras || []
-                );
-                const arrayGiftCards = getArrayGiftCardsFromAppointment(
-                  data?.appointment?.giftCards || []
-                );
-                const temptBasket = arrayProducts.concat(
-                  arryaServices,
-                  arrayExtras,
-                  arrayGiftCards
-                );
-
-                _checkOutAppointment(appointmentId, data?.appointment || {});
+                _checkOutAppointment(appointmentId, appointment || {});
                 dispatch(
                   actions.appointment.checkoutAppointmentOffline(appointmentId)
                 );
@@ -233,7 +209,6 @@ export const useProps = (props) => {
 
                 break;
               case "signinAppointment":
-                const { staffId, appointment } = data || {};
                 const tempStaffId = staffId ?? appointment?.staffId;
 
                 if (tempStaffId === 0) {

@@ -9,7 +9,11 @@ import actions from "@actions";
 export const useBookingProps = (args) => {
   const dispatch = useDispatch();
 
-  const { bookingStaffId = 0, bookingAppointmentId } = args?.params || {};
+  const {
+    bookingStaffId = 0,
+    bookingAppointmentId,
+    bookingFromTime,
+  } = args?.params || {};
   const props = useProps(args);
 
   const { groupAppointment } = props || {};
