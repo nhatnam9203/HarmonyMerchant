@@ -18,6 +18,7 @@ export const HomeTopTabBar = ({
   position,
   onOpenDrawer,
   notificationContUnread = 0,
+  onChangeTab,
 }) => {
   const renderTab = (name, page, isTabActive, onPress) => {
     const textColor = isTabActive ? "#FFFFFF" : "#0872C9";
@@ -127,7 +128,13 @@ export const HomeTopTabBar = ({
             });
 
             if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
+              if (onChangeTab && typeof onChangeTab === "function") {
+                onChangeTab(route.name);
+              }
+              navigation.navigate(route.name, {
+                checkoutStaffId: 0,
+                bookingStaffId: 0,
+              });
             }
           };
 

@@ -165,12 +165,12 @@ export const useProps = (props) => {
       eventEmitter.current.addListener("paymentSuccess", (data) => {
         // console.log("paymentSuccess");
         isProcessPaymentClover = false;
-        handleResponseCreditCardForCloverSuccess(data);
+        _handleResponseCreditCardForCloverSuccess(data);
       }),
       eventEmitter.current.addListener("paymentFail", (data) => {
         // console.log("paymentSuccess");
         isProcessPaymentClover = false;
-        handleResponseCreditCardForCloverFailed(
+        _handleResponseCreditCardForCloverFailed(
           _.get(data, "appointment.errorMessage")
         );
       }),
@@ -199,7 +199,7 @@ export const useProps = (props) => {
       eventEmitter.current.addListener("deviceDisconnected", () => {
         if (isProcessPaymentClover.current) {
           isProcessPaymentClover.current = false;
-          handleResponseCreditCardForCloverFailed("No connected device");
+          _handleResponseCreditCardForCloverFailed("No connected device");
           clover.cancelTransaction();
         }
         if (isProcessPrintClover.current) {
@@ -295,46 +295,6 @@ export const useProps = (props) => {
     }
 
     dispatchLocal(CheckoutState.selectCategory(null)); // reset
-  };
-
-  const getPriceOfline = (basket) => {
-    let total = 0;
-    for (let i = 0; i < basket?.length; i++) {
-      if (basket[i].type === "Product") {
-        total =
-          total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
-      } else {
-        total = total + AppUtils.formatNumberFromCurrency(basket[i].data.price);
-      }
-    }
-    return total;
-  };
-
-  const calculateTotalTaxLocal = (basket) => {
-    const taxService = dataLocal.profile.taxService
-      ? AppUtils.formatNumberFromCurrency(dataLocal.profile.taxService)
-      : 0;
-    const taxProduct = dataLocal.profile.taxProduct
-      ? AppUtils.formatNumberFromCurrency(dataLocal.profile.taxProduct)
-      : 0;
-    let taxTotal = 0;
-    for (let i = 0; i < basket?.length; i++) {
-      if (basket[i].type === "Product") {
-        taxTotal =
-          taxTotal +
-          (parseFloat(basket[i].data.price) *
-            basket[i].quanlitySet *
-            taxProduct) /
-            100;
-      } else if (basket[i].type === "Service") {
-        taxTotal =
-          taxTotal +
-          (AppUtils.formatNumberFromCurrency(basket[i].data.price) *
-            taxService) /
-            100;
-      }
-    }
-    return Number(taxTotal).toFixed(2);
   };
 
   const createItemsAddBasket = (basket) => {
@@ -441,33 +401,6 @@ export const useProps = (props) => {
     };
   };
 
-  const getPaymentString = (type) => {
-    let method = "";
-    switch (type) {
-      case "HarmonyPay":
-        method = "harmony";
-        break;
-      case "Cash":
-        method = "cash";
-        break;
-      case "Credit Card":
-        method = "credit_card";
-        break;
-      case "Debit Card":
-        method = "credit_card";
-        break;
-      case "Gift Card":
-        method = "giftcard";
-        break;
-      case "Other":
-        method = "other";
-        break;
-      default:
-        method = "";
-    }
-    return method;
-  };
-
   const createNewAppointment = async (basket) => {
     const {
       paymentSelected,
@@ -483,7 +416,7 @@ export const useProps = (props) => {
       AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
     );
 
-    const method = getPaymentString(paymentSelected);
+    const method = Helpers.getPaymentString(paymentSelected);
 
     dispatch(
       actions.appointment.createAnymousAppointment(
@@ -572,7 +505,7 @@ export const useProps = (props) => {
           temptData.data.isPaymentHarmony &&
           temptData.data.checkoutGroupId == checkoutGroupId
         ) {
-          this.handleHarmonyPayment(temptData.data.checkoutPayment);
+          _handleHarmonyPayment(temptData.data.checkoutPayment);
           connection.stop();
         }
         // ---------- Handle reload Tip in Customer App ---------
@@ -773,7 +706,7 @@ export const useProps = (props) => {
             )
           );
 
-    const method = getPaymentString(paymentSelected);
+    const method = Helpers.getPaymentString(paymentSelected);
     const total = appointment.groupAppointment?.total
       ? parseFloat(
           AppUtils.formatNumberFromCurrency(appointment.groupAppointment.total)
@@ -995,7 +928,7 @@ export const useProps = (props) => {
       fromTime,
     } = stateLocal || {};
 
-    let method = getPaymentString(paymentSelected);
+    let method = Helpers.getPaymentString(paymentSelected);
     const dataAnymousAppoitment = getBasketOffline();
     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
       dataAnymousAppoitment;
@@ -1072,6 +1005,7 @@ export const useProps = (props) => {
       customServiceSelected,
     } = stateLocal || {};
 
+    console.log(customServiceSelected);
     // ------------ Block Booking -------------
     if (appointment.blockAppointments.length > 0) {
       _addBlockAppointment();
@@ -1161,8 +1095,8 @@ export const useProps = (props) => {
         dispatchLocal(
           CheckoutState.setBasket({
             basket: temptBasket,
-            subTotalLocal: getPriceOfline(temptBasket),
-            taxLocal: calculateTotalTaxLocal(temptBasket),
+            subTotalLocal: Helpers.getPriceOfBasket(temptBasket),
+            taxLocal: Helpers.getTotalTaxOfBasket(temptBasket, dataLocal),
           })
         );
 
@@ -1212,8 +1146,8 @@ export const useProps = (props) => {
         dispatchLocal(
           CheckoutState.setBasket({
             basket: temptBasket,
-            subTotalLocal: getPriceOfline(temptBasket),
-            taxLocal: calculateTotalTaxLocal(temptBasket),
+            subTotalLocal: Helpers.getPriceOfBasket(temptBasket),
+            taxLocal: Helpers.getTotalTaxOfBasket(temptBasket, dataLocal),
           })
         );
 
@@ -1252,10 +1186,8 @@ export const useProps = (props) => {
   const _cancelInvoicePrint = (isPrintTempt) => {
     setVisiblePrintInvoice(false);
     if (!isPrintTempt) {
-      // this.scrollTabRef.current?.goToPage(0);
       setIsPayment(false);
       NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
-      // this.props.gotoAppoitmentScreen();
       dispatch(actions.appointment.resetBasketEmpty());
       dispatchLocal(CheckoutState.resetState());
       dispatch();
@@ -1269,34 +1201,14 @@ export const useProps = (props) => {
     );
 
     if (portName) {
-      _openCashDrawer(portName);
+      Helpers.openCashDrawer(portName);
     } else {
       if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
-        _openCashDrawerClover();
+        Helpers.openCashDrawerClover(hardware);
       } else {
         alert("Please connect to your cash drawer.");
       }
     }
-  };
-
-  const _openCashDrawerClover = () => {
-    const port = _.get(hardware.cloverMachineInfo, "port")
-      ? _.get(hardware.cloverMachineInfo, "port")
-      : 80;
-    const url = `wss://${_.get(
-      hardware.cloverMachineInfo,
-      "ip"
-    )}:${port}/remote_pay`;
-
-    clover.openCashDrawer({
-      url,
-      remoteAppId: AppUtils.REMOTE_APP_ID,
-      appName: AppUtils.APP_NAME,
-      posSerial: AppUtils.POS_SERIAL,
-      token: _.get(hardware.cloverMachineInfo, "dataLocal.token")
-        ? _.get(hardware.cloverMachineInfo, "dataLocal.token", "")
-        : "",
-    });
   };
 
   const _cancelHarmonyPayment = () => {
@@ -1312,7 +1224,26 @@ export const useProps = (props) => {
     }
   };
 
-  const _openCashDrawer = () => {};
+  const _handleHarmonyPayment = (checkoutPaymentInfo) => {
+    dispatchLocal(CheckoutState.changeButtonDone(false));
+    const dueAmount =
+      checkoutPaymentInfo && checkoutPaymentInfo.dueAmount
+        ? parseFloat(checkoutPaymentInfo.dueAmount).toFixed(2)
+        : 0;
+
+    dispatch(
+      actions.appointment.updatePaymentInfoByHarmonyPayment(checkoutPaymentInfo)
+    );
+
+    if (dueAmount === 0) {
+      // ----- Transaction Completed --------
+      dispatch(actions.appointment.completeTransaction());
+    } else if (dueAmount < 0) {
+      dispatch(actions.appointment.showPopupChangeMoney(dueAmount));
+    } else {
+      dispatch(actions.appointment.showPopupPaymentDetails());
+    }
+  };
 
   return {
     categoriesRef,
@@ -1360,17 +1291,15 @@ export const useProps = (props) => {
         createABlockAppointment();
       }
 
-      // TODO: link to tab appointment
-      // this.props.gotoAppointmentTabToGroup();
+      NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
     },
 
     cancelHarmonyPayment: _cancelHarmonyPayment,
     payBasket: () => {
       const { paymentSelected } = stateLocal || {};
-      const method = getPaymentString(paymentSelected);
+      const method = Helpers.getPaymentString(paymentSelected);
       if (network.isOfflineMode && method === "harmony") {
-        // TODO: link to payment tab
-        // this.scrollTabRef.current?.goToPage(2);
+        NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
         setIsPayment(true);
         addAppointmentOfflineMode(true);
       } else if (
@@ -1515,6 +1444,7 @@ export const useProps = (props) => {
     },
     showCustomServiceAmount: (itemService) => {
       const { selectedStaff } = stateLocal || {};
+      console.log(itemService);
       // reset to select categories
       dispatchLocal(CheckoutState.selectCategoryItem(null, false));
 
@@ -1642,8 +1572,8 @@ export const useProps = (props) => {
         dispatchLocal(
           CheckoutState.setBasket({
             basket: temptBasket,
-            subTotalLocal: getPriceOfline(temptBasket),
-            taxLocal: calculateTotalTaxLocal(temptBasket),
+            subTotalLocal: Helpers.getPriceOfBasket(temptBasket),
+            taxLocal: Helpers.getTotalTaxOfBasket(temptBasket, dataLocal),
           })
         );
       }
@@ -2135,7 +2065,7 @@ export const useProps = (props) => {
             (paymentSelected === "Other" && dataLocal.profile?.isOpenCashier) ||
             paymentSelected === "Cash"
           ) {
-            openCashDrawer(portName);
+            Helpers.openCashDrawer(portName);
           }
           setIsPayment(false);
           dispatch(actions.appointment.closeModalPaymentCompleted());
@@ -2151,7 +2081,7 @@ export const useProps = (props) => {
             if (
               hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover
             ) {
-              _openCashDrawerClover();
+              Helpers.openCashDrawerClover(hardware);
             } else {
               setTimeout(() => {
                 alert("Please connect to your cash drawer.");
@@ -2276,7 +2206,7 @@ export const useProps = (props) => {
             this.modalBillRef.current?.state.quality
           )
         );
-        const method = getPaymentString(paymentSelected);
+        const method = Helpers.getPaymentString(paymentSelected);
         const bodyAction = {
           merchantId: dataLocal.profile.merchantId,
           userId: appointment.customerInfoBuyAppointment?.userId || 0,
@@ -2391,5 +2321,7 @@ export const useProps = (props) => {
       // link to tab appointment
       NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
     },
+
+    callbackDiscountToParent: () => {},
   };
 };

@@ -45,6 +45,7 @@ export const useBookingProps = (args) => {
   );
 
   return {
+    isBookingFromCalendar: true,
     ...props,
   };
 };

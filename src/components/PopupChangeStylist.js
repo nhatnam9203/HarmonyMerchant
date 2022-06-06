@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -8,27 +8,27 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
-import _, { isEmpty } from 'ramda';
+} from "react-native";
+import { TextInputMask } from "react-native-masked-text";
+import _, { isEmpty } from "ramda";
 
-import ButtonCustom from './ButtonCustom';
-import PopupParent from './PopupParent';
-import { Dropdown } from './react-native-material-dropdown';
-import connectRedux from '@redux/ConnectRedux';
-import { scaleSize, formatWithMoment } from '../utils';
-import ICON from '@resources';
-import Button from './Button';
+import ButtonCustom from "./ButtonCustom";
+import PopupParent from "./PopupParent";
+import { Dropdown } from "./react-native-material-dropdown";
+import connectRedux from "@redux/ConnectRedux";
+import { scaleSize, formatWithMoment } from "../utils";
+import ICON from "@resources";
+import Button from "./Button";
 
 const INIT_STATE = {
-  staffId: '',
-  name: '',
+  staffId: "",
+  name: "",
   tip: 0.0,
   price: 0.0,
-  bookingServiceId: '',
-  serviceIdLocal: '',
+  bookingServiceId: "",
+  serviceIdLocal: "",
   appointmentIdChangeStylist: -1,
-  note: '',
+  note: "",
   extras: [],
 };
 
@@ -39,12 +39,13 @@ class PopupChangeStylist extends React.Component {
     this.scrollRef = React.createRef();
   }
 
-
   convertStaffService = () => {
     const { listStaffByMerchant, staffOfService } = this.props;
     let tempt = [];
     for (let i = 0; i < listStaffByMerchant.length; i++) {
-      let temptStaff = staffOfService.find((s) => s.staffId == listStaffByMerchant[i].staffId);
+      let temptStaff = staffOfService?.find(
+        (s) => s.staffId == listStaffByMerchant[i].staffId
+      );
       if (temptStaff) tempt.push(listStaffByMerchant[i]);
     }
     return tempt;
@@ -96,14 +97,14 @@ class PopupChangeStylist extends React.Component {
 
     await this.setState({
       extras: [...extras],
-      staffId: staff?.staffId || '',
-      name: staff?.displayName || '',
-      bookingServiceId: service?.data?.bookingServiceId || '',
+      staffId: staff?.staffId || "",
+      name: staff?.displayName || "",
+      bookingServiceId: service?.data?.bookingServiceId || "",
       tip: staff?.tip || 0.0,
-      serviceIdLocal: service?.data?.serviceId || '',
+      serviceIdLocal: service?.data?.serviceId || "",
       appointmentIdChangeStylist: appointmentId,
       price: service?.data?.price || 0.0,
-      note: service?.note || '',
+      note: service?.note || "",
     });
   };
 
@@ -126,7 +127,7 @@ class PopupChangeStylist extends React.Component {
           : new Date();
     }
     const data = [];
-    const dayNameOfWeek = formatWithMoment(fromTime, 'dddd');
+    const dayNameOfWeek = formatWithMoment(fromTime, "dddd");
 
     for (let i = 0; i < staffs.length; i++) {
       if (
@@ -204,7 +205,7 @@ class PopupChangeStylist extends React.Component {
     const tempExtra = [...extras];
     for (let i = 0; i < tempExtra.length; i++) {
       if (tempExtra[i]?.extraId === extra?.extraId) {
-        tempExtra[i]['isSelect'] = !tempExtra[i]?.isSelect;
+        tempExtra[i]["isSelect"] = !tempExtra[i]?.isSelect;
         break;
       }
     }
@@ -216,7 +217,8 @@ class PopupChangeStylist extends React.Component {
   // --------------- Render -----------
 
   render() {
-    const { title, visible, listStaffByMerchant, confimYes, isOfflineMode } = this.props;
+    const { title, visible, listStaffByMerchant, confimYes, isOfflineMode } =
+      this.props;
     const { name, tip, price, note, extras } = this.state;
     const staffMerchant = this.getStaffDataDropdown(listStaffByMerchant);
     let staffService = this.convertStaffService();
@@ -229,12 +231,12 @@ class PopupChangeStylist extends React.Component {
         visible={visible}
         onRequestClose={this.onRequestClose}
         width={scaleSize(440)}
-        styleTitle={{ fontSize: scaleSize(20), fontWeight: '600' }}
+        styleTitle={{ fontSize: scaleSize(20), fontWeight: "600" }}
       >
         <View
           style={{
             height: scaleSize(420),
-            backgroundColor: '#fff',
+            backgroundColor: "#fff",
             borderBottomLeftRadius: scaleSize(15),
             borderBottomRightRadius: scaleSize(15),
             paddingHorizontal: scaleSize(30),
@@ -261,13 +263,13 @@ class PopupChangeStylist extends React.Component {
                       this.changeStylist(value, dataDropdown[index].staffId)
                     }
                     containerStyle={{
-                      backgroundColor: '#fff',
+                      backgroundColor: "#fff",
                       borderWidth: 1,
-                      borderColor: '#C5C5C5',
+                      borderColor: "#C5C5C5",
                       flex: 1,
                     }}
                     fontSize={scaleSize(20)}
-                  // extraHeight={scaleSize(90)}
+                    // extraHeight={scaleSize(90)}
                   />
                 </View>
                 {/* ------- Price -------- */}
@@ -276,26 +278,26 @@ class PopupChangeStylist extends React.Component {
                 <View
                   style={{
                     height: scaleSize(40),
-                    backgroundColor: '#fff',
+                    backgroundColor: "#fff",
                     borderWidth: 1,
-                    borderColor: '#C5C5C5',
+                    borderColor: "#C5C5C5",
                     paddingHorizontal: scaleSize(10),
                     marginBottom: scaleSize(10),
                   }}
                 >
                   <TextInputMask
-                    type={'money'}
+                    type={"money"}
                     options={{
                       precision: 2,
-                      separator: '.',
-                      delimiter: ',',
-                      unit: '',
-                      suffixUnit: '',
+                      separator: ".",
+                      delimiter: ",",
+                      unit: "",
+                      suffixUnit: "",
                     }}
                     style={{
                       flex: 1,
                       fontSize: scaleSize(16),
-                      color: '#6A6A6A',
+                      color: "#6A6A6A",
                     }}
                     value={price}
                     onChangeText={(price) => this.setState({ price })}
@@ -308,25 +310,25 @@ class PopupChangeStylist extends React.Component {
                 <View
                   style={{
                     height: scaleSize(40),
-                    backgroundColor: '#fff',
+                    backgroundColor: "#fff",
                     borderWidth: 1,
-                    borderColor: '#C5C5C5',
+                    borderColor: "#C5C5C5",
                     paddingHorizontal: scaleSize(10),
                   }}
                 >
                   <TextInputMask
-                    type={'money'}
+                    type={"money"}
                     options={{
                       precision: 2,
-                      separator: '.',
-                      delimiter: ',',
-                      unit: '',
-                      suffixUnit: '',
+                      separator: ".",
+                      delimiter: ",",
+                      unit: "",
+                      suffixUnit: "",
                     }}
                     style={{
                       flex: 1,
                       fontSize: scaleSize(16),
-                      color: '#6A6A6A',
+                      color: "#6A6A6A",
                     }}
                     value={tip}
                     onChangeText={(tip) => this.setState({ tip })}
@@ -358,9 +360,9 @@ class PopupChangeStylist extends React.Component {
                 <View
                   style={{
                     height: scaleSize(70),
-                    backgroundColor: '#fff',
+                    backgroundColor: "#fff",
                     borderWidth: 1,
-                    borderColor: '#C5C5C5',
+                    borderColor: "#C5C5C5",
                     paddingHorizontal: scaleSize(10),
                   }}
                 >
@@ -368,7 +370,7 @@ class PopupChangeStylist extends React.Component {
                     style={{
                       flex: 1,
                       fontSize: scaleSize(16),
-                      color: '#6A6A6A',
+                      color: "#6A6A6A",
                     }}
                     multiline={true}
                     value={note}
@@ -395,13 +397,13 @@ class PopupChangeStylist extends React.Component {
             onPress={this.submitChangeStylist}
             style={{
               borderWidth: 1,
-              borderColor: '#C5C5C5',
+              borderColor: "#C5C5C5",
               borderRadius: 4,
-              position: 'absolute',
+              position: "absolute",
               bottom: scaleSize(15),
               marginLeft: scaleSize((440 - 140) / 2),
             }}
-            styleText={{ fontWeight: '600', fontSize: scaleSize(14) }}
+            styleText={{ fontWeight: "600", fontSize: scaleSize(14) }}
           />
         </View>
       </PopupParent>
@@ -417,9 +419,9 @@ const ExtraItem = ({ extra, selectExtra }) => {
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
         marginBottom: scaleSize(10),
-        alignItems: 'center',
+        alignItems: "center",
       }}
     >
       <Button
@@ -446,17 +448,17 @@ const ExtraItem = ({ extra, selectExtra }) => {
             style={{ width: scaleSize(36), height: scaleSize(36) }}
           />
         ) : (
-            <Image
-              source={ICON.extra_holder}
-              style={{ width: scaleSize(36), height: scaleSize(36) }}
-            />
-          )}
+          <Image
+            source={ICON.extra_holder}
+            style={{ width: scaleSize(36), height: scaleSize(36) }}
+          />
+        )}
       </View>
       <Text
         style={{
           flex: 1,
-          color: '#404040',
-          fontWeight: '600',
+          color: "#404040",
+          fontWeight: "600",
           fontSize: scaleSize(14),
         }}
       >
@@ -466,17 +468,17 @@ const ExtraItem = ({ extra, selectExtra }) => {
       <View
         style={{
           width: scaleSize(100),
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <Text
           numberOfLines={2}
           style={{
-            color: '#404040',
+            color: "#404040",
             fontSize: scaleSize(12),
-            fontWeight: '300',
+            fontWeight: "300",
           }}
         >
           {`15 min`}
@@ -484,9 +486,9 @@ const ExtraItem = ({ extra, selectExtra }) => {
 
         <Text
           style={{
-            color: '#404040',
+            color: "#404040",
             fontSize: scaleSize(12),
-            fontWeight: '600',
+            fontWeight: "600",
           }}
         >
           {`$ ${extra?.price || `0.00`}`}
@@ -498,9 +500,9 @@ const ExtraItem = ({ extra, selectExtra }) => {
 
 const styles = StyleSheet.create({
   txt_title: {
-    color: '#404040',
+    color: "#404040",
     fontSize: scaleSize(15),
-    fontWeight: '500',
+    fontWeight: "500",
     marginBottom: scaleSize(8),
     marginTop: scaleSize(8),
   },

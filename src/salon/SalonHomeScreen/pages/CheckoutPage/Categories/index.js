@@ -35,7 +35,6 @@ export const Categories = React.forwardRef((props, ref) => {
     onSelectGiftCard,
     isOfflineMode,
     getDataColProduct,
-    isCustomService = false,
     isLoadingService = false,
     isBookingFromCalendar,
     categoryTypeSelected,
@@ -50,12 +49,12 @@ export const Categories = React.forwardRef((props, ref) => {
     onPressSelectExtra,
     arrSelectedExtra,
     addAmount,
+    profile,
   } = ctx || {};
 
   React.useImperativeHandle(ref, () => ({
     scrollFlatListToStaffIndex: (staffId, isFirstPressCheckout) => {
       if (!staffListCurrentDate?.length) {
-        console.log(staffListCurrentDate);
         return;
       }
       let index = -1;
@@ -168,9 +167,9 @@ export const Categories = React.forwardRef((props, ref) => {
       <ItemsColumn
         items={data}
         isShowCustomService={
-          isCustomService &&
+          profile.isCustomService &&
           !isBookingFromCalendar &&
-          categoryTypeSelected != "Product" &&
+          categoryTypeSelected !== "Product" &&
           blockAppointments.length == 0 &&
           customService
         }

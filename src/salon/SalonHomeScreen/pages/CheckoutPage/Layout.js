@@ -69,7 +69,7 @@ export const Layout = (props) => {
             customDiscountFixedLocal,
             discountTotalLocal
           ) =>
-            props.callbackDiscountToParent(
+            props?.callbackDiscountToParent(
               customDiscountPercentLocal,
               customDiscountFixedLocal,
               discountTotalLocal

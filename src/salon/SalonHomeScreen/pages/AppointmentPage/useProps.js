@@ -158,11 +158,9 @@ export const useProps = (props) => {
     const staffId = appointment?.staffId;
     const checkoutGroupId = groupAppointment?.checkoutGroupId || 0;
 
-    // go to booking page
+    // go to check out page
     NavigationServices.navigate(ScreenName.SALON.CHECK_OUT, {
       checkoutStaffId: staffId,
-      appointmentId: appointmentId,
-      checkoutGroupId: checkoutGroupId,
     });
 
     dispatch(
@@ -182,6 +180,31 @@ export const useProps = (props) => {
       bookingFromTime: fromTime ?? new Date(),
       bookingAppointmentId: appointmentId,
     });
+  };
+
+  const _addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
+    if (staffId && staffId !== 0 && staffId !== -1) {
+      dispatch(
+        actions.appointment.getGroupAppointmentById(
+          appointmentId,
+          false,
+          true,
+          false
+        )
+      );
+
+      NavigationServices.navigate(ScreenName.SALON.CHECK_OUT, {
+        checkoutStaffId: staffId,
+      });
+    } else {
+      dispatch(
+        actions.appointment.getBlockAppointmentById(appointmentId, true)
+      );
+
+      NavigationServices.navigate(ScreenName.SALON.CHECK_OUT, {
+        checkoutStaffId: staffId,
+      });
+    }
   };
 
   return {
@@ -222,8 +245,13 @@ export const useProps = (props) => {
                 }
 
                 break;
-
               case "addGroupAnyStaff":
+                _createBlockAppointment(
+                  appointmentId,
+                  data.dataAnyStaff && data.dataAnyStaff.fromTime
+                    ? data.dataAnyStaff.fromTime
+                    : new Date()
+                );
                 break;
 
               case "push_notification":
@@ -234,9 +262,18 @@ export const useProps = (props) => {
                 break;
 
               case "addMore":
+                _createBlockAppointment(
+                  appointmentId,
+                  new Date(),
+                  data?.staffId || 0
+                );
                 break;
 
               case "addMoreAnyStaff":
+                _addMoreAppointmentFromCalendar(
+                  data?.appointmentId,
+                  data?.staffId || 0
+                );
                 break;
 
               case "printFromCalendar":

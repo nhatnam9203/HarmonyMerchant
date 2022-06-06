@@ -4,5 +4,8 @@ export const useProps = ({ navigation }) => {
     openDrawer: () => {
       navigation.openDrawer();
     },
+    onChangeTab: (routeName) => {
+      console.log(routeName);
+    },
   };
 };

@@ -12,7 +12,7 @@ import { CheckoutPage } from "../CheckoutPage";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-export const Layout = ({ openDrawer, navigation }) => {
+export const Layout = ({ openDrawer, navigation, onChangeTab }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -30,7 +30,11 @@ export const Layout = ({ openDrawer, navigation }) => {
         optimizationsEnabled={true}
         swipeEnabled={false}
         tabBar={(props) => (
-          <HomeTopTabBar {...props} onOpenDrawer={openDrawer} />
+          <HomeTopTabBar
+            {...props}
+            onOpenDrawer={openDrawer}
+            onChangeTab={onChangeTab}
+          />
         )}
       >
         <Screen name={t("MARKETING")} component={TabMarketing} />
