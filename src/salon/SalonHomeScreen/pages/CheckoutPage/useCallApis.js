@@ -23,7 +23,7 @@ export const useCallApis = ({ dispatchLocal }) => {
   }, [categoriesByStaffResponse]);
 
   const getCategoriesByStaff = (staffId, cb) => {
-    if (!staffId) return;
+    // if (!staffId) return;
     categoriesByStaffRequest(staffId);
   };
 

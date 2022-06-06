@@ -108,6 +108,7 @@ export const ACTION_TYPES = {
   SIGNAL_PAYMENT: "SIGNAL_PAYMENT",
   CHANGE_BUTTON_DONE: "CHANGE_BUTTON_DONE",
   UPDATE_CREDIT_CARD: "UPDATE_CREDIT_CARD",
+  BLOCK_SELECT_STAFF: "BLOCK_SELECT_STAFF",
 };
 
 export const reducer = (state, action) => {
@@ -131,6 +132,7 @@ export const reducer = (state, action) => {
     case ACTION_TYPES.SIGNAL_PAYMENT:
     case ACTION_TYPES.CHANGE_BUTTON_DONE:
     case ACTION_TYPES.UPDATE_CREDIT_CARD:
+    case ACTION_TYPES.BLOCK_SELECT_STAFF:
     default:
       return Object.assign({}, state, action.payload);
 
@@ -395,5 +397,16 @@ export const updateCreditCardPay = (params) => {
   return {
     type: ACTION_TYPES.UPDATE_CREDIT_CARD,
     payload: params,
+  };
+};
+
+export const setBlockStateFromCalendar = (bl) => {
+  return {
+    type: ACTION_TYPES.BLOCK_SELECT_STAFF,
+    payload: {
+      isShowCategoriesColumn: true,
+      isBlockBookingFromCalendar: bl,
+      isBookingFromAppointmentTab: true,
+    },
   };
 };

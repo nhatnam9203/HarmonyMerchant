@@ -179,7 +179,7 @@ export const useProps = (props) => {
     dispatch(actions.appointment.getBlockAppointmentById(appointmentId, true));
 
     NavigationServices.navigate(ScreenName.SALON.BOOKING, {
-      bookingStaffId: staffId,
+      bookingStaffId: staffId ?? 0,
       bookingFromTime: fromTime ?? new Date(),
     });
   };
@@ -232,14 +232,16 @@ export const useProps = (props) => {
 
                 break;
               case "signinAppointment":
-                const { staffId } = data || {};
-                if (staffId === 0) {
+                const { staffId, appointment } = data || {};
+                const tempStaffId = staffId ?? appointment?.staffId;
+
+                if (tempStaffId === 0) {
                   _createBlockAppointment(appointmentId, new Date());
                 } else {
                   _createBlockAppointment(
                     appointmentId,
                     new Date(),
-                    staffId ?? 0
+                    tempStaffId ?? 0
                   );
                 }
 

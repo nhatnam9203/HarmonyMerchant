@@ -2899,7 +2899,7 @@ class TabCheckout extends Layout {
       isBlockBookingFromCalendar: staffId && staffId > 0 ? false : true,
       isBookingFromAppointmentTab: true, // book appointment from calendar
     });
-  };
+  }; // !
 
   setStatusIsCheckout = (status) => {
     this.setState({

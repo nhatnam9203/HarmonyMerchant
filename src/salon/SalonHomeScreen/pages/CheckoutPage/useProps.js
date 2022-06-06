@@ -10,6 +10,7 @@ import * as CheckoutState from "./SalonCheckoutState";
 import { useCallApis } from "./useCallApis";
 import NavigatorServices from "@navigators/NavigatorServices";
 import { ScreenName } from "@src/ScreenName";
+import * as Helpers from "../../Helpers";
 
 const signalR = require("@microsoft/signalr");
 
@@ -216,7 +217,86 @@ export const useProps = (props) => {
     };
   }, []);
 
-  const addBlockAppointment = () => {};
+  const _addBlockAppointment = async () => {
+    const {
+      categoryTypeSelected,
+      productSeleted,
+      arrSelectedExtra,
+      customServiceSelected,
+      selectedStaff,
+    } = stateLocal || {};
+
+    let isAppointmentIdOpen = "";
+
+    for (let i = 0; i < blockAppointmentRef.length; i++) {
+      if (!blockAppointmentRef[i].state.isCollapsed) {
+        isAppointmentIdOpen =
+          blockAppointmentRef[i].props.appointment.appointmentDetail
+            .appointmentId;
+        break;
+      }
+    }
+
+    const appointmentId = isAppointmentIdOpen
+      ? isAppointmentIdOpen
+      : appointment.isOpenBlockAppointmentId;
+
+    if (categoryTypeSelected === "Product") {
+      dispatch(
+        actions.appointment.addItemIntoAppointment(
+          {
+            services: [],
+            extras: [],
+            products: [
+              {
+                productId: productSeleted?.productId,
+                quantity: this.amountRef.current?.state.quanlity,
+              },
+            ],
+            giftCards: [],
+          },
+          appointmentId,
+          false,
+          true
+        )
+      );
+    } else {
+      // ------------- Buy online Extra , Service ---------
+
+      const temptExtra = [];
+      for (let i = 0; i < arrSelectedExtra.length; i++) {
+        temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
+      }
+      dispatch(
+        actions.appointment.addItemIntoAppointment(
+          {
+            services: [
+              {
+                serviceId:
+                  productSeleted?.serviceId ?? customServiceSelected?.serviceId,
+                ...(selectedStaff?.staffId && {
+                  staffId: selectedStaff?.staffId,
+                }),
+                ...(customServiceSelected && {
+                  categoryId: customServiceSelected?.categoryId,
+                  price: customServiceSelected?.price,
+                }),
+              },
+            ],
+            extras: temptExtra,
+            products: [],
+            giftCards: [],
+          },
+          appointmentId,
+          false,
+          true
+        )
+      );
+    }
+
+    dispatchLocal(CheckoutState.selectCategory(null)); // reset
+  };
+
   const getPriceOfline = (basket) => {
     let total = 0;
     for (let i = 0; i < basket?.length; i++) {
@@ -994,7 +1074,7 @@ export const useProps = (props) => {
 
     // ------------ Block Booking -------------
     if (appointment.blockAppointments.length > 0) {
-      addBlockAppointment();
+      _addBlockAppointment();
       return;
     }
 
@@ -1254,6 +1334,9 @@ export const useProps = (props) => {
     ...apis,
 
     setSelectStaffFromCalendar,
+    setBlockStateFromCalendar: (bl) => {
+      dispatchLocal(CheckoutState.setBlockStateFromCalendar(bl));
+    },
     // Customer
     displayCustomerInfoPopup: () => {
       const customerId =
@@ -1314,7 +1397,7 @@ export const useProps = (props) => {
       setVisibleScanCode(true);
     },
     bookAppointmentFromCalendar: () => {
-      //    this.props.gotoTabAppointment();
+      NavigatorServices.goBack();
       // this.setState(
       //   Object.assign(initState, {
       //     isBookingFromAppointmentTab: true, // book appointment from calendar
@@ -1341,13 +1424,13 @@ export const useProps = (props) => {
       }
     },
     bookBlockAppointment: () => {
-      // this.props.gotoTabAppointment();
+      NavigatorServices.goBack();
       dispatch(actions.appointment.bookBlockAppointment());
       dispatchLocal(CheckoutState.resetState());
       blockAppointmentRef.current = [];
       dispatch(actions.appointment.resetGroupAppointment());
     },
-    checkBlockAppointment: () => {},
+    checkBlockAppointment: Helpers.isBookingBlockAppointment,
     onSelectGiftCard: (category) => {
       const { categorySelected } = stateLocal;
       if (categorySelected?.categoryId !== category?.categoryId) {
@@ -1678,86 +1761,7 @@ export const useProps = (props) => {
         );
       }
     },
-    addBlockAppointment: async () => {
-      const {
-        categoryTypeSelected,
-        productSeleted,
-        arrSelectedExtra,
-        customServiceSelected,
-        selectedStaff,
-      } = stateLocal || {};
-
-      let isAppointmentIdOpen = "";
-
-      for (let i = 0; i < blockAppointmentRef.length; i++) {
-        if (!blockAppointmentRef[i].state.isCollapsed) {
-          isAppointmentIdOpen =
-            blockAppointmentRef[i].props.appointment.appointmentDetail
-              .appointmentId;
-          break;
-        }
-      }
-
-      const appointmentId = isAppointmentIdOpen
-        ? isAppointmentIdOpen
-        : appointment.isOpenBlockAppointmentId;
-
-      if (categoryTypeSelected === "Product") {
-        dispatch(
-          actions.appointment.addItemIntoAppointment(
-            {
-              services: [],
-              extras: [],
-              products: [
-                {
-                  productId: productSeleted?.productId,
-                  quantity: this.amountRef.current?.state.quanlity,
-                },
-              ],
-              giftCards: [],
-            },
-            appointmentId,
-            false,
-            true
-          )
-        );
-      } else {
-        // ------------- Buy online Extra , Service ---------
-
-        const temptExtra = [];
-        for (let i = 0; i < arrSelectedExtra.length; i++) {
-          temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
-        }
-        dispatch(
-          actions.appointment.addItemIntoAppointment(
-            {
-              services: [
-                {
-                  serviceId:
-                    productSeleted?.serviceId ??
-                    customServiceSelected?.serviceId,
-                  ...(selectedStaff?.staffId && {
-                    staffId: selectedStaff?.staffId,
-                  }),
-                  ...(customServiceSelected && {
-                    categoryId: customServiceSelected?.categoryId,
-                    price: customServiceSelected?.price,
-                  }),
-                },
-              ],
-              extras: temptExtra,
-              products: [],
-              giftCards: [],
-            },
-            appointmentId,
-            false,
-            true
-          )
-        );
-      }
-
-      dispatchLocal(CheckoutState.selectCategory(null)); // reset
-    },
+    addBlockAppointment: _addBlockAppointment,
     onRequestClosePopupDiscountLocal: async () => {
       dispatchLocal(CheckoutState.visiblePopupDiscountLocal(false)); // reset
     },
