@@ -154,7 +154,7 @@ export const useProps = (props) => {
     }
   }, [invoiceDetail, editTipCreditCard]);
 
-  _checkOutAppointment = async (appointmentId, appointment = {}) => {
+  const _checkOutAppointment = async (appointmentId, appointment = {}) => {
     const staffId = appointment?.staffId;
 
     // go to booking page
@@ -171,6 +171,19 @@ export const useProps = (props) => {
     }
   };
 
+  const _createBlockAppointment = async (appointmentId, fromTime, staffId) => {
+    dispatch(
+      actions.appointment.updateFromTimeBlockAppointment(fromTime ?? new Date())
+    );
+
+    dispatch(actions.appointment.getBlockAppointmentById(appointmentId, true));
+
+    NavigationServices.navigate(ScreenName.SALON.BOOKING, {
+      bookingStaffId: staffId,
+      bookingFromTime: fromTime ?? new Date(),
+    });
+  };
+
   return {
     webviewRef,
     invoiceRef,
@@ -185,7 +198,7 @@ export const useProps = (props) => {
             this.onLoadStartWebview();
           } else {
             const { action, appointmentId, appointment } = data;
-
+            console.log("onMessageFromWebview => " + action);
             switch (action) {
               case "checkout":
                 // if (!isOfflineMode && isEmpty(groupAppointment)) {
@@ -219,6 +232,17 @@ export const useProps = (props) => {
 
                 break;
               case "signinAppointment":
+                const { staffId } = data || {};
+                if (staffId === 0) {
+                  _createBlockAppointment(appointmentId, new Date());
+                } else {
+                  _createBlockAppointment(
+                    appointmentId,
+                    new Date(),
+                    staffId ?? 0
+                  );
+                }
+
                 break;
 
               case "addGroupAnyStaff":

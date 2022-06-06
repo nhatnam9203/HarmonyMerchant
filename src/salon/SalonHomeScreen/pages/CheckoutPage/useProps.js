@@ -18,17 +18,14 @@ const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 const { clover } = NativeModules;
 
-export const useProps = ({ params }) => {
+export const useProps = (props) => {
   const dispatch = useDispatch();
-
-  const { bookingStaffId } = params || {};
 
   // References
   const subscriptions = React.useRef([]);
   const isProcessPrintClover = React.useRef(false);
   const isProcessPaymentClover = React.useRef(false);
   const eventEmitter = React.useRef(new NativeEventEmitter(clover));
-
   const categoriesRef = React.useRef(null);
   const amountRef = React.useRef(null);
   const popupAddItemIntoAppointmentsRef = React.useRef(null);
@@ -51,63 +48,15 @@ export const useProps = ({ params }) => {
   const popupEnterAmountCustomServiceRef = React.useRef(null);
 
   // Redux state
-  const {
-    customerInfoBuyAppointment,
-    groupAppointment,
-    paymentDetailInfo,
-    blockAppointments,
-    isBookingFromCalendar,
-    isDonePayment,
-    staffListCurrentDate,
-    bookingGroupId,
-    fromTimeBlockAppointment,
-    isOpenBlockAppointmentId,
-    payAppointmentId,
-    appointmentDetail,
-    isGetAppointmentSucces,
-    connectionSignalR,
-    flagSignInAppointment,
-    isCancelAppointment,
-    webviewRef,
-    appointmentIdOffline,
-    isLoadingGetBlockAppointment,
-    isLoadingRemoveBlockAppointment,
-    idNextToAppointmentRemove,
-    startProcessingPax,
-    paxAmount,
-    amountCredtitForSubmitToServer,
-    isCancelPayment,
-    isCreditPaymentToServer,
-    lastTransactionAppointmentId,
-    lastGroupAppointmentPay,
-    errorMessage,
-    appointmentIdBookingFromCalendar,
-  } = useSelector((state) => state.appointment);
-
-  const categoriesByMerchant = useSelector(
-    (state) => state.category.categoriesByMerchant
-  );
-  const {
-    profileStaffLogin,
-    profile,
-    language,
-    token,
-    deviceId,
-    versionApp,
-    printerSelect,
-    printerList,
-    isTipOnPaxMachine,
-    bluetoothPaxInfo,
-  } = useSelector((state) => state.dataLocal) || {};
-  const isOfflineMode = useSelector((state) => state.network?.isOfflineMode);
-  const extrasByMerchant = useSelector((state) => state.extra.extrasByMerchant);
-  const { customService, servicesByMerchant } =
-    useSelector((state) => state.service) || {};
-  const { productsByMerchantId } = useSelector((state) => state.product) || {};
-  const { listStaffByMerchant } =
-    useSelector((state) => state.staff.listStaffByMerchant) || {};
-  const { dejavooMachineInfo, paymentMachineType, cloverMachineInfo } =
-    useSelector((state) => state.hardware) || {};
+  const appointment = useSelector((state) => state.appointment) || {};
+  const category = useSelector((state) => state.category) || {};
+  const dataLocal = useSelector((state) => state.dataLocal) || {};
+  const network = useSelector((state) => state.network);
+  const extra = useSelector((state) => state.extra);
+  const service = useSelector((state) => state.service) || {};
+  const product = useSelector((state) => state.product) || {};
+  const staff = useSelector((state) => state.staff) || {};
+  const hardware = useSelector((state) => state.hardware) || {};
 
   // Local state
   const [stateLocal, dispatchLocal] = React.useReducer(
@@ -116,14 +65,7 @@ export const useProps = ({ params }) => {
   );
 
   // Api call
-  const {
-    isGetCategoriesByStaff,
-    getCategoriesByStaff,
-    isGetServiceByStaff,
-    getServiceByStaff,
-    isGetProductByStaff,
-    getProductByStaff,
-  } = useCallApis({
+  const apis = useCallApis({
     dispatchLocal,
   });
 
@@ -165,38 +107,21 @@ export const useProps = ({ params }) => {
     );
   };
 
-  // Effects
-  useFocusEffect(
-    React.useCallback(() => {
-      if (bookingStaffId) {
-        if (!isOfflineMode)
-          getCategoriesByStaff(profileStaffLogin?.staffId, () => {});
-
-        setSelectStaffFromCalendar(bookingStaffId, false);
-      } else if (profileStaffLogin?.staffId && _.isEmpty(groupAppointment)) {
-        if (!isOfflineMode)
-          getCategoriesByStaff(profileStaffLogin?.staffId, () => {});
-
-        setSelectStaffFromCalendar(profileStaffLogin?.staffId, true);
-      }
-    }, [profileStaffLogin?.staffId, bookingStaffId])
-  );
-
   // Functions
   const _handleResponseCreditCardForCloverSuccess = (message) => {
     setVisibleProcessingCredit(false);
     let messageUpdate = {
       ...message,
-      sn: _.get(cloverMachineInfo, "serialNumber"),
+      sn: _.get(hardware.cloverMachineInfo, "serialNumber"),
     };
 
     try {
       dispatch(
         actions.appointment.submitPaymentWithCreditCard(
-          profile?.merchantId || 0,
+          dataLocal.profile?.merchantId || 0,
           JSON.stringify(messageUpdate),
-          payAppointmentId,
-          amountCredtitForSubmitToServer,
+          appointment.payAppointmentId,
+          appointment.amountCredtitForSubmitToServer,
           "clover"
         )
       );
@@ -209,12 +134,12 @@ export const useProps = ({ params }) => {
     setVisibleProcessingCredit(false);
 
     try {
-      if (payAppointmentId) {
+      if (appointment.payAppointmentId) {
         dispatch(
           actions.appointment.cancelHarmonyPayment(
-            payAppointmentId,
+            appointment.payAppointmentId,
             "transaction fail",
-            errorMessage
+            appointment.errorMessage
           )
         );
       }
@@ -244,7 +169,9 @@ export const useProps = ({ params }) => {
       eventEmitter.current.addListener("paymentFail", (data) => {
         // console.log("paymentSuccess");
         isProcessPaymentClover = false;
-        handleResponseCreditCardForCloverFailed(_.get(data, "errorMessage"));
+        handleResponseCreditCardForCloverFailed(
+          _.get(data, "appointment.errorMessage")
+        );
       }),
       eventEmitter.current.addListener("pairingCode", (data) => {
         if (data) {
@@ -304,11 +231,11 @@ export const useProps = ({ params }) => {
   };
 
   const calculateTotalTaxLocal = (basket) => {
-    const taxService = profile.taxService
-      ? AppUtils.formatNumberFromCurrency(profile.taxService)
+    const taxService = dataLocal.profile.taxService
+      ? AppUtils.formatNumberFromCurrency(dataLocal.profile.taxService)
       : 0;
-    const taxProduct = profile.taxProduct
-      ? AppUtils.formatNumberFromCurrency(profile.taxProduct)
+    const taxProduct = dataLocal.profile.taxProduct
+      ? AppUtils.formatNumberFromCurrency(dataLocal.profile.taxProduct)
       : 0;
     let taxTotal = 0;
     for (let i = 0; i < basket?.length; i++) {
@@ -480,10 +407,10 @@ export const useProps = ({ params }) => {
 
     dispatch(
       actions.appointment.createAnymousAppointment(
-        profile.merchantId,
-        customerInfoBuyAppointment?.userId || 0,
-        customerInfoBuyAppointment?.customerId || 0,
-        // profileStaffLogin.staffId,
+        dataLocal.profile.merchantId,
+        appointment.customerInfoBuyAppointment?.userId || 0,
+        appointment.customerInfoBuyAppointment?.customerId || 0,
+        // dataLocal.profileStaffLogin.staffId,
         selectedStaff?.staffId,
         arrayProductBuy,
         arryaServicesBuy,
@@ -492,9 +419,9 @@ export const useProps = ({ params }) => {
         true,
         customDiscountFixedLocal,
         customDiscountPercentLocal,
-        customerInfoBuyAppointment?.firstName || "",
-        customerInfoBuyAppointment?.lastName || "",
-        customerInfoBuyAppointment?.phone || "",
+        appointment.customerInfoBuyAppointment?.firstName || "",
+        appointment.customerInfoBuyAppointment?.lastName || "",
+        appointment.customerInfoBuyAppointment?.phone || "",
         moneyUserGiveForStaff,
         false,
         false
@@ -515,13 +442,14 @@ export const useProps = ({ params }) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+          blockAppointmentRef[i].props.appointment.appointmentDetail
+            .appointmentId;
         break;
       }
     }
     const appointmentId = isAppointmentIdOpen
       ? isAppointmentIdOpen
-      : blockAppointments[0].appointmentId;
+      : appointment.blockAppointments[0].appointmentId;
 
     dispatch(
       actions.appointment.removeItemIntoAppointment(
@@ -545,7 +473,7 @@ export const useProps = ({ params }) => {
     try {
       const connection = new signalR.HubConnectionBuilder()
         .withUrl(
-          `${Configs.SOCKET_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
+          `${Configs.SOCKET_URL}notification/?merchantId=${dataLocal.profile.merchantId}&Title=Merchant&kind=app&dataLocal.deviceId=${dataLocal.deviceId}&dataLocal.token=${dataLocal.token}`,
           {
             transport:
               signalR.HttpTransportType.LongPolling |
@@ -653,7 +581,7 @@ export const useProps = ({ params }) => {
     } else {
       dispatch(
         actions.appointment.checkCreditPaymentToServer(
-          groupAppointment?.checkoutGroupId || 0,
+          appointment.groupAppointment?.checkoutGroupId || 0,
           moneyUserGiveForStaff,
           moneyCreditCard
         )
@@ -674,10 +602,10 @@ export const useProps = ({ params }) => {
 
       if (_.get(result, "status", 0) == 0) {
         // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
-        if (payAppointmentId) {
+        if (appointment.payAppointmentId) {
           dispatch(
             actions.appointment.cancelHarmonyPayment(
-              payAppointmentId,
+              appointment.payAppointmentId,
               "transaction fail",
               result?.message
             )
@@ -697,9 +625,11 @@ export const useProps = ({ params }) => {
         }, 300);
       } else if (result.ResultCode && result.ResultCode == "000000") {
         if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
-          if (payAppointmentId) {
+          if (appointment.payAppointmentId) {
             dispatch(
-              actions.appointment.cancelHarmonyPayment(payAppointmentId)
+              actions.appointment.cancelHarmonyPayment(
+                appointment.payAppointmentId
+              )
             );
           }
 
@@ -710,9 +640,9 @@ export const useProps = ({ params }) => {
         } else {
           dispatch(
             actions.appointment.submitPaymentWithCreditCard(
-              profile?.merchantId || 0,
+              dataLocal.profile?.merchantId || 0,
               message,
-              payAppointmentId,
+              appointment.payAppointmentId,
               moneyUserGiveForStaff,
               "pax",
               parameter
@@ -721,10 +651,10 @@ export const useProps = ({ params }) => {
         }
       } else {
         const resultTxt = result?.ResultTxt || "Transaction failed:";
-        if (payAppointmentId) {
+        if (appointment.payAppointmentId) {
           dispatch(
             actions.appointment.cancelHarmonyPayment(
-              payAppointmentId,
+              appointment.payAppointmentId,
               "transaction fail",
               resultTxt
             )
@@ -764,21 +694,29 @@ export const useProps = ({ params }) => {
           );
 
     const method = getPaymentString(paymentSelected);
-    const total = groupAppointment?.total
-      ? parseFloat(AppUtils.formatNumberFromCurrency(groupAppointment.total))
-      : 0;
-
-    const dueAmount = paymentDetailInfo.dueAmount
+    const total = appointment.groupAppointment?.total
       ? parseFloat(
-          AppUtils.formatNumberFromCurrency(paymentDetailInfo.dueAmount)
+          AppUtils.formatNumberFromCurrency(appointment.groupAppointment.total)
         )
       : 0;
-    if (isOfflineMode) {
+
+    const dueAmount = appointment.paymentDetailInfo.dueAmount
+      ? parseFloat(
+          AppUtils.formatNumberFromCurrency(
+            appointment.paymentDetailInfo.dueAmount
+          )
+        )
+      : 0;
+    if (network.isOfflineMode) {
       _handlePaymentOffLineMode();
       return;
     }
 
-    if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
+    if (
+      moneyUserGiveForStaff == 0 &&
+      appointment.groupAppointment &&
+      total != 0
+    ) {
       alert("Enter amount!");
     } else if (
       (method === "harmony" ||
@@ -791,25 +729,27 @@ export const useProps = ({ params }) => {
       setVisibleBillOfPayment(false);
 
       modalBillRef.current?.setStateFromParent(`0`);
-      if (!_.isEmpty(groupAppointment)) {
+      if (!_.isEmpty(appointment.groupAppointment)) {
         if (method === "harmony") {
           dispatch(actions.app.loadingApp());
           _setupSignalR(
-            profile,
-            token,
-            groupAppointment?.checkoutGroupId,
-            deviceId,
+            dataLocal.profile,
+            dataLocal.token,
+            appointment.groupAppointment?.checkoutGroupId,
+            dataLocal.deviceId,
             method,
             moneyUserGiveForStaff
           );
         } else if (method === "credit_card" || method === "debit_card") {
           let isSetup = false;
-          if (paymentMachineType == PaymentTerminalType.Pax) {
+          if (hardware.paymentMachineType == PaymentTerminalType.Pax) {
             isSetup = _.get(paxMachineInfo, "isSetup");
-          } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-            isSetup = _.get(dejavooMachineInfo, "isSetup");
+          } else if (
+            hardware.paymentMachineType == PaymentTerminalType.Dejavoo
+          ) {
+            isSetup = _.get(hardware.dejavooMachineInfo, "isSetup");
           } else {
-            isSetup = _.get(cloverMachineInfo, "isSetup");
+            isSetup = _.get(hardware.cloverMachineInfo, "isSetup");
           }
           if (isSetup) {
             if (moneyUserGiveForStaff == 0) {
@@ -829,7 +769,7 @@ export const useProps = ({ params }) => {
         } else {
           dispatch(
             actions.appointment.paymentAppointment(
-              groupAppointment?.checkoutGroupId,
+              appointment.groupAppointment?.checkoutGroupId,
               method,
               moneyUserGiveForStaff
             )
@@ -851,8 +791,8 @@ export const useProps = ({ params }) => {
     const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } =
       stateLocal;
 
-    if (_.isEmpty(paymentDetailInfo)) {
-      if (isOfflineMode) {
+    if (_.isEmpty(appointment.paymentDetailInfo)) {
+      if (network.isOfflineMode) {
         const temptTotal = Number(
           AppUtils.formatNumberFromCurrency(subTotalLocal) +
             AppUtils.formatNumberFromCurrency(tipLocal) +
@@ -861,19 +801,19 @@ export const useProps = ({ params }) => {
         ).toFixed(2);
         modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
-        const temptTotal = _.isEmpty(groupAppointment)
+        const temptTotal = _.isEmpty(appointment.groupAppointment)
           ? Number(
               AppUtils.formatNumberFromCurrency(subTotalLocal) +
                 AppUtils.formatNumberFromCurrency(tipLocal) +
                 AppUtils.formatNumberFromCurrency(taxLocal) -
                 AppUtils.formatNumberFromCurrency(discountTotalLocal)
             ).toFixed(2)
-          : groupAppointment?.total;
+          : appointment.groupAppointment?.total;
         modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
     } else {
-      const totalExact = paymentDetailInfo.dueAmount
-        ? paymentDetailInfo.dueAmount
+      const totalExact = appointment.paymentDetailInfo.dueAmount
+        ? appointment.paymentDetailInfo.dueAmount
         : 0;
       modalBillRef.current?.setStateFromParent(`${totalExact}`);
     }
@@ -881,10 +821,10 @@ export const useProps = ({ params }) => {
 
   const _changeStylistBasketLocal = (serviceId, staffId, tip, price) => {
     const { basket } = stateLocal;
-    // listStaffByMerchant
+    // staff.productsByMerchantId
     if (staffId) {
       const temptStaff = AppUtils.getStaffInfoById(
-        listStaffByMerchant,
+        staff.productsByMerchantId,
         staffId
       );
 
@@ -981,7 +921,7 @@ export const useProps = ({ params }) => {
       dataAnymousAppoitment;
 
     const appointmentOfflineMode = {
-      appointmentId: appointmentIdOffline,
+      appointmentId: appointment.appointmentIdOffline,
       firstName: infoUser.firstName,
       lastName: infoUser.lastName,
       phoneNumber: infoUser.phoneNumber,
@@ -989,7 +929,7 @@ export const useProps = ({ params }) => {
       tax: taxLocal ? parseFloat(taxLocal) : 0,
       tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
       discount: discountTotalLocal ? parseFloat(discountTotalLocal) : 0,
-      merchantId: profile.merchantId,
+      merchantId: dataLocal.profile.merchantId,
       services: arryaServicesBuy,
       extras: arrayExtrasBuy,
       products: arrayProductBuy,
@@ -997,7 +937,10 @@ export const useProps = ({ params }) => {
         fromTime !== ""
           ? fromTime
           : formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
-      staffId: staffIdOfline !== 0 ? staffIdOfline : profileStaffLogin.staffId,
+      staffId:
+        staffIdOfline !== 0
+          ? staffIdOfline
+          : dataLocal.profileStaffLogin.staffId,
       customDiscountFixed: customDiscountPercentLocal,
       customDiscountPercent: customDiscountFixedLocal,
       paymentMethod: method,
@@ -1025,14 +968,15 @@ export const useProps = ({ params }) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+          blockAppointmentRef[i].props.appointment.appointmentDetail
+            .appointmentId;
         break;
       }
     }
 
     const appointmentId = isAppointmentIdOpen
       ? isAppointmentIdOpen
-      : isOpenBlockAppointmentId;
+      : appointment.isOpenBlockAppointmentId;
 
     dispatch(
       actions.appointment.addGiftCardIntoBlockAppointment(code, appointmentId)
@@ -1049,15 +993,16 @@ export const useProps = ({ params }) => {
     } = stateLocal || {};
 
     // ------------ Block Booking -------------
-    if (blockAppointments.length > 0) {
+    if (appointment.blockAppointments.length > 0) {
       addBlockAppointment();
       return;
     }
 
     // -------------  Group Appointment  ------------
-    if (!_.isEmpty(groupAppointment)) {
-      const appointments = groupAppointment?.appointments || [];
-      const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
+    if (!_.isEmpty(appointment.groupAppointment)) {
+      const appointments = appointment.groupAppointment?.appointments || [];
+      const mainAppointmentId =
+        appointment.groupAppointment?.mainAppointmentId || 0;
       let body = {};
       // -------------  Add Product  ------------
       if (categoryTypeSelected === "Product") {
@@ -1087,7 +1032,7 @@ export const useProps = ({ params }) => {
             {
               serviceId:
                 productSeleted?.serviceId ?? customServiceSelected.serviceId,
-              // staffId: mainAppointment?.staff?.staffId || profileStaffLogin.staffId,
+              // staffId: mainAppointment?.staff?.staffId || dataLocal.profileStaffLogin.staffId,
               staffId: selectedStaff?.staffId,
               ...(customServiceSelected && {
                 categoryId: customServiceSelected?.categoryId,
@@ -1141,7 +1086,7 @@ export const useProps = ({ params }) => {
           })
         );
 
-        if (!isOfflineMode) {
+        if (!network.isOfflineMode) {
           createNewAppointment(temptBasket);
         }
       } else {
@@ -1160,9 +1105,9 @@ export const useProps = ({ params }) => {
           },
           serviceName: productSeleted?.name ?? "Custom Service",
           staff: {
-            staffId: profileStaffLogin.staffId,
-            imageUrl: profileStaffLogin.imageUrl,
-            displayName: profileStaffLogin.displayName,
+            staffId: dataLocal.profileStaffLogin.staffId,
+            imageUrl: dataLocal.profileStaffLogin.imageUrl,
+            displayName: dataLocal.profileStaffLogin.displayName,
             tip: 0.0,
           },
           ...(customServiceSelected && {
@@ -1192,7 +1137,7 @@ export const useProps = ({ params }) => {
           })
         );
 
-        if (!isOfflineMode) {
+        if (!network.isOfflineMode) {
           createNewAppointment(temptBasket);
         }
       }
@@ -1203,18 +1148,21 @@ export const useProps = ({ params }) => {
 
   const _doPrintClover = (imageUri) => {
     isProcessPrintClover.current = true;
-    const port = _.get(cloverMachineInfo, "port")
-      ? _.get(cloverMachineInfo, "port")
+    const port = _.get(hardware.cloverMachineInfo, "port")
+      ? _.get(hardware.cloverMachineInfo, "port")
       : 80;
-    const url = `wss://${_.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
+    const url = `wss://${_.get(
+      hardware.cloverMachineInfo,
+      "ip"
+    )}:${port}/remote_pay`;
     const printInfo = {
       imageUri,
       url,
       remoteAppId: AppUtils.REMOTE_APP_ID,
       appName: AppUtils.APP_NAME,
       posSerial: AppUtils.POS_SERIAL,
-      token: _.get(cloverMachineInfo, "token")
-        ? _.get(cloverMachineInfo, "token", "")
+      token: _.get(hardware.cloverMachineInfo, "dataLocal.token")
+        ? _.get(hardware.cloverMachineInfo, "dataLocal.token", "")
         : "",
     };
     clover.doPrintWithConnect(printInfo);
@@ -1236,14 +1184,14 @@ export const useProps = ({ params }) => {
 
   const _checkStatusCashier = () => {
     const { portName } = AppUtils.getInfoFromModelNameOfPrinter(
-      printerList,
-      printerSelect
+      dataLocal.printerList,
+      dataLocal.printerSelect
     );
 
     if (portName) {
       _openCashDrawer(portName);
     } else {
-      if (paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
+      if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
         _openCashDrawerClover();
       } else {
         alert("Please connect to your cash drawer.");
@@ -1252,30 +1200,35 @@ export const useProps = ({ params }) => {
   };
 
   const _openCashDrawerClover = () => {
-    const port = _.get(cloverMachineInfo, "port")
-      ? _.get(cloverMachineInfo, "port")
+    const port = _.get(hardware.cloverMachineInfo, "port")
+      ? _.get(hardware.cloverMachineInfo, "port")
       : 80;
-    const url = `wss://${_.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
+    const url = `wss://${_.get(
+      hardware.cloverMachineInfo,
+      "ip"
+    )}:${port}/remote_pay`;
 
     clover.openCashDrawer({
       url,
       remoteAppId: AppUtils.REMOTE_APP_ID,
       appName: AppUtils.APP_NAME,
       posSerial: AppUtils.POS_SERIAL,
-      token: _.get(cloverMachineInfo, "token")
-        ? _.get(cloverMachineInfo, "token", "")
+      token: _.get(hardware.cloverMachineInfo, "dataLocal.token")
+        ? _.get(hardware.cloverMachineInfo, "dataLocal.token", "")
         : "",
     });
   };
 
   const _cancelHarmonyPayment = () => {
     dispatchLocal(CheckoutState.resetPayment());
-    if (payAppointmentId) {
-      dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+    if (appointment.payAppointmentId) {
+      dispatch(
+        actions.appointment.cancelHarmonyPayment(appointment.payAppointmentId)
+      );
     }
 
-    if (!_.isEmpty(connectionSignalR)) {
-      connectionSignalR.stop();
+    if (!_.isEmpty(appointment.connectionSignalR)) {
+      appointment.connectionSignalR.stop();
     }
   };
 
@@ -1288,31 +1241,29 @@ export const useProps = ({ params }) => {
     popupDiscountLocalRef,
     changeTipRef,
     popupCheckDiscountPermissionRef,
-    isGetCategoriesByStaff,
-    isLoadingService: isGetServiceByStaff || isGetProductByStaff,
-    isCustomService: profile?.isCustomService,
-    customerInfoBuyAppointment,
-    groupAppointment,
-    paymentDetailInfo,
-    blockAppointments,
-    isBookingFromCalendar,
-    isDonePayment,
-    categoriesByMerchant,
-    isOfflineMode,
-    customService, // custom service info of merchant
-    staffListCurrentDate, // list staffs working by date
-    loginStaff: profileStaffLogin,
+    isLoadingService: apis.isGetServiceByStaff || apis.isGetProductByStaff,
+    ...dataLocal,
+    ...category,
+    ...network,
+    ...service, // custom service info of merchant
+    // loginStaff: dataLocal.profileStaffLogin,
     isPayment, // show categories or payment
+    ...appointment,
     ...stateLocal,
+    // apis
+    ...apis,
 
+    setSelectStaffFromCalendar,
     // Customer
     displayCustomerInfoPopup: () => {
-      const customerId = customerInfoBuyAppointment?.customerId || 0;
+      const customerId =
+        appointment.customerInfoBuyAppointment?.customerId || 0;
       dispatch(actions.customer.getCustomerInfoById(customerId, true));
     },
 
     displayEnterUserPhonePopup: () => {
-      const { firstName, lastName, phone } = customerInfoBuyAppointment || {};
+      const { firstName, lastName, phone } =
+        appointment.customerInfoBuyAppointment || {};
       popupCustomerInfoRef.current?.setStateFromParent(
         firstName,
         lastName,
@@ -1322,7 +1273,7 @@ export const useProps = ({ params }) => {
     },
 
     addAppointmentCheckout: () => {
-      if (blockAppointments?.length > 0) {
+      if (appointment.blockAppointments?.length > 0) {
         createABlockAppointment();
       }
 
@@ -1334,22 +1285,25 @@ export const useProps = ({ params }) => {
     payBasket: () => {
       const { paymentSelected } = stateLocal || {};
       const method = getPaymentString(paymentSelected);
-      if (isOfflineMode && method === "harmony") {
+      if (network.isOfflineMode && method === "harmony") {
         // TODO: link to payment tab
         // this.scrollTabRef.current?.goToPage(2);
         setIsPayment(true);
         addAppointmentOfflineMode(true);
       } else if (
-        isOfflineMode &&
+        network.isOfflineMode &&
         (method === "credit_card" || method === "debit_card")
       ) {
         alert("Not Support Offline Mode");
-      } else if (method === "harmony" && _.isEmpty(groupAppointment)) {
+      } else if (
+        method === "harmony" &&
+        _.isEmpty(appointment.groupAppointment)
+      ) {
         popupSendLinkInstallRef.current?.setStateFromParent("");
         setVisibleSendLinkPopup(true);
       } else {
         if (method === "harmony" || method === "credit_card") {
-          const dueAmount = paymentDetailInfo?.dueAmount || 0;
+          const dueAmount = appointment.paymentDetailInfo?.dueAmount || 0;
           modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
         }
 
@@ -1375,7 +1329,7 @@ export const useProps = ({ params }) => {
       const { paymentSelected, changeButtonDone } = stateLocal;
       if (
         changeButtonDone &&
-        !isDonePayment &&
+        !appointment.isDonePayment &&
         paymentSelected === "HarmonyPay"
       ) {
       } else {
@@ -1406,8 +1360,8 @@ export const useProps = ({ params }) => {
       }
     },
     displayCategoriesColumn: (staff) => {
-      if (!isOfflineMode) {
-        getCategoriesByStaff(staff.staffId);
+      if (!network.isOfflineMode) {
+        apis.getCategoriesByStaff(staff.staffId);
       }
       dispatchLocal(CheckoutState.selectStaff(staff));
     },
@@ -1421,7 +1375,7 @@ export const useProps = ({ params }) => {
       } = stateLocal || {};
 
       if (categoryTypeSelected === "Extra") {
-        const dataExtra = extrasByMerchant?.filter(
+        const dataExtra = extra.extrasByMerchant?.filter(
           (extra, index) => extra?.isDisabled === 0
         );
 
@@ -1429,8 +1383,8 @@ export const useProps = ({ params }) => {
       } else {
         const data =
           categoryTypeSelected === "Service"
-            ? servicesByMerchant
-            : productsByMerchantId;
+            ? service.servicesByMerchant
+            : product.productsByMerchantId;
 
         if (data?.length > 0) {
           let temptData = data.filter((item) => {
@@ -1440,7 +1394,7 @@ export const useProps = ({ params }) => {
             );
           });
 
-          if (!isOfflineMode && !isBlockBookingFromCalendar) {
+          if (!network.isOfflineMode && !isBlockBookingFromCalendar) {
             if (categoryTypeSelected === "Service") {
               temptData = [...serviceStaff];
             } else if (categoryTypeSelected === "Product") {
@@ -1461,11 +1415,14 @@ export const useProps = ({ params }) => {
         stateLocal;
       const { categoryId, categoryType } = category;
       if (categorySelected?.categoryId !== categoryId) {
-        if (!isOfflineMode && !isBlockBookingFromCalendar) {
+        if (!network.isOfflineMode && !isBlockBookingFromCalendar) {
           if (categoryType?.toString().toLowerCase() === "service") {
-            getServiceByStaff({ categoryId, staffId: selectedStaff?.staffId });
+            apis.getServiceByStaff({
+              categoryId,
+              staffId: selectedStaff?.staffId,
+            });
           } else if (categoryType?.toString().toLowerCase() === "product") {
-            getProductByStaff(categoryId);
+            apis.getProductByStaff(categoryId);
           }
         }
         dispatchLocal(CheckoutState.selectCategory(category));
@@ -1505,10 +1462,10 @@ export const useProps = ({ params }) => {
     getExtrasFromRedux: (product) => {
       const extrasBySort = [];
 
-      for (let i = 0; i < extrasByMerchant.length; i++) {
+      for (let i = 0; i < extra.extrasByMerchant.length; i++) {
         for (let j = 0; j < product?.extras?.length; j++) {
           const extraLocal = product?.extras[j];
-          const extralGlobal = extrasByMerchant[i];
+          const extralGlobal = extra.extrasByMerchant[i];
           if (
             extralGlobal.extraId === extraLocal.extraId &&
             extralGlobal.isDisabled === 0
@@ -1582,7 +1539,7 @@ export const useProps = ({ params }) => {
             };
             break;
         }
-        if (blockAppointments.length > 0) {
+        if (appointment.blockAppointments.length > 0) {
           removeItemInBlockAppointment(dataRemove);
         } else {
           dispatch(
@@ -1610,13 +1567,13 @@ export const useProps = ({ params }) => {
     },
     changeStylist: async (service, appointmentId) => {
       const { fromTime = new Date() } =
-        groupAppointment?.appointments?.find(
+        appointment.groupAppointment?.appointments?.find(
           (appointment) => appointment.appointmentId === appointmentId
         ) || {};
 
       changeStylistRef.current?.setStateFromParent(service, appointmentId);
 
-      if (!isOfflineMode) {
+      if (!network.isOfflineMode) {
         dispatch(
           actions.staff.getStaffService(
             service?.data?.serviceId,
@@ -1633,12 +1590,12 @@ export const useProps = ({ params }) => {
         const appointmentDetail =
           blockAppointmentRef[i].props.appointmentDetail;
         if (
-          appointmentDetail &&
-          appointmentDetail.appointmentId === appointmentIdSelection
+          appointment.appointmentDetail &&
+          appointment.appointmentDetail.appointmentId === appointmentIdSelection
         ) {
           dispatch(
             actions.appointment.updateIdBlockAppointmentOpen(
-              appointmentDetail.appointmentId
+              appointment.appointmentDetail.appointmentId
             )
           );
           blockAppointmentRef[i].setStateFromParent(false);
@@ -1656,14 +1613,14 @@ export const useProps = ({ params }) => {
       dispatchLocal(CheckoutState.visibleEditProductForm(true));
     },
     removeBlockAppointment: () => {
-      const customerId = customerInfoBuyAppointment.customerId
-        ? customerInfoBuyAppointment.customerId
+      const customerId = appointment.customerInfoBuyAppointment.customerId
+        ? appointment.customerInfoBuyAppointment.customerId
         : 0;
 
       dispatch(
         actions.appointment.cancleAppointment(
           appointmentId,
-          profile.merchantId,
+          dataLocal.profile.merchantId,
           customerId,
           true,
           false
@@ -1673,14 +1630,19 @@ export const useProps = ({ params }) => {
     createABlockAppointment: () => {
       const { selectedStaff } = stateLocal || {};
 
-      let fromTime = fromTimeBlockAppointment;
-      if (blockAppointments && blockAppointments.length > 0) {
-        fromTime = _.get(blockAppointments, "0.fromTime")
-          ? moment(_.get(blockAppointments, "0.fromTime")).local().format()
+      let fromTime = appointment.fromTimeBlockAppointment;
+      if (
+        appointment.blockAppointments &&
+        appointment.blockAppointments.length > 0
+      ) {
+        fromTime = _.get(appointment.blockAppointments, "0.fromTime")
+          ? moment(_.get(appointment.blockAppointments, "0.fromTime"))
+              .local()
+              .format()
           : new Date();
       }
 
-      const firstAppointment = blockAppointments[0];
+      const firstAppointment = appointment.blockAppointments[0];
 
       if (
         firstAppointment &&
@@ -1689,28 +1651,28 @@ export const useProps = ({ params }) => {
       ) {
         dispatch(
           actions.appointment.createAppointmentWaiting(
-            profile.merchantId,
+            dataLocal.profile.merchantId,
             fromTime,
-            customerInfoBuyAppointment?.userId || 0,
-            customerInfoBuyAppointment?.customerId || 0,
-            customerInfoBuyAppointment?.firstName || "",
-            customerInfoBuyAppointment?.lastName || "",
-            customerInfoBuyAppointment?.phone || "",
-            bookingGroupId,
+            appointment.customerInfoBuyAppointment?.userId || 0,
+            appointment.customerInfoBuyAppointment?.customerId || 0,
+            appointment.customerInfoBuyAppointment?.firstName || "",
+            appointment.customerInfoBuyAppointment?.lastName || "",
+            appointment.customerInfoBuyAppointment?.phone || "",
+            appointment.bookingGroupId,
             selectedStaff?.staffId ?? 0
           )
         );
       } else {
         dispatch(
           actions.appointment.createBlockAppointment(
-            profile.merchantId,
+            dataLocal.profile.merchantId,
             fromTime,
-            customerInfoBuyAppointment?.userId || 0,
-            customerInfoBuyAppointment?.customerId || 0,
-            customerInfoBuyAppointment?.firstName || "",
-            customerInfoBuyAppointment?.lastName || "",
-            customerInfoBuyAppointment?.phone || "",
-            bookingGroupId,
+            appointment.customerInfoBuyAppointment?.userId || 0,
+            appointment.customerInfoBuyAppointment?.customerId || 0,
+            appointment.customerInfoBuyAppointment?.firstName || "",
+            appointment.customerInfoBuyAppointment?.lastName || "",
+            appointment.customerInfoBuyAppointment?.phone || "",
+            appointment.bookingGroupId,
             selectedStaff?.staffId ?? 0
           )
         );
@@ -1730,14 +1692,15 @@ export const useProps = ({ params }) => {
       for (let i = 0; i < blockAppointmentRef.length; i++) {
         if (!blockAppointmentRef[i].state.isCollapsed) {
           isAppointmentIdOpen =
-            blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+            blockAppointmentRef[i].props.appointment.appointmentDetail
+              .appointmentId;
           break;
         }
       }
 
       const appointmentId = isAppointmentIdOpen
         ? isAppointmentIdOpen
-        : isOpenBlockAppointmentId;
+        : appointment.isOpenBlockAppointmentId;
 
       if (categoryTypeSelected === "Product") {
         dispatch(
@@ -1799,7 +1762,7 @@ export const useProps = ({ params }) => {
       dispatchLocal(CheckoutState.visiblePopupDiscountLocal(false)); // reset
     },
     showModalDiscount: (appointmentId) => {
-      if (_.isEmpty(connectionSignalR)) {
+      if (_.isEmpty(appointment.connectionSignalR)) {
         const {
           subTotalLocal,
           discountTotalLocal,
@@ -1808,7 +1771,7 @@ export const useProps = ({ params }) => {
         } = stateLocal || {};
 
         if (appointmentId !== -1) {
-          const appointment = groupAppointment?.appointments?.find(
+          const appointment = appointment.groupAppointment?.appointments?.find(
             (appointment) => appointment.appointmentId === appointmentId
           );
           const { services, products, extras, giftCards } = appointment;
@@ -1845,7 +1808,7 @@ export const useProps = ({ params }) => {
       }
     },
     showModalTipAppointment: (appointmentId, tip, subTotal, tipPercent) => {
-      if (_.isEmpty(connectionSignalR)) {
+      if (_.isEmpty(appointment.connectionSignalR)) {
         changeTipRef.current?.setStateFromParent(
           appointmentId,
           tip,
@@ -1880,12 +1843,14 @@ export const useProps = ({ params }) => {
     },
     clearDataConfirm: () => {
       const { isDrawer } = stateLocal;
-      if (!_.isEmpty(connectionSignalR)) {
-        connectionSignalR.stop();
+      if (!_.isEmpty(appointment.connectionSignalR)) {
+        appointment.connectionSignalR.stop();
       }
 
-      if (payAppointmentId) {
-        dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+      if (appointment.payAppointmentId) {
+        dispatch(
+          actions.appointment.cancelHarmonyPayment(appointment.payAppointmentId)
+        );
       }
 
       // reset về page appointment,  // !
@@ -1903,32 +1868,33 @@ export const useProps = ({ params }) => {
       dispatch(actions.appointment.changeFlagSigninAppointment());
       dispatch(actions.appointment.resetGroupAppointment());
 
-      if (isCancelAppointment) {
+      if (appointment.isCancelAppointment) {
         const app =
-          groupAppointment?.appointments?.length > 0
-            ? groupAppointment.appointments[0]
+          appointment.groupAppointment?.appointments?.length > 0
+            ? appointment.groupAppointment.appointments[0]
             : null;
 
         // Cancel appointment
         if (
           app &&
-          groupAppointment?.appointments &&
-          groupAppointment?.appointments.length === 1
+          appointment.groupAppointment?.appointments &&
+          appointment.groupAppointment?.appointments.length === 1
         ) {
           if (
             app.services.length + app.products.length + app.giftCards.length ===
             0
           ) {
-            const mainAppointmentId = groupAppointment?.mainAppointmentId
-              ? groupAppointment.mainAppointmentId
+            const mainAppointmentId = appointment.groupAppointment
+              ?.mainAppointmentId
+              ? appointment.groupAppointment.mainAppointmentId
               : 0;
-            const customerId = customerInfoBuyAppointment.customerId
-              ? customerInfoBuyAppointment.customerId
+            const customerId = appointment.customerInfoBuyAppointment.customerId
+              ? appointment.customerInfoBuyAppointment.customerId
               : 0;
             dispatch(
               actions.appointment.cancleAppointment(
                 mainAppointmentId,
-                profile.merchantId,
+                dataLocal.profile.merchantId,
                 customerId
               )
             );
@@ -1936,24 +1902,31 @@ export const useProps = ({ params }) => {
         }
 
         // Book from calendar
-        if (isBookingFromCalendar) {
-          if (blockAppointments?.length > 0) {
+        if (appointment.isBookingFromCalendar) {
+          if (appointment.blockAppointments?.length > 0) {
             const app =
-              blockAppointments?.length > 0 ? blockAppointments[0] : null;
-            if (app && blockAppointments && blockAppointments?.length === 1) {
+              appointment.blockAppointments?.length > 0
+                ? appointment.blockAppointments[0]
+                : null;
+            if (
+              app &&
+              appointment.blockAppointments &&
+              appointment.blockAppointments?.length === 1
+            ) {
               if (
                 app.services.length +
                   app.products.length +
                   app.giftCards.length ===
                 0
               ) {
-                const customerId = customerInfoBuyAppointment.customerId
-                  ? customerInfoBuyAppointment.customerId
+                const customerId = appointment.customerInfoBuyAppointment
+                  .customerId
+                  ? appointment.customerInfoBuyAppointment.customerId
                   : 0;
                 dispatch(
                   actions.appointment.cancleAppointment(
-                    isOpenBlockAppointmentId,
-                    profile.merchantId,
+                    appointment.isOpenBlockAppointmentId,
+                    dataLocal.profile.merchantId,
                     customerId
                   )
                 );
@@ -1962,22 +1935,23 @@ export const useProps = ({ params }) => {
           }
 
           if (
-            groupAppointment?.appointments?.length > 0 &&
-            appointmentIdBookingFromCalendar
+            appointment.groupAppointment?.appointments?.length > 0 &&
+            appointment.appointmentIdBookingFromCalendar
           ) {
             const app =
-              groupAppointment?.appointments?.length > 0
-                ? groupAppointment.appointments[0]
+              appointment.groupAppointment?.appointments?.length > 0
+                ? appointment.groupAppointment.appointments[0]
                 : null;
 
-            const mainAppointmentId = groupAppointment?.mainAppointmentId
-              ? groupAppointment.mainAppointmentId
+            const mainAppointmentId = appointment.groupAppointment
+              ?.mainAppointmentId
+              ? appointment.groupAppointment.mainAppointmentId
               : 0;
 
             if (
               app &&
-              groupAppointment?.appointments &&
-              groupAppointment?.appointments.length === 1
+              appointment.groupAppointment?.appointments &&
+              appointment.groupAppointment?.appointments.length === 1
             ) {
               if (
                 app.services.length +
@@ -1985,14 +1959,15 @@ export const useProps = ({ params }) => {
                   app.giftCards.length ===
                 0
               ) {
-                const customerId = customerInfoBuyAppointment.customerId
-                  ? customerInfoBuyAppointment.customerId
+                const customerId = appointment.customerInfoBuyAppointment
+                  .customerId
+                  ? appointment.customerInfoBuyAppointment.customerId
                   : 0;
 
                 dispatch(
                   actions.appointment.cancleAppointment(
-                    appointmentIdBookingFromCalendar,
-                    profile.merchantId,
+                    appointment.appointmentIdBookingFromCalendar,
+                    dataLocal.profile.merchantId,
                     customerId
                   )
                 );
@@ -2001,16 +1976,19 @@ export const useProps = ({ params }) => {
           }
         }
 
-        if (!isBookingFromCalendar && appointmentIdBookingFromCalendar == 0) {
+        if (
+          !appointment.isBookingFromCalendar &&
+          appointment.appointmentIdBookingFromCalendar == 0
+        ) {
           const app =
-            groupAppointment?.appointments?.length > 0
-              ? groupAppointment.appointments[0]
+            appointment.groupAppointment?.appointments?.length > 0
+              ? appointment.groupAppointment.appointments[0]
               : null;
 
           if (
             app &&
-            groupAppointment?.appointments &&
-            groupAppointment?.appointments.length === 1
+            appointment.groupAppointment?.appointments &&
+            appointment.groupAppointment?.appointments.length === 1
           ) {
             if (
               app.services.length +
@@ -2018,17 +1996,19 @@ export const useProps = ({ params }) => {
                 app.giftCards.length ===
               0
             ) {
-              const mainAppointmentId = groupAppointment?.mainAppointmentId
-                ? groupAppointment.mainAppointmentId
+              const mainAppointmentId = appointment.groupAppointment
+                ?.mainAppointmentId
+                ? appointment.groupAppointment.mainAppointmentId
                 : 0;
-              const customerId = customerInfoBuyAppointment.customerId
-                ? customerInfoBuyAppointment.customerId
+              const customerId = appointment.customerInfoBuyAppointment
+                .customerId
+                ? appointment.customerInfoBuyAppointment.customerId
                 : 0;
 
               dispatch(
                 actions.appointment.cancleAppointment(
                   mainAppointmentId,
-                  profile.merchantId,
+                  dataLocal.profile.merchantId,
                   customerId
                 )
               );
@@ -2036,25 +2016,32 @@ export const useProps = ({ params }) => {
           }
         }
 
-        if (isOpenBlockAppointmentId) {
+        if (appointment.isOpenBlockAppointmentId) {
           const app =
-            blockAppointments?.length > 0 ? blockAppointments[0] : null;
+            appointment.blockAppointments?.length > 0
+              ? appointment.blockAppointments[0]
+              : null;
 
-          if (app && blockAppointments && blockAppointments?.length === 1) {
+          if (
+            app &&
+            appointment.blockAppointments &&
+            appointment.blockAppointments?.length === 1
+          ) {
             if (
               app.services.length +
                 app.products.length +
                 app.giftCards.length ===
               0
             ) {
-              const customerId = customerInfoBuyAppointment.customerId
-                ? customerInfoBuyAppointment.customerId
+              const customerId = appointment.customerInfoBuyAppointment
+                .customerId
+                ? appointment.customerInfoBuyAppointment.customerId
                 : 0;
 
               dispatch(
                 actions.appointment.cancleAppointment(
-                  isOpenBlockAppointmentId,
-                  profile.merchantId,
+                  appointment.isOpenBlockAppointmentId,
+                  dataLocal.profile.merchantId,
                   customerId
                 )
               );
@@ -2115,12 +2102,12 @@ export const useProps = ({ params }) => {
       // this.pushAppointmentIdOfflineIntoWebview();
 
       const { portName } = getInfoFromModelNameOfPrinter(
-        printerList,
-        printerSelect
+        dataLocal.printerList,
+        dataLocal.printerSelect
       );
       const { paymentSelected } = stateLocal;
-      if (!_.isEmpty(connectionSignalR)) {
-        connectionSignalR.stop();
+      if (!_.isEmpty(appointment.connectionSignalR)) {
+        appointment.connectionSignalR.stop();
       }
 
       dispatch(actions.appointment.closeModalPaymentCompleted());
@@ -2129,19 +2116,19 @@ export const useProps = ({ params }) => {
       // this.props.pushAppointmentIdOfflineIntoWebview();
       const { paymentSelected } = stateLocal;
 
-      if (!_.isEmpty(connectionSignalR)) {
-        connectionSignalR.stop();
+      if (!_.isEmpty(appointment.connectionSignalR)) {
+        appointment.connectionSignalR.stop();
       }
 
       if (paymentSelected === "Cash" || paymentSelected === "Other") {
         const { portName } = AppUtils.getInfoFromModelNameOfPrinter(
-          printerList,
-          printerSelect
+          dataLocal.printerList,
+          dataLocal.printerSelect
         );
 
         if (portName) {
           if (
-            (paymentSelected === "Other" && profile?.isOpenCashier) ||
+            (paymentSelected === "Other" && dataLocal.profile?.isOpenCashier) ||
             paymentSelected === "Cash"
           ) {
             openCashDrawer(portName);
@@ -2154,10 +2141,12 @@ export const useProps = ({ params }) => {
           dispatch(actions.appointment.resetPayment());
         } else {
           if (
-            (paymentSelected === "Other" && profile?.isOpenCashier) ||
+            (paymentSelected === "Other" && dataLocal.profile?.isOpenCashier) ||
             paymentSelected === "Cash"
           ) {
-            if (paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
+            if (
+              hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover
+            ) {
               _openCashDrawerClover();
             } else {
               setTimeout(() => {
@@ -2184,7 +2173,7 @@ export const useProps = ({ params }) => {
     },
     cancelInvoicePrint: _cancelInvoicePrint,
     doPrintClover: _doPrintClover,
-    mainAppointmentId: groupAppointment?.mainAppointmentId || 0,
+    mainAppointmentId: appointment.groupAppointment?.mainAppointmentId || 0,
 
     // PopupProcessingCredit
     visibleProcessingCredit,
@@ -2192,12 +2181,12 @@ export const useProps = ({ params }) => {
       if (Platform.OS === "android") {
         PoslinkAndroid.cancelTransaction((data) => {});
       } else {
-        if (paymentMachineType == "Clover") {
+        if (hardware.paymentMachineType == "Clover") {
           if (isProcessPrintClover.current) {
             alert(i18n.t("PleaseWait"));
             return;
           }
-        } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+        } else if (hardware.paymentMachineType == PaymentTerminalType.Dejavoo) {
           //Dejavoo can not cancel transaction by api
           alert(i18n.t("PleaseWait"));
           return;
@@ -2209,8 +2198,12 @@ export const useProps = ({ params }) => {
           PosLink.cancelTransaction();
         }
 
-        if (payAppointmentId) {
-          dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+        if (appointment.payAppointmentId) {
+          dispatch(
+            actions.appointment.cancelHarmonyPayment(
+              appointment.payAppointmentId
+            )
+          );
         }
         setVisibleProcessingCredit(false);
         dispatchLocal(CheckoutState.changeButtonDone(false));
@@ -2260,12 +2253,12 @@ export const useProps = ({ params }) => {
         customDiscountFixedLocal,
       } = stateLocal;
 
-      if (blockAppointments?.length > 0) {
+      if (appointment.blockAppointments?.length > 0) {
         _addGiftCardIntoBlockAppointment(code);
         return;
       }
 
-      if (!_.isEmpty(groupAppointment)) {
+      if (!_.isEmpty(appointment.groupAppointment)) {
         if (paymentSelected === "Gift Card") {
           dispatch(
             actions.appointment.checkSerialNumber(code, false, false, true)
@@ -2281,20 +2274,20 @@ export const useProps = ({ params }) => {
         );
         const method = getPaymentString(paymentSelected);
         const bodyAction = {
-          merchantId: profile.merchantId,
-          userId: customerInfoBuyAppointment?.userId || 0,
+          merchantId: dataLocal.profile.merchantId,
+          userId: appointment.customerInfoBuyAppointment?.userId || 0,
           status: "checkin",
           services: [],
           extras: [],
           products: [],
           fromTime: formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
-          staffId: profileStaffLogin?.staffId || 0,
+          staffId: dataLocal.profileStaffLogin?.staffId || 0,
           customDiscountFixed: customDiscountFixedLocal,
           customDiscountPercent: customDiscountPercentLocal,
-          firstName: customerInfoBuyAppointment?.firstName || "",
-          lastName: customerInfoBuyAppointment?.lastName || "",
-          phoneNumber: customerInfoBuyAppointment?.phone || "",
-          customerId: customerInfoBuyAppointment?.customerId || 0,
+          firstName: appointment.customerInfoBuyAppointment?.firstName || "",
+          lastName: appointment.customerInfoBuyAppointment?.lastName || "",
+          phoneNumber: appointment.customerInfoBuyAppointment?.phone || "",
+          customerId: appointment.customerInfoBuyAppointment?.customerId || 0,
         };
         const optionAction = {
           method: "POST",
@@ -2304,7 +2297,7 @@ export const useProps = ({ params }) => {
           isLoading: true,
           paidAmount: moneyUserGiveForStaff,
           creditCardInfo: false,
-          merchantId: profile.merchantId,
+          merchantId: dataLocal.profile.merchantId,
           isPayment: false,
         };
 

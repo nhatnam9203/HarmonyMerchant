@@ -41,47 +41,35 @@ import { CustomerPanel } from "./widgets";
 const SALON_FLEX = 6.1;
 const BASKET_FLEX = 3.9;
 
-export const Layout = ({
-  onChangeModePayment,
-  categoriesRef,
-  popupDiscountRef,
-  popupDiscountLocalRef,
-  visiblePopupDiscountLocal,
-  onRequestClosePopupDiscountLocal,
-  callbackDiscountToParent,
-  ...props
-}) => {
+export const Layout = (props) => {
   return (
     <View style={styles.container}>
       <SalonHomeContextProvider value={props}>
         <CustomerPanel />
-        <View
-          style={[
-            layouts.horizontal,
-            layouts.fill,
-            // { flexDirection: "row-reverse" },
-          ]}
-        >
+        <View style={[layouts.horizontal, layouts.fill]}>
           <SalonContent
-            onChangeTab={onChangeModePayment}
-            categoriesRef={categoriesRef}
+            onChangeTab={props.onChangeModePayment}
+            categoriesRef={props.categoriesRef}
             isPayment={props.isPayment}
           />
           <BasketContent />
         </View>
-        <PopupDiscount ref={popupDiscountRef} title={i18n.t("Discount")} />
+        <PopupDiscount
+          ref={props.popupDiscountRef}
+          title={i18n.t("Discount")}
+        />
         <PopupBlockDiscount title={i18n.t("Discount")} />
         <PopupDiscountLocal
-          ref={popupDiscountLocalRef}
-          visible={visiblePopupDiscountLocal}
+          ref={props.popupDiscountLocalRef}
+          visible={props.visiblePopupDiscountLocal}
           title={i18n.t("Discount")}
-          onRequestClose={onRequestClosePopupDiscountLocal}
+          onRequestClose={props.onRequestClosePopupDiscountLocal}
           callbackDiscountToParent={(
             customDiscountPercentLocal,
             customDiscountFixedLocal,
             discountTotalLocal
           ) =>
-            callbackDiscountToParent(
+            props.callbackDiscountToParent(
               customDiscountPercentLocal,
               customDiscountFixedLocal,
               discountTotalLocal
@@ -256,7 +244,7 @@ export const Layout = ({
   );
 };
 
-const SalonContent = ({ onChangeTab, categoriesRef, isPayment = false }) => {
+const SalonContent = ({ categoriesRef, isPayment = false }) => {
   return (
     <View style={{ flex: SALON_FLEX, zIndex: 100 }}>
       {isPayment ? <Payments /> : <Categories ref={categoriesRef} />}

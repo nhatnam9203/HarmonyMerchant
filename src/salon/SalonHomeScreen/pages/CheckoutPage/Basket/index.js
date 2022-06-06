@@ -25,19 +25,7 @@ export const Basket = () => {
     isShowColAmount,
     isBlockBookingFromCalendar,
     addAppointmentCheckout,
-    isDonePayment,
-    tabCurrent,
     basket,
-    paymentSelected,
-    changeButtonDone,
-    isCancelHarmonyPay,
-    cancelHarmonyPayment,
-    payBasket,
-    confimPayOfflinemode,
-    bookAppointmentFromCalendar,
-    selectPayment,
-    bookBlockAppointment,
-    checkBlockAppointment,
     addBlockAppointmentRef,
     language,
     subTotalLocal,
@@ -81,8 +69,8 @@ export const Basket = () => {
   }, [blockAppointments, groupAppointment?.appointments, isOfflineMode]);
 
   const checkoutPayments =
-    !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments
-      ? paymentDetailInfo.checkoutPayments
+    !_.isEmpty(paymentDetailInfo) && paymentDetailInfo?.checkoutPayments
+      ? paymentDetailInfo?.checkoutPayments
       : [];
 
   const length_blockAppointments = blockAppointments
@@ -104,8 +92,8 @@ export const Basket = () => {
     ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) ||
       (blockAppointments.length && isShowAddBlock) > 0);
 
-  const paidAmounts = paymentDetailInfo.paidAmounts
-    ? paymentDetailInfo.paidAmounts.slice(0).reverse()
+  const paidAmounts = paymentDetailInfo?.paidAmounts
+    ? paymentDetailInfo?.paidAmounts.slice(0).reverse()
     : [];
 
   const _renderBlockAppointment = () => {
@@ -155,8 +143,8 @@ export const Basket = () => {
         formatNumberFromCurrency(taxLocal) -
         formatNumberFromCurrency(discountTotalLocal)
     );
-    const paidAmounts = paymentDetailInfo.paidAmounts
-      ? paymentDetailInfo.paidAmounts.slice(0).reverse()
+    const paidAmounts = paymentDetailInfo?.paidAmounts
+      ? paymentDetailInfo?.paidAmounts.slice(0).reverse()
       : [];
     const tempTotal = isOfflineMode ? totalLocal : temptGrandTotal;
 
