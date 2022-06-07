@@ -217,7 +217,7 @@ export const useProps = (props) => {
     };
   }, []);
 
-  const _addBlockAppointment = async () => {
+  const _addBlockAppointment = async (customService) => {
     const {
       categoryTypeSelected,
       productSeleted,
@@ -242,19 +242,13 @@ export const useProps = (props) => {
       : appointment.isOpenBlockAppointmentId;
 
     if (categoryTypeSelected === "Product") {
+      const tempItem = Helpers.createProductItemAddAppointment(
+        productSeleted,
+        amountRef.current?.state.quanlity
+      );
       dispatch(
         actions.appointment.addItemIntoAppointment(
-          {
-            services: [],
-            extras: [],
-            products: [
-              {
-                productId: productSeleted?.productId,
-                quantity: this.amountRef.current?.state.quanlity,
-              },
-            ],
-            giftCards: [],
-          },
+          tempItem,
           appointmentId,
           false,
           true
@@ -267,26 +261,14 @@ export const useProps = (props) => {
       for (let i = 0; i < arrSelectedExtra.length; i++) {
         temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
       }
+      const tempItem = Helpers.createServiceItemAddAppointment(
+        productSeleted ?? customServiceSelected ?? customService,
+        selectedStaff?.staffId,
+        temptExtra
+      );
       dispatch(
         actions.appointment.addItemIntoAppointment(
-          {
-            services: [
-              {
-                serviceId:
-                  productSeleted?.serviceId ?? customServiceSelected?.serviceId,
-                ...(selectedStaff?.staffId && {
-                  staffId: selectedStaff?.staffId,
-                }),
-                ...(customServiceSelected && {
-                  categoryId: customServiceSelected?.categoryId,
-                  price: customServiceSelected?.price,
-                }),
-              },
-            ],
-            extras: temptExtra,
-            products: [],
-            giftCards: [],
-          },
+          tempItem,
           appointmentId,
           false,
           true
@@ -295,110 +277,6 @@ export const useProps = (props) => {
     }
 
     dispatchLocal(CheckoutState.selectCategory(null)); // reset
-  };
-
-  const createItemsAddBasket = (basket) => {
-    const { selectedStaff } = stateLocal || {};
-
-    const arrayProductBuy = [];
-    const arryaServicesBuy = [];
-    const arrayExtrasBuy = [];
-    for (let i = 0; i < basket?.length; i++) {
-      if (basket[i].type === "Product") {
-        arrayProductBuy.push({
-          ...basket[i],
-          productId: basket[i].data.productId,
-          quantity: basket[i].quanlitySet,
-        });
-      } else if (basket[i].type === "Service") {
-        arryaServicesBuy.push({
-          ...basket[i],
-          serviceId: basket[i].data.serviceId,
-          staffId: selectedStaff?.staffId,
-          tipAmount: 0,
-        });
-      } else if (basket[i].type === "Extra") {
-        arrayExtrasBuy.push({
-          ...basket[i],
-          extraId: basket[i].data.extraId,
-        });
-      }
-    }
-    return {
-      arrayProductBuy,
-      arryaServicesBuy,
-      arrayExtrasBuy,
-      staffId: selectedStaff?.staffId,
-    };
-  };
-
-  const getBasketOnline = (appointments) => {
-    const arrayProductBuy = [];
-    const arryaServicesBuy = [];
-    const arrayExtrasBuy = [];
-    const arrayGiftCards = [];
-    const promotionNotes = [];
-    appointments.forEach((appointment) => {
-      const note = appointment?.promotionNotes?.note || "";
-      if (note) {
-        promotionNotes.push(note);
-      }
-      // ------ Push Service -------
-      appointment?.services.forEach((service) => {
-        arryaServicesBuy.push({
-          type: "Service",
-          data: {
-            name: service?.serviceName || "",
-            price: service?.price || "",
-          },
-          staff: service?.staff || false,
-          note: service?.note || "",
-        });
-      });
-
-      // ------ Push Product -------
-      appointment?.products.forEach((product) => {
-        arrayProductBuy.push({
-          type: "Product",
-          data: {
-            name: product?.productName || "",
-            price: product?.price || "",
-          },
-          quanlitySet: product?.quantity || "",
-        });
-      });
-
-      // ------ Push Product -------
-      appointment?.extras.forEach((extra) => {
-        arrayExtrasBuy.push({
-          type: "Extra",
-          data: {
-            name: extra?.extraName || "",
-            price: extra?.price || "",
-          },
-        });
-      });
-
-      // ------ Push Gift Card -------
-      appointment?.giftCards.forEach((gift) => {
-        arrayGiftCards.push({
-          type: "GiftCards",
-          data: {
-            name: gift?.name || "Gift Card",
-            price: gift?.price || "",
-          },
-          quanlitySet: gift?.quantity || "",
-        });
-      });
-    });
-
-    return {
-      arryaServicesBuy,
-      arrayProductBuy,
-      arrayExtrasBuy,
-      arrayGiftCards,
-      promotionNotes,
-    };
   };
 
   const createNewAppointment = async (basket) => {
@@ -410,7 +288,7 @@ export const useProps = (props) => {
     } = stateLocal || {};
 
     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
-      createItemsAddBasket(basket);
+      Helpers.createItemAddBasket(basket, selectedStaff?.staffId);
 
     const moneyUserGiveForStaff = parseFloat(
       AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
@@ -741,7 +619,7 @@ export const useProps = (props) => {
     } else {
       setVisibleBillOfPayment(false);
 
-      modalBillRef.current?.setStateFromParent(`0`);
+      modalBillRef.current?.setStateFromParent("0");
       if (!_.isEmpty(appointment.groupAppointment)) {
         if (method === "harmony") {
           dispatch(actions.app.loadingApp());
@@ -880,40 +758,6 @@ export const useProps = (props) => {
     }
   };
 
-  const getBasketOffline = () => {
-    const { basket, selectedStaff } = stateLocal;
-    const arrayProductBuy = [];
-    const arryaServicesBuy = [];
-    const arrayExtrasBuy = [];
-    for (let i = 0; i < basket?.length; i++) {
-      if (basket[i].type === "Product") {
-        arrayProductBuy.push({
-          ...basket[i],
-          productId: basket[i].data.productId,
-          quantity: basket[i].quanlitySet,
-        });
-      } else if (basket[i].type === "Service") {
-        arryaServicesBuy.push({
-          ...basket[i],
-          serviceId: basket[i].data.serviceId,
-          staffId: selectedStaff?.staffId,
-          tipAmount: 0,
-        });
-      } else if (basket[i].type === "Extra") {
-        arrayExtrasBuy.push({
-          ...basket[i],
-          extraId: basket[i].data.extraId,
-        });
-      }
-    }
-    return {
-      arrayProductBuy,
-      arryaServicesBuy,
-      arrayExtrasBuy,
-      staffId: selectedStaff?.staffId,
-    };
-  };
-
   const addAppointmentOfflineMode = (isHarmonyOffline = false) => {
     const {
       paymentSelected,
@@ -926,10 +770,15 @@ export const useProps = (props) => {
       discountTotalLocal,
       staffIdOfline,
       fromTime,
+      basket,
+      selectedStaff,
     } = stateLocal || {};
 
     let method = Helpers.getPaymentString(paymentSelected);
-    const dataAnymousAppoitment = getBasketOffline();
+    const dataAnymousAppoitment = Helpers.getBasketOffline(
+      basket,
+      selectedStaff?.staffId
+    );
     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
       dataAnymousAppoitment;
 
@@ -996,7 +845,7 @@ export const useProps = (props) => {
     );
   };
 
-  const _addAmount = async () => {
+  const _addAmount = async (customService) => {
     const {
       categoryTypeSelected,
       productSeleted,
@@ -1005,10 +854,9 @@ export const useProps = (props) => {
       customServiceSelected,
     } = stateLocal || {};
 
-    console.log(customServiceSelected);
     // ------------ Block Booking -------------
     if (appointment.blockAppointments.length > 0) {
-      _addBlockAppointment();
+      _addBlockAppointment(customService);
       return;
     }
 
@@ -1020,17 +868,10 @@ export const useProps = (props) => {
       let body = {};
       // -------------  Add Product  ------------
       if (categoryTypeSelected === "Product") {
-        body = {
-          services: [],
-          extras: [],
-          products: [
-            {
-              productId: productSeleted?.productId,
-              quantity: this.amountRef.current?.state.quanlity,
-            },
-          ],
-          giftCards: [],
-        };
+        body = Helpers.createProductItemAddAppointment(
+          productSeleted,
+          amountRef.current?.state.quanlity
+        );
       } else {
         //  -------------Add Extra , Service ---------
         const mainAppointment = appointments.find(
@@ -1041,23 +882,10 @@ export const useProps = (props) => {
           temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
         }
 
-        body = {
-          services: [
-            {
-              serviceId:
-                productSeleted?.serviceId ?? customServiceSelected.serviceId,
-              // staffId: mainAppointment?.staff?.staffId || dataLocal.profileStaffLogin.staffId,
-              staffId: selectedStaff?.staffId,
-              ...(customServiceSelected && {
-                categoryId: customServiceSelected?.categoryId,
-                price: customServiceSelected?.price,
-              }),
-            },
-          ],
-          extras: temptExtra,
-          products: [],
-          giftCards: [],
-        };
+        body = Helpers.createServiceItemAddAppointment(
+          productSeleted ?? customServiceSelected ?? customService,
+          selectedStaff?.staffId
+        );
       }
 
       if (appointments.length > 1) {
@@ -1077,20 +905,15 @@ export const useProps = (props) => {
     }
     // ------------- Create  Group Appointment  ------------
     else {
-      // Handle add from tab check out
       // -------------  Add Product  ------------
       if (categoryTypeSelected === "Product") {
         const temptBasket = [];
-        temptBasket.unshift({
-          type: "Product",
-          id: `${productSeleted?.productId}_pro`,
-          data: {
-            name: productSeleted?.name || "",
-            productId: productSeleted?.productId || 0,
-            price: productSeleted?.price || 0,
-          },
-          quanlitySet: amountRef?.current?.state.quanlity || 1,
-        });
+        temptBasket.unshift(
+          Helpers.createProductItemAddBasket(
+            productSeleted,
+            amountRef?.current?.state.quanlity
+          )
+        );
 
         dispatchLocal(
           CheckoutState.setBasket({
@@ -1106,41 +929,28 @@ export const useProps = (props) => {
       } else {
         //  -------------Add Extra , Service ---------
         const temptBasket = [];
-        temptBasket.unshift({
-          type: "Service",
-          id: `${
-            productSeleted?.serviceId ?? customServiceSelected?.serviceId
-          }_ser`,
-          data: {
-            name: productSeleted?.name ?? "Custom Service",
-            serviceId:
-              productSeleted?.serviceId ?? customServiceSelected?.serviceId,
-            price: productSeleted?.price ?? customServiceSelected?.price,
-          },
-          serviceName: productSeleted?.name ?? "Custom Service",
-          staff: {
-            staffId: dataLocal.profileStaffLogin.staffId,
-            imageUrl: dataLocal.profileStaffLogin.imageUrl,
-            displayName: dataLocal.profileStaffLogin.displayName,
-            tip: 0.0,
-          },
-          ...(customServiceSelected && {
-            categoryId: customServiceSelected?.categoryId,
-            price: customServiceSelected?.price,
-          }),
-        });
+
+        const staffInfo = {
+          staffId: dataLocal.profileStaffLogin.staffId,
+          imageUrl: dataLocal.profileStaffLogin.imageUrl,
+          displayName: dataLocal.profileStaffLogin.displayName,
+          tip: 0.0,
+        };
+
+        temptBasket.unshift(
+          Helpers.createServiceItemAddBasket(
+            productSeleted ?? customServiceSelected ?? customService,
+            staffInfo
+          )
+        );
 
         for (let i = 0; i < arrSelectedExtra.length; i++) {
-          temptBasket.unshift({
-            type: "Extra",
-            id: `${arrSelectedExtra[i]?.extraId}_extra`,
-            data: {
-              name: arrSelectedExtra[i]?.name,
-              extraId: arrSelectedExtra[i]?.extraId,
-              price: arrSelectedExtra[i]?.price,
-            },
-            serviceName: productSeleted?.name,
-          });
+          temptBasket.unshift(
+            Helpers.createExtraItemAddBasket(
+              arrSelectedExtra[i],
+              productSeleted?.name
+            )
+          );
         }
 
         dispatchLocal(
@@ -1444,7 +1254,6 @@ export const useProps = (props) => {
     },
     showCustomServiceAmount: (itemService) => {
       const { selectedStaff } = stateLocal || {};
-      console.log(itemService);
       // reset to select categories
       dispatchLocal(CheckoutState.selectCategoryItem(null, false));
 
@@ -2311,9 +2120,9 @@ export const useProps = (props) => {
 
     // PopupEnterAmountCustomService
     popupEnterAmountCustomServiceRef,
-    submitAddCustomService: async (params) => {
-      await dispatchLocal(CheckoutState.setCustomService(params));
-      setTimeout(_addAmount, 1000);
+    submitAddCustomService: async (args) => {
+      await dispatchLocal(CheckoutState.setCustomService(args));
+      _addAmount(args);
     },
 
     backAddBasket: () => {

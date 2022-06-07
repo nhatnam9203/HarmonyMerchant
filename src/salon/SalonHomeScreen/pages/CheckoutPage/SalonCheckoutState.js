@@ -83,6 +83,7 @@ export const initState = {
 
   visibleInvoice: false,
   isBookingFromAppointmentTab: false,
+  customServiceSelected: null,
 };
 
 export const ACTION_TYPES = {

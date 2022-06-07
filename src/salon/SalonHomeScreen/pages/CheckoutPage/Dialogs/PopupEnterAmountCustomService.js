@@ -124,6 +124,8 @@ class PopupEnterAmountCustomService extends React.Component {
         price: money,
         categoryId: itemService?.category?.categoryId,
         serviceId: itemService?.serviceId,
+        isCustomService: itemService?.isCustomService,
+        serviceName: itemService?.name,
       });
     } else {
       alert("Amount must greater than 0!");

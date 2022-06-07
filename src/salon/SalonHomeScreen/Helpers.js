@@ -125,3 +125,217 @@ export const getTotalTaxOfBasket = (basket, dataLocal) => {
   }
   return Number(taxTotal).toFixed(2);
 };
+
+export const createItemAddBasket = (basket, staffId) => {
+  const arrayProductBuy = [];
+  const arryaServicesBuy = [];
+  const arrayExtrasBuy = [];
+  for (let i = 0; i < basket?.length; i++) {
+    if (basket[i].type === "Product") {
+      arrayProductBuy.push({
+        ...basket[i],
+        productId: basket[i].data.productId,
+        quantity: basket[i].quanlitySet,
+      });
+    } else if (basket[i].type === "Service") {
+      arryaServicesBuy.push({
+        ...basket[i],
+        serviceId: basket[i].data.serviceId,
+        staffId: staffId,
+        tipAmount: 0,
+      });
+    } else if (basket[i].type === "Extra") {
+      arrayExtrasBuy.push({
+        ...basket[i],
+        extraId: basket[i].data.extraId,
+      });
+    }
+  }
+  return {
+    arrayProductBuy,
+    arryaServicesBuy,
+    arrayExtrasBuy,
+    staffId: staffId,
+  };
+};
+
+export const getBasketOnline = (appointments) => {
+  const arrayProductBuy = [];
+  const arryaServicesBuy = [];
+  const arrayExtrasBuy = [];
+  const arrayGiftCards = [];
+  const promotionNotes = [];
+
+  appointments.forEach((appointment) => {
+    const note = appointment?.promotionNotes?.note || "";
+    if (note) {
+      promotionNotes.push(note);
+    }
+    // ------ Push Service -------
+    appointment?.services.forEach((service) => {
+      arryaServicesBuy.push({
+        type: "Service",
+        data: {
+          name: service?.serviceName || "",
+          price: service?.price || "",
+        },
+        staff: service?.staff || false,
+        note: service?.note || "",
+      });
+    });
+
+    // ------ Push Product -------
+    appointment?.products.forEach((product) => {
+      arrayProductBuy.push({
+        type: "Product",
+        data: {
+          name: product?.productName || "",
+          price: product?.price || "",
+        },
+        quanlitySet: product?.quantity || "",
+      });
+    });
+
+    // ------ Push Product -------
+    appointment?.extras.forEach((extra) => {
+      arrayExtrasBuy.push({
+        type: "Extra",
+        data: {
+          name: extra?.extraName || "",
+          price: extra?.price || "",
+        },
+      });
+    });
+
+    // ------ Push Gift Card -------
+    appointment?.giftCards.forEach((gift) => {
+      arrayGiftCards.push({
+        type: "GiftCards",
+        data: {
+          name: gift?.name || "Gift Card",
+          price: gift?.price || "",
+        },
+        quanlitySet: gift?.quantity || "",
+      });
+    });
+  });
+
+  return {
+    arryaServicesBuy,
+    arrayProductBuy,
+    arrayExtrasBuy,
+    arrayGiftCards,
+    promotionNotes,
+  };
+};
+
+export const getBasketOffline = (basket, staffId) => {
+  const arrayProductBuy = [];
+  const arryaServicesBuy = [];
+  const arrayExtrasBuy = [];
+  for (let i = 0; i < basket?.length; i++) {
+    if (basket[i].type === "Product") {
+      arrayProductBuy.push({
+        ...basket[i],
+        productId: basket[i].data.productId,
+        quantity: basket[i].quanlitySet,
+      });
+    } else if (basket[i].type === "Service") {
+      arryaServicesBuy.push({
+        ...basket[i],
+        serviceId: basket[i].data.serviceId,
+        staffId: staffId,
+        tipAmount: 0,
+      });
+    } else if (basket[i].type === "Extra") {
+      arrayExtrasBuy.push({
+        ...basket[i],
+        extraId: basket[i].data.extraId,
+      });
+    }
+  }
+  return {
+    arrayProductBuy,
+    arryaServicesBuy,
+    arrayExtrasBuy,
+    staffId: staffId,
+  };
+};
+
+export const createProductItemAddAppointment = (item, quantity) => {
+  return {
+    services: [],
+    extras: [],
+    products: [
+      {
+        productId: item?.productId,
+        quantity: quantity,
+      },
+    ],
+    giftCards: [],
+  };
+};
+
+export const createServiceItemAddAppointment = (item, staffId, temptExtra) => {
+  return {
+    services: [
+      {
+        serviceId: item?.serviceId,
+        ...(staffId && {
+          staffId: staffId,
+        }),
+        ...(item?.isCustomService && {
+          categoryId: item?.categoryId,
+          price: item?.price,
+        }),
+      },
+    ],
+    extras: temptExtra,
+    products: [],
+    giftCards: [],
+  };
+};
+
+export const createServiceItemAddBasket = (item, staff) => {
+  return {
+    type: "Service",
+    id: `${item?.serviceId}_ser`,
+    data: {
+      name: item?.name ?? "Custom Service",
+      serviceId: item?.serviceId,
+      price: item?.price,
+    },
+    serviceName: item?.name ?? "Custom Service",
+    staff: staff,
+    ...(item?.isCustomService && {
+      categoryId: item?.categoryId,
+      price: item?.price,
+    }),
+  };
+};
+
+export const createProductItemAddBasket = (item, quality = 1) => {
+  return {
+    type: "Product",
+    id: `${item?.productId}_pro`,
+    data: {
+      name: item?.name || "",
+      productId: item?.productId || 0,
+      price: item?.price || 0,
+    },
+    quanlitySet: quality,
+  };
+};
+
+export const createExtraItemAddBasket = (extra, serviceName) => {
+  return {
+    type: "Extra",
+    id: `${extra?.extraId}_extra`,
+    data: {
+      name: extra?.name,
+      extraId: extra?.extraId,
+      price: aextra?.price,
+    },
+    serviceName: serviceName,
+  };
+};
