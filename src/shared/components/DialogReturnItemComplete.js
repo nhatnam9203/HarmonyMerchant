@@ -8,7 +8,7 @@ import { useProps } from "@shared/components/Receipts/useProps";
 import { useGetAppointment } from "@shared/services/api/retailer";
 import { colors, fonts, metrics } from "@shared/themes";
 import { statusSuccess } from "@shared/utils";
-import { PaymentTerminalType } from "@utils";
+import { checkNotSelectedPrinter } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -116,7 +116,7 @@ export const DialogReturnItemComplete = React.forwardRef(
     };
 
     const onYesButtonPress = () => {
-      if (paymentMachineType === PaymentTerminalType.Pax && !portName) {
+      if (checkNotSelectedPrinter()) {
         alert("Please connect to your printer!");
         setShowModal(false);
 

@@ -7,6 +7,7 @@ import {
   getInfoFromModelNameOfPrinter,
   PaymentTerminalType,
   formatMoney,
+  checkNotSelectedPrinter,
 } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -108,7 +109,7 @@ export const PopupSettlementReceipt = React.forwardRef(
     };
 
     const onPrintButtonPress = async () => {
-      if (!portName && paymentMachineType === PaymentTerminalType.Pax) {
+      if (checkNotSelectedPrinter()) {
         alert("Please connect to your printer! ");
         hide();
 

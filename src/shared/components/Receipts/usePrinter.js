@@ -2,6 +2,7 @@ import {
   getInfoFromModelNameOfPrinter,
   PaymentTerminalType,
   requestPrintDejavoo,
+  checkNotSelectedPrinter
 } from "@utils";
 import React from "react";
 import Share from "react-native-share";
@@ -104,7 +105,7 @@ export const usePrinter = ({
         return;
       } // nothing to print
 
-      if (!portName && paymentMachineType === PaymentTerminalType.Pax) {
+      if (checkNotSelectedPrinter()) {
         alert("Please connect to your printer! ");
         return;
       }

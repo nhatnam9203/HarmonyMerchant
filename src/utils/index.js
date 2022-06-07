@@ -1667,6 +1667,26 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 
   return shortPurchasePoint;
 };
+export const checkNotSelectedPrinter = () => {
+  const { hardware, dataLocal } = store.getState();
+  const {
+    cloverMachineInfo,
+    paymentMachineType,
+    dejavooMachineInfo,
+  } = hardware;
+  const { printerList, printerSelect } = dataLocal;
+    const { portName } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
+  if (!portName && 
+    (paymentMachineType === PaymentTerminalType.Pax 
+      || (!dejavooMachineInfo?.isSetup
+      && !cloverMachineInfo?.isSetup))) {
+    return true;
+  }
+  return false;
+}
 
 export const handleAutoClose = async () => {
   const { dataLocal, hardware } = store.getState();

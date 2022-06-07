@@ -8,6 +8,7 @@ import {
   getInfoFromModelNameOfPrinter,
   PaymentTerminalType,
   scaleSize,
+  checkNotSelectedPrinter,
 } from "@utils";
 import React from "react";
 import {
@@ -244,7 +245,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
           printerSelect
         );
 
-        if (!portName && machineType != "Clover") {
+        if (checkNotSelectedPrinter()) {
           onCancel(isPrintTempt);
 
           alert("Please connect to your printer! ");

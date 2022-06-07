@@ -21,7 +21,7 @@ import {
   POS_SERIAL,
   REMOTE_APP_ID,
   getInfoFromModelNameOfPrinter,
-  PaymentTerminalType,
+  checkNotSelectedPrinter,
 } from "@utils";
 import _ from "lodash";
 import React from "react";
@@ -459,7 +459,7 @@ export const useProps = ({
         printerSelect
       );
 
-      if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
+      if (checkNotSelectedPrinter()) {
         alert("Please connect to your printer!");
         return;
       }

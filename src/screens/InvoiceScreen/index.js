@@ -35,6 +35,7 @@ import {
   getCenterBoldStringArrayXml,
   formatWithMoment,
   requestGetProcessingStatus,
+  checkNotSelectedPrinter,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import * as l from "lodash";
@@ -1304,17 +1305,12 @@ class InvoiceScreen extends Layout {
     const printMachine = await checkStatusPrint();
     const { isSetup } = cloverMachineInfo;
 
-    if (
-      (portName && paymentMachineType != PaymentTerminalType.Clover) ||
-      (paymentMachineType == PaymentTerminalType.Clover && isSetup) ||
-      (paymentMachineType == PaymentTerminalType.Dejavoo &&
-        l.get(dejavooMachineInfo, "isSetup"))
-    ) {
+    if (checkNotSelectedPrinter()) {
+      alert("Please connect to your printer!");
+    } else {
       await this.setState({ receiptContentBg }, async () => {
         this.props.actions.invoice.togglPopupConfirmPrintInvoice(true);
       });
-    } else {
-      alert("Please connect to your printer!");
     }
 
     // await this.setState({ receiptContentBg }, async () => {

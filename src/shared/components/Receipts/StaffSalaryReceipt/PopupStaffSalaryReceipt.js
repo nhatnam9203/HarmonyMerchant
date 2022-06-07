@@ -7,6 +7,7 @@ import {
   localize,
   PaymentTerminalType,
   scaleSize,
+  checkNotSelectedPrinter,
 } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +24,11 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
     const { t } = useTranslation();
     const receiptRefs = React.useRef([]);
 
-    const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
+    const { 
+      paymentMachineType, 
+      dejavooMachineInfo, 
+      cloverMachineInfo 
+    } = useSelector((state) => state.hardware) ?? {};
     const { profile, printerList, printerSelect } =
       useSelector((state) => state.dataLocal) ?? {};
     const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
@@ -83,7 +88,7 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
         return;
       }
 
-      if (!portName && paymentMachineType === PaymentTerminalType.Pax) {
+      if (checkNotSelectedPrinter()) {
         alert("Please connect to your printer! ");
         return;
       }

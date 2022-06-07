@@ -1,6 +1,6 @@
 import PrintManager from "@lib/PrintManager";
 import IMAGE from "@resources";
-import { getInfoFromModelNameOfPrinter, PaymentTerminalType } from "@utils";
+import { getInfoFromModelNameOfPrinter, checkNotSelectedPrinter } from "@utils";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { StarPRNT } from "react-native-star-prnt";
@@ -21,7 +21,7 @@ export const ButtonPrintBarcode = ({ product }) => {
 
   const onPrintCode = async () => {
     if (!product) return;
-    if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
+    if (checkNotSelectedPrinter()) {
       alert("Please connect to your printer!");
       return;
     }
