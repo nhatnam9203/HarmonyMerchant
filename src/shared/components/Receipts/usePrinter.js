@@ -15,6 +15,7 @@ import { Alert } from "react-native";
 
 export const usePrinter = ({
   viewShotRef,
+  viewShotCustomerRef,
   printTemp,
   doPrintClover,
   isSignature,
@@ -41,30 +42,67 @@ export const usePrinter = ({
     }
   };
 
-  const doPrintAgain = async () => {
-    if (paymentMachineType === "Dejavoo") {
+  const doPrintAgain = async (imageUrl) => {
+    if (paymentMachineType === "Dejavoo" && !printerSelect) {
       setTimeout(() => {
         setIsSignature(false);
+        printImageUrl(imageUrl);
       }, 2000);
     } else {
-      setTimeout(() => {
         setIsSignature(false);
-      }, 250);
+        printImageUrl(imageUrl);
     }
+    onCancel();
   };
 
   React.useEffect(() => {
     if (!isSignature && !printTemp && !fromAppointmentTab) {
       printProcess();
     }
-  }, [isSignature, printTemp, profile?.isPrintReceipt]);
+  }, [printTemp, profile?.isPrintReceipt]);
+
+  const printImageUrl = async (imageUrl) => {
+    if (portName) {
+      let commands = [];
+      commands.push({ appendLineFeed: 0 });
+      commands.push({
+        appendBitmap: imageUrl,
+        width: parseFloat(widthPaper),
+        bothScale: true,
+        diffusion: true,
+        alignment: "Center",
+      });
+
+      commands.push({
+        appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+      });
+
+      await PrintManager.getInstance().print(emulation, commands, portName);
+    }  
+    // Other devices
+    else {
+      if (paymentMachineType == "Clover") {
+        if (doPrintClover && typeof doPrintClover === "function") {
+          doPrintClover(imageUrl);
+        }
+      } else if (paymentMachineType == "Dejavoo") {
+        const content = getContentXmlReceipt();
+        const params = {
+          content,
+        };
+        requestPrintDejavoo(params);
+      }
+    }
+    releaseCapture(imageUrl);
+
+  }
 
   const printProcess = async () => {
     try {
       if (!viewShotRef) {
         alert("Error render");
         return;
-      } // Không có gì để print
+      } // nothing to print
 
       if (!portName && paymentMachineType === PaymentTerminalType.Pax) {
         alert("Please connect to your printer! ");
@@ -72,54 +110,25 @@ export const usePrinter = ({
       }
 
       await setLoading(true);
-      // var startTime = performance.now();
 
       const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
       });
 
+      const imageCustomerUrl = await viewShotCustomerRef.current?.captureImageUrl({
+        paymentMachineType,
+        printerSelect,
+      });
+
       if (imageUrl) {
-        if (portName) {
-          let commands = [];
-          commands.push({ appendLineFeed: 0 });
-          commands.push({
-            appendBitmap: imageUrl,
-            width: parseFloat(widthPaper),
-            bothScale: true,
-            diffusion: true,
-            alignment: "Center",
-          });
-
-          commands.push({
-            appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-          });
-
-          await PrintManager.getInstance().print(emulation, commands, portName);
-        }
-        // Other devices
-        else {
-          if (paymentMachineType == "Clover") {
-            if (doPrintClover && typeof doPrintClover === "function") {
-              doPrintClover(imageUrl);
-            }
-          } else if (paymentMachineType == "Dejavoo") {
-            const content = getContentXmlReceipt();
-            const params = {
-              content,
-            };
-            requestPrintDejavoo(params);
-          }
-        }
-
-        // clear image
-        releaseCapture(imageUrl);
+        printImageUrl(imageUrl);
       }
 
       // Print customer receipt
       if (!printTemp && isSignature) {
         if (profile?.isPrintReceipt) {
-          doPrintAgain();
+          doPrintAgain(imageCustomerUrl);
         } else {
           Alert.alert(
             "Would you like to print  customer's receipt?",
@@ -132,7 +141,7 @@ export const usePrinter = ({
               },
               {
                 text: "OK",
-                onPress: doPrintAgain,
+                onPress: () => doPrintAgain(imageCustomerUrl),
               },
             ],
             { cancelable: false }
@@ -142,7 +151,6 @@ export const usePrinter = ({
         onCancel();
       }
     } catch (error) {
-      console.log(`Printer error with ${error}`);
       setLoading(false);
       onCancel();
     }
@@ -166,10 +174,6 @@ export const usePrinter = ({
 
         if (Platform.OS === "ios") {
           RNFetchBlob.ios.previewDocument(imageUrl);
-          // var endTime = performance.now();
-          // console.log(
-          //   `Call to doSomething took ${endTime - startTime} milliseconds`
-          // );
         } else {
           await Share.open({
             url: `file://${imageUri}`,
