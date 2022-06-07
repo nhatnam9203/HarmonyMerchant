@@ -157,15 +157,19 @@ export const useProps = ({
 
   const [getProductByBarcode, { currentData: productGetByBarCode }] =
     harmonyApi.useLazyGetProductByBarcodeQuery();
+
   React.useEffect(() => {
     if (!productGetByBarCode || !scanCodeTemp) return;
     const { codeStatus, data, message } = productGetByBarCode;
 
-    if (scanCodeTemp != oldScanCodeTemp && oldResultGetProduct == productGetByBarCode) return
-    setOldResultGetProduct(productGetByBarCode)
-    setOldScanCodeTemp(scanCodeTemp)
+    if (
+      scanCodeTemp != oldScanCodeTemp &&
+      oldResultGetProduct == productGetByBarCode
+    )
+      return;
+    setOldResultGetProduct(productGetByBarCode);
+    setOldScanCodeTemp(scanCodeTemp);
     if (statusSuccess(codeStatus)) {
-      
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
 
       if (tmp) {
@@ -216,11 +220,10 @@ export const useProps = ({
       }
     } else {
       //  TODO: show input code here!
-        alert(message);
-        inputBarcodeDialogRef.current?.autoFocus();
+      alert(message);
+      inputBarcodeDialogRef.current?.autoFocus();
     }
     setScanCodeTemp(null);
-
   }, [productGetByBarCode, scanCodeTemp]);
 
   const [requestApplyToCostPrice, { data: responseApplyToCostPrice }] =
