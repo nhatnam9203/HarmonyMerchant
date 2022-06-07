@@ -50,6 +50,7 @@ export const DialogPayCompleted = ({
   groupAppointmentId,
 }) => {
   const viewShotRef = React.useRef(null);
+  const viewShotCustomerRef = React.useRef(null);
   const { t } = useTranslation();
   const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
   const { paymentDetailInfo } = useSelector((state) => state.appointment);
@@ -133,6 +134,7 @@ export const DialogPayCompleted = ({
   const { printProcess, shareProcess, processLoading } = usePrinter({
     printTemp,
     viewShotRef,
+    viewShotCustomerRef,
     doPrintClover,
     isSignature,
     fromAppointmentTab: false,
@@ -265,12 +267,6 @@ export const DialogPayCompleted = ({
     }
   }, [groupAppointmentData]);
 
-  // React.useEffect(() => {
-  //   const { codeStatus, data } = invoiceDetailData || {};
-  //   if (statusSuccess(codeStatus)) {
-  //     setInvoice(data);
-  //   }
-  // }, [invoiceDetailData]);
   const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
 
   return (
@@ -484,6 +480,34 @@ export const DialogPayCompleted = ({
               promotionNotes={promotionNotes}
               checkoutPaymentMethods={checkoutPaymentMethods}
               isSignature={isSignature}
+              staffName={staffName}
+            />
+            <ReceiptViewShot
+              ref={viewShotCustomerRef}
+              backgroundColor={receiptBackground}
+              items={items}
+              profile={profile}
+              customer={customer}
+              printTemp={printTemp}
+              fromAppointmentTab={false}
+              invoiceDate={invoiceDate}
+              invoiceNO={invoiceNO}
+              symbol={symbol}
+              typeReceipt={"Customer's Receipt"}
+              invoiceCode={invoiceCode}
+              subTotal={subTotal}
+              discount={discount}
+              tip={tip}
+              tax={tax}
+              total={total}
+              fee={fee}
+              cashDiscount={cashDiscount}
+              due={due}
+              change={change}
+              taxRate={taxRate}
+              promotionNotes={promotionNotes}
+              checkoutPaymentMethods={checkoutPaymentMethods}
+              isSignature={false}
               staffName={staffName}
             />
           </ScrollView>
