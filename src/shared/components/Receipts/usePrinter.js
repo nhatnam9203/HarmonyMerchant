@@ -106,22 +106,29 @@ export const usePrinter = ({
         return;
       } // nothing to print
 
+      console.log('checkNotSelectedPrinter()', checkNotSelectedPrinter())
       if (checkNotSelectedPrinter()) {
         alert("Please connect to your printer! ");
         return;
       }
 
+      console.log("setLoading")
       await setLoading(true);
 
       const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
       });
+      console.log('imageUrl', imageUrl)
 
-      const imageCustomerUrl = await viewShotCustomerRef.current?.captureImageUrl({
-        paymentMachineType,
-        printerSelect,
-      });
+      let imageCustomerUrl = null;
+      if (viewShotCustomerRef) {
+        imageCustomerUrl = await viewShotCustomerRef.current?.captureImageUrl({
+          paymentMachineType,
+          printerSelect,
+        });
+      }
+      
 
       if (imageUrl) {
         printImageUrl(imageUrl);
