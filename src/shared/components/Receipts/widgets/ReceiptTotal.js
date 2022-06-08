@@ -3,6 +3,7 @@ import {
   formatMoneyWithUnit,
   getPaymentString,
   stringIsEmptyOrWhiteSpaces,
+  formatNumberFromCurrency,
 } from "@utils";
 import _ from "lodash";
 import React from "react";
@@ -70,7 +71,7 @@ export const ReceiptTotal = ({
         fontWeight={"bold"}
         fontSize={scaleFont(22)}
         >
-         {`${formatMoneyWithUnit(total - tip)}`}
+         {`${formatMoneyWithUnit(formatNumberFromCurrency(total) - formatNumberFromCurrency(tip))}`}
         </TextTotal>
       }
       {
