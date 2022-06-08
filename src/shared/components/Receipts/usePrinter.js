@@ -99,6 +99,7 @@ export const usePrinter = ({
   }
 
   const printProcess = async () => {
+    console.log("printProcess")
     try {
       if (!viewShotRef) {
         alert("Error render");
