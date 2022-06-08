@@ -6,7 +6,7 @@ import { ReceiptItemType } from "./ReceiptItem";
 import { ReceiptHeader } from "./ReceiptHeader";
 import { ReceiptFooter } from "./ReceiptFooter";
 import { ReceiptTotal } from "./ReceiptTotal";
-import { captureRef, releaseCapture } from "react-native-view-shot";
+import { captureRef, ViewShot } from "react-native-view-shot";
 
 export const ReceiptViewShot = React.forwardRef(
   (
@@ -69,7 +69,6 @@ export const ReceiptViewShot = React.forwardRef(
           ...(paymentMachineType === "Clover" &&
             !printerSelect && { result: "base64" }),
         });
-
         return imageUri;
       },
     }));

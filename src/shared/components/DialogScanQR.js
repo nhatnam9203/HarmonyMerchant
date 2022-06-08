@@ -39,6 +39,9 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
     timeOutRef.current = setTimeout(() => {
       if (typeof onSuccess === "function" && onSuccess) {
         onSuccess(text);
+        setTimeout(() => {
+          textInputRef.current?.focus();
+        }, 100);
       }
       setValue("");
     }, 2500);

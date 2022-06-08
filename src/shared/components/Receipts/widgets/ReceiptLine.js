@@ -36,7 +36,7 @@ export const LineFill = ({ width }) => (
     style={{
       height: 1,
       width: width ?? "100%",
-      marginTop: scaleHeight(20),
+      marginTop: scaleHeight(10),
       marginHorizontal: scaleWidth(0),
     }}
     dashGap={0}

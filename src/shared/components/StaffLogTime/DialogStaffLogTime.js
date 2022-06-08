@@ -9,7 +9,7 @@ import {
 } from "@shared/components";
 import { useLockScreen } from "@shared/hooks";
 import { DialogLayout } from "@shared/layouts";
-import { harmonyApi } from "@shared/services";
+import { harmonyApi, useQueryCallback } from "@shared/services";
 import { colors, fonts } from "@shared/themes";
 import {
   dateToString,
@@ -39,8 +39,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const popupPinCodeRef = React.useRef(null);
   const dialogSuccessRef = React.useRef(null);
 
-  const { merchantStaffLogtime, displayName } =
-    useSelector((state) => state.dataLocal?.profileStaffLogin) || {};
+  const dataLocal = useSelector((state) => state.dataLocal) || {};
 
   const [cashCheck, setCashCheck] = React.useState(false);
   const [note, setNote] = React.useState(null);
@@ -50,8 +49,15 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const [checkInTime, setCheckInTime] = React.useState(null);
   const [workingTime, setWorkingTime] = React.useState(null);
 
-  const { loginStaff } = useLockScreen({
-    onSubmitSuccess: async () => {
+  const [staff, setStaff] = React.useState(null);
+  const { merchantStaffLogtime, displayName, staffId } = staff || {};
+
+  const [staffLoginFn, staffLoginLoading] = useQueryCallback(
+    harmonyApi.useStaffLoginMutation,
+    (result) => {
+      const { data } = result || {};
+      setStaff(data);
+
       if (!startLogTime) return;
       popupPinCodeRef.current?.hide();
       dispatch(actions.app.closeAllPopupPincode());
@@ -102,8 +108,13 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
         }, 750);
       }
     },
-    isActive: popupPinCodeRef.current?.isShow(),
-  });
+    (error) => {
+      const { message } = error;
+      if (message) {
+        alert(message);
+      }
+    }
+  );
 
   const [
     createStaffLogTime,
@@ -140,6 +151,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
       amount: formatNumberFromCurrency(amount),
       type: logTimeType,
       staffName: displayName,
+      staffId: staffId,
     };
 
     await createStaffLogTime(data);
@@ -154,10 +166,11 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
     scrollRef.current?.scrollToFocusedInput(reactNode);
   };
 
-  const onLoginStaff = async (pinCode) => {
-    // console.log(pinCode);
-    // await staffLogin({ merchantID, pinCode });
-    await loginStaff(pinCode);
+  const onLoginStaff = (pinCode) => {
+    staffLoginFn({
+      merchantId: dataLocal.profile?.merchantCode,
+      pinCode: pinCode,
+    });
   };
 
   const onForceClosePopupPinCode = () => {
@@ -325,6 +338,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
         title={t("Staff Log Time")}
         onSubmit={onLoginStaff}
         onForceClose={onForceClosePopupPinCode}
+        loading={staffLoginLoading}
       />
 
       <DialogWithOneButton

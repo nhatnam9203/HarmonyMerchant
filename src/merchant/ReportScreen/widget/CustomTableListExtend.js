@@ -121,6 +121,7 @@ function TableListExtended({
   isRefreshing,
   onLoadMore = () => {},
   endLoadMore = false,
+  isLoadMore = true,
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
@@ -565,6 +566,11 @@ function TableListExtended({
   }, [isRefreshing]);
 
   const onHandleLoadMore = () => {
+    if (!isLoadMore) {
+      stickyFormRef.current.endLoading();
+      return;
+    }
+
     if (endLoadMore) {
       stickyFormRef.current.endLoading();
       return;
@@ -615,7 +621,7 @@ function TableListExtended({
         refreshHeader={NormalHeader}
         onLoading={onHandleLoadMore}
       />
-      {!isContentSmallerThanScrollView && (
+      {!isContentSmallerThanScrollView && isLoadMore && (
         <Animated.View
           style={styles.scrollIndicatorContainer}
           onLayout={(e) =>

@@ -22,7 +22,9 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
   const nextPage = useSelector((state) => state.staff.listStaffsSalaryNextPage);
 
-  const tokenReportServer = useSelector((state) => state.dataLocal.tokenReportServer);
+  const tokenReportServer = useSelector(
+    (state) => state.dataLocal.tokenReportServer
+  );
 
   const pathFileReportStaff = useSelector(
     (state) => state.staff.pathFileReportStaffSalary
@@ -48,7 +50,7 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
   /**function */
   const getListStaffsSalaryTop = async (page = 1) => {
     if (page <= 0) return;
-    if(!tokenReportServer) return 
+    if (!tokenReportServer) return;
 
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
@@ -144,8 +146,8 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
     getListStaffsSalaryTop(1);
   };
 
-  const loadMoreData = () => {
-    getListStaffsSalaryTop(nextPage);
+  const loadMoreData = (page) => {
+    getListStaffsSalaryTop(page);
   };
 
   useFocusEffect(
@@ -160,7 +162,7 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
 
   React.useEffect(() => {
     getListStaffsSalaryTop(1);
-  }, [tokenReportServer])
+  }, [tokenReportServer]);
 
   return (
     <View style={[styles.container, style]}>

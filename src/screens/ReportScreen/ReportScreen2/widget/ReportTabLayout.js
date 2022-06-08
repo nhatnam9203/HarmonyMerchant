@@ -20,6 +20,7 @@ function ReportTabLayout({
   filterNames = [],
   children,
   rightTooltip,
+  leftTooltip,
   isShowExportButton,
   isShowFilterButton,
   filterNameDefault,
@@ -44,6 +45,7 @@ function ReportTabLayout({
       <HeaderTooltip
         rightComponent={
           <>
+            {leftTooltip}
             {isShowExportButton && (
               <PopupButton
                 text="Export"

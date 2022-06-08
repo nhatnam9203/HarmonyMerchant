@@ -1,10 +1,10 @@
 export const staffBuilder = (builder) => ({
   staffLogin: builder.mutation({
-    query: ({ merchantID, pinCode }) => ({
+    query: ({ merchantId, pinCode }) => ({
       url: `staff/login`,
       method: "POST",
       data: {
-        merchantCode: merchantID,
+        merchantCode: merchantId,
         staffPin: pinCode,
       },
     }),

@@ -140,6 +140,10 @@ export const useProps = ({ params: { reload } }) => {
       NavigationServices.navigate("retailer.inventory.product.detail", {
         item: data,
       });
+    } else {
+      if(message) {
+        alert(message)
+      }
     }
   }, [productItemGet?.data]);
 

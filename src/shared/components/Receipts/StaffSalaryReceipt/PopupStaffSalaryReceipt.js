@@ -13,7 +13,10 @@ import { useTranslation } from "react-i18next";
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import Modal from "react-native-modal";
 import { StarPRNT } from "react-native-star-prnt";
+import { captureRef } from "react-native-view-shot";
 import { useSelector } from "react-redux";
+
+const DEFAULT_WIDTH = scaleWidth(400);
 
 export const PopupStaffSalaryReceipt = React.forwardRef(
   ({ staffs = [] }, ref) => {
@@ -65,6 +68,7 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
           index={index + 1}
           key={`${item.name}`}
           staff={item}
+          widthPaper={widthPaper}
         />
       );
     };
@@ -74,7 +78,7 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
     };
 
     const onHandlePrint = async () => {
-      if (!staffs?.length) {
+      if (staffs?.length <= 0) {
         setOpen(false);
         return;
       }
@@ -84,12 +88,12 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
         return;
       }
 
-      setPrintProcessing(true);
-      let commands = [];
-      commands.push({ appendLineFeed: 0 });
-
-      receiptRefs.current?.forEach(async (viewRef) => {
-        if (viewRef) {
+      try {
+        setPrintProcessing(true);
+        let commands = [];
+        commands.push({ appendLineFeed: 0 });
+        for (var i = 0; i < receiptRefs.current?.length; i++) {
+          const viewRef = receiptRefs.current[i];
           const imageUrl = await captureRef(viewRef, {});
 
           commands.push({
@@ -104,11 +108,13 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
             appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
           });
         }
-      });
 
-      await PrintManager.getInstance().print(emulation, commands, portName);
-      setPrintProcessing(false);
-      setOpen(false);
+        await PrintManager.getInstance().print(emulation, commands, portName);
+        setPrintProcessing(false);
+        setOpen(false);
+      } catch (error) {
+        alert(`Printer error with ${error}`);
+      }
     };
 
     return (
@@ -165,317 +171,321 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
   }
 );
 
-const ReceiptContentView = React.forwardRef(({ style, staff }, ref) => {
-  const language = useSelector((state) => state.dataLocal.language);
+const ReceiptContentView = React.forwardRef(
+  ({ style, staff, widthPaper }, ref) => {
+    const language = useSelector((state) => state.dataLocal.language);
 
-  const { receipts = {} } = staff;
-  const receiptType = receipts.receiptType ? receipts.receiptType : "";
-  const staffName = staff.name ? staff.name : "";
-  const fromTime = receipts.from
-    ? formatWithMoment(receipts.from, "MM/DD/YYYY")
-    : "";
-  const toTime = receipts.to ? formatWithMoment(receipts.to, "MM/DD/YYYY") : "";
-  const sales = receipts?.serviceSales || "0.00";
-  const workingHour = receipts?.workingHour || "0";
-  const product = receipts?.productSales || "0.00";
-  const cash = receipts?.cash || "0.00";
-  const nonCash = receipts?.nonCash || "0.00";
-  const detail = receipts?.detail || [];
-  const netServiceSales = receipts?.netServiceSales || "0.00";
+    const { receipts = {} } = staff;
+    const receiptType = receipts.receiptType ? receipts.receiptType : "";
+    const staffName = staff.name ? staff.name : "";
+    const fromTime = receipts.from
+      ? formatWithMoment(receipts.from, "MM/DD/YYYY")
+      : "";
+    const toTime = receipts.to
+      ? formatWithMoment(receipts.to, "MM/DD/YYYY")
+      : "";
+    const sales = receipts?.serviceSales || "0.00";
+    const workingHour = receipts?.workingHour || "0";
+    const product = receipts?.productSales || "0.00";
+    const cash = receipts?.cash || "0.00";
+    const nonCash = receipts?.nonCash || "0.00";
+    const detail = receipts?.detail || [];
+    const netServiceSales = receipts?.netServiceSales || "0.00";
 
-  let totalDesc = "";
+    let totalDesc = "";
 
-  return (
-    <View style={layouts.center}>
-      <View
-        style={[
-          style,
-          {
-            width: scaleSize(290),
-            height: scaleSize(480),
-            backgroundColor: "white",
-          },
-        ]}
-      >
-        <ScrollView
-          style={{ flex: 1 }}
-          automaticallyAdjustContentInsets={true}
-          keyboardShouldPersistTaps="always"
+    return (
+      <View style={layouts.center}>
+        <View
+          style={[
+            style,
+            {
+              width: scaleSize(290),
+              height: scaleSize(480),
+              backgroundColor: "white",
+            },
+          ]}
         >
-          <View style={{ height: scaleSize(10) }} />
-          <View ref={ref} style={{ paddingHorizontal: 20 }}>
-            {/* -------------- Type Invoice + Staff Name -------------- */}
-            <Text
-              style={[
-                styles.txt_normal,
-                { fontSize: scaleSize(14), fontWeight: "600" },
-              ]}
-            >
-              {`${receiptType} receipts 111 - ${staffName}`}
-            </Text>
-            {/* -------------- Date -------------- */}
-            <Text
-              style={[styles.txt_normal, { fontWeight: "600", marginTop: 5 }]}
-            >
-              {`${fromTime} - ${toTime}`}
-            </Text>
-            {/* ------------- Dot Border  ----------- */}
-            <ItemBorderBottom />
-            {/* ------------- Part 1  ----------- */}
-            <ItemStaffInvoice title="Service Sales" value={`$ ${sales}`} />
-            <ItemStaffInvoice
-              title="Net Service Sale"
-              value={`$ ${netServiceSales}`}
-            />
-            <ItemStaffInvoice
-              title="Total Time Work"
-              value={`${workingHour} hrs`}
-            />
-            <ItemStaffInvoice title="Product Sales" value={`$ ${product}`} />
-            <ItemStaffInvoice title="Cash" value={`$ ${cash}`} />
-            <ItemStaffInvoice title="Non-Cash" value={`$ ${nonCash}`} />
-            {/* ------------- Dot Border  ----------- */}
-            <ItemBorderBottom />
+          <ScrollView
+            style={{ flex: 1 }}
+            automaticallyAdjustContentInsets={true}
+            keyboardShouldPersistTaps="always"
+          >
+            <View style={{ height: scaleSize(10) }} />
+            <View ref={ref} style={{ paddingHorizontal: 20 }}>
+              {/* -------------- Type Invoice + Staff Name -------------- */}
+              <Text
+                style={[
+                  styles.txt_normal,
+                  { fontSize: scaleSize(14), fontWeight: "600" },
+                ]}
+              >
+                {`${receiptType} receipts 111 - ${staffName}`}
+              </Text>
+              {/* -------------- Date -------------- */}
+              <Text
+                style={[styles.txt_normal, { fontWeight: "600", marginTop: 5 }]}
+              >
+                {`${fromTime} - ${toTime}`}
+              </Text>
+              {/* ------------- Dot Border  ----------- */}
+              <ItemBorderBottom />
+              {/* ------------- Part 1  ----------- */}
+              <ItemStaffInvoice title="Service Sales" value={`$ ${sales}`} />
+              <ItemStaffInvoice
+                title="Net Service Sale"
+                value={`$ ${netServiceSales}`}
+              />
+              <ItemStaffInvoice
+                title="Total Time Work"
+                value={`${workingHour} hrs`}
+              />
+              <ItemStaffInvoice title="Product Sales" value={`$ ${product}`} />
+              <ItemStaffInvoice title="Cash" value={`$ ${cash}`} />
+              <ItemStaffInvoice title="Non-Cash" value={`$ ${nonCash}`} />
+              {/* ------------- Dot Border  ----------- */}
+              <ItemBorderBottom />
 
-            {detail
-              .filter((x) => x.isUsed || x.receiptType === "Total")
-              .map((x, index) => {
-                switch (x.receiptType) {
-                  case "Tippayout":
-                    totalDesc =
-                      totalDesc +
-                      (totalDesc.length > 0 ? "+" + (index + 1) : index + 1);
-                    return (
-                      <React.Fragment key={x.receiptType}>
-                        <ItemStaffInvoice
-                          title={`${index + 1}. ${localize(
-                            x.receiptType,
-                            language
-                          )}`}
-                          value={`$ ${x.total}`}
-                          style={{ marginTop: scaleSize(15) }}
-                        />
+              {detail
+                .filter((x) => x.isUsed || x.receiptType === "Total")
+                .map((x, index) => {
+                  switch (x.receiptType) {
+                    case "Tippayout":
+                      totalDesc =
+                        totalDesc +
+                        (totalDesc.length > 0 ? "+" + (index + 1) : index + 1);
+                      return (
+                        <React.Fragment key={x.receiptType}>
+                          <ItemStaffInvoice
+                            title={`${index + 1}. ${localize(
+                              x.receiptType,
+                              language
+                            )}`}
+                            value={`$ ${x.total}`}
+                            style={{ marginTop: scaleSize(15) }}
+                          />
 
-                        <ItemStaffInvoice
-                          title="Tip Total"
-                          value={`$ ${x.subTotal}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                        <ItemStaffInvoice
-                          title={`Tip Fee (${
-                            x.fee && x.fee.value ? x.fee.value : "0.00%"
-                          })`}
-                          value={`$ ${
-                            x.fee && x.fee.amount ? x.fee.amount : "0.00"
-                          }`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                        <ItemStaffInvoice
-                          title="Check"
-                          value={`$ ${x.check}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                      </React.Fragment>
-                    );
-                  case "Total":
-                    return (
-                      <React.Fragment key={x.receiptType}>
-                        {/* ------------- Line   ----------- */}
-                        <View
-                          style={{
-                            height: 2,
-                            backgroundColor: "#000",
-                            marginVertical: scaleSize(10),
-                          }}
-                        />
+                          <ItemStaffInvoice
+                            title="Tip Total"
+                            value={`$ ${x.subTotal}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                          <ItemStaffInvoice
+                            title={`Tip Fee (${
+                              x.fee && x.fee.value ? x.fee.value : "0.00%"
+                            })`}
+                            value={`$ ${
+                              x.fee && x.fee.amount ? x.fee.amount : "0.00"
+                            }`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                          <ItemStaffInvoice
+                            title="Check"
+                            value={`$ ${x.check}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                        </React.Fragment>
+                      );
+                    case "Total":
+                      return (
+                        <React.Fragment key={x.receiptType}>
+                          {/* ------------- Line   ----------- */}
+                          <View
+                            style={{
+                              height: 2,
+                              backgroundColor: "#000",
+                              marginVertical: scaleSize(10),
+                            }}
+                          />
 
-                        {/* ------------- Total payout  ----------- */}
-                        <ItemStaffInvoice
-                          title="Total Payout"
-                          value={`$ ${x.total}`}
-                          subTitle={" (" + totalDesc + ")"}
-                          styleTilte={{
-                            fontSize: scaleSize(14),
-                            fontWeight: "600",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(14),
-                            fontWeight: "600",
-                          }}
-                        />
-                        <ItemStaffInvoice
-                          title="Cash"
-                          value={`$ ${x.cash}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                        <ItemStaffInvoice
-                          title="Check"
-                          value={`$ ${x.check}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                      </React.Fragment>
-                    );
-                  case "WorkingHour":
-                    totalDesc =
-                      totalDesc +
-                      (totalDesc.length > 0 ? "+" + (index + 1) : index + 1);
-                    return (
-                      <React.Fragment key={x.receiptType}>
-                        <ItemStaffInvoice
-                          title={`${index + 1}. ${localize(
-                            x.receiptType,
-                            language
-                          )} ($ ${x.commission})`}
-                          value={`$ ${x.total}`}
-                        />
-                        <ItemStaffInvoice
-                          title="Cash"
-                          value={`$ ${x.cash}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                        <ItemStaffInvoice
-                          title="Check"
-                          value={`$ ${x.check}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                      </React.Fragment>
-                    );
-                  case "DiscountByStaff":
-                    totalDesc =
-                      totalDesc +
-                      (totalDesc.length > 0 ? "+" + (index + 1) : index + 1);
-                    return (
-                      <React.Fragment key={x.receiptType}>
-                        <ItemStaffInvoice
-                          title={`${index + 1}. ${localize(
-                            x.receiptType,
-                            language
-                          )}`}
-                          value={`$ ${x.total}`}
-                        />
-                        <ItemStaffInvoice
-                          title="Cash"
-                          value={`$ ${x.cash}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                        <ItemStaffInvoice
-                          title="Check"
-                          value={`$ ${x.check}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                      </React.Fragment>
-                    );
-                  default:
-                    totalDesc =
-                      totalDesc +
-                      (totalDesc.length > 0 ? "+" + (index + 1) : index + 1);
-                    return (
-                      <React.Fragment key={x.receiptType}>
-                        <ItemStaffInvoice
-                          title={`${index + 1}. ${localize(
-                            x.receiptType,
-                            language
-                          )} (${x.commission}%)`}
-                          value={`$ ${x.total}`}
-                        />
-                        <ItemStaffInvoice
-                          title="Cash"
-                          value={`$ ${x.cash}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                        <ItemStaffInvoice
-                          title="Check"
-                          value={`$ ${x.check}`}
-                          styleTilte={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                          styleValue={{
-                            fontSize: scaleSize(13),
-                            fontWeight: "200",
-                          }}
-                        />
-                      </React.Fragment>
-                    );
-                }
-              })}
-          </View>
-          <View style={{ height: scaleSize(100) }} />
-        </ScrollView>
+                          {/* ------------- Total payout  ----------- */}
+                          <ItemStaffInvoice
+                            title="Total Payout"
+                            value={`$ ${x.total}`}
+                            subTitle={" (" + totalDesc + ")"}
+                            styleTilte={{
+                              fontSize: scaleSize(14),
+                              fontWeight: "600",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(14),
+                              fontWeight: "600",
+                            }}
+                          />
+                          <ItemStaffInvoice
+                            title="Cash"
+                            value={`$ ${x.cash}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                          <ItemStaffInvoice
+                            title="Check"
+                            value={`$ ${x.check}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                        </React.Fragment>
+                      );
+                    case "WorkingHour":
+                      totalDesc =
+                        totalDesc +
+                        (totalDesc.length > 0 ? "+" + (index + 1) : index + 1);
+                      return (
+                        <React.Fragment key={x.receiptType}>
+                          <ItemStaffInvoice
+                            title={`${index + 1}. ${localize(
+                              x.receiptType,
+                              language
+                            )} ($ ${x.commission})`}
+                            value={`$ ${x.total}`}
+                          />
+                          <ItemStaffInvoice
+                            title="Cash"
+                            value={`$ ${x.cash}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                          <ItemStaffInvoice
+                            title="Check"
+                            value={`$ ${x.check}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                        </React.Fragment>
+                      );
+                    case "DiscountByStaff":
+                      totalDesc =
+                        totalDesc +
+                        (totalDesc.length > 0 ? "+" + (index + 1) : index + 1);
+                      return (
+                        <React.Fragment key={x.receiptType}>
+                          <ItemStaffInvoice
+                            title={`${index + 1}. ${localize(
+                              x.receiptType,
+                              language
+                            )}`}
+                            value={`$ ${x.total}`}
+                          />
+                          <ItemStaffInvoice
+                            title="Cash"
+                            value={`$ ${x.cash}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                          <ItemStaffInvoice
+                            title="Check"
+                            value={`$ ${x.check}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                        </React.Fragment>
+                      );
+                    default:
+                      totalDesc =
+                        totalDesc +
+                        (totalDesc.length > 0 ? "+" + (index + 1) : index + 1);
+                      return (
+                        <React.Fragment key={x.receiptType}>
+                          <ItemStaffInvoice
+                            title={`${index + 1}. ${localize(
+                              x.receiptType,
+                              language
+                            )} (${x.commission}%)`}
+                            value={`$ ${x.total}`}
+                          />
+                          <ItemStaffInvoice
+                            title="Cash"
+                            value={`$ ${x.cash}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                          <ItemStaffInvoice
+                            title="Check"
+                            value={`$ ${x.check}`}
+                            styleTilte={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                            styleValue={{
+                              fontSize: scaleSize(13),
+                              fontWeight: "200",
+                            }}
+                          />
+                        </React.Fragment>
+                      );
+                  }
+                })}
+            </View>
+            <View style={{ height: scaleSize(100) }} />
+          </ScrollView>
+        </View>
       </View>
-    </View>
-  );
-});
+    );
+  }
+);
 
 const ItemStaffInvoice = ({
   title,
