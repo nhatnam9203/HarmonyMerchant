@@ -17,6 +17,6 @@ export const SalonHomeScreen = createScreenComponent(
         source={focused ? IMAGE[`Se_${SCREEN_KEY}`] : IMAGE[SCREEN_KEY]}
       />
     ),
-    title: "New Home",
+    title: "Home",
   }
 );

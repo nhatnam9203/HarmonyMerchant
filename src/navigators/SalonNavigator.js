@@ -55,7 +55,7 @@ export const SalonNavigator = () => {
         }}
       >
         <Screen {...SalonHomeScreen} />
-        <Screen
+        {/* <Screen
           name="Home"
           component={HomeScreen}
           options={{
@@ -65,7 +65,7 @@ export const SalonNavigator = () => {
               />
             ),
           }}
-        />
+        /> */}
         <Screen
           name="Invoice"
           component={InvoiceScreen}

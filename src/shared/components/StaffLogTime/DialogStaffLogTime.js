@@ -52,7 +52,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const [staff, setStaff] = React.useState(null);
   const { merchantStaffLogtime, displayName, staffId } = staff || {};
 
-  const [staffLoginFn, staffLoginLoading] = useQueryCallback(
+  const [staffLoginFn, { loading: staffLoginLoading }] = useQueryCallback(
     harmonyApi.useStaffLoginMutation,
     (result) => {
       const { data } = result || {};

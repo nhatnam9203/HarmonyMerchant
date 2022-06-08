@@ -32,5 +32,11 @@ export const useQueryCallback = (
     }
   }, [result]);
 
-  return [trigger, result?.isLoading ?? false];
+  return [
+    trigger,
+    {
+      loading: result?.isLoading ?? false,
+      data: result?.data ?? result?.currentData,
+    },
+  ];
 };
