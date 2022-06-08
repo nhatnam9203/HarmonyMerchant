@@ -47,6 +47,7 @@ class SettlementScreen extends Layout {
 
         this.checkPermissionRef.current?.setStateFromParent("");
         const { profileStaffLogin } = this.props;
+
         const roleName = profileStaffLogin?.roleName || role.Admin;
         const permission = l.get(profileStaffLogin, "permission", []);
         if (roleName === role.Admin) {
@@ -154,6 +155,7 @@ const mapStateToProps = (state) => ({
   profileStaffLogin: state.dataLocal.profileStaffLogin,
   notiIntervalId: state.app.notiIntervalId,
   paymentMachineType: state.hardware.paymentMachineType,
+  
 });
 
 export default connectRedux(mapStateToProps, SettlementScreen);

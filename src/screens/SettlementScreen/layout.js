@@ -22,21 +22,18 @@ import configs from "@configs";
 export default class Layout extends React.Component {
 
     renderHeader() {
-        const { language, connectPAXStatus,terminalID, paymentMachineType } = this.props;
-        const statusConnectColor = connectPAXStatus.status ? "#4CD964" : "#FF6F00";
-
+        const { language, connectPAXStatus, profile } = this.props;
+        const statusConnectColor = connectPAXStatus.status ? "#4CD964" : "#FF0000";
+        const terminalInfo = `${profile?.terminalInfo ? profile?.terminalInfo : ''} ${connectPAXStatus.message}`
         return (
-            <View style={{
-                height: scaleSize(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSize(50),
-                justifyContent: 'center'
-            }} >
-                <Text style={{ fontSize: scaleSize(16), color: '#0764B0' ,fontWeight:"600"}} >
+            <View style={styles.headerView} >
+                <Text style={styles.headerText} >
                     {localize('Batch Settlements', language)}
-                    
-                        <Text numberOflines={1} style={{ fontSize: scaleSize(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
-                            {`  ${connectPAXStatus.message}`}
-                        </Text>
-                    
+                </Text>
+                <Text
+                 numberOflines={1} 
+                 style={[styles.statusText, { color: statusConnectColor }]} >
+                    {terminalInfo}
                 </Text>
             </View>
         );

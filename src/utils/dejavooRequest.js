@@ -191,3 +191,18 @@ export const requestTransactionDejavoo = async (params) => {
     const response = await handleRequest(configs)
     return response
   };
+
+  export const requestTerminalConnectionStatus = async () => {
+    const { hardware } = store.getState();
+    const { dejavooMachineInfo } = hardware;
+    
+   const configs = {
+    method: "get",
+    baseURL: "https://spinpos.net/spin/",
+    url: `GetTerminalStatus?RegisterID=${_.get(dejavooMachineInfo, 'registerId')}`,
+    headers: headers,
+    timeout: 90000,
+    };
+    const response = await handleRequest(configs)
+    return response
+  }

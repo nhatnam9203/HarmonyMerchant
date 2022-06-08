@@ -15,6 +15,7 @@ import {
   requestAPI,
   formatWithMoment,
   PaymentTerminalType,
+  requestTerminalConnectionStatus,
 } from "@utils";
 import Configs from "@configs";
 import * as l from "lodash";
@@ -126,10 +127,21 @@ class TabFirstSettle extends Layout {
         }
       } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
         if (l.get(dejavooMachineInfo, "isSetup")) {
-          this.handleRequestAPIByTerminalID(
-            l.get(dejavooMachineInfo, "sn"),
-            "dejavoo"
-          );
+          requestTerminalConnectionStatus().then((response) => {
+           if(response == "Offline") {
+            this.handleRequestAPIByTerminalID(null, "dejavoo");
+            this.props.actions.app.connectPaxMachineError(
+              "Not Connected"
+            );
+           } else {
+            this.props.actions.app.ConnectPaxMachineSuccess();
+            this.handleRequestAPIByTerminalID(
+              l.get(dejavooMachineInfo, "sn"),
+              "dejavoo"
+            );
+           }
+          });
+         
         } else {
           this.handleRequestAPIByTerminalID(null, "dejavoo");
           this.props.actions.app.connectPaxMachineError(
