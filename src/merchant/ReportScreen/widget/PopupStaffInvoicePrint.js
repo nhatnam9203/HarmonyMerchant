@@ -121,7 +121,7 @@ class PopupStaffInvoicePrint extends React.Component {
       });
       this.doPrint(portName);
     } else {
-      alert("Please connect to your cash drawer.");
+      alert("Please connect to your printer.");
     }
   };
 
