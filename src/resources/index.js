@@ -301,4 +301,6 @@ export default {
   remove_pin_code: require("../assets/images/ic_remove_pin_code.png"),
   Advance: require("../assets/images/AdvanceActive.png"),
   Advance_in: require("../assets/images/AdvanceInactive.png"),
+
+  StaffAvatar: require("../assets/images/staff_avatar.png"),
 };

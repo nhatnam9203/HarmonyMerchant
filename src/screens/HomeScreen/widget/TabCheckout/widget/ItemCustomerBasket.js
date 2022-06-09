@@ -102,7 +102,7 @@ class ItemCustomerBasket extends React.Component {
     checkIsExistServiceInBasket = (basket) => {
         let isExistService = false;
 
-        for (let i = 0; i < basket.length; i++) {
+        for (let i = 0; i < basket?.length; i++) {
             if (basket[i].type === "Service") {
                 isExistService = true;
                 break;

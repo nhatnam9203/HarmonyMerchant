@@ -13,6 +13,10 @@ module.exports = {
             rootPathSuffix: "./src/shared",
             rootPathPrefix: "@shared",
           },
+          {
+            rootPathSuffix: "./src/utils",
+            rootPathPrefix: "@utils",
+          },
         ],
       },
     ],

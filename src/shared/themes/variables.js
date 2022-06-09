@@ -33,6 +33,11 @@ export const colors = {
   WHITE_FA: "#fafafa",
   WHITE_TWO: "#eeeeee",
   LIGHT_GREY: "#F8F8F8",
+  AZURE: "#19a9ec",
+  DARKISH_GREEN: "#2e8d44",
+  GREYISH_BROWN_50: "#40404080",
+  VERY_LIGHT_PINK: "#e5e5e5",
+  VERY_LIGHT_PINK_D: "#ddd",
 };
 
 export const fonts = {
@@ -70,6 +75,7 @@ export const layouts = StyleSheet.create({
   horizontalSpaceBetween: {
     alignItems: "center",
     justifyContent: "space-between",
+    flexDirection: "row",
   },
   verticalCenterLeft: {
     alignItems: "flex-start",
@@ -171,4 +177,3 @@ export const layouts = StyleSheet.create({
     textAlign: "center",
   },
 });
-

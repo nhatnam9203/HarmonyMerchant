@@ -1,31 +1,30 @@
-import React from "react";
-import { NativeModules, Platform, NativeEventEmitter } from "react-native";
-import _ from "ramda";
-import { captureRef, releaseCapture } from "react-native-view-shot";
-import { StarPRNT } from "react-native-star-prnt";
-import RNFetchBlob from "rn-fetch-blob";
-import Share from "react-native-share";
-
-import Layout from "./layout";
+import PrintManager from "@lib/PrintManager";
 import connectRedux from "@redux/ConnectRedux";
 import {
+  APP_NAME,
+  checkStatusPrint,
+  formatMoney,
+  formatNumberFromCurrency,
+  formatWithMoment,
+  getArrayGiftCardsFromAppointment,
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
-  getArrayExtrasFromAppointment,
-  getArrayGiftCardsFromAppointment,
+  getCenterBoldStringArrayXml,
+  getCenterStringArrayXml,
+  getInfoFromModelNameOfPrinter,
+  getPaymentString,
   getPaymentStringInvoice,
   getQuickFilterStringInvoice,
-  checkStatusPrint,
-  getInfoFromModelNameOfPrinter,
-  REMOTE_APP_ID,
-  APP_NAME,
-  POS_SERIAL,
+  getTaxRateFromInvoice,
+  isPermissionToTab,
   localize,
+  menuTabs,
   PaymentTerminalType,
+  POS_SERIAL,
+  REMOTE_APP_ID,
+  requestPrintDejavoo,
   requestTransactionDejavoo,
   role,
-  menuTabs,
-  isPermissionToTab,
   stringIsEmptyOrWhiteSpaces,
   requestPrintDejavoo,
   formatMoney,
@@ -37,10 +36,16 @@ import {
   requestGetProcessingStatus,
   checkNotSelectedPrinter,
 } from "@utils";
-import PrintManager from "@lib/PrintManager";
 import * as l from "lodash";
+import _ from "ramda";
+import React from "react";
+import { NativeEventEmitter, NativeModules, Platform } from "react-native";
+import Share from "react-native-share";
+import { StarPRNT } from "react-native-star-prnt";
+import { releaseCapture } from "react-native-view-shot";
 import { parseString } from "react-native-xml2js";
-import { getTaxRateFromInvoice } from "@utils";
+import RNFetchBlob from "rn-fetch-blob";
+import Layout from "./layout";
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;

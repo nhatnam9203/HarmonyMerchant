@@ -204,7 +204,7 @@ class HomeScreen extends Layout {
         this.tabAppointmentRef?.current?.setStateVisibleFromParent(true);
       } else if (
         currentTab === 2 &&
-        this.tabCheckoutRef?.current?.state?.basket.length > 0
+        this.tabCheckoutRef?.current?.state?.basket?.length > 0
       ) {
         // console.log('-----2-------');
         await this.setState({
@@ -215,7 +215,7 @@ class HomeScreen extends Layout {
         // console.log('-----3-------');
         if (
           currentTab === 2 &&
-          this.tabCheckoutRef?.current?.state?.basket.length === 0
+          this.tabCheckoutRef?.current?.state?.basket?.length === 0
         ) {
           // console.log('-----4-------');
           if (!_.isEmpty(groupAppointment)) {
@@ -348,7 +348,6 @@ class HomeScreen extends Layout {
   };
 
   bookAppointment = async (appointmentId, staffId = 0) => {
-
     this.props.actions.appointment.getGroupAppointmentById(
       appointmentId,
       true,
@@ -451,7 +450,7 @@ class HomeScreen extends Layout {
         }
       }, 200);
     }
-  };
+  }; // !
 
   submitPincode = () => {
     const password = this.popupEnterPinRef.current.state.value;

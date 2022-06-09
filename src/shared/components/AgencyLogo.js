@@ -16,13 +16,12 @@ export const AgencyLogo = () => {
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
-    bottom: 0,
-    left: 10,
-    right: 10,
-    // height: scaleHeight(50),
-    // backgroundColor: "red",
+    width: "100%",
+    height: scaleHeight(100),
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
   },
 
-  image: { width: "100%", height: scaleHeight(100) },
+  image: { width: "96%", height: scaleHeight(100) },
 });

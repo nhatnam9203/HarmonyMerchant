@@ -9,7 +9,7 @@ import {
 } from "@shared/components";
 import { useLockScreen } from "@shared/hooks";
 import { DialogLayout } from "@shared/layouts";
-import { harmonyApi, useQueryCallback } from "@shared/services";
+import { harmonyApi, useQueryCaller } from "@shared/services";
 import { colors, fonts } from "@shared/themes";
 import {
   dateToString,
@@ -52,7 +52,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const [staff, setStaff] = React.useState(null);
   const { merchantStaffLogtime, displayName, staffId } = staff || {};
 
-  const [staffLoginFn, staffLoginLoading] = useQueryCallback(
+  const [staffLoginFn, { loading: staffLoginLoading }] = useQueryCaller(
     harmonyApi.useStaffLoginMutation,
     (result) => {
       const { data } = result || {};

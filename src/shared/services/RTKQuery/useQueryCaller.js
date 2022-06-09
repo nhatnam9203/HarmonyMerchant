@@ -1,8 +1,8 @@
 import React from "react";
 import * as Utils from "@shared/utils";
 
-const statusCallback = ["pending", "fulfilled"];
-export const useQueryCallback = (
+const statusCallback = ["fulfilled"]; // "pending",
+export const useQueryCaller = (
   fn,
   onSuccess = () => {},
   onFailed = () => {}
@@ -12,6 +12,7 @@ export const useQueryCallback = (
 
   React.useEffect(() => {
     if (!result) return;
+
     const { data, currentData, isSuccess, error, isError, status } = result;
 
     if (!statusCallback.includes(status)) return;
@@ -25,12 +26,16 @@ export const useQueryCallback = (
       } else {
         onFailed(response);
       }
-    }
-
-    if (isError) {
+    } else if (isError) {
       onFailed(error);
     }
-  }, [result]);
+  }, [result?.status]);
 
-  return [trigger, result?.isLoading ?? false];
+  return [
+    trigger,
+    {
+      loading: result?.isLoading || result?.isFetching,
+      data: result?.data ?? result?.currentData,
+    },
+  ];
 };

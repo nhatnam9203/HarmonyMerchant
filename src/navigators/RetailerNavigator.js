@@ -81,7 +81,7 @@ export const RetailerNavigator = ({ navigation }) => {
           headerMode="none"
           drawerContent={CustomDrawerContent}
           drawerStyle={{
-            width: scaleWidth(260),
+            width: scaleWidth(280),
           }}
         >
           <Screen {...RTHomeScreen} />

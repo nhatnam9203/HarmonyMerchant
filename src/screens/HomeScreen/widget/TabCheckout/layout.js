@@ -16,7 +16,6 @@ import {
   Text,
 } from "@components";
 import { DialogPayCompleted } from "@components/DialogPayCompleted";
-
 import { QRCodePay } from "@components/PaymentButtons";
 import ICON from "@resources";
 import { PopupReceipt } from "@shared/components";
@@ -258,7 +257,7 @@ class Layout extends React.Component {
         )}
       </View>
     );
-  }
+  } // !
 
   renderCategoriesCheckout() {
     const { language, categoriesByMerchant, groupAppointment, isOfflineMode } =
@@ -384,7 +383,7 @@ class Layout extends React.Component {
         )}
       </View>
     );
-  }
+  } // !
 
   renderProductCheckout() {
     const {
@@ -483,7 +482,7 @@ class Layout extends React.Component {
         </View>
       </View>
     );
-  }
+  } // !
 
   renderAmountCheckout() {
     const { language, groupAppointment } = this.props;
@@ -598,7 +597,7 @@ class Layout extends React.Component {
           keyboardShouldPersistTaps="always"
         >
           {_.isEmpty(groupAppointment) ? (
-            basket.length > 0 ? (
+            basket?.length > 0 ? (
               <ItemCustomerBasket
                 language={language}
                 subTotalLocal={subTotalLocal}
@@ -1048,7 +1047,7 @@ class Layout extends React.Component {
       ? groupAppointment.total && parseFloat(groupAppointment.total) > 0
         ? true
         : false
-      : basket.length > 0
+      : basket?.length > 0
       ? true
       : false;
     isAcceptPay = paymentSelected === "Cash" ? true : isAcceptPay;
@@ -1191,7 +1190,7 @@ class Layout extends React.Component {
             />
           );
         }
-      } else if (basket.length > 0 || !_.isEmpty(groupAppointment)) {
+      } else if (basket?.length > 0 || !_.isEmpty(groupAppointment)) {
         return (
           <ButtonCustom
             width={`100%`}

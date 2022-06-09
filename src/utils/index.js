@@ -1093,7 +1093,7 @@ export const getStaffNameForInvoice = (basket = []) => {
   // const staffNameLogin = profileStaffLogin.displayName ? profileStaffLogin.displayName : "";
 
   let staffArr = [];
-  for (let i = 0; i < basket.length; i++) {
+  for (let i = 0; i < basket?.length; i++) {
     if (basket[i].type === "Service") {
       let temptName =
         basket[i].staff && basket[i].staff.displayName

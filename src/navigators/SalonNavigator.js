@@ -5,10 +5,7 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import IMAGE from "@resources";
 import { BottomToastMessage } from "@shared/components";
-import {
-  CustomDrawerContent,
-  CustomDrawerIcon,
-} from "@shared/components/CustomDrawerContent";
+import { CustomDrawerContent, CustomDrawerIcon } from "@shared/components";
 import { useMerchantExpired } from "@shared/hooks";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -25,6 +22,8 @@ import {
   SupportScreen,
 } from "../screens";
 import { useSelector } from "react-redux";
+import { SalonHomeScreen } from "../salon/SalonHomeScreen";
+import { ScreenName } from "@src/ScreenName";
 
 import moment from "moment";
 
@@ -48,13 +47,15 @@ export const SalonNavigator = () => {
   return (
     <>
       <Navigator
-        initialRouteName="Home"
+        initialRouteName={ScreenName.SALON.HOME}
+        // initialRouteName="Home"
         drawerContent={CustomDrawerContent}
         drawerStyle={{
-          width: scaleWidth(260),
+          width: scaleWidth(280),
         }}
       >
-        <Screen
+        <Screen {...SalonHomeScreen} />
+        {/* <Screen
           name="Home"
           component={HomeScreen}
           options={{
@@ -64,7 +65,7 @@ export const SalonNavigator = () => {
               />
             ),
           }}
-        />
+        /> */}
         <Screen
           name="Invoice"
           component={InvoiceScreen}
