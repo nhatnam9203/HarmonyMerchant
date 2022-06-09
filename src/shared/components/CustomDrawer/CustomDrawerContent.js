@@ -1,10 +1,10 @@
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import React from "react";
-import { Linking, StyleSheet, Text, Image, View } from "react-native";
-import { colors, fonts, layouts } from "@shared/themes";
-import { AgencyLogo } from "../AgencyLogo";
 import IMAGE from "@resources";
 import { WithDialogStaffLogTime } from "@shared/HOC/withDialogStaffLogTime";
+import { fonts, layouts } from "@shared/themes";
+import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { AgencyLogo } from "../AgencyLogo";
 
 const CustomDrawerItem = ({ label, isFocused, icon, onPress }) => (
   <DrawerItem

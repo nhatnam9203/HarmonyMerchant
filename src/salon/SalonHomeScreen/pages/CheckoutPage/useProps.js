@@ -1067,12 +1067,14 @@ export const useProps = (props) => {
     ...category,
     ...network,
     ...service, // custom service info of merchant
+    ...product, // custom service info of merchant
     // loginStaff: dataLocal.profileStaffLogin,
     isPayment, // show categories or payment
     ...appointment,
     ...stateLocal,
     // apis
     ...apis,
+    ...extra,
 
     setSelectStaffFromCalendar,
     setBlockStateFromCalendar: (bl) => {
@@ -1186,49 +1188,6 @@ export const useProps = (props) => {
         apis.getCategoriesByStaff(staff.staffId);
       }
       dispatchLocal(CheckoutState.selectStaff(staff));
-    },
-    getDataColProduct: () => {
-      const {
-        categoryTypeSelected,
-        categorySelected,
-        isBlockBookingFromCalendar,
-        serviceStaff,
-        productStaff,
-      } = stateLocal || {};
-
-      if (categoryTypeSelected === "Extra") {
-        const dataExtra = extra.extrasByMerchant?.filter(
-          (extra, index) => extra?.isDisabled === 0
-        );
-
-        return dataExtra;
-      } else {
-        const data =
-          categoryTypeSelected === "Service"
-            ? service.servicesByMerchant
-            : product.productsByMerchantId;
-
-        if (data?.length > 0) {
-          let temptData = data.filter((item) => {
-            return (
-              item?.categoryId === categorySelected?.categoryId &&
-              item?.isDisabled === 0
-            );
-          });
-
-          if (!network.isOfflineMode && !isBlockBookingFromCalendar) {
-            if (categoryTypeSelected === "Service") {
-              temptData = [...serviceStaff];
-            } else if (categoryTypeSelected === "Product") {
-              temptData = [...productStaff];
-            }
-          }
-
-          return temptData;
-        }
-
-        return [];
-      }
     },
     onPressSelectCategory: (category) => {
       if (_.isNil(category) || _.isEmpty(category)) return;

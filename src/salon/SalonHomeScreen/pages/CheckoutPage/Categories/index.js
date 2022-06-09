@@ -34,7 +34,6 @@ export const Categories = React.forwardRef((props, ref) => {
     categorySelected,
     onSelectGiftCard,
     isOfflineMode,
-    getDataColProduct,
     isLoadingService = false,
     isBookingFromCalendar,
     categoryTypeSelected,
@@ -102,70 +101,12 @@ export const Categories = React.forwardRef((props, ref) => {
   };
 
   const renderCategoriesCheckout = () => {
-    const categoriesFilter = categoriesByMerchant?.filter(
-      (category, index) => category.isDisabled === 0
-    );
-
-    const appointments = groupAppointment?.appointments || [];
-    let tempIdCategoriesList = [];
-    for (let appointment of appointments) {
-      let categories = appointment?.categories || [];
-      for (let category of categories) {
-        tempIdCategoriesList.push(category?.categoryId || 0);
-      }
-    }
-
-    const IdCategoriesList = [...new Set(tempIdCategoriesList)];
-    let selectCategories = [];
-    let notSelectCategories = [];
-    let tempCategories = [];
-
-    if (IdCategoriesList.length > 0) {
-      for (let i = 0; i < IdCategoriesList.length; i++) {
-        for (let j = 0; j < categoriesFilter.length; j++) {
-          if (IdCategoriesList[i] === categoriesFilter[j].categoryId) {
-            selectCategories.push({
-              ...categoriesFilter[j],
-              isSelect: true,
-            });
-            break;
-          }
-        }
-      }
-      if (isOfflineMode || isBlockBookingFromCalendar) {
-        notSelectCategories = categoriesFilter.filter((category, index) =>
-          checkCategoryIsNotExist(category, IdCategoriesList)
-        );
-        tempCategories = [...selectCategories, ...notSelectCategories];
-      } else {
-        let categoriesStaffFilter = [];
-
-        for (let i = 0; i < categoryStaff.length; i++) {
-          const findItem = l.find(selectCategories, (item) => {
-            return item.categoryId == categoryStaff[i].categoryId;
-          });
-          if (!findItem) {
-            categoriesStaffFilter.push(categoryStaff[i]);
-          }
-        }
-        tempCategories = [...selectCategories, ...categoriesStaffFilter];
-      }
-    } else {
-      if (isOfflineMode || isBlockBookingFromCalendar) {
-        tempCategories = [...categoriesFilter];
-      } else {
-        tempCategories = [...categoryStaff];
-      }
-    }
-
-    return <CategoriesColumn items={tempCategories} />;
+    return <CategoriesColumn />;
   };
 
   const renderCategoryItemCheckout = () => {
-    const data = getDataColProduct();
     return (
       <ItemsColumn
-        items={data}
         isShowCustomService={
           profile.isCustomService &&
           !isBookingFromCalendar &&
@@ -173,14 +114,6 @@ export const Categories = React.forwardRef((props, ref) => {
           blockAppointments.length == 0 &&
           customService
         }
-        isShowColAmount={isShowColAmount}
-        productSeleted={productSeleted}
-        categoryTypeSelected={categoryTypeSelected}
-        categorySelected={categorySelected}
-        groupAppointment={groupAppointment}
-        showCustomServiceAmount={showCustomServiceAmount}
-        showColAmount={showColAmount}
-        customService={customService}
       />
     );
   };

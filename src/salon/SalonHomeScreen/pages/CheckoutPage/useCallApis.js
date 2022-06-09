@@ -1,26 +1,17 @@
 import { harmonyApi } from "@shared/services";
-import { statusSuccess, statusNotfound } from "@shared/utils";
-import React from "react";
+import { useQueryCaller } from "@shared/services/RTKQuery";
 import * as CheckoutState from "./SalonCheckoutState";
 
 export const useCallApis = ({ dispatchLocal }) => {
   //   const getCategoriesByStaffCallback = React.useRef(null);
 
   // get categories
-  const [
-    categoriesByStaffRequest,
-    {
-      currentData: categoriesByStaffResponse,
-      isLoading: isGetCategoriesByStaff,
-    },
-  ] = harmonyApi.useLazyGetCategoriesByStaffQuery();
 
-  React.useEffect(() => {
-    const { codeStatus, data } = categoriesByStaffResponse || {};
-    if (statusSuccess(codeStatus)) {
+  const [categoriesByStaffRequest, { loading: isGetCategoriesByStaff }] =
+    useQueryCaller(harmonyApi.useLazyGetCategoriesByStaffQuery, (result) => {
+      const { data } = result || {};
       dispatchLocal(CheckoutState.setCategories(data));
-    }
-  }, [categoriesByStaffResponse]);
+    });
 
   const getCategoriesByStaff = (staffId, cb) => {
     // if (!staffId) return;
@@ -28,36 +19,30 @@ export const useCallApis = ({ dispatchLocal }) => {
   };
 
   // get services
-  const [
-    servicesByStaffRequest,
-    { currentData: servicesByStaffResponse, isLoading: isGetServiceByStaff },
-  ] = harmonyApi.useLazyGetServiceByStaffQuery();
-
-  React.useEffect(() => {
-    const { codeNumber, codeStatus, data, message } =
-      servicesByStaffResponse || {};
-    if (statusSuccess(codeStatus)) {
-      dispatchLocal(CheckoutState.setServiceByStaff(data));
-    } else if (codeNumber === 404 && statusNotfound(codeStatus)) {
-      alert(message);
-    }
-  }, [servicesByStaffResponse]);
+  const [servicesByStaffRequest, { loading: isGetServiceByStaff }] =
+    useQueryCaller(
+      harmonyApi.useLazyGetServiceByStaffQuery,
+      (result) => {
+        dispatchLocal(CheckoutState.setServiceByStaff(result?.data));
+      },
+      (error) => {
+        dispatchLocal(CheckoutState.setServiceByStaff([]));
+        if (error?.message) alert(error.message);
+      }
+    );
 
   // get product
-  const [
-    productByStaffRequest,
-    { currentData: productByStaffResponse, isLoading: isGetProductByStaff },
-  ] = harmonyApi.useLazyGetProductByStaffQuery();
-
-  React.useEffect(() => {
-    const { codeStatus, data, message, codeNumber } =
-      productByStaffResponse || {};
-    if (statusSuccess(codeStatus)) {
-      dispatchLocal(CheckoutState.setProductByStaff(data));
-    } else if (codeNumber === 404 && statusNotfound(codeStatus)) {
-      alert(message);
-    }
-  }, [productByStaffResponse]);
+  const [productByStaffRequest, { loading: isGetProductByStaff }] =
+    useQueryCaller(
+      harmonyApi.useLazyGetProductByStaffQuery,
+      (result) => {
+        dispatchLocal(CheckoutState.setProductByStaff(result?.data));
+      },
+      (error) => {
+        dispatchLocal(CheckoutState.setProductByStaff([]));
+        if (error?.message) alert(error.message);
+      }
+    );
 
   return {
     isGetCategoriesByStaff,
