@@ -2,6 +2,7 @@ import PrintManager from "@lib/PrintManager";
 import connectRedux from "@redux/ConnectRedux";
 import {
   APP_NAME,
+  checkNotSelectedPrinter,
   checkStatusPrint,
   formatMoney,
   formatNumberFromCurrency,
@@ -26,15 +27,6 @@ import {
   requestTransactionDejavoo,
   role,
   stringIsEmptyOrWhiteSpaces,
-  requestPrintDejavoo,
-  formatMoney,
-  getPaymentString,
-  formatNumberFromCurrency,
-  getCenterStringArrayXml,
-  getCenterBoldStringArrayXml,
-  formatWithMoment,
-  requestGetProcessingStatus,
-  checkNotSelectedPrinter,
 } from "@utils";
 import * as l from "lodash";
 import _ from "ramda";
