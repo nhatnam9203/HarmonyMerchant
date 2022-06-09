@@ -99,7 +99,6 @@ export const usePrinter = ({
   }
 
   const printProcess = async () => {
-    console.log("printProcess")
     try {
       if (!viewShotRef) {
         alert("Error render");
@@ -112,14 +111,12 @@ export const usePrinter = ({
         return;
       }
 
-      console.log("setLoading")
       await setLoading(true);
 
       const imageUrl = await viewShotRef.current?.captureImageUrl({
         paymentMachineType,
         printerSelect,
       });
-      console.log('imageUrl', imageUrl)
 
       let imageCustomerUrl = null;
       if (viewShotCustomerRef) {
@@ -136,7 +133,7 @@ export const usePrinter = ({
 
       // Print customer receipt
       if (!printTemp && isSignature) {
-        if (profile?.isPrintReceipt) {
+        if (profile?.isPrintReceipt && imageCustomerUrl) {
           doPrintAgain(imageCustomerUrl);
         } else {
           Alert.alert(
