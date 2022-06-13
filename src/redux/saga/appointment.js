@@ -8,8 +8,11 @@ import {
 } from "redux-saga/effects";
 import _ from "ramda";
 import { Alert } from "react-native";
-
-import { requestAPI, formatNumberFromCurrency } from "../../utils";
+import { 
+  requestAPI, 
+  formatNumberFromCurrency, 
+  calculateSubTotal 
+} from "../../utils";
 import Configs from "@configs";
 import actions from "../actions";
 
@@ -77,8 +80,62 @@ function* getGroupAppointmentById(action) {
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      const data = responses?.data || false;
+      let data = responses?.data || false;
       if (data) {
+        if (data?.appointments) {
+          let isUpdateData = false;
+          let subTotalGroup = 0;
+          for (let i = 0; i < data?.appointments?.length; i++) {
+            let appointment = data?.appointments[i];
+            const subTotalAppointment = calculateSubTotal(appointment);
+            if (subTotalAppointment != appointment?.subTotal) {
+              isUpdateData = true;
+              const total = subTotalAppointment 
+                          + formatNumberFromCurrency(appointment?.tipAmount) 
+                          + formatNumberFromCurrency(appointment?.tax)
+                          - formatNumberFromCurrency(appointment?.discount)
+                          + formatNumberFromCurrency(appointment?.fee)
+                          + formatNumberFromCurrency(appointment?.shippingFee)
+              const appointmentUpdate = {...appointment,
+                                          subTotal: subTotalAppointment,
+                                          total,
+                                        }
+              yield put({
+                          type: "UPDATE_APPOINTMENT",
+                          body: appointmentUpdate,
+                          method: "PUT",
+                          token: true,
+                          api: `appointment/${appointmentUpdate?.appointmentId}`,
+                        });
+            } 
+            subTotalGroup += subTotalAppointment;
+          }
+
+          if (isUpdateData) {
+            let paidAmount = 0;
+            if (data?.checkoutPayments) {
+              for (let i = 0; i < data?.checkPayments.length; i++) {
+                const payment = data?.checkPayments[i];
+                paidAmount += formatNumberFromCurrency(payment?.amount);
+              }
+            }
+            const totalGroup = subTotalGroup 
+                          + formatNumberFromCurrency(data?.tipAmount) 
+                          + formatNumberFromCurrency(data?.tax)
+                          - formatNumberFromCurrency(data?.discount)
+                          + formatNumberFromCurrency(data?.checkoutPaymentFeeSum)
+                          + formatNumberFromCurrency(data?.checkoutPaymentCashDiscountSum)
+                          + formatNumberFromCurrency(data?.shippingFee)
+            const dueAmount = total - paidAmount;            
+            return {
+                    ...data,
+                    subTotal: subTotalGroup,
+                    total: totalGroup,
+                    dueAmount,
+                  }
+          }
+        }
+        
         yield put({
           type: "GET_GROUP_APPOINTMENT_BY_ID_SUCCESS",
           payload: data,
@@ -1332,6 +1389,31 @@ function* editPaidAppointment(action) {
   }
 }
 
+function* updateAppointment(action) {
+  try {
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    if (parseInt(codeNumber) == 200) {
+     
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses?.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: "STOP_LOADING_ROOT" });
+
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
 export default function* saga() {
   yield all([
     takeLatest("GET_APPOINTMENT_BY_ID", getAppointmentById),
@@ -1366,5 +1448,6 @@ export default function* saga() {
     takeLatest("GET_STAFF_LIST_BY_CURRENT_DATE", getStaffListByCurrentDate),
     takeLatest("GET_APPOINTMENT_RETAILER_BY_ID", getAppointmentRetailerById),
     takeLatest("EDIT_PAID_APPOINTMENT", editPaidAppointment),
+    takeLatest("UPDATE_APPOINTMENT", updateAppointment),
   ]);
 }
