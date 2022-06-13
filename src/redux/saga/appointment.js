@@ -95,6 +95,7 @@ function* getGroupAppointmentById(action) {
                           + formatNumberFromCurrency(appointment?.tax)
                           - formatNumberFromCurrency(appointment?.discount)
                           + formatNumberFromCurrency(appointment?.fee)
+                          + formatNumberFromCurrency(appointment?.shippingFee)
               const appointmentUpdate = {...appointment,
                                           subTotal: subTotalAppointment,
                                           total,
@@ -124,6 +125,7 @@ function* getGroupAppointmentById(action) {
                           - formatNumberFromCurrency(data?.discount)
                           + formatNumberFromCurrency(data?.checkoutPaymentFeeSum)
                           + formatNumberFromCurrency(data?.checkoutPaymentCashDiscountSum)
+                          + formatNumberFromCurrency(data?.shippingFee)
             const dueAmount = total - paidAmount;            
             return {
                     ...data,
