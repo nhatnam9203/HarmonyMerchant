@@ -2130,3 +2130,32 @@ export const getReceiptSymbol = (status) => {
   if (salesStatus.includes(status)) return "SALE";
   return status;
 };
+
+export const calculateSubTotal = (appointment) => {
+  let subTotalTemp = 0
+  if (appointment) {
+    const { services, products, giftCards, extras } = appointment;
+    let totalServices = 0;
+    services.forEach((item) => {
+      totalServices += formatNumberFromCurrency(item?.price)
+    })
+
+    let totalProducts = 0;
+    products.forEach((item) => {
+      totalProducts += formatNumberFromCurrency(item?.price)
+    })
+
+    let totalGiftCards = 0;
+    giftCards.forEach((item) => {
+      totalGiftCards += formatNumberFromCurrency(item?.price)
+    })
+
+    let totalExtras = 0;
+    extras.forEach((item) => {
+      totalExtras += formatNumberFromCurrency(item?.price)
+    })
+    subTotalTemp = totalServices + totalProducts + totalGiftCards + totalExtras;
+  }
+  
+  return subTotalTemp;
+}

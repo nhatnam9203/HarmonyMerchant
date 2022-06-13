@@ -391,7 +391,7 @@ class HomeScreen extends Layout {
       appointmentId,
       true,
       false,
-      false
+      false,
     );
     this.scrollTabParentRef.current.goToPage(2);
     if (this.tabCheckoutRef?.current) {
@@ -417,7 +417,7 @@ class HomeScreen extends Layout {
         appointmentId,
         false,
         true,
-        false
+        false,
       );
       this.scrollTabParentRef.current.goToPage(2);
 
@@ -469,7 +469,7 @@ class HomeScreen extends Layout {
           appointmentId,
           false,
           true,
-          false
+          false,
         );
 
         this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
@@ -482,7 +482,7 @@ class HomeScreen extends Layout {
             appointmentId,
             false,
             true,
-            false
+            false,
           );
 
           this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
