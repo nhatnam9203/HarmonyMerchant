@@ -338,7 +338,7 @@ export const createExtraItemAddBasket = (extra, serviceName) => {
     data: {
       name: extra?.name,
       extraId: extra?.extraId,
-      price: aextra?.price,
+      price: extra?.price,
     },
     serviceName: serviceName,
   };
