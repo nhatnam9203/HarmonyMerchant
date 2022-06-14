@@ -111,11 +111,10 @@ function* getGroupAppointmentById(action) {
             subTotalGroup += subTotalAppointment;
           }
 
-          //hard code
-          // if (isUpdateData) {
+          if (isUpdateData) {
             let paidAmount = 0;
             if (data?.checkoutPayments) {
-              for (let i = 0; i < data?.checkPayments.length; i++) {
+              for (let i = 0; i < data?.checkPayments?.length; i++) {
                 const payment = data?.checkPayments[i];
                 paidAmount += formatNumberFromCurrency(payment?.amount);
               }
@@ -127,14 +126,16 @@ function* getGroupAppointmentById(action) {
                           + formatNumberFromCurrency(data?.checkoutPaymentFeeSum)
                           + formatNumberFromCurrency(data?.checkoutPaymentCashDiscountSum)
                           + formatNumberFromCurrency(data?.shippingFee)
-            const dueAmount = total - paidAmount;            
-            data = {
-                    ...data,
-                    subTotal: subTotalGroup,
-                    total: totalGroup,
-                    dueAmount,
-                  }
-          // }
+            const dueAmount = data?.total - paidAmount;      
+            data = Object.assign({}, 
+              {
+                ...data,
+                subTotal: subTotalGroup,
+                total: totalGroup,
+                dueAmount,
+              }
+            );    
+          }
         }
         
         yield put({
