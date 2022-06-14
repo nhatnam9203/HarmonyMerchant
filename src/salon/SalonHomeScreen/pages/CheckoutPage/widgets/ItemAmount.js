@@ -38,8 +38,8 @@ class ItemAmount extends React.Component {
     return (
       <View
         style={{
-          height: scaleSize(68),
-          borderBottomWidth: 3,
+          height: scaleHeight(80),
+          // borderBottomWidth: 3,
           borderBottomColor: "#fff",
           backgroundColor: "#0764B0",
         }}

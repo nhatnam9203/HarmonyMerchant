@@ -262,7 +262,7 @@ export const getBasketOffline = (basket, staffId) => {
   };
 };
 
-export const createProductItemAddAppointment = (item, quantity) => {
+export const createProductItemAddAppointment = (item, quantity = 1) => {
   return {
     services: [],
     extras: [],
