@@ -1056,6 +1056,58 @@ export const useProps = (props) => {
     }
   };
 
+  const _createABlockAppointment = () => {
+    const { selectedStaff } = stateLocal || {};
+
+    let fromTime = appointment.fromTimeBlockAppointment;
+    if (
+      appointment.blockAppointments &&
+      appointment.blockAppointments.length > 0
+    ) {
+      fromTime = _.get(appointment.blockAppointments, "0.fromTime")
+        ? moment(_.get(appointment.blockAppointments, "0.fromTime"))
+            .local()
+            .format()
+        : new Date();
+    }
+
+    const firstAppointment = appointment.blockAppointments[0];
+
+    if (
+      firstAppointment &&
+      firstAppointment.status &&
+      firstAppointment.status === "waiting"
+    ) {
+      dispatch(
+        actions.appointment.createAppointmentWaiting(
+          dataLocal.profile.merchantId,
+          fromTime,
+          appointment.customerInfoBuyAppointment?.userId || 0,
+          appointment.customerInfoBuyAppointment?.customerId || 0,
+          appointment.customerInfoBuyAppointment?.firstName || "",
+          appointment.customerInfoBuyAppointment?.lastName || "",
+          appointment.customerInfoBuyAppointment?.phone || "",
+          appointment.bookingGroupId,
+          selectedStaff?.staffId ?? 0
+        )
+      );
+    } else {
+      dispatch(
+        actions.appointment.createBlockAppointment(
+          dataLocal.profile.merchantId,
+          fromTime,
+          appointment.customerInfoBuyAppointment?.userId || 0,
+          appointment.customerInfoBuyAppointment?.customerId || 0,
+          appointment.customerInfoBuyAppointment?.firstName || "",
+          appointment.customerInfoBuyAppointment?.lastName || "",
+          appointment.customerInfoBuyAppointment?.phone || "",
+          appointment.bookingGroupId,
+          selectedStaff?.staffId ?? 0
+        )
+      );
+    }
+  };
+
   return {
     categoriesRef,
     amountRef,
@@ -1101,7 +1153,8 @@ export const useProps = (props) => {
 
     addAppointmentCheckout: () => {
       if (appointment.blockAppointments?.length > 0) {
-        createABlockAppointment();
+        _createABlockAppointment();
+        return;
       }
 
       NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
@@ -1409,57 +1462,7 @@ export const useProps = (props) => {
         )
       );
     },
-    createABlockAppointment: () => {
-      const { selectedStaff } = stateLocal || {};
-
-      let fromTime = appointment.fromTimeBlockAppointment;
-      if (
-        appointment.blockAppointments &&
-        appointment.blockAppointments.length > 0
-      ) {
-        fromTime = _.get(appointment.blockAppointments, "0.fromTime")
-          ? moment(_.get(appointment.blockAppointments, "0.fromTime"))
-              .local()
-              .format()
-          : new Date();
-      }
-
-      const firstAppointment = appointment.blockAppointments[0];
-
-      if (
-        firstAppointment &&
-        firstAppointment.status &&
-        firstAppointment.status === "waiting"
-      ) {
-        dispatch(
-          actions.appointment.createAppointmentWaiting(
-            dataLocal.profile.merchantId,
-            fromTime,
-            appointment.customerInfoBuyAppointment?.userId || 0,
-            appointment.customerInfoBuyAppointment?.customerId || 0,
-            appointment.customerInfoBuyAppointment?.firstName || "",
-            appointment.customerInfoBuyAppointment?.lastName || "",
-            appointment.customerInfoBuyAppointment?.phone || "",
-            appointment.bookingGroupId,
-            selectedStaff?.staffId ?? 0
-          )
-        );
-      } else {
-        dispatch(
-          actions.appointment.createBlockAppointment(
-            dataLocal.profile.merchantId,
-            fromTime,
-            appointment.customerInfoBuyAppointment?.userId || 0,
-            appointment.customerInfoBuyAppointment?.customerId || 0,
-            appointment.customerInfoBuyAppointment?.firstName || "",
-            appointment.customerInfoBuyAppointment?.lastName || "",
-            appointment.customerInfoBuyAppointment?.phone || "",
-            appointment.bookingGroupId,
-            selectedStaff?.staffId ?? 0
-          )
-        );
-      }
-    },
+    createABlockAppointment: _createABlockAppointment,
     addBlockAppointment: _addBlockAppointment,
     onRequestClosePopupDiscountLocal: async () => {
       dispatchLocal(CheckoutState.visiblePopupDiscountLocal(false)); // reset
