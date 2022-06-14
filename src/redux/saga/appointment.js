@@ -92,7 +92,6 @@ function* getGroupAppointmentById(action) {
             const subTotalAppointment = calculateSubTotal(appointment);
             
             if (subTotalAppointment != appointment?.subTotal) {
-              console.log("subTotalAppointment != appointment?.subTotal")
               isUpdateData = true;
               const total = subTotalAppointment 
                           + formatNumberFromCurrency(appointment?.tipAmount) 
@@ -100,13 +99,11 @@ function* getGroupAppointmentById(action) {
                           - formatNumberFromCurrency(appointment?.discount)
                           + formatNumberFromCurrency(appointment?.fee)
                           + formatNumberFromCurrency(appointment?.shippingFee)
-              console.log('total', total)
               const appointmentUpdate = {...appointment,
                                           subTotal: subTotalAppointment,
                                           total,
                                         }
               listAppointmentsUpdate = listAppointmentsUpdate.concat(appointmentUpdate)
-              console.log('appointmentsUpdate1', listAppointmentsUpdate)
               yield put({
                           type: "UPDATE_APPOINTMENT",
                           body: appointmentUpdate,
@@ -116,16 +113,12 @@ function* getGroupAppointmentById(action) {
                         });
             } else {
               listAppointmentsUpdate = listAppointmentsUpdate.concat(appointment)
-              console.log('listAppointmentsUpdate', listAppointmentsUpdate)
             }
             subTotalGroup += subTotalAppointment;
 
             
           }
-          console.log('listAppointmentsUpdate', listAppointmentsUpdate)
-          console.log('subTotalGroup', subTotalGroup)
           if (isUpdateData) {
-            console.log('isUpdateData')
             let paidAmount = 0;
             if (data?.checkoutPayments) {
               for (let i = 0; i < data?.checkPayments?.length; i++) {
@@ -140,7 +133,6 @@ function* getGroupAppointmentById(action) {
                           + formatNumberFromCurrency(data?.checkoutPaymentFeeSum)
                           + formatNumberFromCurrency(data?.checkoutPaymentCashDiscountSum)
                           + formatNumberFromCurrency(data?.shippingFee)
-            console.log('totalGroup', totalGroup, paidAmount)
             const dueAmount = totalGroup - paidAmount;      
             data = Object.assign({}, 
               {
@@ -151,7 +143,6 @@ function* getGroupAppointmentById(action) {
                 dueAmount,
               }
             );    
-            console.log('data', data)
           }
         }
         
