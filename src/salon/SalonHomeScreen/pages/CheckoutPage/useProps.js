@@ -1473,10 +1473,11 @@ export const useProps = (props) => {
         } = stateLocal || {};
 
         if (appointmentId !== -1) {
-          const appointment = appointment.groupAppointment?.appointments?.find(
-            (appointment) => appointment.appointmentId === appointmentId
-          );
-          const { services, products, extras, giftCards } = appointment;
+          const { services, products, extras, giftCards } =
+            appointment.groupAppointment?.appointments?.find(
+              (appointment) => appointment.appointmentId === appointmentId
+            ) || {};
+
           const arrayProducts =
             AppUtils.getArrayProductsFromAppointment(products);
           const arryaServices =
