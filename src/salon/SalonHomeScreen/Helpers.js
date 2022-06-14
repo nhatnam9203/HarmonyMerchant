@@ -276,7 +276,11 @@ export const createProductItemAddAppointment = (item, quantity) => {
   };
 };
 
-export const createServiceItemAddAppointment = (item, staffId, temptExtra) => {
+export const createServiceItemAddAppointment = (
+  item,
+  staffId,
+  temptExtra = []
+) => {
   return {
     services: [
       {

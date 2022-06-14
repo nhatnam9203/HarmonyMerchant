@@ -884,7 +884,8 @@ export const useProps = (props) => {
 
         body = Helpers.createServiceItemAddAppointment(
           productSeleted ?? customServiceSelected ?? customService,
-          selectedStaff?.staffId
+          selectedStaff?.staffId,
+          temptExtra
         );
       }
 
@@ -2088,7 +2089,8 @@ export const useProps = (props) => {
     backAddBasket: () => {
       _cancelHarmonyPayment();
       // link to tab appointment
-      NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
+      // NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
+      setIsPayment(false);
     },
 
     callbackDiscountToParent: () => {},
