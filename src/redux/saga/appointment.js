@@ -15,6 +15,7 @@ import {
 } from "../../utils";
 import Configs from "@configs";
 import actions from "../actions";
+import { concat } from 'lodash';
 
 function* getAppointmentById(action) {
   try {
@@ -85,9 +86,11 @@ function* getGroupAppointmentById(action) {
         if (data?.appointments) {
           let isUpdateData = false;
           let subTotalGroup = 0;
+          let listAppointmentsUpdate = [];
           for (let i = 0; i < data?.appointments?.length; i++) {
             let appointment = data?.appointments[i];
             const subTotalAppointment = calculateSubTotal(appointment);
+            
             if (subTotalAppointment != appointment?.subTotal) {
               isUpdateData = true;
               const total = subTotalAppointment 
@@ -100,6 +103,7 @@ function* getGroupAppointmentById(action) {
                                           subTotal: subTotalAppointment,
                                           total,
                                         }
+              listAppointmentsUpdate = listAppointmentsUpdate.concat(appointmentUpdate)
               yield put({
                           type: "UPDATE_APPOINTMENT",
                           body: appointmentUpdate,
@@ -107,10 +111,13 @@ function* getGroupAppointmentById(action) {
                           token: true,
                           api: `appointment/${appointmentUpdate?.appointmentId}`,
                         });
-            } 
+            } else {
+              listAppointmentsUpdate = listAppointmentsUpdate.concat(appointment)
+            }
             subTotalGroup += subTotalAppointment;
-          }
 
+            
+          }
           if (isUpdateData) {
             let paidAmount = 0;
             if (data?.checkoutPayments) {
@@ -126,10 +133,11 @@ function* getGroupAppointmentById(action) {
                           + formatNumberFromCurrency(data?.checkoutPaymentFeeSum)
                           + formatNumberFromCurrency(data?.checkoutPaymentCashDiscountSum)
                           + formatNumberFromCurrency(data?.shippingFee)
-            const dueAmount = data?.total - paidAmount;      
+            const dueAmount = totalGroup - paidAmount;      
             data = Object.assign({}, 
               {
                 ...data,
+                appointments: listAppointmentsUpdate,
                 subTotal: subTotalGroup,
                 total: totalGroup,
                 dueAmount,

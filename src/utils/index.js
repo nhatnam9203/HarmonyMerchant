@@ -2162,7 +2162,10 @@ export const calculateSubTotal = (appointment) => {
 
     let totalProducts = 0;
     products.forEach((item) => {
-      totalProducts += formatNumberFromCurrency(item?.price)
+      console.log('item', item)
+      const totalProductItem = formatNumberFromCurrency(item?.price) * item?.quantity
+      console.log('totalProductItem', totalProductItem)
+      totalProducts += totalProductItem;
     })
 
     let totalGiftCards = 0;
@@ -2174,6 +2177,7 @@ export const calculateSubTotal = (appointment) => {
     extras.forEach((item) => {
       totalExtras += formatNumberFromCurrency(item?.price)
     })
+    console.log('totalProducts', totalProducts)
     subTotalTemp = totalServices + totalProducts + totalGiftCards + totalExtras;
   }
   
