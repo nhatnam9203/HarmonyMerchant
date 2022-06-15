@@ -8,6 +8,6 @@ export const PageLayout = createScreenComponent(
   ScreenName.SALON.HOME_PAGE_LAYOUT,
   (props) => <Layout {...useProps(props)} />,
   {
-    title: "",
+    title: "Salon Home",
   }
 );

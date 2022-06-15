@@ -20,10 +20,13 @@ import { isEmpty } from "lodash";
 import _ from "lodash";
 import { parseString } from "react-native-xml2js";
 import { ScreenName } from "@src/ScreenName";
+import * as controllers from "../../controllers";
+
 const { clover } = NativeModules;
 
 export const useProps = (props) => {
   const dispatch = useDispatch();
+  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
 
   const webviewRef = React.useRef(null);
   const invoiceRef = React.useRef(null);
@@ -166,6 +169,8 @@ export const useProps = (props) => {
     dispatch(
       actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId)
     );
+
+    homePageCtx.homePageDispatch(controllers.blockChangeTab());
   };
 
   const _createBlockAppointment = async (appointmentId, fromTime, staffId) => {
@@ -180,6 +185,8 @@ export const useProps = (props) => {
       bookingFromTime: fromTime ?? new Date(),
       bookingAppointmentId: appointmentId,
     });
+
+    homePageCtx.homePageDispatch(controllers.blockChangeTab());
   };
 
   const _addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
@@ -205,6 +212,8 @@ export const useProps = (props) => {
         checkoutStaffId: staffId,
       });
     }
+
+    homePageCtx.homePageDispatch(controllers.blockChangeTab());
   };
 
   return {

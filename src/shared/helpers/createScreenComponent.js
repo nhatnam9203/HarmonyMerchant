@@ -1,7 +1,12 @@
-import React from 'react';
-import { useRoute } from '@react-navigation/native';
+import React from "react";
+import { useRoute } from "@react-navigation/native";
 
-export const createScreenComponent = (screenName, Component, options = {}) => {
+export const createScreenComponent = (
+  screenName,
+  Component,
+  options = {},
+  listeners
+) => {
   return {
     name: screenName,
     component: React.memo((props) => {
@@ -9,5 +14,6 @@ export const createScreenComponent = (screenName, Component, options = {}) => {
       return <Component {...props} params={route?.params ?? {}} />;
     }),
     options,
+    listeners,
   };
 };

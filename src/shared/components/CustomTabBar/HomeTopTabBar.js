@@ -19,6 +19,8 @@ export const HomeTopTabBar = ({
   onOpenDrawer,
   notificationContUnread = 0,
   onChangeTab,
+  isBlockChangeTab = false,
+  onWillChangeTab,
 }) => {
   const renderTab = (name, page, isTabActive, onPress) => {
     const textColor = isTabActive ? "#FFFFFF" : "#0872C9";
@@ -121,16 +123,25 @@ export const HomeTopTabBar = ({
           const isFocused = state.index === index;
 
           const onPress = () => {
+            if (onWillChangeTab && typeof onWillChangeTab === "function") {
+              onWillChangeTab(route.name);
+            }
+
+            if (isBlockChangeTab) {
+              return;
+            }
+
             const event = navigation.emit({
               type: "tabPress",
               target: route.key,
               canPreventDefault: true,
             });
-
+            // change tab process
             if (!isFocused && !event.defaultPrevented) {
               if (onChangeTab && typeof onChangeTab === "function") {
                 onChangeTab(route.name);
               }
+
               navigation.navigate(route.name, {
                 checkoutStaffId: 0,
                 bookingStaffId: 0,

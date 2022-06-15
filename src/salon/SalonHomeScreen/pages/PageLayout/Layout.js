@@ -9,18 +9,25 @@ import { StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { AppointmentLayout } from "../AppointmentLayout";
 import { CheckoutPage } from "../CheckoutPage";
+import * as controllers from "../../controllers";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-export const Layout = ({ openDrawer, navigation, onChangeTab }) => {
+export const Layout = ({
+  openDrawer,
+  navigation,
+  onChangeTab,
+  isBlockChangeTab,
+  onHandleWillChangeTab,
+  currentTab,
+}) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
       <Navigator
         headerMode="none"
-        initialRouteName={ScreenName.SALON.APPOINTMENT_LAYOUT}
+        initialRouteName={currentTab}
         screenOptions={{
           cardStyle: {
             backgroundColor: colors.WHITE_FA,
@@ -34,14 +41,14 @@ export const Layout = ({ openDrawer, navigation, onChangeTab }) => {
             {...props}
             onOpenDrawer={openDrawer}
             onChangeTab={onChangeTab}
+            onWillChangeTab={onHandleWillChangeTab}
+            isBlockChangeTab={isBlockChangeTab}
           />
         )}
       >
         <Screen name={t("MARKETING")} component={TabMarketing} />
-        {/* <Screen name={t("APPOINTMENT")} component={TabAppointment} /> */}
         <Screen {...AppointmentLayout} />
         <Screen {...CheckoutPage} />
-        {/* <Screen name={t("CHECK-OUT")} component={TabCheckout} /> */}
       </Navigator>
     </View>
   );

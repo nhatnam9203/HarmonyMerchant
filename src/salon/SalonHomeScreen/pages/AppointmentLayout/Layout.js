@@ -8,7 +8,7 @@ import { BookAppointment } from "../CheckoutPage/BookAppointment";
 
 const { Screen, Navigator } = createStackNavigator();
 
-export const Layout = ({}) => {
+export const Layout = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Navigator
