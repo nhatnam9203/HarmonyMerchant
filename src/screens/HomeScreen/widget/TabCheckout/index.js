@@ -1094,7 +1094,7 @@ class TabCheckout extends Layout {
             temptData.data.appointmentId,
             false,
             false,
-            true
+            true,
           );
         }
       });

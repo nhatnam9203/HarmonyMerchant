@@ -1,5 +1,4 @@
 import moment from "moment";
-
 import Configs from "@configs";
 import { formatWithMoment, splitPlusInPhoneNumber } from "@utils";
 
@@ -16,7 +15,7 @@ export function getGroupAppointmentById(
   id,
   isBookingFromCalendar = false,
   isAddMoreFromCalendar = false,
-  isNotShowMessage = true
+  isNotShowMessage = true,
 ) {
   return {
     type: "GET_GROUP_APPOINTMENT_BY_ID",
@@ -415,6 +414,18 @@ export function cancleAppointment(
     isBlock,
     appointmentId,
     isCancelManyAppointment,
+  };
+}
+
+export function updateAppointment(
+  appointment
+) {
+  return {
+    type: "UPDATE_APPOINTMENT",
+    body: appointment,
+    method: "PUT",
+    token: true,
+    api: `appointment/${appointmentId}`,
   };
 }
 
