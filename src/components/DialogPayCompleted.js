@@ -12,6 +12,7 @@ import {
   PaymentTerminalType,
   POS_SERIAL,
   REMOTE_APP_ID,
+  checkNotSelectedPrinter,
 } from "@utils";
 import _ from "lodash";
 import React from "react";
@@ -214,7 +215,7 @@ export const DialogPayCompleted = ({
 
     handleSendGoogleLinkReview();
 
-    if (paymentMachineType === PaymentTerminalType.Pax && !portName) {
+    if (checkNotSelectedPrinter()) {
       alert("Please connect to your printer!");
       printBill();
 

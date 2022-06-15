@@ -371,7 +371,7 @@ function getErrorMessagePaxMachine(error) {
     case "NOT FOUND":
       return "( Payment terminal successfully connected!: Not found any transactions )";
     default:
-      return `(Error From Your Payment Terminal : "${error}" )`;
+      return error;
   }
 }
 

@@ -20,6 +20,7 @@ import {
   getCenterBoldStringArrayXml,
   formatMoney,
   formatMoneyWithUnit,
+  checkNotSelectedPrinter,
 } from "@utils";
 import React from "react";
 import {
@@ -193,8 +194,6 @@ export const PopupInvoice = React.forwardRef(
 
         if (imageUri) {
           if (portName) {
-
-
             let commands = [];
             commands.push({ appendLineFeed: 0 });
             commands.push({
@@ -316,7 +315,7 @@ export const PopupInvoice = React.forwardRef(
             printerSelect
           );
 
-          if (!portName && machineType == PaymentTerminalType.Pax) {
+          if (checkNotSelectedPrinter()) {
             onCancel(isPrintTempt);
             alert("Please connect to your printer! ");
             return;
@@ -358,12 +357,8 @@ export const PopupInvoice = React.forwardRef(
         if (isSalonApp()) return false;
 
         reset();
-        const { portName } = getInfoFromModelNameOfPrinter(
-          printerList,
-          printerSelect
-        );
 
-        if (!portName && machineType == PaymentTerminalType.Pax) {
+        if (checkNotSelectedPrinter()) {
           onCancel(isPrintTempt);
           alert("Please connect to your printer! ");
           return;
