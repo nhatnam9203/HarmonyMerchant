@@ -105,6 +105,7 @@ export const usePrinter = ({
         return;
       } // nothing to print
 
+      console.log('checkNotSelectedPrinter()', checkNotSelectedPrinter())
       if (checkNotSelectedPrinter()) {
         alert("Please connect to your printer! ");
         return;
@@ -117,10 +118,14 @@ export const usePrinter = ({
         printerSelect,
       });
 
-      const imageCustomerUrl = await viewShotCustomerRef.current?.captureImageUrl({
-        paymentMachineType,
-        printerSelect,
-      });
+      let imageCustomerUrl = null;
+      if (viewShotCustomerRef) {
+        imageCustomerUrl = await viewShotCustomerRef.current?.captureImageUrl({
+          paymentMachineType,
+          printerSelect,
+        });
+      }
+      
 
       if (imageUrl) {
         printImageUrl(imageUrl);
@@ -128,7 +133,7 @@ export const usePrinter = ({
 
       // Print customer receipt
       if (!printTemp && isSignature) {
-        if (profile?.isPrintReceipt) {
+        if (profile?.isPrintReceipt && imageCustomerUrl) {
           doPrintAgain(imageCustomerUrl);
         } else {
           Alert.alert(

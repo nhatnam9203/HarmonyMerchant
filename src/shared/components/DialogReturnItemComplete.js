@@ -21,6 +21,7 @@ export const DialogReturnItemComplete = React.forwardRef(
   ({ groupAppointmentId, cancelPrint }, ref) => {
     const { t } = useTranslation();
     const viewShotRef = React.useRef(null);
+    const viewShotCustomerRef = React.useRef(null);
     const { paymentMachineType } = useSelector((state) => state.hardware) ?? {};
 
     const [show_modal, setShowModal] = React.useState(false);
@@ -72,6 +73,7 @@ export const DialogReturnItemComplete = React.forwardRef(
     const { printProcess, shareProcess, processLoading } = usePrinter({
       printTemp: false,
       viewShotRef,
+      viewShotCustomerRef,
       doPrintClover: () => {},
       isSignature,
       fromAppointmentTab: false,
@@ -231,6 +233,36 @@ export const DialogReturnItemComplete = React.forwardRef(
                 invoiceNO={invoiceNO}
                 symbol={symbol}
                 typeReceipt={typeReceipt}
+                invoiceCode={invoiceCode}
+                subTotal={subTotal}
+                discount={discount}
+                tip={tip}
+                tax={tax}
+                total={total}
+                returnTotal={returnTotal}
+                fee={fee}
+                cashDiscount={cashDiscount}
+                due={due}
+                change={change}
+                taxRate={taxRate}
+                promotionNotes={promotionNotes}
+                checkoutPaymentMethods={checkoutPaymentMethods}
+                isSignature={false}
+                itemReturn={itemReturn}
+                staffName={staffName}
+              />
+              <ReceiptViewShot
+                ref={viewShotCustomerRef}
+                backgroundColor={receiptBackground}
+                items={items}
+                profile={profile}
+                customer={customer}
+                printTemp={false}
+                fromAppointmentTab={false}
+                invoiceDate={invoiceDate}
+                invoiceNO={invoiceNO}
+                symbol={symbol}
+                typeReceipt={t("Customer's Receipt")}
                 invoiceCode={invoiceCode}
                 subTotal={subTotal}
                 discount={discount}

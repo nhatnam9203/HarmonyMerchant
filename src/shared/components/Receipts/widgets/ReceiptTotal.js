@@ -45,7 +45,7 @@ export const ReceiptTotal = ({
         fontSize={scaleFont(22)}
       >{`${formatMoneyWithUnit(subtotal)}`}</TextTotal>
       <TextTotal label={"Discount"}>{`${formatMoneyWithUnit(
-        discount
+        -discount
       )}`}</TextTotal>
       <TextTotal
         label={`Tax${taxRate > 0 ? "(" + taxRate + "%)" : ""}`}
