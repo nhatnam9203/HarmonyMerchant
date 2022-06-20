@@ -32,7 +32,7 @@ export const DepositProgram = ({
             <View style={styles.margin} />
 
             <DepositAmount
-              method={"Minium appointment amount ($)"}
+              method={"Minimum appointment amount ($)"}
               value={`${advanceSetting?.MinimumAppointmentAmountRequireDeposit}`}
               setValue={setDepositMiniumAmount}
             />
