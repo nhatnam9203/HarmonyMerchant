@@ -4,6 +4,7 @@ import {
   ButtonGradientWhite,
   FormLabelSwitch,
   InputFloatNumber,
+  InputIntNumber,
 } from "@shared/components";
 import { fonts, colors } from "@shared/themes";
 import { useTranslation } from "react-i18next";
@@ -53,25 +54,25 @@ export const LoyaltyProgram = ({
             <View style={styles.margin} />
             <PaymentMethodRate
               method={"Cash"}
-              value={`${advanceSetting?.CashStarRate}`}
+              value={`${parseInt(advanceSetting?.CashStarRate)}`}
               setValue={setCashStarRate}
             />
             <View style={styles.margin} />
             <PaymentMethodRate
               method={"HarmonyPay"}
-              value={`${advanceSetting?.HarmonyPayStarRate}`}
+              value={`${parseInt(advanceSetting?.HarmonyPayStarRate)}`}
               setValue={setHarmonyPayStarRate}
             />
             <View style={styles.margin} />
             <PaymentMethodRate
               method={"Credit card"}
-              value={`${advanceSetting?.CreditCardStarRate}`}
+              value={`${parseInt(advanceSetting?.CreditCardStarRate)}`}
               setValue={setCreditCardStarRate}
             />
             <View style={styles.margin} />
             <PaymentMethodRate
               method={"Other"}
-              value={`${advanceSetting?.OtherStarRate}`}
+              value={`${parseInt(advanceSetting?.OtherStarRate)}`}
               setValue={setOtherStarRate}
             />
           </View>
@@ -94,7 +95,7 @@ const PaymentMethodRate = ({ method = "Cash", value, setValue }) => (
         alignItems: "flex-start",
       }}
     >
-      <InputFloatNumber
+      <InputIntNumber
         width={scaleWidth(200)}
         height={scaleHeight(40)}
         keyboardType="numeric"
