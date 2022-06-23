@@ -1,25 +1,36 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { ButtonCalendarFilter } from "@shared/components";
+import { ButtonCalendarFilter, TableListExtended } from "@shared/components";
 import { useReportSaleOverall } from "@shared/services/api/retailer";
-import { statusSuccess } from "@shared/utils";
-import { formatMoneyWithUnit, getQuickFilterTimeRange } from "@utils";
+import {
+  dateToString,
+  DATE_SHOW_FORMAT_STRING,
+  statusSuccess,
+} from "@shared/utils";
+import { getQuickFilterTimeRange } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { ButtonOverall } from "../../../../widget";
-import SalesLineChart from "./chart/SalesLineChart";
 import { useSelector } from "react-redux";
+import { PopupButton } from "../../../../widget";
+import SalesLineChart from "./chart/SalesLineChart";
+import IMAGE from "@resources";
+import { layouts } from "@shared/themes";
 
-const log = (obj, message = "") => {
-  Logger.log(`[SalesOverall] ${message}`, obj);
+const VIEW_MODE = {
+  LIST: "LIST",
+  CHART: "CHART",
 };
+
+const ACTIVE_COLOR = "#0764B0";
+const INACTIVE_COLOR = "#6A6A6A";
 
 export const SalesOverall = () => {
   const { t } = useTranslation();
 
-  const [timeVal, setTimeVal] = React.useState();
-  const [data, setData] = React.useState();
-  const [summary, setSummary] = React.useState();
+  const [timeVal, setTimeVal] = React.useState(null);
+  const [data, setData] = React.useState([]);
+  const [summary, setSummary] = React.useState(0);
+  const [viewMode, setViewMode] = React.useState(VIEW_MODE.LIST);
   const tokenReportServer = useSelector(
     (state) => state.dataLocal.tokenReportServer
   );
@@ -62,8 +73,7 @@ export const SalesOverall = () => {
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOverall || {};
     if (statusSuccess(codeStatus)) {
-      log(data, "response data");
-      setData(data);
+      setData(data ?? []);
       setSummary(summary);
     }
   }, [reportSalesOverall]);
@@ -88,6 +98,23 @@ export const SalesOverall = () => {
       setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
     }
   };
+
+  const renderCell = () => {
+    return null;
+  };
+
+  const onRefresh = () => {
+    callGetReportSalesOverall();
+  };
+
+  const viewModeChart = () => {
+    setViewMode(VIEW_MODE.CHART);
+  };
+
+  const viewModeList = () => {
+    setViewMode(VIEW_MODE.LIST);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.rowContent}>
@@ -97,8 +124,31 @@ export const SalesOverall = () => {
           paddingLeft={scaleWidth(15)}
           paddingTop={scaleHeight(120)}
         />
+        <View style={layouts.fill} />
+        <View style={layouts.horizontal}>
+          <PopupButton
+            imageSrc={IMAGE.Report_Chart}
+            style={{ marginLeft: 20 }}
+            imageStyle={{
+              tintColor:
+                viewMode === VIEW_MODE.CHART ? ACTIVE_COLOR : INACTIVE_COLOR,
+            }}
+            onPress={viewModeChart}
+          />
+
+          <PopupButton
+            imageSrc={IMAGE.Report_Grid}
+            style={{ marginLeft: 10 }}
+            imageStyle={{
+              tintColor:
+                viewMode === VIEW_MODE.LIST ? ACTIVE_COLOR : INACTIVE_COLOR,
+            }}
+            onPress={viewModeList}
+          />
+        </View>
       </View>
-      <View style={styles.rowContent}>
+
+      {/* <View style={styles.rowContent}>
         <ButtonOverall
           label={t("total orders").toUpperCase()}
           amount={summary?.totalOrder}
@@ -123,9 +173,87 @@ export const SalesOverall = () => {
           label={t("average order").toUpperCase()}
           amount={formatMoneyWithUnit(summary?.averageOrder)}
         />
-      </View>
+      </View> */}
       <View style={styles.content}>
-        <SalesLineChart data={data} />
+        {viewMode === VIEW_MODE.LIST ? (
+          <TableListExtended
+            tableData={data}
+            tableHead={{
+              date: t("Date"),
+              costOfProduct: t("Cost of product"),
+              grossSales: t("Gross Sales"),
+              returns: t("Returns"),
+              discount: t("Discounts & Comps"),
+              netSales: t("Net Sales"),
+              giftCardSales: t("Gift Card"),
+              tax: t("Tax"),
+              tip: t("Tip"),
+              totalEndDay: t("Total End Day"),
+              profit: t("Profit"),
+            }}
+            whiteKeys={[
+              "date",
+              "costOfProduct",
+              "grossSales",
+              "returns",
+              "discount",
+              "netSales",
+              "giftCardSales",
+              "tax",
+              "tip",
+              "totalEndDay",
+              "profit",
+            ]}
+            primaryId="date"
+            // sumTotalKey="date"
+            // calcSumKeys={[]}
+            priceKeys={[
+              "costOfProduct",
+              "grossSales",
+              "returns",
+              "discount",
+              "netSales",
+              "giftCardSales",
+              "tax",
+              "tip",
+              "totalEndDay",
+              "profit",
+            ]}
+            unitKeys={{ date: "hrs" }}
+            sortDefault="NONE"
+            sortKey="name"
+            tableCellWidth={{
+              date: scaleWidth(150),
+              costOfProduct: scaleWidth(150),
+              grossSales: scaleWidth(150),
+              returns: scaleWidth(150),
+              discount: scaleWidth(150),
+              netSales: scaleWidth(150),
+              giftCardSales: scaleWidth(150),
+              tax: scaleWidth(150),
+              tip: scaleWidth(150),
+              totalEndDay: scaleWidth(150),
+              profit: scaleWidth(150),
+            }}
+            renderCell={renderCell}
+            formatFunctionKeys={{
+              date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+            }}
+            //   totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
+            //   totalCost: (value) => `${formatMoneyWithUnit(value)}`,
+            //   totalTax: (value) => `${formatMoneyWithUnit(value)}`,
+            //   totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
+            // }}
+            // renderActionCell={renderActionCell}
+            // onRowPress={onRowPress}
+            onRefresh={onRefresh}
+            // isRefreshing={isRefreshing}
+            // onLoadMore={onLoadMore}
+            // endLoadMore={endLoadMore}
+          />
+        ) : (
+          <SalesLineChart data={data} />
+        )}
       </View>
     </View>
   );
