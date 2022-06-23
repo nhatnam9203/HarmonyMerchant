@@ -116,9 +116,9 @@ const pickValuesForKey = (array, forKey, format, unit = "") => {
   });
 };
 
-export default function SalesLineChart({ data }) {
+export default function SalesLineChart({ data = [] }) {
   /**state store */
-  const [dataChart, setDataChart] = React.useState({ dataSets: null });
+  const [dataChart, setDataChart] = React.useState({ dataSets: [] });
   const [xAxis, setXAxis] = React.useState(xAxisDefault);
 
   /**useEffect */
@@ -196,7 +196,7 @@ export default function SalesLineChart({ data }) {
         })
       );
     } else {
-      setDataChart({ dataSets: null });
+      setDataChart({ dataSets: [] });
     }
 
     // ======= map formatter =======

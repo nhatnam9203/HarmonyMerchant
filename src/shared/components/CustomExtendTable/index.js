@@ -647,25 +647,25 @@ export function TableListExtended({
   );
 }
 
-TableListExtended.propTypes = {
-  tableData: PropTypes.array.isRequired,
-  tableHead: PropTypes.array,
-  noHead: PropTypes.bool,
-  calcSumKeys: PropTypes.array,
-  tableCellWidth: PropTypes.array,
-  whiteKeys: PropTypes.array.isRequired,
-  primaryId: PropTypes.any.isRequired,
-  sumTotalKey: PropTypes.string,
-  priceKeys: PropTypes.array,
-  extraData: PropTypes.object.extraData,
-  renderCell: PropTypes.object,
-  onCellPress: PropTypes.func,
-  onRowPress: PropTypes.func,
-  showSumOnBottom: PropTypes.bool,
-  onChangeSumObjects: PropTypes.func,
-  renderFooter: PropTypes.func,
-  renderIconCell: PropTypes.func,
-};
+// TableListExtended.propTypes = {
+//   tableData: PropTypes.array.isRequired,
+//   tableHead: PropTypes.array,
+//   noHead: PropTypes.bool,
+//   calcSumKeys: PropTypes.array,
+//   // tableCellWidth: PropTypes.array,
+//   whiteKeys: PropTypes.array.isRequired,
+//   primaryId: PropTypes.any.isRequired,
+//   sumTotalKey: PropTypes.string,
+//   priceKeys: PropTypes.array,
+//   // extraData: PropTypes.object.func,
+//   renderCell: PropTypes.func,
+//   onCellPress: PropTypes.func,
+//   onRowPress: PropTypes.func,
+//   showSumOnBottom: PropTypes.bool,
+//   onChangeSumObjects: PropTypes.func,
+//   renderFooter: PropTypes.func,
+//   renderIconCell: PropTypes.func,
+// };
 
 //================================
 // Component

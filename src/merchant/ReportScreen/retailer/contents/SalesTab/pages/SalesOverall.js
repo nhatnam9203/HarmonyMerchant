@@ -1,9 +1,20 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { ButtonCalendarFilter, TableListExtended } from "@shared/components";
-import { useReportSaleOverall } from "@shared/services/api/retailer";
+import IMAGE from "@resources";
+import {
+  ButtonCalendarFilter,
+  ExportModal,
+  TableListExtended,
+} from "@shared/components";
+import { reportApi, useQueryCallback } from "@shared/services";
+import {
+  useReportSaleOverall,
+  useExportRetailerSaleOverall,
+} from "@shared/services/api/retailer";
+import { layouts } from "@shared/themes";
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
+  getTimeTitleFile,
   statusSuccess,
 } from "@shared/utils";
 import { getQuickFilterTimeRange } from "@utils";
@@ -13,8 +24,6 @@ import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { PopupButton } from "../../../../widget";
 import SalesLineChart from "./chart/SalesLineChart";
-import IMAGE from "@resources";
-import { layouts } from "@shared/themes";
 
 const VIEW_MODE = {
   LIST: "LIST",
@@ -26,6 +35,7 @@ const INACTIVE_COLOR = "#6A6A6A";
 
 export const SalesOverall = () => {
   const { t } = useTranslation();
+  const exportRef = React.useRef(null);
 
   const [timeVal, setTimeVal] = React.useState(null);
   const [data, setData] = React.useState([]);
@@ -49,20 +59,24 @@ export const SalesOverall = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal]);
 
+  const callExportSalesOverall = (values) => {
+    const params = Object.assign({}, values, {
+      ...timeVal,
+    });
+
+    exportRef.current?.onSetFileName(getTimeTitleFile("SaleOverall", params));
+
+    exportRetailerSaleOverall(params);
+  };
+
+  const [saleOverallExport, exportRetailerSaleOverall] =
+    useExportRetailerSaleOverall();
+
   /**
   |--------------------------------------------------
   | useEffect
   |--------------------------------------------------
   */
-
-  //   React.useEffect(() => {
-  //     callGetReportSalesOverall();
-  //   }, []);
-
-  // React.useEffect(() => {
-  //   callGetReportSalesOverall();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [timeVal]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -77,6 +91,13 @@ export const SalesOverall = () => {
       setSummary(summary);
     }
   }, [reportSalesOverall]);
+
+  React.useEffect(() => {
+    const { codeStatus, message, data, summary } = saleOverallExport || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data);
+    }
+  }, [saleOverallExport]);
 
   React.useEffect(() => {
     if (tokenReportServer) {
@@ -99,7 +120,7 @@ export const SalesOverall = () => {
     }
   };
 
-  const renderCell = () => {
+  const _renderCell = () => {
     return null;
   };
 
@@ -117,63 +138,6 @@ export const SalesOverall = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.rowContent}>
-        <ButtonCalendarFilter
-          onChangeTimeValue={onChangeTimeValue}
-          defaultValue={"This Week"}
-          paddingLeft={scaleWidth(15)}
-          paddingTop={scaleHeight(120)}
-        />
-        <View style={layouts.fill} />
-        <View style={layouts.horizontal}>
-          <PopupButton
-            imageSrc={IMAGE.Report_Chart}
-            style={{ marginLeft: 20 }}
-            imageStyle={{
-              tintColor:
-                viewMode === VIEW_MODE.CHART ? ACTIVE_COLOR : INACTIVE_COLOR,
-            }}
-            onPress={viewModeChart}
-          />
-
-          <PopupButton
-            imageSrc={IMAGE.Report_Grid}
-            style={{ marginLeft: 10 }}
-            imageStyle={{
-              tintColor:
-                viewMode === VIEW_MODE.LIST ? ACTIVE_COLOR : INACTIVE_COLOR,
-            }}
-            onPress={viewModeList}
-          />
-        </View>
-      </View>
-
-      {/* <View style={styles.rowContent}>
-        <ButtonOverall
-          label={t("total orders").toUpperCase()}
-          amount={summary?.totalOrder}
-        />
-        <ButtonOverall
-          label={t("total gross sales").toUpperCase()}
-          amount={formatMoneyWithUnit(summary?.grossSales)}
-        />
-        <ButtonOverall
-          label={t("total cost").toUpperCase()}
-          amount={formatMoneyWithUnit(summary?.cost)}
-        />
-        <ButtonOverall
-          label={t("total tax").toUpperCase()}
-          amount={formatMoneyWithUnit(summary?.tax)}
-        />
-        <ButtonOverall
-          label={t("total end day").toUpperCase()}
-          amount={formatMoneyWithUnit(summary?.totalEndDay)}
-        />
-        <ButtonOverall
-          label={t("average order").toUpperCase()}
-          amount={formatMoneyWithUnit(summary?.averageOrder)}
-        />
-      </View> */}
       <View style={styles.content}>
         {viewMode === VIEW_MODE.LIST ? (
           <TableListExtended
@@ -235,7 +199,7 @@ export const SalesOverall = () => {
               totalEndDay: scaleWidth(150),
               profit: scaleWidth(150),
             }}
-            renderCell={renderCell}
+            renderCell={_renderCell}
             formatFunctionKeys={{
               date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             }}
@@ -255,6 +219,39 @@ export const SalesOverall = () => {
           <SalesLineChart data={data} />
         )}
       </View>
+
+      <View style={styles.rowContent}>
+        <ButtonCalendarFilter
+          onChangeTimeValue={onChangeTimeValue}
+          defaultValue={"This Week"}
+          paddingLeft={scaleWidth(15)}
+          paddingTop={scaleHeight(120)}
+        />
+        <View style={layouts.fill} />
+        <View style={[layouts.horizontal, { alignItems: "flex-end" }]}>
+          <PopupButton
+            imageSrc={IMAGE.Report_Chart}
+            style={{ marginLeft: 20 }}
+            imageStyle={{
+              tintColor:
+                viewMode === VIEW_MODE.CHART ? ACTIVE_COLOR : INACTIVE_COLOR,
+            }}
+            onPress={viewModeChart}
+          />
+
+          <PopupButton
+            imageSrc={IMAGE.Report_Grid}
+            style={{ marginLeft: 10 }}
+            imageStyle={{
+              tintColor:
+                viewMode === VIEW_MODE.LIST ? ACTIVE_COLOR : INACTIVE_COLOR,
+            }}
+            onPress={viewModeList}
+          />
+          <View style={{ width: scaleWidth(10) }} />
+          <ExportModal ref={exportRef} onExportFile={callExportSalesOverall} />
+        </View>
+      </View>
     </View>
   );
 };
@@ -262,6 +259,7 @@ export const SalesOverall = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column-reverse",
   },
 
   content: {
