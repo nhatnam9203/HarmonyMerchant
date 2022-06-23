@@ -1,6 +1,5 @@
-import { useAxiosReport } from "@shared/services/api/useAxiosReport";
-import { RETAILER_REPORT_PRODUCT } from "../../route";
 import { appMerchant } from "@redux/slices";
+import { useAxiosReport } from "@shared/services/api/useAxiosReport";
 import React from "react";
 import { useDispatch } from "react-redux";
 

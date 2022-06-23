@@ -5,10 +5,9 @@ import {
   ExportModal,
   TableListExtended,
 } from "@shared/components";
-import { reportApi, useQueryCallback } from "@shared/services";
 import {
-  useReportSaleOverall,
   useExportRetailerSaleOverall,
+  useReportSaleOverall,
 } from "@shared/services/api/retailer";
 import { layouts } from "@shared/themes";
 import {
