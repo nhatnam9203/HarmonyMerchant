@@ -2176,7 +2176,7 @@ export const calculateSubTotal = (appointment) => {
       totalExtras += formatNumberFromCurrency(item?.price)
     })
     subTotalTemp = totalServices + totalProducts + totalGiftCards + totalExtras;
-    subTotalTemp = subTotalTemp.toFixed(2);
+    subTotalTemp = formatNumberFromCurrency(subTotalTemp.toFixed(2));
   }
   
   return subTotalTemp;

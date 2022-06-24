@@ -83,7 +83,10 @@ function* getGroupAppointmentById(action) {
     if (parseInt(codeNumber) == 200) {
       let data = responses?.data || false;
       if (data) {
-        if (data?.appointments) {
+        console.log(data, data?.status, action?.isSubmitPayment)
+        if (data?.appointments 
+             && data?.status != "paid"
+             && !action?.isSubmitPayment) {
           let isUpdateData = false;
           let subTotalGroup = 0;
           let listAppointmentsUpdate = [];
@@ -91,7 +94,9 @@ function* getGroupAppointmentById(action) {
             let appointment = data?.appointments[i];
             const subTotalAppointment = calculateSubTotal(appointment);
             
-            if (subTotalAppointment != appointment?.subTotal) {
+            if (formatNumberFromCurrency(subTotalAppointment) 
+              != formatNumberFromCurrency(appointment?.subTotal)) {
+             
               isUpdateData = true;
               const total = subTotalAppointment 
                           + formatNumberFromCurrency(appointment?.tipAmount) 
@@ -619,6 +624,7 @@ function* submitPaymentWithCreditCard(action) {
         checkoutPaymentId: action.checkoutPaymentId,
         paymentMethod: action.paymentMethod,
         amount: action.amount,
+        isSubmitPayment: true
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
