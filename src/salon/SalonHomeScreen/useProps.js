@@ -6,11 +6,16 @@ import _ from "lodash";
 import { AppState, BackHandler, NativeModules } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
+import * as controllers from "./controllers";
 
 const PosLink = NativeModules.payment;
 
 export const useProps = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [homePageState, homePageDispatch] = React.useReducer(
+    controllers.SalonHomePageReducer,
+    controllers.InitState
+  );
 
   const {
     profileStaffLogin,
@@ -127,8 +132,10 @@ export const useProps = ({ navigation }) => {
   }, [profile, listAppointmentsOfflineMode]);
 
   return {
-    activeScreen: true,
     navigation,
+    activeScreen: true,
+    ...homePageState,
+    homePageDispatch: homePageDispatch,
     handleLockScreen: () => {
       if (isFocused) {
         NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);

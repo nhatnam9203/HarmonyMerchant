@@ -4,14 +4,16 @@ import { colors } from "@shared/themes";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { PageLayout } from "./pages";
+import { SalonHomePageContextProvider } from "./controllers";
 
 const { Screen, Navigator } = createStackNavigator();
 
 export const Layout = ({
+  navigation,
   handleLockScreen,
   activeScreen,
-  navigation,
   clearIntervalById,
+  ...props
 }) => {
   return (
     <ParentContainer
@@ -20,19 +22,21 @@ export const Layout = ({
       navigation={navigation}
       clearIntervalById={clearIntervalById}
     >
-      <View style={styles.container}>
-        <StatusBarHeader />
-        <Navigator
-          headerMode="none"
-          screenOptions={{
-            cardStyle: {
-              backgroundColor: colors.WHITE_FA,
-            },
-          }}
-        >
-          <Screen {...PageLayout} />
-        </Navigator>
-      </View>
+      <SalonHomePageContextProvider value={props}>
+        <View style={styles.container}>
+          <StatusBarHeader />
+          <Navigator
+            headerMode="none"
+            screenOptions={{
+              cardStyle: {
+                backgroundColor: colors.WHITE_FA,
+              },
+            }}
+          >
+            <Screen {...PageLayout} />
+          </Navigator>
+        </View>
+      </SalonHomePageContextProvider>
     </ParentContainer>
   );
 };

@@ -23,23 +23,25 @@ export const BasketGrandTotal = ({
         )}`}</CustomText>
       </View>
 
-      {paidAmounts?.length > 0 &&
-        paidAmounts.map((x, index) => (
-          <View style={layouts.horizontalSpaceBetween} key={`${index}`}>
-            <CustomText color={colors.OCEAN_BLUE}>
-              {i18n.t("Paid")}
-              <Text style={styles.normalText}>{`${x?.paymentMethod}`}</Text>
-            </CustomText>
-            <CustomText color={colors.DARKISH_GREEN}>{`${formatMoneyWithUnit(
-              x?.amount
-            )}`}</CustomText>
-          </View>
-        ))}
-
       <View style={styles.padding} />
       <View
         style={[styles.line, { backgroundColor: colors.GREYISH_BROWN_50 }]}
       />
+      <View style={styles.padding} />
+
+      {paidAmounts?.length > 0 &&
+        paidAmounts.map((x, index) => (
+          <View style={layouts.horizontalSpaceBetween} key={`${index}`}>
+            <CustomText color={colors.GREYISH_BROWN}>
+              {i18n.t("Paid")}
+              <View style={{ width: scaleWidth(10) }} />
+              <Text style={styles.normalText}>{`(${x?.paymentMethod})`}</Text>
+            </CustomText>
+            <CustomText color={colors.GREYISH_BROWN}>{`${formatMoneyWithUnit(
+              x?.amount
+            )}`}</CustomText>
+          </View>
+        ))}
       <View style={styles.padding} />
 
       {dueAmount > 0 && (
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
   },
 
   padding: {
-    height: scaleHeight(16),
+    height: scaleHeight(18),
     width: scaleWidth(10),
   },
 
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
   normalText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(21),
-    fontWeight: "bold",
+    fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0,
     textAlign: "left",

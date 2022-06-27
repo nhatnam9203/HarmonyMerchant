@@ -1,16 +1,17 @@
 import actions from "@actions";
+import NavigatorServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
+import { ScreenName } from "@src/ScreenName";
 import * as AppUtils from "@utils";
 import _ from "lodash";
 import moment from "moment";
 import React from "react";
-import { NativeEventEmitter, NativeModules } from "react-native";
+import { NativeEventEmitter, NativeModules, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import * as Helpers from "../../Helpers";
 import * as CheckoutState from "./SalonCheckoutState";
 import { useCallApis } from "./useCallApis";
-import NavigatorServices from "@navigators/NavigatorServices";
-import { ScreenName } from "@src/ScreenName";
-import * as Helpers from "../../Helpers";
+import * as controllers from "../../controllers";
 
 const signalR = require("@microsoft/signalr");
 
@@ -21,6 +22,8 @@ const { clover } = NativeModules;
 
 export const useProps = (props) => {
   const dispatch = useDispatch();
+  const { navigation } = props || {};
+  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
 
   // References
   const subscriptions = React.useRef([]);
@@ -73,7 +76,7 @@ export const useProps = (props) => {
   // State
   const [visibleConfirmPayment, setVisibleConfirmPayment] =
     React.useState(false);
-  const [visibleConfirm, setVisibleConfirm] = React.useState(false);
+  // const [visibleConfirm, setVisibleConfirm] = React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
   const [visibleChangeMoney, setVisibleChangeMoney] = React.useState(false);
@@ -279,7 +282,7 @@ export const useProps = (props) => {
     dispatchLocal(CheckoutState.selectCategory(null)); // reset
   };
 
-  const createNewAppointment = async (basket) => {
+  const _createNewAppointment = async (basket) => {
     const {
       paymentSelected,
       customDiscountPercentLocal,
@@ -326,6 +329,9 @@ export const useProps = (props) => {
         customDiscountFixedLocal: 0,
       })
     );
+
+    // block change other tab when there are appointments
+    homePageCtx.homePageDispatch(controllers.blockChangeTab());
   };
 
   const removeItemInBlockAppointment = (dataRemove) => {
@@ -884,7 +890,8 @@ export const useProps = (props) => {
 
         body = Helpers.createServiceItemAddAppointment(
           productSeleted ?? customServiceSelected ?? customService,
-          selectedStaff?.staffId
+          selectedStaff?.staffId,
+          temptExtra
         );
       }
 
@@ -924,7 +931,7 @@ export const useProps = (props) => {
         );
 
         if (!network.isOfflineMode) {
-          createNewAppointment(temptBasket);
+          _createNewAppointment(temptBasket);
         }
       } else {
         //  -------------Add Extra , Service ---------
@@ -962,7 +969,7 @@ export const useProps = (props) => {
         );
 
         if (!network.isOfflineMode) {
-          createNewAppointment(temptBasket);
+          _createNewAppointment(temptBasket);
         }
       }
     }
@@ -993,14 +1000,16 @@ export const useProps = (props) => {
     isProcessPrintClover.current = false;
   };
 
-  const _cancelInvoicePrint = (isPrintTempt) => {
+  const _cancelInvoicePrint = async (isPrintTempt) => {
     setVisiblePrintInvoice(false);
     if (!isPrintTempt) {
       setIsPayment(false);
       NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
       dispatch(actions.appointment.resetBasketEmpty());
       dispatchLocal(CheckoutState.resetState());
-      dispatch();
+      await homePageCtx.homePageDispatch(
+        controllers.resetCheckOut(ScreenName.SALON.APPOINTMENT)
+      );
     }
   };
 
@@ -1055,6 +1064,92 @@ export const useProps = (props) => {
     }
   };
 
+  const _createABlockAppointment = () => {
+    const { selectedStaff } = stateLocal || {};
+
+    let fromTime = appointment.fromTimeBlockAppointment;
+    if (
+      appointment.blockAppointments &&
+      appointment.blockAppointments.length > 0
+    ) {
+      fromTime = _.get(appointment.blockAppointments, "0.fromTime")
+        ? moment(_.get(appointment.blockAppointments, "0.fromTime"))
+            .local()
+            .format()
+        : new Date();
+    }
+
+    const firstAppointment = appointment.blockAppointments[0];
+
+    if (
+      firstAppointment &&
+      firstAppointment.status &&
+      firstAppointment.status === "waiting"
+    ) {
+      dispatch(
+        actions.appointment.createAppointmentWaiting(
+          dataLocal.profile.merchantId,
+          fromTime,
+          appointment.customerInfoBuyAppointment?.userId || 0,
+          appointment.customerInfoBuyAppointment?.customerId || 0,
+          appointment.customerInfoBuyAppointment?.firstName || "",
+          appointment.customerInfoBuyAppointment?.lastName || "",
+          appointment.customerInfoBuyAppointment?.phone || "",
+          appointment.bookingGroupId,
+          selectedStaff?.staffId ?? 0
+        )
+      );
+    } else {
+      dispatch(
+        actions.appointment.createBlockAppointment(
+          dataLocal.profile.merchantId,
+          fromTime,
+          appointment.customerInfoBuyAppointment?.userId || 0,
+          appointment.customerInfoBuyAppointment?.customerId || 0,
+          appointment.customerInfoBuyAppointment?.firstName || "",
+          appointment.customerInfoBuyAppointment?.lastName || "",
+          appointment.customerInfoBuyAppointment?.phone || "",
+          appointment.bookingGroupId,
+          selectedStaff?.staffId ?? 0
+        )
+      );
+    }
+
+    // block change other tab when there are appointments
+    homePageCtx.homePageDispatch(controllers.blockChangeTab());
+  };
+
+  const titleExitCheckoutTab = React.useMemo(() => {
+    const {
+      groupAppointment,
+      isBookingFromCalendar,
+      appointmentIdBookingFromCalendar,
+      isCancelAppointment,
+    } = appointment || {};
+
+    let app0 = null;
+    if (groupAppointment && groupAppointment?.appointments?.length > 0) {
+      app0 = groupAppointment?.appointments[0];
+    }
+
+    return (isCancelAppointment &&
+      app0 &&
+      app0.services.length + app0.products.length + app0.giftCards.length ===
+        0) ||
+      (isBookingFromCalendar &&
+        appointmentIdBookingFromCalendar &&
+        app0 &&
+        app0.services.length + app0.products.length + app0.giftCards.length ===
+          0) ||
+      (!isBookingFromCalendar &&
+        appointmentIdBookingFromCalendar == 0 &&
+        app0 &&
+        app0.services.length + app0.products.length + app0.giftCards.length ===
+          0)
+      ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? "
+      : "Are you sure you want to exit Check-Out?";
+  }, [appointment]);
+
   return {
     categoriesRef,
     amountRef,
@@ -1066,15 +1161,16 @@ export const useProps = (props) => {
     ...dataLocal,
     ...category,
     ...network,
-    ...service, // custom service info of merchant
-    ...product, // custom service info of merchant
+    ...service, //  services
+    ...product, // products
+    ...extra, // extras
     // loginStaff: dataLocal.profileStaffLogin,
-    isPayment, // show categories or payment
+    isPayment, // show tab categories or payment
     ...appointment,
     ...stateLocal,
     // apis
     ...apis,
-    ...extra,
+    titleExitCheckoutTab,
 
     setSelectStaffFromCalendar,
     setBlockStateFromCalendar: (bl) => {
@@ -1100,12 +1196,12 @@ export const useProps = (props) => {
 
     addAppointmentCheckout: () => {
       if (appointment.blockAppointments?.length > 0) {
-        createABlockAppointment();
+        _createABlockAppointment();
+        return;
       }
 
       NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
     },
-
     cancelHarmonyPayment: _cancelHarmonyPayment,
     payBasket: () => {
       const { paymentSelected } = stateLocal || {};
@@ -1408,57 +1504,7 @@ export const useProps = (props) => {
         )
       );
     },
-    createABlockAppointment: () => {
-      const { selectedStaff } = stateLocal || {};
-
-      let fromTime = appointment.fromTimeBlockAppointment;
-      if (
-        appointment.blockAppointments &&
-        appointment.blockAppointments.length > 0
-      ) {
-        fromTime = _.get(appointment.blockAppointments, "0.fromTime")
-          ? moment(_.get(appointment.blockAppointments, "0.fromTime"))
-              .local()
-              .format()
-          : new Date();
-      }
-
-      const firstAppointment = appointment.blockAppointments[0];
-
-      if (
-        firstAppointment &&
-        firstAppointment.status &&
-        firstAppointment.status === "waiting"
-      ) {
-        dispatch(
-          actions.appointment.createAppointmentWaiting(
-            dataLocal.profile.merchantId,
-            fromTime,
-            appointment.customerInfoBuyAppointment?.userId || 0,
-            appointment.customerInfoBuyAppointment?.customerId || 0,
-            appointment.customerInfoBuyAppointment?.firstName || "",
-            appointment.customerInfoBuyAppointment?.lastName || "",
-            appointment.customerInfoBuyAppointment?.phone || "",
-            appointment.bookingGroupId,
-            selectedStaff?.staffId ?? 0
-          )
-        );
-      } else {
-        dispatch(
-          actions.appointment.createBlockAppointment(
-            dataLocal.profile.merchantId,
-            fromTime,
-            appointment.customerInfoBuyAppointment?.userId || 0,
-            appointment.customerInfoBuyAppointment?.customerId || 0,
-            appointment.customerInfoBuyAppointment?.firstName || "",
-            appointment.customerInfoBuyAppointment?.lastName || "",
-            appointment.customerInfoBuyAppointment?.phone || "",
-            appointment.bookingGroupId,
-            selectedStaff?.staffId ?? 0
-          )
-        );
-      }
-    },
+    createABlockAppointment: _createABlockAppointment,
     addBlockAppointment: _addBlockAppointment,
     onRequestClosePopupDiscountLocal: async () => {
       dispatchLocal(CheckoutState.visiblePopupDiscountLocal(false)); // reset
@@ -1473,10 +1519,11 @@ export const useProps = (props) => {
         } = stateLocal || {};
 
         if (appointmentId !== -1) {
-          const appointment = appointment.groupAppointment?.appointments?.find(
-            (appointment) => appointment.appointmentId === appointmentId
-          );
-          const { services, products, extras, giftCards } = appointment;
+          const { services, products, extras, giftCards } =
+            appointment.groupAppointment?.appointments?.find(
+              (appointment) => appointment.appointmentId === appointmentId
+            ) || {};
+
           const arrayProducts =
             AppUtils.getArrayProductsFromAppointment(products);
           const arryaServices =
@@ -1536,15 +1583,16 @@ export const useProps = (props) => {
     changeStylistBasketLocal: _changeStylistBasketLocal,
 
     // PopupConfirm
-    visibleConfirm,
-    closePopupCheckDiscountPermission: () => {
-      dispatch(actions.marketing.switchPopupCheckDiscountPermission(false));
-    },
+    visibleConfirm: homePageCtx.visiblePopupConfirmCancelCheckout,
     closePopupConfirm: () => {
-      setVisibleConfirm(false);
+      // setVisibleConfirm(false);
+      homePageCtx.homePageDispatch(
+        controllers.hidePopupConfirmCancelCheckout()
+      );
     },
-    clearDataConfirm: () => {
+    clearDataConfirm: async () => {
       const { isDrawer } = stateLocal;
+
       if (!_.isEmpty(appointment.connectionSignalR)) {
         appointment.connectionSignalR.stop();
       }
@@ -1555,9 +1603,6 @@ export const useProps = (props) => {
         );
       }
 
-      // reset về page appointment,  // !
-      // this.props.gotoPageCurentParent(isDrawer); //!
-
       // reset local state
       dispatchLocal(CheckoutState.resetState());
 
@@ -1565,7 +1610,7 @@ export const useProps = (props) => {
       setIsPayment(false);
 
       // reset basket
-      dispatch(props.actions.appointment.resetBasketEmpty());
+      dispatch(actions.appointment.resetBasketEmpty());
       dispatch(actions.appointment.resetPayment());
       dispatch(actions.appointment.changeFlagSigninAppointment());
       dispatch(actions.appointment.resetGroupAppointment());
@@ -1753,6 +1798,15 @@ export const useProps = (props) => {
 
         blockAppointmentRef.current = [];
       }
+
+      // reset về page appointment,  // !
+      // this.props.gotoPageCurentParent(isDrawer); //!
+      const goToTab =
+        homePageCtx.nextTab ?? ScreenName.SALON.APPOINTMENT_LAYOUT;
+      await homePageCtx.homePageDispatch(controllers.resetCheckOut(goToTab));
+      if (goToTab === homePageCtx.currentTab) {
+        NavigatorServices.goBack();
+      } else NavigatorServices.navigate(goToTab);
     },
 
     //Popup Payment   Confirm
@@ -1800,7 +1854,7 @@ export const useProps = (props) => {
     },
 
     // DialogPayCompleted
-    printBill: () => {
+    printBill: async () => {
       // this.pushAppointmentIdOfflineIntoWebview();
 
       const { portName } = getInfoFromModelNameOfPrinter(
@@ -1872,6 +1926,10 @@ export const useProps = (props) => {
         dispatchLocal(CheckoutState.resetState());
         dispatch(actions.appointment.resetPayment());
       }
+
+      await homePageCtx.homePageDispatch(
+        controllers.resetCheckOut(ScreenName.SALON.APPOINTMENT)
+      );
     },
     cancelInvoicePrint: _cancelInvoicePrint,
     doPrintClover: _doPrintClover,
@@ -2059,7 +2117,9 @@ export const useProps = (props) => {
     // PopupCheckStaffPermission
     popupCheckDiscountPermissionRef,
     visiblePopupCheckDiscountPermission,
-    closePopupCheckDiscountPermission: () => {},
+    closePopupCheckDiscountPermission: () => {
+      dispatch(actions.marketing.switchPopupCheckDiscountPermission(false));
+    },
 
     // PopupAddEditCustomer
     addEditCustomerInfoRef,
@@ -2087,7 +2147,8 @@ export const useProps = (props) => {
     backAddBasket: () => {
       _cancelHarmonyPayment();
       // link to tab appointment
-      NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
+      // NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
+      setIsPayment(false);
     },
 
     callbackDiscountToParent: () => {},

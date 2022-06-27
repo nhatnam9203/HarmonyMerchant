@@ -9,5 +9,11 @@ export const CheckoutPage = createScreenComponent(
   (props) => <Layout {...useCheckoutProps(props)} />,
   {
     title: "CHECK-OUT",
+  },
+  {
+    tabPress: (e) => {
+      // Prevent default action
+      // e.preventDefault();
+    },
   }
 );

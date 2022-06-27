@@ -79,7 +79,6 @@ export const Layout = ({
   callbackDiscountToParent,
   onDiscountAdd,
   popupConfirmOnRequestClose,
-  titleExitCheckoutTab,
   visibleConfirm,
   setVisibleConfirm,
   activeGiftCardPayRef,
@@ -122,6 +121,7 @@ export const Layout = ({
   isDidNotPay,
   getPurchasePoint,
   didNotPayComplete,
+  titleExitCheckoutTab,
 }) => {
   const [t] = useTranslation();
 

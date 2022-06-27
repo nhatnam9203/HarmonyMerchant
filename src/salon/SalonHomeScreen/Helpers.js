@@ -262,7 +262,7 @@ export const getBasketOffline = (basket, staffId) => {
   };
 };
 
-export const createProductItemAddAppointment = (item, quantity) => {
+export const createProductItemAddAppointment = (item, quantity = 1) => {
   return {
     services: [],
     extras: [],
@@ -276,7 +276,11 @@ export const createProductItemAddAppointment = (item, quantity) => {
   };
 };
 
-export const createServiceItemAddAppointment = (item, staffId, temptExtra) => {
+export const createServiceItemAddAppointment = (
+  item,
+  staffId,
+  temptExtra = []
+) => {
   return {
     services: [
       {
@@ -334,7 +338,7 @@ export const createExtraItemAddBasket = (extra, serviceName) => {
     data: {
       name: extra?.name,
       extraId: extra?.extraId,
-      price: aextra?.price,
+      price: extra?.price,
     },
     serviceName: serviceName,
   };

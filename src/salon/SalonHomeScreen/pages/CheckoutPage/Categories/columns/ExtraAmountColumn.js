@@ -25,9 +25,8 @@ export const ExtraAmountColumn = ({}) => {
     getExtrasFromRedux,
     onPressSelectExtra,
     arrSelectedExtra,
+    amountRef,
   } = ctx || {};
-
-  const amountRef = React.useRef(null);
 
   const temptHeader =
     categorySelected.categoryType === "Service" ? "Extra" : "Amount";
@@ -70,7 +69,9 @@ export const ExtraAmountColumn = ({}) => {
     >
       <Header label={t(temptHeader)} />
       {categoryTypeSelected === "Product" ? (
-        <ItemAmount ref={amountRef} price={productSeleted?.price} />
+        <View style={{ flex: 1 }}>
+          <ItemAmount ref={amountRef} price={productSeleted?.price} />
+        </View>
       ) : (
         <FlatList
           style={{ flex: 1 }}
@@ -101,10 +102,10 @@ export const ExtraAmountColumn = ({}) => {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: scaleWidth(4),
+    borderRadius: scaleWidth(3),
     backgroundColor: colors.OCEAN_BLUE,
     width: scaleWidth(240),
-    height: scaleHeight(60),
+    height: scaleHeight(58),
     ...layouts.center,
     marginVertical: scaleHeight(10),
     alignSelf: "center",
