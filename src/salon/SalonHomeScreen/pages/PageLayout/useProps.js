@@ -4,9 +4,6 @@ import * as controllers from "../../controllers";
 export const useProps = ({ navigation }) => {
   const homePageCtx = React.useContext(controllers.SalonHomePageContext);
   const _onHandleWillChangeTab = (tabName) => {
-    console.log(tabName);
-    console.log(homePageCtx);
-
     homePageCtx.homePageDispatch(controllers.pressTab(tabName));
     if (homePageCtx.isBlockChangeTab)
       homePageCtx.homePageDispatch(

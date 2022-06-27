@@ -20,7 +20,6 @@ export const SalonHomePageReducer = (state, action) => {
     case ACTION_TYPES.RESET_CHECKOUT_TAB:
       const prev = state.currentTab;
 
-      console.log(state);
       return Object.assign({}, state, {
         previousTab: prev,
         visiblePopupConfirmCancelCheckout: false,

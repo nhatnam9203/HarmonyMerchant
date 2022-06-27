@@ -24,10 +24,10 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
     const { t } = useTranslation();
     const receiptRefs = React.useRef([]);
 
-    const { 
-      paymentMachineType, 
-      dejavooMachineInfo, 
-      cloverMachineInfo 
+    const {
+      paymentMachineType,
+      dejavooMachineInfo,
+      cloverMachineInfo
     } = useSelector((state) => state.hardware) ?? {};
     const { profile, printerList, printerSelect } =
       useSelector((state) => state.dataLocal) ?? {};
@@ -51,7 +51,6 @@ export const PopupStaffSalaryReceipt = React.forwardRef(
 
     const onModalHide = () => {
       // setOpen(false);
-      console.log("Hide call");
       receiptRefs.current = [];
       setPrintProcessing(false);
     };

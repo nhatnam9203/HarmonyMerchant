@@ -97,7 +97,6 @@ export const FormShippingCarrier = ({ onChangeValue, appointment }) => {
 
           break;
         case SHIPPING_METHOD_GROUP.FLAT_RATE:
-          console.log(shippingMethod);
           setShippingMethodGroup(SHIPPING_METHOD_GROUP.FLAT_RATE);
 
           setFlatRateCustom(appointment?.shipping?.flatRateCustom);

@@ -1,5 +1,5 @@
 import { harmonyApi } from "@shared/services";
-import { useQueryCaller } from "@shared/services/RTKQuery";
+import { useQueryCallback } from "@shared/services/RTKQuery";
 import * as CheckoutState from "./SalonCheckoutState";
 
 export const useCallApis = ({ dispatchLocal }) => {
@@ -8,7 +8,7 @@ export const useCallApis = ({ dispatchLocal }) => {
   // get categories
 
   const [categoriesByStaffRequest, { loading: isGetCategoriesByStaff }] =
-    useQueryCaller(harmonyApi.useLazyGetCategoriesByStaffQuery, (result) => {
+    useQueryCallback(harmonyApi.useLazyGetCategoriesByStaffQuery, (result) => {
       const { data } = result || {};
       dispatchLocal(CheckoutState.setCategories(data));
     });
@@ -20,7 +20,7 @@ export const useCallApis = ({ dispatchLocal }) => {
 
   // get services
   const [servicesByStaffRequest, { loading: isGetServiceByStaff }] =
-    useQueryCaller(
+    useQueryCallback(
       harmonyApi.useLazyGetServiceByStaffQuery,
       (result) => {
         dispatchLocal(CheckoutState.setServiceByStaff(result?.data));
@@ -33,7 +33,7 @@ export const useCallApis = ({ dispatchLocal }) => {
 
   // get product
   const [productByStaffRequest, { loading: isGetProductByStaff }] =
-    useQueryCaller(
+    useQueryCallback(
       harmonyApi.useLazyGetProductByStaffQuery,
       (result) => {
         dispatchLocal(CheckoutState.setProductByStaff(result?.data));
