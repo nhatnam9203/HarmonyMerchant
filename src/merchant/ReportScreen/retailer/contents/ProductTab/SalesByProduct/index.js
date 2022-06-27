@@ -19,7 +19,7 @@ function SalesByProductTab({
     params: { showBackButton },
   },
 }) {
-  const exportRef = React.useRef();
+  const exportRef = React.useRef(null);
   const [timeVal, setTimeVal] = React.useState(null);
   const [filterProduct, setFilterProduct] = React.useState(null);
   const [data, setData] = React.useState([]);

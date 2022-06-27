@@ -1,8 +1,8 @@
 import React from "react";
 import * as Utils from "@shared/utils";
 
-const statusCallback = ["fulfilled"]; // "pending",
-export const useQueryCaller = (
+const statusCallback = ["fulfilled"];
+export const useQueryCallback = (
   fn,
   onSuccess = () => {},
   onFailed = () => {}
@@ -19,6 +19,10 @@ export const useQueryCaller = (
 
     if (isSuccess) {
       const response = data ?? currentData;
+      if (typeof response === "string") {
+        onSuccess(response);
+        return;
+      }
       const { codeNumber, codeStatus } = response || {};
       if (Utils.statusSuccess(codeStatus)) {
         // if codeNumber != 200, can alert message or process for case request error

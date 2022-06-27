@@ -77,6 +77,7 @@ export const ExportModal = React.forwardRef(
     };
     // Tạo file từ url của server trả về và show thông tin file lên
     const onHandleCreateFile = async (url) => {
+      console.log(url);
       let changeMode = mode === "excel" ? "xlsx" : mode;
       let filePath = await createFilePath({
         fileName: fileName,
