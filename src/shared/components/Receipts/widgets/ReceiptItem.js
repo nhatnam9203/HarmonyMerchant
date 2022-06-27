@@ -401,7 +401,14 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "center",
           }}
         >
-          <TextItem>{`${index + 1}. ${name}`}</TextItem>
+          <TextItem>{`${index + 1}. ${name}`} 
+            { item?.type == 'Product' &&
+              <Text style={[styles.textStyle, {fontWeight: '700'}]}>
+              {`(x${qty})`}
+              </Text>
+            }
+          </TextItem>
+          
           {extras?.length > 0 &&
             extras.map((x) => (
               <TextLabel
@@ -432,7 +439,10 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "flex-start",
           }}
         >
-          <TextLabel>{`${formatMoneyWithUnit(price)}`}</TextLabel>
+          { item?.type == 'Product' ?
+           <TextLabel>{`${formatMoneyWithUnit(price*qty)}`}</TextLabel> 
+            : <TextLabel>{`${formatMoneyWithUnit(price)}`}</TextLabel>
+          }
           {extras?.length > 0 &&
             extras.map((x) => (
               <TextLabel key={`${x.extraId}`}>{`${formatMoneyWithUnit(
