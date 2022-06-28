@@ -12,7 +12,7 @@ export const getValueForColumnKey = (item, colKey, index) => {
   if (!colKey || colKey.length <= 0) {
     return `${item[0]}-${index}`;
   }
-  return `${item[colKey]}`;
+  return `${item[colKey]}-${index}`;
 };
 
 export const TABLE_SPECIAL_KEYS = {
