@@ -122,6 +122,9 @@ export const Layout = ({
   getPurchasePoint,
   didNotPayComplete,
   titleExitCheckoutTab,
+  handleYes,
+  paymentMachineType,
+  onConfirmRefresh,
 }) => {
   const [t] = useTranslation();
 
@@ -346,9 +349,9 @@ export const Layout = ({
         onRequestClose={() => {
           setVisibleErrorMessageFromPax(false);
         }}
-        confimYes={() => {
-          setVisibleErrorMessageFromPax(false);
-        }}
+        confimYes={handleYes}
+        terminalType={paymentMachineType}
+        onConfirmRefresh={onConfirmRefresh}
       />
 
       <PopupChangeMoney
