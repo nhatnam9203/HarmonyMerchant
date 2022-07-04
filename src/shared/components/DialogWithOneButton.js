@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
   content: { flex: 0, width: "100%", paddingHorizontal: scaleWidth(20) },
 
   modal: {
-    backgroundColor: "#40404030",
     margin: 0,
   },
 

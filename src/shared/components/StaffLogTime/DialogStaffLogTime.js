@@ -50,13 +50,15 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
   const [workingTime, setWorkingTime] = React.useState(null);
 
   const [staff, setStaff] = React.useState(null);
-  const { merchantStaffLogtime, displayName, staffId } = staff || {};
 
   const [staffLoginFn, { loading: staffLoginLoading }] = useQueryCallback(
     harmonyApi.useStaffLoginMutation,
     (result) => {
       const { data } = result || {};
       setStaff(data);
+      // console.log(data);
+
+      const { merchantStaffLogtime } = data || {};
 
       if (!startLogTime) return;
       popupPinCodeRef.current?.hide();
@@ -150,8 +152,8 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
       note: note,
       amount: formatNumberFromCurrency(amount),
       type: logTimeType,
-      staffName: displayName,
-      staffId: staffId,
+      staffName: staff?.displayName,
+      staffId: staff?.staffId,
     };
 
     await createStaffLogTime(data);
@@ -245,7 +247,7 @@ export const DialogStaffLogTime = React.forwardRef((props, ref) => {
                 {`Hello `}
                 <Text
                   style={[{ color: colors.OCEAN_BLUE }]}
-                >{`${displayName}`}</Text>
+                >{`${staff?.displayName}`}</Text>
                 {" !"}
               </Text>
               <View style={styles.margin} />
