@@ -43,7 +43,6 @@ import QRCode from "react-native-qrcode-svg";
 import styles from "./style";
 import {
   EnterCustomerPhonePopup,
-  ErrorMessagePaxModal,
   ItemAmount,
   ItemBlockBasket,
   ItemCategory,
@@ -63,6 +62,9 @@ import {
   PopupPaymentDetails,
 } from "./widget";
 import { StaffItem } from "./widget/NewCheckoutComponent";
+import {
+  ErrorMessagePaxModal,
+} from "@shared/components/payment";
 
 class Layout extends React.Component {
   renderHeader() {
@@ -1424,9 +1426,9 @@ class Layout extends React.Component {
           onRequestClose={() => {
             this.setState({ visibleErrorMessageFromPax: false });
           }}
-          confimYes={() => {
-            this.setState({ visibleErrorMessageFromPax: false });
-          }}
+          confimYes={this.handleYes}
+          terminalType={this.props.paymentMachineType}
+          onConfirmRefresh={this.onConfirmRefresh}
         />
         <PopupChangeMoney
           ref={this.cashBackRef}
