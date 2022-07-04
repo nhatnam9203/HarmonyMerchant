@@ -238,6 +238,16 @@ export const useProps = ({
 
     setVisibleProcessingCredit(false);
     try {
+      if (payAppointmentId) {
+        dispatch(
+          actions.appointment.cancelHarmonyPayment(
+            payAppointmentId,
+            "transaction fail",
+            errorMessage
+          )
+        );
+      }
+
       setTimeout(() => {
         setErrorMessageFromPax(errorMessage);
         setVisibleErrorMessageFromPax(true);
@@ -440,6 +450,15 @@ export const useProps = ({
               `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
               "Transaction failed";
 
+            if (payAppointmentId) {
+              dispatch(
+                actions.appointment.cancelHarmonyPayment(
+                  payAppointmentId,
+                  "transaction fail",
+                  resultTxt
+                )
+              );
+            }
             setTimeout(() => {
               setVisibleProcessingCredit(false);
               setVisibleErrorMessageFromPax(true);
@@ -685,6 +704,19 @@ export const useProps = ({
       const result = JSON.parse(message);
       const tempEnv = Configs.ENV;
       if (result.status == 0) {
+        PosLink.cancelTransaction();
+        if (payAppointmentId) {
+          dispatch(
+            actions.appointment.cancelHarmonyPayment(
+              payAppointmentId,
+              "transaction fail",
+              result?.message
+            )
+          );
+        }
+        if (result.message === "ABORTED") {
+          return;
+        }
         setTimeout(() => {
           setVisibleErrorMessageFromPax(true);
           setErrorMessageFromPax(`${result.message}`);
@@ -722,6 +754,15 @@ export const useProps = ({
       } else {
         const resultTxt = result?.ResultTxt || "Transaction failed:";
 
+        if (payAppointmentId) {
+          dispatch(
+            actions.appointment.cancelHarmonyPayment(
+              payAppointmentId,
+              "transaction fail",
+              resultTxt
+            )
+          );
+        }
         setTimeout(() => {
           setVisibleErrorMessageFromPax(true);
           setErrorMessageFromPax(`${resultTxt}`);
@@ -1475,34 +1516,6 @@ export const useProps = ({
       dispatch(actions.appointment.resetGroupAppointment());
 
       onCompleteBack();
-    },
-    handleYes: () => {
-      setVisibleErrorMessageFromPax(false);
-      if (payAppointmentId) {
-        dispatch(
-          actions.appointment.cancelHarmonyPayment(
-            payAppointmentId,
-            "transaction fail",
-            errorMessageFromPax
-          )
-        );
-      }
-    },
-    paymentMachineType,
-    onConfirmRefresh: () => {
-      if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-        const param = {
-          RefId: payAppointmentId,
-        };
-        requestPreviousTransactionReportDejavoo(param).then((response) => {
-          handleResponseCreditCardDejavoo(
-            response,
-            true,
-            moneyUserGiveForStaff,
-            null
-          );
-        });
-      }
     },
   };
 };

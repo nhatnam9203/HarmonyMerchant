@@ -590,7 +590,7 @@ class InvoiceScreen extends Layout {
             const params = {
               tenderType: "Credit",
               transType,
-              amount: formatNumberFromCurrency(amount).toFixed(2),
+              amount: parseFloat(amount).toFixed(2),
               RefId: transactionId,
               invNum: `${invNum}`,
             };

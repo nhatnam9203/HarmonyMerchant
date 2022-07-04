@@ -1733,39 +1733,6 @@ class TabCheckout extends Layout {
     });
   }
 
-  onConfirmRefresh = () => {
-    this.setState({ visibleErrorMessageFromPax: false });
-    if (this.props.paymentMachineType == PaymentTerminalType.Dejavoo) {
-      
-      const {
-        amountCredtitForSubmitToServer,
-        payAppointmentId,
-      } = this.props;
-
-      const param = {
-        RefId: payAppointmentId,
-      };
-      requestPreviousTransactionReportDejavoo(param).then((response) => {
-        this.handleResponseCreditCardDejavoo(response, 
-                                        true, 
-                                        amountCredtitForSubmitToServer,
-                                        null)
-      })
-    }
-  }
-
-  handleYes = () => {
-    const { payAppointmentId } = this.props;
-    this.setState({ visibleErrorMessageFromPax: false });
-    if (payAppointmentId) {
-      this.props.actions.appointment.cancelHarmonyPayment(
-        payAppointmentId,
-        "transaction fail",
-        this.state.errorMessageFromPax || "Error"
-      );
-    }
-  }
-
   async handleResponseCreditCardDejavoo(
     message,
     online,
@@ -1819,6 +1786,14 @@ class TabCheckout extends Layout {
               `${l.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
               "Transaction failed";
 
+            if (payAppointmentId) {
+              this.props.actions.appointment.cancelHarmonyPayment(
+                payAppointmentId,
+                "transaction fail",
+                resultTxt
+              );
+            }
+
             setTimeout(() => {
               this.setState({
                 visibleProcessingCredit: false,
@@ -1863,6 +1838,17 @@ class TabCheckout extends Layout {
       const result = JSON.parse(message);
       const tempEnv = env.IS_PRODUCTION;
       if (l.get(result, "status", 0) == 0) {
+        // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
+        if (payAppointmentId) {
+          this.props.actions.appointment.cancelHarmonyPayment(
+            payAppointmentId,
+            "transaction fail",
+            result?.message
+          );
+        }
+        if (result?.message === "ABORTED") {
+          return;
+        }
         setTimeout(() => {
           // alert(result.message);
           this.setState({
@@ -1895,7 +1881,13 @@ class TabCheckout extends Layout {
         }
       } else {
         const resultTxt = result?.ResultTxt || "Transaction failed:";
-        
+        if (payAppointmentId) {
+          this.props.actions.appointment.cancelHarmonyPayment(
+            payAppointmentId,
+            "transaction fail",
+            resultTxt
+          );
+        }
         setTimeout(() => {
           // alert(resultTxt);
           this.setState({
@@ -3101,6 +3093,14 @@ class TabCheckout extends Layout {
       visibleProcessingCredit: false,
     });
     try {
+      if (payAppointmentId) {
+        this.props.actions.appointment.cancelHarmonyPayment(
+          payAppointmentId,
+          "transaction fail",
+          errorMessage
+        );
+      }
+
       setTimeout(() => {
         this.setState({
           visibleErrorMessageFromPax: true,
