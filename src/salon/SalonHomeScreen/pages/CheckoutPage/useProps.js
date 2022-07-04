@@ -444,7 +444,7 @@ export const useProps = (props) => {
 
   const _handleCreditCardProcess = (online = true, moneyUserGiveForStaff) => {
     const { paymentSelected, isCancelAppointment } = stateLocal;
-    const { ip, port, timeout } = paxMachineInfo;
+    const { ip, port, timeout } = hardware.paxMachineInfo;
     const moneyCreditCard = Number(
       AppUtils.formatNumberFromCurrency(moneyUserGiveForStaff) * 100
     ).toFixed(2);
@@ -639,10 +639,10 @@ export const useProps = (props) => {
           );
         } else if (method === "credit_card" || method === "debit_card") {
           let isSetup = false;
-          if (hardware.paymentMachineType == PaymentTerminalType.Pax) {
-            isSetup = _.get(paxMachineInfo, "isSetup");
+          if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Pax) {
+            isSetup = _.get(hardware.paxMachineInfo, "isSetup");
           } else if (
-            hardware.paymentMachineType == PaymentTerminalType.Dejavoo
+            hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo
           ) {
             isSetup = _.get(hardware.dejavooMachineInfo, "isSetup");
           } else {
@@ -1946,7 +1946,7 @@ export const useProps = (props) => {
             alert(i18n.t("PleaseWait"));
             return;
           }
-        } else if (hardware.paymentMachineType == PaymentTerminalType.Dejavoo) {
+        } else if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
           //Dejavoo can not cancel transaction by api
           alert(i18n.t("PleaseWait"));
           return;
