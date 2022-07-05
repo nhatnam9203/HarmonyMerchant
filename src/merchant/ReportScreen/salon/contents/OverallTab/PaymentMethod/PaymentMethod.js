@@ -29,7 +29,7 @@ export default function PaymentMethod({
   handleTheDownloadedFile,
   onRefresh,
   isRefreshing,
-  resetTab
+  resetTab,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -177,6 +177,7 @@ export default function PaymentMethod({
               transactions: localize("Transactions", language),
               grossPayment: localize("Gross Payments", language),
               refund: localize("Refunds", language),
+              return: localize("Return", language),
               netPayment: localize("Net Payments", language),
             }}
             whiteKeys={[
@@ -184,6 +185,7 @@ export default function PaymentMethod({
               "transactions",
               "grossPayment",
               "refund",
+              "return",
               "netPayment",
               "action",
             ]}
@@ -193,15 +195,17 @@ export default function PaymentMethod({
               "transactions",
               "grossPayment",
               "refund",
+              "return",
               "netPayment",
             ]}
-            priceKeys={["grossPayment", "refund", "netPayment"]}
+            priceKeys={["grossPayment", "refund", "return", "netPayment"]}
             tableCellWidth={{
-              displayMethod: 200,
+              displayMethod: 180,
               transactions: 150,
-              grossPayment: 200,
+              grossPayment: 160,
               refund: 160,
-              netPayment: 200,
+              return: 160,
+              netPayment: 160,
             }}
             renderCell={renderCell}
             renderActionCell={renderActionCell}
