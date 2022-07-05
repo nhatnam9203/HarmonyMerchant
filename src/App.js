@@ -107,7 +107,7 @@ const App: () => React$Node = () => {
 
   React.useEffect(() => {
     SplashScreen.hide();
-
+    console.log("check code push");
     registerEvents();
 
     return function cleanup() {
