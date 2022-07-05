@@ -86,6 +86,8 @@ const getCellKey = (item, primaryId) => {
 };
 
 const strCompare = (a, b) => {
+  if (!a || !b) return 0;
+
   if (moment(a).isValid() && moment(b).isValid()) {
     return moment(a, DATE_FORMAT) <= moment(b, DATE_FORMAT);
   }

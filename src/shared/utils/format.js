@@ -100,6 +100,8 @@ export const formatFullAddress = ({ city, stateName, street, zipCode }) => {
 };
 
 export const dateCompare = (a, b) => {
+  if (!a || !b) return 0;
+
   // check valid date -> sort date
   if (moment(a).isValid() && moment(b).isValid()) {
     return new Date(a) - new Date(b);
