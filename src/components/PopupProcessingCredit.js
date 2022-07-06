@@ -8,23 +8,61 @@ import {
 
 import ButtonCustom from "./ButtonCustom";
 import ModalCustom from "./ModalCustom";
+// const { persistor, store } = configureStore();
 
-import { scaleSize, localize } from '@utils';
+import { scaleSize, localize, PaymentTerminalType } from '@utils';
 
 class PopupProcessingCredit extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            transactionId: false
+            transactionId: false,
+            countDown: 120,
         }
+        // this.timer = React.useRef(null);
     }
+
+    // componentDidUpdate(prevProps, prevState) {
+    //     const { hardware } = store.getState();
+
+    //     if (hardware.paymentMachineType == PaymentTerminalType.Dejavoo) {
+    //         const { visible } = this.props;
+    //         if (prevProps.visible != visible) {
+    //             if (visible) {
+    //                 console.log('start timer')
+    //                 this.startTimer();
+    //             } else {
+    //                 console.log('clear timer')
+    //                 this.clearTimer();
+    //             }
+    //         }
+    //     }
+    // }
+
 
     setStateFromParent = async (transactionId) => {
         await this.setState({
             transactionId
         })
     }
+
+
+    // clearTimer = () => {
+    //   if (this.timer.current) {
+    //     clearTimeout(this.timer.current);
+    //     this.timer.current = null;
+    //   }
+    // };
+  
+    // startTimer = () => {
+    //   this.timer.current = setTimeout(() => {
+    //     const countDown = this.state.countDown > 0 ? this.state.countDown - 1 : 0;
+    //     console.log('countDown', countDown)
+    //     this.setState({ countDown })
+    //   }, 1000);
+    // };
+  
 
 
     render() {
