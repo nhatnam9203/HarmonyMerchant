@@ -8,9 +8,8 @@ import {
 
 import ButtonCustom from "./ButtonCustom";
 import ModalCustom from "./ModalCustom";
-// const { persistor, store } = configureStore();
 
-import { scaleSize, localize, PaymentTerminalType } from '@utils';
+import { scaleSize, localize, PaymentTerminalType, timeOutPayment } from '@utils';
 
 class PopupProcessingCredit extends React.Component {
 
@@ -18,27 +17,27 @@ class PopupProcessingCredit extends React.Component {
         super(props);
         this.state = {
             transactionId: false,
-            countDown: 120,
+            countDown: timeOutPayment,
         }
-        // this.timer = React.useRef(null);
+        this.timer = React.useRef(null);
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     const { hardware } = store.getState();
+    componentDidUpdate(prevProps, prevState) {
+        const { hardware } = this.props;
 
-    //     if (hardware.paymentMachineType == PaymentTerminalType.Dejavoo) {
-    //         const { visible } = this.props;
-    //         if (prevProps.visible != visible) {
-    //             if (visible) {
-    //                 console.log('start timer')
-    //                 this.startTimer();
-    //             } else {
-    //                 console.log('clear timer')
-    //                 this.clearTimer();
-    //             }
-    //         }
-    //     }
-    // }
+        if (hardware.paymentMachineType == PaymentTerminalType.Dejavoo) {
+            const { visible } = this.props;
+            if (prevProps.visible != visible) {
+                if (visible) {
+                    console.log('start timer')
+                    this.startTimer();
+                } else {
+                    console.log('clear timer')
+                    this.clearTimer();
+                }
+            }
+        }
+    }
 
 
     setStateFromParent = async (transactionId) => {
@@ -48,22 +47,20 @@ class PopupProcessingCredit extends React.Component {
     }
 
 
-    // clearTimer = () => {
-    //   if (this.timer.current) {
-    //     clearTimeout(this.timer.current);
-    //     this.timer.current = null;
-    //   }
-    // };
+    clearTimer = () => {
+      if (this.timer.current) {
+        clearTimeout(this.timer.current);
+        this.timer.current = null;
+      }
+    };
   
-    // startTimer = () => {
-    //   this.timer.current = setTimeout(() => {
-    //     const countDown = this.state.countDown > 0 ? this.state.countDown - 1 : 0;
-    //     console.log('countDown', countDown)
-    //     this.setState({ countDown })
-    //   }, 1000);
-    // };
-  
-
+    startTimer = () => {
+      this.timer.current = setTimeout(() => {
+        const countDown = this.state.countDown > 0 ? this.state.countDown - 1 : 0;
+        console.log('countDown', countDown)
+        this.setState({ countDown })
+      }, 1000);
+    };
 
     render() {
         const { visible, onRequestClose, language } = this.props;
@@ -131,8 +128,10 @@ class PopupProcessingCredit extends React.Component {
         );
     }
 }
+const mapStateToProps = state => ({
+    hardware: state.app.hardware,
+})
 
 
-export default PopupProcessingCredit;
-
+export default connectRedux(mapStateToProps, PopupProcessingCredit);
 
