@@ -62,6 +62,7 @@ export const useProps = (props) => {
   const product = useSelector((state) => state.product) || {};
   const staff = useSelector((state) => state.staff) || {};
   const hardware = useSelector((state) => state.hardware) || {};
+  const marketing = useSelector((state) => state.marketing) || {};
   const isTipOnPaxMachine = useSelector(
     (state) => state.dataLocal.isTipOnPaxMachine
   );
@@ -104,10 +105,7 @@ export const useProps = (props) => {
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
   const [visiblePopupAddItemIntoBasket, setVisiblePopupAddItemIntoBasket] =
     React.useState(false);
-  const [
-    visiblePopupCheckDiscountPermission,
-    setVisiblePopupCheckDiscountPermission,
-  ] = React.useState(false);
+
   const [visibleAddEditCustomerPopup, setVisibleAddEditCustomerPopup] =
     React.useState(false);
   const [isPayment, setIsPayment] = React.useState(false);
@@ -1771,7 +1769,7 @@ export const useProps = (props) => {
         alert("You are paying by Harmony Payment!");
       }
     },
-    showModalCheckPermission: () => {
+    showModalCheckPermission: (appointmentId, isBlock) => {
       popupCheckDiscountPermissionRef?.current?.setStateFromParent(
         "",
         appointmentId,
@@ -2318,7 +2316,8 @@ export const useProps = (props) => {
 
     // PopupCheckStaffPermission
     popupCheckDiscountPermissionRef,
-    visiblePopupCheckDiscountPermission,
+    visiblePopupCheckDiscountPermission:
+      marketing.visiblePopupCheckDiscountPermission,
     closePopupCheckDiscountPermission: () => {
       dispatch(actions.marketing.switchPopupCheckDiscountPermission(false));
     },
