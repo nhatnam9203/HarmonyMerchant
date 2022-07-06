@@ -279,7 +279,7 @@ export const useProps = (props) => {
     setIsGetResponsePaymentPax(false);
     setVisibleProcessingCredit(true);
     const moneyCreditCard = Number(
-      formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+      AppUtils.formatNumberFromCurrency(moneyUserGiveForStaff) * 100
     ).toFixed(2);
     const { ip, port, commType, bluetoothAddr } = hardware.paxMachineInfo;
     const tenderType = "CREDIT";
@@ -2354,5 +2354,6 @@ export const useProps = (props) => {
     },
 
     callbackDiscountToParent: () => {},
+    isShowCountdown: hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
   };
 };

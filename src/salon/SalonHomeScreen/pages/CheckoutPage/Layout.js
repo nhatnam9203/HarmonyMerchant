@@ -143,6 +143,7 @@ export const Layout = (props) => {
           visible={props.visibleProcessingCredit}
           onRequestClose={props.cancelTransaction}
           language={"en"}
+          isShowCountdown={props.isShowCountdown}
         />
         <PopupBill
           ref={props.modalBillRef}

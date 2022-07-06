@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
     View,
     Text,
@@ -19,22 +19,16 @@ class PopupProcessingCredit extends React.Component {
             transactionId: false,
             countDown: timeOutPayment,
         }
-        this.timer = React.useRef(null);
+        this.timer = null;
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { hardware } = this.props;
-
-        if (hardware.paymentMachineType == PaymentTerminalType.Dejavoo) {
-            const { visible } = this.props;
-            if (prevProps.visible != visible) {
-                if (visible) {
-                    console.log('start timer')
-                    this.startTimer();
-                } else {
-                    console.log('clear timer')
-                    this.clearTimer();
-                }
+        const { visible } = this.props;
+        if (prevProps.visible != visible) {
+            if (visible) {
+                this.startTimer();
+            } else {
+                this.clearTimer();
             }
         }
     }
@@ -48,24 +42,29 @@ class PopupProcessingCredit extends React.Component {
 
 
     clearTimer = () => {
-      if (this.timer.current) {
-        clearTimeout(this.timer.current);
-        this.timer.current = null;
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
       }
     };
   
     startTimer = () => {
-      this.timer.current = setTimeout(() => {
+      this.timer = setTimeout(() => {
         const countDown = this.state.countDown > 0 ? this.state.countDown - 1 : 0;
-        console.log('countDown', countDown)
         this.setState({ countDown })
+        this.clearTimer();
+        if (this.state.countDown > 0) {
+            this.startTimer();
+        }
       }, 1000);
     };
 
     render() {
         const { visible, onRequestClose, language } = this.props;
         const { transactionId } = this.state;
-
+        const second = this.state.countDown%60 > 9 ? 
+                        this.state.countDown%60 : 
+                        `0${this.state.countDown%60}`
         return (
             <ModalCustom
                 transparent={true}
@@ -98,7 +97,14 @@ class PopupProcessingCredit extends React.Component {
                                 color="rgb(83,157,209)"
 
                             />
+                           
                         </View>
+                        {
+                            this.props.isShowCountdown &&
+                            <Text style={{ color: '#0764B0', fontSize: scaleSize(20) }}>
+                                    {`${Number.parseInt(this.state.countDown/60)}:${second}`}
+                            </Text>
+                        }
 
                         {
                             transactionId ? <Text style={{ alignSelf: "center", color: "#404040", fontSize: scaleSize(18) }} >
@@ -128,10 +134,5 @@ class PopupProcessingCredit extends React.Component {
         );
     }
 }
-const mapStateToProps = state => ({
-    hardware: state.app.hardware,
-})
 
-
-export default connectRedux(mapStateToProps, PopupProcessingCredit);
-
+export default PopupProcessingCredit;
