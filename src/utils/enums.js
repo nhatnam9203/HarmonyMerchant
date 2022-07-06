@@ -12,6 +12,7 @@ export const POS_SERIAL = "POS";
 /*---Dejavoo----*/
 export const AUTHEN_KEY = "d4RL8FrETi";
 export const REGISTER_ID = "315100012760";
+export const timeOutPayment = 90;
 
 export const menuTabs = {
   MARKETING: "MENU_HOME_TAB_MARKETING",
