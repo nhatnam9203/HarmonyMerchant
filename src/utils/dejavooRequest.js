@@ -1,7 +1,8 @@
 import axios from "axios";
 import {
     AUTHEN_KEY,
-    stringIsEmptyOrWhiteSpaces
+    stringIsEmptyOrWhiteSpaces,
+    timeOutPayment
   } from '@utils';
 import _ from "lodash";
 import { parseString } from "react-native-xml2js";
@@ -34,7 +35,7 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: 120000,
+    timeout: timeOutPayment,
     };
     const response = await handleRequest(configs)
     return response
