@@ -35,7 +35,7 @@ export const useProps = (props) => {
   const amountRef = React.useRef(null);
   const popupAddItemIntoAppointmentsRef = React.useRef(null);
   const modalBillRef = React.useRef(null);
-  const blockAppointmentRef = React.useRef(null);
+  const blockAppointmentRef = React.useRef([]).current;
   const changePriceAmountProductRef = React.useRef(null);
   const popupDiscountRef = React.useRef(null);
   const popupDiscountLocalRef = React.useRef(null);
@@ -140,7 +140,10 @@ export const useProps = (props) => {
       const port = _.get(hardware.cloverMachineInfo, "port")
         ? _.get(hardware.cloverMachineInfo, "port")
         : 80;
-      const url = `wss://${_.get(hardware.cloverMachineInfo, "ip")}:${port}/remote_pay`;
+      const url = `wss://${_.get(
+        hardware.cloverMachineInfo,
+        "ip"
+      )}:${port}/remote_pay`;
 
       dispatch(actions.appointment.isProcessPaymentClover(true));
 
@@ -158,7 +161,9 @@ export const useProps = (props) => {
         amount: `${parseFloat(moneyCreditCard)}`,
         externalId: `${appointment.payAppointmentId}`,
       });
-    } else if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
+    } else if (
+      hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo
+    ) {
       setVisibleProcessingCredit(true);
 
       const tenderType = "Credit";
@@ -249,7 +254,6 @@ export const useProps = (props) => {
                 })
               );
             }, 400);
-            
           }
         } else {
           setVisibleProcessingCredit(false);
@@ -257,7 +261,7 @@ export const useProps = (props) => {
           if (!AppUtils.stringIsEmptyOrWhiteSpaces(SN)) {
             dispatch(actions.hardware.setDejavooMachineSN(SN));
           }
-          
+
           dispatch(
             actions.appointment.submitPaymentWithCreditCard(
               dataLocal.profile?.merchantId || 0,
@@ -433,8 +437,7 @@ export const useProps = (props) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointment.appointmentDetail
-            .appointmentId;
+          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -538,8 +541,7 @@ export const useProps = (props) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointment.appointmentDetail
-            .appointmentId;
+          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -670,7 +672,12 @@ export const useProps = (props) => {
             }, 500);
           },
           (data) => {
-            _handleResponseCreditCard(data, online, moneyUserGiveForStaff, null);
+            _handleResponseCreditCard(
+              data,
+              online,
+              moneyUserGiveForStaff,
+              null
+            );
           }
         );
       }, 100);
@@ -1035,8 +1042,7 @@ export const useProps = (props) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointment.appointmentDetail
-            .appointmentId;
+          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -1463,7 +1469,7 @@ export const useProps = (props) => {
       NavigatorServices.goBack();
       dispatch(actions.appointment.bookBlockAppointment());
       dispatchLocal(CheckoutState.resetState());
-      blockAppointmentRef.current = [];
+      blockAppointmentRef = [];
       dispatch(actions.appointment.resetGroupAppointment());
     },
     checkBlockAppointment: Helpers.isBookingBlockAppointment,
@@ -1688,7 +1694,7 @@ export const useProps = (props) => {
 
       dispatchLocal(CheckoutState.visibleEditProductForm(true));
     },
-    removeBlockAppointment: () => {
+    removeBlockAppointment: (appointmentId) => {
       const customerId = appointment.customerInfoBuyAppointment.customerId
         ? appointment.customerInfoBuyAppointment.customerId
         : 0;
@@ -1995,7 +2001,7 @@ export const useProps = (props) => {
           }
         }
 
-        blockAppointmentRef.current = [];
+        blockAppointmentRef = [];
       }
 
       // reset về page appointment,  // !
@@ -2065,7 +2071,7 @@ export const useProps = (props) => {
         appointment.connectionSignalR.stop();
       }
 
-      console.log('closeModalPaymentCompleted')
+      console.log("closeModalPaymentCompleted");
       dispatch(actions.appointment.closeModalPaymentCompleted());
     },
     donotPrintBill: async () => {
@@ -2146,7 +2152,9 @@ export const useProps = (props) => {
             alert(i18n.t("PleaseWait"));
             return;
           }
-        } else if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
+        } else if (
+          hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo
+        ) {
           //Dejavoo can not cancel transaction by api
           alert(i18n.t("PleaseWait"));
           return;
@@ -2353,5 +2361,8 @@ export const useProps = (props) => {
     },
 
     callbackDiscountToParent: () => {},
+    addBlockAppointmentRef: (ref, index) => {
+      blockAppointmentRef?.push(ref);
+    },
   };
 };
