@@ -1,5 +1,6 @@
 import React from "react";
 import * as controllers from "../../controllers";
+import { ScreenName } from "@src/ScreenName";
 
 export const useProps = ({ navigation }) => {
   const homePageCtx = React.useContext(controllers.SalonHomePageContext);

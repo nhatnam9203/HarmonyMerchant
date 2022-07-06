@@ -123,7 +123,11 @@ export const HomeTopTabBar = ({
           const isFocused = state.index === index;
 
           const onPress = () => {
-            if (onWillChangeTab && typeof onWillChangeTab === "function") {
+            if (
+              onWillChangeTab &&
+              typeof onWillChangeTab === "function" &&
+              !isFocused
+            ) {
               onWillChangeTab(route.name);
             }
 

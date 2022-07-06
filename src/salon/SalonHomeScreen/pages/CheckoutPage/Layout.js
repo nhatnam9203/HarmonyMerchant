@@ -83,6 +83,7 @@ export const Layout = (props) => {
           onRequestClose={props.closePopupConfirm}
           confimYes={props.clearDataConfirm}
         />
+
         <PopupConfirm
           visible={props.visibleConfirmPayment ? true : false}
           title={i18n.t("VerifyPayment")}

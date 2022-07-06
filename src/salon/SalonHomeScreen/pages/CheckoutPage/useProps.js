@@ -1469,7 +1469,7 @@ export const useProps = (props) => {
       NavigatorServices.goBack();
       dispatch(actions.appointment.bookBlockAppointment());
       dispatchLocal(CheckoutState.resetState());
-      blockAppointmentRef = [];
+      blockAppointmentRef.length = 0; // clean refs
       dispatch(actions.appointment.resetGroupAppointment());
     },
     checkBlockAppointment: Helpers.isBookingBlockAppointment,
@@ -2001,7 +2001,7 @@ export const useProps = (props) => {
           }
         }
 
-        blockAppointmentRef = [];
+        blockAppointmentRef.length = 0; // clean refs
       }
 
       // reset về page appointment,  // !
@@ -2361,7 +2361,8 @@ export const useProps = (props) => {
     },
 
     callbackDiscountToParent: () => {},
-    isShowCountdown: hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    isShowCountdown:
+      hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
     addBlockAppointmentRef: (ref, index) => {
       blockAppointmentRef?.push(ref);
     },
