@@ -6,13 +6,13 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSize } from '@utils';
+import { scaleSize, PaymentTerminalType } from '@utils';
 import ICON from '@resources';
 
 class ErrorMessagePaxModal extends React.Component {
 
     render() {
-        const { title, visible, message, onRequestClose, confimYes, hideCloseButton } = this.props;
+        const { title, visible, message, onRequestClose, confimYes, onConfirmRefresh, hideCloseButton, isShowRefreshButton } = this.props;
         return (
             <PopupParent
                 title={title}
@@ -35,17 +35,47 @@ class ErrorMessagePaxModal extends React.Component {
                         borderTopColor: '#EEEEEE', borderTopWidth: 1, alignItems: 'center', justifyContent: 'center'
                     }} >
 
-                        <ButtonCustom
-                            width={scaleSize(130)}
-                            height={35}
-                            backgroundColor="#0764B0"
-                            title="OK"
-                            textColor="#fff"
-                            onPress={() => confimYes()}
-                            styleText={{
-                                fontSize: scaleSize(14)
-                            }}
-                        />
+                        {
+                            isShowRefreshButton ?
+                            <>
+                                <ButtonCustom
+                                    width={scaleSize(130)}
+                                    height={35}
+                                    backgroundColor="#0764B0"
+                                    title="Refresh"
+                                    textColor="#fff"
+                                    onPress={() => onConfirmRefresh()}
+                                    styleText={{
+                                        fontSize: scaleSize(14)
+                                    }}
+                                />
+                                <View style={{width: scaleSize(10)}}/>
+                                <ButtonCustom
+                                    width={scaleSize(130)}
+                                    height={35}
+                                    backgroundColor="#0764B0"
+                                    title="Cancel"
+                                    textColor="#fff"
+                                    onPress={() => confimYes()}
+                                    styleText={{
+                                        fontSize: scaleSize(14)
+                                    }}
+                                />
+                            </>
+                            :
+                            <ButtonCustom
+                                width={scaleSize(130)}
+                                height={35}
+                                backgroundColor="#0764B0"
+                                title="Cancel"
+                                textColor="#fff"
+                                onPress={() => confimYes()}
+                                styleText={{
+                                    fontSize: scaleSize(14)
+                                }}
+                            />
+                        }
+                        
 
                     </View>
                 </View>

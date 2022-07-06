@@ -112,7 +112,6 @@ export const useProps = (props) => {
   const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
     React.useState(false);
   const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState(0);
-  const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
 
   const setSelectStaffFromCalendar = (staffId, isFirstPressCheckout = null) => {
     if (!staffId) return;
@@ -229,15 +228,6 @@ export const useProps = (props) => {
               `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
               "Transaction failed";
 
-            if (appointment.payAppointmentId) {
-              dispatch(
-                actions.appointment.cancelHarmonyPayment(
-                  appointment.payAppointmentId,
-                  "transaction fail",
-                  resultTxt
-                )
-              );
-            }
             setTimeout(() => {
               setVisibleErrorMessageFromPax(true);
               setVisibleProcessingCredit(false);
@@ -337,16 +327,6 @@ export const useProps = (props) => {
     setVisibleProcessingCredit(false);
 
     try {
-      if (appointment.payAppointmentId) {
-        dispatch(
-          actions.appointment.cancelHarmonyPayment(
-            appointment.payAppointmentId,
-            "transaction fail",
-            appointment.errorMessage
-          )
-        );
-      }
-
       setTimeout(() => {
         setVisibleErrorMessageFromPax(true);
         dispatchLocal(
@@ -697,18 +677,7 @@ export const useProps = (props) => {
       const tempEnv = env.IS_PRODUCTION;
 
       if (_.get(result, "status", 0) == 0) {
-        if (appointment.payAppointmentId) {
-          dispatch(
-            actions.appointment.cancelHarmonyPayment(
-              appointment.payAppointmentId,
-              "transaction fail",
-              result?.message
-            )
-          );
-        }
-        if (result?.message === "ABORTED") {
-          return;
-        }
+        
         setTimeout(() => {
           setVisibleErrorMessageFromPax(true);
           dispatchLocal(
@@ -746,15 +715,7 @@ export const useProps = (props) => {
         }
       } else {
         const resultTxt = result?.ResultTxt || "Transaction failed:";
-        if (appointment.payAppointmentId) {
-          dispatch(
-            actions.appointment.cancelHarmonyPayment(
-              appointment.payAppointmentId,
-              "transaction fail",
-              resultTxt
-            )
-          );
-        }
+        
         setTimeout(() => {
           // alert(resultTxt);
           setVisibleErrorMessageFromPax(true);
@@ -2354,5 +2315,33 @@ export const useProps = (props) => {
 
     callbackDiscountToParent: () => {},
     isShowCountdown: hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    handleYes: () => {
+      setVisibleErrorMessageFromPax(false);
+      if (appointment.payAppointmentId) {
+        dispatch(
+          actions.appointment.cancelHarmonyPayment(
+            appointment.payAppointmentId,
+            "transaction fail",
+            CheckoutState.errorMessageFromPax
+          )
+        );
+      }
+    },
+    isShowRefreshButton: hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    onConfirmRefresh: () => {
+      if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
+        const param = {
+          RefId: appointment.payAppointmentId,
+        };
+        AppUtils.requestPreviousTransactionReportDejavoo(param).then((response) => {
+          handleResponseCreditCardDejavoo(
+            response,
+            true,
+            moneyUserGiveForStaff,
+            null
+          );
+        });
+      }
+    },
   };
 };
