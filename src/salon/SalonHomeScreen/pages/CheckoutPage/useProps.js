@@ -2366,5 +2366,36 @@ export const useProps = (props) => {
     addBlockAppointmentRef: (ref, index) => {
       blockAppointmentRef?.push(ref);
     },
+
+    printTemptInvoice: async () => {
+      await invoiceRef.current?.show({
+        isPrintTempt: true,
+        isAppointmentTab: false,
+      });
+    },
+    shareTemptInvoice: async () => {
+      await invoiceRef.current?.share({
+        isPrintTempt: true,
+        isAppointmentTab: false,
+      });
+    },
+    checkStatusCashier: async () => {
+      const { portName } = AppUtils.getInfoFromModelNameOfPrinter(
+        dataLocal.printerList,
+        dataLocal.printerSelect
+      );
+
+      if (portName) {
+        Helpers.openCashDrawer(portName);
+      } else {
+        if (
+          hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover
+        ) {
+          Helpers.openCashDrawerClover(hardware);
+        } else {
+          alert("Please connect to your cash drawer.");
+        }
+      }
+    },
   };
 };

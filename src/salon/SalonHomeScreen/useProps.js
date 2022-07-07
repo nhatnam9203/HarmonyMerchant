@@ -148,5 +148,6 @@ export const useProps = ({ navigation }) => {
         dispatch(actions.app.resetNotiIntervalId());
       }
     },
+
   };
 };
