@@ -1446,6 +1446,7 @@ export const useProps = (props) => {
       //   })
       // );
       // this.props.actions.appointment.resetGroupAppointment();
+      homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
     },
     selectPayment: () => {
       setIsPayment(true);
@@ -1471,6 +1472,7 @@ export const useProps = (props) => {
       dispatchLocal(CheckoutState.resetState());
       blockAppointmentRef.length = 0; // clean refs
       dispatch(actions.appointment.resetGroupAppointment());
+      homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
     },
     checkBlockAppointment: Helpers.isBookingBlockAppointment,
     onSelectGiftCard: (category) => {
@@ -1807,6 +1809,8 @@ export const useProps = (props) => {
           actions.appointment.cancelHarmonyPayment(appointment.payAppointmentId)
         );
       }
+
+      homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
 
       // reset local state
       dispatchLocal(CheckoutState.resetState());
