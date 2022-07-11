@@ -27,11 +27,16 @@ export const ReceiptTotal = ({
   checkoutPaymentMethods,
   isSignature,
   returnTotal = 0,
+  isGroupLayout = false,
 }) => {
   const { t } = useTranslation();
 
-  const isExistSignature = checkoutPaymentMethods?.find((data) => data?.paymentInformation?.signData)
-  const isExistCreditMethod = checkoutPaymentMethods?.find((data) => data?.paymentMethod == "credit_card")
+  const isExistSignature = checkoutPaymentMethods?.find(
+    (data) => data?.paymentInformation?.signData
+  );
+  const isExistCreditMethod = checkoutPaymentMethods?.find(
+    (data) => data?.paymentMethod == "credit_card"
+  );
 
   return (
     <View style={styles.container}>
@@ -66,40 +71,37 @@ export const ReceiptTotal = ({
       )}
       {
         <TextTotal
-        label={"Total Amount Due"}
-        fontWeight={"bold"}
-        fontSize={scaleFont(22)}
+          label={"Total Amount Due"}
+          fontWeight={"bold"}
+          fontSize={scaleFont(22)}
         >
-         {`${formatMoneyWithUnit(formatNumberFromCurrency(total) - formatNumberFromCurrency(tip))}`}
+          {`${formatMoneyWithUnit(
+            formatNumberFromCurrency(total) - formatNumberFromCurrency(tip)
+          )}`}
         </TextTotal>
       }
-      {
-        tip > 0 ? 
+      {tip > 0 ? (
         <TextTotal label={"Tip"}>{`${formatMoneyWithUnit(tip)}`}</TextTotal>
-        : <>
-            <View style={styles.margin} />
-            <TextFill label={`${_.padEnd("Tip", 15, " ")}`}>
-              <LineFill width={"60%"} />
-            </TextFill>
-          </>
-      }  
-      {
-        tip > 0 ?
-        <TextTotal
-            label={"Total"}
-            fontWeight={"bold"}
-            fontSize={scaleFont(22)}
-          >
-            {`${formatMoneyWithUnit(total)}`}
-          </TextTotal>
-          :
-          <>
-            <View style={styles.margin} />
-            <TextFill label={`${_.padEnd("Total", 15, " ")}`}>
-              <LineFill width={"60%"} />
-            </TextFill>
-          </>
-      }
+      ) : (
+        <>
+          <View style={styles.margin} />
+          <TextFill label={`${_.padEnd("Tip", 15, " ")}`}>
+            <LineFill width={"60%"} />
+          </TextFill>
+        </>
+      )}
+      {tip > 0 ? (
+        <TextTotal label={"Total"} fontWeight={"bold"} fontSize={scaleFont(22)}>
+          {`${formatMoneyWithUnit(total)}`}
+        </TextTotal>
+      ) : (
+        <>
+          <View style={styles.margin} />
+          <TextFill label={`${_.padEnd("Total", 15, " ")}`}>
+            <LineFill width={"60%"} />
+          </TextFill>
+        </>
+      )}
       {change > 0 && (
         <TextTotal label={"Change"}>{`${formatMoneyWithUnit(
           change
@@ -182,7 +184,7 @@ export const ReceiptTotal = ({
       )}
 
       <View style={styles.margin} />
-      {((isSignature && !printTemp && !isExistSignature && isExistCreditMethod)) && (
+      {isSignature && !printTemp && !isExistSignature && isExistCreditMethod && (
         <TextFill label={`${_.padEnd("Signature", 10, " ")}`}>
           <LineFill width={"60%"} />
         </TextFill>

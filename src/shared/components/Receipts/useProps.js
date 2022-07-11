@@ -120,7 +120,7 @@ export const useProps = ({
   };
 
   const getInvoiceNO = () => {
-    if (invoice) return invoice.checkoutId;
+    if (invoice?.checkoutId) return invoice.checkoutId;
     if (appointment?.invoice?.checkoutId) {
       return appointment.invoice.checkoutId;
     }
