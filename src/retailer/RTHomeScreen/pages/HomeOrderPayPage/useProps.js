@@ -1517,5 +1517,34 @@ export const useProps = ({
 
       onCompleteBack();
     },
+    isShowCountdown: paymentMachineType == PaymentTerminalType.Dejavoo,
+    handleYes: () => {
+      setVisibleErrorMessageFromPax(false);
+      if (payAppointmentId) {
+        dispatch(
+          actions.appointment.cancelHarmonyPayment(
+            payAppointmentId,
+            "transaction fail",
+            errorMessageFromPax
+          )
+        );
+      }
+    },
+    isShowRefreshButton: paymentMachineType == PaymentTerminalType.Dejavoo,
+    onConfirmRefresh: () => {
+      if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+        const param = {
+          RefId: payAppointmentId,
+        };
+        requestPreviousTransactionReportDejavoo(param).then((response) => {
+          handleResponseCreditCardDejavoo(
+            response,
+            true,
+            moneyUserGiveForStaff,
+            null
+          );
+        });
+      }
+    },
   };
 };

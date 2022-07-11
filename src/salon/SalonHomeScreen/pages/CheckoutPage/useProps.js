@@ -112,6 +112,7 @@ export const useProps = (props) => {
   const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
     React.useState(false);
   const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState(0);
+  const [isShowRefreshButton, setIsShowRefreshButton] = React.useState(false);
 
   const setSelectStaffFromCalendar = (staffId, isFirstPressCheckout = null) => {
     if (!staffId) return;
@@ -159,7 +160,7 @@ export const useProps = (props) => {
       });
     } else if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
       setVisibleProcessingCredit(true);
-
+      setIsShowRefreshButton(false);
       const tenderType = "Credit";
 
       const parameter = {
@@ -227,6 +228,14 @@ export const useProps = (props) => {
             const resultTxt =
               `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
               "Transaction failed";
+            
+            if (errorCode == 2) {
+              //Can not connect Dejavoo, show error without refresh button
+              setIsShowRefreshButton(true);
+            } else {
+              //Show error with refresh button
+              setIsShowRefreshButton(false);
+            }
 
             setTimeout(() => {
               setVisibleErrorMessageFromPax(true);
@@ -239,7 +248,6 @@ export const useProps = (props) => {
                 })
               );
             }, 400);
-            
           }
         } else {
           setVisibleProcessingCredit(false);
@@ -2327,19 +2335,92 @@ export const useProps = (props) => {
         );
       }
     },
-    isShowRefreshButton: hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    isShowRefreshButton,
     onConfirmRefresh: () => {
       if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
         const param = {
           RefId: appointment.payAppointmentId,
         };
         AppUtils.requestPreviousTransactionReportDejavoo(param).then((response) => {
-          handleResponseCreditCardDejavoo(
-            response,
-            true,
-            moneyUserGiveForStaff,
-            null
-          );
+          try {
+            parseString(message, (err, result) => {
+              let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+              if (
+                err ||
+                errorCode != 0 ||
+                _.get(result, "xmp.response.0.Message.0") != "Approved"
+              ) {
+                  let detailMessage = _.get(
+                    result,
+                    "xmp.response.0.RespMSG.0",
+                    ""
+                  ).replace(/%20/g, " ");
+                  detailMessage = !AppUtils.stringIsEmptyOrWhiteSpaces(detailMessage)
+                    ? `: ${detailMessage}`
+                    : detailMessage;
+
+                  const resultTxt =
+                    `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
+                    "Transaction failed";
+                  
+                  if (errorCode == 2) {
+                    //Can not connect Dejavoo, show error without refresh button
+                    setIsShowRefreshButton(true);
+                  } else {
+                    //Show error with refresh button
+                    setIsShowRefreshButton(false);
+                  }
+
+                  if (_.get(result, "xmp.response.0.Message.0") == 'Not found') {
+                      //call transaction again
+                    AppUtils.requestTransactionDejavoo(parameter).then((responsesPayment) => {
+                      const parameter = {
+                        tenderType: "Credit",
+                        transType: "Sale",
+                        amount: Number(moneyUserGiveForStaff).toFixed(2),
+                        RefId: appointment.payAppointmentId,
+                        invNum: `${appointment.groupAppointment?.checkoutGroupId || 0}`,
+                      };
+                      handleResponseCreditCardDejavoo(
+                        responsesPayment,
+                        true,
+                        moneyUserGiveForStaff,
+                        parameter
+                      );
+                    });
+                  } else {
+                    setTimeout(() => {
+                      setVisibleErrorMessageFromPax(true);
+                      setVisibleProcessingCredit(false);
+                      dispatchLocal(
+                        CheckoutState.updateCreditCardPay({
+                          visibleErrorMessageFromPax: true,
+                          errorMessageFromPax: resultTxt,
+                          visibleProcessingCredit: false,
+                        })
+                      );
+                    }, 400);
+                  }
+              } else {
+                setVisibleProcessingCredit(false);
+                const SN = _.get(result, "xmp.response.0.SN.0");
+                if (!AppUtils.stringIsEmptyOrWhiteSpaces(SN)) {
+                  dispatch(actions.hardware.setDejavooMachineSN(SN));
+                }
+                
+                dispatch(
+                  actions.appointment.submitPaymentWithCreditCard(
+                    dataLocal.profile?.merchantId || 0,
+                    message,
+                    appointment.payAppointmentId,
+                    moneyUserGiveForStaff,
+                    "dejavoo",
+                    parameter
+                  )
+                );
+              }
+            });
+          } catch (error) {}
         });
       }
     },
