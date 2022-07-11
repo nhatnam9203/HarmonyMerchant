@@ -2338,6 +2338,7 @@ export const useProps = (props) => {
     isShowRefreshButton,
     onConfirmRefresh: () => {
       if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
+        setVisibleErrorMessageFromPax(false);
         const param = {
           RefId: appointment.payAppointmentId,
         };
@@ -2345,6 +2346,13 @@ export const useProps = (props) => {
           try {
             parseString(message, (err, result) => {
               let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+              if (errorCode == 2) {
+                //Can not connect Dejavoo, show error without refresh button
+                setIsShowRefreshButton(true);
+              } else {
+                //Show error with refresh button
+                setIsShowRefreshButton(false);
+              }
               if (
                 err ||
                 errorCode != 0 ||
@@ -2362,17 +2370,10 @@ export const useProps = (props) => {
                   const resultTxt =
                     `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
                     "Transaction failed";
-                  
-                  if (errorCode == 2) {
-                    //Can not connect Dejavoo, show error without refresh button
-                    setIsShowRefreshButton(true);
-                  } else {
-                    //Show error with refresh button
-                    setIsShowRefreshButton(false);
-                  }
 
                   if (_.get(result, "xmp.response.0.Message.0") == 'Not found') {
                       //call transaction again
+                    setVisibleProcessingCredit(true);
                     AppUtils.requestTransactionDejavoo(parameter).then((responsesPayment) => {
                       const parameter = {
                         tenderType: "Credit",
