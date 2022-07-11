@@ -153,6 +153,7 @@ export const useProps = ({
 
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
+  const [isShowRefreshButon, setIsShowRefreshButon] = React.useState(false);
 
   const handleCheckCreditCardFail = () => {
     if (
@@ -1530,7 +1531,7 @@ export const useProps = ({
         );
       }
     },
-    isShowRefreshButton: paymentMachineType == PaymentTerminalType.Dejavoo,
+    isShowRefreshButton,
     onConfirmRefresh: () => {
       if (paymentMachineType == PaymentTerminalType.Dejavoo) {
         const param = {
