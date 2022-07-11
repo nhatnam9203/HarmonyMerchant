@@ -120,6 +120,7 @@ export const useProps = ({
     (state) => state.appointment.startProcessingPax
   );
 
+  const [isShowRefreshButton, setIsShowRefreshButton] = React.useState(false);
   const [isTax, setIsTax] = React.useState(false);
   const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
     React.useState(false);
@@ -153,7 +154,6 @@ export const useProps = ({
 
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
-  const [isShowRefreshButon, setIsShowRefreshButon] = React.useState(false);
 
   const handleCheckCreditCardFail = () => {
     if (
@@ -380,6 +380,7 @@ export const useProps = ({
       });
     } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
       setVisibleProcessingCredit(true);
+      setIsShowRefreshButton(false);
 
       const tenderType = paymentSelected === "Credit Card" ? "Credit" : "Debit";
 
@@ -415,6 +416,11 @@ export const useProps = ({
     try {
       parseString(message, (err, result) => {
         let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+        if (errorCode == 2) {
+          setIsShowRefreshButton(true);
+        } else {
+          setIsShowRefreshButton(false);
+        }
         if (
           err ||
           errorCode != 0 ||
@@ -451,15 +457,6 @@ export const useProps = ({
               `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
               "Transaction failed";
 
-            if (payAppointmentId) {
-              dispatch(
-                actions.appointment.cancelHarmonyPayment(
-                  payAppointmentId,
-                  "transaction fail",
-                  resultTxt
-                )
-              );
-            }
             setTimeout(() => {
               setVisibleProcessingCredit(false);
               setVisibleErrorMessageFromPax(true);
@@ -1533,17 +1530,84 @@ export const useProps = ({
     },
     isShowRefreshButton,
     onConfirmRefresh: () => {
+      setVisibleErrorMessageFromPax(false);
       if (paymentMachineType == PaymentTerminalType.Dejavoo) {
         const param = {
           RefId: payAppointmentId,
         };
         requestPreviousTransactionReportDejavoo(param).then((response) => {
-          handleResponseCreditCardDejavoo(
-            response,
-            true,
-            moneyUserGiveForStaff,
-            null
-          );
+        try{
+          parseString(response, (err, result) => {
+            let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+            if (errorCode == 2) {
+              setIsShowRefreshButton(true);
+            } else {
+              setIsShowRefreshButton(false);
+            }
+            if (
+              err ||
+              errorCode != 0 ||
+              _.get(result, "xmp.response.0.Message.0") != "Approved"
+            ) {
+                  if (_.get(result, "xmp.response.0.Message.0") == 'Not found') {
+                    //call transaction again
+                    console.log('call again')
+                    setVisibleProcessingCredit(true);
+                    const parameter = {
+                      tenderType: "Credit",
+                      transType: "Sale",
+                      amount: Number(moneyUserGiveForStaff).toFixed(2),
+                      RefId: payAppointmentId,
+                      invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+                    };
+                    requestTransactionDejavoo(parameter).then((responses) => {
+                      handleResponseCreditCardDejavoo(
+                        responses,
+                        true,
+                        moneyUserGiveForStaff,
+                        parameter
+                      );
+                    });
+                  } else {
+                    let detailMessage = _.get(
+                      result,
+                      "xmp.response.0.RespMSG.0",
+                      ""
+                    ).replace(/%20/g, " ");
+                    detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
+                    ? `: ${detailMessage}`
+                    : detailMessage;
+      
+                    const resultTxt = `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` 
+                                      || "Transaction failed";
+                    setTimeout(() => {
+                      setVisibleProcessingCredit(false);
+                      setVisibleErrorMessageFromPax(true);
+                      setErrorMessageFromPax(`${resultTxt}`);
+                    }, 400);
+                  }
+            } else {
+              setVisibleProcessingCredit(false);
+              const SN = _.get(result, "xmp.response.0.SN.0");
+              if (!stringIsEmptyOrWhiteSpaces(SN)) {
+                dispatch(actions.hardware.setDejavooMachineSN(SN));
+              }
+              const payAppointmentIdTemp = isCreditPaymentToServer
+                ? lastTransactionAppointmentId
+                : payAppointmentId;
+              dispatch(
+                actions.appointment.submitPaymentWithCreditCard(
+                  profile?.merchantId || 0,
+                  message,
+                  payAppointmentIdTemp,
+                  moneyUserGiveForStaff,
+                  "dejavoo",
+                  parameter
+                )
+              );
+            }
+          });
+        } catch (error) {}
         });
       }
     },
