@@ -2490,7 +2490,7 @@ class TabCheckout extends Layout {
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+          this.blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -2584,7 +2584,7 @@ class TabCheckout extends Layout {
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+          this.blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -2605,7 +2605,7 @@ class TabCheckout extends Layout {
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          this.blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+          this.blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -2631,7 +2631,7 @@ class TabCheckout extends Layout {
   toggleCollaps = (appointmentIdSelection) => {
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       const appointmentDetail =
-        this.blockAppointmentRef[i].props.appointmentDetail;
+        this.blockAppointmentRef[i]?.props.appointmentDetail;
       if (
         appointmentDetail &&
         appointmentDetail.appointmentId === appointmentIdSelection
@@ -2677,7 +2677,7 @@ class TabCheckout extends Layout {
       let isAppointmentOpenExist = false;
       for (let i = 0; i < this.blockAppointmentRef.length; i++) {
         const appointmentDetail =
-          this.blockAppointmentRef[i].props.appointmentDetail;
+          this.blockAppointmentRef[i]?.props.appointmentDetail;
         if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
           isAppointmentOpenExist = true;
           this.blockAppointmentRef[i].setStateFromParent(false);
@@ -2700,7 +2700,7 @@ class TabCheckout extends Layout {
     const { isOpenBlockAppointmentId } = this.props;
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       const appointmentDetail =
-        this.blockAppointmentRef[i].props.appointmentDetail;
+        this.blockAppointmentRef[i]?.props.appointmentDetail;
       if (appointmentDetail.appointmentId === isOpenBlockAppointmentId) {
         this.blockAppointmentRef[i].setStateFromParent(false);
       } else {

@@ -437,7 +437,7 @@ export const useProps = (props) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+          blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -541,7 +541,7 @@ export const useProps = (props) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+          blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -1042,7 +1042,7 @@ export const useProps = (props) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointmentDetail.appointmentId;
+          blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -1672,7 +1672,7 @@ export const useProps = (props) => {
     toggleCollapses: (appointmentIdSelection) => {
       for (let i = 0; i < blockAppointmentRef.length; i++) {
         const appointmentDetail =
-          blockAppointmentRef[i].props.appointmentDetail;
+          blockAppointmentRef[i]?.props.appointmentDetail;
         if (
           appointment.appointmentDetail &&
           appointment.appointmentDetail.appointmentId === appointmentIdSelection

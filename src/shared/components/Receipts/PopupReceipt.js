@@ -65,6 +65,7 @@ export const PopupReceipt = React.forwardRef(
       checkoutPaymentMethods,
       staffName,
       returnTotal,
+      getItemsOfAppointment,
     } = useProps({
       appointment,
       invoice,
@@ -301,6 +302,8 @@ export const PopupReceipt = React.forwardRef(
                 itemReturn={itemReturn}
                 staffName={staffName}
                 widthPaper={widthPaper}
+                groupAppointment={groupAppointment}
+                getItemsOfAppointment={getItemsOfAppointment}
               />
             </ScrollView>
           </View>

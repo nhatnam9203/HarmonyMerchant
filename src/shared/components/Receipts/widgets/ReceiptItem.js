@@ -17,6 +17,7 @@ export const ReceiptItemType = {
   RETAILER_RETURN: "RetailerReturn",
   SETTLEMENT: "Settlement",
   TWO_COLS: "TwoCols",
+  GROUP_APPOINTMENT: "GroupAppointment",
 };
 
 export const ReceiptItem = ({ item, index, type }) => {
@@ -130,8 +131,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             alignItems: "flex-start",
             justifyContent: "center",
           }}
-        >
-        </View>
+        ></View>
       );
 
       const onRenderRetailerColumTwo = () => (
@@ -401,14 +401,15 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "center",
           }}
         >
-          <TextItem>{`${index + 1}. ${name}`} 
-            { item?.type == 'Product' &&
-              <Text style={[styles.textStyle, {fontWeight: '700'}]}>
-              {`(x${qty})`}
+          <TextItem>
+            {`${index + 1}. ${name}`}
+            {item?.type == "Product" && (
+              <Text style={[styles.textStyle, { fontWeight: "700" }]}>
+                {`(x${qty})`}
               </Text>
-            }
+            )}
           </TextItem>
-          
+
           {extras?.length > 0 &&
             extras.map((x) => (
               <TextLabel
@@ -439,10 +440,11 @@ export const ReceiptItem = ({ item, index, type }) => {
             justifyContent: "flex-start",
           }}
         >
-          { item?.type == 'Product' ?
-           <TextLabel>{`${formatMoneyWithUnit(price*qty)}`}</TextLabel> 
-            : <TextLabel>{`${formatMoneyWithUnit(price)}`}</TextLabel>
-          }
+          {item?.type == "Product" ? (
+            <TextLabel>{`${formatMoneyWithUnit(price * qty)}`}</TextLabel>
+          ) : (
+            <TextLabel>{`${formatMoneyWithUnit(price)}`}</TextLabel>
+          )}
           {extras?.length > 0 &&
             extras.map((x) => (
               <TextLabel key={`${x.extraId}`}>{`${formatMoneyWithUnit(
@@ -467,7 +469,7 @@ export const ReceiptItem = ({ item, index, type }) => {
   }
 };
 
-export const ReceiptHeaderItem = ({ type, items }) => {
+export const ReceiptHeaderItem = ({ type, items, label }) => {
   const { t } = useTranslation();
 
   const onRenderColumOne = () => (
@@ -642,6 +644,18 @@ export const ReceiptHeaderItem = ({ type, items }) => {
         <>
           <View style={styles.margin} />
           <LineHeader />
+          {!!label && (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "flex-start",
+                justifyContent: "center",
+              }}
+            >
+              <TextHeader>{label}</TextHeader>
+            </View>
+          )}
+          <View style={styles.margin} />
           <LayoutThreeColumn
             columnWidths={SALON_COLUMN_WIDTH}
             ColumnOne={onRenderColumOne}
@@ -898,8 +912,8 @@ const styles = StyleSheet.create({
   },
   textHeaderStyle: {
     // fontFamily: fonts.MEDIUM,
-    fontSize: scaleFont(14),
-    fontWeight: "500",
+    fontSize: scaleFont(15),
+    fontWeight: "600",
     textAlign: "center",
     color: "#000",
   },

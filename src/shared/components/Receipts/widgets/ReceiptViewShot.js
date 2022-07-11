@@ -39,6 +39,8 @@ export const ReceiptViewShot = React.forwardRef(
       staffName,
       widthPaper,
       returnTotal,
+      groupAppointment,
+      getItemsOfAppointment,
     },
     ref
   ) => {
@@ -73,6 +75,80 @@ export const ReceiptViewShot = React.forwardRef(
       },
     }));
 
+    const _renderAppointments = () => {
+      if (groupAppointment) {
+        return (
+          <>
+            {groupAppointment.appointments?.map((x) => (
+              <>
+                <ReceiptContent
+                  groupTitle={`#${x.code} - ${x.firstName}`}
+                  items={getItemsOfAppointment(x.appointmentId)}
+                  type={getReceiptType()}
+                  isGroupLayout={!!groupAppointment}
+                />
+                <ReceiptTotal
+                  subtotal={x.subTotal}
+                  discount={x.discount}
+                  tip={x.tip}
+                  tax={x.tax}
+                  taxRate={x.taxRate}
+                  change={x.change}
+                  // cashDiscount={cashDiscount}
+                  // fee={x.fee}
+                  total={x.total}
+                  returnTotal={x.returnTotal}
+                  printTemp={printTemp}
+                  fromAppointmentTab={fromAppointmentTab}
+                  // checkoutPaymentMethods={checkoutPaymentMethods}
+                  isSignature={isSignature}
+                  isGroupLayout={!!groupAppointment}
+                />
+              </>
+            ))}
+            <ReceiptTotal
+              subtotal={subTotal}
+              discount={discount}
+              tip={tip}
+              tax={tax}
+              taxRate={taxRate}
+              change={change}
+              cashDiscount={cashDiscount}
+              fee={fee}
+              total={total}
+              returnTotal={returnTotal}
+              printTemp={printTemp}
+              fromAppointmentTab={fromAppointmentTab}
+              checkoutPaymentMethods={checkoutPaymentMethods}
+              isSignature={isSignature}
+              isGroupLayout={!!groupAppointment}
+            />
+          </>
+        );
+      } else
+        return (
+          <>
+            <ReceiptContent items={items} type={getReceiptType()} />
+            <ReceiptTotal
+              subtotal={subTotal}
+              discount={discount}
+              tip={tip}
+              tax={tax}
+              taxRate={taxRate}
+              change={change}
+              cashDiscount={cashDiscount}
+              fee={fee}
+              total={total}
+              returnTotal={returnTotal}
+              printTemp={printTemp}
+              fromAppointmentTab={fromAppointmentTab}
+              checkoutPaymentMethods={checkoutPaymentMethods}
+              isSignature={isSignature}
+            />
+          </>
+        );
+    };
+
     return (
       <View
         ref={viewShotRef}
@@ -86,24 +162,9 @@ export const ReceiptViewShot = React.forwardRef(
           invoiceNO={invoiceNO}
           staffName={staffName}
           returnCode={itemReturn?.code}
+          isGroupLayout={!!groupAppointment}
         />
-        <ReceiptContent items={items} type={getReceiptType()} />
-        <ReceiptTotal
-          subtotal={subTotal}
-          discount={discount}
-          tip={tip}
-          tax={tax}
-          taxRate={taxRate}
-          change={change}
-          cashDiscount={cashDiscount}
-          fee={fee}
-          total={total}
-          returnTotal={returnTotal}
-          printTemp={printTemp}
-          fromAppointmentTab={fromAppointmentTab}
-          checkoutPaymentMethods={checkoutPaymentMethods}
-          isSignature={isSignature}
-        />
+        {_renderAppointments()}
         <ReceiptFooter
           fromAppointmentTab={fromAppointmentTab}
           profile={profile}

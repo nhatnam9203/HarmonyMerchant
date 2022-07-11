@@ -6,7 +6,13 @@ import {
   ReceiptTotalItem,
 } from "./ReceiptItem";
 
-export const ReceiptContent = ({ items, type, symbol }) => {
+export const ReceiptContent = ({
+  items,
+  type,
+  symbol,
+  isGroupLayout,
+  groupTitle,
+}) => {
   const getTotalQty = () => {
     const totalQty = items?.reduce((prev, item, index) => {
       const qty = item.data?.qty ?? 1;
@@ -19,7 +25,12 @@ export const ReceiptContent = ({ items, type, symbol }) => {
 
   return (
     <>
-      <ReceiptHeaderItem key="receipt-header" type={type} symbol={symbol} />
+      <ReceiptHeaderItem
+        key="receipt-header"
+        type={type}
+        symbol={symbol}
+        label={groupTitle}
+      />
       {items?.map((x, idx) => (
         <ReceiptItem
           key={`receipt-item-${x.id}`}
