@@ -224,7 +224,11 @@ export const Basket = () => {
             <BasketGrandTotal
               grandTotal={getGrandTotal}
               paidAmounts={paidAmounts}
-              dueAmount={paymentDetailInfo?.dueAmount}
+              dueAmount={
+                blockAppointments?.length > 0
+                  ? -1
+                  : paymentDetailInfo?.dueAmount
+              }
               isShowPaidAmount={
                 !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo)
               }
