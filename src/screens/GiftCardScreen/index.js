@@ -1,5 +1,7 @@
 import React from 'react';
 
+import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -96,8 +98,11 @@ class GiftCardScreen extends Layout {
   };
 
   closePopupCheckGiftCardTabPermission = () => {
+    const { profile } = this.props;
     this.props.actions.appointment.switchGiftCardTabPermission(false);
-    this.props.navigation.navigate('Home');
+    profile.type === "Retailer" ? 
+    this.props.navigation.navigate("retailer.home.order")
+    : NavigationServices.navigate(ScreenName.SALON.APPOINTMENT)
   };
 
   onRefreshGiftCardList = () => {

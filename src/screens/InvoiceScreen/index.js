@@ -38,6 +38,8 @@ import { releaseCapture } from "react-native-view-shot";
 import { parseString } from "react-native-xml2js";
 import RNFetchBlob from "rn-fetch-blob";
 import Layout from "./layout";
+import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -304,10 +306,9 @@ class InvoiceScreen extends Layout {
     const { profile } = this.props;
 
     if (isFocus && !this.props.visibleEnterPinInvoice) {
-      // this.props.navigation.navigate("Home");
-      this.props.navigation.navigate(
-        profile.type === "Retailer" ? "retailer.home.order" : "Home"
-      );
+      profile.type === "Retailer" ? 
+      this.props.navigation.navigate("retailer.home.order")
+      : NavigationServices.navigate(ScreenName.SALON.APPOINTMENT)
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -1341,9 +1342,9 @@ class InvoiceScreen extends Layout {
     const { profile } = this.props;
 
     this.props.actions.invoice.toggleInvoiceTabPermission(false);
-    this.props.navigation.navigate(
-      profile.type === "Retailer" ? "retailer.home.order" : "Home"
-    );
+    profile.type === "Retailer" ? 
+    this.props.navigation.navigate("retailer.home.order")
+    : NavigationServices.navigate(ScreenName.SALON.APPOINTMENT)
   };
 
   clearIntervalById = () => {

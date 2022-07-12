@@ -12,6 +12,7 @@ import { usePermissionReportServer } from "@shared/hooks";
 import { menuTabs } from "@utils";
 import { useAppType } from "@shared/hooks";
 import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogPincodeReportServer] ${message}`, obj);
@@ -124,7 +125,7 @@ export const DialogPinCodeReportServer = React.forwardRef((props, ref) => {
 
     // if salon app chua xu ly
     if (isSalonApp()) {
-      NavigationServices.navigate("Home");
+      NavigationServices.navigate(ScreenName.SALON.APPOINTMENT)
     }
   };
 
