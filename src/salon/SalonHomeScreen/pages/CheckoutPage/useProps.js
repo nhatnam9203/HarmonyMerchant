@@ -1,6 +1,5 @@
 import actions from "@actions";
 import NavigatorServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
 import { ScreenName } from "@src/ScreenName";
 import * as AppUtils from "@utils";
 import _ from "lodash";
@@ -13,6 +12,7 @@ import * as CheckoutState from "./SalonCheckoutState";
 import { useCallApis } from "./useCallApis";
 import * as controllers from "../../controllers";
 import { parseString } from "react-native-xml2js";
+import env from "react-native-config";
 
 const signalR = require("@microsoft/signalr");
 
