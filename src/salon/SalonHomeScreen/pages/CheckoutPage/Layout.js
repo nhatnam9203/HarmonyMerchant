@@ -101,7 +101,9 @@ export const Layout = (props) => {
           title={i18n.t("Trasaction Fail")}
           message={props.errorMessageFromPax}
           onRequestClose={props.closePopupErrorMessageFromPax}
-          confimYes={props.closePopupErrorMessageFromPax}
+          confimYes={props.handleYes}
+          isShowRefreshButton={props.isShowRefreshButton}
+          onConfirmRefresh={props.onConfirmRefresh}
         />
         <PopupChangeMoney
           ref={props.cashBackRef}
