@@ -77,6 +77,7 @@ const App: () => React$Node = () => {
       }),
 
       eventEmitter.addListener("pairingCode", (data) => {
+        console.log('pairingCode', data)
         if (data) {
           const { invoice, hardware } = store.getState();
           const { paymentMachineType } = hardware;

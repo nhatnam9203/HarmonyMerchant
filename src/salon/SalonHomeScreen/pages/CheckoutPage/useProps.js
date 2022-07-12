@@ -27,9 +27,9 @@ export const useProps = (props) => {
   const homePageCtx = React.useContext(controllers.SalonHomePageContext);
 
   // References
+  let isProcessPaymentClover = React.useRef(false);
   const subscriptions = React.useRef([]);
   const isProcessPrintClover = React.useRef(false);
-  const isProcessPaymentClover = React.useRef(false);
   const eventEmitter = React.useRef(new NativeEventEmitter(clover));
   const categoriesRef = React.useRef(null);
   const amountRef = React.useRef(null);
@@ -72,6 +72,7 @@ export const useProps = (props) => {
   const lastGroupAppointmentPay = useSelector(
     (state) => state.appointment.lastGroupAppointmentPay
   );
+  const errorMessage = useSelector((state) => state.appointment.errorMessage);
 
   // Local state
   const [stateLocal, dispatchLocal] = React.useReducer(
@@ -130,12 +131,28 @@ export const useProps = (props) => {
     }
   }, [appointment.startProcessingPax]);
 
+  React.useEffect(() => {
+    if (appointment.isCreditPaymentToServer) {
+      setTimeout(() => {
+        setVisibleErrorMessageFromPax(true);
+        setVisibleProcessingCredit(false);
+        dispatchLocal(
+          CheckoutState.updateCreditCardPay({
+            visibleErrorMessageFromPax: true,
+            errorMessageFromPax: errorMessage,
+            visibleProcessingCredit: false,
+          })
+        );
+      }, 400);
+    }
+  }, [isCreditPaymentToServer]);
+
   const sendTransactionToPaymentMachine = () => {
     if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
       setIsGetResponsePaymentPax(false);
       setVisibleProcessingCredit(true);
       const moneyCreditCard = Number(
-        utils.formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+        AppUtils.formatNumberFromCurrency(moneyUserGiveForStaff) * 100
       ).toFixed(2);
       const port = _.get(hardware.cloverMachineInfo, "port")
         ? _.get(hardware.cloverMachineInfo, "port")
@@ -145,15 +162,16 @@ export const useProps = (props) => {
         "ip"
       )}:${port}/remote_pay`;
 
-      dispatch(actions.appointment.isProcessPaymentClover(true));
+      isProcessPaymentClover = true
+      // dispatch(actions.appointment.isProcessPaymentClover(true));
 
       setVisibleProcessingCredit(true);
 
       clover.sendTransaction({
         url,
-        remoteAppId: REMOTE_APP_ID,
-        appName: APP_NAME,
-        posSerial: POS_SERIAL,
+        remoteAppId: AppUtils.REMOTE_APP_ID,
+        appName: AppUtils.APP_NAME,
+        posSerial: AppUtils.POS_SERIAL,
         token: _.get(hardware.cloverMachineInfo, "token")
           ? _.get(hardware.cloverMachineInfo, "token", "")
           : "",
@@ -345,7 +363,7 @@ export const useProps = (props) => {
         dispatchLocal(
           CheckoutState.updateCreditCardPay({
             visibleErrorMessageFromPax: true,
-            errorMessageFromPax: `${result.message}`,
+            errorMessageFromPax: errorMessage,
           })
         );
       }, 300);
@@ -358,21 +376,19 @@ export const useProps = (props) => {
     clover.changeListenerStatus(true);
     subscriptions.current = [
       eventEmitter.current.addListener("paymentSuccess", (data) => {
-        // console.log("paymentSuccess");
         isProcessPaymentClover = false;
         _handleResponseCreditCardForCloverSuccess(data);
       }),
       eventEmitter.current.addListener("paymentFail", (data) => {
-        // console.log("paymentSuccess");
         isProcessPaymentClover = false;
         _handleResponseCreditCardForCloverFailed(
-          _.get(data, "appointment.errorMessage")
+          _.get(data, "errorMessage")
         );
       }),
       eventEmitter.current.addListener("pairingCode", (data) => {
         if (data) {
-          const text = `Pairing code: ${_.get(data, "pairingCode")}`;
           if (isProcessPaymentClover.current) {
+            console.log('setVisibleProcessingCredit false')
             setVisibleProcessingCredit(false);
           }
           if (isProcessPrintClover.current) {
@@ -392,6 +408,7 @@ export const useProps = (props) => {
       eventEmitter.current.addListener("printInProcess", () => {}),
 
       eventEmitter.current.addListener("deviceDisconnected", () => {
+        console.log('deviceDisconnected')
         if (isProcessPaymentClover.current) {
           isProcessPaymentClover.current = false;
           _handleResponseCreditCardForCloverFailed("No connected device");
@@ -2010,9 +2027,6 @@ export const useProps = (props) => {
 
     // Popup Error Message
     visibleErrorMessageFromPax,
-    closePopupErrorMessageFromPax: () => {
-      setVisibleErrorMessageFromPax(false);
-    },
 
     // PopupChangeMoney
     cashBackRef,
@@ -2057,7 +2071,6 @@ export const useProps = (props) => {
         appointment.connectionSignalR.stop();
       }
 
-      console.log("closeModalPaymentCompleted");
       dispatch(actions.appointment.closeModalPaymentCompleted());
     },
     donotPrintBill: async () => {
@@ -2222,7 +2235,7 @@ export const useProps = (props) => {
         }
       } else {
         const moneyUserGiveForStaff = parseFloat(
-          utils.formatNumberFromCurrency(
+          AppUtils.formatNumberFromCurrency(
             this.modalBillRef.current?.state.quality
           )
         );
@@ -2385,6 +2398,18 @@ export const useProps = (props) => {
     },
     isShowCountdown:
       hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    closePopupErrorMessageFromPax: () => {
+      setVisibleErrorMessageFromPax(false);
+      if (appointment.payAppointmentId) {
+        dispatch(
+          actions.appointment.cancelHarmonyPayment(
+            appointment.payAppointmentId,
+            "transaction fail",
+            CheckoutState.errorMessageFromPax
+          )
+        );
+      }
+    },
     handleYes: () => {
       setVisibleErrorMessageFromPax(false);
       if (appointment.payAppointmentId) {
@@ -2407,7 +2432,7 @@ export const useProps = (props) => {
         AppUtils.requestPreviousTransactionReportDejavoo(param).then(
           (response) => {
             try {
-              parseString(message, (err, result) => {
+              parseString(response, (err, result) => {
                 let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
                 if (errorCode == 2) {
                   //Can not connect Dejavoo, show error without refresh button
