@@ -1,10 +1,11 @@
 import React from "react";
 import { Keyboard } from "react-native";
-
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import { checkStatusPrint, role, menuTabs, isPermissionToTab } from "@utils";
 import * as l from "lodash";
+import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -65,7 +66,7 @@ class SettingScreen extends Layout {
   handleLockScreen = () => {
     const { isFocus } = this.state;
     if (isFocus) {
-      this.props.navigation.navigate("Home");
+      NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -213,7 +214,7 @@ class SettingScreen extends Layout {
 
   closePopupCheckSettingTabPermission = () => {
     this.props.actions.app.toggleSettingTabPermission(false);
-    this.props.navigation.navigate("Home");
+    NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);
   };
 
   getPrinters = async () => {
