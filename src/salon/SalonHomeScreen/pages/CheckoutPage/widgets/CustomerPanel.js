@@ -1,6 +1,6 @@
 import { Button, Text } from "@components";
 import ICON from "@resources";
-import { ButtonGradient } from "@shared/components";
+import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
 import { colors } from "@shared/themes";
 import { scaleSize } from "@utils";
 import _ from "ramda";
@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { SalonHomeContext } from "../SalonHomeContext";
 
-export const CustomerPanel = () => {
+export const CustomerPanel = ({ onGoBack }) => {
   const { t } = useTranslation();
   const {
     customerInfoBuyAppointment,
@@ -19,6 +19,7 @@ export const CustomerPanel = () => {
     checkStatusCashier,
     shareTemptInvoice,
     printTemptInvoice,
+    onHandleGoBack,
   } = React.useContext(SalonHomeContext);
 
   const { customerId, firstName, lastName, phone } =
@@ -109,6 +110,17 @@ export const CustomerPanel = () => {
           onPress={checkStatusCashier}
           icon={ICON.cashier_btn}
         />
+        <View style={{ width: scaleWidth(10) }} />
+
+        <ButtonGradientWhite
+          width={scaleWidth(40)}
+          height={scaleHeight(40)}
+          fontSize={scaleFont(17)}
+          textWeight="normal"
+          onPress={onHandleGoBack}
+        >
+          <Image source={ICON.back} />
+        </ButtonGradientWhite>
       </View>
     </View>
   );

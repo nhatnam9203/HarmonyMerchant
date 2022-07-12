@@ -41,6 +41,8 @@ export const useBookingProps = (args) => {
       } else {
         props.setBlockStateFromCalendar(true); // not select other staff
       }
+
+      return () => {};
     }, [bookingStaffId])
   );
 

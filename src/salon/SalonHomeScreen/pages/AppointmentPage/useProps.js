@@ -21,6 +21,7 @@ import _ from "lodash";
 import { parseString } from "react-native-xml2js";
 import { ScreenName } from "@src/ScreenName";
 import * as controllers from "../../controllers";
+import { useFocusEffect } from "@react-navigation/native";
 
 const { clover } = NativeModules;
 
@@ -153,6 +154,12 @@ export const useProps = (props) => {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(homePageCtx.currentTab);
+    }, [])
+  );
+
   React.useEffect(() => {
     if (isReloadWebview) {
       reloadWebviewFromParent();
@@ -184,6 +191,9 @@ export const useProps = (props) => {
       checkoutStaffId: staffId,
     });
 
+    homePageCtx.homePageDispatch(
+      controllers.pressTab(ScreenName.SALON.CHECK_OUT)
+    );
     dispatch(
       actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId)
     );
@@ -203,7 +213,9 @@ export const useProps = (props) => {
       bookingFromTime: fromTime ?? new Date(),
       bookingAppointmentId: appointmentId,
     });
-
+    homePageCtx.homePageDispatch(
+      controllers.pressTab(ScreenName.SALON.BOOKING)
+    );
     homePageCtx.homePageDispatch(controllers.blockChangeTab());
   };
 
@@ -221,6 +233,10 @@ export const useProps = (props) => {
       NavigationServices.navigate(ScreenName.SALON.CHECK_OUT, {
         checkoutStaffId: staffId,
       });
+
+      homePageCtx.homePageDispatch(
+        controllers.pressTab(ScreenName.SALON.CHECK_OUT)
+      );
     } else {
       dispatch(
         actions.appointment.getBlockAppointmentById(appointmentId, true)
@@ -229,6 +245,10 @@ export const useProps = (props) => {
       NavigationServices.navigate(ScreenName.SALON.CHECK_OUT, {
         checkoutStaffId: staffId,
       });
+
+      homePageCtx.homePageDispatch(
+        controllers.pressTab(ScreenName.SALON.CHECK_OUT)
+      );
     }
 
     homePageCtx.homePageDispatch(controllers.blockChangeTab());

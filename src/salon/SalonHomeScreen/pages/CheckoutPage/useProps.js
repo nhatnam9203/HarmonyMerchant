@@ -233,7 +233,7 @@ export const useProps = (props) => {
             const resultTxt =
               `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
               "Transaction failed";
-            
+
             if (errorCode == 2) {
               //Can not connect Dejavoo, show error without refresh button
               setIsShowRefreshButton(true);
@@ -693,7 +693,6 @@ export const useProps = (props) => {
       const tempEnv = env.IS_PRODUCTION;
 
       if (_.get(result, "status", 0) == 0) {
-        
         setTimeout(() => {
           setVisibleErrorMessageFromPax(true);
           dispatchLocal(
@@ -731,7 +730,7 @@ export const useProps = (props) => {
         }
       } else {
         const resultTxt = result?.ResultTxt || "Transaction failed:";
-        
+
         setTimeout(() => {
           // alert(resultTxt);
           setVisibleErrorMessageFromPax(true);
@@ -1325,6 +1324,14 @@ export const useProps = (props) => {
       : "Are you sure you want to exit Check-Out?";
   }, [appointment]);
 
+  const _onHandleGoBack = () => {
+    NavigatorServices.goBack();
+    dispatchLocal(CheckoutState.resetState());
+    blockAppointmentRef.length = 0; // clean refs
+    dispatch(actions.appointment.resetGroupAppointment());
+    homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
+  };
+
   return {
     categoriesRef,
     amountRef,
@@ -1409,13 +1416,17 @@ export const useProps = (props) => {
       setVisibleScanCode(true);
     },
     bookAppointmentFromCalendar: () => {
-      NavigatorServices.goBack();
       // this.setState(
       //   Object.assign(initState, {
       //     isBookingFromAppointmentTab: true, // book appointment from calendar
       //   })
       // );
       // this.props.actions.appointment.resetGroupAppointment();
+
+      NavigatorServices.goBack();
+      dispatchLocal(CheckoutState.resetState());
+      blockAppointmentRef.length = 0; // clean refs
+      dispatch(actions.appointment.resetGroupAppointment());
       homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
     },
     selectPayment: () => {
@@ -1983,6 +1994,7 @@ export const useProps = (props) => {
       const goToTab =
         homePageCtx.nextTab ?? ScreenName.SALON.APPOINTMENT_LAYOUT;
       await homePageCtx.homePageDispatch(controllers.resetCheckOut(goToTab));
+
       if (goToTab === homePageCtx.currentTab) {
         NavigatorServices.goBack();
       } else NavigatorServices.navigate(goToTab);
@@ -2371,7 +2383,8 @@ export const useProps = (props) => {
         }
       }
     },
-    isShowCountdown: hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    isShowCountdown:
+      hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
     handleYes: () => {
       setVisibleErrorMessageFromPax(false);
       if (appointment.payAppointmentId) {
@@ -2391,53 +2404,64 @@ export const useProps = (props) => {
         const param = {
           RefId: appointment.payAppointmentId,
         };
-        AppUtils.requestPreviousTransactionReportDejavoo(param).then((response) => {
-          try {
-            parseString(message, (err, result) => {
-              let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
-              if (errorCode == 2) {
-                //Can not connect Dejavoo, show error without refresh button
-                setIsShowRefreshButton(true);
-              } else {
-                //Show error with refresh button
-                setIsShowRefreshButton(false);
-              }
-              if (
-                err ||
-                errorCode != 0 ||
-                _.get(result, "xmp.response.0.Message.0") != "Approved"
-              ) {
+        AppUtils.requestPreviousTransactionReportDejavoo(param).then(
+          (response) => {
+            try {
+              parseString(message, (err, result) => {
+                let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+                if (errorCode == 2) {
+                  //Can not connect Dejavoo, show error without refresh button
+                  setIsShowRefreshButton(true);
+                } else {
+                  //Show error with refresh button
+                  setIsShowRefreshButton(false);
+                }
+                if (
+                  err ||
+                  errorCode != 0 ||
+                  _.get(result, "xmp.response.0.Message.0") != "Approved"
+                ) {
                   let detailMessage = _.get(
                     result,
                     "xmp.response.0.RespMSG.0",
                     ""
                   ).replace(/%20/g, " ");
-                  detailMessage = !AppUtils.stringIsEmptyOrWhiteSpaces(detailMessage)
+                  detailMessage = !AppUtils.stringIsEmptyOrWhiteSpaces(
+                    detailMessage
+                  )
                     ? `: ${detailMessage}`
                     : detailMessage;
 
                   const resultTxt =
-                    `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
-                    "Transaction failed";
+                    `${_.get(
+                      result,
+                      "xmp.response.0.Message.0"
+                    )}${detailMessage}` || "Transaction failed";
 
-                  if (_.get(result, "xmp.response.0.Message.0") == 'Not found') {
-                      //call transaction again
+                  if (
+                    _.get(result, "xmp.response.0.Message.0") == "Not found"
+                  ) {
+                    //call transaction again
                     setVisibleProcessingCredit(true);
-                    AppUtils.requestTransactionDejavoo(parameter).then((responsesPayment) => {
-                      const parameter = {
-                        tenderType: "Credit",
-                        transType: "Sale",
-                        amount: Number(moneyUserGiveForStaff).toFixed(2),
-                        RefId: appointment.payAppointmentId,
-                        invNum: `${appointment.groupAppointment?.checkoutGroupId || 0}`,
-                      };
-                      handleResponseCreditCardDejavoo(
-                        responsesPayment,
-                        true,
-                        moneyUserGiveForStaff,
-                        parameter
-                      );
-                    });
+                    AppUtils.requestTransactionDejavoo(parameter).then(
+                      (responsesPayment) => {
+                        const parameter = {
+                          tenderType: "Credit",
+                          transType: "Sale",
+                          amount: Number(moneyUserGiveForStaff).toFixed(2),
+                          RefId: appointment.payAppointmentId,
+                          invNum: `${
+                            appointment.groupAppointment?.checkoutGroupId || 0
+                          }`,
+                        };
+                        handleResponseCreditCardDejavoo(
+                          responsesPayment,
+                          true,
+                          moneyUserGiveForStaff,
+                          parameter
+                        );
+                      }
+                    );
                   } else {
                     setTimeout(() => {
                       setVisibleErrorMessageFromPax(true);
@@ -2451,28 +2475,30 @@ export const useProps = (props) => {
                       );
                     }, 400);
                   }
-              } else {
-                setVisibleProcessingCredit(false);
-                const SN = _.get(result, "xmp.response.0.SN.0");
-                if (!AppUtils.stringIsEmptyOrWhiteSpaces(SN)) {
-                  dispatch(actions.hardware.setDejavooMachineSN(SN));
+                } else {
+                  setVisibleProcessingCredit(false);
+                  const SN = _.get(result, "xmp.response.0.SN.0");
+                  if (!AppUtils.stringIsEmptyOrWhiteSpaces(SN)) {
+                    dispatch(actions.hardware.setDejavooMachineSN(SN));
+                  }
+
+                  dispatch(
+                    actions.appointment.submitPaymentWithCreditCard(
+                      dataLocal.profile?.merchantId || 0,
+                      message,
+                      appointment.payAppointmentId,
+                      moneyUserGiveForStaff,
+                      "dejavoo",
+                      parameter
+                    )
+                  );
                 }
-                
-                dispatch(
-                  actions.appointment.submitPaymentWithCreditCard(
-                    dataLocal.profile?.merchantId || 0,
-                    message,
-                    appointment.payAppointmentId,
-                    moneyUserGiveForStaff,
-                    "dejavoo",
-                    parameter
-                  )
-                );
-              }
-            });
-          } catch (error) {}
-        });
+              });
+            } catch (error) {}
+          }
+        );
       }
     },
+    onHandleGoBack: _onHandleGoBack,
   };
 };
