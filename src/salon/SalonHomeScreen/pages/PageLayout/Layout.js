@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { AppointmentLayout } from "../AppointmentLayout";
 import { CheckoutPage } from "../CheckoutPage";
 import * as controllers from "../../controllers";
+import { PopupNotifications } from "../../components";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -20,6 +21,9 @@ export const Layout = ({
   isBlockChangeTab,
   onHandleWillChangeTab,
   currentTab,
+  notificationContUnread,
+  popupNotifyRef,
+  handlePushNotifyDataToWebView
 }) => {
   const { t } = useTranslation();
 
@@ -43,6 +47,8 @@ export const Layout = ({
             onChangeTab={onChangeTab}
             onWillChangeTab={onHandleWillChangeTab}
             isBlockChangeTab={isBlockChangeTab}
+            notificationContUnread={notificationContUnread}
+            displayNotificationPopup={() => popupNotifyRef.current.show()}
           />
         )}
       >
@@ -50,6 +56,7 @@ export const Layout = ({
         <Screen {...AppointmentLayout} />
         <Screen {...CheckoutPage} />
       </Navigator>
+      <PopupNotifications ref={popupNotifyRef} handlePushNotifyDataToWebView={handlePushNotifyDataToWebView}/>
     </View>
   );
 };

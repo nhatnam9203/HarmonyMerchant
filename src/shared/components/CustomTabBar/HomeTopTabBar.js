@@ -21,6 +21,7 @@ export const HomeTopTabBar = ({
   onChangeTab,
   isBlockChangeTab = false,
   onWillChangeTab,
+  displayNotificationPopup = () => {},
 }) => {
   const renderTab = (name, page, isTabActive, onPress) => {
     const textColor = isTabActive ? "#FFFFFF" : "#0872C9";
@@ -61,7 +62,7 @@ export const HomeTopTabBar = ({
 
         {page === 1 && isTabActive && (
           <TouchableOpacity
-            // onPress={() => this.props.displayNotifiPopup()}
+            onPress={() => displayNotificationPopup()}
             style={{
               position: "absolute",
               with: scaleWidth(80),

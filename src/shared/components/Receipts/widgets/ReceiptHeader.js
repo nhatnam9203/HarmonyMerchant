@@ -1,9 +1,7 @@
-import { fonts } from "@shared/themes";
 import { formatWithMoment } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
-import { LineHeader } from "./ReceiptLine";
 
 export const ReceiptHeader = ({
   profile,
