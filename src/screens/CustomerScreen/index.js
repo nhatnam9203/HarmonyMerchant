@@ -1,5 +1,6 @@
 import React from "react";
-
+import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import { role, menuTabs, isPermissionToTab } from '@utils';
@@ -138,7 +139,7 @@ class CustomerScreen extends Layout {
   handleLockScreen = () => {
     const { isFocus } = this.state;
     if (isFocus) {
-      this.props.navigation.navigate("Home");
+      NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -153,7 +154,7 @@ class CustomerScreen extends Layout {
 
   closePopupCheckCustomerTabPermission = () => {
     this.props.actions.customer.toggleCustomerTabPermission(false);
-    this.props.navigation.navigate("Home");
+    NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);
 
   };
 

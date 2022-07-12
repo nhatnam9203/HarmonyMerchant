@@ -1,7 +1,8 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-
+import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getCategoryIdByName, getArrayNameCategories } from '@utils';
@@ -351,7 +352,7 @@ class InventoryScreen extends Layout {
 
     closePopupCheckProductTabPermission = () => {
         this.props.actions.product.toggleProductTabPermission(false);
-        this.props.navigation.navigate("Home");
+        NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);
     }
 
     clearIntervalById = () => {
