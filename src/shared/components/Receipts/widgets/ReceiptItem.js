@@ -405,7 +405,7 @@ export const ReceiptItem = ({ item, index, type }) => {
             {`${index + 1}. ${name}`}
             {item?.type == "Product" && (
               <Text style={[styles.textStyle, { fontWeight: "700" }]}>
-                {`(x${qty})`}
+                {` (x${qty})`}
               </Text>
             )}
           </TextItem>
