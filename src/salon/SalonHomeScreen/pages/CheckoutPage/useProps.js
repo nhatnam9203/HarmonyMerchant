@@ -23,7 +23,7 @@ const { clover } = NativeModules;
 
 export const useProps = (props) => {
   const dispatch = useDispatch();
-  const { navigation } = props || {};
+  const { navigation, isBookingFromCalendar } = props || {};
   const homePageCtx = React.useContext(controllers.SalonHomePageContext);
 
   // References
@@ -1296,7 +1296,6 @@ export const useProps = (props) => {
   const titleExitCheckoutTab = React.useMemo(() => {
     const {
       groupAppointment,
-      isBookingFromCalendar,
       appointmentIdBookingFromCalendar,
       isCancelAppointment,
     } = appointment || {};
@@ -1322,14 +1321,10 @@ export const useProps = (props) => {
           0)
       ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? "
       : "Are you sure you want to exit Check-Out?";
-  }, [appointment]);
+  }, [appointment, isBookingFromCalendar]);
 
   const _onHandleGoBack = () => {
-    NavigatorServices.goBack();
-    dispatchLocal(CheckoutState.resetState());
-    blockAppointmentRef.length = 0; // clean refs
-    dispatch(actions.appointment.resetGroupAppointment());
-    homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
+    homePageCtx.homePageDispatch(controllers.showPopupConfirmCancelCheckout());
   };
 
   return {
@@ -1340,6 +1335,7 @@ export const useProps = (props) => {
     changeTipRef,
     popupCheckDiscountPermissionRef,
     isLoadingService: apis.isGetServiceByStaff || apis.isGetProductByStaff,
+    isBookingFromCalendar,
     ...dataLocal,
     ...category,
     ...network,
@@ -1353,6 +1349,7 @@ export const useProps = (props) => {
     // apis
     ...apis,
     titleExitCheckoutTab,
+    onHandleGoBack: _onHandleGoBack,
 
     setSelectStaffFromCalendar,
     setBlockStateFromCalendar: (bl) => {
@@ -1839,126 +1836,14 @@ export const useProps = (props) => {
         }
 
         // Book from calendar
-        if (appointment.isBookingFromCalendar) {
-          if (appointment.blockAppointments?.length > 0) {
-            const app =
-              appointment.blockAppointments?.length > 0
-                ? appointment.blockAppointments[0]
-                : null;
-            if (
-              app &&
-              appointment.blockAppointments &&
-              appointment.blockAppointments?.length === 1
-            ) {
-              if (
-                app.services.length +
-                  app.products.length +
-                  app.giftCards.length ===
-                0
-              ) {
-                const customerId = appointment.customerInfoBuyAppointment
-                  .customerId
-                  ? appointment.customerInfoBuyAppointment.customerId
-                  : 0;
-                dispatch(
-                  actions.appointment.cancleAppointment(
-                    appointment.isOpenBlockAppointmentId,
-                    dataLocal.profile.merchantId,
-                    customerId
-                  )
-                );
-              }
-            }
-          }
+      }
 
-          if (
-            appointment.groupAppointment?.appointments?.length > 0 &&
-            appointment.appointmentIdBookingFromCalendar
-          ) {
-            const app =
-              appointment.groupAppointment?.appointments?.length > 0
-                ? appointment.groupAppointment.appointments[0]
-                : null;
-
-            const mainAppointmentId = appointment.groupAppointment
-              ?.mainAppointmentId
-              ? appointment.groupAppointment.mainAppointmentId
-              : 0;
-
-            if (
-              app &&
-              appointment.groupAppointment?.appointments &&
-              appointment.groupAppointment?.appointments.length === 1
-            ) {
-              if (
-                app.services.length +
-                  app.products.length +
-                  app.giftCards.length ===
-                0
-              ) {
-                const customerId = appointment.customerInfoBuyAppointment
-                  .customerId
-                  ? appointment.customerInfoBuyAppointment.customerId
-                  : 0;
-
-                dispatch(
-                  actions.appointment.cancleAppointment(
-                    appointment.appointmentIdBookingFromCalendar,
-                    dataLocal.profile.merchantId,
-                    customerId
-                  )
-                );
-              }
-            }
-          }
-        }
-
-        if (
-          !appointment.isBookingFromCalendar &&
-          appointment.appointmentIdBookingFromCalendar == 0
-        ) {
-          const app =
-            appointment.groupAppointment?.appointments?.length > 0
-              ? appointment.groupAppointment.appointments[0]
-              : null;
-
-          if (
-            app &&
-            appointment.groupAppointment?.appointments &&
-            appointment.groupAppointment?.appointments.length === 1
-          ) {
-            if (
-              app.services.length +
-                app.products.length +
-                app.giftCards.length ===
-              0
-            ) {
-              const mainAppointmentId = appointment.groupAppointment
-                ?.mainAppointmentId
-                ? appointment.groupAppointment.mainAppointmentId
-                : 0;
-              const customerId = appointment.customerInfoBuyAppointment
-                .customerId
-                ? appointment.customerInfoBuyAppointment.customerId
-                : 0;
-
-              dispatch(
-                actions.appointment.cancleAppointment(
-                  mainAppointmentId,
-                  dataLocal.profile.merchantId,
-                  customerId
-                )
-              );
-            }
-          }
-        }
-
-        if (appointment.isOpenBlockAppointmentId) {
+      if (isBookingFromCalendar) {
+        if (appointment.blockAppointments?.length > 0) {
           const app =
             appointment.blockAppointments?.length > 0
               ? appointment.blockAppointments[0]
               : null;
-
           if (
             app &&
             appointment.blockAppointments &&
@@ -1974,7 +1859,6 @@ export const useProps = (props) => {
                 .customerId
                 ? appointment.customerInfoBuyAppointment.customerId
                 : 0;
-
               dispatch(
                 actions.appointment.cancleAppointment(
                   appointment.isOpenBlockAppointmentId,
@@ -1986,18 +1870,116 @@ export const useProps = (props) => {
           }
         }
 
-        blockAppointmentRef.length = 0; // clean refs
+        if (
+          appointment.groupAppointment?.appointments?.length > 0 &&
+          appointment.appointmentIdBookingFromCalendar
+        ) {
+          const app =
+            appointment.groupAppointment?.appointments?.length > 0
+              ? appointment.groupAppointment.appointments[0]
+              : null;
+
+          const mainAppointmentId = appointment.groupAppointment
+            ?.mainAppointmentId
+            ? appointment.groupAppointment.mainAppointmentId
+            : 0;
+
+          if (
+            app &&
+            appointment.groupAppointment?.appointments &&
+            appointment.groupAppointment?.appointments.length === 1
+          ) {
+            if (
+              app.services.length +
+                app.products.length +
+                app.giftCards.length ===
+              0
+            ) {
+              const customerId = appointment.customerInfoBuyAppointment
+                .customerId
+                ? appointment.customerInfoBuyAppointment.customerId
+                : 0;
+
+              dispatch(
+                actions.appointment.cancleAppointment(
+                  appointment.appointmentIdBookingFromCalendar,
+                  dataLocal.profile.merchantId,
+                  customerId
+                )
+              );
+            }
+          }
+        }
       }
 
-      // reset về page appointment,  // !
-      // this.props.gotoPageCurentParent(isDrawer); //!
-      const goToTab =
-        homePageCtx.nextTab ?? ScreenName.SALON.APPOINTMENT_LAYOUT;
-      await homePageCtx.homePageDispatch(controllers.resetCheckOut(goToTab));
+      if (
+        !isBookingFromCalendar &&
+        appointment.appointmentIdBookingFromCalendar == 0
+      ) {
+        const app =
+          appointment.groupAppointment?.appointments?.length > 0
+            ? appointment.groupAppointment.appointments[0]
+            : null;
 
-      if (goToTab === homePageCtx.currentTab) {
-        NavigatorServices.goBack();
-      } else NavigatorServices.navigate(goToTab);
+        if (
+          app &&
+          appointment.groupAppointment?.appointments &&
+          appointment.groupAppointment?.appointments.length === 1
+        ) {
+          if (
+            app.services.length + app.products.length + app.giftCards.length ===
+            0
+          ) {
+            const mainAppointmentId = appointment.groupAppointment
+              ?.mainAppointmentId
+              ? appointment.groupAppointment.mainAppointmentId
+              : 0;
+            const customerId = appointment.customerInfoBuyAppointment.customerId
+              ? appointment.customerInfoBuyAppointment.customerId
+              : 0;
+
+            dispatch(
+              actions.appointment.cancleAppointment(
+                mainAppointmentId,
+                dataLocal.profile.merchantId,
+                customerId
+              )
+            );
+          }
+        }
+      }
+
+      if (appointment.isOpenBlockAppointmentId) {
+        const app =
+          appointment.blockAppointments?.length > 0
+            ? appointment.blockAppointments[0]
+            : null;
+
+        if (
+          app &&
+          appointment.blockAppointments &&
+          appointment.blockAppointments?.length === 1
+        ) {
+          if (
+            app.services.length + app.products.length + app.giftCards.length ===
+            0
+          ) {
+            const customerId = appointment.customerInfoBuyAppointment.customerId
+              ? appointment.customerInfoBuyAppointment.customerId
+              : 0;
+
+            dispatch(
+              actions.appointment.cancleAppointment(
+                appointment.isOpenBlockAppointmentId,
+                dataLocal.profile.merchantId,
+                customerId
+              )
+            );
+          }
+        }
+      }
+
+      blockAppointmentRef.length = 0; // clean refs
     },
 
     //Popup Payment   Confirm
@@ -2499,6 +2481,5 @@ export const useProps = (props) => {
         );
       }
     },
-    onHandleGoBack: _onHandleGoBack,
   };
 };

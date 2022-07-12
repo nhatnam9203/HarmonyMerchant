@@ -1,9 +1,12 @@
+import actions from "@actions";
+import NavigatorServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
-import _ from "lodash";
+import { ScreenName } from "@src/ScreenName";
 import React from "react";
 import { useDispatch } from "react-redux";
+import * as controllers from "../../controllers";
+import * as CheckoutState from "./SalonCheckoutState";
 import { useProps } from "./useProps";
-import actions from "@actions";
 
 // Appointment Tab booking appointment
 export const useBookingProps = (args) => {
@@ -14,9 +17,15 @@ export const useBookingProps = (args) => {
     bookingAppointmentId,
     bookingFromTime,
   } = args?.params || {};
-  const props = useProps(args);
+
+  const props = useProps(
+    Object.assign({}, args, {
+      isBookingFromCalendar: true,
+    })
+  );
 
   const { groupAppointment } = props || {};
+  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
 
   /**
    * Event book appointment
@@ -47,7 +56,11 @@ export const useBookingProps = (args) => {
   );
 
   return {
-    isBookingFromCalendar: true,
     ...props,
+    onHandleGoBack: props.onHandleGoBack,
+    clearDataConfirm: async () => {
+      props.clearDataConfirm();
+      NavigatorServices.goBack();
+    },
   };
 };

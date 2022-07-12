@@ -110,17 +110,21 @@ export const CustomerPanel = ({ onGoBack }) => {
           onPress={checkStatusCashier}
           icon={ICON.cashier_btn}
         />
-        <View style={{ width: scaleWidth(10) }} />
+        {onHandleGoBack && (
+          <>
+            <View style={{ width: scaleWidth(10) }} />
 
-        <ButtonGradientWhite
-          width={scaleWidth(40)}
-          height={scaleHeight(40)}
-          fontSize={scaleFont(17)}
-          textWeight="normal"
-          onPress={onHandleGoBack}
-        >
-          <Image source={ICON.back} />
-        </ButtonGradientWhite>
+            <ButtonGradientWhite
+              width={scaleWidth(40)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textWeight="normal"
+              onPress={onHandleGoBack}
+            >
+              <Image source={ICON.back} />
+            </ButtonGradientWhite>
+          </>
+        )}
       </View>
     </View>
   );
