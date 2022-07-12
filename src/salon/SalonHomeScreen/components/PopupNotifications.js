@@ -59,20 +59,21 @@ export const PopupNotifications = React.forwardRef(
       },
     }));
 
-    const _renderItem = (noti) => {
+    const _renderItem = ({ item: noti }) => {
       const icon = noti?.view
         ? `${getIconByNotiType(noti?.type || "")}_is_read`
         : getIconByNotiType(noti?.type || "");
 
       const content = getNotiContentByType(noti);
       const _handlePushNotiDataToWebView = () => {
+        _forceClosePopup();
+
         if (
           handlePushNotifyDataToWebView &&
           typeof handlePushNotifyDataToWebView === "function"
         ) {
           handlePushNotifyDataToWebView(noti);
         }
-        _forceClosePopup();
       };
 
       return (

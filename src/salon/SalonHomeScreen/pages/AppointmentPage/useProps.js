@@ -77,6 +77,15 @@ export const useProps = (props) => {
     await dispatch(actions.app.resetStateReloadWebView());
   };
 
+  const _pushNotiDataToWebView = (data) => {
+    webviewRef.current?.postMessage(
+      JSON.stringify({
+        action: "appointmentNotification",
+        data: data,
+      })
+    );
+  };
+
   const handleEditTipCreditPayment = async (invoiceDetail, body) => {
     const { services } = body || {};
     let tipSum = 0;
@@ -156,6 +165,15 @@ export const useProps = (props) => {
       handleEditTipCreditPayment(invoiceDetail, body);
     }
   }, [invoiceDetail, editTipCreditCard]);
+
+  React.useEffect(() => {
+    if (homePageCtx?.showAppointment) {
+      _pushNotiDataToWebView(homePageCtx?.showAppointment);
+      homePageCtx.homePageDispatch(
+        controllers.hadShowNotifyDataToAppointment()
+      );
+    }
+  }, [homePageCtx?.showAppointment]);
 
   const _checkOutAppointment = async (appointmentId, appointment = {}) => {
     const staffId = appointment?.staffId;
@@ -335,6 +353,7 @@ export const useProps = (props) => {
         console.log("Calling from web is error " + error);
       }
     },
+    pushNotiDataToWebView: _pushNotiDataToWebView,
     reloadWebview: () => {
       reloadWebviewFromParent();
     },

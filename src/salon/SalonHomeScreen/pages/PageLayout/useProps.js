@@ -31,8 +31,10 @@ export const useProps = ({ navigation }) => {
     onChangeTab: (routeName) => {
       homePageCtx.homePageDispatch(controllers.ChangeTab(routeName));
     },
-    handlePushNotifyDataToWebView: (noti) => () => {
-      // this.tabAppointmentRef?.current?.pushNotiDataToWebView(noti);
+    handlePushNotifyDataToWebView: (noti) => {
+      homePageCtx.homePageDispatch(
+        controllers.pushNotifyDataToAppointment(noti)
+      );
 
       if (!_.get(noti, "view")) {
         dispatch(
