@@ -2022,8 +2022,15 @@ export const useProps = (props) => {
     closePopupPaymentConfirm: () => {
       setVisibleConfirmPayment(false);
     },
-    confirmPaymentClover: () => {},
-    rejectPaymentClover: () => {},
+    confirmPaymentClover: () => {
+      clover.confirmPayment();
+      setVisibleProcessingCredit(true);
+      setVisibleConfirmPayment(false);
+    },
+    rejectPaymentClover: () => {
+      clover.rejectPayment();
+      setVisibleConfirmPayment(false);
+    },
 
     // Popup Error Message
     visibleErrorMessageFromPax,
