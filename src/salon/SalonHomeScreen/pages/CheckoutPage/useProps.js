@@ -13,6 +13,7 @@ import { useCallApis } from "./useCallApis";
 import * as controllers from "../../controllers";
 import { parseString } from "react-native-xml2js";
 import env from "react-native-config";
+import Configs from "@configs";
 
 const signalR = require("@microsoft/signalr");
 
@@ -162,7 +163,7 @@ export const useProps = (props) => {
         "ip"
       )}:${port}/remote_pay`;
 
-      isProcessPaymentClover = true
+      isProcessPaymentClover = true;
       // dispatch(actions.appointment.isProcessPaymentClover(true));
 
       setVisibleProcessingCredit(true);
@@ -381,14 +382,12 @@ export const useProps = (props) => {
       }),
       eventEmitter.current.addListener("paymentFail", (data) => {
         isProcessPaymentClover = false;
-        _handleResponseCreditCardForCloverFailed(
-          _.get(data, "errorMessage")
-        );
+        _handleResponseCreditCardForCloverFailed(_.get(data, "errorMessage"));
       }),
       eventEmitter.current.addListener("pairingCode", (data) => {
         if (data) {
           if (isProcessPaymentClover.current) {
-            console.log('setVisibleProcessingCredit false')
+            console.log("setVisibleProcessingCredit false");
             setVisibleProcessingCredit(false);
           }
           if (isProcessPrintClover.current) {
@@ -408,7 +407,7 @@ export const useProps = (props) => {
       eventEmitter.current.addListener("printInProcess", () => {}),
 
       eventEmitter.current.addListener("deviceDisconnected", () => {
-        console.log('deviceDisconnected')
+        console.log("deviceDisconnected");
         if (isProcessPaymentClover.current) {
           isProcessPaymentClover.current = false;
           _handleResponseCreditCardForCloverFailed("No connected device");
@@ -996,7 +995,7 @@ export const useProps = (props) => {
       fromTime:
         fromTime !== ""
           ? fromTime
-          : formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
+          : AppUtils.formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
       staffId:
         staffIdOfline !== 0
           ? staffIdOfline
@@ -1657,7 +1656,7 @@ export const useProps = (props) => {
           actions.staff.getStaffService(
             service?.data?.serviceId,
             AppUtils.formatWithMoment(fromTime, "MM/DD/YYYY"), // Fix for case custom service not contains by staff, so get staff no data here!
-            this.callBackGetStaffService
+            callBackGetStaffService
           )
         );
       } else {
@@ -2224,9 +2223,7 @@ export const useProps = (props) => {
         }
       } else {
         const moneyUserGiveForStaff = parseFloat(
-          AppUtils.formatNumberFromCurrency(
-            this.modalBillRef.current?.state.quality
-          )
+          AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
         );
         const method = Helpers.getPaymentString(paymentSelected);
         const bodyAction = {
@@ -2236,7 +2233,7 @@ export const useProps = (props) => {
           services: [],
           extras: [],
           products: [],
-          fromTime: formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
+          fromTime: AppUtils.formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
           staffId: dataLocal.profileStaffLogin?.staffId || 0,
           customDiscountFixed: customDiscountFixedLocal,
           customDiscountPercent: customDiscountPercentLocal,
