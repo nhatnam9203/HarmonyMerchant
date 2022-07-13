@@ -422,6 +422,7 @@ function* paymentAppointment(action) {
     const responses = yield requestAPI(action);
 
     const { codeNumber } = responses;
+    console.log('paymentAppointment', responses)
     if (parseInt(codeNumber) == 200) {
       yield put({
         type: "PAY_APPOINTMENT_ID",

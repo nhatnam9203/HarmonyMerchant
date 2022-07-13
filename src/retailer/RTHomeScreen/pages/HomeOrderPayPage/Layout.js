@@ -346,9 +346,7 @@ export const Layout = ({
         visible={visibleErrorMessageFromPax}
         title={t("Trasaction Fail")}
         message={errorMessageFromPax}
-        onRequestClose={() => {
-          setVisibleErrorMessageFromPax(false);
-        }}
+        onRequestClose={handleYes}
         confimYes={handleYes}
         isShowRefreshButton={isShowRefreshButton}
         onConfirmRefresh={onConfirmRefresh}

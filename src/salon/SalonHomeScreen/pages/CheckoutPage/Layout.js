@@ -56,13 +56,13 @@ export const Layout = (props) => {
         </View>
         <PopupDiscount
           ref={props.popupDiscountRef}
-          title={i18n.t("Discount")}
+          title={AppUtils.localize("Discount")}
         />
         <PopupBlockDiscount title={i18n.t("Discount")} />
         <PopupDiscountLocal
           ref={props.popupDiscountLocalRef}
           visible={props.visiblePopupDiscountLocal}
-          title={i18n.t("Discount")}
+          title={AppUtils.localize("Discount")}
           onRequestClose={props.onRequestClosePopupDiscountLocal}
           callbackDiscountToParent={(
             customDiscountPercentLocal,
@@ -78,7 +78,7 @@ export const Layout = (props) => {
         />
         <PopupConfirm
           visible={props.visibleConfirm}
-          title={i18n.t("Confirmation")}
+          title={AppUtils.localize("Confirmation")}
           message={props.titleExitCheckoutTab}
           onRequestClose={props.closePopupConfirm}
           confimYes={props.clearDataConfirm}
@@ -86,19 +86,19 @@ export const Layout = (props) => {
 
         <PopupConfirm
           visible={props.visibleConfirmPayment ? true : false}
-          title={i18n.t("VerifyPayment")}
-          message={i18n.t("VerifyPaymentMessage")}
+          title={AppUtils.localize("VerifyPayment")}
+          message={AppUtils.localize("VerifyPaymentMessage")}
           onRequestClose={props.closePopupPaymentConfirm}
           confimYes={props.confirmPaymentClover}
           confirmNo={props.rejectPaymentClover}
-          textLeftButton={i18n.t("Reject")}
-          textRightButton={i18n.t("Accept")}
+          textLeftButton={AppUtils.localize("Reject")}
+          textRightButton={AppUtils.localize("Accept")}
           hideCloseButton={true}
         />
         {/* ----------------- Display Error Message From Pax Machine ------------------ */}
         <ErrorMessagePaxModal
           visible={props.visibleErrorMessageFromPax}
-          title={i18n.t("Trasaction Fail")}
+          title={AppUtils.localize("Trasaction Fail")}
           message={props.errorMessageFromPax}
           onRequestClose={props.closePopupErrorMessageFromPax}
           confimYes={props.handleYes}
@@ -107,14 +107,14 @@ export const Layout = (props) => {
         />
         <PopupChangeMoney
           ref={props.cashBackRef}
-          title={i18n.t("Confirmation")}
+          title={AppUtils.localize("Confirmation")}
           onRequestClose={props.closePopupChangeMoney}
           confimOK={props.doneBillByCash}
         />
         <PopupChangeStylist
           ref={props.changeStylistRef}
           visible={props.visibleChangeStylist}
-          title={i18n.t("Modify Service")}
+          title={AppUtils.localize("Modify Service")}
           onRequestClose={props.closePopupChangeStylist}
           changeStylistBasketLocal={props.changeStylistBasketLocal}
           staffOfService={props.staffOfService}
@@ -123,14 +123,14 @@ export const Layout = (props) => {
         <PopupChangePriceAmountProduct
           ref={props.changePriceAmountProductRef}
           visible={props.visibleChangePriceAmountProduct}
-          title={i18n.t("Modification")}
+          title={AppUtils.localize("Modification")}
           onRequestClose={props.closePopupChangePriceAmountProduct}
           changeProductBasketLocal={props.changeProductBasketLocal}
         />
         <PopupChangeTip
           ref={props.changeTipRef}
           visible={props.visibleChangeTip}
-          title={i18n.t("Add Tip")}
+          title={AppUtils.localize("Add Tip")}
           onRequestClose={props.closePopupChangeTip}
         />
         <DialogPayCompleted
@@ -150,7 +150,7 @@ export const Layout = (props) => {
         />
         <PopupBill
           ref={props.modalBillRef}
-          title={i18n.t("Enter Amount")}
+          title={AppUtils.localize("Enter Amount")}
           visible={props.visibleBillOfPayment}
           onRequestClose={props.onRequestCloseBillModal}
           language={"en"}
@@ -167,7 +167,7 @@ export const Layout = (props) => {
         <PopupSendLinkInstall
           ref={props.popupSendLinkInstallRef}
           visible={props.visibleSendLinkPopup}
-          title={i18n.t("Confirmation")}
+          title={AppUtils.localize("Confirmation")}
           onRequestClose={props.closePopupSendLinkInstall}
           confimYes={props.sendLinkInstallApp}
         />
@@ -178,7 +178,7 @@ export const Layout = (props) => {
           submitSerialCode={props.submitSerialCode}
         />
         <PopupPaymentDetails
-          title={i18n.t("Payment Details")}
+          title={AppUtils.localize("Payment Details")}
           visible={props.visiblePopupPaymentDetails}
           onRequestClose={props.closePopupProductPaymentDetails}
           language={"en"}
@@ -197,19 +197,19 @@ export const Layout = (props) => {
         />
         <EnterCustomerPhonePopup
           ref={props.popupCustomerInfoRef}
-          title={i18n.t("Enter Phone Number")}
+          title={AppUtils.localize("Enter Phone Number")}
           onRequestClose={props.closePopupEnterCustomerPhone}
           changeStylistBasketLocal={props.changeStylistBasketLocal}
         />
         <PopupAddItemIntoAppointments
           ref={props.popupAddItemIntoAppointmentsRef}
-          title={i18n.t("Modification")}
+          title={AppUtils.localize("Modification")}
           visible={props.visiblePopupAddItemIntoBasket}
           onRequestClose={props.closePopupAddItemIntoAppointments}
           selectedStaff={props.selectedStaff}
         />
         <PopupGiftCardDetail
-          title={i18n.t("Gift Card Details")}
+          title={AppUtils.localize("Gift Card Details")}
           onRequestClose={props.closePopupProductPaymentDetails}
           language={"en"}
           nextPayment={props.nextPayment}
@@ -220,7 +220,7 @@ export const Layout = (props) => {
           visiblePopupCheckStaffPermission={
             props.visiblePopupCheckDiscountPermission
           }
-          title={i18n.t("Input PIN Number")}
+          title={AppUtils.localize("Input PIN Number")}
           tabName={AppUtils.menuTabs.CHECKOUT_DISCOUNT}
           onRequestClose={props.closePopupCheckDiscountPermission}
         />
