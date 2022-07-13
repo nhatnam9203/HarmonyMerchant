@@ -424,7 +424,7 @@ export const useProps = (props) => {
     let isAppointmentIdOpen = "";
 
     for (let i = 0; i < blockAppointmentRef.length; i++) {
-      if (!blockAppointmentRef[i].state.isCollapsed) {
+      if (!blockAppointmentRef[i]?.state.isCollapsed) {
         isAppointmentIdOpen =
           blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
         break;
@@ -530,7 +530,7 @@ export const useProps = (props) => {
     for (let i = 0; i < blockAppointmentRef.length; i++) {
       if (!blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
+          blockAppointmentRef[i]?.props?.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -1660,9 +1660,9 @@ export const useProps = (props) => {
               appointment.appointmentDetail.appointmentId
             )
           );
-          blockAppointmentRef[i].setStateFromParent(false);
+          blockAppointmentRef[i]?.setStateFromParent(false);
         } else {
-          blockAppointmentRef[i].setStateFromParent(true);
+          blockAppointmentRef[i]?.setStateFromParent(true);
         }
       }
     },
