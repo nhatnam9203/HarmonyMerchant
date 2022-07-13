@@ -46,7 +46,6 @@ export const DialogPayCompleted = ({
   printBill,
   onRequestClose,
   cancelInvoicePrint,
-  doPrintClover,
   paymentSelected,
   groupAppointmentId,
 }) => {
@@ -136,7 +135,6 @@ export const DialogPayCompleted = ({
     printTemp,
     viewShotRef,
     viewShotCustomerRef,
-    doPrintClover,
     isSignature,
     fromAppointmentTab: false,
     setIsSignature,
@@ -163,11 +161,11 @@ export const DialogPayCompleted = ({
     setWaiting(false);
   };
 
-  switchSendLink = () => {
+  const switchSendLink = () => {
     setSendLink((prev) => !prev);
   };
 
-  handleSendGoogleLinkReview = async () => {
+  const handleSendGoogleLinkReview = async () => {
     if (isSendLink) {
       let customerIdList = new Set();
       const appointments = groupAppointment?.appointments || [];
@@ -183,7 +181,7 @@ export const DialogPayCompleted = ({
     }
   };
 
-  openCashDrawerClover = () => {
+  const openCashDrawerClover = () => {
     const port = _.get(cloverMachineInfo, "port")
       ? _.get(cloverMachineInfo, "port")
       : 80;
@@ -200,7 +198,7 @@ export const DialogPayCompleted = ({
     });
   };
 
-  openCashDrawer = async () => {
+  const openCashDrawer = async () => {
     if (portName) {
       await PrintManager.getInstance().openCashDrawer(portName);
     } else {
@@ -210,7 +208,7 @@ export const DialogPayCompleted = ({
     }
   };
 
-  onButtonPrintBillPress = async () => {
+  const onButtonPrintBillPress = async () => {
     // if (waiting) return; // chờ chút đang get lại groupAppointment
 
     handleSendGoogleLinkReview();
@@ -241,7 +239,7 @@ export const DialogPayCompleted = ({
     // await printProcess();
   };
 
-  cancelPrintBill = () => {
+  const cancelPrintBill = () => {
     handleSendGoogleLinkReview();
     donotPrintBill();
     // setWaiting(false);
