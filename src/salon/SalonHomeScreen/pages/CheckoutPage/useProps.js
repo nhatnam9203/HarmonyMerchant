@@ -52,6 +52,8 @@ export const useProps = (props) => {
   const addEditCustomerInfoRef = React.useRef(null);
   const invoiceRef = React.useRef(null);
   const popupEnterAmountCustomServiceRef = React.useRef(null);
+  const payAppointmentId = React.useRef(0);
+  const moneyUserGiveForStaffRef = React.useRef(0);
 
   // Redux state
   const appointment = useSelector((state) => state.appointment) || {};
@@ -92,6 +94,7 @@ export const useProps = (props) => {
   // const [visibleConfirm, setVisibleConfirm] = React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
+  const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleChangeMoney, setVisibleChangeMoney] = React.useState(false);
   const [visibleChangeStylist, setVisibleChangeStylist] = React.useState(false);
   const [visibleChangePriceAmountProduct, setVisibleChangePriceAmountProduct] =
@@ -137,16 +140,15 @@ export const useProps = (props) => {
       setTimeout(() => {
         setVisibleErrorMessageFromPax(true);
         setVisibleProcessingCredit(false);
-        dispatchLocal(
-          CheckoutState.updateCreditCardPay({
-            visibleErrorMessageFromPax: true,
-            errorMessageFromPax: errorMessage,
-            visibleProcessingCredit: false,
-          })
-        );
+        setErrorMessageFromPax(errorMessage);
       }, 400);
     }
   }, [isCreditPaymentToServer]);
+
+
+  React.useEffect(() => {
+    payAppointmentId.current = appointment.payAppointmentId;
+  }, [appointment.payAppointmentId])
 
   const sendTransactionToPaymentMachine = () => {
     if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
@@ -163,7 +165,7 @@ export const useProps = (props) => {
         "ip"
       )}:${port}/remote_pay`;
 
-      isProcessPaymentClover = true;
+      isProcessPaymentClover.current = true
       // dispatch(actions.appointment.isProcessPaymentClover(true));
 
       setVisibleProcessingCredit(true);
@@ -264,13 +266,7 @@ export const useProps = (props) => {
             setTimeout(() => {
               setVisibleErrorMessageFromPax(true);
               setVisibleProcessingCredit(false);
-              dispatchLocal(
-                CheckoutState.updateCreditCardPay({
-                  visibleErrorMessageFromPax: true,
-                  errorMessageFromPax: resultTxt,
-                  visibleProcessingCredit: false,
-                })
-              );
+              setErrorMessageFromPax(resultTxt);
             }, 400);
           }
         } else {
@@ -339,15 +335,15 @@ export const useProps = (props) => {
       ...message,
       sn: _.get(hardware.cloverMachineInfo, "serialNumber"),
     };
-
     try {
       dispatch(
         actions.appointment.submitPaymentWithCreditCard(
           dataLocal.profile?.merchantId || 0,
           JSON.stringify(messageUpdate),
-          appointment.payAppointmentId,
-          appointment.amountCredtitForSubmitToServer,
-          "clover"
+          payAppointmentId.current,
+          moneyUserGiveForStaffRef.current,
+          "clover",
+          null
         )
       );
     } catch (error) {
@@ -361,12 +357,7 @@ export const useProps = (props) => {
     try {
       setTimeout(() => {
         setVisibleErrorMessageFromPax(true);
-        dispatchLocal(
-          CheckoutState.updateCreditCardPay({
-            visibleErrorMessageFromPax: true,
-            errorMessageFromPax: errorMessage,
-          })
-        );
+        setErrorMessageFromPax(errorMessage);
       }, 300);
     } catch (error) {
       console.log(error);
@@ -377,17 +368,18 @@ export const useProps = (props) => {
     clover.changeListenerStatus(true);
     subscriptions.current = [
       eventEmitter.current.addListener("paymentSuccess", (data) => {
-        isProcessPaymentClover = false;
+        isProcessPaymentClover.current = false;
         _handleResponseCreditCardForCloverSuccess(data);
       }),
       eventEmitter.current.addListener("paymentFail", (data) => {
-        isProcessPaymentClover = false;
-        _handleResponseCreditCardForCloverFailed(_.get(data, "errorMessage"));
+        isProcessPaymentClover.current = false;
+        _handleResponseCreditCardForCloverFailed(
+          _.get(data, "errorMessage")
+        );
       }),
       eventEmitter.current.addListener("pairingCode", (data) => {
         if (data) {
           if (isProcessPaymentClover.current) {
-            console.log("setVisibleProcessingCredit false");
             setVisibleProcessingCredit(false);
           }
           if (isProcessPrintClover.current) {
@@ -407,7 +399,6 @@ export const useProps = (props) => {
       eventEmitter.current.addListener("printInProcess", () => {}),
 
       eventEmitter.current.addListener("deviceDisconnected", () => {
-        console.log("deviceDisconnected");
         if (isProcessPaymentClover.current) {
           isProcessPaymentClover.current = false;
           _handleResponseCreditCardForCloverFailed("No connected device");
@@ -711,12 +702,7 @@ export const useProps = (props) => {
       if (_.get(result, "status", 0) == 0) {
         setTimeout(() => {
           setVisibleErrorMessageFromPax(true);
-          dispatchLocal(
-            CheckoutState.updateCreditCardPay({
-              visibleErrorMessageFromPax: true,
-              errorMessageFromPax: `${result.message}`,
-            })
-          );
+          setErrorMessageFromPax(result.message);
         }, 300);
       } else if (result.ResultCode && result.ResultCode == "000000") {
         if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
@@ -750,12 +736,7 @@ export const useProps = (props) => {
         setTimeout(() => {
           // alert(resultTxt);
           setVisibleErrorMessageFromPax(true);
-          dispatchLocal(
-            CheckoutState.updateCreditCardPay({
-              visibleErrorMessageFromPax: true,
-              errorMessageFromPax: `${resultTxt}`,
-            })
-          );
+          setErrorMessageFromPax(resultTxt);
         }, 300);
       }
     } catch (error) {
@@ -780,6 +761,7 @@ export const useProps = (props) => {
             )
           );
     setMoneyUserGiveForStaff(moneyUserGiveForStaff);
+    moneyUserGiveForStaffRef.current = moneyUserGiveForStaff;
 
     const method = Helpers.getPaymentString(paymentSelected);
     const total = appointment.groupAppointment?.total
@@ -1165,29 +1147,6 @@ export const useProps = (props) => {
     }
 
     dispatchLocal(CheckoutState.selectCategory(null)); // reset
-  };
-
-  const _doPrintClover = (imageUri) => {
-    isProcessPrintClover.current = true;
-    const port = _.get(hardware.cloverMachineInfo, "port")
-      ? _.get(hardware.cloverMachineInfo, "port")
-      : 80;
-    const url = `wss://${_.get(
-      hardware.cloverMachineInfo,
-      "ip"
-    )}:${port}/remote_pay`;
-    const printInfo = {
-      imageUri,
-      url,
-      remoteAppId: AppUtils.REMOTE_APP_ID,
-      appName: AppUtils.APP_NAME,
-      posSerial: AppUtils.POS_SERIAL,
-      token: _.get(hardware.cloverMachineInfo, "dataLocal.token")
-        ? _.get(hardware.cloverMachineInfo, "dataLocal.token", "")
-        : "",
-    };
-    clover.doPrintWithConnect(printInfo);
-    isProcessPrintClover.current = false;
   };
 
   const _cancelInvoicePrint = async (isPrintTempt) => {
@@ -2125,7 +2084,6 @@ export const useProps = (props) => {
       );
     },
     cancelInvoicePrint: _cancelInvoicePrint,
-    doPrintClover: _doPrintClover,
     mainAppointmentId: appointment.groupAppointment?.mainAppointmentId || 0,
 
     // PopupProcessingCredit
@@ -2291,8 +2249,6 @@ export const useProps = (props) => {
     invoicePrintRef,
     visiblePrintInvoice,
 
-    doPrintClover: () => {},
-
     // EnterCustomerPhonePopup
     popupCustomerInfoRef,
     closePopupEnterCustomerPhone: () => {},
@@ -2391,7 +2347,7 @@ export const useProps = (props) => {
           actions.appointment.cancelHarmonyPayment(
             appointment.payAppointmentId,
             "transaction fail",
-            CheckoutState.errorMessageFromPax
+            errorMessageFromPax
           )
         );
       }
@@ -2403,7 +2359,7 @@ export const useProps = (props) => {
           actions.appointment.cancelHarmonyPayment(
             appointment.payAppointmentId,
             "transaction fail",
-            CheckoutState.errorMessageFromPax
+            errorMessageFromPax
           )
         );
       }
@@ -2477,13 +2433,7 @@ export const useProps = (props) => {
                     setTimeout(() => {
                       setVisibleErrorMessageFromPax(true);
                       setVisibleProcessingCredit(false);
-                      dispatchLocal(
-                        CheckoutState.updateCreditCardPay({
-                          visibleErrorMessageFromPax: true,
-                          errorMessageFromPax: resultTxt,
-                          visibleProcessingCredit: false,
-                        })
-                      );
+                      setErrorMessageFromPax(resultTxt);
                     }, 400);
                   }
                 } else {

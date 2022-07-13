@@ -235,7 +235,6 @@ export const Layout = (props) => {
         <PopupReceipt
           ref={props.invoiceRef}
           groupAppointment={props.groupAppointment}
-          doPrintClover={props.doPrintClover}
           cancelInvoicePrint={props.cancelInvoicePrint}
         />
         <PopupEnterAmountCustomService

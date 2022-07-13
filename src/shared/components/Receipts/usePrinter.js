@@ -2,7 +2,8 @@ import {
   getInfoFromModelNameOfPrinter,
   PaymentTerminalType,
   requestPrintDejavoo,
-  checkNotSelectedPrinter
+  checkNotSelectedPrinter,
+  doPrintClover,
 } from "@utils";
 import React from "react";
 import Share from "react-native-share";
@@ -18,7 +19,6 @@ export const usePrinter = ({
   viewShotRef,
   viewShotCustomerRef,
   printTemp,
-  doPrintClover,
   isSignature,
   setIsSignature,
   onCancelPrint,
@@ -83,9 +83,7 @@ export const usePrinter = ({
     // Other devices
     else {
       if (paymentMachineType == "Clover") {
-        if (doPrintClover && typeof doPrintClover === "function") {
-          doPrintClover(imageUrl);
-        }
+        doPrintClover(imageUrl);
       } else if (paymentMachineType == "Dejavoo") {
         const content = getContentXmlReceipt();
         const params = {
@@ -105,7 +103,6 @@ export const usePrinter = ({
         return;
       } // nothing to print
 
-      console.log('checkNotSelectedPrinter()', checkNotSelectedPrinter())
       if (checkNotSelectedPrinter()) {
         alert("Please connect to your printer! ");
         return;
