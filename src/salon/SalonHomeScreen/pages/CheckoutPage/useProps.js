@@ -367,10 +367,11 @@ export const useProps = (props) => {
     clover.changeListenerStatus(true);
     subscriptions.current = [
       eventEmitter.current.addListener("paymentSuccess", (data) => {
+        isProcessPaymentClover.current = false;
         _handleResponseCreditCardForCloverSuccess(data);
       }),
       eventEmitter.current.addListener("paymentFail", (data) => {
-        isProcessPaymentClover = false;
+        isProcessPaymentClover.current = false;
         _handleResponseCreditCardForCloverFailed(
           _.get(data, "errorMessage")
         );
