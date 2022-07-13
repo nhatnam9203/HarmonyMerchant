@@ -5,7 +5,7 @@ export const role = {
 
 /*---Clover----*/
 // export const REMOTE_APP_ID = '1MHMKSTW4HZ2P.BRXKQHNH5T1BW' //This is developement app id for test
-export const REMOTE_APP_ID = "AVKPM4RHSƯ378.6KGZ01MQ8AVBM"; //This is production app id
+export const REMOTE_APP_ID = "AVKPM4RHSW378.6KGZ01MQ8AVBM"; //This is production app id
 export const APP_NAME = "HarmonyPOS";
 export const POS_SERIAL = "POS";
 
