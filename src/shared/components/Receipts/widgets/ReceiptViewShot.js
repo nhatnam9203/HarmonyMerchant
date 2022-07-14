@@ -6,6 +6,7 @@ import { ReceiptItemType } from "./ReceiptItem";
 import { ReceiptHeader } from "./ReceiptHeader";
 import { ReceiptFooter } from "./ReceiptFooter";
 import { ReceiptTotal } from "./ReceiptTotal";
+import { ReceiptBarcode } from "./ReceiptBarcode";
 import { captureRef, ViewShot } from "react-native-view-shot";
 
 export const ReceiptViewShot = React.forwardRef(
@@ -87,22 +88,12 @@ export const ReceiptViewShot = React.forwardRef(
                   type={getReceiptType()}
                   isGroupLayout={!!groupAppointment}
                 />
-                <ReceiptTotal
-                  subtotal={x.subTotal}
-                  discount={x.discount}
-                  tip={x.tip}
-                  tax={x.tax}
-                  taxRate={x.taxRate}
-                  change={x.change}
-                  // cashDiscount={cashDiscount}
-                  // fee={x.fee}
-                  total={x.total}
-                  returnTotal={x.returnTotal}
-                  printTemp={printTemp}
-                  fromAppointmentTab={fromAppointmentTab}
-                  // checkoutPaymentMethods={checkoutPaymentMethods}
-                  isSignature={isSignature}
-                  isGroupLayout={!!groupAppointment}
+                {x?.code && <ReceiptBarcode code={x?.code} />}
+                <View
+                  style={{
+                    width: scaleWidth(10),
+                    height: scaleHeight(10),
+                  }}
                 />
               </>
             ))}
@@ -173,6 +164,7 @@ export const ReceiptViewShot = React.forwardRef(
           promotionNotes={promotionNotes}
           widthPaper={widthPaper}
         />
+        {!groupAppointment && <ReceiptBarcode code={invoiceCode} />}
       </View>
     );
   }
