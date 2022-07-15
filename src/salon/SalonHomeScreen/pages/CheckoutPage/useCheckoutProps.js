@@ -15,6 +15,7 @@ export const useCheckoutProps = (args) => {
   const props = useProps(
     Object.assign({}, args, {
       isBookingFromCalendar: false,
+      homePageCtx: homePageCtx,
     })
   );
 

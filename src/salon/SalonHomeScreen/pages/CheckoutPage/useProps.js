@@ -25,7 +25,7 @@ const { clover } = NativeModules;
 export const useProps = (props) => {
   const dispatch = useDispatch();
   const { navigation, isBookingFromCalendar } = props || {};
-  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
+  const homePageCtx = props?.homePageCtx;
 
   // References
   let isProcessPaymentClover = React.useRef(false);
@@ -91,7 +91,6 @@ export const useProps = (props) => {
   // State
   const [visibleConfirmPayment, setVisibleConfirmPayment] =
     React.useState(false);
-  // const [visibleConfirm, setVisibleConfirm] = React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
@@ -458,7 +457,7 @@ export const useProps = (props) => {
   const removeItemInBlockAppointment = (dataRemove) => {
     let isAppointmentIdOpen = "";
     for (let i = 0; i < blockAppointmentRef.length; i++) {
-      if (!blockAppointmentRef[i].state.isCollapsed) {
+      if (!blockAppointmentRef[i]?.state.isCollapsed) {
         isAppointmentIdOpen =
           blockAppointmentRef[i]?.props?.appointmentDetail.appointmentId;
         break;
@@ -479,6 +478,7 @@ export const useProps = (props) => {
   };
 
   const _handlePaymentOffLineMode = () => {};
+
   const _setupSignalR = (
     profile,
     token,
@@ -931,9 +931,9 @@ export const useProps = (props) => {
   const _addGiftCardIntoBlockAppointment = (code) => {
     let isAppointmentIdOpen = "";
     for (let i = 0; i < blockAppointmentRef.length; i++) {
-      if (!blockAppointmentRef[i].state.isCollapsed) {
+      if (!blockAppointmentRef[i]?.state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
+          blockAppointmentRef[i]?.props?.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -1226,6 +1226,51 @@ export const useProps = (props) => {
     homePageCtx.homePageDispatch(controllers.showPopupConfirmCancelCheckout());
   };
 
+  const _updateBlockAppointmentRef = () => {
+    const { isOpenBlockAppointmentId, idNextToAppointmentRemove } =
+      appointment || {};
+
+    const temptBlockAppointmentRef = blockAppointmentRef.filter(
+      (block) => block?._isMounted
+    );
+
+    if (temptBlockAppointmentRef.length > 0) {
+      blockAppointmentRef.length = 0;
+      blockAppointmentRef.push(...temptBlockAppointmentRef);
+      let isAppointmentOpenExist = false;
+      for (let i = 0; i < blockAppointmentRef.length; i++) {
+        const appointmentDetail =
+          blockAppointmentRef[i]?.props?.appointmentDetail;
+        if (appointmentDetail?.appointmentId === isOpenBlockAppointmentId) {
+          isAppointmentOpenExist = true;
+          blockAppointmentRef[i]?.setStateFromParent(false);
+        } else {
+          blockAppointmentRef[i]?.setStateFromParent(true);
+        }
+      }
+      if (!isAppointmentOpenExist) {
+        const id = idNextToAppointmentRemove - 1;
+        if (id >= 0) {
+          blockAppointmentRef[id]?.setStateFromParent(false);
+        }
+      }
+    } else {
+      blockAppointmentRef.length = 0; // clean refs
+    }
+  };
+
+  const _setBlockToggleCollaps = () => {
+    const { isOpenBlockAppointmentId } = appointment || {};
+    for (let i = 0; i < blockAppointmentRef.length; i++) {
+      const appointmentDetail = blockAppointmentRef[i]?.props.appointmentDetail;
+      if (appointmentDetail?.appointmentId === isOpenBlockAppointmentId) {
+        blockAppointmentRef[i]?.setStateFromParent(false);
+      } else {
+        blockAppointmentRef[i]?.setStateFromParent(true);
+      }
+    }
+  };
+
   React.useEffect(() => {
     if (appointment.startProcessingPax) {
       dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
@@ -1251,7 +1296,7 @@ export const useProps = (props) => {
     const { blockAppointments, isLoadingRemoveBlockAppointment } =
       appointment || {};
     if (blockAppointments.length > 0) {
-      updateBlockAppointmentRef();
+      _updateBlockAppointmentRef();
     }
   }, [
     appointment?.blockAppointments,
@@ -1310,6 +1355,13 @@ export const useProps = (props) => {
       subscriptions.current = [];
     };
   }, []);
+
+  React.useEffect(() => {
+    _setBlockToggleCollaps();
+  }, [
+    appointment?.blockAppointments,
+    appointment.isLoadingGetBlockAppointment,
+  ]);
 
   return {
     categoriesRef,
@@ -1760,6 +1812,7 @@ export const useProps = (props) => {
       );
     },
     clearDataConfirm: async () => {
+      console.log("clearDataConfirm");
       const { isDrawer } = stateLocal;
 
       if (!_.isEmpty(appointment.connectionSignalR)) {
@@ -1772,10 +1825,8 @@ export const useProps = (props) => {
         );
       }
 
-      homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
-
       // reset local state
-      dispatchLocal(CheckoutState.resetState());
+      dispatchLocal(CheckoutState.resetState()); // reset had disable unblock tab
 
       // reset page
       setIsPayment(false);
@@ -1964,6 +2015,7 @@ export const useProps = (props) => {
       }
 
       blockAppointmentRef.length = 0; // clean refs
+
     },
 
     //Popup Payment   Confirm

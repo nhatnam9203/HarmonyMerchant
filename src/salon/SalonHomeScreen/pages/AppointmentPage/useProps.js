@@ -208,14 +208,16 @@ export const useProps = (props) => {
 
     dispatch(actions.appointment.getBlockAppointmentById(appointmentId, true));
 
+    homePageCtx.homePageDispatch(
+      controllers.pressTab(ScreenName.SALON.BOOKING)
+    );
+
     NavigationServices.navigate(ScreenName.SALON.BOOKING, {
       bookingStaffId: staffId ?? 0,
       bookingFromTime: fromTime ?? new Date(),
       bookingAppointmentId: appointmentId,
     });
-    homePageCtx.homePageDispatch(
-      controllers.pressTab(ScreenName.SALON.BOOKING)
-    );
+
     homePageCtx.homePageDispatch(controllers.blockChangeTab());
   };
 

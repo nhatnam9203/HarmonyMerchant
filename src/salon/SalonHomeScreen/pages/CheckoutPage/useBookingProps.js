@@ -18,14 +18,16 @@ export const useBookingProps = (args) => {
     bookingFromTime,
   } = args?.params || {};
 
+  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
+
   const props = useProps(
     Object.assign({}, args, {
       isBookingFromCalendar: true,
+      homePageCtx: homePageCtx,
     })
   );
 
   const { groupAppointment } = props || {};
-  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
 
   /**
    * Event book appointment
@@ -60,7 +62,20 @@ export const useBookingProps = (args) => {
     onHandleGoBack: props.onHandleGoBack,
     clearDataConfirm: async () => {
       props.clearDataConfirm();
-      NavigatorServices.goBack();
+
+      const goToTab =
+        homePageCtx.nextTab ?? ScreenName.SALON.APPOINTMENT_LAYOUT;
+
+      await homePageCtx.homePageDispatch(
+        controllers.resetCheckOut(ScreenName.SALON.APPOINTMENT)
+      );
+
+      if (goToTab === homePageCtx.currentTab) {
+        NavigatorServices.goBack();
+      } else {
+        NavigatorServices.goBack();
+        NavigatorServices.navigate(goToTab);
+      }
     },
   };
 };
