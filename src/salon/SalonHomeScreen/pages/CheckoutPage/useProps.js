@@ -128,27 +128,6 @@ export const useProps = (props) => {
     );
   };
 
-  React.useEffect(() => {
-    if (appointment.startProcessingPax) {
-      dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
-      sendTransactionToPaymentMachine();
-    }
-  }, [appointment.startProcessingPax]);
-
-  React.useEffect(() => {
-    if (appointment.isCreditPaymentToServer) {
-      setTimeout(() => {
-        setVisibleErrorMessageFromPax(true);
-        setVisibleProcessingCredit(false);
-        setErrorMessageFromPax(errorMessage);
-      }, 400);
-    }
-  }, [isCreditPaymentToServer]);
-
-  React.useEffect(() => {
-    payAppointmentId.current = appointment.payAppointmentId;
-  }, [appointment.payAppointmentId]);
-
   const sendTransactionToPaymentMachine = () => {
     if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
       setIsGetResponsePaymentPax(false);
@@ -362,59 +341,6 @@ export const useProps = (props) => {
       console.log(error);
     }
   };
-
-  React.useEffect(() => {
-    clover.changeListenerStatus(true);
-    subscriptions.current = [
-      eventEmitter.current.addListener("paymentSuccess", (data) => {
-        isProcessPaymentClover.current = false;
-        _handleResponseCreditCardForCloverSuccess(data);
-      }),
-      eventEmitter.current.addListener("paymentFail", (data) => {
-        isProcessPaymentClover.current = false;
-        _handleResponseCreditCardForCloverFailed(_.get(data, "errorMessage"));
-      }),
-      eventEmitter.current.addListener("pairingCode", (data) => {
-        if (data) {
-          if (isProcessPaymentClover.current) {
-            setVisibleProcessingCredit(false);
-          }
-          if (isProcessPrintClover.current) {
-            setVisiblePrintInvoice(false);
-          }
-        }
-      }),
-      eventEmitter.current.addListener("pairingSuccess", (data) => {
-        if (isProcessPaymentClover.current) {
-          setVisibleProcessingCredit(true);
-        }
-      }),
-      eventEmitter.current.addListener("confirmPayment", () => {
-        setVisibleProcessingCredit(false);
-        setVisibleConfirmPayment(true);
-      }),
-      eventEmitter.current.addListener("printInProcess", () => {}),
-
-      eventEmitter.current.addListener("deviceDisconnected", () => {
-        if (isProcessPaymentClover.current) {
-          isProcessPaymentClover.current = false;
-          _handleResponseCreditCardForCloverFailed("No connected device");
-          clover.cancelTransaction();
-        }
-        if (isProcessPrintClover.current) {
-          isProcessPrintClover.current = false;
-          setVisiblePrintInvoice(false);
-        }
-      }),
-    ];
-
-    return () => {
-      if (subscriptions.current?.length > 0) {
-        subscriptions.current.forEach((e) => e.remove());
-      }
-      subscriptions.current = [];
-    };
-  }, []);
 
   const _addBlockAppointment = async (customService) => {
     const {
@@ -1299,6 +1225,91 @@ export const useProps = (props) => {
   const _onHandleGoBack = () => {
     homePageCtx.homePageDispatch(controllers.showPopupConfirmCancelCheckout());
   };
+
+  React.useEffect(() => {
+    if (appointment.startProcessingPax) {
+      dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
+      sendTransactionToPaymentMachine();
+    }
+  }, [appointment.startProcessingPax]);
+
+  React.useEffect(() => {
+    if (appointment.isCreditPaymentToServer) {
+      setTimeout(() => {
+        setVisibleErrorMessageFromPax(true);
+        setVisibleProcessingCredit(false);
+        setErrorMessageFromPax(errorMessage);
+      }, 400);
+    }
+  }, [isCreditPaymentToServer]);
+
+  React.useEffect(() => {
+    payAppointmentId.current = appointment.payAppointmentId;
+  }, [appointment.payAppointmentId]);
+
+  React.useEffect(() => {
+    const { blockAppointments, isLoadingRemoveBlockAppointment } =
+      appointment || {};
+    if (blockAppointments.length > 0) {
+      updateBlockAppointmentRef();
+    }
+  }, [
+    appointment?.blockAppointments,
+    appointment.isLoadingRemoveBlockAppointment,
+  ]);
+
+  React.useEffect(() => {
+    clover.changeListenerStatus(true);
+    subscriptions.current = [
+      eventEmitter.current.addListener("paymentSuccess", (data) => {
+        isProcessPaymentClover.current = false;
+        _handleResponseCreditCardForCloverSuccess(data);
+      }),
+      eventEmitter.current.addListener("paymentFail", (data) => {
+        isProcessPaymentClover.current = false;
+        _handleResponseCreditCardForCloverFailed(_.get(data, "errorMessage"));
+      }),
+      eventEmitter.current.addListener("pairingCode", (data) => {
+        if (data) {
+          if (isProcessPaymentClover.current) {
+            setVisibleProcessingCredit(false);
+          }
+          if (isProcessPrintClover.current) {
+            setVisiblePrintInvoice(false);
+          }
+        }
+      }),
+      eventEmitter.current.addListener("pairingSuccess", (data) => {
+        if (isProcessPaymentClover.current) {
+          setVisibleProcessingCredit(true);
+        }
+      }),
+      eventEmitter.current.addListener("confirmPayment", () => {
+        setVisibleProcessingCredit(false);
+        setVisibleConfirmPayment(true);
+      }),
+      eventEmitter.current.addListener("printInProcess", () => {}),
+
+      eventEmitter.current.addListener("deviceDisconnected", () => {
+        if (isProcessPaymentClover.current) {
+          isProcessPaymentClover.current = false;
+          _handleResponseCreditCardForCloverFailed("No connected device");
+          clover.cancelTransaction();
+        }
+        if (isProcessPrintClover.current) {
+          isProcessPrintClover.current = false;
+          setVisiblePrintInvoice(false);
+        }
+      }),
+    ];
+
+    return () => {
+      if (subscriptions.current?.length > 0) {
+        subscriptions.current.forEach((e) => e.remove());
+      }
+      subscriptions.current = [];
+    };
+  }, []);
 
   return {
     categoriesRef,

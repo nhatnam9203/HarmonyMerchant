@@ -2916,6 +2916,8 @@ class TabCheckout extends Layout {
       startProcessingPax,
       isCreditPaymentToServer,
     } = this.props;
+
+
     if (
       blockAppointments.length > 0 &&
       prevProps.isLoadingRemoveBlockAppointment !=
@@ -2924,6 +2926,7 @@ class TabCheckout extends Layout {
     ) {
       this.updateBlockAppointmentRef();
     }
+
     if (
       blockAppointments.length > 0 &&
       prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment &&
