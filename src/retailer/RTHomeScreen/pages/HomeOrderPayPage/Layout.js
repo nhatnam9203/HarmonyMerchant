@@ -124,7 +124,8 @@ export const Layout = ({
   titleExitCheckoutTab,
   confimYes,
   isShowRefreshButton,
-  onConfirmRefresh
+  onConfirmRefresh,
+  handleYes
 }) => {
   const [t] = useTranslation();
 
