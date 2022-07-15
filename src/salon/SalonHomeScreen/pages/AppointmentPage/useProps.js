@@ -256,6 +256,10 @@ export const useProps = (props) => {
     homePageCtx.homePageDispatch(controllers.blockChangeTab());
   };
 
+  _onLoadStartWebview = () => {
+    webviewRef.current?.reload();
+  };
+
   return {
     webviewRef,
     invoiceRef,
@@ -265,12 +269,11 @@ export const useProps = (props) => {
       try {
         if (event.nativeEvent && event.nativeEvent.data) {
           const data = JSON.parse(event.nativeEvent.data);
-
           if (validateIsNumber(data) && data < -150) {
-            this.onLoadStartWebview();
+            _onLoadStartWebview();
           } else {
             const { action, appointmentId, appointment, staffId } = data;
-            console.log("onMessageFromWebview => " + action);
+            // console.log("onMessageFromWebview => " + action);
             switch (action) {
               case "checkout":
                 _checkOutAppointment(appointmentId, appointment || {});
