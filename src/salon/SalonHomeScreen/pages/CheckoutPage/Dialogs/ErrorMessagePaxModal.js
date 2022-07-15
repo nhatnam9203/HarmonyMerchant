@@ -42,7 +42,7 @@ class ErrorMessagePaxModal extends React.Component {
                                     width={scaleSize(130)}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="Refresh"
+                                    title="Retry"
                                     textColor="#fff"
                                     onPress={() => onConfirmRefresh()}
                                     styleText={{
