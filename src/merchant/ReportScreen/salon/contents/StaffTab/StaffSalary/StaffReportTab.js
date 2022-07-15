@@ -217,7 +217,7 @@ export default function StaffReportTab({
             serviceSales: localize("Service Sales", language),
             surcharge: localize("Surcharge", language),
             netServiceSales: localize("Net Service Sale", language),
-            serviceSplit: localize("Service Split", language),
+            serCommission: localize("Service Commission", language),
             // productSales: localize("Product Sales", language),
             // productSplit: localize("Product Split", language),
             // workingHour: localize("Working Hour", language),
@@ -225,6 +225,7 @@ export default function StaffReportTab({
             tip: localize("Tip Amount", language),
             discountByStaff: localize("Discount By Staff", language),
             refundAmount: localize("Refund amount", language),
+            returnAmount: localize("Return amount", language),
             salary: localize("Salary", language),
           }}
           whiteKeys={[
@@ -232,7 +233,7 @@ export default function StaffReportTab({
             "serviceSales",
             "surcharge",
             "netServiceSales",
-            "serviceSplit",
+            "serCommission",
             // "productSales",
             // "productSplit",
             // "workingHour",
@@ -240,6 +241,7 @@ export default function StaffReportTab({
             "tip",
             "discountByStaff",
             "refundAmount",
+            "returnAmount",
             "salary",
             "action",
           ]}
@@ -249,7 +251,7 @@ export default function StaffReportTab({
             "serviceSales",
             "surcharge",
             "netServiceSales",
-            "serviceSplit",
+            "serCommission",
             // "productSales",
             // "productSplit",
             // "workingHour",
@@ -257,13 +259,14 @@ export default function StaffReportTab({
             "tip",
             "discountByStaff",
             "refundAmount",
+            "returnAmount",
             "salary",
           ]}
           priceKeys={[
             "serviceSales",
             "surcharge",
             "netServiceSales",
-            "serviceSplit",
+            "serCommission",
             // "productSales",
             // "productSplit",
             // "workingHour",
@@ -271,6 +274,7 @@ export default function StaffReportTab({
             "tip",
             "discountByStaff",
             "refundAmount",
+            "returnAmount",
             "salary",
           ]}
           unitKeys={{ workingHour: "hrs" }}
