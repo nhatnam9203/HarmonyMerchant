@@ -145,10 +145,9 @@ export const useProps = (props) => {
     }
   }, [isCreditPaymentToServer]);
 
-
   React.useEffect(() => {
     payAppointmentId.current = appointment.payAppointmentId;
-  }, [appointment.payAppointmentId])
+  }, [appointment.payAppointmentId]);
 
   const sendTransactionToPaymentMachine = () => {
     if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
@@ -165,7 +164,7 @@ export const useProps = (props) => {
         "ip"
       )}:${port}/remote_pay`;
 
-      isProcessPaymentClover.current = true
+      isProcessPaymentClover.current = true;
       // dispatch(actions.appointment.isProcessPaymentClover(true));
 
       setVisibleProcessingCredit(true);
@@ -373,9 +372,7 @@ export const useProps = (props) => {
       }),
       eventEmitter.current.addListener("paymentFail", (data) => {
         isProcessPaymentClover.current = false;
-        _handleResponseCreditCardForCloverFailed(
-          _.get(data, "errorMessage")
-        );
+        _handleResponseCreditCardForCloverFailed(_.get(data, "errorMessage"));
       }),
       eventEmitter.current.addListener("pairingCode", (data) => {
         if (data) {
@@ -1002,6 +999,7 @@ export const useProps = (props) => {
   const _onRequestCloseBillModal = () => {
     dispatchLocal(CheckoutState.closeBillOfPayment());
     dispatch(actions.appointment.resetPayment());
+    setVisibleBillOfPayment(false);
   };
 
   const _addGiftCardIntoBlockAppointment = (code) => {
