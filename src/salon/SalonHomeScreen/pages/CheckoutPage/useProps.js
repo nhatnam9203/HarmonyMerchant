@@ -240,7 +240,7 @@ export const useProps = (props) => {
               setIsShowRefreshButton(false);
             }
 
-            console.log('resultTxt', resultTxt)
+            console.log("resultTxt", resultTxt);
             setTimeout(() => {
               setVisibleErrorMessageFromPax(true);
               setVisibleProcessingCredit(false);
@@ -1236,8 +1236,12 @@ export const useProps = (props) => {
     );
 
     if (temptBlockAppointmentRef.length > 0) {
-      blockAppointmentRef.length = 0;
-      blockAppointmentRef.push(...temptBlockAppointmentRef);
+      blockAppointmentRef.splice(
+        0,
+        blockAppointmentRef.length,
+        ...temptBlockAppointmentRef
+      );
+
       let isAppointmentOpenExist = false;
       for (let i = 0; i < blockAppointmentRef.length; i++) {
         const appointmentDetail =
@@ -1280,13 +1284,13 @@ export const useProps = (props) => {
   }, [appointment.startProcessingPax]);
 
   React.useEffect(() => {
-    console.log('isCreditPaymentToServer', isCreditPaymentToServer)
-    
+    console.log("isCreditPaymentToServer", isCreditPaymentToServer);
+
     if (isCreditPaymentToServer) {
       setTimeout(() => {
         setVisibleErrorMessageFromPax(true);
         setVisibleProcessingCredit(false);
-        console.log('errorMessage', errorMessage)
+        console.log("errorMessage", errorMessage);
         setErrorMessageFromPax(errorMessage);
       }, 400);
     }
@@ -1462,7 +1466,7 @@ export const useProps = (props) => {
 
       NavigatorServices.goBack();
       dispatchLocal(CheckoutState.resetState());
-      blockAppointmentRef.length = 0; // clean refs
+      blockAppointmentRef.splice(0, blockAppointmentRef.length);
       dispatch(actions.appointment.resetGroupAppointment());
       homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
     },
@@ -1488,7 +1492,7 @@ export const useProps = (props) => {
       NavigatorServices.goBack();
       dispatch(actions.appointment.bookBlockAppointment());
       dispatchLocal(CheckoutState.resetState());
-      blockAppointmentRef.length = 0; // clean refs
+      blockAppointmentRef.splice(0, blockAppointmentRef.length);
       dispatch(actions.appointment.resetGroupAppointment());
       homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
     },
@@ -1688,16 +1692,17 @@ export const useProps = (props) => {
       }
     },
     toggleCollapses: (appointmentIdSelection) => {
+      console.log(blockAppointmentRef.length);
       for (let i = 0; i < blockAppointmentRef.length; i++) {
         const appointmentDetail =
           blockAppointmentRef[i]?.props.appointmentDetail;
         if (
-          appointment.appointmentDetail &&
-          appointment.appointmentDetail.appointmentId === appointmentIdSelection
+          appointmentDetail &&
+          appointmentDetail.appointmentId === appointmentIdSelection
         ) {
           dispatch(
             actions.appointment.updateIdBlockAppointmentOpen(
-              appointment.appointmentDetail.appointmentId
+              appointmentDetail.appointmentId
             )
           );
           blockAppointmentRef[i]?.setStateFromParent(false);
@@ -1816,7 +1821,7 @@ export const useProps = (props) => {
       );
     },
     clearDataConfirm: async () => {
-      console.log("clearDataConfirm");
+      // console.log("clearDataConfirm");
       const { isDrawer } = stateLocal;
 
       if (!_.isEmpty(appointment.connectionSignalR)) {
@@ -2018,7 +2023,8 @@ export const useProps = (props) => {
         }
       }
 
-      blockAppointmentRef.length = 0; // clean refs
+      // blockAppointmentRef.length = 0; // clean refs
+      blockAppointmentRef.splice(0, blockAppointmentRef.length);
     },
 
     //Popup Payment   Confirm
@@ -2369,7 +2375,8 @@ export const useProps = (props) => {
     isShowCountdown:
       hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
     addBlockAppointmentRef: (ref, index) => {
-      blockAppointmentRef?.push(ref);
+      if (blockAppointmentRef?.length <= index) blockAppointmentRef?.push(ref);
+      else blockAppointmentRef.splice(index, 1, ref);
     },
 
     printTemptInvoice: async () => {
@@ -2469,9 +2476,11 @@ export const useProps = (props) => {
                       "xmp.response.0.Message.0"
                     )}${detailMessage}` || "Transaction failed";
 
-                  if (_.get(result, "xmp.response.0.Message.0") == 'Not found'
-                      || _.get(result, "xmp.response.0.Message.0") == 'No open batch') {
-                      //call transaction again
+                  if (
+                    _.get(result, "xmp.response.0.Message.0") == "Not found" ||
+                    _.get(result, "xmp.response.0.Message.0") == "No open batch"
+                  ) {
+                    //call transaction again
 
                     setVisibleProcessingCredit(true);
                     AppUtils.requestTransactionDejavoo(parameter).then(
@@ -2494,7 +2503,7 @@ export const useProps = (props) => {
                       }
                     );
                   } else {
-                    console.log('refresh button', resultTxt)
+                    console.log("refresh button", resultTxt);
                     setTimeout(() => {
                       setVisibleErrorMessageFromPax(true);
                       setVisibleProcessingCredit(false);
