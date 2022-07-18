@@ -22,7 +22,7 @@ pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 # pod 'Charts', '3.3.0'
 pod 'ObjectMapper', '3.5.1'
 
-pod 'RNCharts', :path => '../node_modules/react-native-charts-wrapper'
+# pod 'RNCharts', :path => '../node_modules/react-native-charts-wrapper'
 
 pod 'Starscream', :git => 'https://github.com/clover/Starscream.git', :branch => 'queuePriority-3.0.0'
 pod 'MultiplatformBleAdapter', :git => 'https://github.com/dotintent/MultiPlatformBleAdapter'
