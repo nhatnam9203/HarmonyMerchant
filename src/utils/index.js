@@ -1669,24 +1669,22 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 };
 export const checkNotSelectedPrinter = () => {
   const { hardware, dataLocal } = store.getState();
-  const {
-    cloverMachineInfo,
-    paymentMachineType,
-    dejavooMachineInfo,
-  } = hardware;
+  const { cloverMachineInfo, paymentMachineType, dejavooMachineInfo } =
+    hardware;
   const { printerList, printerSelect } = dataLocal;
-    const { portName } = getInfoFromModelNameOfPrinter(
-      printerList,
-      printerSelect
-    );
-  if (!portName &&
-    (paymentMachineType === PaymentTerminalType.Pax
-      || (!dejavooMachineInfo?.isSetup
-      && !cloverMachineInfo?.isSetup))) {
+  const { portName } = getInfoFromModelNameOfPrinter(
+    printerList,
+    printerSelect
+  );
+  if (
+    !portName &&
+    (paymentMachineType === PaymentTerminalType.Pax ||
+      (!dejavooMachineInfo?.isSetup && !cloverMachineInfo?.isSetup))
+  ) {
     return true;
   }
   return false;
-}
+};
 
 export const handleAutoClose = async () => {
   const { dataLocal, hardware } = store.getState();
@@ -2152,32 +2150,33 @@ export const getReceiptSymbol = (status) => {
 };
 
 export const calculateSubTotal = (appointment) => {
-  let subTotalTemp = 0
+  let subTotalTemp = 0;
   if (appointment) {
     const { services, products, giftCards, extras } = appointment;
     let totalServices = 0;
     services.forEach((item) => {
-      totalServices += formatNumberFromCurrency(item?.price)
-    })
+      totalServices += formatNumberFromCurrency(item?.price);
+    });
 
     let totalProducts = 0;
     products.forEach((item) => {
-      const totalProductItem = formatNumberFromCurrency(item?.price) * item?.quantity
+      const totalProductItem =
+        formatNumberFromCurrency(item?.price) * item?.quantity;
       totalProducts += totalProductItem;
-    })
+    });
 
     let totalGiftCards = 0;
     giftCards.forEach((item) => {
-      totalGiftCards += formatNumberFromCurrency(item?.price)
-    })
+      totalGiftCards += formatNumberFromCurrency(item?.price);
+    });
 
     let totalExtras = 0;
     extras.forEach((item) => {
-      totalExtras += formatNumberFromCurrency(item?.price)
-    })
+      totalExtras += formatNumberFromCurrency(item?.price);
+    });
     subTotalTemp = totalServices + totalProducts + totalGiftCards + totalExtras;
     subTotalTemp = formatNumberFromCurrency(subTotalTemp.toFixed(2));
   }
 
   return subTotalTemp;
-}
+};

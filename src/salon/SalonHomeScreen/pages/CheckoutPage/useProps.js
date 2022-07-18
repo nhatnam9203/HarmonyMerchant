@@ -418,7 +418,7 @@ export const useProps = (props) => {
       AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
     );
 
-    const method = Helpers.getPaymentString(paymentSelected);
+    const method = Helpers.getPaymentMethod(paymentSelected);
 
     dispatch(
       actions.appointment.createAnymousAppointment(
@@ -687,7 +687,7 @@ export const useProps = (props) => {
     setMoneyUserGiveForStaff(moneyUserGiveForStaff);
     moneyUserGiveForStaffRef.current = moneyUserGiveForStaff;
 
-    const method = Helpers.getPaymentString(paymentSelected);
+    const method = Helpers.getPaymentMethod(paymentSelected);
     const total = appointment.groupAppointment?.total
       ? parseFloat(
           AppUtils.formatNumberFromCurrency(appointment.groupAppointment.total)
@@ -877,7 +877,7 @@ export const useProps = (props) => {
       selectedStaff,
     } = stateLocal || {};
 
-    let method = Helpers.getPaymentString(paymentSelected);
+    let method = Helpers.getPaymentMethod(paymentSelected);
     const dataAnymousAppoitment = Helpers.getBasketOffline(
       basket,
       selectedStaff?.staffId
@@ -1424,7 +1424,7 @@ export const useProps = (props) => {
     cancelHarmonyPayment: _cancelHarmonyPayment,
     payBasket: () => {
       const { paymentSelected } = stateLocal || {};
-      const method = Helpers.getPaymentString(paymentSelected);
+      const method = Helpers.getPaymentMethod(paymentSelected);
       if (network.isOfflineMode && method === "harmony") {
         NavigatorServices.navigate(ScreenName.SALON.APPOINTMENT);
         setIsPayment(true);
@@ -2019,7 +2019,6 @@ export const useProps = (props) => {
       }
 
       blockAppointmentRef.length = 0; // clean refs
-
     },
 
     //Popup Payment   Confirm
@@ -2248,7 +2247,7 @@ export const useProps = (props) => {
         const moneyUserGiveForStaff = parseFloat(
           AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
         );
-        const method = Helpers.getPaymentString(paymentSelected);
+        const method = Helpers.getPaymentMethod(paymentSelected);
         const bodyAction = {
           merchantId: dataLocal.profile.merchantId,
           userId: appointment.customerInfoBuyAppointment?.userId || 0,
