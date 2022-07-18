@@ -18,6 +18,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Swipeout from "react-native-swipeout";
 import ItemBasket from "./ItemBasket";
+import { colors } from "@shared/themes";
 
 class ItemCustomerBasket extends React.Component {
   constructor(props) {
@@ -50,6 +51,7 @@ class ItemCustomerBasket extends React.Component {
     const tax = appointmentDetail?.tax || 0;
     const total = appointmentDetail?.total || 0;
     const tipPercent = appointmentDetail?.tipPercent || 0;
+    const depositAmount = appointmentDetail?.depositAmount || 0;
 
     const temptSubTotal =
       !appointmentDetail || _.isEmpty(appointmentDetail)
@@ -80,6 +82,7 @@ class ItemCustomerBasket extends React.Component {
       temptTip,
       temptTax,
       tipPercent,
+      depositAmount,
     };
   };
 
@@ -251,6 +254,7 @@ class ItemCustomerBasket extends React.Component {
       temptTip,
       temptTax,
       tipPercent,
+      depositAmount,
     } = this.getTypesOfMoneyAppointment(appointmentDetail);
     if (appointmentDetail) {
       // const { services, products, extras, giftCards } = appointmentDetail;
@@ -368,6 +372,16 @@ class ItemCustomerBasket extends React.Component {
                   {`$ ${formatMoney(temptTax)}`}
                 </Text>
               </View>
+              {depositAmount > 0 && (
+                <View style={styles.payNumberTextContainer}>
+                  <Text style={[styles.textPay, { color: colors.ORANGEY_RED }]}>
+                    {`${localize("Deposited", language)}:`}
+                  </Text>
+                  <Text style={[styles.textPay, { color: colors.ORANGEY_RED }]}>
+                    {`$ ${formatMoney(depositAmount)}`}
+                  </Text>
+                </View>
+              )}
               {/* ---------- Line ------ */}
               <View
                 style={{
