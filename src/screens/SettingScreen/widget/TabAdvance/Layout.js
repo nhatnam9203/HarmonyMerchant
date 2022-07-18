@@ -26,6 +26,7 @@ export const Layout = ({
   setDepositMiniumAmount,
   setDepositPercent,
   setIsDepositProgram,
+  setIsAutoConfirmAppointment,
 }) => {
   const [t] = useTranslation();
 
@@ -60,6 +61,14 @@ export const Layout = ({
             setDepositMiniumAmount={setDepositMiniumAmount}
             setDepositPercent={setDepositPercent}
             setIsDepositProgram={setIsDepositProgram}
+          />
+
+          {/* ------- Auto Confirm ------ */}
+          <FormLabelSwitch
+            defaultValue={advanceSetting?.IsAutoConfirmAppointment}
+            onValueChange={setIsAutoConfirmAppointment}
+            label={"-  Auto Confirm"}
+            textStyle={styles.label}
           />
         </View>
       </KeyboardAwareScrollView>
@@ -99,7 +108,10 @@ const styles = StyleSheet.create({
     padding: scaleWidth(20),
   },
 
-  content: { flex: 1 },
+  content: { 
+    flex: 1,
+    paddingBottom: scaleHeight(20),
+   },
 
   containerInputView: {
     backgroundColor: colors.WHITE,

@@ -20,8 +20,6 @@ export const useProps = (props) => {
     null
   );
 
-  const [isCashDiscount, setIsCashDiscount] = React.useState(null);
-
   const [, editAdvance] = useAxiosMutation({
     ...editAdvanceSetting(advanceSetting),
     onSuccess: (data, response) => {
@@ -46,7 +44,8 @@ export const useProps = (props) => {
       settings?.IsAppointmentDeposit !== advanceSetting?.IsAppointmentDeposit ||
       settings?.DepositPercent !== advanceSetting?.DepositPercent ||
       settings?.MinimumAppointmentAmountRequireDeposit !==
-        advanceSetting?.MinimumAppointmentAmountRequireDeposit
+        advanceSetting?.MinimumAppointmentAmountRequireDeposit ||
+      settings?.IsAutoConfirmAppointment !== advanceSetting?.IsAutoConfirmAppointment
     );
   };
 
@@ -102,5 +101,10 @@ export const useProps = (props) => {
         advanceLocalState.updateIsDepositAppointment(value)
       );
     },
+    setIsAutoConfirmAppointment: (value = false) => {
+      dispatchAdvanceSetting(
+        advanceLocalState.updateAutoConfirmAppointment(value)
+      );
+    }
   };
 };
