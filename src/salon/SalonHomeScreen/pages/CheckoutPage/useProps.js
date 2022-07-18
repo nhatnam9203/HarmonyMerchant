@@ -2371,7 +2371,8 @@ export const useProps = (props) => {
                     `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
                     "Transaction failed";
 
-                  if (_.get(result, "xmp.response.0.Message.0") == 'Not found') {
+                  if (_.get(result, "xmp.response.0.Message.0") == 'Not found'
+                      || _.get(result, "xmp.response.0.Message.0") == 'No open batch') {
                       //call transaction again
                     setVisibleProcessingCredit(true);
                     AppUtils.requestTransactionDejavoo(parameter).then((responsesPayment) => {

@@ -1549,7 +1549,8 @@ export const useProps = ({
               errorCode != 0 ||
               _.get(result, "xmp.response.0.Message.0") != "Approved"
             ) {
-                  if (_.get(result, "xmp.response.0.Message.0") == 'Not found') {
+                  if (_.get(result, "xmp.response.0.Message.0") == 'Not found'
+                      || _.get(result, "xmp.response.0.Message.0") == 'No open batch') {
                     //call transaction again
                     console.log('call again')
                     setVisibleProcessingCredit(true);
