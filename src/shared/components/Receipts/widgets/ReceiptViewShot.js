@@ -84,6 +84,7 @@ export const ReceiptViewShot = React.forwardRef(
               <>
                 <ReceiptContent
                   groupTitle={`#${x.code} - ${x.firstName}`}
+                  invoiceNO={x.checkoutId}
                   items={getItemsOfAppointment(x.appointmentId)}
                   type={getReceiptType()}
                   isGroupLayout={!!groupAppointment}

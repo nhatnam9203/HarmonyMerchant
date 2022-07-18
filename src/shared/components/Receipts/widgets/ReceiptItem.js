@@ -469,7 +469,7 @@ export const ReceiptItem = ({ item, index, type }) => {
   }
 };
 
-export const ReceiptHeaderItem = ({ type, items, label }) => {
+export const ReceiptHeaderItem = ({ type, items, label, invoiceNO }) => {
   const { t } = useTranslation();
 
   const onRenderColumOne = () => (
@@ -649,12 +649,28 @@ export const ReceiptHeaderItem = ({ type, items, label }) => {
               style={{
                 flex: 1,
                 alignItems: "flex-start",
-                justifyContent: "center",
+                justifyContent: "flex-start",
+                flexDirection: "row",
               }}
             >
               <TextHeader>{label}</TextHeader>
+              <View style={styles.margin} />
+              {invoiceNO && (
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-start",
+                    justifyContent: "flex-start",
+                    flexDirection: "row",
+                  }}
+                >
+                  <TextHeader>{`Invoice No:    `}</TextHeader>
+                  <TextHeader>{`#${invoiceNO}`}</TextHeader>
+                </View>
+              )}
             </View>
           )}
+
           <View style={styles.margin} />
           <LayoutThreeColumn
             columnWidths={SALON_COLUMN_WIDTH}

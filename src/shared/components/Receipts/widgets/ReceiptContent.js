@@ -12,6 +12,7 @@ export const ReceiptContent = ({
   symbol,
   isGroupLayout,
   groupTitle,
+  invoiceNO,
 }) => {
   const getTotalQty = () => {
     const totalQty = items?.reduce((prev, item, index) => {
@@ -30,6 +31,7 @@ export const ReceiptContent = ({
         type={type}
         symbol={symbol}
         label={groupTitle}
+        invoiceNO={invoiceNO}
       />
       {items?.map((x, idx) => (
         <ReceiptItem

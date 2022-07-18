@@ -353,6 +353,14 @@ export const useProps = ({
     return [];
   };
 
+  const _depositAmount = () => {
+    if (groupAppointment) {
+      return groupAppointment.depositAmount;
+    }
+
+    if (appointment) return appointment.depositAmount;
+  };
+
   return {
     portName,
     emulation,
@@ -382,5 +390,6 @@ export const useProps = ({
     checkoutPaymentMethods: getCheckoutPaymentMethods(),
     staffName: getStaffName(),
     returnTotal: getReturnTotal(),
+    depositAmount: _depositAmount(),
   };
 };

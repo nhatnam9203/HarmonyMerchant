@@ -47,7 +47,7 @@ export const ReceiptHeader = ({
           }`}
         </TextInvoice>
       )}
-      {invoiceNO && (
+      {invoiceNO && !isGroupLayout && (
         <TextInvoice label="Invoice No    ">{`#${invoiceNO}`}</TextInvoice>
       )}
       <TextInvoice label="Invoice Date ">
