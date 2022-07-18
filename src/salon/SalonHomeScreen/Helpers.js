@@ -24,7 +24,7 @@ export const isBookingBlockAppointment = (blockAppointments) => {
   return isBooking;
 };
 
-export const getPaymentString = (paymentType) => {
+export const getPaymentMethod = (paymentType) => {
   let method = "";
   switch (paymentType) {
     case "HarmonyPay":
