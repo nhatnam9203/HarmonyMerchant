@@ -67,6 +67,7 @@ class ItemAppointmentBasket extends React.Component {
     const discount = appointmentDetail?.discount || 0;
     const tax = appointmentDetail?.tax || 0;
     const total = appointmentDetail?.total || 0;
+    const depositAmount = appointmentDetail?.depositAmount || 0;
 
     const temptSubTotal =
       !appointmentDetail || _.isEmpty(appointmentDetail)
@@ -96,6 +97,7 @@ class ItemAppointmentBasket extends React.Component {
       temptDiscount,
       temptTip,
       temptTax,
+      depositAmount,
     };
   };
 
@@ -255,8 +257,14 @@ class ItemAppointmentBasket extends React.Component {
     const { language, appointmentDetail, removeItemBasket, paymentDetailInfo } =
       this.props;
     const appointmentId = appointmentDetail?.appointmentId || -1;
-    const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } =
-      this.getTypesOfMoneyAppointment(appointmentDetail);
+    const {
+      temptSubTotal,
+      temptTotal,
+      temptDiscount,
+      temptTip,
+      temptTax,
+      depositAmount,
+    } = this.getTypesOfMoneyAppointment(appointmentDetail);
     const checkoutPayments = paymentDetailInfo?.checkoutPayments || [];
 
     return (
@@ -340,6 +348,21 @@ class ItemAppointmentBasket extends React.Component {
                       {`$ ${formatMoney(temptTax)}`}
                     </Text>
                   </View>
+                  {depositAmount > 0 && (
+                    <View style={styles.payNumberTextContainer}>
+                      <Text style={styles.textPay}>
+                        {`${localize("Deposited", language)}:`}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.textPay,
+                          { color: colors.VERY_LIGHT_PINK },
+                        ]}
+                      >
+                        {`$ ${formatMoney(depositAmount)}`}
+                      </Text>
+                    </View>
+                  )}
                   {/* ---------- Line ------ */}
                   <View
                     style={{
