@@ -11,6 +11,7 @@ export const TYPES = {
   UPDATE_IS_DEPOSIT_APPOINTMENT: "advance-setting-is-deposit-appointment",
   UPDATE_DEPOSIT_MINIUM_AMOUNT: "advance-setting-deposit-minium-amount",
   UPDATE_DEPOSIT_PERCENT_AMOUNT: "advance-setting-deposit-percent-amount",
+  UPDATE_AUTO_CONFIRM_APPOINTMENT: "advance-setting-auto-confirm-appointment",
 };
 
 const initState = {};
@@ -39,6 +40,8 @@ export const advanceReducer = (state = initState, action) => {
       });
     case TYPES.UPDATE_DEPOSIT_PERCENT_AMOUNT:
       return Object.assign({}, state, { DepositPercent: action.payload });
+    case TYPES.UPDATE_AUTO_CONFIRM_APPOINTMENT:
+      return Object.assign({}, state, { IsAutoConfirmAppointment: action.payload });
     default:
       return state;
   }
@@ -110,6 +113,13 @@ export const updateDepositMiniumAmount = (value) => {
 export const updateDepositPercentAmount = (value) => {
   return {
     type: TYPES.UPDATE_DEPOSIT_PERCENT_AMOUNT,
+    payload: value,
+  };
+};
+
+export const updateAutoConfirmAppointment = (value) => {
+  return {
+    type: TYPES.UPDATE_AUTO_CONFIRM_APPOINTMENT,
     payload: value,
   };
 };
