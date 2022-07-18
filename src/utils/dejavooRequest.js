@@ -35,7 +35,7 @@ export const requestTransactionDejavoo = async (params) => {
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
-    timeout: timeOutPayment,
+    timeout: timeOutPayment * 1000,
     };
     const response = await handleRequest(configs)
     return response

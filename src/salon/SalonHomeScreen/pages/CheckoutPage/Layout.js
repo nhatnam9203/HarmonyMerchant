@@ -58,7 +58,7 @@ export const Layout = (props) => {
           ref={props.popupDiscountRef}
           title={AppUtils.localize("Discount")}
         />
-        <PopupBlockDiscount title={i18n.t("Discount")} />
+        <PopupBlockDiscount title={AppUtils.localize("Discount")} />
         <PopupDiscountLocal
           ref={props.popupDiscountLocalRef}
           visible={props.visiblePopupDiscountLocal}
@@ -173,7 +173,7 @@ export const Layout = (props) => {
         />
         <PopupActiveGiftCard
           ref={props.activeGiftCardRef}
-          title={i18n.t("Active Gift Card")}
+          title={AppUtils.localize("Active Gift Card")}
           onRequestClose={props.closePopupActiveGiftCard}
           submitSerialCode={props.submitSerialCode}
         />

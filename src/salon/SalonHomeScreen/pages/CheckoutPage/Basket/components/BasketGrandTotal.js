@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { colors, fonts, layouts } from "@shared/themes";
 import { i18n } from "@shared/services";
-import { formatMoneyWithUnit } from "@utils";
+import { formatMoneyWithUnit, localize } from "@utils";
 
 export const BasketGrandTotal = ({
   isBookingFromCalendar = false,
@@ -16,7 +16,7 @@ export const BasketGrandTotal = ({
       <View style={styles.padding} />
       <View style={layouts.horizontalSpaceBetween}>
         <CustomText color={colors.OCEAN_BLUE}>
-          {i18n.t("Grand Total")}
+          {localize("Grand Total")}
         </CustomText>
         <CustomText color={colors.DARKISH_GREEN}>{`${formatMoneyWithUnit(
           grandTotal
@@ -33,7 +33,7 @@ export const BasketGrandTotal = ({
         paidAmounts.map((x, index) => (
           <View style={layouts.horizontalSpaceBetween} key={`${index}`}>
             <CustomText color={colors.GREYISH_BROWN}>
-              {i18n.t("Paid")}
+              {localize("Paid")}
               <View style={{ width: scaleWidth(10) }} />
               <Text style={styles.normalText}>{`(${x?.paymentMethod})`}</Text>
             </CustomText>
@@ -47,7 +47,7 @@ export const BasketGrandTotal = ({
       {dueAmount > 0 && (
         <View style={layouts.horizontalSpaceBetween} key={`due-amount`}>
           <CustomText color={colors.ORANGEY_RED}>
-            {i18n.t("Amount Due")}
+            {localize("Amount Due")}
           </CustomText>
           <CustomText color={colors.ORANGEY_RED}>{`${formatMoneyWithUnit(
             dueAmount

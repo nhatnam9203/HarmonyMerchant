@@ -240,6 +240,7 @@ export const useProps = (props) => {
               setIsShowRefreshButton(false);
             }
 
+            console.log('resultTxt', resultTxt)
             setTimeout(() => {
               setVisibleErrorMessageFromPax(true);
               setVisibleProcessingCredit(false);
@@ -1279,10 +1280,13 @@ export const useProps = (props) => {
   }, [appointment.startProcessingPax]);
 
   React.useEffect(() => {
-    if (appointment.isCreditPaymentToServer) {
+    console.log('isCreditPaymentToServer', isCreditPaymentToServer)
+    
+    if (isCreditPaymentToServer) {
       setTimeout(() => {
         setVisibleErrorMessageFromPax(true);
         setVisibleProcessingCredit(false);
+        console.log('errorMessage', errorMessage)
         setErrorMessageFromPax(errorMessage);
       }, 400);
     }
@@ -1386,7 +1390,7 @@ export const useProps = (props) => {
     ...apis,
     titleExitCheckoutTab,
     onHandleGoBack: _onHandleGoBack,
-
+    errorMessageFromPax,
     setSelectStaffFromCalendar,
     setBlockStateFromCalendar: (bl) => {
       dispatchLocal(CheckoutState.setBlockStateFromCalendar(bl));
@@ -2155,18 +2159,18 @@ export const useProps = (props) => {
       } else {
         if (hardware.paymentMachineType == "Clover") {
           if (isProcessPrintClover.current) {
-            alert(i18n.t("PleaseWait"));
+            alert(AppUtils.localize("PleaseWait"));
             return;
           }
         } else if (
           hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo
         ) {
           //Dejavoo can not cancel transaction by api
-          alert(i18n.t("PleaseWait"));
+          alert(AppUtils.localize("PleaseWait"));
           return;
         } else {
           if (!isGetResponsePaymentPax.current) {
-            alert(i18n.t("PleaseWait", language));
+            alert(AppUtils.localize("PleaseWait", language));
             return;
           }
           PosLink.cancelTransaction();
@@ -2491,6 +2495,7 @@ export const useProps = (props) => {
                       }
                     );
                   } else {
+                    console.log('refresh button', resultTxt)
                     setTimeout(() => {
                       setVisibleErrorMessageFromPax(true);
                       setVisibleProcessingCredit(false);
