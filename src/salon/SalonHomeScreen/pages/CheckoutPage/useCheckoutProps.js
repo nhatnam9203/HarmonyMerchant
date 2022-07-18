@@ -1,14 +1,23 @@
+import NavigatorServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
+import { ScreenName } from "@src/ScreenName";
 import _ from "lodash";
 import React from "react";
 import { useDispatch } from "react-redux";
+import * as controllers from "../../controllers";
 import { useProps } from "./useProps";
 
 export const useCheckoutProps = (args) => {
   const dispatch = useDispatch();
   const { params } = args || {};
   const { checkoutStaffId } = params || {};
-  const props = useProps(args);
+  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
+  const props = useProps(
+    Object.assign({}, args, {
+      isBookingFromCalendar: false,
+      homePageCtx: homePageCtx,
+    })
+  );
 
   const { profileStaffLogin, groupAppointment } = props || {};
   // Effects
@@ -30,7 +39,19 @@ export const useCheckoutProps = (args) => {
   );
 
   return {
-    isBookingFromCalendar: false,
     ...props,
+    onHandleGoBack: null,
+    clearDataConfirm: async () => {
+      props.clearDataConfirm();
+
+      const goToTab =
+        homePageCtx.nextTab ?? ScreenName.SALON.APPOINTMENT_LAYOUT;
+
+      await homePageCtx.homePageDispatch(controllers.resetCheckOut(goToTab));
+
+      if (goToTab === homePageCtx.currentTab) {
+        NavigatorServices.goBack();
+      } else NavigatorServices.navigate(goToTab);
+    },
   };
 };

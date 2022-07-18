@@ -4,6 +4,8 @@ export const ACTION_TYPES = {
   SHOW_POPUP_CONFIRM_CANCEL_CHECK_OUT: "SHOW_POPUP_CONFIRM_CANCEL_CHECK_OUT",
   RESET_CHECKOUT_TAB: "RESET_CHECKOUT_TAB",
   PRESS_TAB: "PRESS_TAB",
+  SHOW_APPOINTMENT_FROM_NOTIFY: "SHOW_APPOINTMENT_FROM_NOTIFY",
+  HAD_SHOW_APPOINTMENT_FROM_NOTIFY: "HAD_SHOW_APPOINTMENT_FROM_NOTIFY",
 };
 
 export const ChangeTab = (tabName) => {
@@ -54,5 +56,18 @@ export const pressTab = (tabName) => {
     payload: {
       nextTab: tabName,
     },
+  };
+};
+
+export const pushNotifyDataToAppointment = (notify) => {
+  return {
+    type: ACTION_TYPES.SHOW_APPOINTMENT_FROM_NOTIFY,
+    payload: notify,
+  };
+};
+
+export const hadShowNotifyDataToAppointment = () => {
+  return {
+    type: ACTION_TYPES.HAD_SHOW_APPOINTMENT_FROM_NOTIFY,
   };
 };

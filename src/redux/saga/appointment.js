@@ -83,7 +83,6 @@ function* getGroupAppointmentById(action) {
     if (parseInt(codeNumber) == 200) {
       let data = responses?.data || false;
       if (data) {
-        console.log(data, data?.status, action?.isSubmitPayment)
         if (data?.appointments 
              && data?.status != "paid"
              && !action?.isSubmitPayment) {
@@ -150,7 +149,6 @@ function* getGroupAppointmentById(action) {
             );    
           }
         }
-        
         yield put({
           type: "GET_GROUP_APPOINTMENT_BY_ID_SUCCESS",
           payload: data,

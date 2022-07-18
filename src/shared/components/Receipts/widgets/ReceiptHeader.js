@@ -1,9 +1,7 @@
-import { fonts } from "@shared/themes";
 import { formatWithMoment } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
-import { LineHeader } from "./ReceiptLine";
 
 export const ReceiptHeader = ({
   profile,
@@ -13,6 +11,7 @@ export const ReceiptHeader = ({
   invoiceNO = "Unknown",
   staffName,
   returnCode,
+  isGroupLayout,
 }) => {
   const { t } = useTranslation();
   return (
@@ -41,11 +40,13 @@ export const ReceiptHeader = ({
       {!!staffName && (
         <TextInvoice label="Staff name   ">{`${staffName}`}</TextInvoice>
       )}
-      <TextInvoice label="Customer     ">
-        {`${customer?.firstName ?? "Unknown"} ${
-          customer?.lastName ?? "Unknown"
-        }`}
-      </TextInvoice>
+      {!isGroupLayout && (
+        <TextInvoice label="Customer     ">
+          {`${customer?.firstName ?? "Walking"} ${
+            customer?.lastName ?? "customer"
+          }`}
+        </TextInvoice>
+      )}
       {invoiceNO && (
         <TextInvoice label="Invoice No    ">{`#${invoiceNO}`}</TextInvoice>
       )}

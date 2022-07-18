@@ -1,6 +1,7 @@
 import React from "react";
 import { Keyboard } from "react-native";
-
+import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 
@@ -42,7 +43,7 @@ class SupportScreen extends Layout {
   handleLockScreen = () => {
     const { isFocus } = this.state;
     if (isFocus) {
-      this.props.navigation.navigate("Home");
+      NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);
       // console.log("CSScreen");
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }

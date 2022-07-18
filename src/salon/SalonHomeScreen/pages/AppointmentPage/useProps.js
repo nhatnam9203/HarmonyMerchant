@@ -21,6 +21,7 @@ import _ from "lodash";
 import { parseString } from "react-native-xml2js";
 import { ScreenName } from "@src/ScreenName";
 import * as controllers from "../../controllers";
+import { useFocusEffect } from "@react-navigation/native";
 
 const { clover } = NativeModules;
 
@@ -75,6 +76,15 @@ export const useProps = (props) => {
     );
 
     await dispatch(actions.app.resetStateReloadWebView());
+  };
+
+  const _pushNotiDataToWebView = (data) => {
+    webviewRef.current?.postMessage(
+      JSON.stringify({
+        action: "appointmentNotification",
+        data: data,
+      })
+    );
   };
 
   const handleEditTipCreditPayment = async (invoiceDetail, body) => {
@@ -144,6 +154,12 @@ export const useProps = (props) => {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(homePageCtx.currentTab);
+    }, [])
+  );
+
   React.useEffect(() => {
     if (isReloadWebview) {
       reloadWebviewFromParent();
@@ -157,6 +173,15 @@ export const useProps = (props) => {
     }
   }, [invoiceDetail, editTipCreditCard]);
 
+  React.useEffect(() => {
+    if (homePageCtx?.showAppointment) {
+      _pushNotiDataToWebView(homePageCtx?.showAppointment);
+      homePageCtx.homePageDispatch(
+        controllers.hadShowNotifyDataToAppointment()
+      );
+    }
+  }, [homePageCtx?.showAppointment]);
+
   const _checkOutAppointment = async (appointmentId, appointment = {}) => {
     const staffId = appointment?.staffId;
     const checkoutGroupId = groupAppointment?.checkoutGroupId || 0;
@@ -166,6 +191,9 @@ export const useProps = (props) => {
       checkoutStaffId: staffId,
     });
 
+    homePageCtx.homePageDispatch(
+      controllers.pressTab(ScreenName.SALON.CHECK_OUT)
+    );
     dispatch(
       actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId)
     );
@@ -179,6 +207,10 @@ export const useProps = (props) => {
     );
 
     dispatch(actions.appointment.getBlockAppointmentById(appointmentId, true));
+
+    homePageCtx.homePageDispatch(
+      controllers.pressTab(ScreenName.SALON.BOOKING)
+    );
 
     NavigationServices.navigate(ScreenName.SALON.BOOKING, {
       bookingStaffId: staffId ?? 0,
@@ -203,6 +235,10 @@ export const useProps = (props) => {
       NavigationServices.navigate(ScreenName.SALON.CHECK_OUT, {
         checkoutStaffId: staffId,
       });
+
+      homePageCtx.homePageDispatch(
+        controllers.pressTab(ScreenName.SALON.CHECK_OUT)
+      );
     } else {
       dispatch(
         actions.appointment.getBlockAppointmentById(appointmentId, true)
@@ -211,9 +247,17 @@ export const useProps = (props) => {
       NavigationServices.navigate(ScreenName.SALON.CHECK_OUT, {
         checkoutStaffId: staffId,
       });
+
+      homePageCtx.homePageDispatch(
+        controllers.pressTab(ScreenName.SALON.CHECK_OUT)
+      );
     }
 
     homePageCtx.homePageDispatch(controllers.blockChangeTab());
+  };
+
+  _onLoadStartWebview = () => {
+    webviewRef.current?.reload();
   };
 
   return {
@@ -225,12 +269,11 @@ export const useProps = (props) => {
       try {
         if (event.nativeEvent && event.nativeEvent.data) {
           const data = JSON.parse(event.nativeEvent.data);
-
           if (validateIsNumber(data) && data < -150) {
-            this.onLoadStartWebview();
+            _onLoadStartWebview();
           } else {
             const { action, appointmentId, appointment, staffId } = data;
-            console.log("onMessageFromWebview => " + action);
+            // console.log("onMessageFromWebview => " + action);
             switch (action) {
               case "checkout":
                 _checkOutAppointment(appointmentId, appointment || {});
@@ -335,6 +378,7 @@ export const useProps = (props) => {
         console.log("Calling from web is error " + error);
       }
     },
+    pushNotiDataToWebView: _pushNotiDataToWebView,
     reloadWebview: () => {
       reloadWebviewFromParent();
     },

@@ -34,7 +34,6 @@ export const initState = {
   changeButtonDone: false,
   methodPayment: "",
   visibleProcessingCredit: false,
-  visibleBillOfPayment: false,
   visibleConfirm: false,
   visibleChangeStylist: false,
   visibleChangeMoney: false,
@@ -364,7 +363,6 @@ export const closeBillOfPayment = () => {
     payload: {
       changeButtonDone: false,
       paymentSelected: "",
-      visibleBillOfPayment: false,
     },
   };
 };

@@ -7,6 +7,7 @@ export const InitState = {
   nextTab: ScreenName.SALON.APPOINTMENT_LAYOUT,
   isBlockChangeTab: false,
   visiblePopupConfirmCancelCheckout: false,
+  showAppointment: null,
 };
 
 export const SalonHomePageReducer = (state, action) => {
@@ -26,6 +27,15 @@ export const SalonHomePageReducer = (state, action) => {
         isBlockChangeTab: false,
         currentTab: action?.payload || "",
         nextTab: "",
+      });
+
+    case ACTION_TYPES.SHOW_APPOINTMENT_FROM_NOTIFY:
+      return Object.assign({}, state, {
+        showAppointment: action.payload,
+      });
+    case ACTION_TYPES.HAD_SHOW_APPOINTMENT_FROM_NOTIFY:
+      return Object.assign({}, state, {
+        showAppointment: null,
       });
     case ACTION_TYPES.BLOCK_CHANGE_TAB:
     case ACTION_TYPES.SHOW_POPUP_CONFIRM_CANCEL_CHECK_OUT:

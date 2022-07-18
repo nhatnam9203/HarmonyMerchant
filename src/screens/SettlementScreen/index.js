@@ -1,5 +1,6 @@
 import React from "react";
-
+import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import { role, menuTabs, isPermissionToTab } from "@utils";
@@ -96,9 +97,9 @@ class SettlementScreen extends Layout {
     const { isFocus } = this.state;
     const {profile} = this.props;
     if (isFocus) {
-      this.props.navigation.navigate(
-        profile.type === "Retailer" ? "retailer.home.order" : "Home"
-      );
+      profile.type === "Retailer" ? 
+      this.props.navigation.navigate("retailer.home.order")
+      : NavigationServices.navigate(ScreenName.SALON.APPOINTMENT)
 
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
@@ -112,9 +113,9 @@ class SettlementScreen extends Layout {
     const {profile} = this.props;
 
     this.props.actions.invoice.toggleSettlementTabPermission(false);
-    this.props.navigation.navigate(
-      profile.type === "Retailer" ? "retailer.home.order" : "Home"
-    );
+    profile.type === "Retailer" ? 
+      this.props.navigation.navigate("retailer.home.order")
+      : NavigationServices.navigate(ScreenName.SALON.APPOINTMENT)
   };
 
   backSettlementTab = () => {

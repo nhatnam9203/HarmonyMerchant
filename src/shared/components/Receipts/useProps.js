@@ -120,7 +120,7 @@ export const useProps = ({
   };
 
   const getInvoiceNO = () => {
-    if (invoice) return invoice.checkoutId;
+    if (invoice?.checkoutId) return invoice.checkoutId;
     if (appointment?.invoice?.checkoutId) {
       return appointment.invoice.checkoutId;
     }
@@ -342,6 +342,17 @@ export const useProps = ({
     return 0;
   };
 
+  const _getItemsOfAppointment = (appointmentId) => {
+    if (groupAppointment) {
+      const app = groupAppointment?.appointments.find(
+        (x) => x.appointmentId === appointmentId
+      );
+      return getReceiptItems(app);
+    }
+
+    return [];
+  };
+
   return {
     portName,
     emulation,
@@ -349,6 +360,7 @@ export const useProps = ({
     profile,
     profileStaffLogin,
     items: items,
+    getItemsOfAppointment: _getItemsOfAppointment,
     customer: getCustomer(),
     machineType: paymentMachineType,
     symbol: getSymbol(),

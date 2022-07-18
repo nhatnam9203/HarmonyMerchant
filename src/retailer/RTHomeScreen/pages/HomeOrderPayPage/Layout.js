@@ -124,7 +124,8 @@ export const Layout = ({
   titleExitCheckoutTab,
   confimYes,
   isShowRefreshButton,
-  onConfirmRefresh
+  onConfirmRefresh,
+  handleYes
 }) => {
   const [t] = useTranslation();
 
@@ -346,9 +347,7 @@ export const Layout = ({
         visible={visibleErrorMessageFromPax}
         title={t("Trasaction Fail")}
         message={errorMessageFromPax}
-        onRequestClose={() => {
-          setVisibleErrorMessageFromPax(false);
-        }}
+        onRequestClose={handleYes}
         confimYes={handleYes}
         isShowRefreshButton={isShowRefreshButton}
         onConfirmRefresh={onConfirmRefresh}

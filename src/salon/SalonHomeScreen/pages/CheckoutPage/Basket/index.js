@@ -105,28 +105,38 @@ export const Basket = () => {
 
     return (
       <>
-        {blockAppointments.map((appointment, index) => (
-          <ItemAppointmentBasket
-            ref={addBlockAppointmentRef}
-            key={`${appointment.appointmentId}_${index}`}
-            blockIndex={index}
-            language={language}
-            appointmentDetail={appointment}
-            subTotalLocal={subTotalLocal}
-            tipLocal={tipLocal}
-            discountTotalLocal={discountTotalLocal}
-            taxLocal={taxLocal}
-            basketLocal={basket}
-            infoUser={infoUser}
-            removeItemBasket={removeItemBasket}
-            toggleCollaps={toggleCollapses}
-            removeBlockAppointment={removeBlockAppointment}
-            createABlockAppointment={createABlockAppointment}
-            showModalDiscount={showModalDiscount}
-            showModalTipAppointment={showModalTipAppointment}
-            showModalCheckPermission={showModalCheckPermission}
-          />
-        ))}
+        {blockAppointments.map((appointment, index) => {
+          const addRef = (itemRef) => {
+            if (
+              addBlockAppointmentRef &&
+              typeof addBlockAppointmentRef === "function"
+            ) {
+              addBlockAppointmentRef(itemRef, index);
+            }
+          };
+          return (
+            <ItemAppointmentBasket
+              ref={addRef}
+              key={`${appointment.appointmentId}_${index}`}
+              blockIndex={index}
+              language={language}
+              appointmentDetail={appointment}
+              subTotalLocal={subTotalLocal}
+              tipLocal={tipLocal}
+              discountTotalLocal={discountTotalLocal}
+              taxLocal={taxLocal}
+              basketLocal={basket}
+              infoUser={infoUser}
+              removeItemBasket={removeItemBasket}
+              toggleCollaps={toggleCollapses}
+              removeBlockAppointment={removeBlockAppointment}
+              createABlockAppointment={createABlockAppointment}
+              showModalDiscount={showModalDiscount}
+              showModalTipAppointment={showModalTipAppointment}
+              showModalCheckPermission={showModalCheckPermission}
+            />
+          );
+        })}
       </>
     );
   };
@@ -214,7 +224,11 @@ export const Basket = () => {
             <BasketGrandTotal
               grandTotal={getGrandTotal}
               paidAmounts={paidAmounts}
-              dueAmount={paymentDetailInfo?.dueAmount}
+              dueAmount={
+                blockAppointments?.length > 0
+                  ? -1
+                  : paymentDetailInfo?.dueAmount
+              }
               isShowPaidAmount={
                 !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo)
               }

@@ -338,7 +338,7 @@ const PromotiomDetail = forwardRef(
       if (!_.isEmpty(smsInfoMarketing)) {
         calculatorsmsMoney(value);
       }
-    }, [title, conditionServiceProductTags, actionTags]);
+    }, [title, conditionServiceProductTags, actionTags, value]);
 
     useEffect(() => {
       if (!_.isEmpty(smsInfoMarketing)) {
@@ -354,9 +354,10 @@ const PromotiomDetail = forwardRef(
           tempValue = customerSendSMSQty / customerCount;
         }
 
-        setValue(tempValue);
         setSMSMaxCustomer(customerCount);
-        calculatorsmsMoney(tempValue);
+        setValue(tempValue);
+        // console.log(tempValue);
+        // calculatorsmsMoney(tempValue);
       }
     }, [smsInfoMarketing]);
 
@@ -982,7 +983,7 @@ const PromotiomDetail = forwardRef(
                 <InputForm
                   title={`${localize("Number of times applied", language)}:`}
                   subTitle=""
-                  placeholder="Campaign name"
+                  placeholder="Input here"
                   value={numberOfTimesApply}
                   isOnlyNumber={true}
                   onChangeText={setNumberOfTimesApply}

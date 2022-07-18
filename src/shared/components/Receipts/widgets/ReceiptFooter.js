@@ -42,7 +42,7 @@ export const ReceiptFooter = ({
       <View style={styles.margin} />
       <View style={styles.margin} />
 
-      {!!invoiceCode && (
+      {/* {!!invoiceCode && (
         <Barcode
           format="CODE39"
           value={`${invoiceCode}`}
@@ -53,8 +53,7 @@ export const ReceiptFooter = ({
           height={scaleHeight(85)}
           textStyle={styles.textBarcodeStyle}
         />
-      )}
-      <View style={styles.margin} />
+      )} */}
     </View>
   );
 };

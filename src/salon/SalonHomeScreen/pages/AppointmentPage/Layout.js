@@ -58,6 +58,7 @@ export const Layout = ({
         cancelInvoicePrint={cancelInvoicePrint}
         appointment={appointment}
       />
+
     </View>
   );
 };

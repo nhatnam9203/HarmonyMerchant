@@ -1,6 +1,5 @@
 import actions from "@actions";
 import NavigatorServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
 import { ScreenName } from "@src/ScreenName";
 import * as AppUtils from "@utils";
 import _ from "lodash";
@@ -13,6 +12,8 @@ import * as CheckoutState from "./SalonCheckoutState";
 import { useCallApis } from "./useCallApis";
 import * as controllers from "../../controllers";
 import { parseString } from "react-native-xml2js";
+import env from "react-native-config";
+import Configs from "@configs";
 
 const signalR = require("@microsoft/signalr");
 
@@ -23,19 +24,19 @@ const { clover } = NativeModules;
 
 export const useProps = (props) => {
   const dispatch = useDispatch();
-  const { navigation } = props || {};
-  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
+  const { navigation, isBookingFromCalendar } = props || {};
+  const homePageCtx = props?.homePageCtx;
 
   // References
+  let isProcessPaymentClover = React.useRef(false);
   const subscriptions = React.useRef([]);
   const isProcessPrintClover = React.useRef(false);
-  const isProcessPaymentClover = React.useRef(false);
   const eventEmitter = React.useRef(new NativeEventEmitter(clover));
   const categoriesRef = React.useRef(null);
   const amountRef = React.useRef(null);
   const popupAddItemIntoAppointmentsRef = React.useRef(null);
   const modalBillRef = React.useRef(null);
-  const blockAppointmentRef = React.useRef(null);
+  const blockAppointmentRef = React.useRef([]).current;
   const changePriceAmountProductRef = React.useRef(null);
   const popupDiscountRef = React.useRef(null);
   const popupDiscountLocalRef = React.useRef(null);
@@ -51,6 +52,8 @@ export const useProps = (props) => {
   const addEditCustomerInfoRef = React.useRef(null);
   const invoiceRef = React.useRef(null);
   const popupEnterAmountCustomServiceRef = React.useRef(null);
+  const payAppointmentId = React.useRef(0);
+  const moneyUserGiveForStaffRef = React.useRef(0);
 
   // Redux state
   const appointment = useSelector((state) => state.appointment) || {};
@@ -72,6 +75,7 @@ export const useProps = (props) => {
   const lastGroupAppointmentPay = useSelector(
     (state) => state.appointment.lastGroupAppointmentPay
   );
+  const errorMessage = useSelector((state) => state.appointment.errorMessage);
 
   // Local state
   const [stateLocal, dispatchLocal] = React.useReducer(
@@ -87,9 +91,9 @@ export const useProps = (props) => {
   // State
   const [visibleConfirmPayment, setVisibleConfirmPayment] =
     React.useState(false);
-  // const [visibleConfirm, setVisibleConfirm] = React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
+  const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleChangeMoney, setVisibleChangeMoney] = React.useState(false);
   const [visibleChangeStylist, setVisibleChangeStylist] = React.useState(false);
   const [visibleChangePriceAmountProduct, setVisibleChangePriceAmountProduct] =
@@ -123,34 +127,31 @@ export const useProps = (props) => {
     );
   };
 
-  React.useEffect(() => {
-    if (appointment.startProcessingPax) {
-      dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
-      sendTransactionToPaymentMachine();
-    }
-  }, [appointment.startProcessingPax]);
-
   const sendTransactionToPaymentMachine = () => {
     if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover) {
       setIsGetResponsePaymentPax(false);
       setVisibleProcessingCredit(true);
       const moneyCreditCard = Number(
-        utils.formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+        AppUtils.formatNumberFromCurrency(moneyUserGiveForStaff) * 100
       ).toFixed(2);
       const port = _.get(hardware.cloverMachineInfo, "port")
         ? _.get(hardware.cloverMachineInfo, "port")
         : 80;
-      const url = `wss://${_.get(hardware.cloverMachineInfo, "ip")}:${port}/remote_pay`;
+      const url = `wss://${_.get(
+        hardware.cloverMachineInfo,
+        "ip"
+      )}:${port}/remote_pay`;
 
-      dispatch(actions.appointment.isProcessPaymentClover(true));
+      isProcessPaymentClover.current = true;
+      // dispatch(actions.appointment.isProcessPaymentClover(true));
 
       setVisibleProcessingCredit(true);
 
       clover.sendTransaction({
         url,
-        remoteAppId: REMOTE_APP_ID,
-        appName: APP_NAME,
-        posSerial: POS_SERIAL,
+        remoteAppId: AppUtils.REMOTE_APP_ID,
+        appName: AppUtils.APP_NAME,
+        posSerial: AppUtils.POS_SERIAL,
         token: _.get(hardware.cloverMachineInfo, "token")
           ? _.get(hardware.cloverMachineInfo, "token", "")
           : "",
@@ -158,7 +159,9 @@ export const useProps = (props) => {
         amount: `${parseFloat(moneyCreditCard)}`,
         externalId: `${appointment.payAppointmentId}`,
       });
-    } else if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
+    } else if (
+      hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo
+    ) {
       setVisibleProcessingCredit(true);
       setIsShowRefreshButton(false);
       const tenderType = "Credit";
@@ -228,7 +231,7 @@ export const useProps = (props) => {
             const resultTxt =
               `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
               "Transaction failed";
-            
+
             if (errorCode == 2) {
               //Can not connect Dejavoo, show error without refresh button
               setIsShowRefreshButton(true);
@@ -240,13 +243,7 @@ export const useProps = (props) => {
             setTimeout(() => {
               setVisibleErrorMessageFromPax(true);
               setVisibleProcessingCredit(false);
-              dispatchLocal(
-                CheckoutState.updateCreditCardPay({
-                  visibleErrorMessageFromPax: true,
-                  errorMessageFromPax: resultTxt,
-                  visibleProcessingCredit: false,
-                })
-              );
+              setErrorMessageFromPax(resultTxt);
             }, 400);
           }
         } else {
@@ -255,7 +252,7 @@ export const useProps = (props) => {
           if (!AppUtils.stringIsEmptyOrWhiteSpaces(SN)) {
             dispatch(actions.hardware.setDejavooMachineSN(SN));
           }
-          
+
           dispatch(
             actions.appointment.submitPaymentWithCreditCard(
               dataLocal.profile?.merchantId || 0,
@@ -315,15 +312,15 @@ export const useProps = (props) => {
       ...message,
       sn: _.get(hardware.cloverMachineInfo, "serialNumber"),
     };
-
     try {
       dispatch(
         actions.appointment.submitPaymentWithCreditCard(
           dataLocal.profile?.merchantId || 0,
           JSON.stringify(messageUpdate),
-          appointment.payAppointmentId,
-          appointment.amountCredtitForSubmitToServer,
-          "clover"
+          payAppointmentId.current,
+          moneyUserGiveForStaffRef.current,
+          "clover",
+          null
         )
       );
     } catch (error) {
@@ -337,75 +334,12 @@ export const useProps = (props) => {
     try {
       setTimeout(() => {
         setVisibleErrorMessageFromPax(true);
-        dispatchLocal(
-          CheckoutState.updateCreditCardPay({
-            visibleErrorMessageFromPax: true,
-            errorMessageFromPax: `${result.message}`,
-          })
-        );
+        setErrorMessageFromPax(errorMessage);
       }, 300);
     } catch (error) {
       console.log(error);
     }
   };
-
-  React.useEffect(() => {
-    clover.changeListenerStatus(true);
-    subscriptions.current = [
-      eventEmitter.current.addListener("paymentSuccess", (data) => {
-        // console.log("paymentSuccess");
-        isProcessPaymentClover = false;
-        _handleResponseCreditCardForCloverSuccess(data);
-      }),
-      eventEmitter.current.addListener("paymentFail", (data) => {
-        // console.log("paymentSuccess");
-        isProcessPaymentClover = false;
-        _handleResponseCreditCardForCloverFailed(
-          _.get(data, "appointment.errorMessage")
-        );
-      }),
-      eventEmitter.current.addListener("pairingCode", (data) => {
-        if (data) {
-          const text = `Pairing code: ${_.get(data, "pairingCode")}`;
-          if (isProcessPaymentClover.current) {
-            setVisibleProcessingCredit(false);
-          }
-          if (isProcessPrintClover.current) {
-            setVisiblePrintInvoice(false);
-          }
-        }
-      }),
-      eventEmitter.current.addListener("pairingSuccess", (data) => {
-        if (isProcessPaymentClover.current) {
-          setVisibleProcessingCredit(true);
-        }
-      }),
-      eventEmitter.current.addListener("confirmPayment", () => {
-        setVisibleProcessingCredit(false);
-        setVisibleConfirmPayment(true);
-      }),
-      eventEmitter.current.addListener("printInProcess", () => {}),
-
-      eventEmitter.current.addListener("deviceDisconnected", () => {
-        if (isProcessPaymentClover.current) {
-          isProcessPaymentClover.current = false;
-          _handleResponseCreditCardForCloverFailed("No connected device");
-          clover.cancelTransaction();
-        }
-        if (isProcessPrintClover.current) {
-          isProcessPrintClover.current = false;
-          setVisiblePrintInvoice(false);
-        }
-      }),
-    ];
-
-    return () => {
-      if (subscriptions.current?.length > 0) {
-        subscriptions.current.forEach((e) => e.remove());
-      }
-      subscriptions.current = [];
-    };
-  }, []);
 
   const _addBlockAppointment = async (customService) => {
     const {
@@ -419,10 +353,9 @@ export const useProps = (props) => {
     let isAppointmentIdOpen = "";
 
     for (let i = 0; i < blockAppointmentRef.length; i++) {
-      if (!blockAppointmentRef[i].state.isCollapsed) {
+      if (!blockAppointmentRef[i]?.state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointment.appointmentDetail
-            .appointmentId;
+          blockAppointmentRef[i]?.props.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -524,10 +457,9 @@ export const useProps = (props) => {
   const removeItemInBlockAppointment = (dataRemove) => {
     let isAppointmentIdOpen = "";
     for (let i = 0; i < blockAppointmentRef.length; i++) {
-      if (!blockAppointmentRef[i].state.isCollapsed) {
+      if (!blockAppointmentRef[i]?.state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointment.appointmentDetail
-            .appointmentId;
+          blockAppointmentRef[i]?.props?.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -546,6 +478,7 @@ export const useProps = (props) => {
   };
 
   const _handlePaymentOffLineMode = () => {};
+
   const _setupSignalR = (
     profile,
     token,
@@ -658,7 +591,12 @@ export const useProps = (props) => {
             }, 500);
           },
           (data) => {
-            _handleResponseCreditCard(data, online, moneyUserGiveForStaff, null);
+            _handleResponseCreditCard(
+              data,
+              online,
+              moneyUserGiveForStaff,
+              null
+            );
           }
         );
       }, 100);
@@ -685,15 +623,9 @@ export const useProps = (props) => {
       const tempEnv = env.IS_PRODUCTION;
 
       if (_.get(result, "status", 0) == 0) {
-        
         setTimeout(() => {
           setVisibleErrorMessageFromPax(true);
-          dispatchLocal(
-            CheckoutState.updateCreditCardPay({
-              visibleErrorMessageFromPax: true,
-              errorMessageFromPax: `${result.message}`,
-            })
-          );
+          setErrorMessageFromPax(result.message);
         }, 300);
       } else if (result.ResultCode && result.ResultCode == "000000") {
         if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
@@ -723,16 +655,11 @@ export const useProps = (props) => {
         }
       } else {
         const resultTxt = result?.ResultTxt || "Transaction failed:";
-        
+
         setTimeout(() => {
           // alert(resultTxt);
           setVisibleErrorMessageFromPax(true);
-          dispatchLocal(
-            CheckoutState.updateCreditCardPay({
-              visibleErrorMessageFromPax: true,
-              errorMessageFromPax: `${resultTxt}`,
-            })
-          );
+          setErrorMessageFromPax(resultTxt);
         }, 300);
       }
     } catch (error) {
@@ -757,6 +684,7 @@ export const useProps = (props) => {
             )
           );
     setMoneyUserGiveForStaff(moneyUserGiveForStaff);
+    moneyUserGiveForStaffRef.current = moneyUserGiveForStaff;
 
     const method = Helpers.getPaymentString(paymentSelected);
     const total = appointment.groupAppointment?.total
@@ -972,7 +900,7 @@ export const useProps = (props) => {
       fromTime:
         fromTime !== ""
           ? fromTime
-          : formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
+          : AppUtils.formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
       staffId:
         staffIdOfline !== 0
           ? staffIdOfline
@@ -997,15 +925,15 @@ export const useProps = (props) => {
   const _onRequestCloseBillModal = () => {
     dispatchLocal(CheckoutState.closeBillOfPayment());
     dispatch(actions.appointment.resetPayment());
+    setVisibleBillOfPayment(false);
   };
 
   const _addGiftCardIntoBlockAppointment = (code) => {
     let isAppointmentIdOpen = "";
     for (let i = 0; i < blockAppointmentRef.length; i++) {
-      if (!blockAppointmentRef[i].state.isCollapsed) {
+      if (!blockAppointmentRef[i]?.state.isCollapsed) {
         isAppointmentIdOpen =
-          blockAppointmentRef[i].props.appointment.appointmentDetail
-            .appointmentId;
+          blockAppointmentRef[i]?.props?.appointmentDetail.appointmentId;
         break;
       }
     }
@@ -1145,29 +1073,6 @@ export const useProps = (props) => {
     dispatchLocal(CheckoutState.selectCategory(null)); // reset
   };
 
-  const _doPrintClover = (imageUri) => {
-    isProcessPrintClover.current = true;
-    const port = _.get(hardware.cloverMachineInfo, "port")
-      ? _.get(hardware.cloverMachineInfo, "port")
-      : 80;
-    const url = `wss://${_.get(
-      hardware.cloverMachineInfo,
-      "ip"
-    )}:${port}/remote_pay`;
-    const printInfo = {
-      imageUri,
-      url,
-      remoteAppId: AppUtils.REMOTE_APP_ID,
-      appName: AppUtils.APP_NAME,
-      posSerial: AppUtils.POS_SERIAL,
-      token: _.get(hardware.cloverMachineInfo, "dataLocal.token")
-        ? _.get(hardware.cloverMachineInfo, "dataLocal.token", "")
-        : "",
-    };
-    clover.doPrintWithConnect(printInfo);
-    isProcessPrintClover.current = false;
-  };
-
   const _cancelInvoicePrint = async (isPrintTempt) => {
     setVisiblePrintInvoice(false);
     if (!isPrintTempt) {
@@ -1290,7 +1195,6 @@ export const useProps = (props) => {
   const titleExitCheckoutTab = React.useMemo(() => {
     const {
       groupAppointment,
-      isBookingFromCalendar,
       appointmentIdBookingFromCalendar,
       isCancelAppointment,
     } = appointment || {};
@@ -1316,7 +1220,148 @@ export const useProps = (props) => {
           0)
       ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? "
       : "Are you sure you want to exit Check-Out?";
-  }, [appointment]);
+  }, [appointment, isBookingFromCalendar]);
+
+  const _onHandleGoBack = () => {
+    homePageCtx.homePageDispatch(controllers.showPopupConfirmCancelCheckout());
+  };
+
+  const _updateBlockAppointmentRef = () => {
+    const { isOpenBlockAppointmentId, idNextToAppointmentRemove } =
+      appointment || {};
+
+    const temptBlockAppointmentRef = blockAppointmentRef.filter(
+      (block) => block?._isMounted
+    );
+
+    if (temptBlockAppointmentRef.length > 0) {
+      blockAppointmentRef.length = 0;
+      blockAppointmentRef.push(...temptBlockAppointmentRef);
+      let isAppointmentOpenExist = false;
+      for (let i = 0; i < blockAppointmentRef.length; i++) {
+        const appointmentDetail =
+          blockAppointmentRef[i]?.props?.appointmentDetail;
+        if (appointmentDetail?.appointmentId === isOpenBlockAppointmentId) {
+          isAppointmentOpenExist = true;
+          blockAppointmentRef[i]?.setStateFromParent(false);
+        } else {
+          blockAppointmentRef[i]?.setStateFromParent(true);
+        }
+      }
+      if (!isAppointmentOpenExist) {
+        const id = idNextToAppointmentRemove - 1;
+        if (id >= 0) {
+          blockAppointmentRef[id]?.setStateFromParent(false);
+        }
+      }
+    } else {
+      blockAppointmentRef.length = 0; // clean refs
+    }
+  };
+
+  const _setBlockToggleCollaps = () => {
+    const { isOpenBlockAppointmentId } = appointment || {};
+    for (let i = 0; i < blockAppointmentRef.length; i++) {
+      const appointmentDetail = blockAppointmentRef[i]?.props.appointmentDetail;
+      if (appointmentDetail?.appointmentId === isOpenBlockAppointmentId) {
+        blockAppointmentRef[i]?.setStateFromParent(false);
+      } else {
+        blockAppointmentRef[i]?.setStateFromParent(true);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    if (appointment.startProcessingPax) {
+      dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
+      sendTransactionToPaymentMachine();
+    }
+  }, [appointment.startProcessingPax]);
+
+  React.useEffect(() => {
+    if (appointment.isCreditPaymentToServer) {
+      setTimeout(() => {
+        setVisibleErrorMessageFromPax(true);
+        setVisibleProcessingCredit(false);
+        setErrorMessageFromPax(errorMessage);
+      }, 400);
+    }
+  }, [isCreditPaymentToServer]);
+
+  React.useEffect(() => {
+    payAppointmentId.current = appointment.payAppointmentId;
+  }, [appointment.payAppointmentId]);
+
+  React.useEffect(() => {
+    const { blockAppointments, isLoadingRemoveBlockAppointment } =
+      appointment || {};
+    if (blockAppointments.length > 0) {
+      _updateBlockAppointmentRef();
+    }
+  }, [
+    appointment?.blockAppointments,
+    appointment.isLoadingRemoveBlockAppointment,
+  ]);
+
+  React.useEffect(() => {
+    clover.changeListenerStatus(true);
+    subscriptions.current = [
+      eventEmitter.current.addListener("paymentSuccess", (data) => {
+        isProcessPaymentClover.current = false;
+        _handleResponseCreditCardForCloverSuccess(data);
+      }),
+      eventEmitter.current.addListener("paymentFail", (data) => {
+        isProcessPaymentClover.current = false;
+        _handleResponseCreditCardForCloverFailed(_.get(data, "errorMessage"));
+      }),
+      eventEmitter.current.addListener("pairingCode", (data) => {
+        if (data) {
+          if (isProcessPaymentClover.current) {
+            setVisibleProcessingCredit(false);
+          }
+          if (isProcessPrintClover.current) {
+            setVisiblePrintInvoice(false);
+          }
+        }
+      }),
+      eventEmitter.current.addListener("pairingSuccess", (data) => {
+        if (isProcessPaymentClover.current) {
+          setVisibleProcessingCredit(true);
+        }
+      }),
+      eventEmitter.current.addListener("confirmPayment", () => {
+        setVisibleProcessingCredit(false);
+        setVisibleConfirmPayment(true);
+      }),
+      eventEmitter.current.addListener("printInProcess", () => {}),
+
+      eventEmitter.current.addListener("deviceDisconnected", () => {
+        if (isProcessPaymentClover.current) {
+          isProcessPaymentClover.current = false;
+          _handleResponseCreditCardForCloverFailed("No connected device");
+          clover.cancelTransaction();
+        }
+        if (isProcessPrintClover.current) {
+          isProcessPrintClover.current = false;
+          setVisiblePrintInvoice(false);
+        }
+      }),
+    ];
+
+    return () => {
+      if (subscriptions.current?.length > 0) {
+        subscriptions.current.forEach((e) => e.remove());
+      }
+      subscriptions.current = [];
+    };
+  }, []);
+
+  React.useEffect(() => {
+    _setBlockToggleCollaps();
+  }, [
+    appointment?.blockAppointments,
+    appointment.isLoadingGetBlockAppointment,
+  ]);
 
   return {
     categoriesRef,
@@ -1326,6 +1371,7 @@ export const useProps = (props) => {
     changeTipRef,
     popupCheckDiscountPermissionRef,
     isLoadingService: apis.isGetServiceByStaff || apis.isGetProductByStaff,
+    isBookingFromCalendar,
     ...dataLocal,
     ...category,
     ...network,
@@ -1339,6 +1385,7 @@ export const useProps = (props) => {
     // apis
     ...apis,
     titleExitCheckoutTab,
+    onHandleGoBack: _onHandleGoBack,
 
     setSelectStaffFromCalendar,
     setBlockStateFromCalendar: (bl) => {
@@ -1402,13 +1449,18 @@ export const useProps = (props) => {
       setVisibleScanCode(true);
     },
     bookAppointmentFromCalendar: () => {
-      NavigatorServices.goBack();
       // this.setState(
       //   Object.assign(initState, {
       //     isBookingFromAppointmentTab: true, // book appointment from calendar
       //   })
       // );
       // this.props.actions.appointment.resetGroupAppointment();
+
+      NavigatorServices.goBack();
+      dispatchLocal(CheckoutState.resetState());
+      blockAppointmentRef.length = 0; // clean refs
+      dispatch(actions.appointment.resetGroupAppointment());
+      homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
     },
     selectPayment: () => {
       setIsPayment(true);
@@ -1432,8 +1484,9 @@ export const useProps = (props) => {
       NavigatorServices.goBack();
       dispatch(actions.appointment.bookBlockAppointment());
       dispatchLocal(CheckoutState.resetState());
-      blockAppointmentRef.current = [];
+      blockAppointmentRef.length = 0; // clean refs
       dispatch(actions.appointment.resetGroupAppointment());
+      homePageCtx.homePageDispatch(controllers.unBlockChangeTab());
     },
     checkBlockAppointment: Helpers.isBookingBlockAppointment,
     onSelectGiftCard: (category) => {
@@ -1623,7 +1676,7 @@ export const useProps = (props) => {
           actions.staff.getStaffService(
             service?.data?.serviceId,
             AppUtils.formatWithMoment(fromTime, "MM/DD/YYYY"), // Fix for case custom service not contains by staff, so get staff no data here!
-            this.callBackGetStaffService
+            callBackGetStaffService
           )
         );
       } else {
@@ -1633,7 +1686,7 @@ export const useProps = (props) => {
     toggleCollapses: (appointmentIdSelection) => {
       for (let i = 0; i < blockAppointmentRef.length; i++) {
         const appointmentDetail =
-          blockAppointmentRef[i].props.appointmentDetail;
+          blockAppointmentRef[i]?.props.appointmentDetail;
         if (
           appointment.appointmentDetail &&
           appointment.appointmentDetail.appointmentId === appointmentIdSelection
@@ -1643,9 +1696,9 @@ export const useProps = (props) => {
               appointment.appointmentDetail.appointmentId
             )
           );
-          blockAppointmentRef[i].setStateFromParent(false);
+          blockAppointmentRef[i]?.setStateFromParent(false);
         } else {
-          blockAppointmentRef[i].setStateFromParent(true);
+          blockAppointmentRef[i]?.setStateFromParent(true);
         }
       }
     },
@@ -1657,7 +1710,7 @@ export const useProps = (props) => {
 
       dispatchLocal(CheckoutState.visibleEditProductForm(true));
     },
-    removeBlockAppointment: () => {
+    removeBlockAppointment: (appointmentId) => {
       const customerId = appointment.customerInfoBuyAppointment.customerId
         ? appointment.customerInfoBuyAppointment.customerId
         : 0;
@@ -1759,6 +1812,7 @@ export const useProps = (props) => {
       );
     },
     clearDataConfirm: async () => {
+      console.log("clearDataConfirm");
       const { isDrawer } = stateLocal;
 
       if (!_.isEmpty(appointment.connectionSignalR)) {
@@ -1772,7 +1826,7 @@ export const useProps = (props) => {
       }
 
       // reset local state
-      dispatchLocal(CheckoutState.resetState());
+      dispatchLocal(CheckoutState.resetState()); // reset had disable unblock tab
 
       // reset page
       setIsPayment(false);
@@ -1817,126 +1871,14 @@ export const useProps = (props) => {
         }
 
         // Book from calendar
-        if (appointment.isBookingFromCalendar) {
-          if (appointment.blockAppointments?.length > 0) {
-            const app =
-              appointment.blockAppointments?.length > 0
-                ? appointment.blockAppointments[0]
-                : null;
-            if (
-              app &&
-              appointment.blockAppointments &&
-              appointment.blockAppointments?.length === 1
-            ) {
-              if (
-                app.services.length +
-                  app.products.length +
-                  app.giftCards.length ===
-                0
-              ) {
-                const customerId = appointment.customerInfoBuyAppointment
-                  .customerId
-                  ? appointment.customerInfoBuyAppointment.customerId
-                  : 0;
-                dispatch(
-                  actions.appointment.cancleAppointment(
-                    appointment.isOpenBlockAppointmentId,
-                    dataLocal.profile.merchantId,
-                    customerId
-                  )
-                );
-              }
-            }
-          }
+      }
 
-          if (
-            appointment.groupAppointment?.appointments?.length > 0 &&
-            appointment.appointmentIdBookingFromCalendar
-          ) {
-            const app =
-              appointment.groupAppointment?.appointments?.length > 0
-                ? appointment.groupAppointment.appointments[0]
-                : null;
-
-            const mainAppointmentId = appointment.groupAppointment
-              ?.mainAppointmentId
-              ? appointment.groupAppointment.mainAppointmentId
-              : 0;
-
-            if (
-              app &&
-              appointment.groupAppointment?.appointments &&
-              appointment.groupAppointment?.appointments.length === 1
-            ) {
-              if (
-                app.services.length +
-                  app.products.length +
-                  app.giftCards.length ===
-                0
-              ) {
-                const customerId = appointment.customerInfoBuyAppointment
-                  .customerId
-                  ? appointment.customerInfoBuyAppointment.customerId
-                  : 0;
-
-                dispatch(
-                  actions.appointment.cancleAppointment(
-                    appointment.appointmentIdBookingFromCalendar,
-                    dataLocal.profile.merchantId,
-                    customerId
-                  )
-                );
-              }
-            }
-          }
-        }
-
-        if (
-          !appointment.isBookingFromCalendar &&
-          appointment.appointmentIdBookingFromCalendar == 0
-        ) {
-          const app =
-            appointment.groupAppointment?.appointments?.length > 0
-              ? appointment.groupAppointment.appointments[0]
-              : null;
-
-          if (
-            app &&
-            appointment.groupAppointment?.appointments &&
-            appointment.groupAppointment?.appointments.length === 1
-          ) {
-            if (
-              app.services.length +
-                app.products.length +
-                app.giftCards.length ===
-              0
-            ) {
-              const mainAppointmentId = appointment.groupAppointment
-                ?.mainAppointmentId
-                ? appointment.groupAppointment.mainAppointmentId
-                : 0;
-              const customerId = appointment.customerInfoBuyAppointment
-                .customerId
-                ? appointment.customerInfoBuyAppointment.customerId
-                : 0;
-
-              dispatch(
-                actions.appointment.cancleAppointment(
-                  mainAppointmentId,
-                  dataLocal.profile.merchantId,
-                  customerId
-                )
-              );
-            }
-          }
-        }
-
-        if (appointment.isOpenBlockAppointmentId) {
+      if (isBookingFromCalendar) {
+        if (appointment.blockAppointments?.length > 0) {
           const app =
             appointment.blockAppointments?.length > 0
               ? appointment.blockAppointments[0]
               : null;
-
           if (
             app &&
             appointment.blockAppointments &&
@@ -1952,7 +1894,6 @@ export const useProps = (props) => {
                 .customerId
                 ? appointment.customerInfoBuyAppointment.customerId
                 : 0;
-
               dispatch(
                 actions.appointment.cancleAppointment(
                   appointment.isOpenBlockAppointmentId,
@@ -1964,17 +1905,117 @@ export const useProps = (props) => {
           }
         }
 
-        blockAppointmentRef.current = [];
+        if (
+          appointment.groupAppointment?.appointments?.length > 0 &&
+          appointment.appointmentIdBookingFromCalendar
+        ) {
+          const app =
+            appointment.groupAppointment?.appointments?.length > 0
+              ? appointment.groupAppointment.appointments[0]
+              : null;
+
+          const mainAppointmentId = appointment.groupAppointment
+            ?.mainAppointmentId
+            ? appointment.groupAppointment.mainAppointmentId
+            : 0;
+
+          if (
+            app &&
+            appointment.groupAppointment?.appointments &&
+            appointment.groupAppointment?.appointments.length === 1
+          ) {
+            if (
+              app.services.length +
+                app.products.length +
+                app.giftCards.length ===
+              0
+            ) {
+              const customerId = appointment.customerInfoBuyAppointment
+                .customerId
+                ? appointment.customerInfoBuyAppointment.customerId
+                : 0;
+
+              dispatch(
+                actions.appointment.cancleAppointment(
+                  appointment.appointmentIdBookingFromCalendar,
+                  dataLocal.profile.merchantId,
+                  customerId
+                )
+              );
+            }
+          }
+        }
       }
 
-      // reset về page appointment,  // !
-      // this.props.gotoPageCurentParent(isDrawer); //!
-      const goToTab =
-        homePageCtx.nextTab ?? ScreenName.SALON.APPOINTMENT_LAYOUT;
-      await homePageCtx.homePageDispatch(controllers.resetCheckOut(goToTab));
-      if (goToTab === homePageCtx.currentTab) {
-        NavigatorServices.goBack();
-      } else NavigatorServices.navigate(goToTab);
+      if (
+        !isBookingFromCalendar &&
+        appointment.appointmentIdBookingFromCalendar == 0
+      ) {
+        const app =
+          appointment.groupAppointment?.appointments?.length > 0
+            ? appointment.groupAppointment.appointments[0]
+            : null;
+
+        if (
+          app &&
+          appointment.groupAppointment?.appointments &&
+          appointment.groupAppointment?.appointments.length === 1
+        ) {
+          if (
+            app.services.length + app.products.length + app.giftCards.length ===
+            0
+          ) {
+            const mainAppointmentId = appointment.groupAppointment
+              ?.mainAppointmentId
+              ? appointment.groupAppointment.mainAppointmentId
+              : 0;
+            const customerId = appointment.customerInfoBuyAppointment.customerId
+              ? appointment.customerInfoBuyAppointment.customerId
+              : 0;
+
+            dispatch(
+              actions.appointment.cancleAppointment(
+                mainAppointmentId,
+                dataLocal.profile.merchantId,
+                customerId
+              )
+            );
+          }
+        }
+      }
+
+      if (appointment.isOpenBlockAppointmentId) {
+        const app =
+          appointment.blockAppointments?.length > 0
+            ? appointment.blockAppointments[0]
+            : null;
+
+        if (
+          app &&
+          appointment.blockAppointments &&
+          appointment.blockAppointments?.length === 1
+        ) {
+          if (
+            app.services.length + app.products.length + app.giftCards.length ===
+            0
+          ) {
+            const customerId = appointment.customerInfoBuyAppointment.customerId
+              ? appointment.customerInfoBuyAppointment.customerId
+              : 0;
+
+            dispatch(
+              actions.appointment.cancleAppointment(
+                appointment.isOpenBlockAppointmentId,
+                dataLocal.profile.merchantId,
+                customerId
+              )
+            );
+          }
+        }
+      }
+
+      blockAppointmentRef.length = 0; // clean refs
+
     },
 
     //Popup Payment   Confirm
@@ -1982,14 +2023,18 @@ export const useProps = (props) => {
     closePopupPaymentConfirm: () => {
       setVisibleConfirmPayment(false);
     },
-    confirmPaymentClover: () => {},
-    rejectPaymentClover: () => {},
+    confirmPaymentClover: () => {
+      clover.confirmPayment();
+      setVisibleProcessingCredit(true);
+      setVisibleConfirmPayment(false);
+    },
+    rejectPaymentClover: () => {
+      clover.rejectPayment();
+      setVisibleConfirmPayment(false);
+    },
 
     // Popup Error Message
     visibleErrorMessageFromPax,
-    closePopupErrorMessageFromPax: () => {
-      setVisibleErrorMessageFromPax(false);
-    },
 
     // PopupChangeMoney
     cashBackRef,
@@ -2034,7 +2079,6 @@ export const useProps = (props) => {
         appointment.connectionSignalR.stop();
       }
 
-      console.log('closeModalPaymentCompleted')
       dispatch(actions.appointment.closeModalPaymentCompleted());
     },
     donotPrintBill: async () => {
@@ -2101,7 +2145,6 @@ export const useProps = (props) => {
       );
     },
     cancelInvoicePrint: _cancelInvoicePrint,
-    doPrintClover: _doPrintClover,
     mainAppointmentId: appointment.groupAppointment?.mainAppointmentId || 0,
 
     // PopupProcessingCredit
@@ -2115,7 +2158,9 @@ export const useProps = (props) => {
             alert(i18n.t("PleaseWait"));
             return;
           }
-        } else if (hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo) {
+        } else if (
+          hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo
+        ) {
           //Dejavoo can not cancel transaction by api
           alert(i18n.t("PleaseWait"));
           return;
@@ -2197,9 +2242,7 @@ export const useProps = (props) => {
         }
       } else {
         const moneyUserGiveForStaff = parseFloat(
-          utils.formatNumberFromCurrency(
-            this.modalBillRef.current?.state.quality
-          )
+          AppUtils.formatNumberFromCurrency(modalBillRef.current?.state.quality)
         );
         const method = Helpers.getPaymentString(paymentSelected);
         const bodyAction = {
@@ -2209,7 +2252,7 @@ export const useProps = (props) => {
           services: [],
           extras: [],
           products: [],
-          fromTime: formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
+          fromTime: AppUtils.formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
           staffId: dataLocal.profileStaffLogin?.staffId || 0,
           customDiscountFixed: customDiscountFixedLocal,
           customDiscountPercent: customDiscountPercentLocal,
@@ -2267,8 +2310,6 @@ export const useProps = (props) => {
     invoicePrintRef,
     visiblePrintInvoice,
 
-    doPrintClover: () => {},
-
     // EnterCustomerPhonePopup
     popupCustomerInfoRef,
     closePopupEnterCustomerPhone: () => {},
@@ -2322,7 +2363,56 @@ export const useProps = (props) => {
     },
 
     callbackDiscountToParent: () => {},
-    isShowCountdown: hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    isShowCountdown:
+      hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    addBlockAppointmentRef: (ref, index) => {
+      blockAppointmentRef?.push(ref);
+    },
+
+    printTemptInvoice: async () => {
+      await invoiceRef.current?.show({
+        isPrintTempt: true,
+        isAppointmentTab: false,
+      });
+    },
+    shareTemptInvoice: async () => {
+      await invoiceRef.current?.share({
+        isPrintTempt: true,
+        isAppointmentTab: false,
+      });
+    },
+    checkStatusCashier: async () => {
+      const { portName } = AppUtils.getInfoFromModelNameOfPrinter(
+        dataLocal.printerList,
+        dataLocal.printerSelect
+      );
+
+      if (portName) {
+        Helpers.openCashDrawer(portName);
+      } else {
+        if (
+          hardware.paymentMachineType == AppUtils.PaymentTerminalType.Clover
+        ) {
+          Helpers.openCashDrawerClover(hardware);
+        } else {
+          alert("Please connect to your cash drawer.");
+        }
+      }
+    },
+    isShowCountdown:
+      hardware.paymentMachineType == AppUtils.PaymentTerminalType.Dejavoo,
+    closePopupErrorMessageFromPax: () => {
+      setVisibleErrorMessageFromPax(false);
+      if (appointment.payAppointmentId) {
+        dispatch(
+          actions.appointment.cancelHarmonyPayment(
+            appointment.payAppointmentId,
+            "transaction fail",
+            errorMessageFromPax
+          )
+        );
+      }
+    },
     handleYes: () => {
       setVisibleErrorMessageFromPax(false);
       if (appointment.payAppointmentId) {
@@ -2330,7 +2420,7 @@ export const useProps = (props) => {
           actions.appointment.cancelHarmonyPayment(
             appointment.payAppointmentId,
             "transaction fail",
-            CheckoutState.errorMessageFromPax
+            errorMessageFromPax
           )
         );
       }
@@ -2342,88 +2432,93 @@ export const useProps = (props) => {
         const param = {
           RefId: appointment.payAppointmentId,
         };
-        AppUtils.requestPreviousTransactionReportDejavoo(param).then((response) => {
-          try {
-            parseString(message, (err, result) => {
-              let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
-              if (errorCode == 2) {
-                //Can not connect Dejavoo, show error without refresh button
-                setIsShowRefreshButton(true);
-              } else {
-                //Show error with refresh button
-                setIsShowRefreshButton(false);
-              }
-              if (
-                err ||
-                errorCode != 0 ||
-                _.get(result, "xmp.response.0.Message.0") != "Approved"
-              ) {
+        AppUtils.requestPreviousTransactionReportDejavoo(param).then(
+          (response) => {
+            try {
+              parseString(response, (err, result) => {
+                let errorCode = _.get(result, "xmp.response.0.ResultCode.0");
+                if (errorCode == 2) {
+                  //Can not connect Dejavoo, show error without refresh button
+                  setIsShowRefreshButton(true);
+                } else {
+                  //Show error with refresh button
+                  setIsShowRefreshButton(false);
+                }
+                if (
+                  err ||
+                  errorCode != 0 ||
+                  _.get(result, "xmp.response.0.Message.0") != "Approved"
+                ) {
                   let detailMessage = _.get(
                     result,
                     "xmp.response.0.RespMSG.0",
                     ""
                   ).replace(/%20/g, " ");
-                  detailMessage = !AppUtils.stringIsEmptyOrWhiteSpaces(detailMessage)
+                  detailMessage = !AppUtils.stringIsEmptyOrWhiteSpaces(
+                    detailMessage
+                  )
                     ? `: ${detailMessage}`
                     : detailMessage;
 
                   const resultTxt =
-                    `${_.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
-                    "Transaction failed";
+                    `${_.get(
+                      result,
+                      "xmp.response.0.Message.0"
+                    )}${detailMessage}` || "Transaction failed";
 
                   if (_.get(result, "xmp.response.0.Message.0") == 'Not found'
                       || _.get(result, "xmp.response.0.Message.0") == 'No open batch') {
                       //call transaction again
+
                     setVisibleProcessingCredit(true);
-                    AppUtils.requestTransactionDejavoo(parameter).then((responsesPayment) => {
-                      const parameter = {
-                        tenderType: "Credit",
-                        transType: "Sale",
-                        amount: Number(moneyUserGiveForStaff).toFixed(2),
-                        RefId: appointment.payAppointmentId,
-                        invNum: `${appointment.groupAppointment?.checkoutGroupId || 0}`,
-                      };
-                      handleResponseCreditCardDejavoo(
-                        responsesPayment,
-                        true,
-                        moneyUserGiveForStaff,
-                        parameter
-                      );
-                    });
+                    AppUtils.requestTransactionDejavoo(parameter).then(
+                      (responsesPayment) => {
+                        const parameter = {
+                          tenderType: "Credit",
+                          transType: "Sale",
+                          amount: Number(moneyUserGiveForStaff).toFixed(2),
+                          RefId: appointment.payAppointmentId,
+                          invNum: `${
+                            appointment.groupAppointment?.checkoutGroupId || 0
+                          }`,
+                        };
+                        handleResponseCreditCardDejavoo(
+                          responsesPayment,
+                          true,
+                          moneyUserGiveForStaff,
+                          parameter
+                        );
+                      }
+                    );
                   } else {
                     setTimeout(() => {
                       setVisibleErrorMessageFromPax(true);
                       setVisibleProcessingCredit(false);
-                      dispatchLocal(
-                        CheckoutState.updateCreditCardPay({
-                          visibleErrorMessageFromPax: true,
-                          errorMessageFromPax: resultTxt,
-                          visibleProcessingCredit: false,
-                        })
-                      );
+                      setErrorMessageFromPax(resultTxt);
                     }, 400);
                   }
-              } else {
-                setVisibleProcessingCredit(false);
-                const SN = _.get(result, "xmp.response.0.SN.0");
-                if (!AppUtils.stringIsEmptyOrWhiteSpaces(SN)) {
-                  dispatch(actions.hardware.setDejavooMachineSN(SN));
+                } else {
+                  setVisibleProcessingCredit(false);
+                  const SN = _.get(result, "xmp.response.0.SN.0");
+                  if (!AppUtils.stringIsEmptyOrWhiteSpaces(SN)) {
+                    dispatch(actions.hardware.setDejavooMachineSN(SN));
+                  }
+
+                  dispatch(
+                    actions.appointment.submitPaymentWithCreditCard(
+                      dataLocal.profile?.merchantId || 0,
+                      message,
+                      appointment.payAppointmentId,
+                      moneyUserGiveForStaff,
+                      "dejavoo",
+                      parameter
+                    )
+                  );
                 }
-                
-                dispatch(
-                  actions.appointment.submitPaymentWithCreditCard(
-                    dataLocal.profile?.merchantId || 0,
-                    message,
-                    appointment.payAppointmentId,
-                    moneyUserGiveForStaff,
-                    "dejavoo",
-                    parameter
-                  )
-                );
-              }
-            });
-          } catch (error) {}
-        });
+              });
+            } catch (error) {}
+          }
+        );
       }
     },
   };

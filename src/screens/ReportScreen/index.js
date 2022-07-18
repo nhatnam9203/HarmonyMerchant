@@ -1,6 +1,7 @@
 import React from "react";
 import _ from "ramda";
-
+import NavigationServices from "@navigators/NavigatorServices";
+import { ScreenName } from "@src/ScreenName";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import { role, menuTabs, isPermissionToTab } from '@utils';
@@ -67,7 +68,7 @@ class ReportScreen extends Layout {
   handleLockScreen = () => {
     const { isFocus } = this.state;
     if (isFocus) {
-      this.props.navigation.navigate("Home");
+      NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -119,7 +120,7 @@ class ReportScreen extends Layout {
 
   closePopupCheckReportTabPermission = () => {
     this.props.actions.staff.toggleReportTabPermission(false);
-    this.props.navigation.navigate("Home");
+    NavigationServices.navigate(ScreenName.SALON.APPOINTMENT);
   };
 
   onBackButtonPressed = () => {

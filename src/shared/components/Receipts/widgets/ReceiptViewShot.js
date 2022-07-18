@@ -6,6 +6,7 @@ import { ReceiptItemType } from "./ReceiptItem";
 import { ReceiptHeader } from "./ReceiptHeader";
 import { ReceiptFooter } from "./ReceiptFooter";
 import { ReceiptTotal } from "./ReceiptTotal";
+import { ReceiptBarcode } from "./ReceiptBarcode";
 import { captureRef, ViewShot } from "react-native-view-shot";
 
 export const ReceiptViewShot = React.forwardRef(
@@ -39,6 +40,8 @@ export const ReceiptViewShot = React.forwardRef(
       staffName,
       widthPaper,
       returnTotal,
+      groupAppointment,
+      getItemsOfAppointment,
     },
     ref
   ) => {
@@ -73,6 +76,70 @@ export const ReceiptViewShot = React.forwardRef(
       },
     }));
 
+    const _renderAppointments = () => {
+      if (groupAppointment) {
+        return (
+          <>
+            {groupAppointment.appointments?.map((x) => (
+              <>
+                <ReceiptContent
+                  groupTitle={`#${x.code} - ${x.firstName}`}
+                  items={getItemsOfAppointment(x.appointmentId)}
+                  type={getReceiptType()}
+                  isGroupLayout={!!groupAppointment}
+                />
+                {x?.code && <ReceiptBarcode code={x?.code} />}
+                <View
+                  style={{
+                    width: scaleWidth(10),
+                    height: scaleHeight(10),
+                  }}
+                />
+              </>
+            ))}
+            <ReceiptTotal
+              subtotal={subTotal}
+              discount={discount}
+              tip={tip}
+              tax={tax}
+              taxRate={taxRate}
+              change={change}
+              cashDiscount={cashDiscount}
+              fee={fee}
+              total={total}
+              returnTotal={returnTotal}
+              printTemp={printTemp}
+              fromAppointmentTab={fromAppointmentTab}
+              checkoutPaymentMethods={checkoutPaymentMethods}
+              isSignature={isSignature}
+              isGroupLayout={!!groupAppointment}
+            />
+          </>
+        );
+      } else
+        return (
+          <>
+            <ReceiptContent items={items} type={getReceiptType()} />
+            <ReceiptTotal
+              subtotal={subTotal}
+              discount={discount}
+              tip={tip}
+              tax={tax}
+              taxRate={taxRate}
+              change={change}
+              cashDiscount={cashDiscount}
+              fee={fee}
+              total={total}
+              returnTotal={returnTotal}
+              printTemp={printTemp}
+              fromAppointmentTab={fromAppointmentTab}
+              checkoutPaymentMethods={checkoutPaymentMethods}
+              isSignature={isSignature}
+            />
+          </>
+        );
+    };
+
     return (
       <View
         ref={viewShotRef}
@@ -86,24 +153,9 @@ export const ReceiptViewShot = React.forwardRef(
           invoiceNO={invoiceNO}
           staffName={staffName}
           returnCode={itemReturn?.code}
+          isGroupLayout={!!groupAppointment}
         />
-        <ReceiptContent items={items} type={getReceiptType()} />
-        <ReceiptTotal
-          subtotal={subTotal}
-          discount={discount}
-          tip={tip}
-          tax={tax}
-          taxRate={taxRate}
-          change={change}
-          cashDiscount={cashDiscount}
-          fee={fee}
-          total={total}
-          returnTotal={returnTotal}
-          printTemp={printTemp}
-          fromAppointmentTab={fromAppointmentTab}
-          checkoutPaymentMethods={checkoutPaymentMethods}
-          isSignature={isSignature}
-        />
+        {_renderAppointments()}
         <ReceiptFooter
           fromAppointmentTab={fromAppointmentTab}
           profile={profile}
@@ -112,6 +164,7 @@ export const ReceiptViewShot = React.forwardRef(
           promotionNotes={promotionNotes}
           widthPaper={widthPaper}
         />
+        {!groupAppointment && <ReceiptBarcode code={invoiceCode} />}
       </View>
     );
   }

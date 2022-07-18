@@ -1,9 +1,12 @@
+import actions from "@actions";
+import NavigatorServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
-import _ from "lodash";
+import { ScreenName } from "@src/ScreenName";
 import React from "react";
 import { useDispatch } from "react-redux";
+import * as controllers from "../../controllers";
+import * as CheckoutState from "./SalonCheckoutState";
 import { useProps } from "./useProps";
-import actions from "@actions";
 
 // Appointment Tab booking appointment
 export const useBookingProps = (args) => {
@@ -14,7 +17,15 @@ export const useBookingProps = (args) => {
     bookingAppointmentId,
     bookingFromTime,
   } = args?.params || {};
-  const props = useProps(args);
+
+  const homePageCtx = React.useContext(controllers.SalonHomePageContext);
+
+  const props = useProps(
+    Object.assign({}, args, {
+      isBookingFromCalendar: true,
+      homePageCtx: homePageCtx,
+    })
+  );
 
   const { groupAppointment } = props || {};
 
@@ -41,11 +52,30 @@ export const useBookingProps = (args) => {
       } else {
         props.setBlockStateFromCalendar(true); // not select other staff
       }
+
+      return () => {};
     }, [bookingStaffId])
   );
 
   return {
-    isBookingFromCalendar: true,
     ...props,
+    onHandleGoBack: props.onHandleGoBack,
+    clearDataConfirm: async () => {
+      props.clearDataConfirm();
+
+      const goToTab =
+        homePageCtx.nextTab ?? ScreenName.SALON.APPOINTMENT_LAYOUT;
+
+      await homePageCtx.homePageDispatch(
+        controllers.resetCheckOut(ScreenName.SALON.APPOINTMENT)
+      );
+
+      if (goToTab === homePageCtx.currentTab) {
+        NavigatorServices.goBack();
+      } else {
+        NavigatorServices.goBack();
+        NavigatorServices.navigate(goToTab);
+      }
+    },
   };
 };
