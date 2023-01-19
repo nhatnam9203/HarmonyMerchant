@@ -375,13 +375,13 @@ import Foundation
             let errorMessage = "Void failed: " + String(describing: response.result)
             if(self.cloverDelegate != nil){
               self.cloverDelegate?.voidFail(errorMessage: errorMessage)
-            }
           }
       }
   }
   
   public override func onRefundPaymentResponse(_ refundPaymentResponse: RefundPaymentResponse) {
-      DispatchQueue.main.async { [weak self] in
+    
+DispatchQueue.main.async { [weak self] in
           guard let self = self else { return }
         let dateFormatter = DateFormatter()
           if refundPaymentResponse.success {

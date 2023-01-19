@@ -1,2 +1,2 @@
 export * from "./RTKQuery";
-export * from "./translation";
+export * from "./translation"

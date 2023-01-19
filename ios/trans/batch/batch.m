@@ -62,6 +62,7 @@ RCT_EXPORT_METHOD(batchTransaction:(NSDictionary *)batchInfo callback:(RCTRespon
     dispatch_async(dispatch_get_main_queue(), ^{
       
       if (ret.code == OK){
+        
         NSDictionary *dataSuccess = @{
           @"status":@true,
           @"ResultCode" : poslink.batchResponse.ResultCode ? poslink.batchResponse.ResultCode : @"" ,
@@ -117,5 +118,6 @@ RCT_EXPORT_METHOD(batchTransaction:(NSDictionary *)batchInfo callback:(RCTRespon
   });
   
 }
+
 
 @end
